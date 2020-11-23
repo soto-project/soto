@@ -50,6 +50,12 @@ extension SESV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContactListImportAction: String, CustomStringConvertible, Codable {
+        case delete = "DELETE"
+        case put = "PUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataFormat: String, CustomStringConvertible, Codable {
         case csv = "CSV"
         case json = "JSON"
@@ -101,6 +107,7 @@ extension SESV2 {
         case reject = "REJECT"
         case renderingFailure = "RENDERING_FAILURE"
         case send = "SEND"
+        case subscription = "SUBSCRIPTION"
         public var description: String { return self.rawValue }
     }
 
@@ -112,6 +119,7 @@ extension SESV2 {
     }
 
     public enum ImportDestinationType: String, CustomStringConvertible, Codable {
+        case contactList = "CONTACT_LIST"
         case suppressionList = "SUPPRESSION_LIST"
         public var description: String { return self.rawValue }
     }
@@ -143,6 +151,12 @@ extension SESV2 {
         case failed = "FAILED"
         case granted = "GRANTED"
         case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionStatus: String, CustomStringConvertible, Codable {
+        case optIn = "OPT_IN"
+        case optOut = "OPT_OUT"
         public var description: String { return self.rawValue }
     }
 
@@ -340,6 +354,69 @@ extension SESV2 {
         }
     }
 
+    public struct Contact: AWSDecodableShape {
+        /// The contact's email address.
+        public let emailAddress: String?
+        /// A timestamp noting the last time the contact's information was updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The default topic preferences applied to the contact.
+        public let topicDefaultPreferences: [TopicPreference]?
+        /// The contact's preference for being opted-in to or opted-out of a topic.
+        public let topicPreferences: [TopicPreference]?
+        /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
+        public let unsubscribeAll: Bool?
+
+        public init(emailAddress: String? = nil, lastUpdatedTimestamp: Date? = nil, topicDefaultPreferences: [TopicPreference]? = nil, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
+            self.emailAddress = emailAddress
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.topicDefaultPreferences = topicDefaultPreferences
+            self.topicPreferences = topicPreferences
+            self.unsubscribeAll = unsubscribeAll
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case topicDefaultPreferences = "TopicDefaultPreferences"
+            case topicPreferences = "TopicPreferences"
+            case unsubscribeAll = "UnsubscribeAll"
+        }
+    }
+
+    public struct ContactList: AWSDecodableShape {
+        /// The name of the contact list.
+        public let contactListName: String?
+        /// A timestamp noting the last time the contact list was updated.
+        public let lastUpdatedTimestamp: Date?
+
+        public init(contactListName: String? = nil, lastUpdatedTimestamp: Date? = nil) {
+            self.contactListName = contactListName
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactListName = "ContactListName"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+        }
+    }
+
+    public struct ContactListDestination: AWSEncodableShape & AWSDecodableShape {
+        /// &gt;The type of action that you want to perform on the addresses. Acceptable values:   PUT: add the addresses to the contact list. If the record already exists, it will override it with the new value.   DELETE: remove the addresses from the contact list.
+        public let contactListImportAction: ContactListImportAction
+        /// The name of the contact list.
+        public let contactListName: String
+
+        public init(contactListImportAction: ContactListImportAction, contactListName: String) {
+            self.contactListImportAction = contactListImportAction
+            self.contactListName = contactListName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactListImportAction = "ContactListImportAction"
+            case contactListName = "ContactListName"
+        }
+    }
+
     public struct Content: AWSEncodableShape {
         /// The character set for the content. Because of the constraints of the SMTP protocol, Amazon SES uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8, ISO-8859-1, or Shift_JIS.
         public let charset: String?
@@ -422,6 +499,71 @@ extension SESV2 {
     }
 
     public struct CreateConfigurationSetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateContactListRequest: AWSEncodableShape {
+        /// The name of the contact list.
+        public let contactListName: String
+        /// A description of what the contact list is about.
+        public let description: String?
+        /// The tags associated with a contact list.
+        public let tags: [Tag]?
+        /// An interest group, theme, or label within a list. A contact list can have multiple topics.
+        public let topics: [Topic]?
+
+        public init(contactListName: String, description: String? = nil, tags: [Tag]? = nil, topics: [Topic]? = nil) {
+            self.contactListName = contactListName
+            self.description = description
+            self.tags = tags
+            self.topics = topics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactListName = "ContactListName"
+            case description = "Description"
+            case tags = "Tags"
+            case topics = "Topics"
+        }
+    }
+
+    public struct CreateContactListResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateContactRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName"))
+        ]
+
+        /// The attribute data attached to a contact.
+        public let attributesData: String?
+        /// The name of the contact list to which the contact should be added.
+        public let contactListName: String
+        /// The contact's email address.
+        public let emailAddress: String
+        /// The contact's preferences for being opted-in to or opted-out of topics.
+        public let topicPreferences: [TopicPreference]?
+        /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
+        public let unsubscribeAll: Bool?
+
+        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
+            self.attributesData = attributesData
+            self.contactListName = contactListName
+            self.emailAddress = emailAddress
+            self.topicPreferences = topicPreferences
+            self.unsubscribeAll = unsubscribeAll
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributesData = "AttributesData"
+            case emailAddress = "EmailAddress"
+            case topicPreferences = "TopicPreferences"
+            case unsubscribeAll = "UnsubscribeAll"
+        }
+    }
+
+    public struct CreateContactResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -788,6 +930,48 @@ extension SESV2 {
     }
 
     public struct DeleteConfigurationSetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteContactListRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName"))
+        ]
+
+        /// The name of the contact list.
+        public let contactListName: String
+
+        public init(contactListName: String) {
+            self.contactListName = contactListName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteContactListResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteContactRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName")),
+            AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
+        ]
+
+        /// The name of the contact list from which the contact should be removed.
+        public let contactListName: String
+        /// The contact's email address.
+        public let emailAddress: String
+
+        public init(contactListName: String, emailAddress: String) {
+            self.contactListName = contactListName
+            self.emailAddress = emailAddress
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteContactResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1463,6 +1647,114 @@ extension SESV2 {
         }
     }
 
+    public struct GetContactListRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName"))
+        ]
+
+        /// The name of the contact list.
+        public let contactListName: String
+
+        public init(contactListName: String) {
+            self.contactListName = contactListName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetContactListResponse: AWSDecodableShape {
+        /// The name of the contact list.
+        public let contactListName: String?
+        /// A timestamp noting when the contact list was created.
+        public let createdTimestamp: Date?
+        /// A description of what the contact list is about.
+        public let description: String?
+        /// A timestamp noting the last time the contact list was updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The tags associated with a contact list.
+        public let tags: [Tag]?
+        /// An interest group, theme, or label within a list. A contact list can have multiple topics.
+        public let topics: [Topic]?
+
+        public init(contactListName: String? = nil, createdTimestamp: Date? = nil, description: String? = nil, lastUpdatedTimestamp: Date? = nil, tags: [Tag]? = nil, topics: [Topic]? = nil) {
+            self.contactListName = contactListName
+            self.createdTimestamp = createdTimestamp
+            self.description = description
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.tags = tags
+            self.topics = topics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactListName = "ContactListName"
+            case createdTimestamp = "CreatedTimestamp"
+            case description = "Description"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case tags = "Tags"
+            case topics = "Topics"
+        }
+    }
+
+    public struct GetContactRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName")),
+            AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
+        ]
+
+        /// The name of the contact list to which the contact belongs.
+        public let contactListName: String
+        /// The contact's email addres.
+        public let emailAddress: String
+
+        public init(contactListName: String, emailAddress: String) {
+            self.contactListName = contactListName
+            self.emailAddress = emailAddress
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetContactResponse: AWSDecodableShape {
+        /// The attribute data attached to a contact.
+        public let attributesData: String?
+        /// The name of the contact list to which the contact belongs.
+        public let contactListName: String?
+        /// A timestamp noting when the contact was created.
+        public let createdTimestamp: Date?
+        /// The contact's email addres.
+        public let emailAddress: String?
+        /// A timestamp noting the last time the contact's information was updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The default topic preferences applied to the contact.
+        public let topicDefaultPreferences: [TopicPreference]?
+        /// The contact's preference for being opted-in to or opted-out of a topic.&gt;
+        public let topicPreferences: [TopicPreference]?
+        /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
+        public let unsubscribeAll: Bool?
+
+        public init(attributesData: String? = nil, contactListName: String? = nil, createdTimestamp: Date? = nil, emailAddress: String? = nil, lastUpdatedTimestamp: Date? = nil, topicDefaultPreferences: [TopicPreference]? = nil, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
+            self.attributesData = attributesData
+            self.contactListName = contactListName
+            self.createdTimestamp = createdTimestamp
+            self.emailAddress = emailAddress
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.topicDefaultPreferences = topicDefaultPreferences
+            self.topicPreferences = topicPreferences
+            self.unsubscribeAll = unsubscribeAll
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributesData = "AttributesData"
+            case contactListName = "ContactListName"
+            case createdTimestamp = "CreatedTimestamp"
+            case emailAddress = "EmailAddress"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case topicDefaultPreferences = "TopicDefaultPreferences"
+            case topicPreferences = "TopicPreferences"
+            case unsubscribeAll = "UnsubscribeAll"
+        }
+    }
+
     public struct GetCustomVerificationEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "TemplateName"))
@@ -1991,19 +2283,24 @@ extension SESV2 {
     }
 
     public struct ImportDestination: AWSEncodableShape & AWSDecodableShape {
+        /// An object that contains the action of the import job towards a contact list.
+        public let contactListDestination: ContactListDestination?
         /// An object that contains the action of the import job towards suppression list.
-        public let suppressionListDestination: SuppressionListDestination
+        public let suppressionListDestination: SuppressionListDestination?
 
-        public init(suppressionListDestination: SuppressionListDestination) {
+        public init(contactListDestination: ContactListDestination? = nil, suppressionListDestination: SuppressionListDestination? = nil) {
+            self.contactListDestination = contactListDestination
             self.suppressionListDestination = suppressionListDestination
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contactListDestination = "ContactListDestination"
             case suppressionListDestination = "SuppressionListDestination"
         }
     }
 
     public struct ImportJobSummary: AWSDecodableShape {
+        /// The date and time when the import job was created.
         public let createdTimestamp: Date?
         public let importDestination: ImportDestination?
         public let jobId: String?
@@ -2107,6 +2404,104 @@ extension SESV2 {
 
         private enum CodingKeys: String, CodingKey {
             case configurationSets = "ConfigurationSets"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContactListsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+        ]
+
+        /// A string token indicating that there might be additional contact lists available to be listed. Use the token provided in the Response to use in the subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
+        public let nextToken: String?
+        /// Maximum number of contact lists to return at once. Use this parameter to paginate results. If additional contact lists exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional lists.
+        public let pageSize: Int?
+
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListContactListsResponse: AWSDecodableShape {
+        /// The available contact lists.
+        public let contactLists: [ContactList]?
+        /// A string token indicating that there might be additional contact lists available to be listed. Copy this token to a subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
+        public let nextToken: String?
+
+        public init(contactLists: [ContactList]? = nil, nextToken: String? = nil) {
+            self.contactLists = contactLists
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactLists = "ContactLists"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContactsFilter: AWSEncodableShape {
+        /// The status by which you are filtering: OPT_IN or OPT_OUT.
+        public let filteredStatus: SubscriptionStatus?
+        /// Used for filtering by a specific topic preference.
+        public let topicFilter: TopicFilter?
+
+        public init(filteredStatus: SubscriptionStatus? = nil, topicFilter: TopicFilter? = nil) {
+            self.filteredStatus = filteredStatus
+            self.topicFilter = topicFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filteredStatus = "FilteredStatus"
+            case topicFilter = "TopicFilter"
+        }
+    }
+
+    public struct ListContactsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
+        ]
+
+        /// The name of the contact list.
+        public let contactListName: String
+        /// A filter that can be applied to a list of contacts.
+        public let filter: ListContactsFilter?
+        /// A string token indicating that there might be additional contacts available to be listed. Use the token provided in the Response to use in the subsequent call to ListContacts with the same parameters to retrieve the next page of contacts.
+        public let nextToken: String?
+        /// The number of contacts that may be returned at once, which is dependent on if there are more or less contacts than the value of the PageSize. Use this parameter to paginate results. If additional contacts exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional contacts.
+        public let pageSize: Int?
+
+        public init(contactListName: String, filter: ListContactsFilter? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.contactListName = contactListName
+            self.filter = filter
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+        }
+    }
+
+    public struct ListContactsResponse: AWSDecodableShape {
+        /// The contacts present in a specific contact list.
+        public let contacts: [Contact]?
+        /// A string token indicating that there might be additional contacts available to be listed. Copy this token to a subsequent call to ListContacts with the same parameters to retrieve the next page of contacts.
+        public let nextToken: String?
+
+        public init(contacts: [Contact]? = nil, nextToken: String? = nil) {
+            self.contacts = contacts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contacts = "Contacts"
             case nextToken = "NextToken"
         }
     }
@@ -2377,6 +2772,23 @@ extension SESV2 {
         private enum CodingKeys: String, CodingKey {
             case importJobs = "ImportJobs"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListManagementOptions: AWSEncodableShape {
+        /// The name of the contact list.
+        public let contactListName: String
+        /// The name of the topic.
+        public let topicName: String?
+
+        public init(contactListName: String, topicName: String? = nil) {
+            self.contactListName = contactListName
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactListName = "ContactListName"
+            case topicName = "TopicName"
         }
     }
 
@@ -3225,10 +3637,12 @@ extension SESV2 {
         public let fromEmailAddress: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide. For Raw emails, the FromEmailAddressIdentityArn value overrides the X-SES-SOURCE-ARN and X-SES-FROM-ARN headers specified in raw email message content.
         public let fromEmailAddressIdentityArn: String?
+        /// An object used to specify a list or topic to which an email belongs, which will be used when a contact chooses to unsubscribe.
+        public let listManagementOptions: ListManagementOptions?
         /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
         public let replyToAddresses: [String]?
 
-        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil) {
+        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, listManagementOptions: ListManagementOptions? = nil, replyToAddresses: [String]? = nil) {
             self.configurationSetName = configurationSetName
             self.content = content
             self.destination = destination
@@ -3237,6 +3651,7 @@ extension SESV2 {
             self.feedbackForwardingEmailAddressIdentityArn = feedbackForwardingEmailAddressIdentityArn
             self.fromEmailAddress = fromEmailAddress
             self.fromEmailAddressIdentityArn = fromEmailAddressIdentityArn
+            self.listManagementOptions = listManagementOptions
             self.replyToAddresses = replyToAddresses
         }
 
@@ -3253,6 +3668,7 @@ extension SESV2 {
             case feedbackForwardingEmailAddressIdentityArn = "FeedbackForwardingEmailAddressIdentityArn"
             case fromEmailAddress = "FromEmailAddress"
             case fromEmailAddressIdentityArn = "FromEmailAddressIdentityArn"
+            case listManagementOptions = "ListManagementOptions"
             case replyToAddresses = "ReplyToAddresses"
         }
     }
@@ -3521,6 +3937,65 @@ extension SESV2 {
         }
     }
 
+    public struct Topic: AWSEncodableShape & AWSDecodableShape {
+        /// The default subscription status to be applied to a contact if the contact has not noted their preference for subscribing to a topic.
+        public let defaultSubscriptionStatus: SubscriptionStatus
+        /// A description of what the topic is about, which the contact will see.
+        public let description: String?
+        /// The name of the topic the contact will see.
+        public let displayName: String
+        /// The name of the topic.
+        public let topicName: String
+
+        public init(defaultSubscriptionStatus: SubscriptionStatus, description: String? = nil, displayName: String, topicName: String) {
+            self.defaultSubscriptionStatus = defaultSubscriptionStatus
+            self.description = description
+            self.displayName = displayName
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultSubscriptionStatus = "DefaultSubscriptionStatus"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case topicName = "TopicName"
+        }
+    }
+
+    public struct TopicFilter: AWSEncodableShape {
+        /// The name of a topic on which you wish to apply the filter.
+        public let topicName: String?
+        /// Notes that the default subscription status should be applied to a contact because the contact has not noted their preference for subscribing to a topic.
+        public let useDefaultIfPreferenceUnavailable: Bool?
+
+        public init(topicName: String? = nil, useDefaultIfPreferenceUnavailable: Bool? = nil) {
+            self.topicName = topicName
+            self.useDefaultIfPreferenceUnavailable = useDefaultIfPreferenceUnavailable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicName = "TopicName"
+            case useDefaultIfPreferenceUnavailable = "UseDefaultIfPreferenceUnavailable"
+        }
+    }
+
+    public struct TopicPreference: AWSEncodableShape & AWSDecodableShape {
+        /// The contact's subscription status to a topic which is either OPT_IN or OPT_OUT.
+        public let subscriptionStatus: SubscriptionStatus
+        /// The name of the topic.
+        public let topicName: String
+
+        public init(subscriptionStatus: SubscriptionStatus, topicName: String) {
+            self.subscriptionStatus = subscriptionStatus
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionStatus = "SubscriptionStatus"
+            case topicName = "TopicName"
+        }
+    }
+
     public struct TrackingOptions: AWSEncodableShape & AWSDecodableShape {
         /// The domain that you want to use for tracking open and click events.
         public let customRedirectDomain: String
@@ -3582,6 +4057,70 @@ extension SESV2 {
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateContactListRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName"))
+        ]
+
+        /// The name of the contact list.
+        public let contactListName: String
+        /// A description of what the contact list is about.
+        public let description: String?
+        /// An interest group, theme, or label within a list. A contact list can have multiple topics.
+        public let topics: [Topic]?
+
+        public init(contactListName: String, description: String? = nil, topics: [Topic]? = nil) {
+            self.contactListName = contactListName
+            self.description = description
+            self.topics = topics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case topics = "Topics"
+        }
+    }
+
+    public struct UpdateContactListResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateContactRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contactListName", location: .uri(locationName: "ContactListName")),
+            AWSMemberEncoding(label: "emailAddress", location: .uri(locationName: "EmailAddress"))
+        ]
+
+        /// The attribute data attached to a contact.
+        public let attributesData: String?
+        /// The name of the contact list.
+        public let contactListName: String
+        /// The contact's email addres.
+        public let emailAddress: String
+        /// The contact's preference for being opted-in to or opted-out of a topic.
+        public let topicPreferences: [TopicPreference]?
+        /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
+        public let unsubscribeAll: Bool?
+
+        public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
+            self.attributesData = attributesData
+            self.contactListName = contactListName
+            self.emailAddress = emailAddress
+            self.topicPreferences = topicPreferences
+            self.unsubscribeAll = unsubscribeAll
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributesData = "AttributesData"
+            case topicPreferences = "TopicPreferences"
+            case unsubscribeAll = "UnsubscribeAll"
+        }
+    }
+
+    public struct UpdateContactResponse: AWSDecodableShape {
         public init() {}
     }
 

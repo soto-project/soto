@@ -61,6 +61,18 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum DirectoryType: String, CustomStringConvertible, Codable {
+        case connectManaged = "CONNECT_MANAGED"
+        case existingDirectory = "EXISTING_DIRECTORY"
+        case saml = "SAML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Grouping: String, CustomStringConvertible, Codable {
         case channel = "CHANNEL"
         case queue = "QUEUE"
@@ -93,6 +105,34 @@ extension Connect {
         case queueAnswerTime = "QUEUE_ANSWER_TIME"
         case queuedTime = "QUEUED_TIME"
         case serviceLevel = "SERVICE_LEVEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceAttributeType: String, CustomStringConvertible, Codable {
+        case autoResolveBestVoices = "AUTO_RESOLVE_BEST_VOICES"
+        case contactLens = "CONTACT_LENS"
+        case contactflowLogs = "CONTACTFLOW_LOGS"
+        case earlyMedia = "EARLY_MEDIA"
+        case inboundCalls = "INBOUND_CALLS"
+        case outboundCalls = "OUTBOUND_CALLS"
+        case useCustomTtsVoices = "USE_CUSTOM_TTS_VOICES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creationFailed = "CREATION_FAILED"
+        case creationInProgress = "CREATION_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceStorageResourceType: String, CustomStringConvertible, Codable {
+        case agentEvents = "AGENT_EVENTS"
+        case callRecordings = "CALL_RECORDINGS"
+        case chatTranscripts = "CHAT_TRANSCRIPTS"
+        case contactTraceRecords = "CONTACT_TRACE_RECORDS"
+        case mediaStreams = "MEDIA_STREAMS"
+        case scheduledReports = "SCHEDULED_REPORTS"
         public var description: String { return self.rawValue }
     }
 
@@ -362,6 +402,14 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum StorageType: String, CustomStringConvertible, Codable {
+        case kinesisFirehose = "KINESIS_FIREHOSE"
+        case kinesisStream = "KINESIS_STREAM"
+        case kinesisVideoStream = "KINESIS_VIDEO_STREAM"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Unit: String, CustomStringConvertible, Codable {
         case count = "COUNT"
         case percent = "PERCENT"
@@ -377,6 +425,128 @@ extension Connect {
     }
 
     // MARK: Shapes
+
+    public struct AssociateApprovedOriginRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The domain to add to your allow list.
+        public let origin: String
+
+        public init(instanceId: String, origin: String) {
+            self.instanceId = instanceId
+            self.origin = origin
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.origin, name: "origin", parent: name, max: 267)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case origin = "Origin"
+        }
+    }
+
+    public struct AssociateInstanceStorageConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// A valid resource type.
+        public let resourceType: InstanceStorageResourceType
+        /// A valid storage type.
+        public let storageConfig: InstanceStorageConfig
+
+        public init(instanceId: String, resourceType: InstanceStorageResourceType, storageConfig: InstanceStorageConfig) {
+            self.instanceId = instanceId
+            self.resourceType = resourceType
+            self.storageConfig = storageConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.storageConfig.validate(name: "\(name).storageConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "ResourceType"
+            case storageConfig = "StorageConfig"
+        }
+    }
+
+    public struct AssociateInstanceStorageConfigResponse: AWSDecodableShape {
+        /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+        public let associationId: String?
+
+        public init(associationId: String? = nil) {
+            self.associationId = associationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+        }
+    }
+
+    public struct AssociateLambdaFunctionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
+        public let functionArn: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(functionArn: String, instanceId: String) {
+            self.functionArn = functionArn
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionArn, name: "functionArn", parent: name, max: 140)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionArn = "FunctionArn"
+        }
+    }
+
+    public struct AssociateLexBotRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The Amazon Lex box to associate with the instance.
+        public let lexBot: LexBot
+
+        public init(instanceId: String, lexBot: LexBot) {
+            self.instanceId = instanceId
+            self.lexBot = lexBot
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.lexBot.validate(name: "\(name).lexBot")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lexBot = "LexBot"
+        }
+    }
 
     public struct AssociateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
@@ -409,6 +579,63 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case queueConfigs = "QueueConfigs"
+        }
+    }
+
+    public struct AssociateSecurityKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// A valid security key in PEM format.
+        public let key: String
+
+        public init(instanceId: String, key: String) {
+            self.instanceId = instanceId
+            self.key = key
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+        }
+    }
+
+    public struct AssociateSecurityKeyResponse: AWSDecodableShape {
+        /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+        public let associationId: String?
+
+        public init(associationId: String? = nil) {
+            self.associationId = associationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+        }
+    }
+
+    public struct Attribute: AWSDecodableShape {
+        /// The type of attribute.
+        public let attributeType: InstanceAttributeType?
+        /// The value of the attribute.
+        public let value: String?
+
+        public init(attributeType: InstanceAttributeType? = nil, value: String? = nil) {
+            self.attributeType = attributeType
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeType = "AttributeType"
+            case value = "Value"
         }
     }
 
@@ -563,6 +790,66 @@ extension Connect {
         }
     }
 
+    public struct CreateInstanceRequest: AWSEncodableShape {
+        /// The idempotency token.
+        public let clientToken: String?
+        /// The identifier for the directory.
+        public let directoryId: String?
+        /// The type of identity management for your Amazon Connect users.
+        public let identityManagementType: DirectoryType
+        /// Whether your contact center handles incoming contacts.
+        public let inboundCallsEnabled: Bool
+        /// The name for your instance.
+        public let instanceAlias: String?
+        /// Whether your contact center allows outbound calls.
+        public let outboundCallsEnabled: Bool
+
+        public init(clientToken: String? = nil, directoryId: String? = nil, identityManagementType: DirectoryType, inboundCallsEnabled: Bool, instanceAlias: String? = nil, outboundCallsEnabled: Bool) {
+            self.clientToken = clientToken
+            self.directoryId = directoryId
+            self.identityManagementType = identityManagementType
+            self.inboundCallsEnabled = inboundCallsEnabled
+            self.instanceAlias = instanceAlias
+            self.outboundCallsEnabled = outboundCallsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, max: 12)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, min: 12)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.validate(self.instanceAlias, name: "instanceAlias", parent: name, max: 62)
+            try self.validate(self.instanceAlias, name: "instanceAlias", parent: name, min: 1)
+            try self.validate(self.instanceAlias, name: "instanceAlias", parent: name, pattern: "^(?!d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case directoryId = "DirectoryId"
+            case identityManagementType = "IdentityManagementType"
+            case inboundCallsEnabled = "InboundCallsEnabled"
+            case instanceAlias = "InstanceAlias"
+            case outboundCallsEnabled = "OutboundCallsEnabled"
+        }
+    }
+
+    public struct CreateInstanceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the instance.
+        public let arn: String?
+        /// The identifier for the instance.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
+    }
+
     public struct CreateRoutingProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
@@ -640,6 +927,52 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case routingProfileArn = "RoutingProfileArn"
             case routingProfileId = "RoutingProfileId"
+        }
+    }
+
+    public struct CreateUserHierarchyGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the user hierarchy group. Must not be more than 100 characters.
+        public let name: String
+        /// The identifier for the parent hierarchy group. The user hierarchy is created at level one if the parent group ID is null.
+        public let parentGroupId: String?
+
+        public init(instanceId: String, name: String, parentGroupId: String? = nil) {
+            self.instanceId = instanceId
+            self.name = name
+            self.parentGroupId = parentGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case parentGroupId = "ParentGroupId"
+        }
+    }
+
+    public struct CreateUserHierarchyGroupResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the hierarchy group.
+        public let hierarchyGroupArn: String?
+        /// The identifier of the hierarchy group.
+        public let hierarchyGroupId: String?
+
+        public init(hierarchyGroupArn: String? = nil, hierarchyGroupId: String? = nil) {
+            self.hierarchyGroupArn = hierarchyGroupArn
+            self.hierarchyGroupId = hierarchyGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hierarchyGroupArn = "HierarchyGroupArn"
+            case hierarchyGroupId = "HierarchyGroupId"
         }
     }
 
@@ -806,6 +1139,50 @@ extension Connect {
         }
     }
 
+    public struct DeleteInstanceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(instanceId: String) {
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteUserHierarchyGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the hierarchy group.
+        public let hierarchyGroupId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(hierarchyGroupId: String, instanceId: String) {
+            self.hierarchyGroupId = hierarchyGroupId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -865,6 +1242,119 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case contactFlow = "ContactFlow"
+        }
+    }
+
+    public struct DescribeInstanceAttributeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "AttributeType")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The type of attribute.
+        public let attributeType: InstanceAttributeType
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(attributeType: InstanceAttributeType, instanceId: String) {
+            self.attributeType = attributeType
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeInstanceAttributeResponse: AWSDecodableShape {
+        /// The type of attribute.
+        public let attribute: Attribute?
+
+        public init(attribute: Attribute? = nil) {
+            self.attribute = attribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+        }
+    }
+
+    public struct DescribeInstanceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(instanceId: String) {
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeInstanceResponse: AWSDecodableShape {
+        /// The name of the instance.
+        public let instance: Instance?
+
+        public init(instance: Instance? = nil) {
+            self.instance = instance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instance = "Instance"
+        }
+    }
+
+    public struct DescribeInstanceStorageConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "associationId", location: .uri(locationName: "AssociationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+        ]
+
+        /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+        public let associationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// A valid resource type.
+        public let resourceType: InstanceStorageResourceType
+
+        public init(associationId: String, instanceId: String, resourceType: InstanceStorageResourceType) {
+            self.associationId = associationId
+            self.instanceId = instanceId
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
+            try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeInstanceStorageConfigResponse: AWSDecodableShape {
+        /// A valid storage type.
+        public let storageConfig: InstanceStorageConfig?
+
+        public init(storageConfig: InstanceStorageConfig? = nil) {
+            self.storageConfig = storageConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageConfig = "StorageConfig"
         }
     }
 
@@ -1029,6 +1519,117 @@ extension Connect {
         }
     }
 
+    public struct DisassociateApprovedOriginRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "origin", location: .querystring(locationName: "origin"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The domain URL of the integrated application.
+        public let origin: String
+
+        public init(instanceId: String, origin: String) {
+            self.instanceId = instanceId
+            self.origin = origin
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.origin, name: "origin", parent: name, max: 267)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateInstanceStorageConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "associationId", location: .uri(locationName: "AssociationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+        ]
+
+        /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+        public let associationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// A valid resource type.
+        public let resourceType: InstanceStorageResourceType
+
+        public init(associationId: String, instanceId: String, resourceType: InstanceStorageResourceType) {
+            self.associationId = associationId
+            self.instanceId = instanceId
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
+            try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateLambdaFunctionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionArn", location: .querystring(locationName: "functionArn")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
+        public let functionArn: String
+        /// The identifier of the Amazon Connect instance..
+        public let instanceId: String
+
+        public init(functionArn: String, instanceId: String) {
+            self.functionArn = functionArn
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionArn, name: "functionArn", parent: name, max: 140)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateLexBotRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botName", location: .querystring(locationName: "botName")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "lexRegion", location: .querystring(locationName: "lexRegion"))
+        ]
+
+        /// The name of the Amazon Lex bot. Maximum character limit of 50.
+        public let botName: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The Region in which the Amazon Lex bot has been created.
+        public let lexRegion: String
+
+        public init(botName: String, instanceId: String, lexRegion: String) {
+            self.botName = botName
+            self.instanceId = instanceId
+            self.lexRegion = lexRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botName, name: "botName", parent: name, max: 50)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.lexRegion, name: "lexRegion", parent: name, max: 60)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DisassociateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -1055,6 +1656,54 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case queueReferences = "QueueReferences"
+        }
+    }
+
+    public struct DisassociateSecurityKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "associationId", location: .uri(locationName: "AssociationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+        public let associationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(associationId: String, instanceId: String) {
+            self.associationId = associationId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
+            try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The type of encryption.
+        public let encryptionType: EncryptionType
+        /// The identifier of the encryption key.
+        public let keyId: String
+
+        public init(encryptionType: EncryptionType, keyId: String) {
+            self.encryptionType = encryptionType
+            self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 128)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
+            case keyId = "KeyId"
         }
     }
 
@@ -1360,6 +2009,19 @@ extension Connect {
         }
     }
 
+    public struct HierarchyLevelUpdate: AWSEncodableShape {
+        /// The name of the user hierarchy level. Must not be more than 50 characters.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct HierarchyPath: AWSDecodableShape {
         /// Information about level five.
         public let levelFive: HierarchyGroupSummary?
@@ -1402,6 +2064,35 @@ extension Connect {
         public let levelTwo: HierarchyLevel?
 
         public init(levelFive: HierarchyLevel? = nil, levelFour: HierarchyLevel? = nil, levelOne: HierarchyLevel? = nil, levelThree: HierarchyLevel? = nil, levelTwo: HierarchyLevel? = nil) {
+            self.levelFive = levelFive
+            self.levelFour = levelFour
+            self.levelOne = levelOne
+            self.levelThree = levelThree
+            self.levelTwo = levelTwo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case levelFive = "LevelFive"
+            case levelFour = "LevelFour"
+            case levelOne = "LevelOne"
+            case levelThree = "LevelThree"
+            case levelTwo = "LevelTwo"
+        }
+    }
+
+    public struct HierarchyStructureUpdate: AWSEncodableShape {
+        /// The update for level five.
+        public let levelFive: HierarchyLevelUpdate?
+        /// The update for level four.
+        public let levelFour: HierarchyLevelUpdate?
+        /// The update for level one.
+        public let levelOne: HierarchyLevelUpdate?
+        /// The update for level three.
+        public let levelThree: HierarchyLevelUpdate?
+        /// The update for level two.
+        public let levelTwo: HierarchyLevelUpdate?
+
+        public init(levelFive: HierarchyLevelUpdate? = nil, levelFour: HierarchyLevelUpdate? = nil, levelOne: HierarchyLevelUpdate? = nil, levelThree: HierarchyLevelUpdate? = nil, levelTwo: HierarchyLevelUpdate? = nil) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -1495,6 +2186,277 @@ extension Connect {
             case arn = "Arn"
             case id = "Id"
             case name = "Name"
+        }
+    }
+
+    public struct Instance: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the instance.
+        public let arn: String?
+        /// When the instance was created.
+        public let createdTime: Date?
+        /// The identifier of the Amazon Connect instance.
+        public let id: String?
+        /// The identity management type.
+        public let identityManagementType: DirectoryType?
+        /// Whether inbound calls are enabled.
+        public let inboundCallsEnabled: Bool?
+        /// The alias of instance.
+        public let instanceAlias: String?
+        /// The state of the instance.
+        public let instanceStatus: InstanceStatus?
+        /// Whether outbound calls are enabled.
+        public let outboundCallsEnabled: Bool?
+        /// The service role of the instance.
+        public let serviceRole: String?
+        /// Relevant details why the instance was not successfully created.
+        public let statusReason: InstanceStatusReason?
+
+        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, identityManagementType: DirectoryType? = nil, inboundCallsEnabled: Bool? = nil, instanceAlias: String? = nil, instanceStatus: InstanceStatus? = nil, outboundCallsEnabled: Bool? = nil, serviceRole: String? = nil, statusReason: InstanceStatusReason? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.id = id
+            self.identityManagementType = identityManagementType
+            self.inboundCallsEnabled = inboundCallsEnabled
+            self.instanceAlias = instanceAlias
+            self.instanceStatus = instanceStatus
+            self.outboundCallsEnabled = outboundCallsEnabled
+            self.serviceRole = serviceRole
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case id = "Id"
+            case identityManagementType = "IdentityManagementType"
+            case inboundCallsEnabled = "InboundCallsEnabled"
+            case instanceAlias = "InstanceAlias"
+            case instanceStatus = "InstanceStatus"
+            case outboundCallsEnabled = "OutboundCallsEnabled"
+            case serviceRole = "ServiceRole"
+            case statusReason = "StatusReason"
+        }
+    }
+
+    public struct InstanceStatusReason: AWSDecodableShape {
+        /// The message.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
+    public struct InstanceStorageConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+        public let associationId: String?
+        /// The configuration of the Kinesis Firehose delivery stream.
+        public let kinesisFirehoseConfig: KinesisFirehoseConfig?
+        /// The configuration of the Kinesis data stream.
+        public let kinesisStreamConfig: KinesisStreamConfig?
+        /// The configuration of the Kinesis video stream.
+        public let kinesisVideoStreamConfig: KinesisVideoStreamConfig?
+        /// The S3 configuration.
+        public let s3Config: S3Config?
+        /// A valid storage type.
+        public let storageType: StorageType
+
+        public init(associationId: String? = nil, kinesisFirehoseConfig: KinesisFirehoseConfig? = nil, kinesisStreamConfig: KinesisStreamConfig? = nil, kinesisVideoStreamConfig: KinesisVideoStreamConfig? = nil, s3Config: S3Config? = nil, storageType: StorageType) {
+            self.associationId = associationId
+            self.kinesisFirehoseConfig = kinesisFirehoseConfig
+            self.kinesisStreamConfig = kinesisStreamConfig
+            self.kinesisVideoStreamConfig = kinesisVideoStreamConfig
+            self.s3Config = s3Config
+            self.storageType = storageType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
+            try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.kinesisVideoStreamConfig?.validate(name: "\(name).kinesisVideoStreamConfig")
+            try self.s3Config?.validate(name: "\(name).s3Config")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+            case kinesisFirehoseConfig = "KinesisFirehoseConfig"
+            case kinesisStreamConfig = "KinesisStreamConfig"
+            case kinesisVideoStreamConfig = "KinesisVideoStreamConfig"
+            case s3Config = "S3Config"
+            case storageType = "StorageType"
+        }
+    }
+
+    public struct InstanceSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the instance.
+        public let arn: String?
+        /// When the instance was created.
+        public let createdTime: Date?
+        /// The identifier of the instance.
+        public let id: String?
+        /// The identity management type of the instance.
+        public let identityManagementType: DirectoryType?
+        /// Whether inbound calls are enabled.
+        public let inboundCallsEnabled: Bool?
+        /// The alias of the instance.
+        public let instanceAlias: String?
+        /// The state of the instance.
+        public let instanceStatus: InstanceStatus?
+        /// Whether outbound calls are enabled.
+        public let outboundCallsEnabled: Bool?
+        /// The service role of the instance.
+        public let serviceRole: String?
+
+        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, identityManagementType: DirectoryType? = nil, inboundCallsEnabled: Bool? = nil, instanceAlias: String? = nil, instanceStatus: InstanceStatus? = nil, outboundCallsEnabled: Bool? = nil, serviceRole: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.id = id
+            self.identityManagementType = identityManagementType
+            self.inboundCallsEnabled = inboundCallsEnabled
+            self.instanceAlias = instanceAlias
+            self.instanceStatus = instanceStatus
+            self.outboundCallsEnabled = outboundCallsEnabled
+            self.serviceRole = serviceRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case id = "Id"
+            case identityManagementType = "IdentityManagementType"
+            case inboundCallsEnabled = "InboundCallsEnabled"
+            case instanceAlias = "InstanceAlias"
+            case instanceStatus = "InstanceStatus"
+            case outboundCallsEnabled = "OutboundCallsEnabled"
+            case serviceRole = "ServiceRole"
+        }
+    }
+
+    public struct KinesisFirehoseConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the delivery stream.
+        public let firehoseArn: String
+
+        public init(firehoseArn: String) {
+            self.firehoseArn = firehoseArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firehoseArn = "FirehoseArn"
+        }
+    }
+
+    public struct KinesisStreamConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the data stream.
+        public let streamArn: String
+
+        public init(streamArn: String) {
+            self.streamArn = streamArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamArn = "StreamArn"
+        }
+    }
+
+    public struct KinesisVideoStreamConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The encryption configuration.
+        public let encryptionConfig: EncryptionConfig
+        /// The prefix of the video stream.
+        public let prefix: String
+        /// The number of hours data is retained in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data.
+        public let retentionPeriodHours: Int
+
+        public init(encryptionConfig: EncryptionConfig, prefix: String, retentionPeriodHours: Int) {
+            self.encryptionConfig = encryptionConfig
+            self.prefix = prefix
+            self.retentionPeriodHours = retentionPeriodHours
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionConfig.validate(name: "\(name).encryptionConfig")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 128)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.retentionPeriodHours, name: "retentionPeriodHours", parent: name, max: 87600)
+            try self.validate(self.retentionPeriodHours, name: "retentionPeriodHours", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfig = "EncryptionConfig"
+            case prefix = "Prefix"
+            case retentionPeriodHours = "RetentionPeriodHours"
+        }
+    }
+
+    public struct LexBot: AWSEncodableShape & AWSDecodableShape {
+        /// The Region the Amazon Lex bot was created in.
+        public let lexRegion: String?
+        /// The name of the Amazon Lex bot.
+        public let name: String?
+
+        public init(lexRegion: String? = nil, name: String? = nil) {
+            self.lexRegion = lexRegion
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lexRegion, name: "lexRegion", parent: name, max: 60)
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lexRegion = "LexRegion"
+            case name = "Name"
+        }
+    }
+
+    public struct ListApprovedOriginsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListApprovedOriginsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// The approved origins.
+        public let origins: [String]?
+
+        public init(nextToken: String? = nil, origins: [String]? = nil) {
+            self.nextToken = nextToken
+            self.origins = origins
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case origins = "Origins"
         }
     }
 
@@ -1593,6 +2555,239 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case hoursOfOperationSummaryList = "HoursOfOperationSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListInstanceAttributesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 7)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInstanceAttributesResponse: AWSDecodableShape {
+        /// The attribute types.
+        public let attributes: [Attribute]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(attributes: [Attribute]? = nil, nextToken: String? = nil) {
+            self.attributes = attributes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListInstanceStorageConfigsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// A valid resource type.
+        public let resourceType: InstanceStorageResourceType
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceType: InstanceStorageResourceType) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInstanceStorageConfigsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// A valid storage type.
+        public let storageConfigs: [InstanceStorageConfig]?
+
+        public init(nextToken: String? = nil, storageConfigs: [InstanceStorageConfig]? = nil) {
+            self.nextToken = nextToken
+            self.storageConfigs = storageConfigs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case storageConfigs = "StorageConfigs"
+        }
+    }
+
+    public struct ListInstancesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInstancesResponse: AWSDecodableShape {
+        /// Information about the instances.
+        public let instanceSummaryList: [InstanceSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(instanceSummaryList: [InstanceSummary]? = nil, nextToken: String? = nil) {
+            self.instanceSummaryList = instanceSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceSummaryList = "InstanceSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLambdaFunctionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListLambdaFunctionsResponse: AWSDecodableShape {
+        /// The Lambdafunction ARNs associated with the specified instance.
+        public let lambdaFunctions: [String]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(lambdaFunctions: [String]? = nil, nextToken: String? = nil) {
+            self.lambdaFunctions = lambdaFunctions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaFunctions = "LambdaFunctions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLexBotsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListLexBotsResponse: AWSDecodableShape {
+        /// The the names and regions of the Amazon Lex bots associated with the specified instance.
+        public let lexBots: [LexBot]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(lexBots: [LexBot]? = nil, nextToken: String? = nil) {
+            self.lexBots = lexBots
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lexBots = "LexBots"
             case nextToken = "NextToken"
         }
     }
@@ -1848,6 +3043,53 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case routingProfileSummaryList = "RoutingProfileSummaryList"
+        }
+    }
+
+    public struct ListSecurityKeysRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSecurityKeysResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// The security keys.
+        public let securityKeys: [SecurityKey]?
+
+        public init(nextToken: String? = nil, securityKeys: [SecurityKey]? = nil) {
+            self.nextToken = nextToken
+            self.securityKeys = securityKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case securityKeys = "SecurityKeys"
         }
     }
 
@@ -2326,6 +3568,56 @@ extension Connect {
         }
     }
 
+    public struct S3Config: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 bucket name.
+        public let bucketName: String
+        /// The S3 bucket prefix.
+        public let bucketPrefix: String
+        /// The S3 encryption configuration.
+        public let encryptionConfig: EncryptionConfig?
+
+        public init(bucketName: String, bucketPrefix: String, encryptionConfig: EncryptionConfig? = nil) {
+            self.bucketName = bucketName
+            self.bucketPrefix = bucketPrefix
+            self.encryptionConfig = encryptionConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 128)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 1)
+            try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 128)
+            try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, min: 1)
+            try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case bucketPrefix = "BucketPrefix"
+            case encryptionConfig = "EncryptionConfig"
+        }
+    }
+
+    public struct SecurityKey: AWSDecodableShape {
+        /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+        public let associationId: String?
+        /// When the security key was created.
+        public let creationTime: Date?
+        /// The key of the security key.
+        public let key: String?
+
+        public init(associationId: String? = nil, creationTime: Date? = nil, key: String? = nil) {
+            self.associationId = associationId
+            self.creationTime = creationTime
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+            case creationTime = "CreationTime"
+            case key = "Key"
+        }
+    }
+
     public struct SecurityProfileSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the security profile.
         public let arn: String?
@@ -2791,6 +4083,72 @@ extension Connect {
         }
     }
 
+    public struct UpdateInstanceAttributeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "AttributeType")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The type of attribute.
+        public let attributeType: InstanceAttributeType
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The value for the attribute. Maximum character limit is 100.
+        public let value: String
+
+        public init(attributeType: InstanceAttributeType, instanceId: String, value: String) {
+            self.attributeType = attributeType
+            self.instanceId = instanceId
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 100)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
+    public struct UpdateInstanceStorageConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "associationId", location: .uri(locationName: "AssociationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+        ]
+
+        /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+        public let associationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// A valid resource type.
+        public let resourceType: InstanceStorageResourceType
+        public let storageConfig: InstanceStorageConfig
+
+        public init(associationId: String, instanceId: String, resourceType: InstanceStorageResourceType, storageConfig: InstanceStorageConfig) {
+            self.associationId = associationId
+            self.instanceId = instanceId
+            self.resourceType = resourceType
+            self.storageConfig = storageConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
+            try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.storageConfig.validate(name: "\(name).storageConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageConfig = "StorageConfig"
+        }
+    }
+
     public struct UpdateRoutingProfileConcurrencyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -2923,6 +4281,35 @@ extension Connect {
         }
     }
 
+    public struct UpdateUserHierarchyGroupNameRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the hierarchy group.
+        public let hierarchyGroupId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the hierarchy group. Must not be more than 100 characters.
+        public let name: String
+
+        public init(hierarchyGroupId: String, instanceId: String, name: String) {
+            self.hierarchyGroupId = hierarchyGroupId
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct UpdateUserHierarchyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -2949,6 +4336,31 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case hierarchyGroupId = "HierarchyGroupId"
+        }
+    }
+
+    public struct UpdateUserHierarchyStructureRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The hierarchy levels to update.
+        public let hierarchyStructure: HierarchyStructureUpdate
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(hierarchyStructure: HierarchyStructureUpdate, instanceId: String) {
+            self.hierarchyStructure = hierarchyStructure
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hierarchyStructure = "HierarchyStructure"
         }
     }
 

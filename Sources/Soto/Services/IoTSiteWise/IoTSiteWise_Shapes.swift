@@ -3317,7 +3317,6 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
-            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[a-z0-9._+\\-*%/^, ()]+$")
             try self.variables.forEach {
                 try $0.validate(name: "\(name).variables[]")
             }
@@ -3733,7 +3732,6 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
-            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[a-z0-9._+\\-*%/^, ()]+$")
             try self.variables.forEach {
                 try $0.validate(name: "\(name).variables[]")
             }

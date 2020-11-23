@@ -120,8 +120,10 @@ extension Braket {
         public let outputS3KeyPrefix: String
         /// The number of shots to use for the task.
         public let shots: Int64
+        /// Tags to be added to the quantum task you're creating.
+        public let tags: [String: String]?
 
-        public init(action: String, clientToken: String = CreateQuantumTaskRequest.idempotencyToken(), deviceArn: String, deviceParameters: String? = nil, outputS3Bucket: String, outputS3KeyPrefix: String, shots: Int64) {
+        public init(action: String, clientToken: String = CreateQuantumTaskRequest.idempotencyToken(), deviceArn: String, deviceParameters: String? = nil, outputS3Bucket: String, outputS3KeyPrefix: String, shots: Int64, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
             self.deviceArn = deviceArn
@@ -129,6 +131,7 @@ extension Braket {
             self.outputS3Bucket = outputS3Bucket
             self.outputS3KeyPrefix = outputS3KeyPrefix
             self.shots = shots
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -153,6 +156,7 @@ extension Braket {
             case outputS3Bucket
             case outputS3KeyPrefix
             case shots
+            case tags
         }
     }
 
@@ -294,8 +298,10 @@ extension Braket {
         public let shots: Int64
         /// The status of the task.
         public let status: QuantumTaskStatus
+        /// The tags that belong to this task.
+        public let tags: [String: String]?
 
-        public init(createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus) {
+        public init(createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deviceArn = deviceArn
             self.deviceParameters = deviceParameters
@@ -306,6 +312,7 @@ extension Braket {
             self.quantumTaskArn = quantumTaskArn
             self.shots = shots
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -319,6 +326,35 @@ extension Braket {
             case quantumTaskArn
             case shots
             case status
+            case tags
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// Specify the resourceArn for the resource whose tags to display.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// Displays the key, value pairs of tags associated with this resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
         }
     }
 
@@ -341,8 +377,10 @@ extension Braket {
         public let shots: Int64
         /// The status of the task.
         public let status: QuantumTaskStatus
+        /// Displays the key, value pairs of tags associated with this quantum task.
+        public let tags: [String: String]?
 
-        public init(createdAt: Date, deviceArn: String, endedAt: Date? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus) {
+        public init(createdAt: Date, deviceArn: String, endedAt: Date? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deviceArn = deviceArn
             self.endedAt = endedAt
@@ -351,6 +389,7 @@ extension Braket {
             self.quantumTaskArn = quantumTaskArn
             self.shots = shots
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -362,6 +401,7 @@ extension Braket {
             case quantumTaskArn
             case shots
             case status
+            case tags
         }
     }
 
@@ -519,5 +559,52 @@ extension Braket {
             case nextToken
             case quantumTasks
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// Specify the resourceArn of the resource to which a tag will be added.
+        public let resourceArn: String
+        /// Specify the tags to add to the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        /// Specify the resourceArn for the resource from which to remove the tags.
+        public let resourceArn: String
+        /// pecify the keys for the tags to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }

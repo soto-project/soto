@@ -1910,6 +1910,57 @@ extension IoT {
         )
     }
 
+    ///  Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listThingPrincipalsPaginator<Result>(
+        _ input: ListThingPrincipalsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListThingPrincipalsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listThingPrincipals,
+            tokenKey: \ListThingPrincipalsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listThingPrincipalsPaginator(
+        _ input: ListThingPrincipalsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListThingPrincipalsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listThingPrincipals,
+            tokenKey: \ListThingPrincipalsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Information about the thing registration tasks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -2604,6 +2655,7 @@ extension IoT.ListJobExecutionsForThingRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListJobExecutionsForThingRequest {
         return .init(
             maxResults: self.maxResults,
+            namespaceId: self.namespaceId,
             nextToken: token,
             status: self.status,
             thingName: self.thingName
@@ -2615,6 +2667,7 @@ extension IoT.ListJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListJobsRequest {
         return .init(
             maxResults: self.maxResults,
+            namespaceId: self.namespaceId,
             nextToken: token,
             status: self.status,
             targetSelection: self.targetSelection,
@@ -2808,6 +2861,16 @@ extension IoT.ListThingGroupsRequest: AWSPaginateToken {
 
 extension IoT.ListThingGroupsForThingRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListThingGroupsForThingRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            thingName: self.thingName
+        )
+    }
+}
+
+extension IoT.ListThingPrincipalsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListThingPrincipalsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,

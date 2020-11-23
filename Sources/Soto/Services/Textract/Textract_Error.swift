@@ -26,6 +26,7 @@ public struct TextractErrorType: AWSErrorType {
         case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
         case internalServerError = "InternalServerError"
         case invalidJobIdException = "InvalidJobIdException"
+        case invalidKMSKeyException = "InvalidKMSKeyException"
         case invalidParameterException = "InvalidParameterException"
         case invalidS3ObjectException = "InvalidS3ObjectException"
         case limitExceededException = "LimitExceededException"
@@ -56,7 +57,7 @@ public struct TextractErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see limits.
     public static var badDocumentException: Self { .init(.badDocumentException) }
-    /// The document can't be processed because it's too large. The maximum document size for synchronous operations 5 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
+    /// The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     public static var documentTooLargeException: Self { .init(.documentTooLargeException) }
     /// Indicates you have exceeded the maximum number of active human in the loop workflows available
     public static var humanLoopQuotaExceededException: Self { .init(.humanLoopQuotaExceededException) }
@@ -66,6 +67,8 @@ public struct TextractErrorType: AWSErrorType {
     public static var internalServerError: Self { .init(.internalServerError) }
     /// An invalid job identifier was passed to GetDocumentAnalysis or to GetDocumentAnalysis.
     public static var invalidJobIdException: Self { .init(.invalidJobIdException) }
+    ///  Indicates you do not have decrypt permissions with the KMS key entered, or the KMS key was entered incorrectly.
+    public static var invalidKMSKeyException: Self { .init(.invalidKMSKeyException) }
     /// An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// Amazon Textract is unable to access the S3 object that's specified in the request. for more information, Configure Access to Amazon S3 For troubleshooting information, see Troubleshooting Amazon S3

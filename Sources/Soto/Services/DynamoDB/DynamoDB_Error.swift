@@ -23,11 +23,14 @@ public struct DynamoDBErrorType: AWSErrorType {
         case backupNotFoundException = "BackupNotFoundException"
         case conditionalCheckFailedException = "ConditionalCheckFailedException"
         case continuousBackupsUnavailableException = "ContinuousBackupsUnavailableException"
+        case exportConflictException = "ExportConflictException"
+        case exportNotFoundException = "ExportNotFoundException"
         case globalTableAlreadyExistsException = "GlobalTableAlreadyExistsException"
         case globalTableNotFoundException = "GlobalTableNotFoundException"
         case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
         case indexNotFoundException = "IndexNotFoundException"
         case internalServerError = "InternalServerError"
+        case invalidExportTimeException = "InvalidExportTimeException"
         case invalidRestoreTimeException = "InvalidRestoreTimeException"
         case itemCollectionSizeLimitExceededException = "ItemCollectionSizeLimitExceededException"
         case limitExceededException = "LimitExceededException"
@@ -72,6 +75,10 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var conditionalCheckFailedException: Self { .init(.conditionalCheckFailedException) }
     /// Backups have not yet been enabled for this table.
     public static var continuousBackupsUnavailableException: Self { .init(.continuousBackupsUnavailableException) }
+    /// There was a conflict when writing to the specified S3 bucket.
+    public static var exportConflictException: Self { .init(.exportConflictException) }
+    /// The specified export was not found.
+    public static var exportNotFoundException: Self { .init(.exportNotFoundException) }
     /// The specified global table already exists.
     public static var globalTableAlreadyExistsException: Self { .init(.globalTableAlreadyExistsException) }
     /// The specified global table does not exist.
@@ -82,6 +89,8 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var indexNotFoundException: Self { .init(.indexNotFoundException) }
     /// An error occurred on the server side.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// The specified ExportTime is outside of the point in time recovery window.
+    public static var invalidExportTimeException: Self { .init(.invalidExportTimeException) }
     /// An invalid restore time was specified. RestoreDateTime must be between EarliestRestorableDateTime and LatestRestorableDateTime.
     public static var invalidRestoreTimeException: Self { .init(.invalidRestoreTimeException) }
     /// An item collection is too large. This exception is only returned for tables that have one or more local secondary indexes.

@@ -34,6 +34,7 @@ extension DLM {
 
     public enum PolicyTypeValues: String, CustomStringConvertible, Codable {
         case ebsSnapshotManagement = "EBS_SNAPSHOT_MANAGEMENT"
+        case imageManagement = "IMAGE_MANAGEMENT"
         public var description: String { return self.rawValue }
     }
 
@@ -437,14 +438,17 @@ extension DLM {
         public let description: String?
         /// The identifier of the lifecycle policy.
         public let policyId: String?
+        /// The type of policy. EBS_SNAPSHOT_MANAGEMENT indicates that the policy manages the lifecycle of Amazon EBS snapshots. IMAGE_MANAGEMENT indicates that the policy manages the lifecycle of EBS-backed AMIs.
+        public let policyType: PolicyTypeValues?
         /// The activation state of the lifecycle policy.
         public let state: GettablePolicyStateValues?
         /// The tags.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil, tags: [String: String]? = nil) {
+        public init(description: String? = nil, policyId: String? = nil, policyType: PolicyTypeValues? = nil, state: GettablePolicyStateValues? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.policyId = policyId
+            self.policyType = policyType
             self.state = state
             self.tags = tags
         }
@@ -452,6 +456,7 @@ extension DLM {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case policyId = "PolicyId"
+            case policyType = "PolicyType"
             case state = "State"
             case tags = "Tags"
         }
@@ -494,20 +499,24 @@ extension DLM {
     public struct Parameters: AWSEncodableShape & AWSDecodableShape {
         /// [EBS Snapshot Management – Instance policies only] Indicates whether to exclude the root volume from snapshots created using CreateSnapshots. The default is false.
         public let excludeBootVolume: Bool?
+        /// Applies to AMI lifecycle policies only. Indicates whether targeted instances are rebooted when the lifecycle policy runs. true indicates that targeted instances are not rebooted when the policy runs. false indicates that target instances are rebooted when the policy runs. The default is true (instance are not rebooted).
+        public let noReboot: Bool?
 
-        public init(excludeBootVolume: Bool? = nil) {
+        public init(excludeBootVolume: Bool? = nil, noReboot: Bool? = nil) {
             self.excludeBootVolume = excludeBootVolume
+            self.noReboot = noReboot
         }
 
         private enum CodingKeys: String, CodingKey {
             case excludeBootVolume = "ExcludeBootVolume"
+            case noReboot = "NoReboot"
         }
     }
 
     public struct PolicyDetails: AWSEncodableShape & AWSDecodableShape {
         /// A set of optional parameters for the policy.
         public let parameters: Parameters?
-        /// The valid target resource types and actions a policy can manage. The default is EBS_SNAPSHOT_MANAGEMENT.
+        /// The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. The default is EBS_SNAPSHOT_MANAGEMENT.
         public let policyType: PolicyTypeValues?
         /// The resource type. Use VOLUME to create snapshots of individual volumes or use INSTANCE to create multi-volume snapshots from the volumes for an instance.
         public let resourceTypes: [ResourceTypeValues]?

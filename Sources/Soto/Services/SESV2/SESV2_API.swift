@@ -73,6 +73,16 @@ public struct SESV2: AWSService {
         return self.client.execute(operation: "CreateConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list.
+    public func createContact(_ input: CreateContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContactResponse> {
+        return self.client.execute(operation: "CreateContact", path: "/v2/email/contact-lists/{ContactListName}/contacts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Creates a contact list.
+    public func createContactList(_ input: CreateContactListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContactListResponse> {
+        return self.client.execute(operation: "CreateContactList", path: "/v2/email/contact-lists", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Creates a new custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func createCustomVerificationEmailTemplate(_ input: CreateCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCustomVerificationEmailTemplateResponse> {
         return self.client.execute(operation: "CreateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -116,6 +126,16 @@ public struct SESV2: AWSService {
     ///  Delete an event destination.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     public func deleteConfigurationSetEventDestination(_ input: DeleteConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConfigurationSetEventDestinationResponse> {
         return self.client.execute(operation: "DeleteConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Removes a contact from a contact list.
+    public func deleteContact(_ input: DeleteContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContactResponse> {
+        return self.client.execute(operation: "DeleteContact", path: "/v2/email/contact-lists/{ContactListName}/contacts/{EmailAddress}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Deletes a contact list and all of the contacts on that list.
+    public func deleteContactList(_ input: DeleteContactListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContactListResponse> {
+        return self.client.execute(operation: "DeleteContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -166,6 +186,16 @@ public struct SESV2: AWSService {
     ///  Retrieve a list of event destinations that are associated with a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     public func getConfigurationSetEventDestinations(_ input: GetConfigurationSetEventDestinationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConfigurationSetEventDestinationsResponse> {
         return self.client.execute(operation: "GetConfigurationSetEventDestinations", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Returns a contact from a contact list.
+    public func getContact(_ input: GetContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContactResponse> {
+        return self.client.execute(operation: "GetContact", path: "/v2/email/contact-lists/{ContactListName}/contacts/{EmailAddress}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Returns contact list metadata. It does not return any information about the contacts present in the list.
+    public func getContactList(_ input: GetContactListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContactListResponse> {
+        return self.client.execute(operation: "GetContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -231,6 +261,16 @@ public struct SESV2: AWSService {
     ///  List all of the configuration sets associated with your account in the current region.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     public func listConfigurationSets(_ input: ListConfigurationSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigurationSetsResponse> {
         return self.client.execute(operation: "ListConfigurationSets", path: "/v2/email/configuration-sets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Lists all of the contact lists available.
+    public func listContactLists(_ input: ListContactListsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactListsResponse> {
+        return self.client.execute(operation: "ListContactLists", path: "/v2/email/contact-lists", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Lists the contacts present in a specific contact list.
+    public func listContacts(_ input: ListContactsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactsResponse> {
+        return self.client.execute(operation: "ListContacts", path: "/v2/email/contact-lists/{ContactListName}/contacts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -395,6 +435,16 @@ public struct SESV2: AWSService {
     ///  Update the configuration of an event destination for a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConfigurationSetEventDestinationResponse> {
         return self.client.execute(operation: "UpdateConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Updates a contact's preferences for a list. It is not necessary to specify all existing topic preferences in the TopicPreferences object, just the ones that need updating.
+    public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactResponse> {
+        return self.client.execute(operation: "UpdateContact", path: "/v2/email/contact-lists/{ContactListName}/contacts/{EmailAddress}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Updates contact list metadata. This operation does a complete replacement.
+    public func updateContactList(_ input: UpdateContactListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactListResponse> {
+        return self.client.execute(operation: "UpdateContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.

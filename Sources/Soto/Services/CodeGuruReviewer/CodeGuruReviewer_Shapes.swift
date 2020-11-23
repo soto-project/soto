@@ -45,6 +45,7 @@ extension CodeGuruReviewer {
     public enum RepositoryAssociationState: String, CustomStringConvertible, Codable {
         case associated = "Associated"
         case associating = "Associating"
+        case disassociated = "Disassociated"
         case disassociating = "Disassociating"
         case failed = "Failed"
         public var description: String { return self.rawValue }
@@ -63,10 +64,13 @@ extension CodeGuruReviewer {
         public let clientRequestToken: String?
         /// The repository to associate.
         public let repository: Repository
+        ///  An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:    A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value (for example, 111122223333, Production, or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive.
+        public let tags: [String: String]?
 
-        public init(clientRequestToken: String? = AssociateRepositoryRequest.idempotencyToken(), repository: Repository) {
+        public init(clientRequestToken: String? = AssociateRepositoryRequest.idempotencyToken(), repository: Repository, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.repository = repository
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -74,24 +78,34 @@ extension CodeGuruReviewer {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w-]+$")
             try self.repository.validate(name: "\(name).repository")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case repository = "Repository"
+            case tags = "Tags"
         }
     }
 
     public struct AssociateRepositoryResponse: AWSDecodableShape {
         /// Information about the repository association.
         public let repositoryAssociation: RepositoryAssociation?
+        ///  An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:    A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value (for example, 111122223333, Production, or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive.
+        public let tags: [String: String]?
 
-        public init(repositoryAssociation: RepositoryAssociation? = nil) {
+        public init(repositoryAssociation: RepositoryAssociation? = nil, tags: [String: String]? = nil) {
             self.repositoryAssociation = repositoryAssociation
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case repositoryAssociation = "RepositoryAssociation"
+            case tags = "Tags"
         }
     }
 
@@ -115,6 +129,8 @@ extension CodeGuruReviewer {
     }
 
     public struct CodeReview: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  that contains the reviewed source code. You can retrieve associated repository ARNs by calling  ListRepositoryAssociations .
+        public let associationArn: String?
         /// The Amazon Resource Name (ARN) of the  CodeReview  object.
         public let codeReviewArn: String?
         ///  The time, in milliseconds since the epoch, when the code review was created.
@@ -142,7 +158,8 @@ extension CodeGuruReviewer {
         ///  The type of code review.
         public let type: `Type`?
 
-        public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
+        public init(associationArn: String? = nil, codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
+            self.associationArn = associationArn
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
@@ -159,6 +176,7 @@ extension CodeGuruReviewer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associationArn = "AssociationArn"
             case codeReviewArn = "CodeReviewArn"
             case createdTimeStamp = "CreatedTimeStamp"
             case lastUpdatedTimeStamp = "LastUpdatedTimeStamp"
@@ -229,7 +247,7 @@ extension CodeGuruReviewer {
     }
 
     public struct CodeReviewType: AWSEncodableShape {
-        ///  A code review that analyzes all code under a specified branch in an associated respository. The assocated repository is specified using its ARN in  CreateCodeReview
+        ///  A code review that analyzes all code under a specified branch in an associated respository. The assocated repository is specified using its ARN in  CreateCodeReview .
         public let repositoryAnalysis: RepositoryAnalysis
 
         public init(repositoryAnalysis: RepositoryAnalysis) {
@@ -265,11 +283,11 @@ extension CodeGuruReviewer {
     public struct CreateCodeReviewRequest: AWSEncodableShape {
         ///  Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate code reviews if there are failures and retries.
         public let clientRequestToken: String?
-        ///  The name of the code review. Each code review of the same code review type must have a unique name in your AWS account.
+        ///  The name of the code review. The name of each code review in your AWS account must be unique.
         public let name: String
-        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories.   A code review can only be created on an associated repository. This is the ARN of the associated repository.
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations .   A code review can only be created on an associated repository. This is the ARN of the associated repository.
         public let repositoryAssociationArn: String
-        ///  The type of code review to create. This is specified using a  CodeReviewType  object.
+        ///  The type of code review to create. This is specified using a  CodeReviewType  object. You can create a code review only of type RepositoryAnalysis.
         public let type: CodeReviewType
 
         public init(clientRequestToken: String? = CreateCodeReviewRequest.idempotencyToken(), name: String, repositoryAssociationArn: String, type: CodeReviewType) {
@@ -288,7 +306,7 @@ extension CodeGuruReviewer {
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-_]*")
             try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, max: 1600)
             try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, min: 1)
-            try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
+            try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.type.validate(name: "\(name).type")
         }
 
@@ -397,7 +415,7 @@ extension CodeGuruReviewer {
             AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
         ]
 
-        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories.
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations .
         public let associationArn: String
 
         public init(associationArn: String) {
@@ -407,7 +425,7 @@ extension CodeGuruReviewer {
         public func validate(name: String) throws {
             try self.validate(self.associationArn, name: "associationArn", parent: name, max: 1600)
             try self.validate(self.associationArn, name: "associationArn", parent: name, min: 1)
-            try self.validate(self.associationArn, name: "associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
+            try self.validate(self.associationArn, name: "associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -416,13 +434,17 @@ extension CodeGuruReviewer {
     public struct DescribeRepositoryAssociationResponse: AWSDecodableShape {
         /// Information about the repository association.
         public let repositoryAssociation: RepositoryAssociation?
+        ///  An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:    A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value (for example, 111122223333, Production, or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive.
+        public let tags: [String: String]?
 
-        public init(repositoryAssociation: RepositoryAssociation? = nil) {
+        public init(repositoryAssociation: RepositoryAssociation? = nil, tags: [String: String]? = nil) {
             self.repositoryAssociation = repositoryAssociation
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case repositoryAssociation = "RepositoryAssociation"
+            case tags = "Tags"
         }
     }
 
@@ -431,7 +453,7 @@ extension CodeGuruReviewer {
             AWSMemberEncoding(label: "associationArn", location: .uri(locationName: "AssociationArn"))
         ]
 
-        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories.
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations .
         public let associationArn: String
 
         public init(associationArn: String) {
@@ -441,7 +463,7 @@ extension CodeGuruReviewer {
         public func validate(name: String) throws {
             try self.validate(self.associationArn, name: "associationArn", parent: name, max: 1600)
             try self.validate(self.associationArn, name: "associationArn", parent: name, min: 1)
-            try self.validate(self.associationArn, name: "associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
+            try self.validate(self.associationArn, name: "associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -450,13 +472,17 @@ extension CodeGuruReviewer {
     public struct DisassociateRepositoryResponse: AWSDecodableShape {
         /// Information about the disassociated repository.
         public let repositoryAssociation: RepositoryAssociation?
+        ///  An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:    A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value (for example, 111122223333, Production, or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive.
+        public let tags: [String: String]?
 
-        public init(repositoryAssociation: RepositoryAssociation? = nil) {
+        public init(repositoryAssociation: RepositoryAssociation? = nil, tags: [String: String]? = nil) {
             self.repositoryAssociation = repositoryAssociation
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case repositoryAssociation = "RepositoryAssociation"
+            case tags = "Tags"
         }
     }
 
@@ -670,7 +696,7 @@ extension CodeGuruReviewer {
         public let owners: [String]?
         /// List of provider types to use as a filter.
         public let providerTypes: [ProviderType]?
-        /// List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.
+        /// List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.     Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in an associated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
         public let states: [RepositoryAssociationState]?
 
         public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil, owners: [String]? = nil, providerTypes: [ProviderType]? = nil, states: [RepositoryAssociationState]? = nil) {
@@ -703,7 +729,7 @@ extension CodeGuruReviewer {
             try self.validate(self.owners, name: "owners", parent: name, min: 1)
             try self.validate(self.providerTypes, name: "providerTypes", parent: name, max: 3)
             try self.validate(self.providerTypes, name: "providerTypes", parent: name, min: 1)
-            try self.validate(self.states, name: "states", parent: name, max: 3)
+            try self.validate(self.states, name: "states", parent: name, max: 5)
             try self.validate(self.states, name: "states", parent: name, min: 1)
         }
 
@@ -724,6 +750,40 @@ extension CodeGuruReviewer {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case repositoryAssociationSummaries = "RepositoryAssociationSummaries"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations .
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        ///  An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:    A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value (for example, 111122223333, Production, or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -940,7 +1000,7 @@ extension CodeGuruReviewer {
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
-        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.
+        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.     Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in an associated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
         public let state: RepositoryAssociationState?
         /// A description of why the repository association is in the current state.
         public let stateReason: String?
@@ -973,7 +1033,7 @@ extension CodeGuruReviewer {
     }
 
     public struct RepositoryAssociationSummary: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories.
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations .
         public let associationArn: String?
         ///  The repository association ID.
         public let associationId: String?
@@ -987,7 +1047,7 @@ extension CodeGuruReviewer {
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
-        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.
+        /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.     Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in an associated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
         public let state: RepositoryAssociationState?
 
         public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil) {
@@ -1047,6 +1107,41 @@ extension CodeGuruReviewer {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations .
+        public let resourceArn: String
+        ///  An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:    A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value (for example, 111122223333, Production, or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ThirdPartySourceRepository: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see  Connection  in the AWS CodeStar Connections API Reference.
         public let connectionArn: String
@@ -1078,5 +1173,40 @@ extension CodeGuruReviewer {
             case name = "Name"
             case owner = "Owner"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations .
+        public let resourceArn: String
+        /// A list of the keys for each tag you want to remove from an associated repository.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }

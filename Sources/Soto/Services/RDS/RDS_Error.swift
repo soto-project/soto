@@ -217,7 +217,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var dBParameterGroupQuotaExceededFault: Self { .init(.dBParameterGroupQuotaExceededFault) }
     /// The specified proxy name must be unique for all proxies owned by your AWS account in the specified AWS Region.
     public static var dBProxyAlreadyExistsFault: Self { .init(.dBProxyAlreadyExistsFault) }
-    /// The specified proxy name doesn't correspond to a proxy owned by your AWS accoutn in the specified AWS Region.
+    /// The specified proxy name doesn't correspond to a proxy owned by your AWS account in the specified AWS Region.
     public static var dBProxyNotFoundFault: Self { .init(.dBProxyNotFoundFault) }
     /// Your AWS account already has the maximum number of proxies in the specified AWS Region.
     public static var dBProxyQuotaExceededFault: Self { .init(.dBProxyQuotaExceededFault) }

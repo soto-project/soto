@@ -107,23 +107,22 @@ extension IoTSecureTunneling {
     }
 
     public struct DestinationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A list of service names that identity the target application. Currently, you can only specify a single name. The AWS IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The AWS IoT client instantiates the local proxy which uses this information to connect to the destination application.
+        /// A list of service names that identity the target application. The AWS IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The AWS IoT client instantiates the local proxy which uses this information to connect to the destination application.
         public let services: [String]
         /// The name of the IoT thing to which you want to connect.
-        public let thingName: String
+        public let thingName: String?
 
-        public init(services: [String], thingName: String) {
+        public init(services: [String], thingName: String? = nil) {
             self.services = services
             self.thingName = thingName
         }
 
         public func validate(name: String) throws {
             try self.services.forEach {
-                try validate($0, name: "services[]", parent: name, max: 8)
+                try validate($0, name: "services[]", parent: name, max: 128)
                 try validate($0, name: "services[]", parent: name, min: 1)
                 try validate($0, name: "services[]", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             }
-            try self.validate(self.services, name: "services", parent: name, max: 1)
             try self.validate(self.services, name: "services", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)

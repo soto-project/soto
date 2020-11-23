@@ -163,11 +163,9 @@ extension AppMesh {
     }
 
     public struct AwsCloudMapInstanceAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service
-        ///          instance that contains the specified key and value is returned.
+        /// The name of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service instance that contains the specified key and value is returned.
         public let key: String
-        /// The value of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service
-        ///          instance that contains the specified key and value is returned.
+        /// The value of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service instance that contains the specified key and value is returned.
         public let value: String
 
         public init(key: String, value: String) {
@@ -181,7 +179,7 @@ extension AppMesh {
             try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9!-~]+$")
             try self.validate(self.value, name: "value", parent: name, max: 1024)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^([a-zA-Z0-9!-~][ ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([a-zA-Z0-9!-~][  a-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -191,9 +189,7 @@ extension AppMesh {
     }
 
     public struct AwsCloudMapServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
-        /// A string map that contains attributes with values that you can use to filter instances
-        ///          by any custom attribute that you specified when you registered the instance. Only instances
-        ///          that match all of the specified key/value pairs will be returned.
+        /// A string map that contains attributes with values that you can use to filter instances by any custom attribute that you specified when you registered the instance. Only instances that match all of the specified key/value pairs will be returned.
         public let attributes: [AwsCloudMapInstanceAttribute]?
         /// The name of the AWS Cloud Map namespace to use.
         public let namespaceName: String
@@ -212,10 +208,8 @@ extension AppMesh {
             }
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 1024)
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 1)
-            try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^.$)")
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 1024)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
-            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^.$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -226,7 +220,7 @@ extension AppMesh {
     }
 
     public struct Backend: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies a virtual service to use as a backend for a virtual node.
+        /// Specifies a virtual service to use as a backend.
         public let virtualService: VirtualServiceBackend?
 
         public init(virtualService: VirtualServiceBackend? = nil) {
@@ -277,8 +271,7 @@ extension AppMesh {
     }
 
     public struct ClientPolicyTls: AWSEncodableShape & AWSDecodableShape {
-        /// Whether the policy is enforced. The default is True, if a value isn't
-        ///          specified.
+        /// Whether the policy is enforced. The default is True, if a value isn't specified.
         public let enforce: Bool?
         /// One or more ports that the policy is enforced for.
         public let ports: [Int]?
@@ -313,27 +306,19 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name to use for the gateway route.
         public let gatewayRouteName: String
         /// The name of the service mesh to create the gateway route in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-        ///                the account that you specify must share the mesh with your account before you can create
-        ///              the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The gateway route specification to apply.
         public let spec: GatewayRouteSpec
-        /// Optional metadata that you can apply to the gateway route to assist with categorization
-        ///          and organization. Each tag consists of a key and an optional value, both of which you
-        ///          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-        ///             a maximum length of 256 characters.
+        /// Optional metadata that you can apply to the gateway route to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]?
-        /// The name of the virtual gateway to associate the gateway route with. If the virtual
-        ///          gateway is in a shared mesh, then you must be the owner of the virtual gateway
-        ///          resource.
+        /// The name of the virtual gateway to associate the gateway route with. If the virtual gateway is in a shared mesh, then you must be the owner of the virtual gateway resource.
         public let virtualGatewayName: String
 
         public init(clientToken: String? = CreateGatewayRouteInput.idempotencyToken(), gatewayRouteName: String, meshName: String, meshOwner: String? = nil, spec: GatewayRouteSpec, tags: [TagRef]? = nil, virtualGatewayName: String) {
@@ -388,17 +373,13 @@ extension AppMesh {
     }
 
     public struct CreateMeshInput: AWSEncodableShape {
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name to use for the service mesh.
         public let meshName: String
         /// The service mesh specification to apply.
         public let spec: MeshSpec?
-        /// Optional metadata that you can apply to the service mesh to assist with categorization
-        ///          and organization. Each tag consists of a key and an optional value, both of which you
-        ///          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-        ///             a maximum length of 256 characters.
+        /// Optional metadata that you can apply to the service mesh to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]?
 
         public init(clientToken: String? = CreateMeshInput.idempotencyToken(), meshName: String, spec: MeshSpec? = nil, tags: [TagRef]? = nil) {
@@ -449,26 +430,19 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh to create the route in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-        ///                the account that you specify must share the mesh with your account before you can create
-        ///              the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name to use for the route.
         public let routeName: String
         /// The route specification to apply.
         public let spec: RouteSpec
-        /// Optional metadata that you can apply to the route to assist with categorization and
-        ///          organization. Each tag consists of a key and an optional value, both of which you define.
-        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
-        ///             a maximum length of 256 characters.
+        /// Optional metadata that you can apply to the route to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]?
-        /// The name of the virtual router in which to create the route. If the virtual router is in
-        ///          a shared mesh, then you must be the owner of the virtual router resource.
+        /// The name of the virtual router in which to create the route. If the virtual router is in a shared mesh, then you must be the owner of the virtual router resource.
         public let virtualRouterName: String
 
         public init(clientToken: String? = CreateRouteInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, routeName: String, spec: RouteSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
@@ -528,21 +502,15 @@ extension AppMesh {
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh to create the virtual gateway in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-        ///                the account that you specify must share the mesh with your account before you can create
-        ///              the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The virtual gateway specification to apply.
         public let spec: VirtualGatewaySpec
-        /// Optional metadata that you can apply to the virtual gateway to assist with
-        ///          categorization and organization. Each tag consists of a key and an optional value, both of
-        ///          which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-        ///             a maximum length of 256 characters.
+        /// Optional metadata that you can apply to the virtual gateway to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]?
         /// The name to use for the virtual gateway.
         public let virtualGatewayName: String
@@ -601,21 +569,15 @@ extension AppMesh {
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh to create the virtual node in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-        ///                the account that you specify must share the mesh with your account before you can create
-        ///              the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The virtual node specification to apply.
         public let spec: VirtualNodeSpec
-        /// Optional metadata that you can apply to the virtual node to assist with categorization
-        ///          and organization. Each tag consists of a key and an optional value, both of which you
-        ///          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-        ///             a maximum length of 256 characters.
+        /// Optional metadata that you can apply to the virtual node to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]?
         /// The name to use for the virtual node.
         public let virtualNodeName: String
@@ -674,21 +636,15 @@ extension AppMesh {
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh to create the virtual router in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-        ///                the account that you specify must share the mesh with your account before you can create
-        ///              the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The virtual router specification to apply.
         public let spec: VirtualRouterSpec
-        /// Optional metadata that you can apply to the virtual router to assist with categorization
-        ///          and organization. Each tag consists of a key and an optional value, both of which you
-        ///          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-        ///             a maximum length of 256 characters.
+        /// Optional metadata that you can apply to the virtual router to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]?
         /// The name to use for the virtual router.
         public let virtualRouterName: String
@@ -747,21 +703,15 @@ extension AppMesh {
             AWSMemberEncoding(label: "meshOwner", location: .querystring(locationName: "meshOwner"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh to create the virtual service in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-        ///                the account that you specify must share the mesh with your account before you can create
-        ///              the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The virtual service specification to apply.
         public let spec: VirtualServiceSpec
-        /// Optional metadata that you can apply to the virtual service to assist with
-        ///          categorization and organization. Each tag consists of a key and an optional value, both of
-        ///          which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-        ///             a maximum length of 256 characters.
+        /// Optional metadata that you can apply to the virtual service to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]?
         /// The name to use for the virtual service.
         public let virtualServiceName: String
@@ -824,8 +774,7 @@ extension AppMesh {
         public let gatewayRouteName: String
         /// The name of the service mesh to delete the gateway route from.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual gateway to delete the route from.
         public let virtualGatewayName: String
@@ -913,8 +862,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the route in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the route to delete.
         public let routeName: String
@@ -967,8 +915,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the virtual gateway from.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual gateway to delete.
         public let virtualGatewayName: String
@@ -1016,8 +963,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the virtual node in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual node to delete.
         public let virtualNodeName: String
@@ -1065,8 +1011,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the virtual router in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual router to delete.
         public let virtualRouterName: String
@@ -1114,8 +1059,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the virtual service in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual service to delete.
         public let virtualServiceName: String
@@ -1164,8 +1108,7 @@ extension AppMesh {
         public let gatewayRouteName: String
         /// The name of the service mesh that the gateway route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual gateway that the gateway route is associated with.
         public let virtualGatewayName: String
@@ -1215,8 +1158,7 @@ extension AppMesh {
 
         /// The name of the service mesh to describe.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
 
         public init(meshName: String, meshOwner: String? = nil) {
@@ -1260,8 +1202,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the route to describe.
         public let routeName: String
@@ -1314,8 +1255,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the gateway route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual gateway to describe.
         public let virtualGatewayName: String
@@ -1363,8 +1303,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual node to describe.
         public let virtualNodeName: String
@@ -1412,8 +1351,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual router to describe.
         public let virtualRouterName: String
@@ -1461,8 +1399,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual service to describe.
         public let virtualServiceName: String
@@ -1534,11 +1471,7 @@ extension AppMesh {
     }
 
     public struct EgressFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The egress filter type. By default, the type is DROP_ALL, which allows
-        ///          egress only from virtual nodes to other defined resources in the service mesh (and any
-        ///          traffic to *.amazonaws.com for AWS API calls). You can set the egress filter
-        ///          type to ALLOW_ALL to allow egress to any endpoint inside or outside of the
-        ///          service mesh.
+        /// The egress filter type. By default, the type is DROP_ALL, which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazonaws.com for AWS API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any endpoint inside or outside of the service mesh.
         public let type: EgressFilterType
 
         public init(type: EgressFilterType) {
@@ -1551,15 +1484,7 @@ extension AppMesh {
     }
 
     public struct FileAccessLog: AWSEncodableShape & AWSDecodableShape {
-        /// The file path to write access logs to. You can use /dev/stdout to send
-        ///          access logs to standard out and configure your Envoy container to use a log driver, such as
-        ///             awslogs, to export the access logs to a log storage service such as Amazon
-        ///          CloudWatch Logs. You can also specify a path in the Envoy container's file system to write
-        ///          the files to disk.
-        ///
-        ///             The Envoy process must have write permissions to the path that you specify here.
-        ///             Otherwise, Envoy fails to bootstrap properly.
-        ///
+        /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk.  The Envoy process must have write permissions to the path that you specify here. Otherwise, Envoy fails to bootstrap properly.
         public let path: String
 
         public init(path: String) {
@@ -1619,11 +1544,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the resource resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -1784,34 +1707,13 @@ extension AppMesh {
     public struct GrpcRetryPolicy: AWSEncodableShape & AWSDecodableShape {
         /// Specify at least one of the valid values.
         public let grpcRetryEvents: [GrpcRetryPolicyEvent]?
-        /// Specify at least one of the following values.
-        ///
-        ///
-        ///
-        ///                   server-error – HTTP status codes 500, 501,
-        ///                   502, 503, 504, 505, 506, 507, 508, 510, and 511
-        ///
-        ///
-        ///
-        ///                   gateway-error – HTTP status codes 502,
-        ///                   503, and 504
-        ///
-        ///
-        ///
-        ///                   client-error – HTTP status code 409
-        ///
-        ///
-        ///
-        ///                   stream-error – Retry on refused
-        ///                   stream
-        ///
-        ///
+        /// Specify at least one of the following values.    server-error – HTTP status codes 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, and 511    gateway-error – HTTP status codes 502, 503, and 504    client-error – HTTP status code 409    stream-error – Retry on refused stream
         public let httpRetryEvents: [String]?
         /// The maximum number of retry attempts.
         public let maxRetries: Int64
-        /// An object that represents a duration of time.
+        /// The timeout for each retry attempt.
         public let perRetryTimeout: Duration
-        /// Specify a valid value.
+        /// Specify a valid value. The event occurs before any processing of a request has started and is encountered when the upstream is temporarily or permanently unavailable.
         public let tcpRetryEvents: [TcpRetryPolicyEvent]?
 
         public init(grpcRetryEvents: [GrpcRetryPolicyEvent]? = nil, httpRetryEvents: [String]? = nil, maxRetries: Int64, perRetryTimeout: Duration, tcpRetryEvents: [TcpRetryPolicyEvent]? = nil) {
@@ -1902,8 +1804,7 @@ extension AppMesh {
     public struct GrpcRouteMatch: AWSEncodableShape & AWSDecodableShape {
         /// An object that represents the data to match from the request.
         public let metadata: [GrpcRouteMetadata]?
-        /// The method name to match from the request. If you specify a name, you must also specify
-        ///          a serviceName.
+        /// The method name to match from the request. If you specify a name, you must also specify a serviceName.
         public let methodName: String?
         /// The fully qualified domain name for the service to match from the request.
         public let serviceName: String?
@@ -2061,26 +1962,19 @@ extension AppMesh {
     }
 
     public struct HealthCheckPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The number of consecutive successful health checks that must occur before declaring
-        ///          listener healthy.
+        /// The number of consecutive successful health checks that must occur before declaring listener healthy.
         public let healthyThreshold: Int
         /// The time period in milliseconds between each health check execution.
         public let intervalMillis: Int64
-        /// The destination path for the health check request. This value is only used if the
-        ///          specified protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
+        /// The destination path for the health check request. This value is only used if the specified protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
         public let path: String?
-        /// The destination port for the health check request. This port must match the port defined
-        ///          in the PortMapping for the listener.
+        /// The destination port for the health check request. This port must match the port defined in the PortMapping for the listener.
         public let port: Int?
-        /// The protocol for the health check request. If you specify grpc, then your
-        ///          service must conform to the GRPC Health
-        ///             Checking Protocol.
+        /// The protocol for the health check request. If you specify grpc, then your service must conform to the GRPC Health Checking Protocol.
         public let `protocol`: PortProtocol
-        /// The amount of time to wait when receiving a response from the health check, in
-        ///          milliseconds.
+        /// The amount of time to wait when receiving a response from the health check, in milliseconds.
         public let timeoutMillis: Int64
-        /// The number of consecutive failed health checks that must occur before declaring a
-        ///          virtual node unhealthy.
+        /// The number of consecutive failed health checks that must occur before declaring a virtual node unhealthy.
         public let unhealthyThreshold: Int
 
         public init(healthyThreshold: Int, intervalMillis: Int64, path: String? = nil, port: Int? = nil, protocol: PortProtocol, timeoutMillis: Int64, unhealthyThreshold: Int) {
@@ -2156,12 +2050,7 @@ extension AppMesh {
     }
 
     public struct HttpGatewayRouteMatch: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the path to match requests with. This parameter must always start with
-        ///             /, which by itself matches all requests to the virtual service name. You
-        ///          can also match for path-based routing of requests. For example, if your virtual service
-        ///          name is my-service.local and you want the route to match requests to
-        ///             my-service.local/metrics, your prefix should be
-        ///          /metrics.
+        /// Specifies the path to match requests with. This parameter must always start with /, which by itself matches all requests to the virtual service name. You can also match for path-based routing of requests. For example, if your virtual service name is my-service.local and you want the route to match requests to my-service.local/metrics, your prefix should be /metrics.
         public let prefix: String
 
         public init(prefix: String) {
@@ -2174,34 +2063,13 @@ extension AppMesh {
     }
 
     public struct HttpRetryPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Specify at least one of the following values.
-        ///
-        ///
-        ///
-        ///                   server-error – HTTP status codes 500, 501,
-        ///                   502, 503, 504, 505, 506, 507, 508, 510, and 511
-        ///
-        ///
-        ///
-        ///                   gateway-error – HTTP status codes 502,
-        ///                   503, and 504
-        ///
-        ///
-        ///
-        ///                   client-error – HTTP status code 409
-        ///
-        ///
-        ///
-        ///                   stream-error – Retry on refused
-        ///                   stream
-        ///
-        ///
+        /// Specify at least one of the following values.    server-error – HTTP status codes 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, and 511    gateway-error – HTTP status codes 502, 503, and 504    client-error – HTTP status code 409    stream-error – Retry on refused stream
         public let httpRetryEvents: [String]?
         /// The maximum number of retry attempts.
         public let maxRetries: Int64
-        /// An object that represents a duration of time.
+        /// The timeout for each retry attempt.
         public let perRetryTimeout: Duration
-        /// Specify a valid value.
+        /// Specify a valid value. The event occurs before any processing of a request has started and is encountered when the upstream is temporarily or permanently unavailable.
         public let tcpRetryEvents: [TcpRetryPolicyEvent]?
 
         public init(httpRetryEvents: [String]? = nil, maxRetries: Int64, perRetryTimeout: Duration, tcpRetryEvents: [TcpRetryPolicyEvent]? = nil) {
@@ -2317,12 +2185,7 @@ extension AppMesh {
         public let headers: [HttpRouteHeader]?
         /// The client request method to match on. Specify only one.
         public let method: HttpMethod?
-        /// Specifies the path to match requests with. This parameter must always start with
-        ///             /, which by itself matches all requests to the virtual service name. You
-        ///          can also match for path-based routing of requests. For example, if your virtual service
-        ///          name is my-service.local and you want the route to match requests to
-        ///             my-service.local/metrics, your prefix should be
-        ///          /metrics.
+        /// Specifies the path to match requests with. This parameter must always start with /, which by itself matches all requests to the virtual service name. You can also match for path-based routing of requests. For example, if your virtual service name is my-service.local and you want the route to match requests to my-service.local/metrics, your prefix should be /metrics.
         public let prefix: String
         /// The client request scheme to match on. Specify only one.
         public let scheme: HttpScheme?
@@ -2351,7 +2214,9 @@ extension AppMesh {
     }
 
     public struct HttpTimeout: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents an idle timeout. An idle timeout bounds the amount of time that a connection may be idle. The default value is none.
         public let idle: Duration?
+        /// An object that represents a per request timeout. The default value is 15 seconds. If you set a higher timeout, then make sure that the higher value is set for each App Mesh resource in a conversation. For example, if a virtual node backend uses a virtual router provider to route to another virtual node, then the timeout should be greater than 15 seconds for the source and destination virtual node and the route.
         public let perRequest: Duration?
 
         public init(idle: Duration? = nil, perRequest: Duration? = nil) {
@@ -2379,24 +2244,13 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
         ]
 
-        /// The maximum number of results returned by ListGatewayRoutes in paginated
-        ///          output. When you use this parameter, ListGatewayRoutes returns only
-        ///             limit results in a single page along with a nextToken response
-        ///          element. You can see the remaining results of the initial request by sending another
-        ///             ListGatewayRoutes request with the returned nextToken value.
-        ///          This value can be between 1 and 100. If you don't use this
-        ///          parameter, ListGatewayRoutes returns up to 100 results and a
-        ///             nextToken value if applicable.
+        /// The maximum number of results returned by ListGatewayRoutes in paginated output. When you use this parameter, ListGatewayRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListGatewayRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListGatewayRoutes returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list gateway routes in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
-        /// The nextToken value returned from a previous paginated
-        ///             ListGatewayRoutes request where limit was used and the results
-        ///          exceeded the value of that parameter. Pagination continues from the end of the previous
-        ///          results that returned the nextToken value.
+        /// The nextToken value returned from a previous paginated ListGatewayRoutes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
         /// The name of the virtual gateway to list gateway routes in.
         public let virtualGatewayName: String
@@ -2424,13 +2278,9 @@ extension AppMesh {
     }
 
     public struct ListGatewayRoutesOutput: AWSDecodableShape {
-        /// The list of existing gateway routes for the specified service mesh and virtual
-        ///          gateway.
+        /// The list of existing gateway routes for the specified service mesh and virtual gateway.
         public let gatewayRoutes: [GatewayRouteRef]
-        /// The nextToken value to include in a future ListGatewayRoutes
-        ///          request. When the results of a ListGatewayRoutes request exceed
-        ///             limit, you can use this value to retrieve the next page of results. This
-        ///          value is null when there are no more results to return.
+        /// The nextToken value to include in a future ListGatewayRoutes request. When the results of a ListGatewayRoutes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(gatewayRoutes: [GatewayRouteRef], nextToken: String? = nil) {
@@ -2450,23 +2300,9 @@ extension AppMesh {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results returned by ListMeshes in paginated output.
-        ///          When you use this parameter, ListMeshes returns only limit
-        ///          results in a single page along with a nextToken response element. You can see
-        ///          the remaining results of the initial request by sending another ListMeshes
-        ///          request with the returned nextToken value. This value can be between
-        ///          1 and 100. If you don't use this parameter,
-        ///             ListMeshes returns up to 100 results and a
-        ///             nextToken value if applicable.
+        /// The maximum number of results returned by ListMeshes in paginated output. When you use this parameter, ListMeshes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListMeshes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListMeshes returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
-        /// The nextToken value returned from a previous paginated
-        ///             ListMeshes request where limit was used and the results
-        ///          exceeded the value of that parameter. Pagination continues from the end of the previous
-        ///          results that returned the nextToken value.
-        ///
-        ///             This token should be treated as an opaque identifier that is used only to
-        ///                 retrieve the next items in a list and not for other programmatic purposes.
-        ///
+        /// The nextToken value returned from a previous paginated ListMeshes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
         public init(limit: Int? = nil, nextToken: String? = nil) {
@@ -2485,10 +2321,7 @@ extension AppMesh {
     public struct ListMeshesOutput: AWSDecodableShape {
         /// The list of existing service meshes.
         public let meshes: [MeshRef]
-        /// The nextToken value to include in a future ListMeshes request.
-        ///          When the results of a ListMeshes request exceed limit, you can
-        ///          use this value to retrieve the next page of results. This value is null when
-        ///          there are no more results to return.
+        /// The nextToken value to include in a future ListMeshes request. When the results of a ListMeshes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(meshes: [MeshRef], nextToken: String? = nil) {
@@ -2511,24 +2344,13 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
-        /// The maximum number of results returned by ListRoutes in paginated output.
-        ///          When you use this parameter, ListRoutes returns only limit
-        ///          results in a single page along with a nextToken response element. You can see
-        ///          the remaining results of the initial request by sending another ListRoutes
-        ///          request with the returned nextToken value. This value can be between
-        ///          1 and 100. If you don't use this parameter,
-        ///             ListRoutes returns up to 100 results and a
-        ///             nextToken value if applicable.
+        /// The maximum number of results returned by ListRoutes in paginated output. When you use this parameter, ListRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListRoutes returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list routes in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
-        /// The nextToken value returned from a previous paginated
-        ///             ListRoutes request where limit was used and the results
-        ///          exceeded the value of that parameter. Pagination continues from the end of the previous
-        ///          results that returned the nextToken value.
+        /// The nextToken value returned from a previous paginated ListRoutes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
         /// The name of the virtual router to list routes in.
         public let virtualRouterName: String
@@ -2556,10 +2378,7 @@ extension AppMesh {
     }
 
     public struct ListRoutesOutput: AWSDecodableShape {
-        /// The nextToken value to include in a future ListRoutes request.
-        ///          When the results of a ListRoutes request exceed limit, you can
-        ///          use this value to retrieve the next page of results. This value is null when
-        ///          there are no more results to return.
+        /// The nextToken value to include in a future ListRoutes request. When the results of a ListRoutes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of existing routes for the specified service mesh and virtual router.
         public let routes: [RouteRef]
@@ -2582,19 +2401,9 @@ extension AppMesh {
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
-        /// The maximum number of tag results returned by ListTagsForResource in
-        ///          paginated output. When this parameter is used, ListTagsForResource returns
-        ///          only limit results in a single page along with a nextToken
-        ///          response element. You can see the remaining results of the initial request by sending
-        ///          another ListTagsForResource request with the returned nextToken
-        ///          value. This value can be between 1 and 100. If you don't use
-        ///          this parameter, ListTagsForResource returns up to 100
-        ///          results and a nextToken value if applicable.
+        /// The maximum number of tag results returned by ListTagsForResource in paginated output. When this parameter is used, ListTagsForResource returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListTagsForResource request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListTagsForResource returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
-        /// The nextToken value returned from a previous paginated
-        ///             ListTagsForResource request where limit was used and the
-        ///          results exceeded the value of that parameter. Pagination continues from the end of the
-        ///          previous results that returned the nextToken value.
+        /// The nextToken value returned from a previous paginated ListTagsForResource request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for.
         public let resourceArn: String
@@ -2614,10 +2423,7 @@ extension AppMesh {
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
-        /// The nextToken value to include in a future ListTagsForResource
-        ///          request. When the results of a ListTagsForResource request exceed
-        ///             limit, you can use this value to retrieve the next page of results. This
-        ///          value is null when there are no more results to return.
+        /// The nextToken value to include in a future ListTagsForResource request. When the results of a ListTagsForResource request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The tags for the resource.
         public let tags: [TagRef]
@@ -2641,24 +2447,13 @@ extension AppMesh {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results returned by ListVirtualGateways in paginated
-        ///          output. When you use this parameter, ListVirtualGateways returns only
-        ///             limit results in a single page along with a nextToken response
-        ///          element. You can see the remaining results of the initial request by sending another
-        ///             ListVirtualGateways request with the returned nextToken value.
-        ///          This value can be between 1 and 100. If you don't use this
-        ///          parameter, ListVirtualGateways returns up to 100 results and
-        ///          a nextToken value if applicable.
+        /// The maximum number of results returned by ListVirtualGateways in paginated output. When you use this parameter, ListVirtualGateways returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualGateways request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualGateways returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list virtual gateways in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
-        /// The nextToken value returned from a previous paginated
-        ///             ListVirtualGateways request where limit was used and the
-        ///          results exceeded the value of that parameter. Pagination continues from the end of the
-        ///          previous results that returned the nextToken value.
+        /// The nextToken value returned from a previous paginated ListVirtualGateways request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
 
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
@@ -2681,10 +2476,7 @@ extension AppMesh {
     }
 
     public struct ListVirtualGatewaysOutput: AWSDecodableShape {
-        /// The nextToken value to include in a future ListVirtualGateways
-        ///          request. When the results of a ListVirtualGateways request exceed
-        ///             limit, you can use this value to retrieve the next page of results. This
-        ///          value is null when there are no more results to return.
+        /// The nextToken value to include in a future ListVirtualGateways request. When the results of a ListVirtualGateways request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of existing virtual gateways for the specified service mesh.
         public let virtualGateways: [VirtualGatewayRef]
@@ -2708,24 +2500,13 @@ extension AppMesh {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results returned by ListVirtualNodes in paginated
-        ///          output. When you use this parameter, ListVirtualNodes returns only
-        ///             limit results in a single page along with a nextToken response
-        ///          element. You can see the remaining results of the initial request by sending another
-        ///             ListVirtualNodes request with the returned nextToken value.
-        ///          This value can be between 1 and 100. If you don't use this
-        ///          parameter, ListVirtualNodes returns up to 100 results and a
-        ///             nextToken value if applicable.
+        /// The maximum number of results returned by ListVirtualNodes in paginated output. When you use this parameter, ListVirtualNodes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualNodes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualNodes returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list virtual nodes in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
-        /// The nextToken value returned from a previous paginated
-        ///             ListVirtualNodes request where limit was used and the results
-        ///          exceeded the value of that parameter. Pagination continues from the end of the previous
-        ///          results that returned the nextToken value.
+        /// The nextToken value returned from a previous paginated ListVirtualNodes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
 
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
@@ -2748,10 +2529,7 @@ extension AppMesh {
     }
 
     public struct ListVirtualNodesOutput: AWSDecodableShape {
-        /// The nextToken value to include in a future ListVirtualNodes
-        ///          request. When the results of a ListVirtualNodes request exceed
-        ///             limit, you can use this value to retrieve the next page of results. This
-        ///          value is null when there are no more results to return.
+        /// The nextToken value to include in a future ListVirtualNodes request. When the results of a ListVirtualNodes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of existing virtual nodes for the specified service mesh.
         public let virtualNodes: [VirtualNodeRef]
@@ -2775,24 +2553,13 @@ extension AppMesh {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results returned by ListVirtualRouters in paginated
-        ///          output. When you use this parameter, ListVirtualRouters returns only
-        ///             limit results in a single page along with a nextToken response
-        ///          element. You can see the remaining results of the initial request by sending another
-        ///             ListVirtualRouters request with the returned nextToken value.
-        ///          This value can be between 1 and 100. If you don't use this
-        ///          parameter, ListVirtualRouters returns up to 100 results and
-        ///          a nextToken value if applicable.
+        /// The maximum number of results returned by ListVirtualRouters in paginated output. When you use this parameter, ListVirtualRouters returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualRouters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualRouters returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list virtual routers in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
-        /// The nextToken value returned from a previous paginated
-        ///             ListVirtualRouters request where limit was used and the
-        ///          results exceeded the value of that parameter. Pagination continues from the end of the
-        ///          previous results that returned the nextToken value.
+        /// The nextToken value returned from a previous paginated ListVirtualRouters request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
 
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
@@ -2815,10 +2582,7 @@ extension AppMesh {
     }
 
     public struct ListVirtualRoutersOutput: AWSDecodableShape {
-        /// The nextToken value to include in a future ListVirtualRouters
-        ///          request. When the results of a ListVirtualRouters request exceed
-        ///             limit, you can use this value to retrieve the next page of results. This
-        ///          value is null when there are no more results to return.
+        /// The nextToken value to include in a future ListVirtualRouters request. When the results of a ListVirtualRouters request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of existing virtual routers for the specified service mesh.
         public let virtualRouters: [VirtualRouterRef]
@@ -2842,24 +2606,13 @@ extension AppMesh {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results returned by ListVirtualServices in paginated
-        ///          output. When you use this parameter, ListVirtualServices returns only
-        ///             limit results in a single page along with a nextToken response
-        ///          element. You can see the remaining results of the initial request by sending another
-        ///             ListVirtualServices request with the returned nextToken value.
-        ///          This value can be between 1 and 100. If you don't use this
-        ///          parameter, ListVirtualServices returns up to 100 results and
-        ///          a nextToken value if applicable.
+        /// The maximum number of results returned by ListVirtualServices in paginated output. When you use this parameter, ListVirtualServices returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualServices request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualServices returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
         /// The name of the service mesh to list virtual services in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
-        /// The nextToken value returned from a previous paginated
-        ///             ListVirtualServices request where limit was used and the
-        ///          results exceeded the value of that parameter. Pagination continues from the end of the
-        ///          previous results that returned the nextToken value.
+        /// The nextToken value returned from a previous paginated ListVirtualServices request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
 
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
@@ -2882,10 +2635,7 @@ extension AppMesh {
     }
 
     public struct ListVirtualServicesOutput: AWSDecodableShape {
-        /// The nextToken value to include in a future ListVirtualServices
-        ///          request. When the results of a ListVirtualServices request exceed
-        ///             limit, you can use this value to retrieve the next page of results. This
-        ///          value is null when there are no more results to return.
+        /// The nextToken value to include in a future ListVirtualServices request. When the results of a ListVirtualServices request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of existing virtual services for the specified service mesh.
         public let virtualServices: [VirtualServiceRef]
@@ -2902,8 +2652,12 @@ extension AppMesh {
     }
 
     public struct Listener: AWSEncodableShape & AWSDecodableShape {
+        /// The connection pool information for the listener.
+        public let connectionPool: VirtualNodeConnectionPool?
         /// The health check information for the listener.
         public let healthCheck: HealthCheckPolicy?
+        /// The outlier detection information for the listener.
+        public let outlierDetection: OutlierDetection?
         /// The port mapping information for the listener.
         public let portMapping: PortMapping
         /// An object that represents timeouts for different protocols.
@@ -2911,22 +2665,28 @@ extension AppMesh {
         /// A reference to an object that represents the Transport Layer Security (TLS) properties for a listener.
         public let tls: ListenerTls?
 
-        public init(healthCheck: HealthCheckPolicy? = nil, portMapping: PortMapping, timeout: ListenerTimeout? = nil, tls: ListenerTls? = nil) {
+        public init(connectionPool: VirtualNodeConnectionPool? = nil, healthCheck: HealthCheckPolicy? = nil, outlierDetection: OutlierDetection? = nil, portMapping: PortMapping, timeout: ListenerTimeout? = nil, tls: ListenerTls? = nil) {
+            self.connectionPool = connectionPool
             self.healthCheck = healthCheck
+            self.outlierDetection = outlierDetection
             self.portMapping = portMapping
             self.timeout = timeout
             self.tls = tls
         }
 
         public func validate(name: String) throws {
+            try self.connectionPool?.validate(name: "\(name).connectionPool")
             try self.healthCheck?.validate(name: "\(name).healthCheck")
+            try self.outlierDetection?.validate(name: "\(name).outlierDetection")
             try self.portMapping.validate(name: "\(name).portMapping")
             try self.timeout?.validate(name: "\(name).timeout")
             try self.tls?.validate(name: "\(name).tls")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionPool
             case healthCheck
+            case outlierDetection
             case portMapping
             case timeout
             case tls
@@ -2967,24 +2727,7 @@ extension AppMesh {
     public struct ListenerTls: AWSEncodableShape & AWSDecodableShape {
         /// A reference to an object that represents a listener's TLS certificate.
         public let certificate: ListenerTlsCertificate
-        /// Specify one of the following modes.
-        ///
-        ///
-        ///
-        ///                   STRICT – Listener only accepts connections with TLS
-        ///                enabled.
-        ///
-        ///
-        ///
-        ///                   PERMISSIVE – Listener accepts connections with or
-        ///                without TLS enabled.
-        ///
-        ///
-        ///
-        ///                   DISABLED – Listener only accepts connections without
-        ///                TLS.
-        ///
-        ///
+        /// Specify one of the following modes.    STRICT – Listener only accepts connections with TLS enabled.     PERMISSIVE – Listener accepts connections with or without TLS enabled.    DISABLED – Listener only accepts connections without TLS.
         public let mode: ListenerTlsMode
 
         public init(certificate: ListenerTlsCertificate, mode: ListenerTlsMode) {
@@ -3039,8 +2782,7 @@ extension AppMesh {
     public struct ListenerTlsFileCertificate: AWSEncodableShape & AWSDecodableShape {
         /// The certificate chain for the certificate.
         public let certificateChain: String
-        /// The private key for a certificate stored on the file system of the virtual node that the
-        ///          proxy is running on.
+        /// The private key for a certificate stored on the file system of the virtual node that the proxy is running on.
         public let privateKey: String
 
         public init(certificateChain: String, privateKey: String) {
@@ -3129,11 +2871,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -3185,6 +2925,39 @@ extension AppMesh {
         }
     }
 
+    public struct OutlierDetection: AWSEncodableShape & AWSDecodableShape {
+        /// The base amount of time for which a host is ejected.
+        public let baseEjectionDuration: Duration
+        /// The time interval between ejection sweep analysis.
+        public let interval: Duration
+        /// Maximum percentage of hosts in load balancing pool for upstream service that can be ejected. Will eject at least one host regardless of the value.
+        public let maxEjectionPercent: Int
+        /// Number of consecutive 5xx errors required for ejection.
+        public let maxServerErrors: Int64
+
+        public init(baseEjectionDuration: Duration, interval: Duration, maxEjectionPercent: Int, maxServerErrors: Int64) {
+            self.baseEjectionDuration = baseEjectionDuration
+            self.interval = interval
+            self.maxEjectionPercent = maxEjectionPercent
+            self.maxServerErrors = maxServerErrors
+        }
+
+        public func validate(name: String) throws {
+            try self.baseEjectionDuration.validate(name: "\(name).baseEjectionDuration")
+            try self.interval.validate(name: "\(name).interval")
+            try self.validate(self.maxEjectionPercent, name: "maxEjectionPercent", parent: name, max: 100)
+            try self.validate(self.maxEjectionPercent, name: "maxEjectionPercent", parent: name, min: 0)
+            try self.validate(self.maxServerErrors, name: "maxServerErrors", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseEjectionDuration
+            case interval
+            case maxEjectionPercent
+            case maxServerErrors
+        }
+    }
+
     public struct PortMapping: AWSEncodableShape & AWSDecodableShape {
         /// The port used for the port mapping.
         public let port: Int
@@ -3214,11 +2987,9 @@ extension AppMesh {
         public let createdAt: Date
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         public let lastUpdatedAt: Date
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The unique identifier for the resource.
         public let uid: String
@@ -3288,11 +3059,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The name of the route.
         public let routeName: String
@@ -3333,8 +3102,7 @@ extension AppMesh {
         public let http2Route: HttpRoute?
         /// An object that represents the specification of an HTTP route.
         public let httpRoute: HttpRoute?
-        /// The priority for the route. Routes are matched based on the specified value, where 0 is
-        ///          the highest priority.
+        /// The priority for the route. Routes are matched based on the specified value, where 0 is the highest priority.
         public let priority: Int?
         /// An object that represents the specification of a TCP route.
         public let tcpRoute: TcpRoute?
@@ -3400,14 +3168,12 @@ extension AppMesh {
     }
 
     public struct TagRef: AWSEncodableShape & AWSDecodableShape {
-        /// One part of a key-value pair that make up a tag. A key is a general label
-        ///          that acts like a category for more specific tag values.
+        /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
-        /// The optional part of a key-value pair that make up a tag. A value acts as a
-        ///          descriptor within a tag category (key).
-        public let value: String?
+        /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
+        public let value: String
 
-        public init(key: String, value: String? = nil) {
+        public init(key: String, value: String) {
             self.key = key
             self.value = value
         }
@@ -3432,9 +3198,7 @@ extension AppMesh {
 
         /// The Amazon Resource Name (ARN) of the resource to add tags to.
         public let resourceArn: String
-        /// The tags to add to the resource. A tag is an array of key-value pairs.
-        ///          Tag keys can have a maximum character length of 128 characters, and tag values can have
-        ///             a maximum length of 256 characters.
+        /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]
 
         public init(resourceArn: String, tags: [TagRef]) {
@@ -3503,6 +3267,7 @@ extension AppMesh {
     }
 
     public struct TcpTimeout: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents an idle timeout. An idle timeout bounds the amount of time that a connection may be idle. The default value is none.
         public let idle: Duration?
 
         public init(idle: Duration? = nil) {
@@ -3554,8 +3319,7 @@ extension AppMesh {
     }
 
     public struct TlsValidationContextFileTrust: AWSEncodableShape & AWSDecodableShape {
-        /// The certificate trust chain for a certificate stored on the file system of the virtual
-        ///          node that the proxy is running on.
+        /// The certificate trust chain for a certificate stored on the file system of the virtual node that the proxy is running on.
         public let certificateChain: String
 
         public init(certificateChain: String) {
@@ -3573,8 +3337,7 @@ extension AppMesh {
     }
 
     public struct TlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM)
-        ///          certificate.
+        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM) certificate.
         public let acm: TlsValidationContextAcmTrust?
         /// An object that represents a TLS validation context trust for a local file.
         public let file: TlsValidationContextFileTrust?
@@ -3636,15 +3399,13 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the gateway route to update.
         public let gatewayRouteName: String
         /// The name of the service mesh that the gateway route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The new gateway route specification to apply. This overwrites the existing data.
         public let spec: GatewayRouteSpec
@@ -3699,8 +3460,7 @@ extension AppMesh {
             AWSMemberEncoding(label: "meshName", location: .uri(locationName: "meshName"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh to update.
         public let meshName: String
@@ -3747,13 +3507,11 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh that the route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the route to update.
         public let routeName: String
@@ -3812,16 +3570,13 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualGatewayName", location: .uri(locationName: "virtualGatewayName"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh that the virtual gateway resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
-        /// The new virtual gateway specification to apply. This overwrites the existing
-        ///          data.
+        /// The new virtual gateway specification to apply. This overwrites the existing data.
         public let spec: VirtualGatewaySpec
         /// The name of the virtual gateway to update.
         public let virtualGatewayName: String
@@ -3873,13 +3628,11 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualNodeName", location: .uri(locationName: "virtualNodeName"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The new virtual node specification to apply. This overwrites the existing data.
         public let spec: VirtualNodeSpec
@@ -3933,13 +3686,11 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualRouterName", location: .uri(locationName: "virtualRouterName"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The new virtual router specification to apply. This overwrites the existing data.
         public let spec: VirtualRouterSpec
@@ -3993,16 +3744,13 @@ extension AppMesh {
             AWSMemberEncoding(label: "virtualServiceName", location: .uri(locationName: "virtualServiceName"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
         public let clientToken: String?
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
-        /// The new virtual service specification to apply. This overwrites the existing
-        ///          data.
+        /// The new virtual service specification to apply. This overwrites the existing data.
         public let spec: VirtualServiceSpec
         /// The name of the virtual service to update.
         public let virtualServiceName: String
@@ -4097,8 +3845,7 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayClientPolicyTls: AWSEncodableShape & AWSDecodableShape {
-        /// Whether the policy is enforced. The default is True, if a value isn't
-        ///          specified.
+        /// Whether the policy is enforced. The default is True, if a value isn't specified.
         public let enforce: Bool?
         /// One or more ports that the policy is enforced for.
         public let ports: [Int]?
@@ -4123,6 +3870,33 @@ extension AppMesh {
             case enforce
             case ports
             case validation
+        }
+    }
+
+    public struct VirtualGatewayConnectionPool: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents a type of connection pool.
+        public let grpc: VirtualGatewayGrpcConnectionPool?
+        /// An object that represents a type of connection pool.
+        public let http: VirtualGatewayHttpConnectionPool?
+        /// An object that represents a type of connection pool.
+        public let http2: VirtualGatewayHttp2ConnectionPool?
+
+        public init(grpc: VirtualGatewayGrpcConnectionPool? = nil, http: VirtualGatewayHttpConnectionPool? = nil, http2: VirtualGatewayHttp2ConnectionPool? = nil) {
+            self.grpc = grpc
+            self.http = http
+            self.http2 = http2
+        }
+
+        public func validate(name: String) throws {
+            try self.grpc?.validate(name: "\(name).grpc")
+            try self.http?.validate(name: "\(name).http")
+            try self.http2?.validate(name: "\(name).http2")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grpc
+            case http
+            case http2
         }
     }
 
@@ -4155,11 +3929,7 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayFileAccessLog: AWSEncodableShape & AWSDecodableShape {
-        /// The file path to write access logs to. You can use /dev/stdout to send
-        ///          access logs to standard out and configure your Envoy container to use a log driver, such as
-        ///             awslogs, to export the access logs to a log storage service such as Amazon
-        ///          CloudWatch Logs. You can also specify a path in the Envoy container's file system to write
-        ///          the files to disk.
+        /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk.
         public let path: String
 
         public init(path: String) {
@@ -4176,27 +3946,37 @@ extension AppMesh {
         }
     }
 
+    public struct VirtualGatewayGrpcConnectionPool: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
+        public let maxRequests: Int
+
+        public init(maxRequests: Int) {
+            self.maxRequests = maxRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxRequests, name: "maxRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRequests
+        }
+    }
+
     public struct VirtualGatewayHealthCheckPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The number of consecutive successful health checks that must occur before declaring the
-        ///          listener healthy.
+        /// The number of consecutive successful health checks that must occur before declaring the listener healthy.
         public let healthyThreshold: Int
         /// The time period in milliseconds between each health check execution.
         public let intervalMillis: Int64
-        /// The destination path for the health check request. This value is only used if the
-        ///          specified protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
+        /// The destination path for the health check request. This value is only used if the specified protocol is HTTP or HTTP/2. For any other protocol, this value is ignored.
         public let path: String?
-        /// The destination port for the health check request. This port must match the port defined
-        ///          in the PortMapping for the listener.
+        /// The destination port for the health check request. This port must match the port defined in the PortMapping for the listener.
         public let port: Int?
-        /// The protocol for the health check request. If you specify grpc, then your
-        ///          service must conform to the GRPC Health
-        ///             Checking Protocol.
+        /// The protocol for the health check request. If you specify grpc, then your service must conform to the GRPC Health Checking Protocol.
         public let `protocol`: VirtualGatewayPortProtocol
-        /// The amount of time to wait when receiving a response from the health check, in
-        ///          milliseconds.
+        /// The amount of time to wait when receiving a response from the health check, in milliseconds.
         public let timeoutMillis: Int64
-        /// The number of consecutive failed health checks that must occur before declaring a
-        ///          virtual gateway unhealthy.
+        /// The number of consecutive failed health checks that must occur before declaring a virtual gateway unhealthy.
         public let unhealthyThreshold: Int
 
         public init(healthyThreshold: Int, intervalMillis: Int64, path: String? = nil, port: Int? = nil, protocol: VirtualGatewayPortProtocol, timeoutMillis: Int64, unhealthyThreshold: Int) {
@@ -4233,7 +4013,48 @@ extension AppMesh {
         }
     }
 
+    public struct VirtualGatewayHttp2ConnectionPool: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
+        public let maxRequests: Int
+
+        public init(maxRequests: Int) {
+            self.maxRequests = maxRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxRequests, name: "maxRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRequests
+        }
+    }
+
+    public struct VirtualGatewayHttpConnectionPool: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
+        public let maxConnections: Int
+        /// Number of overflowing requests after max_connections Envoy will queue to upstream cluster.
+        public let maxPendingRequests: Int?
+
+        public init(maxConnections: Int, maxPendingRequests: Int? = nil) {
+            self.maxConnections = maxConnections
+            self.maxPendingRequests = maxPendingRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxConnections, name: "maxConnections", parent: name, min: 1)
+            try self.validate(self.maxPendingRequests, name: "maxPendingRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConnections
+            case maxPendingRequests
+        }
+    }
+
     public struct VirtualGatewayListener: AWSEncodableShape & AWSDecodableShape {
+        /// The connection pool information for the virtual gateway listener.
+        public let connectionPool: VirtualGatewayConnectionPool?
         /// The health check information for the listener.
         public let healthCheck: VirtualGatewayHealthCheckPolicy?
         /// The port mapping information for the listener.
@@ -4241,19 +4062,22 @@ extension AppMesh {
         /// A reference to an object that represents the Transport Layer Security (TLS) properties for the listener.
         public let tls: VirtualGatewayListenerTls?
 
-        public init(healthCheck: VirtualGatewayHealthCheckPolicy? = nil, portMapping: VirtualGatewayPortMapping, tls: VirtualGatewayListenerTls? = nil) {
+        public init(connectionPool: VirtualGatewayConnectionPool? = nil, healthCheck: VirtualGatewayHealthCheckPolicy? = nil, portMapping: VirtualGatewayPortMapping, tls: VirtualGatewayListenerTls? = nil) {
+            self.connectionPool = connectionPool
             self.healthCheck = healthCheck
             self.portMapping = portMapping
             self.tls = tls
         }
 
         public func validate(name: String) throws {
+            try self.connectionPool?.validate(name: "\(name).connectionPool")
             try self.healthCheck?.validate(name: "\(name).healthCheck")
             try self.portMapping.validate(name: "\(name).portMapping")
             try self.tls?.validate(name: "\(name).tls")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionPool
             case healthCheck
             case portMapping
             case tls
@@ -4263,24 +4087,7 @@ extension AppMesh {
     public struct VirtualGatewayListenerTls: AWSEncodableShape & AWSDecodableShape {
         /// An object that represents a Transport Layer Security (TLS) certificate.
         public let certificate: VirtualGatewayListenerTlsCertificate
-        /// Specify one of the following modes.
-        ///
-        ///
-        ///
-        ///                   STRICT – Listener only accepts connections with TLS
-        ///                enabled.
-        ///
-        ///
-        ///
-        ///                   PERMISSIVE – Listener accepts connections with or
-        ///                without TLS enabled.
-        ///
-        ///
-        ///
-        ///                   DISABLED – Listener only accepts connections without
-        ///                TLS.
-        ///
-        ///
+        /// Specify one of the following modes.    STRICT – Listener only accepts connections with TLS enabled.     PERMISSIVE – Listener accepts connections with or without TLS enabled.    DISABLED – Listener only accepts connections without TLS.
         public let mode: VirtualGatewayListenerTlsMode
 
         public init(certificate: VirtualGatewayListenerTlsCertificate, mode: VirtualGatewayListenerTlsMode) {
@@ -4335,8 +4142,7 @@ extension AppMesh {
     public struct VirtualGatewayListenerTlsFileCertificate: AWSEncodableShape & AWSDecodableShape {
         /// The certificate chain for the certificate.
         public let certificateChain: String
-        /// The private key for a certificate stored on the file system of the mesh endpoint that
-        ///          the proxy is running on.
+        /// The private key for a certificate stored on the file system of the mesh endpoint that the proxy is running on.
         public let privateKey: String
 
         public init(certificateChain: String, privateKey: String) {
@@ -4405,11 +4211,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the resource resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -4442,8 +4246,7 @@ extension AppMesh {
     public struct VirtualGatewaySpec: AWSEncodableShape & AWSDecodableShape {
         /// A reference to an object that represents the defaults for backends.
         public let backendDefaults: VirtualGatewayBackendDefaults?
-        /// The listeners that the mesh endpoint is expected to receive inbound traffic from. You
-        ///          can specify one listener.
+        /// The listeners that the mesh endpoint is expected to receive inbound traffic from. You can specify one listener.
         public let listeners: [VirtualGatewayListener]
         public let logging: VirtualGatewayLogging?
 
@@ -4519,8 +4322,7 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayTlsValidationContextFileTrust: AWSEncodableShape & AWSDecodableShape {
-        /// The certificate trust chain for a certificate stored on the file system of the virtual
-        ///          node that the proxy is running on.
+        /// The certificate trust chain for a certificate stored on the file system of the virtual node that the proxy is running on.
         public let certificateChain: String
 
         public init(certificateChain: String) {
@@ -4538,8 +4340,7 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM)
-        ///          certificate.
+        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM) certificate.
         public let acm: VirtualGatewayTlsValidationContextAcmTrust?
         /// An object that represents a TLS validation context trust for a local file.
         public let file: VirtualGatewayTlsValidationContextFileTrust?
@@ -4557,6 +4358,38 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case acm
             case file
+        }
+    }
+
+    public struct VirtualNodeConnectionPool: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents a type of connection pool.
+        public let grpc: VirtualNodeGrpcConnectionPool?
+        /// An object that represents a type of connection pool.
+        public let http: VirtualNodeHttpConnectionPool?
+        /// An object that represents a type of connection pool.
+        public let http2: VirtualNodeHttp2ConnectionPool?
+        /// An object that represents a type of connection pool.
+        public let tcp: VirtualNodeTcpConnectionPool?
+
+        public init(grpc: VirtualNodeGrpcConnectionPool? = nil, http: VirtualNodeHttpConnectionPool? = nil, http2: VirtualNodeHttp2ConnectionPool? = nil, tcp: VirtualNodeTcpConnectionPool? = nil) {
+            self.grpc = grpc
+            self.http = http
+            self.http2 = http2
+            self.tcp = tcp
+        }
+
+        public func validate(name: String) throws {
+            try self.grpc?.validate(name: "\(name).grpc")
+            try self.http?.validate(name: "\(name).http")
+            try self.http2?.validate(name: "\(name).http2")
+            try self.tcp?.validate(name: "\(name).tcp")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grpc
+            case http
+            case http2
+            case tcp
         }
     }
 
@@ -4589,6 +4422,62 @@ extension AppMesh {
         }
     }
 
+    public struct VirtualNodeGrpcConnectionPool: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
+        public let maxRequests: Int
+
+        public init(maxRequests: Int) {
+            self.maxRequests = maxRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxRequests, name: "maxRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRequests
+        }
+    }
+
+    public struct VirtualNodeHttp2ConnectionPool: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
+        public let maxRequests: Int
+
+        public init(maxRequests: Int) {
+            self.maxRequests = maxRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxRequests, name: "maxRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRequests
+        }
+    }
+
+    public struct VirtualNodeHttpConnectionPool: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
+        public let maxConnections: Int
+        /// Number of overflowing requests after max_connections Envoy will queue to upstream cluster.
+        public let maxPendingRequests: Int?
+
+        public init(maxConnections: Int, maxPendingRequests: Int? = nil) {
+            self.maxConnections = maxConnections
+            self.maxPendingRequests = maxPendingRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxConnections, name: "maxConnections", parent: name, min: 1)
+            try self.validate(self.maxPendingRequests, name: "maxPendingRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConnections
+            case maxPendingRequests
+        }
+    }
+
     public struct VirtualNodeRef: AWSDecodableShape {
         /// The full Amazon Resource Name (ARN) for the virtual node.
         public let arn: String
@@ -4598,11 +4487,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -4655,14 +4542,11 @@ extension AppMesh {
         public let backendDefaults: BackendDefaults?
         /// The backends that the virtual node is expected to send outbound traffic to.
         public let backends: [Backend]?
-        /// The listener that the virtual node is expected to receive inbound traffic from. You can
-        ///          specify one listener.
+        /// The listener that the virtual node is expected to receive inbound traffic from. You can specify one listener.
         public let listeners: [Listener]?
         /// The inbound and outbound access logging information for the virtual node.
         public let logging: Logging?
-        /// The service discovery information for the virtual node. If your virtual node does not
-        ///          expect ingress traffic, you can omit this parameter. If you specify a
-        ///          listener, then you must specify service discovery information.
+        /// The service discovery information for the virtual node. If your virtual node does not expect ingress traffic, you can omit this parameter. If you specify a listener, then you must specify service discovery information.
         public let serviceDiscovery: ServiceDiscovery?
 
         public init(backendDefaults: BackendDefaults? = nil, backends: [Backend]? = nil, listeners: [Listener]? = nil, logging: Logging? = nil, serviceDiscovery: ServiceDiscovery? = nil) {
@@ -4706,6 +4590,23 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case status
+        }
+    }
+
+    public struct VirtualNodeTcpConnectionPool: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
+        public let maxConnections: Int
+
+        public init(maxConnections: Int) {
+            self.maxConnections = maxConnections
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxConnections, name: "maxConnections", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConnections
         }
     }
 
@@ -4763,11 +4664,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -4816,8 +4715,7 @@ extension AppMesh {
     }
 
     public struct VirtualRouterSpec: AWSEncodableShape & AWSDecodableShape {
-        /// The listeners that the virtual router is expected to receive inbound traffic from. You
-        ///          can specify one listener.
+        /// The listeners that the virtual router is expected to receive inbound traffic from. You can specify one listener.
         public let listeners: [VirtualRouterListener]?
 
         public init(listeners: [VirtualRouterListener]? = nil) {
@@ -4930,11 +4828,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-        ///                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's
-        ///                the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -4965,8 +4861,7 @@ extension AppMesh {
     }
 
     public struct VirtualServiceSpec: AWSEncodableShape & AWSDecodableShape {
-        /// The App Mesh object that is acting as the provider for a virtual service. You can specify
-        ///          a single virtual node or virtual router.
+        /// The App Mesh object that is acting as the provider for a virtual service. You can specify a single virtual node or virtual router.
         public let provider: VirtualServiceProvider?
 
         public init(provider: VirtualServiceProvider? = nil) {

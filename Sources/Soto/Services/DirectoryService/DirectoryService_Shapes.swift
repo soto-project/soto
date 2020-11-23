@@ -114,6 +114,12 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
+    public enum RegionType: String, CustomStringConvertible, Codable {
+        case additional = "Additional"
+        case primary = "Primary"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReplicationScope: String, CustomStringConvertible, Codable {
         case domain = "Domain"
         public var description: String { return self.rawValue }
@@ -272,6 +278,37 @@ extension DirectoryService {
     }
 
     public struct AddIpRoutesResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AddRegionRequest: AWSEncodableShape {
+        /// The identifier of the directory to which you want to add Region replication.
+        public let directoryId: String
+        /// The name of the Region where you want to add domain controllers for replication. For example, us-east-1.
+        public let regionName: String
+        public let vPCSettings: DirectoryVpcSettings
+
+        public init(directoryId: String, regionName: String, vPCSettings: DirectoryVpcSettings) {
+            self.directoryId = directoryId
+            self.regionName = regionName
+            self.vPCSettings = vPCSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 8)
+            try self.vPCSettings.validate(name: "\(name).vPCSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case regionName = "RegionName"
+            case vPCSettings = "VPCSettings"
+        }
+    }
+
+    public struct AddRegionResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -484,7 +521,7 @@ extension DirectoryService {
             try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
             try self.validate(self.password, name: "password", parent: name, max: 128)
             try self.validate(self.password, name: "password", parent: name, min: 1)
-            try self.validate(self.shortName, name: "shortName", parent: name, pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+            try self.validate(self.shortName, name: "shortName", parent: name, pattern: "^[^\\\\/:*?\"<>|.]+[^\\\\/:*?\"<>|]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -649,7 +686,7 @@ extension DirectoryService {
         public let description: String?
         /// The fully qualified name for the directory, such as corp.example.com.
         public let name: String
-        /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call.
+        /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following conditions:   Length (?=^.{8,64}$) – Must be between 8 and 64 characters   AND any 3 of the following password complexity rules required by Active Directory:   Numbers and upper case and lowercase (?=.*\d)(?=.*[A-Z])(?=.*[a-z])   Numbers and special characters and lower case (?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])   Special characters and upper case and lower case (?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])   Numbers and upper case and special characters (?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s])   For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Microsoft website.
         public let password: String
         /// The NetBIOS name of the directory, such as CORP.
         public let shortName: String?
@@ -676,7 +713,7 @@ extension DirectoryService {
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
             try self.validate(self.password, name: "password", parent: name, pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
-            try self.validate(self.shortName, name: "shortName", parent: name, pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+            try self.validate(self.shortName, name: "shortName", parent: name, pattern: "^[^\\\\/:*?\"<>|.]+[^\\\\/:*?\"<>|]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -767,7 +804,7 @@ extension DirectoryService {
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
             try self.validate(self.password, name: "password", parent: name, pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
-            try self.validate(self.shortName, name: "shortName", parent: name, pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
+            try self.validate(self.shortName, name: "shortName", parent: name, pattern: "^[^\\\\/:*?\"<>|.]+[^\\\\/:*?\"<>|]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1345,6 +1382,50 @@ extension DirectoryService {
         }
     }
 
+    public struct DescribeRegionsRequest: AWSEncodableShape {
+        /// The identifier of the directory.
+        public let directoryId: String
+        /// The DescribeRegionsResult.NextToken value from a previous call to DescribeRegions. Pass null if this is the first call.
+        public let nextToken: String?
+        /// The name of the Region. For example, us-east-1.
+        public let regionName: String?
+
+        public init(directoryId: String, nextToken: String? = nil, regionName: String? = nil) {
+            self.directoryId = directoryId
+            self.nextToken = nextToken
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case nextToken = "NextToken"
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct DescribeRegionsResult: AWSDecodableShape {
+        /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeRegions to retrieve the next set of items.
+        public let nextToken: String?
+        /// List of regional information related to the directory per replicated Region.
+        public let regionsDescription: [RegionDescription]?
+
+        public init(nextToken: String? = nil, regionsDescription: [RegionDescription]? = nil) {
+            self.nextToken = nextToken
+            self.regionsDescription = regionsDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case regionsDescription = "RegionsDescription"
+        }
+    }
+
     public struct DescribeSharedDirectoriesRequest: AWSEncodableShape {
         /// The number of shared directories to return in the response object.
         public let limit: Int?
@@ -1592,6 +1673,8 @@ extension DirectoryService {
         public let radiusSettings: RadiusSettings?
         /// The status of the RADIUS MFA server connection.
         public let radiusStatus: RadiusStatus?
+        /// Lists the Regions where the directory has replicated.
+        public let regionsInfo: RegionsInfo?
         /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a shared directory request (HANDSHAKE).
         public let shareMethod: ShareMethod?
         /// A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
@@ -1615,7 +1698,7 @@ extension DirectoryService {
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
-        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: Date? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: Date? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
+        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: Date? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, regionsInfo: RegionsInfo? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: Date? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accessUrl = accessUrl
             self.alias = alias
             self.connectSettings = connectSettings
@@ -1629,6 +1712,7 @@ extension DirectoryService {
             self.ownerDirectoryDescription = ownerDirectoryDescription
             self.radiusSettings = radiusSettings
             self.radiusStatus = radiusStatus
+            self.regionsInfo = regionsInfo
             self.shareMethod = shareMethod
             self.shareNotes = shareNotes
             self.shareStatus = shareStatus
@@ -1656,6 +1740,7 @@ extension DirectoryService {
             case ownerDirectoryDescription = "OwnerDirectoryDescription"
             case radiusSettings = "RadiusSettings"
             case radiusStatus = "RadiusStatus"
+            case regionsInfo = "RegionsInfo"
             case shareMethod = "ShareMethod"
             case shareNotes = "ShareNotes"
             case shareStatus = "ShareStatus"
@@ -1715,7 +1800,7 @@ extension DirectoryService {
         }
     }
 
-    public struct DirectoryVpcSettings: AWSEncodableShape {
+    public struct DirectoryVpcSettings: AWSEncodableShape & AWSDecodableShape {
         /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
         public let subnetIds: [String]
         /// The identifier of the VPC in which to create the directory.
@@ -2409,7 +2494,7 @@ extension DirectoryService {
         public let radiusPort: Int?
         /// The maximum number of times that communication with the RADIUS server is attempted.
         public let radiusRetries: Int?
-        /// An array of strings that contains the IP addresses of the RADIUS server endpoints, or the IP addresses of your RADIUS server load balancer.
+        /// An array of strings that contains the fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RADIUS server load balancer.
         public let radiusServers: [String]?
         /// The amount of time, in seconds, to wait for the RADIUS server to respond.
         public let radiusTimeout: Int?
@@ -2455,6 +2540,67 @@ extension DirectoryService {
             case radiusTimeout = "RadiusTimeout"
             case sharedSecret = "SharedSecret"
             case useSameUsername = "UseSameUsername"
+        }
+    }
+
+    public struct RegionDescription: AWSDecodableShape {
+        /// The desired number of domain controllers in the specified Region for the specified directory.
+        public let desiredNumberOfDomainControllers: Int?
+        /// The identifier of the directory.
+        public let directoryId: String?
+        /// The date and time that the Region description was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// Specifies when the Region replication began.
+        public let launchTime: Date?
+        /// The name of the Region. For example, us-east-1.
+        public let regionName: String?
+        /// Specifies if the Region is the primary Region or an additional Region.
+        public let regionType: RegionType?
+        /// The status of the replication process for the specified Region.
+        public let status: DirectoryStage?
+        /// The date and time that the Region status was last updated.
+        public let statusLastUpdatedDateTime: Date?
+        public let vpcSettings: DirectoryVpcSettings?
+
+        public init(desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, lastUpdatedDateTime: Date? = nil, launchTime: Date? = nil, regionName: String? = nil, regionType: RegionType? = nil, status: DirectoryStage? = nil, statusLastUpdatedDateTime: Date? = nil, vpcSettings: DirectoryVpcSettings? = nil) {
+            self.desiredNumberOfDomainControllers = desiredNumberOfDomainControllers
+            self.directoryId = directoryId
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.launchTime = launchTime
+            self.regionName = regionName
+            self.regionType = regionType
+            self.status = status
+            self.statusLastUpdatedDateTime = statusLastUpdatedDateTime
+            self.vpcSettings = vpcSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredNumberOfDomainControllers = "DesiredNumberOfDomainControllers"
+            case directoryId = "DirectoryId"
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case launchTime = "LaunchTime"
+            case regionName = "RegionName"
+            case regionType = "RegionType"
+            case status = "Status"
+            case statusLastUpdatedDateTime = "StatusLastUpdatedDateTime"
+            case vpcSettings = "VpcSettings"
+        }
+    }
+
+    public struct RegionsInfo: AWSDecodableShape {
+        /// Lists the Regions where the directory has been replicated, excluding the primary Region.
+        public let additionalRegions: [String]?
+        /// The Region from where the AWS Managed Microsoft AD directory was originally created.
+        public let primaryRegion: String?
+
+        public init(additionalRegions: [String]? = nil, primaryRegion: String? = nil) {
+            self.additionalRegions = additionalRegions
+            self.primaryRegion = primaryRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalRegions = "AdditionalRegions"
+            case primaryRegion = "PrimaryRegion"
         }
     }
 
@@ -2577,6 +2723,27 @@ extension DirectoryService {
     }
 
     public struct RemoveIpRoutesResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct RemoveRegionRequest: AWSEncodableShape {
+        /// The identifier of the directory for which you want to remove Region replication.
+        public let directoryId: String
+
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct RemoveRegionResult: AWSDecodableShape {
         public init() {}
     }
 

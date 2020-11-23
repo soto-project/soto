@@ -592,6 +592,29 @@ extension FraudDetector {
         public init() {}
     }
 
+    public struct DeleteEntityTypeRequest: AWSEncodableShape {
+        /// The name of the entity type to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+        }
+    }
+
+    public struct DeleteEntityTypeResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteEventRequest: AWSEncodableShape {
         /// The ID of the event to delete.
         public let eventId: String
@@ -603,6 +626,15 @@ extension FraudDetector {
             self.eventTypeName = eventTypeName
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.eventId, name: "eventId", parent: name, max: 64)
+            try self.validate(self.eventId, name: "eventId", parent: name, min: 1)
+            try self.validate(self.eventId, name: "eventId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.validate(self.eventTypeName, name: "eventTypeName", parent: name, max: 64)
+            try self.validate(self.eventTypeName, name: "eventTypeName", parent: name, min: 1)
+            try self.validate(self.eventTypeName, name: "eventTypeName", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case eventId
             case eventTypeName
@@ -610,6 +642,159 @@ extension FraudDetector {
     }
 
     public struct DeleteEventResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteEventTypeRequest: AWSEncodableShape {
+        /// The name of the event type to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+        }
+    }
+
+    public struct DeleteEventTypeResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteExternalModelRequest: AWSEncodableShape {
+        /// The endpoint of the Amazon Sagemaker model to delete.
+        public let modelEndpoint: String
+
+        public init(modelEndpoint: String) {
+            self.modelEndpoint = modelEndpoint
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelEndpoint, name: "modelEndpoint", parent: name, max: 63)
+            try self.validate(self.modelEndpoint, name: "modelEndpoint", parent: name, min: 1)
+            try self.validate(self.modelEndpoint, name: "modelEndpoint", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelEndpoint
+        }
+    }
+
+    public struct DeleteExternalModelResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteLabelRequest: AWSEncodableShape {
+        /// The name of the label to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+        }
+    }
+
+    public struct DeleteLabelResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteModelRequest: AWSEncodableShape {
+        /// The model ID of the model to delete.
+        public let modelId: String
+        /// The model type of the model to delete.
+        public let modelType: ModelTypeEnum
+
+        public init(modelId: String, modelType: ModelTypeEnum) {
+            self.modelId = modelId
+            self.modelType = modelType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 64)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelId
+            case modelType
+        }
+    }
+
+    public struct DeleteModelResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteModelVersionRequest: AWSEncodableShape {
+        /// The model ID of the model version to delete.
+        public let modelId: String
+        /// The model type of the model version to delete.
+        public let modelType: ModelTypeEnum
+        /// The model version number of the model version to delete.
+        public let modelVersionNumber: String
+
+        public init(modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String) {
+            self.modelId = modelId
+            self.modelType = modelType
+            self.modelVersionNumber = modelVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 64)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[0-9a-z_]+$")
+            try self.validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, max: 7)
+            try self.validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, min: 3)
+            try self.validate(self.modelVersionNumber, name: "modelVersionNumber", parent: name, pattern: "^[1-9][0-9]{0,3}\\.[0-9]{1,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelId
+            case modelType
+            case modelVersionNumber
+        }
+    }
+
+    public struct DeleteModelVersionResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteOutcomeRequest: AWSEncodableShape {
+        /// The name of the outcome to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+        }
+    }
+
+    public struct DeleteOutcomeResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -630,6 +815,23 @@ extension FraudDetector {
     }
 
     public struct DeleteRuleResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteVariableRequest: AWSEncodableShape {
+        /// The name of the variable to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+        }
+    }
+
+    public struct DeleteVariableResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -1452,7 +1654,7 @@ extension FraudDetector {
         public let modelType: ModelTypeEnum?
         /// The model version number.
         public let modelVersionNumber: String?
-        /// The model version status.
+        /// The model version status. Possible values are:    TRAINING_IN_PROGRESS     TRAINING_COMPLETE     ACTIVATE_REQUESTED     ACTIVATE_IN_PROGRESS     ACTIVE     INACTIVATE_REQUESTED     INACTIVATE_IN_PROGRESS     INACTIVE     ERROR
         public let status: String?
         /// The training data schema.
         public let trainingDataSchema: TrainingDataSchema?
@@ -2255,7 +2457,7 @@ extension FraudDetector {
         public func validate(name: String) throws {
             try self.validate(self.kmsEncryptionKeyArn, name: "kmsEncryptionKeyArn", parent: name, max: 90)
             try self.validate(self.kmsEncryptionKeyArn, name: "kmsEncryptionKeyArn", parent: name, min: 7)
-            try self.validate(self.kmsEncryptionKeyArn, name: "kmsEncryptionKeyArn", parent: name, pattern: "^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}|DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\\d{12}:key\\/\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$")
+            try self.validate(self.kmsEncryptionKeyArn, name: "kmsEncryptionKeyArn", parent: name, pattern: "^DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\\d{12}:key\\/\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {

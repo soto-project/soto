@@ -32,6 +32,17 @@ extension XRay {
         public var description: String { return self.rawValue }
     }
 
+    public enum InsightCategory: String, CustomStringConvertible, Codable {
+        case fault = "FAULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case closed = "CLOSED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SamplingStrategyName: String, CustomStringConvertible, Codable {
         case fixedrate = "FixedRate"
         case partialscan = "PartialScan"
@@ -85,6 +96,18 @@ extension XRay {
             case booleanValue = "BooleanValue"
             case numberValue = "NumberValue"
             case stringValue = "StringValue"
+        }
+    }
+
+    public struct AnomalousService: AWSDecodableShape {
+        public let serviceId: ServiceId?
+
+        public init(serviceId: ServiceId? = nil) {
+            self.serviceId = serviceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceId = "ServiceId"
         }
     }
 
@@ -581,6 +604,23 @@ extension XRay {
         }
     }
 
+    public struct ForecastStatistics: AWSDecodableShape {
+        /// The upper limit of fault counts for a service.
+        public let faultCountHigh: Int64?
+        /// The lower limit of fault counts for a service.
+        public let faultCountLow: Int64?
+
+        public init(faultCountHigh: Int64? = nil, faultCountLow: Int64? = nil) {
+            self.faultCountHigh = faultCountHigh
+            self.faultCountLow = faultCountLow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faultCountHigh = "FaultCountHigh"
+            case faultCountLow = "FaultCountLow"
+        }
+    }
+
     public struct GetEncryptionConfigRequest: AWSEncodableShape {
         public init() {}
     }
@@ -666,6 +706,217 @@ extension XRay {
 
         private enum CodingKeys: String, CodingKey {
             case groups = "Groups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetInsightEventsRequest: AWSEncodableShape {
+        /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
+        public let insightId: String
+        /// Used to retrieve at most the specified value of events.
+        public let maxResults: Int?
+        /// Specify the pagination token returned by a previous request to retrieve the next page of events.
+        public let nextToken: String?
+
+        public init(insightId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.insightId = insightId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.insightId, name: "insightId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightId = "InsightId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetInsightEventsResult: AWSDecodableShape {
+        /// A detailed description of the event. This includes the time of the event, client and root cause impact statistics, and the top anomalous service at the time of the event.
+        public let insightEvents: [InsightEvent]?
+        /// Use this token to retrieve the next page of insight events.
+        public let nextToken: String?
+
+        public init(insightEvents: [InsightEvent]? = nil, nextToken: String? = nil) {
+            self.insightEvents = insightEvents
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightEvents = "InsightEvents"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetInsightImpactGraphRequest: AWSEncodableShape {
+        /// The estimated end time of the insight, in Unix time seconds. The EndTime is exclusive of the value provided. The time range between the start time and end time can't be more than six hours.
+        public let endTime: Date
+        /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
+        public let insightId: String
+        /// Specify the pagination token returned by a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// The estimated start time of the insight, in Unix time seconds. The StartTime is inclusive of the value provided and can't be more than 30 days old.
+        public let startTime: Date
+
+        public init(endTime: Date, insightId: String, nextToken: String? = nil, startTime: Date) {
+            self.endTime = endTime
+            self.insightId = insightId
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.insightId, name: "insightId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case insightId = "InsightId"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct GetInsightImpactGraphResult: AWSDecodableShape {
+        /// The provided end time.
+        public let endTime: Date?
+        /// The insight's unique identifier.
+        public let insightId: String?
+        /// Pagination token.
+        public let nextToken: String?
+        /// The time, in Unix seconds, at which the service graph ended.
+        public let serviceGraphEndTime: Date?
+        /// The time, in Unix seconds, at which the service graph started.
+        public let serviceGraphStartTime: Date?
+        /// The AWS instrumented services related to the insight.
+        public let services: [InsightImpactGraphService]?
+        /// The provided start time.
+        public let startTime: Date?
+
+        public init(endTime: Date? = nil, insightId: String? = nil, nextToken: String? = nil, serviceGraphEndTime: Date? = nil, serviceGraphStartTime: Date? = nil, services: [InsightImpactGraphService]? = nil, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.insightId = insightId
+            self.nextToken = nextToken
+            self.serviceGraphEndTime = serviceGraphEndTime
+            self.serviceGraphStartTime = serviceGraphStartTime
+            self.services = services
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case insightId = "InsightId"
+            case nextToken = "NextToken"
+            case serviceGraphEndTime = "ServiceGraphEndTime"
+            case serviceGraphStartTime = "ServiceGraphStartTime"
+            case services = "Services"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct GetInsightRequest: AWSEncodableShape {
+        /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
+        public let insightId: String
+
+        public init(insightId: String) {
+            self.insightId = insightId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.insightId, name: "insightId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightId = "InsightId"
+        }
+    }
+
+    public struct GetInsightResult: AWSDecodableShape {
+        /// The summary information of an insight.
+        public let insight: Insight?
+
+        public init(insight: Insight? = nil) {
+            self.insight = insight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insight = "Insight"
+        }
+    }
+
+    public struct GetInsightSummariesRequest: AWSEncodableShape {
+        /// The end of the time frame in which the insights ended. The end time can't be more than 30 days old.
+        public let endTime: Date
+        /// The Amazon Resource Name (ARN) of the group. Required if the GroupName isn't provided.
+        public let groupARN: String?
+        /// The name of the group. Required if the GroupARN isn't provided.
+        public let groupName: String?
+        /// The maximum number of results to display.
+        public let maxResults: Int?
+        /// Pagination token.
+        public let nextToken: String?
+        /// The beginning of the time frame in which the insights started. The start time can't be more than 30 days old.
+        public let startTime: Date
+        /// The list of insight states.
+        public let states: [InsightState]?
+
+        public init(endTime: Date, groupARN: String? = nil, groupName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date, states: [InsightState]? = nil) {
+            self.endTime = endTime
+            self.groupARN = groupARN
+            self.groupName = groupName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTime = startTime
+            self.states = states
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupARN, name: "groupARN", parent: name, max: 400)
+            try self.validate(self.groupARN, name: "groupARN", parent: name, min: 1)
+            try self.validate(self.groupName, name: "groupName", parent: name, max: 32)
+            try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.states, name: "states", parent: name, max: 1)
+            try self.validate(self.states, name: "states", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case groupARN = "GroupARN"
+            case groupName = "GroupName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+            case states = "States"
+        }
+    }
+
+    public struct GetInsightSummariesResult: AWSDecodableShape {
+        /// The summary of each insight within the group matching the provided filters. The summary contains the InsightID, start and end time, the root cause service, the root cause and client impact statistics, the top anomalous services, and the status of the insight.
+        public let insightSummaries: [InsightSummary]?
+        /// Pagination token.
+        public let nextToken: String?
+
+        public init(insightSummaries: [InsightSummary]? = nil, nextToken: String? = nil) {
+            self.insightSummaries = insightSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightSummaries = "InsightSummaries"
             case nextToken = "NextToken"
         }
     }
@@ -841,6 +1092,8 @@ extension XRay {
         public let endTime: Date
         /// A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned.
         public let entitySelectorExpression: String?
+        /// The forecasted high and low fault count values. Forecast enabled requests require the EntitySelectorExpression ID be provided.
+        public let forecastStatistics: Bool?
         /// The Amazon Resource Name (ARN) of the group for which to pull statistics from.
         public let groupARN: String?
         /// The case-sensitive name of the group for which to pull statistics from.
@@ -852,9 +1105,10 @@ extension XRay {
         /// The start of the time frame for which to aggregate statistics.
         public let startTime: Date
 
-        public init(endTime: Date, entitySelectorExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int? = nil, startTime: Date) {
+        public init(endTime: Date, entitySelectorExpression: String? = nil, forecastStatistics: Bool? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int? = nil, startTime: Date) {
             self.endTime = endTime
             self.entitySelectorExpression = entitySelectorExpression
+            self.forecastStatistics = forecastStatistics
             self.groupARN = groupARN
             self.groupName = groupName
             self.nextToken = nextToken
@@ -874,6 +1128,7 @@ extension XRay {
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case entitySelectorExpression = "EntitySelectorExpression"
+            case forecastStatistics = "ForecastStatistics"
             case groupARN = "GroupARN"
             case groupName = "GroupName"
             case nextToken = "NextToken"
@@ -1102,6 +1357,197 @@ extension XRay {
         }
     }
 
+    public struct Insight: AWSDecodableShape {
+        /// The categories that label and describe the type of insight.
+        public let categories: [InsightCategory]?
+        /// The impact statistics of the client side service. This includes the number of requests to the client service and whether the requests were faults or okay.
+        public let clientRequestImpactStatistics: RequestImpactStatistics?
+        /// The time, in Unix seconds, at which the insight ended.
+        public let endTime: Date?
+        /// The Amazon Resource Name (ARN) of the group that the insight belongs to.
+        public let groupARN: String?
+        /// The name of the group that the insight belongs to.
+        public let groupName: String?
+        /// The insights unique identifier.
+        public let insightId: String?
+        public let rootCauseServiceId: ServiceId?
+        /// The impact statistics of the root cause service. This includes the number of requests to the client service and whether the requests were faults or okay.
+        public let rootCauseServiceRequestImpactStatistics: RequestImpactStatistics?
+        /// The time, in Unix seconds, at which the insight began.
+        public let startTime: Date?
+        /// The current state of the insight.
+        public let state: InsightState?
+        /// A brief description of the insight.
+        public let summary: String?
+        /// The service within the insight that is most impacted by the incident.
+        public let topAnomalousServices: [AnomalousService]?
+
+        public init(categories: [InsightCategory]? = nil, clientRequestImpactStatistics: RequestImpactStatistics? = nil, endTime: Date? = nil, groupARN: String? = nil, groupName: String? = nil, insightId: String? = nil, rootCauseServiceId: ServiceId? = nil, rootCauseServiceRequestImpactStatistics: RequestImpactStatistics? = nil, startTime: Date? = nil, state: InsightState? = nil, summary: String? = nil, topAnomalousServices: [AnomalousService]? = nil) {
+            self.categories = categories
+            self.clientRequestImpactStatistics = clientRequestImpactStatistics
+            self.endTime = endTime
+            self.groupARN = groupARN
+            self.groupName = groupName
+            self.insightId = insightId
+            self.rootCauseServiceId = rootCauseServiceId
+            self.rootCauseServiceRequestImpactStatistics = rootCauseServiceRequestImpactStatistics
+            self.startTime = startTime
+            self.state = state
+            self.summary = summary
+            self.topAnomalousServices = topAnomalousServices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "Categories"
+            case clientRequestImpactStatistics = "ClientRequestImpactStatistics"
+            case endTime = "EndTime"
+            case groupARN = "GroupARN"
+            case groupName = "GroupName"
+            case insightId = "InsightId"
+            case rootCauseServiceId = "RootCauseServiceId"
+            case rootCauseServiceRequestImpactStatistics = "RootCauseServiceRequestImpactStatistics"
+            case startTime = "StartTime"
+            case state = "State"
+            case summary = "Summary"
+            case topAnomalousServices = "TopAnomalousServices"
+        }
+    }
+
+    public struct InsightEvent: AWSDecodableShape {
+        /// The impact statistics of the client side service. This includes the number of requests to the client service and whether the requests were faults or okay.
+        public let clientRequestImpactStatistics: RequestImpactStatistics?
+        /// The time, in Unix seconds, at which the event was recorded.
+        public let eventTime: Date?
+        /// The impact statistics of the root cause service. This includes the number of requests to the client service and whether the requests were faults or okay.
+        public let rootCauseServiceRequestImpactStatistics: RequestImpactStatistics?
+        /// A brief description of the event.
+        public let summary: String?
+        /// The service during the event that is most impacted by the incident.
+        public let topAnomalousServices: [AnomalousService]?
+
+        public init(clientRequestImpactStatistics: RequestImpactStatistics? = nil, eventTime: Date? = nil, rootCauseServiceRequestImpactStatistics: RequestImpactStatistics? = nil, summary: String? = nil, topAnomalousServices: [AnomalousService]? = nil) {
+            self.clientRequestImpactStatistics = clientRequestImpactStatistics
+            self.eventTime = eventTime
+            self.rootCauseServiceRequestImpactStatistics = rootCauseServiceRequestImpactStatistics
+            self.summary = summary
+            self.topAnomalousServices = topAnomalousServices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestImpactStatistics = "ClientRequestImpactStatistics"
+            case eventTime = "EventTime"
+            case rootCauseServiceRequestImpactStatistics = "RootCauseServiceRequestImpactStatistics"
+            case summary = "Summary"
+            case topAnomalousServices = "TopAnomalousServices"
+        }
+    }
+
+    public struct InsightImpactGraphEdge: AWSDecodableShape {
+        /// Identifier of the edge. Unique within a service map.
+        public let referenceId: Int?
+
+        public init(referenceId: Int? = nil) {
+            self.referenceId = referenceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceId = "ReferenceId"
+        }
+    }
+
+    public struct InsightImpactGraphService: AWSDecodableShape {
+        /// Identifier of the AWS account in which the service runs.
+        public let accountId: String?
+        /// Connections to downstream services.
+        public let edges: [InsightImpactGraphEdge]?
+        /// The canonical name of the service.
+        public let name: String?
+        /// A list of names for the service, including the canonical name.
+        public let names: [String]?
+        /// Identifier for the service. Unique within the service map.
+        public let referenceId: Int?
+        /// Identifier for the service. Unique within the service map.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for an application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.    AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    remote - A downstream service of indeterminate type.
+        public let type: String?
+
+        public init(accountId: String? = nil, edges: [InsightImpactGraphEdge]? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, type: String? = nil) {
+            self.accountId = accountId
+            self.edges = edges
+            self.name = name
+            self.names = names
+            self.referenceId = referenceId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case edges = "Edges"
+            case name = "Name"
+            case names = "Names"
+            case referenceId = "ReferenceId"
+            case type = "Type"
+        }
+    }
+
+    public struct InsightSummary: AWSDecodableShape {
+        ///  Categories The categories that label and describe the type of insight.
+        public let categories: [InsightCategory]?
+        /// The impact statistics of the client side service. This includes the number of requests to the client service and whether the requests were faults or okay.
+        public let clientRequestImpactStatistics: RequestImpactStatistics?
+        /// The time, in Unix seconds, at which the insight ended.
+        public let endTime: Date?
+        /// The Amazon Resource Name (ARN) of the group that the insight belongs to.
+        public let groupARN: String?
+        /// The name of the group that the insight belongs to.
+        public let groupName: String?
+        /// The insights unique identifier.
+        public let insightId: String?
+        /// The time, in Unix seconds, that the insight was last updated.
+        public let lastUpdateTime: Date?
+        public let rootCauseServiceId: ServiceId?
+        /// The impact statistics of the root cause service. This includes the number of requests to the client service and whether the requests were faults or okay.
+        public let rootCauseServiceRequestImpactStatistics: RequestImpactStatistics?
+        /// The time, in Unix seconds, at which the insight began.
+        public let startTime: Date?
+        /// The current state of the insight.
+        public let state: InsightState?
+        /// A brief description of the insight.
+        public let summary: String?
+        /// The service within the insight that is most impacted by the incident.
+        public let topAnomalousServices: [AnomalousService]?
+
+        public init(categories: [InsightCategory]? = nil, clientRequestImpactStatistics: RequestImpactStatistics? = nil, endTime: Date? = nil, groupARN: String? = nil, groupName: String? = nil, insightId: String? = nil, lastUpdateTime: Date? = nil, rootCauseServiceId: ServiceId? = nil, rootCauseServiceRequestImpactStatistics: RequestImpactStatistics? = nil, startTime: Date? = nil, state: InsightState? = nil, summary: String? = nil, topAnomalousServices: [AnomalousService]? = nil) {
+            self.categories = categories
+            self.clientRequestImpactStatistics = clientRequestImpactStatistics
+            self.endTime = endTime
+            self.groupARN = groupARN
+            self.groupName = groupName
+            self.insightId = insightId
+            self.lastUpdateTime = lastUpdateTime
+            self.rootCauseServiceId = rootCauseServiceId
+            self.rootCauseServiceRequestImpactStatistics = rootCauseServiceRequestImpactStatistics
+            self.startTime = startTime
+            self.state = state
+            self.summary = summary
+            self.topAnomalousServices = topAnomalousServices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "Categories"
+            case clientRequestImpactStatistics = "ClientRequestImpactStatistics"
+            case endTime = "EndTime"
+            case groupARN = "GroupARN"
+            case groupName = "GroupName"
+            case insightId = "InsightId"
+            case lastUpdateTime = "LastUpdateTime"
+            case rootCauseServiceId = "RootCauseServiceId"
+            case rootCauseServiceRequestImpactStatistics = "RootCauseServiceRequestImpactStatistics"
+            case startTime = "StartTime"
+            case state = "State"
+            case summary = "Summary"
+            case topAnomalousServices = "TopAnomalousServices"
+        }
+    }
+
     public struct InsightsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Set the InsightsEnabled value to true to enable insights or false to disable insights.
         public let insightsEnabled: Bool?
@@ -1260,6 +1706,27 @@ extension XRay {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedTraceSegments = "UnprocessedTraceSegments"
+        }
+    }
+
+    public struct RequestImpactStatistics: AWSDecodableShape {
+        /// The number of requests that have resulted in a fault,
+        public let faultCount: Int64?
+        /// The number of successful requests.
+        public let okCount: Int64?
+        /// The total number of requests to the service.
+        public let totalCount: Int64?
+
+        public init(faultCount: Int64? = nil, okCount: Int64? = nil, totalCount: Int64? = nil) {
+            self.faultCount = faultCount
+            self.okCount = okCount
+            self.totalCount = totalCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faultCount = "FaultCount"
+            case okCount = "OkCount"
+            case totalCount = "TotalCount"
         }
     }
 
@@ -1875,13 +2342,16 @@ extension XRay {
         public let edgeSummaryStatistics: EdgeStatistics?
         /// The response time histogram for the selected entities.
         public let responseTimeHistogram: [HistogramEntry]?
+        /// The forecasted high and low fault count values.
+        public let serviceForecastStatistics: ForecastStatistics?
         public let serviceSummaryStatistics: ServiceStatistics?
         /// Timestamp of the window for which statistics are aggregated.
         public let timestamp: Date?
 
-        public init(edgeSummaryStatistics: EdgeStatistics? = nil, responseTimeHistogram: [HistogramEntry]? = nil, serviceSummaryStatistics: ServiceStatistics? = nil, timestamp: Date? = nil) {
+        public init(edgeSummaryStatistics: EdgeStatistics? = nil, responseTimeHistogram: [HistogramEntry]? = nil, serviceForecastStatistics: ForecastStatistics? = nil, serviceSummaryStatistics: ServiceStatistics? = nil, timestamp: Date? = nil) {
             self.edgeSummaryStatistics = edgeSummaryStatistics
             self.responseTimeHistogram = responseTimeHistogram
+            self.serviceForecastStatistics = serviceForecastStatistics
             self.serviceSummaryStatistics = serviceSummaryStatistics
             self.timestamp = timestamp
         }
@@ -1889,6 +2359,7 @@ extension XRay {
         private enum CodingKeys: String, CodingKey {
             case edgeSummaryStatistics = "EdgeSummaryStatistics"
             case responseTimeHistogram = "ResponseTimeHistogram"
+            case serviceForecastStatistics = "ServiceForecastStatistics"
             case serviceSummaryStatistics = "ServiceSummaryStatistics"
             case timestamp = "Timestamp"
         }

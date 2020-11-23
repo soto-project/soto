@@ -451,7 +451,7 @@ extension DataSync {
         public let onPremConfig: OnPremConfig
         /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this host name to mount the NFS server in a network.  If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address.
         public let serverHostname: String
-        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server. run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
@@ -587,12 +587,12 @@ extension DataSync {
     }
 
     public struct CreateLocationS3Request: AWSEncodableShape {
-        /// If you are using DataSync on an AWS Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your AWS Outpost. For more information about launching a DataSync agent on an Amazon Outpost, see outposts-agent.
+        /// If you are using DataSync on an AWS Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about launching a DataSync agent on an AWS Outpost, see outposts-agent.
         public let agentArns: [String]?
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket. If the bucket is on an AWS Outpost, this must be an access point ARN.
+        /// The ARN of the Amazon S3 bucket. If the bucket is on an AWS Outpost, this must be an access point ARN.
         public let s3BucketArn: String
         public let s3Config: S3Config
-        /// The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For buckets in AWS Regions, the storage class defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3 Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes in the Amazon Simple Storage Service Developer Guide. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
+        /// The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For buckets in AWS Regions, the storage class defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3 Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
         public let s3StorageClass: S3StorageClass?
         /// A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is used to read data from the S3 source location or write data to the S3 destination.
         public let subdirectory: String?
@@ -733,7 +733,7 @@ extension DataSync {
         public let cloudWatchLogGroupArn: String?
         /// The Amazon Resource Name (ARN) of an AWS storage resource's location.
         public let destinationLocationArn: String
-        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2"
+        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
         public let excludes: [FilterRule]?
         /// The name of a task. This value is a text reference that is used to identify the task in the console.
         public let name: String?
@@ -1140,7 +1140,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationS3Response: AWSDecodableShape {
-        /// If you are using DataSync on an Amazon Outpost, the Amazon Resource Name (ARNs) of the EC2 agents deployed on your AWS Outpost. For more information about launching a DataSync agent on an Amazon Outpost, see outposts-agent.
+        /// If you are using DataSync on an AWS Outpost, the Amazon Resource Name (ARNs) of the EC2 agents deployed on your Outpost. For more information about launching a DataSync agent on an AWS Outpost, see outposts-agent.
         public let agentArns: [String]?
         /// The time that the Amazon S3 bucket location was created.
         public let creationTime: Date?
@@ -1149,7 +1149,7 @@ extension DataSync {
         /// The URL of the Amazon S3 location that was described.
         public let locationUri: String?
         public let s3Config: S3Config?
-        /// The Amazon S3 storage class that you chose to store your files in when this location is used as a task destination. For more information about S3 storage classes, see Amazon S3 Storage Classes in the Amazon Simple Storage Service Developer Guide. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
+        /// The Amazon S3 storage class that you chose to store your files in when this location is used as a task destination. For more information about S3 storage classes, see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
         public let s3StorageClass: S3StorageClass?
 
         public init(agentArns: [String]? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil, s3StorageClass: S3StorageClass? = nil) {
@@ -2001,11 +2001,11 @@ extension DataSync {
         public let totalDuration: Int64?
         /// The total time in milliseconds that AWS DataSync spent in the TRANSFERRING phase.
         public let transferDuration: Int64?
-        /// The status of the TRANSFERRING Phase.
+        /// The status of the TRANSFERRING phase.
         public let transferStatus: PhaseStatus?
         /// The total time in milliseconds that AWS DataSync spent in the VERIFYING phase.
         public let verifyDuration: Int64?
-        /// The status of the VERIFYING Phase.
+        /// The status of the VERIFYING phase.
         public let verifyStatus: PhaseStatus?
 
         public init(errorCode: String? = nil, errorDetail: String? = nil, prepareDuration: Int64? = nil, prepareStatus: PhaseStatus? = nil, totalDuration: Int64? = nil, transferDuration: Int64? = nil, transferStatus: PhaseStatus? = nil, verifyDuration: Int64? = nil, verifyStatus: PhaseStatus? = nil) {
@@ -2160,6 +2160,32 @@ extension DataSync {
     }
 
     public struct UpdateAgentResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateTaskExecutionRequest: AWSEncodableShape {
+        public let options: Options
+        /// The Amazon Resource Name (ARN) of the specific task execution that is being updated.
+        public let taskExecutionArn: String
+
+        public init(options: Options, taskExecutionArn: String) {
+            self.options = options
+            self.taskExecutionArn = taskExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.options.validate(name: "\(name).options")
+            try self.validate(self.taskExecutionArn, name: "taskExecutionArn", parent: name, max: 128)
+            try self.validate(self.taskExecutionArn, name: "taskExecutionArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case taskExecutionArn = "TaskExecutionArn"
+        }
+    }
+
+    public struct UpdateTaskExecutionResponse: AWSDecodableShape {
         public init() {}
     }
 

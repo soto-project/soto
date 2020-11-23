@@ -396,6 +396,8 @@ extension CodePipeline {
     }
 
     public struct ActionExecution: AWSDecodableShape {
+        /// ID of the workflow action execution in the current stage. Use the GetPipelineState action to retrieve the current action execution details of the current stage.  For older executions, this field might be empty. The action execution ID is available for executions run on or after March 2020.
+        public let actionExecutionId: String?
         /// The details of an error returned by a URL external to AWS.
         public let errorDetails: ErrorDetails?
         /// The external ID of the run of the action.
@@ -415,7 +417,8 @@ extension CodePipeline {
         /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState command. It is used to validate that the approval request corresponding to this token is still valid.
         public let token: String?
 
-        public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: Date? = nil, lastUpdatedBy: String? = nil, percentComplete: Int? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
+        public init(actionExecutionId: String? = nil, errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: Date? = nil, lastUpdatedBy: String? = nil, percentComplete: Int? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
+            self.actionExecutionId = actionExecutionId
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionUrl = externalExecutionUrl
@@ -428,6 +431,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionExecutionId
             case errorDetails
             case externalExecutionId
             case externalExecutionUrl
@@ -671,9 +675,9 @@ extension CodePipeline {
     }
 
     public struct ActionTypeId: AWSEncodableShape & AWSDecodableShape {
-        /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values.
+        /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values.    Source   Build   Test   Deploy   Invoke   Approval
         public let category: ActionCategory
-        /// The creator of the action being called.
+        /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see Valid Action Types and Providers in CodePipeline.
         public let owner: ActionOwner
         /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of AWS CodeDeploy, which would be specified as CodeDeploy. For more information, see Valid Action Types and Providers in CodePipeline.
         public let provider: String
@@ -925,7 +929,7 @@ extension CodePipeline {
     }
 
     public struct CreateCustomActionTypeInput: AWSEncodableShape {
-        /// The category of the custom action, such as a build action or a test action.  Although Source and Approval are listed as valid values, they are not currently functional. These values are reserved for future use.
+        /// The category of the custom action, such as a build action or a test action.
         public let category: ActionCategory
         /// The configuration properties for the custom action.  You can refer to a name in the configuration properties of the custom action within the URL templates by following the format of {Config:name}, as long as the configuration property is both required and not secret. For more information, see Create a Custom Action for a Pipeline.
         public let configurationProperties: [ActionConfigurationProperty]?
@@ -1250,7 +1254,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 400)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
 
@@ -2003,7 +2007,7 @@ extension CodePipeline {
         public let artifactStore: ArtifactStore?
         /// A mapping of artifactStore objects and their corresponding AWS Regions. There must be an artifact store for the pipeline Region and for each cross-region action in the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
         public let artifactStores: [String: ArtifactStore]?
-        /// The name of the action to be performed.
+        /// The name of the pipeline.
         public let name: String
         /// The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
         public let roleArn: String
@@ -2717,6 +2721,7 @@ extension CodePipeline {
     public struct StageState: AWSDecodableShape {
         /// The state of the stage.
         public let actionStates: [ActionState]?
+        public let inboundExecution: StageExecution?
         /// The state of the inbound transition, which is either enabled or disabled.
         public let inboundTransitionState: TransitionState?
         /// Information about the latest execution in the stage, including its ID and status.
@@ -2724,8 +2729,9 @@ extension CodePipeline {
         /// The name of the stage.
         public let stageName: String?
 
-        public init(actionStates: [ActionState]? = nil, inboundTransitionState: TransitionState? = nil, latestExecution: StageExecution? = nil, stageName: String? = nil) {
+        public init(actionStates: [ActionState]? = nil, inboundExecution: StageExecution? = nil, inboundTransitionState: TransitionState? = nil, latestExecution: StageExecution? = nil, stageName: String? = nil) {
             self.actionStates = actionStates
+            self.inboundExecution = inboundExecution
             self.inboundTransitionState = inboundTransitionState
             self.latestExecution = latestExecution
             self.stageName = stageName
@@ -2733,6 +2739,7 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case actionStates
+            case inboundExecution
             case inboundTransitionState
             case latestExecution
             case stageName

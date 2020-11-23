@@ -19,6 +19,57 @@ import SotoCore
 // MARK: Paginators
 
 extension Neptune {
+    ///  Returns information about endpoints for an Amazon Neptune DB cluster.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDBClusterEndpointsPaginator<Result>(
+        _ input: DescribeDBClusterEndpointsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DBClusterEndpointMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeDBClusterEndpoints,
+            tokenKey: \DBClusterEndpointMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDBClusterEndpointsPaginator(
+        _ input: DescribeDBClusterEndpointsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DBClusterEndpointMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeDBClusterEndpoints,
+            tokenKey: \DBClusterEndpointMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of the available DB engines.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -475,6 +526,18 @@ extension Neptune {
             tokenKey: \OrderableDBInstanceOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension Neptune.DescribeDBClusterEndpointsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterEndpointsMessage {
+        return .init(
+            dBClusterEndpointIdentifier: self.dBClusterEndpointIdentifier,
+            dBClusterIdentifier: self.dBClusterIdentifier,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }

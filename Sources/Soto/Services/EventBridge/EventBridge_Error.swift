@@ -20,6 +20,7 @@ import SotoCore
 public struct EventBridgeErrorType: AWSErrorType {
     enum Code: String {
         case concurrentModificationException = "ConcurrentModificationException"
+        case illegalStatusException = "IllegalStatusException"
         case internalException = "InternalException"
         case invalidEventPatternException = "InvalidEventPatternException"
         case invalidStateException = "InvalidStateException"
@@ -49,15 +50,17 @@ public struct EventBridgeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// There is concurrent modification on a rule or target.
+    /// There is concurrent modification on a rule, target, archive, or replay.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// An error occurred because a replay can be canceled only when the state is Running or Starting.
+    public static var illegalStatusException: Self { .init(.illegalStatusException) }
     /// This exception occurs due to unexpected causes.
     public static var internalException: Self { .init(.internalException) }
     /// The event pattern is not valid.
     public static var invalidEventPatternException: Self { .init(.invalidEventPatternException) }
     /// The specified state is not a valid state for an event source.
     public static var invalidStateException: Self { .init(.invalidStateException) }
-    /// You tried to create more rules or add more targets to a rule than is allowed.
+    /// The request failed because it attempted to create resource beyond the allowed service quota.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// This rule was created by an AWS service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     public static var managedRuleException: Self { .init(.managedRuleException) }

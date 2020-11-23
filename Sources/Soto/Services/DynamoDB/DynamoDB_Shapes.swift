@@ -99,6 +99,19 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportFormat: String, CustomStringConvertible, Codable {
+        case dynamodbJson = "DYNAMODB_JSON"
+        case ion = "ION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GlobalTableStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -139,6 +152,7 @@ extension DynamoDB {
         case creating = "CREATING"
         case creationFailed = "CREATION_FAILED"
         case deleting = "DELETING"
+        case inaccessibleEncryptionCredentials = "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
         case regionDisabled = "REGION_DISABLED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -169,6 +183,12 @@ extension DynamoDB {
     public enum ReturnValuesOnConditionCheckFailure: String, CustomStringConvertible, Codable {
         case allOld = "ALL_OLD"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3SseAlgorithm: String, CustomStringConvertible, Codable {
+        case aes256 = "AES256"
+        case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
@@ -1657,6 +1677,37 @@ extension DynamoDB {
         }
     }
 
+    public struct DescribeExportInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) associated with the export.
+        public let exportArn: String
+
+        public init(exportArn: String) {
+            self.exportArn = exportArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exportArn, name: "exportArn", parent: name, max: 1024)
+            try self.validate(self.exportArn, name: "exportArn", parent: name, min: 37)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportArn = "ExportArn"
+        }
+    }
+
+    public struct DescribeExportOutput: AWSDecodableShape {
+        /// Represents the properties of the export.
+        public let exportDescription: ExportDescription?
+
+        public init(exportDescription: ExportDescription? = nil) {
+            self.exportDescription = exportDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportDescription = "ExportDescription"
+        }
+    }
+
     public struct DescribeGlobalTableInput: AWSEncodableShape {
         /// The name of the global table.
         public let globalTableName: String
@@ -1895,6 +1946,171 @@ extension DynamoDB {
             case comparisonOperator = "ComparisonOperator"
             case exists = "Exists"
             case value = "Value"
+        }
+    }
+
+    public struct ExportDescription: AWSDecodableShape {
+        /// The billable size of the table export.
+        public let billedSizeBytes: Int64?
+        /// The client token that was provided for the export task. A client token makes calls to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call.
+        public let clientToken: String?
+        /// The time at which the export task completed.
+        public let endTime: Date?
+        /// The Amazon Resource Name (ARN) of the table export.
+        public let exportArn: String?
+        /// The format of the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
+        public let exportFormat: ExportFormat?
+        /// The name of the manifest file for the export task.
+        public let exportManifest: String?
+        /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or FAILED.
+        public let exportStatus: ExportStatus?
+        /// Point in time from which table data was exported.
+        public let exportTime: Date?
+        /// Status code for the result of the failed export.
+        public let failureCode: String?
+        /// Export failure reason description.
+        public let failureMessage: String?
+        /// The number of items exported.
+        public let itemCount: Int64?
+        /// The name of the Amazon S3 bucket containing the export.
+        public let s3Bucket: String?
+        /// The ID of the AWS account that owns the bucket containing the export.
+        public let s3BucketOwner: String?
+        /// The Amazon S3 bucket prefix used as the file name and path of the exported snapshot.
+        public let s3Prefix: String?
+        /// Type of encryption used on the bucket where export data is stored. Valid values for S3SseAlgorithm are:    AES256 - server-side encryption with Amazon S3 managed keys    KMS - server-side encryption with AWS KMS managed keys
+        public let s3SseAlgorithm: S3SseAlgorithm?
+        /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where export data is stored (if applicable).
+        public let s3SseKmsKeyId: String?
+        /// The time at which the export task began.
+        public let startTime: Date?
+        /// The Amazon Resource Name (ARN) of the table that was exported.
+        public let tableArn: String?
+        /// Unique ID of the table that was exported.
+        public let tableId: String?
+
+        public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
+            self.billedSizeBytes = billedSizeBytes
+            self.clientToken = clientToken
+            self.endTime = endTime
+            self.exportArn = exportArn
+            self.exportFormat = exportFormat
+            self.exportManifest = exportManifest
+            self.exportStatus = exportStatus
+            self.exportTime = exportTime
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.itemCount = itemCount
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Prefix = s3Prefix
+            self.s3SseAlgorithm = s3SseAlgorithm
+            self.s3SseKmsKeyId = s3SseKmsKeyId
+            self.startTime = startTime
+            self.tableArn = tableArn
+            self.tableId = tableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billedSizeBytes = "BilledSizeBytes"
+            case clientToken = "ClientToken"
+            case endTime = "EndTime"
+            case exportArn = "ExportArn"
+            case exportFormat = "ExportFormat"
+            case exportManifest = "ExportManifest"
+            case exportStatus = "ExportStatus"
+            case exportTime = "ExportTime"
+            case failureCode = "FailureCode"
+            case failureMessage = "FailureMessage"
+            case itemCount = "ItemCount"
+            case s3Bucket = "S3Bucket"
+            case s3BucketOwner = "S3BucketOwner"
+            case s3Prefix = "S3Prefix"
+            case s3SseAlgorithm = "S3SseAlgorithm"
+            case s3SseKmsKeyId = "S3SseKmsKeyId"
+            case startTime = "StartTime"
+            case tableArn = "TableArn"
+            case tableId = "TableId"
+        }
+    }
+
+    public struct ExportSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the export.
+        public let exportArn: String?
+        /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or FAILED.
+        public let exportStatus: ExportStatus?
+
+        public init(exportArn: String? = nil, exportStatus: ExportStatus? = nil) {
+            self.exportArn = exportArn
+            self.exportStatus = exportStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportArn = "ExportArn"
+            case exportStatus = "ExportStatus"
+        }
+    }
+
+    public struct ExportTableToPointInTimeInput: AWSEncodableShape {
+        /// Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
+        public let clientToken: String?
+        /// The format for the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
+        public let exportFormat: ExportFormat?
+        /// Time in the past from which to export table data. The table export will be a snapshot of the table's state at this point in time.
+        public let exportTime: Date?
+        /// The name of the Amazon S3 bucket to export the snapshot to.
+        public let s3Bucket: String
+        /// The ID of the AWS account that owns the bucket the export will be stored in.
+        public let s3BucketOwner: String?
+        /// The Amazon S3 bucket prefix to use as the file name and path of the exported snapshot.
+        public let s3Prefix: String?
+        /// Type of encryption used on the bucket where export data will be stored. Valid values for S3SseAlgorithm are:    AES256 - server-side encryption with Amazon S3 managed keys    KMS - server-side encryption with AWS KMS managed keys
+        public let s3SseAlgorithm: S3SseAlgorithm?
+        /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where export data will be stored (if applicable).
+        public let s3SseKmsKeyId: String?
+        /// The Amazon Resource Name (ARN) associated with the table to export.
+        public let tableArn: String
+
+        public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
+            self.clientToken = clientToken
+            self.exportFormat = exportFormat
+            self.exportTime = exportTime
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Prefix = s3Prefix
+            self.s3SseAlgorithm = s3SseAlgorithm
+            self.s3SseKmsKeyId = s3SseKmsKeyId
+            self.tableArn = tableArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3SseKmsKeyId, name: "s3SseKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.s3SseKmsKeyId, name: "s3SseKmsKeyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case exportFormat = "ExportFormat"
+            case exportTime = "ExportTime"
+            case s3Bucket = "S3Bucket"
+            case s3BucketOwner = "S3BucketOwner"
+            case s3Prefix = "S3Prefix"
+            case s3SseAlgorithm = "S3SseAlgorithm"
+            case s3SseKmsKeyId = "S3SseKmsKeyId"
+            case tableArn = "TableArn"
+        }
+    }
+
+    public struct ExportTableToPointInTimeOutput: AWSDecodableShape {
+        /// Contains a description of the table export.
+        public let exportDescription: ExportDescription?
+
+        public init(exportDescription: ExportDescription? = nil) {
+            self.exportDescription = exportDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportDescription = "ExportDescription"
         }
     }
 
@@ -2450,6 +2666,49 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case contributorInsightsSummaries = "ContributorInsightsSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExportsInput: AWSEncodableShape {
+        /// Maximum number of results to return per page.
+        public let maxResults: Int?
+        /// An optional string that, if supplied, must be copied from the output of a previous call to ListExports. When provided in this manner, the API fetches the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) associated with the exported table.
+        public let tableArn: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, tableArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tableArn = tableArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tableArn = "TableArn"
+        }
+    }
+
+    public struct ListExportsOutput: AWSDecodableShape {
+        /// A list of ExportSummary objects.
+        public let exportSummaries: [ExportSummary]?
+        /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListExports again, with NextToken set to this value.
+        public let nextToken: String?
+
+        public init(exportSummaries: [ExportSummary]? = nil, nextToken: String? = nil) {
+            self.exportSummaries = exportSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportSummaries = "ExportSummaries"
             case nextToken = "NextToken"
         }
     }
@@ -3168,7 +3427,7 @@ extension DynamoDB {
         public let regionName: String?
         /// The time at which the replica was first detected as inaccessible. To determine cause of inaccessibility check the ReplicaStatus property.
         public let replicaInaccessibleDateTime: Date?
-        /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.    REGION_DISABLED - The replica is inaccessible because the AWS Region has been disabled.  If the AWS Region remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.
+        /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.    REGION_DISABLED - The replica is inaccessible because the AWS Region has been disabled.  If the AWS Region remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.     INACCESSIBLE_ENCRYPTION_CREDENTIALS  - The AWS KMS key used to encrypt the table is inaccessible.  If the AWS KMS key remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.
         public let replicaStatus: ReplicaStatus?
         /// Detailed information about the replica status.
         public let replicaStatusDescription: String?

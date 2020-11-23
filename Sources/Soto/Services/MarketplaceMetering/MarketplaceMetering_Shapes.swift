@@ -43,6 +43,7 @@ extension MarketplaceMetering {
         public func validate(name: String) throws {
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
+            try self.validate(self.productCode, name: "productCode", parent: name, pattern: "[\\s\\S]+")
             try self.usageRecords.forEach {
                 try $0.validate(name: "\(name).usageRecords[]")
             }
@@ -80,15 +81,18 @@ extension MarketplaceMetering {
         public let productCode: String
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: Date
+        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the UsageQuantity of the MeterUsage request, and each UsageAllocation must have a unique set of tags (include no tags).
+        public let usageAllocations: [UsageAllocation]?
         /// It will be one of the fcp dimension name provided during the publishing of the product.
         public let usageDimension: String
         /// Consumption value for the hour. Defaults to 0 if not specified.
         public let usageQuantity: Int?
 
-        public init(dryRun: Bool? = nil, productCode: String, timestamp: Date, usageDimension: String, usageQuantity: Int? = nil) {
+        public init(dryRun: Bool? = nil, productCode: String, timestamp: Date, usageAllocations: [UsageAllocation]? = nil, usageDimension: String, usageQuantity: Int? = nil) {
             self.dryRun = dryRun
             self.productCode = productCode
             self.timestamp = timestamp
+            self.usageAllocations = usageAllocations
             self.usageDimension = usageDimension
             self.usageQuantity = usageQuantity
         }
@@ -96,8 +100,15 @@ extension MarketplaceMetering {
         public func validate(name: String) throws {
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
+            try self.validate(self.productCode, name: "productCode", parent: name, pattern: "[\\s\\S]+")
+            try self.usageAllocations?.forEach {
+                try $0.validate(name: "\(name).usageAllocations[]")
+            }
+            try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, max: 500)
+            try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, min: 1)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, max: 255)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, min: 1)
+            try self.validate(self.usageDimension, name: "usageDimension", parent: name, pattern: "[\\s\\S]+")
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, max: 2_147_483_647)
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, min: 0)
         }
@@ -106,6 +117,7 @@ extension MarketplaceMetering {
             case dryRun = "DryRun"
             case productCode = "ProductCode"
             case timestamp = "Timestamp"
+            case usageAllocations = "UsageAllocations"
             case usageDimension = "UsageDimension"
             case usageQuantity = "UsageQuantity"
         }
@@ -140,8 +152,10 @@ extension MarketplaceMetering {
 
         public func validate(name: String) throws {
             try self.validate(self.nonce, name: "nonce", parent: name, max: 255)
+            try self.validate(self.nonce, name: "nonce", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
+            try self.validate(self.productCode, name: "productCode", parent: name, pattern: "[\\s\\S]+")
             try self.validate(self.publicKeyVersion, name: "publicKeyVersion", parent: name, min: 1)
         }
 
@@ -178,7 +192,7 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.registrationToken, name: "registrationToken", parent: name, pattern: "\\S+")
+            try self.validate(self.registrationToken, name: "registrationToken", parent: name, pattern: "[\\s\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -203,6 +217,59 @@ extension MarketplaceMetering {
         }
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// One part of a key-value pair that makes up a tag. A key is a label that acts like a category for the specific tag values.
+        public let key: String
+        /// One part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 100)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9+ -=._:\\/@]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9+ -=._:\\/@]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct UsageAllocation: AWSEncodableShape & AWSDecodableShape {
+        /// The total quantity allocated to this bucket of usage.
+        public let allocatedUsageQuantity: Int
+        /// The set of tags that define the bucket of usage. For the bucket of items with no tags, this parameter can be left out.
+        public let tags: [Tag]?
+
+        public init(allocatedUsageQuantity: Int, tags: [Tag]? = nil) {
+            self.allocatedUsageQuantity = allocatedUsageQuantity
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, max: 2_147_483_647)
+            try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, min: 0)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 5)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedUsageQuantity = "AllocatedUsageQuantity"
+            case tags = "Tags"
+        }
+    }
+
     public struct UsageRecord: AWSEncodableShape & AWSDecodableShape {
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String
@@ -212,21 +279,31 @@ extension MarketplaceMetering {
         public let quantity: Int?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: Date
+        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.
+        public let usageAllocations: [UsageAllocation]?
 
-        public init(customerIdentifier: String, dimension: String, quantity: Int? = nil, timestamp: Date) {
+        public init(customerIdentifier: String, dimension: String, quantity: Int? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.quantity = quantity
             self.timestamp = timestamp
+            self.usageAllocations = usageAllocations
         }
 
         public func validate(name: String) throws {
             try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, max: 255)
             try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, min: 1)
+            try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, pattern: "[\\s\\S]+")
             try self.validate(self.dimension, name: "dimension", parent: name, max: 255)
             try self.validate(self.dimension, name: "dimension", parent: name, min: 1)
+            try self.validate(self.dimension, name: "dimension", parent: name, pattern: "[\\s\\S]+")
             try self.validate(self.quantity, name: "quantity", parent: name, max: 2_147_483_647)
             try self.validate(self.quantity, name: "quantity", parent: name, min: 0)
+            try self.usageAllocations?.forEach {
+                try $0.validate(name: "\(name).usageAllocations[]")
+            }
+            try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, max: 500)
+            try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -234,6 +311,7 @@ extension MarketplaceMetering {
             case dimension = "Dimension"
             case quantity = "Quantity"
             case timestamp = "Timestamp"
+            case usageAllocations = "UsageAllocations"
         }
     }
 

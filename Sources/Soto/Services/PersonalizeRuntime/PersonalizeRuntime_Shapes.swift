@@ -27,17 +27,20 @@ extension PersonalizeRuntime {
         public let campaignArn: String
         /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type.
         public let context: [String: String]?
-        /// The Amazon Resource Name (ARN) of a filter you created to include or exclude items from recommendations for a given user.
+        /// The Amazon Resource Name (ARN) of a filter you created to include items or exclude items from recommendations for a given user. For more information, see Filtering Recommendations.
         public let filterArn: String?
+        /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.  For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values.In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering Recommendations.
+        public let filterValues: [String: String]?
         /// A list of items (by itemId) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. The maximum is 500.
         public let inputList: [String]
         /// The user for which you want the campaign to provide a personalized ranking.
         public let userId: String
 
-        public init(campaignArn: String, context: [String: String]? = nil, filterArn: String? = nil, inputList: [String], userId: String) {
+        public init(campaignArn: String, context: [String: String]? = nil, filterArn: String? = nil, filterValues: [String: String]? = nil, inputList: [String], userId: String) {
             self.campaignArn = campaignArn
             self.context = context
             self.filterArn = filterArn
+            self.filterValues = filterValues
             self.inputList = inputList
             self.userId = userId
         }
@@ -52,6 +55,11 @@ extension PersonalizeRuntime {
             }
             try self.validate(self.filterArn, name: "filterArn", parent: name, max: 256)
             try self.validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.filterValues?.forEach {
+                try validate($0.key, name: "filterValues.key", parent: name, max: 50)
+                try validate($0.key, name: "filterValues.key", parent: name, pattern: "[A-Za-z0-9]+")
+                try validate($0.value, name: "filterValues[\"\($0.key)\"]", parent: name, max: 1000)
+            }
             try self.inputList.forEach {
                 try validate($0, name: "inputList[]", parent: name, max: 256)
             }
@@ -62,6 +70,7 @@ extension PersonalizeRuntime {
             case campaignArn
             case context
             case filterArn
+            case filterValues
             case inputList
             case userId
         }
@@ -89,8 +98,10 @@ extension PersonalizeRuntime {
         public let campaignArn: String
         /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type.
         public let context: [String: String]?
-        /// The ARN of the filter to apply to the returned recommendations. For more information, see Using Filters with Amazon Personalize. When using this parameter, be sure the filter resource is ACTIVE.
+        /// The ARN of the filter to apply to the returned recommendations. For more information, see Filtering Recommendations. When using this parameter, be sure the filter resource is ACTIVE.
         public let filterArn: String?
+        /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.  For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values.In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering Recommendations.
+        public let filterValues: [String: String]?
         /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type.
         public let itemId: String?
         /// The number of results to return. The default is 25. The maximum is 500.
@@ -98,10 +109,11 @@ extension PersonalizeRuntime {
         /// The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type.
         public let userId: String?
 
-        public init(campaignArn: String, context: [String: String]? = nil, filterArn: String? = nil, itemId: String? = nil, numResults: Int? = nil, userId: String? = nil) {
+        public init(campaignArn: String, context: [String: String]? = nil, filterArn: String? = nil, filterValues: [String: String]? = nil, itemId: String? = nil, numResults: Int? = nil, userId: String? = nil) {
             self.campaignArn = campaignArn
             self.context = context
             self.filterArn = filterArn
+            self.filterValues = filterValues
             self.itemId = itemId
             self.numResults = numResults
             self.userId = userId
@@ -117,6 +129,11 @@ extension PersonalizeRuntime {
             }
             try self.validate(self.filterArn, name: "filterArn", parent: name, max: 256)
             try self.validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.filterValues?.forEach {
+                try validate($0.key, name: "filterValues.key", parent: name, max: 50)
+                try validate($0.key, name: "filterValues.key", parent: name, pattern: "[A-Za-z0-9]+")
+                try validate($0.value, name: "filterValues[\"\($0.key)\"]", parent: name, max: 1000)
+            }
             try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
             try self.validate(self.numResults, name: "numResults", parent: name, min: 0)
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
@@ -126,6 +143,7 @@ extension PersonalizeRuntime {
             case campaignArn
             case context
             case filterArn
+            case filterValues
             case itemId
             case numResults
             case userId

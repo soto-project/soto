@@ -19,6 +19,57 @@ import SotoCore
 // MARK: Paginators
 
 extension Redshift {
+    ///  Returns an array of ClusterDbRevision objects.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeClusterDbRevisionsPaginator<Result>(
+        _ input: DescribeClusterDbRevisionsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ClusterDbRevisionsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeClusterDbRevisions,
+            tokenKey: \ClusterDbRevisionsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeClusterDbRevisionsPaginator(
+        _ input: DescribeClusterDbRevisionsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ClusterDbRevisionsMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeClusterDbRevisions,
+            tokenKey: \ClusterDbRevisionsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of Amazon Redshift parameter groups, including parameter groups you created and the default parameter group. For each parameter group, the response includes the parameter group name, description, and parameter group family name. You can optionally specify a name to retrieve the description of a specific parameter group.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all parameter groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all parameter groups that have any combination of those values are returned. If both tag keys and values are omitted from the request, parameter groups are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -269,6 +320,57 @@ extension Redshift {
             input: input,
             command: describeClusterSubnetGroups,
             tokenKey: \ClusterSubnetGroupMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of all the available maintenance tracks.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeClusterTracksPaginator<Result>(
+        _ input: DescribeClusterTracksMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, TrackListMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeClusterTracks,
+            tokenKey: \TrackListMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeClusterTracksPaginator(
+        _ input: DescribeClusterTracksMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (TrackListMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeClusterTracks,
+            tokenKey: \TrackListMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -886,6 +988,210 @@ extension Redshift {
         )
     }
 
+    ///  Returns a list of snapshot copy grants owned by the AWS account in the destination region.  For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeSnapshotCopyGrantsPaginator<Result>(
+        _ input: DescribeSnapshotCopyGrantsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SnapshotCopyGrantMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeSnapshotCopyGrants,
+            tokenKey: \SnapshotCopyGrantMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeSnapshotCopyGrantsPaginator(
+        _ input: DescribeSnapshotCopyGrantsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SnapshotCopyGrantMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeSnapshotCopyGrants,
+            tokenKey: \SnapshotCopyGrantMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of snapshot schedules.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeSnapshotSchedulesPaginator<Result>(
+        _ input: DescribeSnapshotSchedulesMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeSnapshotSchedulesOutputMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeSnapshotSchedules,
+            tokenKey: \DescribeSnapshotSchedulesOutputMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeSnapshotSchedulesPaginator(
+        _ input: DescribeSnapshotSchedulesMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeSnapshotSchedulesOutputMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeSnapshotSchedules,
+            tokenKey: \DescribeSnapshotSchedulesOutputMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the status of one or more table restore requests made using the RestoreTableFromClusterSnapshot API action. If you don't specify a value for the TableRestoreRequestId parameter, then DescribeTableRestoreStatus returns the status of all table restore requests ordered by the date and time of the request in ascending order. Otherwise DescribeTableRestoreStatus returns the status of the table specified by TableRestoreRequestId.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeTableRestoreStatusPaginator<Result>(
+        _ input: DescribeTableRestoreStatusMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, TableRestoreStatusMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeTableRestoreStatus,
+            tokenKey: \TableRestoreStatusMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeTableRestoreStatusPaginator(
+        _ input: DescribeTableRestoreStatusMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (TableRestoreStatusMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeTableRestoreStatus,
+            tokenKey: \TableRestoreStatusMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of tags. You can return tags from a specific resource by specifying an ARN, or you can return all tags for a given type of resource, such as clusters, snapshots, and so on. The following are limitations for DescribeTags:    You cannot specify an ARN and a resource-type value together in the same request.   You cannot use the MaxRecords and Marker parameters together with the ARN parameter.   The MaxRecords parameter can be a range from 10 to 50 results to return in a request.   If you specify both tag keys and tag values in the same request, Amazon Redshift returns all resources that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all resources that have any combination of those values are returned. If both tag keys and values are omitted from the request, resources are returned regardless of whether they have tag keys or values associated with them.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeTagsPaginator<Result>(
+        _ input: DescribeTagsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, TaggedResourceListMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeTags,
+            tokenKey: \TaggedResourceListMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeTagsPaginator(
+        _ input: DescribeTagsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (TaggedResourceListMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeTags,
+            tokenKey: \TaggedResourceListMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Shows usage limits on a cluster. Results are filtered based on the combination of input usage limit identifier, cluster identifier, and feature type parameters:   If usage limit identifier, cluster identifier, and feature type are not provided, then all usage limit objects for the current account in the current region are returned.   If usage limit identifier is provided, then the corresponding usage limit object is returned.   If cluster identifier is provided, then all usage limit objects for the specified cluster are returned.   If cluster identifier and feature type are provided, then all usage limit objects for the combination of cluster and feature are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -934,6 +1240,67 @@ extension Redshift {
             tokenKey: \UsageLimitList.marker,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+
+    ///  Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getReservedNodeExchangeOfferingsPaginator<Result>(
+        _ input: GetReservedNodeExchangeOfferingsInputMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetReservedNodeExchangeOfferingsOutputMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getReservedNodeExchangeOfferings,
+            tokenKey: \GetReservedNodeExchangeOfferingsOutputMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getReservedNodeExchangeOfferingsPaginator(
+        _ input: GetReservedNodeExchangeOfferingsInputMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetReservedNodeExchangeOfferingsOutputMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getReservedNodeExchangeOfferings,
+            tokenKey: \GetReservedNodeExchangeOfferingsOutputMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+}
+
+extension Redshift.DescribeClusterDbRevisionsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterDbRevisionsMessage {
+        return .init(
+            clusterIdentifier: self.clusterIdentifier,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }
@@ -1000,6 +1367,16 @@ extension Redshift.DescribeClusterSubnetGroupsMessage: AWSPaginateToken {
             maxRecords: self.maxRecords,
             tagKeys: self.tagKeys,
             tagValues: self.tagValues
+        )
+    }
+}
+
+extension Redshift.DescribeClusterTracksMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeClusterTracksMessage {
+        return .init(
+            maintenanceTrackName: self.maintenanceTrackName,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }
@@ -1147,6 +1524,55 @@ extension Redshift.DescribeScheduledActionsMessage: AWSPaginateToken {
     }
 }
 
+extension Redshift.DescribeSnapshotCopyGrantsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeSnapshotCopyGrantsMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords,
+            snapshotCopyGrantName: self.snapshotCopyGrantName,
+            tagKeys: self.tagKeys,
+            tagValues: self.tagValues
+        )
+    }
+}
+
+extension Redshift.DescribeSnapshotSchedulesMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeSnapshotSchedulesMessage {
+        return .init(
+            clusterIdentifier: self.clusterIdentifier,
+            marker: token,
+            maxRecords: self.maxRecords,
+            scheduleIdentifier: self.scheduleIdentifier,
+            tagKeys: self.tagKeys,
+            tagValues: self.tagValues
+        )
+    }
+}
+
+extension Redshift.DescribeTableRestoreStatusMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeTableRestoreStatusMessage {
+        return .init(
+            clusterIdentifier: self.clusterIdentifier,
+            marker: token,
+            maxRecords: self.maxRecords,
+            tableRestoreRequestId: self.tableRestoreRequestId
+        )
+    }
+}
+
+extension Redshift.DescribeTagsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeTagsMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords,
+            resourceName: self.resourceName,
+            resourceType: self.resourceType,
+            tagKeys: self.tagKeys,
+            tagValues: self.tagValues
+        )
+    }
+}
+
 extension Redshift.DescribeUsageLimitsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeUsageLimitsMessage {
         return .init(
@@ -1157,6 +1583,16 @@ extension Redshift.DescribeUsageLimitsMessage: AWSPaginateToken {
             tagKeys: self.tagKeys,
             tagValues: self.tagValues,
             usageLimitId: self.usageLimitId
+        )
+    }
+}
+
+extension Redshift.GetReservedNodeExchangeOfferingsInputMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.GetReservedNodeExchangeOfferingsInputMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords,
+            reservedNodeId: self.reservedNodeId
         )
     }
 }

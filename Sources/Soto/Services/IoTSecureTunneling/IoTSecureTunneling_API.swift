@@ -19,7 +19,7 @@
 /*
  Client object for interacting with AWS IoTSecureTunneling service.
 
- AWS IoT Secure Tunneling AWS IoT Secure Tunnling enables you to create remote connections to devices deployed in the field. For more information about how AWS IoT Secure Tunneling works, see the User Guide.
+ AWS IoT Secure Tunneling AWS IoT Secure Tunnling enables you to create remote connections to devices deployed in the field. For more information about how AWS IoT Secure Tunneling works, see AWS IoT Secure Tunneling.
  */
 public struct IoTSecureTunneling: AWSService {
     // MARK: Member variables
@@ -84,7 +84,7 @@ public struct IoTSecureTunneling: AWSService {
         return self.client.execute(operation: "ListTunnels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Creates a new tunnel, and returns two client access tokens for clients to use to connect to the AWS IoT Secure Tunneling proxy server. .
+    ///  Creates a new tunnel, and returns two client access tokens for clients to use to connect to the AWS IoT Secure Tunneling proxy server.
     public func openTunnel(_ input: OpenTunnelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<OpenTunnelResponse> {
         return self.client.execute(operation: "OpenTunnel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

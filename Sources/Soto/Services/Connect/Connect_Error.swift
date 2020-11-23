@@ -29,7 +29,10 @@ public struct ConnectErrorType: AWSErrorType {
         case invalidRequestException = "InvalidRequestException"
         case limitExceededException = "LimitExceededException"
         case outboundContactNotPermittedException = "OutboundContactNotPermittedException"
+        case resourceConflictException = "ResourceConflictException"
+        case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case userNotFoundException = "UserNotFoundException"
     }
@@ -72,8 +75,14 @@ public struct ConnectErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The contact is not permitted.
     public static var outboundContactNotPermittedException: Self { .init(.outboundContactNotPermittedException) }
+    /// A resource already has that name.
+    public static var resourceConflictException: Self { .init(.resourceConflictException) }
+    /// That resource is already in use. Please try another.
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service quota has been exceeded.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The throttling limit has been exceeded.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// No user with the specified credentials was found in the Amazon Connect instance.

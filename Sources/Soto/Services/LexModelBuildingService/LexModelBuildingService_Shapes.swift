@@ -79,7 +79,11 @@ extension LexModelBuildingService {
         case enAu = "en-AU"
         case enGb = "en-GB"
         case enUs = "en-US"
+        case esEs = "es-ES"
         case esUs = "es-US"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case itIt = "it-IT"
         public var description: String { return self.rawValue }
     }
 
@@ -523,12 +527,16 @@ extension LexModelBuildingService {
         public let followUpPrompt: FollowUpPrompt?
         ///  Describes how the intent is fulfilled.
         public let fulfillmentActivity: FulfillmentActivity?
+        /// An array of InputContext objects that lists the contexts that must be active for Amazon Lex to choose the intent in a conversation with the user.
+        public let inputContexts: [InputContext]?
         /// Configuration information, if any, for connecting an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
         public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated.
         public let lastUpdatedDate: Date?
         /// The name of the intent.
         public let name: String?
+        /// An array of OutputContext objects that lists the contexts that the intent activates when the intent is fulfilled.
+        public let outputContexts: [OutputContext]?
         /// A unique identifier for a built-in intent.
         public let parentIntentSignature: String?
         /// If the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled.
@@ -540,7 +548,7 @@ extension LexModelBuildingService {
         /// The version number assigned to the new version of the intent.
         public let version: String?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, inputContexts: [InputContext]? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -549,9 +557,11 @@ extension LexModelBuildingService {
             self.dialogCodeHook = dialogCodeHook
             self.followUpPrompt = followUpPrompt
             self.fulfillmentActivity = fulfillmentActivity
+            self.inputContexts = inputContexts
             self.kendraConfiguration = kendraConfiguration
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
+            self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
             self.rejectionStatement = rejectionStatement
             self.sampleUtterances = sampleUtterances
@@ -568,9 +578,11 @@ extension LexModelBuildingService {
             case dialogCodeHook
             case followUpPrompt
             case fulfillmentActivity
+            case inputContexts
             case kendraConfiguration
             case lastUpdatedDate
             case name
+            case outputContexts
             case parentIntentSignature
             case rejectionStatement
             case sampleUtterances
@@ -1732,12 +1744,16 @@ extension LexModelBuildingService {
         public let followUpPrompt: FollowUpPrompt?
         /// Describes how the intent is fulfilled. For more information, see PutIntent.
         public let fulfillmentActivity: FulfillmentActivity?
+        /// An array of InputContext objects that lists the contexts that must be active for Amazon Lex to choose the intent in a conversation with the user.
+        public let inputContexts: [InputContext]?
         /// Configuration information, if any, to connect to an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
         public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated. When you create a resource, the creation date and the last updated date are the same.
         public let lastUpdatedDate: Date?
         /// The name of the intent.
         public let name: String?
+        /// An array of OutputContext objects that lists the contexts that the intent activates when the intent is fulfilled.
+        public let outputContexts: [OutputContext]?
         /// A unique identifier for a built-in intent.
         public let parentIntentSignature: String?
         /// If the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled.
@@ -1749,7 +1765,7 @@ extension LexModelBuildingService {
         /// The version of the intent.
         public let version: String?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, inputContexts: [InputContext]? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -1758,9 +1774,11 @@ extension LexModelBuildingService {
             self.dialogCodeHook = dialogCodeHook
             self.followUpPrompt = followUpPrompt
             self.fulfillmentActivity = fulfillmentActivity
+            self.inputContexts = inputContexts
             self.kendraConfiguration = kendraConfiguration
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
+            self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
             self.rejectionStatement = rejectionStatement
             self.sampleUtterances = sampleUtterances
@@ -1777,9 +1795,11 @@ extension LexModelBuildingService {
             case dialogCodeHook
             case followUpPrompt
             case fulfillmentActivity
+            case inputContexts
             case kendraConfiguration
             case lastUpdatedDate
             case name
+            case outputContexts
             case parentIntentSignature
             case rejectionStatement
             case sampleUtterances
@@ -2110,6 +2130,25 @@ extension LexModelBuildingService {
         }
     }
 
+    public struct InputContext: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the context.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+        }
+    }
+
     public struct Intent: AWSEncodableShape & AWSDecodableShape {
         /// The name of the intent.
         public let intentName: String
@@ -2320,6 +2359,37 @@ extension LexModelBuildingService {
         }
     }
 
+    public struct OutputContext: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the context.
+        public let name: String
+        /// The number of seconds that the context should be active after it is first sent in a PostContent or PostText response. You can set the value between 5 and 86,400 seconds (24 hours).
+        public let timeToLiveInSeconds: Int
+        /// The number of conversation turns that the context should be active. A conversation turn is one PostContent or PostText request and the corresponding response from Amazon Lex.
+        public let turnsToLive: Int
+
+        public init(name: String, timeToLiveInSeconds: Int, turnsToLive: Int) {
+            self.name = name
+            self.timeToLiveInSeconds = timeToLiveInSeconds
+            self.turnsToLive = turnsToLive
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, max: 86400)
+            try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, min: 5)
+            try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, max: 20)
+            try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case timeToLiveInSeconds
+            case turnsToLive
+        }
+    }
+
     public struct Prompt: AWSEncodableShape & AWSDecodableShape {
         /// The number of times to prompt the user for information.
         public let maxAttempts: Int
@@ -2477,7 +2547,7 @@ extension LexModelBuildingService {
         public let description: String?
         /// When set to true user utterances are sent to Amazon Comprehend for sentiment analysis. If you don't specify detectSentiment, the default is false.
         public let detectSentiment: Bool?
-        /// Set to true to enable access to natural language understanding improvements.  When you set the enableModelImprovements parameter to true you can use the nluIntentConfidenceThreshold parameter to configure confidence scores. For more information, see Confidence Scores. You can only set the enableModelImprovements parameter in certain Regions. If you set the parameter to true, your bot has access to accuracy improvements. The Regions where you can set the enableModelImprovements parameter to true are:   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Asia Pacific (Sydney) (ap-southeast-2)   EU (Ireland) (eu-west-1)   In other Regions, the enableModelImprovements parameter is set to true by default. In these Regions setting the parameter to false throws a ValidationException exception.   Asia Pacific (Singapore) (ap-southeast-1)   Asia Pacific (Tokyo) (ap-northeast-1)   EU (Frankfurt) (eu-central-1)   EU (London) (eu-west-2)
+        /// Set to true to enable access to natural language understanding improvements.  When you set the enableModelImprovements parameter to true you can use the nluIntentConfidenceThreshold parameter to configure confidence scores. For more information, see Confidence Scores. You can only set the enableModelImprovements parameter in certain Regions. If you set the parameter to true, your bot has access to accuracy improvements. The Regions where you can set the enableModelImprovements parameter to true are:   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Asia Pacific (Sydney) (ap-southeast-2)   EU (Ireland) (eu-west-1)   In other Regions, the enableModelImprovements parameter is set to true by default. In these Regions setting the parameter to false throws a ValidationException exception.
         public let enableModelImprovements: Bool?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. A user interaction session remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. For example, suppose that a user chooses the OrderPizza intent, but gets sidetracked halfway through placing an order. If the user doesn't complete the order within the specified time, Amazon Lex discards the slot information that it gathered, and the user must start over. If you don't include the idleSessionTTLInSeconds element in a PutBot operation request, Amazon Lex uses the default value. This is also true if the request replaces an existing bot. The default is 300 seconds (5 minutes).
         public let idleSessionTTLInSeconds: Int?
@@ -2487,7 +2557,7 @@ extension LexModelBuildingService {
         public let locale: Locale
         /// The name of the bot. The name is not case sensitive.
         public let name: String
-        /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a PostContent or PostText response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. You must set the enableModelImprovements parameter to true to use confidence scores.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Asia Pacific (Sydney) (ap-southeast-2)   EU (Ireland) (eu-west-1)   In other Regions, the enableModelImprovements parameter is set to true by default. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
+        /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a PostContent or PostText response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. You must set the enableModelImprovements parameter to true to use confidence scores in the following regions.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Asia Pacific (Sydney) (ap-southeast-2)   EU (Ireland) (eu-west-1)   In other Regions, the enableModelImprovements parameter is set to true by default. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
         public let nluIntentConfidenceThreshold: Double?
         /// If you set the processBehavior element to BUILD, Amazon Lex builds the bot so that it can be run. If you set the element to SAVE Amazon Lex saves the bot, but doesn't build it.  If you don't specify this value, the default value is BUILD.
         public let processBehavior: ProcessBehavior?
@@ -2666,10 +2736,14 @@ extension LexModelBuildingService {
         public let followUpPrompt: FollowUpPrompt?
         /// Required. Describes how the intent is fulfilled. For example, after a user provides all of the information for a pizza order, fulfillmentActivity defines how the bot places an order with a local pizza store.   You might configure Amazon Lex to return all of the intent information to the client application, or direct it to invoke a Lambda function that can process the intent (for example, place an order with a pizzeria).
         public let fulfillmentActivity: FulfillmentActivity?
+        /// An array of InputContext objects that lists the contexts that must be active for Amazon Lex to choose the intent in a conversation with the user.
+        public let inputContexts: [InputContext]?
         /// Configuration information required to use the AMAZON.KendraSearchIntent intent to connect to an Amazon Kendra index. For more information, see  AMAZON.KendraSearchIntent.
         public let kendraConfiguration: KendraConfiguration?
         /// The name of the intent. The name is not case sensitive.  The name can't match a built-in intent name, or a built-in intent name with "AMAZON." removed. For example, because there is a built-in intent called AMAZON.HelpIntent, you can't create a custom intent called HelpIntent. For a list of built-in intents, see Standard Built-in Intents in the Alexa Skills Kit.
         public let name: String
+        /// An array of OutputContext objects that lists the contexts that the intent activates when the intent is fulfilled.
+        public let outputContexts: [OutputContext]?
         /// A unique identifier for the built-in intent to base this intent on. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let parentIntentSignature: String?
         /// When the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled.   You must provide both the rejectionStatement and the confirmationPrompt, or neither.
@@ -2679,7 +2753,7 @@ extension LexModelBuildingService {
         /// An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works.
         public let slots: [Slot]?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, name: String, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, inputContexts: [InputContext]? = nil, kendraConfiguration: KendraConfiguration? = nil, name: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -2688,8 +2762,10 @@ extension LexModelBuildingService {
             self.dialogCodeHook = dialogCodeHook
             self.followUpPrompt = followUpPrompt
             self.fulfillmentActivity = fulfillmentActivity
+            self.inputContexts = inputContexts
             self.kendraConfiguration = kendraConfiguration
             self.name = name
+            self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
             self.rejectionStatement = rejectionStatement
             self.sampleUtterances = sampleUtterances
@@ -2704,10 +2780,20 @@ extension LexModelBuildingService {
             try self.dialogCodeHook?.validate(name: "\(name).dialogCodeHook")
             try self.followUpPrompt?.validate(name: "\(name).followUpPrompt")
             try self.fulfillmentActivity?.validate(name: "\(name).fulfillmentActivity")
+            try self.inputContexts?.forEach {
+                try $0.validate(name: "\(name).inputContexts[]")
+            }
+            try self.validate(self.inputContexts, name: "inputContexts", parent: name, max: 5)
+            try self.validate(self.inputContexts, name: "inputContexts", parent: name, min: 0)
             try self.kendraConfiguration?.validate(name: "\(name).kendraConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.outputContexts?.forEach {
+                try $0.validate(name: "\(name).outputContexts[]")
+            }
+            try self.validate(self.outputContexts, name: "outputContexts", parent: name, max: 10)
+            try self.validate(self.outputContexts, name: "outputContexts", parent: name, min: 0)
             try self.rejectionStatement?.validate(name: "\(name).rejectionStatement")
             try self.sampleUtterances?.forEach {
                 try validate($0, name: "sampleUtterances[]", parent: name, max: 200)
@@ -2731,7 +2817,9 @@ extension LexModelBuildingService {
             case dialogCodeHook
             case followUpPrompt
             case fulfillmentActivity
+            case inputContexts
             case kendraConfiguration
+            case outputContexts
             case parentIntentSignature
             case rejectionStatement
             case sampleUtterances
@@ -2758,12 +2846,16 @@ extension LexModelBuildingService {
         public let followUpPrompt: FollowUpPrompt?
         /// If defined in the intent, Amazon Lex invokes this Lambda function to fulfill the intent after the user provides all of the information required by the intent.
         public let fulfillmentActivity: FulfillmentActivity?
+        /// An array of InputContext objects that lists the contexts that must be active for Amazon Lex to choose the intent in a conversation with the user.
+        public let inputContexts: [InputContext]?
         /// Configuration information, if any, required to connect to an Amazon Kendra index and use the AMAZON.KendraSearchIntent intent.
         public let kendraConfiguration: KendraConfiguration?
         /// The date that the intent was updated. When you create a resource, the creation date and last update dates are the same.
         public let lastUpdatedDate: Date?
         /// The name of the intent.
         public let name: String?
+        /// An array of OutputContext objects that lists the contexts that the intent activates when the intent is fulfilled.
+        public let outputContexts: [OutputContext]?
         /// A unique identifier for the built-in intent that this intent is based on.
         public let parentIntentSignature: String?
         /// If the user answers "no" to the question defined in confirmationPrompt Amazon Lex responds with this statement to acknowledge that the intent was canceled.
@@ -2775,7 +2867,7 @@ extension LexModelBuildingService {
         /// The version of the intent. For a new intent, the version is always $LATEST.
         public let version: String?
 
-        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
+        public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, inputContexts: [InputContext]? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
             self.confirmationPrompt = confirmationPrompt
@@ -2785,9 +2877,11 @@ extension LexModelBuildingService {
             self.dialogCodeHook = dialogCodeHook
             self.followUpPrompt = followUpPrompt
             self.fulfillmentActivity = fulfillmentActivity
+            self.inputContexts = inputContexts
             self.kendraConfiguration = kendraConfiguration
             self.lastUpdatedDate = lastUpdatedDate
             self.name = name
+            self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
             self.rejectionStatement = rejectionStatement
             self.sampleUtterances = sampleUtterances
@@ -2805,9 +2899,11 @@ extension LexModelBuildingService {
             case dialogCodeHook
             case followUpPrompt
             case fulfillmentActivity
+            case inputContexts
             case kendraConfiguration
             case lastUpdatedDate
             case name
+            case outputContexts
             case parentIntentSignature
             case rejectionStatement
             case sampleUtterances
@@ -2935,6 +3031,8 @@ extension LexModelBuildingService {
     }
 
     public struct Slot: AWSEncodableShape & AWSDecodableShape {
+        /// A list of default values for the slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, session attributes, and defined values.
+        public let defaultValueSpec: SlotDefaultValueSpec?
         /// A description of the slot.
         public let description: String?
         /// The name of the slot.
@@ -2956,7 +3054,8 @@ extension LexModelBuildingService {
         /// The prompt that Amazon Lex uses to elicit the slot value from the user.
         public let valueElicitationPrompt: Prompt?
 
-        public init(description: String? = nil, name: String, obfuscationSetting: ObfuscationSetting? = nil, priority: Int? = nil, responseCard: String? = nil, sampleUtterances: [String]? = nil, slotConstraint: SlotConstraint, slotType: String? = nil, slotTypeVersion: String? = nil, valueElicitationPrompt: Prompt? = nil) {
+        public init(defaultValueSpec: SlotDefaultValueSpec? = nil, description: String? = nil, name: String, obfuscationSetting: ObfuscationSetting? = nil, priority: Int? = nil, responseCard: String? = nil, sampleUtterances: [String]? = nil, slotConstraint: SlotConstraint, slotType: String? = nil, slotTypeVersion: String? = nil, valueElicitationPrompt: Prompt? = nil) {
+            self.defaultValueSpec = defaultValueSpec
             self.description = description
             self.name = name
             self.obfuscationSetting = obfuscationSetting
@@ -2970,6 +3069,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.defaultValueSpec?.validate(name: "\(name).defaultValueSpec")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 100)
@@ -2995,6 +3095,7 @@ extension LexModelBuildingService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultValueSpec
             case description
             case name
             case obfuscationSetting
@@ -3005,6 +3106,45 @@ extension LexModelBuildingService {
             case slotType
             case slotTypeVersion
             case valueElicitationPrompt
+        }
+    }
+
+    public struct SlotDefaultValue: AWSEncodableShape & AWSDecodableShape {
+        /// The default value for the slot. You can specify one of the following:    #context-name.slot-name - The slot value "slot-name" in the context "context-name."    {attribute} - The slot value of the session attribute "attribute."    'value' - The discrete value "value."
+        public let defaultValue: String
+
+        public init(defaultValue: String) {
+            self.defaultValue = defaultValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 202)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue
+        }
+    }
+
+    public struct SlotDefaultValueSpec: AWSEncodableShape & AWSDecodableShape {
+        /// The default values for a slot. You can specify more than one default. For example, you can specify a default value to use from a matching context variable, a session attribute, or a fixed value. The default value chosen is selected based on the order that you specify them in the list. For example, if you specify a context variable and a fixed value in that order, Amazon Lex uses the context variable if it is available, else it uses the fixed value.
+        public let defaultValueList: [SlotDefaultValue]
+
+        public init(defaultValueList: [SlotDefaultValue]) {
+            self.defaultValueList = defaultValueList
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultValueList.forEach {
+                try $0.validate(name: "\(name).defaultValueList[]")
+            }
+            try self.validate(self.defaultValueList, name: "defaultValueList", parent: name, max: 10)
+            try self.validate(self.defaultValueList, name: "defaultValueList", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValueList
         }
     }
 

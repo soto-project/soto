@@ -283,6 +283,11 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "ModifyReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Moves a replication task from its current replication instance to a different target replication instance using the specified parameters. The target replication instance must be created with the same or later AWS DMS version as the current replication instance.
+    public func moveReplicationTask(_ input: MoveReplicationTaskMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MoveReplicationTaskResponse> {
+        return self.client.execute(operation: "MoveReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again.
     public func rebootReplicationInstance(_ input: RebootReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RebootReplicationInstanceResponse> {
         return self.client.execute(operation: "RebootReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

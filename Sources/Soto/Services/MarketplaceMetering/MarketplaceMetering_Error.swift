@@ -29,7 +29,9 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
         case invalidProductCodeException = "InvalidProductCodeException"
         case invalidPublicKeyVersionException = "InvalidPublicKeyVersionException"
         case invalidRegionException = "InvalidRegionException"
+        case invalidTagException = "InvalidTagException"
         case invalidTokenException = "InvalidTokenException"
+        case invalidUsageAllocationsException = "InvalidUsageAllocationsException"
         case invalidUsageDimensionException = "InvalidUsageDimensionException"
         case platformNotSupportedException = "PlatformNotSupportedException"
         case throttlingException = "ThrottlingException"
@@ -74,8 +76,12 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
     public static var invalidPublicKeyVersionException: Self { .init(.invalidPublicKeyVersionException) }
     /// RegisterUsage must be called in the same AWS Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
     public static var invalidRegionException: Self { .init(.invalidRegionException) }
+    /// The tag is invalid, or the number of tags is greater than 5.
+    public static var invalidTagException: Self { .init(.invalidTagException) }
     /// Registration token is invalid.
     public static var invalidTokenException: Self { .init(.invalidTokenException) }
+    /// The usage allocation objects are invalid, or the number of allocations is greater than 500 for a single usage record.
+    public static var invalidUsageAllocationsException: Self { .init(.invalidUsageAllocationsException) }
     /// The usage dimension does not match one of the UsageDimensions associated with products.
     public static var invalidUsageDimensionException: Self { .init(.invalidUsageDimensionException) }
     /// AWS Marketplace does not support metering usage from the underlying platform. Currently, Amazon ECS, Amazon EKS, and AWS Fargate are supported.

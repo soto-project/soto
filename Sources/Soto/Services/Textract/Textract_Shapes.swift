@@ -70,6 +70,12 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
+    public enum TextType: String, CustomStringConvertible, Codable {
+        case handwriting = "HANDWRITING"
+        case printed = "PRINTED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AnalyzeDocumentRequest: AWSEncodableShape {
@@ -150,8 +156,10 @@ extension Textract {
         public let selectionStatus: SelectionStatus?
         /// The word or line of text that's recognized by Amazon Textract.
         public let text: String?
+        /// The kind of text that Amazon Textract has detected. Can check for handwritten text and printed text.
+        public let textType: TextType?
 
-        public init(blockType: BlockType? = nil, columnIndex: Int? = nil, columnSpan: Int? = nil, confidence: Float? = nil, entityTypes: [EntityType]? = nil, geometry: Geometry? = nil, id: String? = nil, page: Int? = nil, relationships: [Relationship]? = nil, rowIndex: Int? = nil, rowSpan: Int? = nil, selectionStatus: SelectionStatus? = nil, text: String? = nil) {
+        public init(blockType: BlockType? = nil, columnIndex: Int? = nil, columnSpan: Int? = nil, confidence: Float? = nil, entityTypes: [EntityType]? = nil, geometry: Geometry? = nil, id: String? = nil, page: Int? = nil, relationships: [Relationship]? = nil, rowIndex: Int? = nil, rowSpan: Int? = nil, selectionStatus: SelectionStatus? = nil, text: String? = nil, textType: TextType? = nil) {
             self.blockType = blockType
             self.columnIndex = columnIndex
             self.columnSpan = columnSpan
@@ -165,6 +173,7 @@ extension Textract {
             self.rowSpan = rowSpan
             self.selectionStatus = selectionStatus
             self.text = text
+            self.textType = textType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -181,6 +190,7 @@ extension Textract {
             case rowSpan = "RowSpan"
             case selectionStatus = "SelectionStatus"
             case text = "Text"
+            case textType = "TextType"
         }
     }
 
@@ -645,16 +655,19 @@ extension Textract {
         public let featureTypes: [FeatureType]
         /// An identifier that you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
         public let jobTag: String?
+        /// The KMS key used to encrypt the inference results. This can be in either Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-side encryption of the objects in the customer bucket. When this parameter is not enabled, the result will be encrypted server side,using SSE-S3.
+        public let kMSKeyId: String?
         /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to.
         public let notificationChannel: NotificationChannel?
         /// Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis operation.
         public let outputConfig: OutputConfig?
 
-        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
+        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, kMSKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
             self.featureTypes = featureTypes
             self.jobTag = jobTag
+            self.kMSKeyId = kMSKeyId
             self.notificationChannel = notificationChannel
             self.outputConfig = outputConfig
         }
@@ -667,6 +680,9 @@ extension Textract {
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 64)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, max: 2048)
+            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, min: 1)
+            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
             try self.outputConfig?.validate(name: "\(name).outputConfig")
         }
@@ -676,6 +692,7 @@ extension Textract {
             case documentLocation = "DocumentLocation"
             case featureTypes = "FeatureTypes"
             case jobTag = "JobTag"
+            case kMSKeyId = "KMSKeyId"
             case notificationChannel = "NotificationChannel"
             case outputConfig = "OutputConfig"
         }
@@ -701,15 +718,18 @@ extension Textract {
         public let documentLocation: DocumentLocation
         /// An identifier that you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
         public let jobTag: String?
+        /// The KMS key used to encrypt the inference results. This can be in either Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-side encryption of the objects in the customer bucket. When this parameter is not enabled, the result will be encrypted server side,using SSE-S3.
+        public let kMSKeyId: String?
         /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to.
         public let notificationChannel: NotificationChannel?
         /// Sets if the output will go to a customer defined bucket. By default Amazon Textract will save the results internally to be accessed with the GetDocumentTextDetection operation.
         public let outputConfig: OutputConfig?
 
-        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
+        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, kMSKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
             self.jobTag = jobTag
+            self.kMSKeyId = kMSKeyId
             self.notificationChannel = notificationChannel
             self.outputConfig = outputConfig
         }
@@ -722,6 +742,9 @@ extension Textract {
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 64)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, max: 2048)
+            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, min: 1)
+            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
             try self.outputConfig?.validate(name: "\(name).outputConfig")
         }
@@ -730,6 +753,7 @@ extension Textract {
             case clientRequestToken = "ClientRequestToken"
             case documentLocation = "DocumentLocation"
             case jobTag = "JobTag"
+            case kMSKeyId = "KMSKeyId"
             case notificationChannel = "NotificationChannel"
             case outputConfig = "OutputConfig"
         }

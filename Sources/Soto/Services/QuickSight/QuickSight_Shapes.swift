@@ -114,6 +114,7 @@ extension QuickSight {
         case jira = "JIRA"
         case mariadb = "MARIADB"
         case mysql = "MYSQL"
+        case oracle = "ORACLE"
         case postgresql = "POSTGRESQL"
         case presto = "PRESTO"
         case redshift = "REDSHIFT"
@@ -872,6 +873,29 @@ extension QuickSight {
         }
     }
 
+    public struct ColumnLevelPermissionRule: AWSEncodableShape & AWSDecodableShape {
+        /// An array of column names.
+        public let columnNames: [String]?
+        /// An array of Amazon Resource Names (ARNs) for QuickSight users or groups.
+        public let principals: [String]?
+
+        public init(columnNames: [String]? = nil, principals: [String]? = nil) {
+            self.columnNames = columnNames
+            self.principals = principals
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columnNames, name: "columnNames", parent: name, min: 1)
+            try self.validate(self.principals, name: "principals", parent: name, max: 100)
+            try self.validate(self.principals, name: "principals", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnNames = "ColumnNames"
+            case principals = "Principals"
+        }
+    }
+
     public struct ColumnSchema: AWSDecodableShape {
         /// The data type of the column schema.
         public let dataType: String?
@@ -1238,6 +1262,8 @@ extension QuickSight {
         public let awsAccountId: String
         /// Groupings of columns that work together in certain QuickSight features. Currently, only geospatial hierarchy is supported.
         public let columnGroups: [ColumnGroup]?
+        /// A set of one or more definitions of a  ColumnLevelPermissionRule .
+        public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
         /// An ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
         public let dataSetId: String
         /// Indicates whether you want to import the data into SPICE.
@@ -1255,9 +1281,10 @@ extension QuickSight {
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
         public let tags: [Tag]?
 
-        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, dataSetId: String, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, tags: [Tag]? = nil) {
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, tags: [Tag]? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
+            self.columnLevelPermissionRules = columnLevelPermissionRules
             self.dataSetId = dataSetId
             self.importMode = importMode
             self.logicalTableMap = logicalTableMap
@@ -1277,6 +1304,10 @@ extension QuickSight {
             }
             try self.validate(self.columnGroups, name: "columnGroups", parent: name, max: 8)
             try self.validate(self.columnGroups, name: "columnGroups", parent: name, min: 1)
+            try self.columnLevelPermissionRules?.forEach {
+                try $0.validate(name: "\(name).columnLevelPermissionRules[]")
+            }
+            try self.validate(self.columnLevelPermissionRules, name: "columnLevelPermissionRules", parent: name, min: 1)
             try self.logicalTableMap?.forEach {
                 try validate($0.key, name: "logicalTableMap.key", parent: name, max: 64)
                 try validate($0.key, name: "logicalTableMap.key", parent: name, min: 1)
@@ -1306,6 +1337,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case columnGroups = "ColumnGroups"
+            case columnLevelPermissionRules = "ColumnLevelPermissionRules"
             case dataSetId = "DataSetId"
             case importMode = "ImportMode"
             case logicalTableMap = "LogicalTableMap"
@@ -1595,7 +1627,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The name of the assignment. It must be unique within an AWS account.
+        /// The name of the assignment, also called a rule. It must be unique within an AWS account.
         public let assignmentName: String
         /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.
         public let assignmentStatus: AssignmentStatus
@@ -2529,6 +2561,8 @@ extension QuickSight {
         public let arn: String?
         /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
         public let columnGroups: [ColumnGroup]?
+        /// A set of one or more definitions of a  ColumnLevelPermissionRule .
+        public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
         /// The amount of SPICE capacity used by this dataset. This is 0 if the dataset isn't imported into SPICE.
         public let consumedSpiceCapacityInBytes: Int64?
         /// The time that this dataset was created.
@@ -2550,9 +2584,10 @@ extension QuickSight {
         /// The row-level security configuration for the dataset.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
 
-        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
             self.arn = arn
             self.columnGroups = columnGroups
+            self.columnLevelPermissionRules = columnLevelPermissionRules
             self.consumedSpiceCapacityInBytes = consumedSpiceCapacityInBytes
             self.createdTime = createdTime
             self.dataSetId = dataSetId
@@ -2568,6 +2603,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case columnGroups = "ColumnGroups"
+            case columnLevelPermissionRules = "ColumnLevelPermissionRules"
             case consumedSpiceCapacityInBytes = "ConsumedSpiceCapacityInBytes"
             case createdTime = "CreatedTime"
             case dataSetId = "DataSetId"
@@ -2639,6 +2675,8 @@ extension QuickSight {
     public struct DataSetSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
+        /// Indicates if the dataset has column level permission configured.
+        public let columnLevelPermissionRulesApplied: Bool?
         /// The time that this dataset was created.
         public let createdTime: Date?
         /// The ID of the dataset.
@@ -2652,8 +2690,9 @@ extension QuickSight {
         /// The row-level security configuration for the dataset.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
 
-        public init(arn: String? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(arn: String? = nil, columnLevelPermissionRulesApplied: Bool? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
             self.arn = arn
+            self.columnLevelPermissionRulesApplied = columnLevelPermissionRulesApplied
             self.createdTime = createdTime
             self.dataSetId = dataSetId
             self.importMode = importMode
@@ -2664,6 +2703,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case columnLevelPermissionRulesApplied = "ColumnLevelPermissionRulesApplied"
             case createdTime = "CreatedTime"
             case dataSetId = "DataSetId"
             case importMode = "ImportMode"
@@ -2786,6 +2826,8 @@ extension QuickSight {
         public let mariaDbParameters: MariaDbParameters?
         /// MySQL parameters.
         public let mySqlParameters: MySqlParameters?
+        /// Oracle parameters.
+        public let oracleParameters: OracleParameters?
         /// PostgreSQL parameters.
         public let postgreSqlParameters: PostgreSqlParameters?
         /// Presto parameters.
@@ -2809,7 +2851,7 @@ extension QuickSight {
         /// Twitter parameters.
         public let twitterParameters: TwitterParameters?
 
-        public init(amazonElasticsearchParameters: AmazonElasticsearchParameters? = nil, athenaParameters: AthenaParameters? = nil, auroraParameters: AuroraParameters? = nil, auroraPostgreSqlParameters: AuroraPostgreSqlParameters? = nil, awsIotAnalyticsParameters: AwsIotAnalyticsParameters? = nil, jiraParameters: JiraParameters? = nil, mariaDbParameters: MariaDbParameters? = nil, mySqlParameters: MySqlParameters? = nil, postgreSqlParameters: PostgreSqlParameters? = nil, prestoParameters: PrestoParameters? = nil, rdsParameters: RdsParameters? = nil, redshiftParameters: RedshiftParameters? = nil, s3Parameters: S3Parameters? = nil, serviceNowParameters: ServiceNowParameters? = nil, snowflakeParameters: SnowflakeParameters? = nil, sparkParameters: SparkParameters? = nil, sqlServerParameters: SqlServerParameters? = nil, teradataParameters: TeradataParameters? = nil, twitterParameters: TwitterParameters? = nil) {
+        public init(amazonElasticsearchParameters: AmazonElasticsearchParameters? = nil, athenaParameters: AthenaParameters? = nil, auroraParameters: AuroraParameters? = nil, auroraPostgreSqlParameters: AuroraPostgreSqlParameters? = nil, awsIotAnalyticsParameters: AwsIotAnalyticsParameters? = nil, jiraParameters: JiraParameters? = nil, mariaDbParameters: MariaDbParameters? = nil, mySqlParameters: MySqlParameters? = nil, oracleParameters: OracleParameters? = nil, postgreSqlParameters: PostgreSqlParameters? = nil, prestoParameters: PrestoParameters? = nil, rdsParameters: RdsParameters? = nil, redshiftParameters: RedshiftParameters? = nil, s3Parameters: S3Parameters? = nil, serviceNowParameters: ServiceNowParameters? = nil, snowflakeParameters: SnowflakeParameters? = nil, sparkParameters: SparkParameters? = nil, sqlServerParameters: SqlServerParameters? = nil, teradataParameters: TeradataParameters? = nil, twitterParameters: TwitterParameters? = nil) {
             self.amazonElasticsearchParameters = amazonElasticsearchParameters
             self.athenaParameters = athenaParameters
             self.auroraParameters = auroraParameters
@@ -2818,6 +2860,7 @@ extension QuickSight {
             self.jiraParameters = jiraParameters
             self.mariaDbParameters = mariaDbParameters
             self.mySqlParameters = mySqlParameters
+            self.oracleParameters = oracleParameters
             self.postgreSqlParameters = postgreSqlParameters
             self.prestoParameters = prestoParameters
             self.rdsParameters = rdsParameters
@@ -2840,6 +2883,7 @@ extension QuickSight {
             try self.jiraParameters?.validate(name: "\(name).jiraParameters")
             try self.mariaDbParameters?.validate(name: "\(name).mariaDbParameters")
             try self.mySqlParameters?.validate(name: "\(name).mySqlParameters")
+            try self.oracleParameters?.validate(name: "\(name).oracleParameters")
             try self.postgreSqlParameters?.validate(name: "\(name).postgreSqlParameters")
             try self.prestoParameters?.validate(name: "\(name).prestoParameters")
             try self.rdsParameters?.validate(name: "\(name).rdsParameters")
@@ -2862,6 +2906,7 @@ extension QuickSight {
             case jiraParameters = "JiraParameters"
             case mariaDbParameters = "MariaDbParameters"
             case mySqlParameters = "MySqlParameters"
+            case oracleParameters = "OracleParameters"
             case postgreSqlParameters = "PostgreSqlParameters"
             case prestoParameters = "PrestoParameters"
             case rdsParameters = "RdsParameters"
@@ -4429,7 +4474,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The name of the assignment.
+        /// The name of the assignment, also called a rule.
         public let assignmentName: String
         /// The ID of the AWS account that contains the assignment that you want to describe.
         public let awsAccountId: String
@@ -5104,6 +5149,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "identityType", location: .querystring(locationName: "creds-type")),
             AWSMemberEncoding(label: "resetDisabled", location: .querystring(locationName: "reset-disabled")),
             AWSMemberEncoding(label: "sessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime")),
+            AWSMemberEncoding(label: "statePersistenceEnabled", location: .querystring(locationName: "state-persistence-enabled")),
             AWSMemberEncoding(label: "undoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled")),
             AWSMemberEncoding(label: "userArn", location: .querystring(locationName: "user-arn"))
         ]
@@ -5118,17 +5164,20 @@ extension QuickSight {
         public let resetDisabled: Bool?
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
+        /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the the subscriber reopens the same dashboard URL. The state is stored in QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
+        public let statePersistenceEnabled: Bool?
         /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
         public let undoRedoDisabled: Bool?
         /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
-        public init(awsAccountId: String, dashboardId: String, identityType: IdentityType, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
+        public init(awsAccountId: String, dashboardId: String, identityType: IdentityType, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.identityType = identityType
             self.resetDisabled = resetDisabled
             self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
+            self.statePersistenceEnabled = statePersistenceEnabled
             self.undoRedoDisabled = undoRedoDisabled
             self.userArn = userArn
         }
@@ -6972,6 +7021,36 @@ extension QuickSight {
         }
     }
 
+    public struct OracleParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Database.
+        public let database: String
+        /// An Oracle host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(database: String, host: String, port: Int) {
+            self.database = database
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, max: 128)
+            try self.validate(self.database, name: "database", parent: name, min: 1)
+            try self.validate(self.host, name: "host", parent: name, max: 256)
+            try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
     public struct OutputColumn: AWSDecodableShape {
         /// A description for a column.
         public let description: String?
@@ -7372,7 +7451,7 @@ extension QuickSight {
     }
 
     public struct ResourcePermission: AWSEncodableShape & AWSDecodableShape {
-        /// The IAM action to grant or revoke permissions on, for example "quicksight:DescribeDashboard".
+        /// The IAM action to grant or revoke permissions on.
         public let actions: [String]
         /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user or group associated with a data source or dataset. (This is common.)   The ARN of an Amazon QuickSight user, group, or namespace associated with an analysis, dashboard, template, or theme. (This is common.)   The ARN of an AWS account root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across AWS accounts. (This is less common.)
         public let principal: String
@@ -9260,6 +9339,8 @@ extension QuickSight {
         public let awsAccountId: String
         /// Groupings of columns that work together in certain QuickSight features. Currently, only geospatial hierarchy is supported.
         public let columnGroups: [ColumnGroup]?
+        /// A set of one or more definitions of a  ColumnLevelPermissionRule .
+        public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
         /// The ID for the dataset that you want to update. This ID is unique per AWS Region for each AWS account.
         public let dataSetId: String
         /// Indicates whether you want to import the data into SPICE.
@@ -9273,9 +9354,10 @@ extension QuickSight {
         /// The row-level security configuration for the data you want to create.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
 
-        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, dataSetId: String, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
+            self.columnLevelPermissionRules = columnLevelPermissionRules
             self.dataSetId = dataSetId
             self.importMode = importMode
             self.logicalTableMap = logicalTableMap
@@ -9293,6 +9375,10 @@ extension QuickSight {
             }
             try self.validate(self.columnGroups, name: "columnGroups", parent: name, max: 8)
             try self.validate(self.columnGroups, name: "columnGroups", parent: name, min: 1)
+            try self.columnLevelPermissionRules?.forEach {
+                try $0.validate(name: "\(name).columnLevelPermissionRules[]")
+            }
+            try self.validate(self.columnLevelPermissionRules, name: "columnLevelPermissionRules", parent: name, min: 1)
             try self.logicalTableMap?.forEach {
                 try validate($0.key, name: "logicalTableMap.key", parent: name, max: 64)
                 try validate($0.key, name: "logicalTableMap.key", parent: name, min: 1)
@@ -9312,6 +9398,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case columnGroups = "ColumnGroups"
+            case columnLevelPermissionRules = "ColumnLevelPermissionRules"
             case importMode = "ImportMode"
             case logicalTableMap = "LogicalTableMap"
             case name = "Name"
@@ -9585,7 +9672,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .uri(locationName: "Namespace"))
         ]
 
-        /// The name of the assignment. This name must be unique within an AWS account.
+        /// The name of the assignment, also called a rule. This name must be unique within an AWS account.
         public let assignmentName: String
         /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.
         public let assignmentStatus: AssignmentStatus?
@@ -9631,7 +9718,7 @@ extension QuickSight {
 
         /// The ID of the assignment.
         public let assignmentId: String?
-        /// The name of the assignment.
+        /// The name of the assignment or rule.
         public let assignmentName: String?
         /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.
         public let assignmentStatus: AssignmentStatus?

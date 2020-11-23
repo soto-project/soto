@@ -25,6 +25,64 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfluenceAttachmentFieldName: String, CustomStringConvertible, Codable {
+        case author = "AUTHOR"
+        case contentType = "CONTENT_TYPE"
+        case createdDate = "CREATED_DATE"
+        case displayUrl = "DISPLAY_URL"
+        case fileSize = "FILE_SIZE"
+        case itemType = "ITEM_TYPE"
+        case parentId = "PARENT_ID"
+        case spaceKey = "SPACE_KEY"
+        case spaceName = "SPACE_NAME"
+        case url = "URL"
+        case version = "VERSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluenceBlogFieldName: String, CustomStringConvertible, Codable {
+        case author = "AUTHOR"
+        case displayUrl = "DISPLAY_URL"
+        case itemType = "ITEM_TYPE"
+        case labels = "LABELS"
+        case publishDate = "PUBLISH_DATE"
+        case spaceKey = "SPACE_KEY"
+        case spaceName = "SPACE_NAME"
+        case url = "URL"
+        case version = "VERSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluencePageFieldName: String, CustomStringConvertible, Codable {
+        case author = "AUTHOR"
+        case contentStatus = "CONTENT_STATUS"
+        case createdDate = "CREATED_DATE"
+        case displayUrl = "DISPLAY_URL"
+        case itemType = "ITEM_TYPE"
+        case labels = "LABELS"
+        case modifiedDate = "MODIFIED_DATE"
+        case parentId = "PARENT_ID"
+        case spaceKey = "SPACE_KEY"
+        case spaceName = "SPACE_NAME"
+        case url = "URL"
+        case version = "VERSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluenceSpaceFieldName: String, CustomStringConvertible, Codable {
+        case displayUrl = "DISPLAY_URL"
+        case itemType = "ITEM_TYPE"
+        case spaceKey = "SPACE_KEY"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluenceVersion: String, CustomStringConvertible, Codable {
+        case cloud = "CLOUD"
+        case server = "SERVER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContentType: String, CustomStringConvertible, Codable {
         case html = "HTML"
         case msWord = "MS_WORD"
@@ -55,6 +113,7 @@ extension Kendra {
     }
 
     public enum DataSourceType: String, CustomStringConvertible, Codable {
+        case confluence = "CONFLUENCE"
         case custom = "CUSTOM"
         case database = "DATABASE"
         case onedrive = "ONEDRIVE"
@@ -116,6 +175,12 @@ extension Kendra {
         case failed = "FAILED"
         case systemUpdating = "SYSTEM_UPDATING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyLocation: String, CustomStringConvertible, Codable {
+        case secretManager = "SECRET_MANAGER"
+        case url = "URL"
         public var description: String { return self.rawValue }
     }
 
@@ -212,6 +277,12 @@ extension Kendra {
     public enum SortOrder: String, CustomStringConvertible, Codable {
         case asc = "ASC"
         case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserContextPolicy: String, CustomStringConvertible, Codable {
+        case attributeFilter = "ATTRIBUTE_FILTER"
+        case userToken = "USER_TOKEN"
         public var description: String { return self.rawValue }
     }
 
@@ -587,6 +658,317 @@ extension Kendra {
         }
     }
 
+    public struct ConfluenceAttachmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Defines how attachment metadata fields should be mapped to index fields. Before you can map a field, you must first create an index field with a matching type using the console or the UpdateIndex operation. If you specify the AttachentFieldMappings parameter, you must specify at least one field mapping.
+        public let attachmentFieldMappings: [ConfluenceAttachmentToIndexFieldMapping]?
+        /// Indicates whether Amazon Kendra indexes attachments to the pages and blogs in the Confluence data source.
+        public let crawlAttachments: Bool?
+
+        public init(attachmentFieldMappings: [ConfluenceAttachmentToIndexFieldMapping]? = nil, crawlAttachments: Bool? = nil) {
+            self.attachmentFieldMappings = attachmentFieldMappings
+            self.crawlAttachments = crawlAttachments
+        }
+
+        public func validate(name: String) throws {
+            try self.attachmentFieldMappings?.forEach {
+                try $0.validate(name: "\(name).attachmentFieldMappings[]")
+            }
+            try self.validate(self.attachmentFieldMappings, name: "attachmentFieldMappings", parent: name, max: 11)
+            try self.validate(self.attachmentFieldMappings, name: "attachmentFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentFieldMappings = "AttachmentFieldMappings"
+            case crawlAttachments = "CrawlAttachments"
+        }
+    }
+
+    public struct ConfluenceAttachmentToIndexFieldMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field in the data source.  You must first create the index field using the operation.
+        public let dataSourceFieldName: ConfluenceAttachmentFieldName?
+        /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
+        public let dateFieldFormat: String?
+        /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
+        public let indexFieldName: String?
+
+        public init(dataSourceFieldName: ConfluenceAttachmentFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
+            self.dataSourceFieldName = dataSourceFieldName
+            self.dateFieldFormat = dateFieldFormat
+            self.indexFieldName = indexFieldName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, max: 40)
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, min: 4)
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 30)
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceFieldName = "DataSourceFieldName"
+            case dateFieldFormat = "DateFieldFormat"
+            case indexFieldName = "IndexFieldName"
+        }
+    }
+
+    public struct ConfluenceBlogConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Defines how blog metadata fields should be mapped to index fields. Before you can map a field, you must first create an index field with a matching type using the console or the UpdateIndex operation. If you specify the BlogFieldMappings parameter, you must specify at least one field mapping.
+        public let blogFieldMappings: [ConfluenceBlogToIndexFieldMapping]?
+
+        public init(blogFieldMappings: [ConfluenceBlogToIndexFieldMapping]? = nil) {
+            self.blogFieldMappings = blogFieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.blogFieldMappings?.forEach {
+                try $0.validate(name: "\(name).blogFieldMappings[]")
+            }
+            try self.validate(self.blogFieldMappings, name: "blogFieldMappings", parent: name, max: 9)
+            try self.validate(self.blogFieldMappings, name: "blogFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blogFieldMappings = "BlogFieldMappings"
+        }
+    }
+
+    public struct ConfluenceBlogToIndexFieldMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field in the data source.
+        public let dataSourceFieldName: ConfluenceBlogFieldName?
+        /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
+        public let dateFieldFormat: String?
+        /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
+        public let indexFieldName: String?
+
+        public init(dataSourceFieldName: ConfluenceBlogFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
+            self.dataSourceFieldName = dataSourceFieldName
+            self.dateFieldFormat = dateFieldFormat
+            self.indexFieldName = indexFieldName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, max: 40)
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, min: 4)
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 30)
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceFieldName = "DataSourceFieldName"
+            case dateFieldFormat = "DateFieldFormat"
+            case indexFieldName = "IndexFieldName"
+        }
+    }
+
+    public struct ConfluenceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies configuration information for indexing attachments to Confluence blogs and pages.
+        public let attachmentConfiguration: ConfluenceAttachmentConfiguration?
+        ///  Specifies configuration information for indexing Confluence blogs.
+        public let blogConfiguration: ConfluenceBlogConfiguration?
+        /// A list of regular expression patterns that apply to a URL on the Confluence server. An exclusion pattern can apply to a blog post, a page, a space, or an attachment. Items that match the pattern are excluded from the index. Items that don't match the pattern are included in the index. If a item matches both an exclusion pattern and an inclusion pattern, the item isn't included in the index.
+        public let exclusionPatterns: [String]?
+        /// A list of regular expression patterns that apply to a URL on the Confluence server. An inclusion pattern can apply to a blog post, a page, a space, or an attachment. Items that match the patterns are included in the index. Items that don't match the pattern are excluded from the index. If an item matches both an inclusion pattern and an exclusion pattern, the item isn't included in the index.
+        public let inclusionPatterns: [String]?
+        /// Specifies configuration information for indexing Confluence pages.
+        public let pageConfiguration: ConfluencePageConfiguration?
+        /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the key/value pairs required to connect to your Confluence server. The secret must contain a JSON structure with the following keys:   username - The user name or email address of a user with administrative privileges for the Confluence server.   password - The password associated with the user logging in to the Confluence server.
+        public let secretArn: String
+        /// The URL of your Confluence instance. Use the full URL of the server. For example, https://server.example.com:port/. You can also use an IP address, for example, https://192.168.1.113/.
+        public let serverUrl: String
+        /// Specifies configuration information for indexing Confluence spaces.
+        public let spaceConfiguration: ConfluenceSpaceConfiguration?
+        /// Specifies the version of the Confluence installation that you are connecting to.
+        public let version: ConfluenceVersion
+        /// Specifies the information for connecting to an Amazon VPC.
+        public let vpcConfiguration: DataSourceVpcConfiguration?
+
+        public init(attachmentConfiguration: ConfluenceAttachmentConfiguration? = nil, blogConfiguration: ConfluenceBlogConfiguration? = nil, exclusionPatterns: [String]? = nil, inclusionPatterns: [String]? = nil, pageConfiguration: ConfluencePageConfiguration? = nil, secretArn: String, serverUrl: String, spaceConfiguration: ConfluenceSpaceConfiguration? = nil, version: ConfluenceVersion, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+            self.attachmentConfiguration = attachmentConfiguration
+            self.blogConfiguration = blogConfiguration
+            self.exclusionPatterns = exclusionPatterns
+            self.inclusionPatterns = inclusionPatterns
+            self.pageConfiguration = pageConfiguration
+            self.secretArn = secretArn
+            self.serverUrl = serverUrl
+            self.spaceConfiguration = spaceConfiguration
+            self.version = version
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.attachmentConfiguration?.validate(name: "\(name).attachmentConfiguration")
+            try self.blogConfiguration?.validate(name: "\(name).blogConfiguration")
+            try self.exclusionPatterns?.forEach {
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, min: 0)
+            try self.pageConfiguration?.validate(name: "\(name).pageConfiguration")
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.serverUrl, name: "serverUrl", parent: name, max: 2048)
+            try self.validate(self.serverUrl, name: "serverUrl", parent: name, min: 1)
+            try self.validate(self.serverUrl, name: "serverUrl", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)")
+            try self.spaceConfiguration?.validate(name: "\(name).spaceConfiguration")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentConfiguration = "AttachmentConfiguration"
+            case blogConfiguration = "BlogConfiguration"
+            case exclusionPatterns = "ExclusionPatterns"
+            case inclusionPatterns = "InclusionPatterns"
+            case pageConfiguration = "PageConfiguration"
+            case secretArn = "SecretArn"
+            case serverUrl = "ServerUrl"
+            case spaceConfiguration = "SpaceConfiguration"
+            case version = "Version"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct ConfluencePageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Defines how page metadata fields should be mapped to index fields. Before you can map a field, you must first create an index field with a matching type using the console or the UpdateIndex operation. If you specify the PageFieldMappings parameter, you must specify at least one field mapping.
+        public let pageFieldMappings: [ConfluencePageToIndexFieldMapping]?
+
+        public init(pageFieldMappings: [ConfluencePageToIndexFieldMapping]? = nil) {
+            self.pageFieldMappings = pageFieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.pageFieldMappings?.forEach {
+                try $0.validate(name: "\(name).pageFieldMappings[]")
+            }
+            try self.validate(self.pageFieldMappings, name: "pageFieldMappings", parent: name, max: 12)
+            try self.validate(self.pageFieldMappings, name: "pageFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageFieldMappings = "PageFieldMappings"
+        }
+    }
+
+    public struct ConfluencePageToIndexFieldMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field in the data source.
+        public let dataSourceFieldName: ConfluencePageFieldName?
+        /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
+        public let dateFieldFormat: String?
+        /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
+        public let indexFieldName: String?
+
+        public init(dataSourceFieldName: ConfluencePageFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
+            self.dataSourceFieldName = dataSourceFieldName
+            self.dateFieldFormat = dateFieldFormat
+            self.indexFieldName = indexFieldName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, max: 40)
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, min: 4)
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 30)
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceFieldName = "DataSourceFieldName"
+            case dateFieldFormat = "DateFieldFormat"
+            case indexFieldName = "IndexFieldName"
+        }
+    }
+
+    public struct ConfluenceSpaceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether Amazon Kendra should index archived spaces.
+        public let crawlArchivedSpaces: Bool?
+        /// Specifies whether Amazon Kendra should index personal spaces. Users can add restrictions to items in personal spaces. If personal spaces are indexed, queries without user context information may return restricted items from a personal space in their results. For more information, see Filtering on user context.
+        public let crawlPersonalSpaces: Bool?
+        /// A list of space keys of Confluence spaces. If you include a key, the blogs, documents, and attachments in the space are not indexed. If a space is in both the ExcludeSpaces and the IncludeSpaces list, the space is excluded.
+        public let excludeSpaces: [String]?
+        /// A list of space keys for Confluence spaces. If you include a key, the blogs, documents, and attachments in the space are indexed. Spaces that aren't in the list aren't indexed. A space in the list must exist. Otherwise, Amazon Kendra logs an error when the data source is synchronized. If a space is in both the IncludeSpaces and the ExcludeSpaces list, the space is excluded.
+        public let includeSpaces: [String]?
+        /// Defines how space metadata fields should be mapped to index fields. Before you can map a field, you must first create an index field with a matching type using the console or the UpdateIndex operation. If you specify the SpaceFieldMappings parameter, you must specify at least one field mapping.
+        public let spaceFieldMappings: [ConfluenceSpaceToIndexFieldMapping]?
+
+        public init(crawlArchivedSpaces: Bool? = nil, crawlPersonalSpaces: Bool? = nil, excludeSpaces: [String]? = nil, includeSpaces: [String]? = nil, spaceFieldMappings: [ConfluenceSpaceToIndexFieldMapping]? = nil) {
+            self.crawlArchivedSpaces = crawlArchivedSpaces
+            self.crawlPersonalSpaces = crawlPersonalSpaces
+            self.excludeSpaces = excludeSpaces
+            self.includeSpaces = includeSpaces
+            self.spaceFieldMappings = spaceFieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.excludeSpaces?.forEach {
+                try validate($0, name: "excludeSpaces[]", parent: name, max: 255)
+                try validate($0, name: "excludeSpaces[]", parent: name, min: 1)
+                try validate($0, name: "excludeSpaces[]", parent: name, pattern: "^\\P{C}*$")
+            }
+            try self.validate(self.excludeSpaces, name: "excludeSpaces", parent: name, min: 1)
+            try self.includeSpaces?.forEach {
+                try validate($0, name: "includeSpaces[]", parent: name, max: 255)
+                try validate($0, name: "includeSpaces[]", parent: name, min: 1)
+                try validate($0, name: "includeSpaces[]", parent: name, pattern: "^\\P{C}*$")
+            }
+            try self.validate(self.includeSpaces, name: "includeSpaces", parent: name, min: 1)
+            try self.spaceFieldMappings?.forEach {
+                try $0.validate(name: "\(name).spaceFieldMappings[]")
+            }
+            try self.validate(self.spaceFieldMappings, name: "spaceFieldMappings", parent: name, max: 4)
+            try self.validate(self.spaceFieldMappings, name: "spaceFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlArchivedSpaces = "CrawlArchivedSpaces"
+            case crawlPersonalSpaces = "CrawlPersonalSpaces"
+            case excludeSpaces = "ExcludeSpaces"
+            case includeSpaces = "IncludeSpaces"
+            case spaceFieldMappings = "SpaceFieldMappings"
+        }
+    }
+
+    public struct ConfluenceSpaceToIndexFieldMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field in the data source.
+        public let dataSourceFieldName: ConfluenceSpaceFieldName?
+        /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
+        public let dateFieldFormat: String?
+        /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
+        public let indexFieldName: String?
+
+        public init(dataSourceFieldName: ConfluenceSpaceFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
+            self.dataSourceFieldName = dataSourceFieldName
+            self.dateFieldFormat = dateFieldFormat
+            self.indexFieldName = indexFieldName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, max: 40)
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, min: 4)
+            try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 30)
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
+            try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceFieldName = "DataSourceFieldName"
+            case dateFieldFormat = "DateFieldFormat"
+            case indexFieldName = "IndexFieldName"
+        }
+    }
+
     public struct ConnectionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the host for the database. Can be either a string (host.subdomain.domain.tld) or an IPv4 or IPv6 address.
         public let databaseHost: String
@@ -805,8 +1187,12 @@ extension Kendra {
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// A list of key-value pairs that identify the index. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
+        /// The user context policy.  ATTRIBUTE_FILTER  All indexed content is searchable and displayable for all users. If there is an access control list, it is ignored. You can filter on user and group attributes.   USER_TOKEN  Enables SSO and token-based user access control. All documents with no access control and all documents accessible to the user will be searchable and displayable.
+        public let userContextPolicy: UserContextPolicy?
+        /// The user token configuration.
+        public let userTokenConfigurations: [UserTokenConfiguration]?
 
-        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil, userContextPolicy: UserContextPolicy? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.edition = edition
@@ -814,6 +1200,8 @@ extension Kendra {
             self.roleArn = roleArn
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.tags = tags
+            self.userContextPolicy = userContextPolicy
+            self.userTokenConfigurations = userTokenConfigurations
         }
 
         public func validate(name: String) throws {
@@ -834,6 +1222,10 @@ extension Kendra {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.userTokenConfigurations?.forEach {
+                try $0.validate(name: "\(name).userTokenConfigurations[]")
+            }
+            try self.validate(self.userTokenConfigurations, name: "userTokenConfigurations", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -844,6 +1236,8 @@ extension Kendra {
             case roleArn = "RoleArn"
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
             case tags = "Tags"
+            case userContextPolicy = "UserContextPolicy"
+            case userTokenConfigurations = "UserTokenConfigurations"
         }
     }
 
@@ -861,6 +1255,8 @@ extension Kendra {
     }
 
     public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Provides configuration information for connecting to a Confluence data source.
+        public let confluenceConfiguration: ConfluenceConfiguration?
         /// Provides information necessary to create a data source connector for a database.
         public let databaseConfiguration: DatabaseConfiguration?
         /// Provided configuration for data sources that connect to Microsoft OneDrive.
@@ -874,7 +1270,8 @@ extension Kendra {
         /// Provides information necessary to create a data source connector for a Microsoft SharePoint site.
         public let sharePointConfiguration: SharePointConfiguration?
 
-        public init(databaseConfiguration: DatabaseConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
+        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
+            self.confluenceConfiguration = confluenceConfiguration
             self.databaseConfiguration = databaseConfiguration
             self.oneDriveConfiguration = oneDriveConfiguration
             self.s3Configuration = s3Configuration
@@ -884,6 +1281,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.confluenceConfiguration?.validate(name: "\(name).confluenceConfiguration")
             try self.databaseConfiguration?.validate(name: "\(name).databaseConfiguration")
             try self.oneDriveConfiguration?.validate(name: "\(name).oneDriveConfiguration")
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
@@ -893,6 +1291,7 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case confluenceConfiguration = "ConfluenceConfiguration"
             case databaseConfiguration = "DatabaseConfiguration"
             case oneDriveConfiguration = "OneDriveConfiguration"
             case s3Configuration = "S3Configuration"
@@ -1415,8 +1814,12 @@ extension Kendra {
         public let status: IndexStatus?
         /// The Unix datetime that the index was last updated.
         public let updatedAt: Date?
+        /// The user context policy for the Amazon Kendra index.
+        public let userContextPolicy: UserContextPolicy?
+        /// The user token configuration for the Amazon Kendra index.
+        public let userTokenConfigurations: [UserTokenConfiguration]?
 
-        public init(capacityUnits: CapacityUnitsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, documentMetadataConfigurations: [DocumentMetadataConfiguration]? = nil, edition: IndexEdition? = nil, errorMessage: String? = nil, id: String? = nil, indexStatistics: IndexStatistics? = nil, name: String? = nil, roleArn: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: IndexStatus? = nil, updatedAt: Date? = nil) {
+        public init(capacityUnits: CapacityUnitsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, documentMetadataConfigurations: [DocumentMetadataConfiguration]? = nil, edition: IndexEdition? = nil, errorMessage: String? = nil, id: String? = nil, indexStatistics: IndexStatistics? = nil, name: String? = nil, roleArn: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: IndexStatus? = nil, updatedAt: Date? = nil, userContextPolicy: UserContextPolicy? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.capacityUnits = capacityUnits
             self.createdAt = createdAt
             self.description = description
@@ -1430,6 +1833,8 @@ extension Kendra {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.status = status
             self.updatedAt = updatedAt
+            self.userContextPolicy = userContextPolicy
+            self.userTokenConfigurations = userTokenConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1446,6 +1851,8 @@ extension Kendra {
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
             case status = "Status"
             case updatedAt = "UpdatedAt"
+            case userContextPolicy = "UserContextPolicy"
+            case userTokenConfigurations = "UserTokenConfigurations"
         }
     }
 
@@ -1778,6 +2185,88 @@ extension Kendra {
         }
     }
 
+    public struct JsonTokenTypeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The group attribute field.
+        public let groupAttributeField: String
+        /// The user name attribute field.
+        public let userNameAttributeField: String
+
+        public init(groupAttributeField: String, userNameAttributeField: String) {
+            self.groupAttributeField = groupAttributeField
+            self.userNameAttributeField = userNameAttributeField
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, max: 2048)
+            try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, min: 1)
+            try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, max: 2048)
+            try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupAttributeField = "GroupAttributeField"
+            case userNameAttributeField = "UserNameAttributeField"
+        }
+    }
+
+    public struct JwtTokenTypeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The regular expression that identifies the claim.
+        public let claimRegex: String?
+        /// The group attribute field.
+        public let groupAttributeField: String?
+        /// The issuer of the token.
+        public let issuer: String?
+        /// The location of the key.
+        public let keyLocation: KeyLocation
+        /// The Amazon Resource Name (arn) of the secret.
+        public let secretManagerArn: String?
+        /// The signing key URL.
+        public let url: String?
+        /// The user name attribute field.
+        public let userNameAttributeField: String?
+
+        public init(claimRegex: String? = nil, groupAttributeField: String? = nil, issuer: String? = nil, keyLocation: KeyLocation, secretManagerArn: String? = nil, url: String? = nil, userNameAttributeField: String? = nil) {
+            self.claimRegex = claimRegex
+            self.groupAttributeField = groupAttributeField
+            self.issuer = issuer
+            self.keyLocation = keyLocation
+            self.secretManagerArn = secretManagerArn
+            self.url = url
+            self.userNameAttributeField = userNameAttributeField
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.claimRegex, name: "claimRegex", parent: name, max: 100)
+            try self.validate(self.claimRegex, name: "claimRegex", parent: name, min: 1)
+            try self.validate(self.claimRegex, name: "claimRegex", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, max: 100)
+            try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, min: 1)
+            try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.issuer, name: "issuer", parent: name, max: 65)
+            try self.validate(self.issuer, name: "issuer", parent: name, min: 1)
+            try self.validate(self.issuer, name: "issuer", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 1284)
+            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, min: 1)
+            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.url, name: "url", parent: name, max: 2048)
+            try self.validate(self.url, name: "url", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)")
+            try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, max: 100)
+            try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, min: 1)
+            try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case claimRegex = "ClaimRegex"
+            case groupAttributeField = "GroupAttributeField"
+            case issuer = "Issuer"
+            case keyLocation = "KeyLocation"
+            case secretManagerArn = "SecretManagerArn"
+            case url = "URL"
+            case userNameAttributeField = "UserNameAttributeField"
+        }
+    }
+
     public struct ListDataSourceSyncJobsRequest: AWSEncodableShape {
         /// The identifier of the data source.
         public let id: String
@@ -2010,6 +2499,8 @@ extension Kendra {
     }
 
     public struct OneDriveConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A Boolean value that specifies whether local groups are disabled (True) or enabled (False).
+        public let disableLocalGroups: Bool?
         /// List of regular expressions applied to documents. Items that match the exclusion pattern are not indexed. If you provide both an inclusion pattern and an exclusion pattern, any item that matches the exclusion pattern isn't indexed.  The exclusion pattern is applied to the file name.
         public let exclusionPatterns: [String]?
         /// A list of DataSourceToIndexFieldMapping objects that map Microsoft OneDrive fields to custom fields in the Amazon Kendra index. You must first create the index fields before you map OneDrive fields.
@@ -2023,7 +2514,8 @@ extension Kendra {
         /// Tha Azure Active Directory domain of the organization.
         public let tenantDomain: String
 
-        public init(exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, oneDriveUsers: OneDriveUsers, secretArn: String, tenantDomain: String) {
+        public init(disableLocalGroups: Bool? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, oneDriveUsers: OneDriveUsers, secretArn: String, tenantDomain: String) {
+            self.disableLocalGroups = disableLocalGroups
             self.exclusionPatterns = exclusionPatterns
             self.fieldMappings = fieldMappings
             self.inclusionPatterns = inclusionPatterns
@@ -2060,6 +2552,7 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case disableLocalGroups = "DisableLocalGroups"
             case exclusionPatterns = "ExclusionPatterns"
             case fieldMappings = "FieldMappings"
             case inclusionPatterns = "InclusionPatterns"
@@ -2143,8 +2636,10 @@ extension Kendra {
         public let requestedDocumentAttributes: [String]?
         /// Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
         public let sortingConfiguration: SortingConfiguration?
+        /// The user context token.
+        public let userContext: UserContext?
 
-        public init(attributeFilter: AttributeFilter? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, sortingConfiguration: SortingConfiguration? = nil) {
+        public init(attributeFilter: AttributeFilter? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, sortingConfiguration: SortingConfiguration? = nil, userContext: UserContext? = nil) {
             self.attributeFilter = attributeFilter
             self.facets = facets
             self.indexId = indexId
@@ -2154,6 +2649,7 @@ extension Kendra {
             self.queryText = queryText
             self.requestedDocumentAttributes = requestedDocumentAttributes
             self.sortingConfiguration = sortingConfiguration
+            self.userContext = userContext
         }
 
         public func validate(name: String) throws {
@@ -2175,6 +2671,7 @@ extension Kendra {
             try self.validate(self.requestedDocumentAttributes, name: "requestedDocumentAttributes", parent: name, max: 100)
             try self.validate(self.requestedDocumentAttributes, name: "requestedDocumentAttributes", parent: name, min: 1)
             try self.sortingConfiguration?.validate(name: "\(name).sortingConfiguration")
+            try self.userContext?.validate(name: "\(name).userContext")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2187,6 +2684,7 @@ extension Kendra {
             case queryText = "QueryText"
             case requestedDocumentAttributes = "RequestedDocumentAttributes"
             case sortingConfiguration = "SortingConfiguration"
+            case userContext = "UserContext"
         }
     }
 
@@ -2916,6 +3414,8 @@ extension Kendra {
     public struct SharePointConfiguration: AWSEncodableShape & AWSDecodableShape {
         ///  TRUE to include attachments to documents stored in your Microsoft SharePoint site in the index; otherwise, FALSE.
         public let crawlAttachments: Bool?
+        /// A Boolean value that specifies whether local groups are disabled (True) or enabled (False).
+        public let disableLocalGroups: Bool?
         /// The Microsoft SharePoint attribute field that contains the title of the document.
         public let documentTitleFieldName: String?
         /// A list of regular expression patterns. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
@@ -2934,8 +3434,9 @@ extension Kendra {
         public let useChangeLog: Bool?
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
-        public init(crawlAttachments: Bool? = nil, documentTitleFieldName: String? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, sharePointVersion: SharePointVersion, urls: [String], useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(crawlAttachments: Bool? = nil, disableLocalGroups: Bool? = nil, documentTitleFieldName: String? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, sharePointVersion: SharePointVersion, urls: [String], useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.crawlAttachments = crawlAttachments
+            self.disableLocalGroups = disableLocalGroups
             self.documentTitleFieldName = documentTitleFieldName
             self.exclusionPatterns = exclusionPatterns
             self.fieldMappings = fieldMappings
@@ -2983,6 +3484,7 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case crawlAttachments = "CrawlAttachments"
+            case disableLocalGroups = "DisableLocalGroups"
             case documentTitleFieldName = "DocumentTitleFieldName"
             case exclusionPatterns = "ExclusionPatterns"
             case fieldMappings = "FieldMappings"
@@ -3341,14 +3843,20 @@ extension Kendra {
         public let name: String?
         /// A new IAM role that gives Amazon Kendra permission to access your Amazon CloudWatch logs.
         public let roleArn: String?
+        /// The user user token context policy.
+        public let userContextPolicy: UserContextPolicy?
+        /// The user token configuration.
+        public let userTokenConfigurations: [UserTokenConfiguration]?
 
-        public init(capacityUnits: CapacityUnitsConfiguration? = nil, description: String? = nil, documentMetadataConfigurationUpdates: [DocumentMetadataConfiguration]? = nil, id: String, name: String? = nil, roleArn: String? = nil) {
+        public init(capacityUnits: CapacityUnitsConfiguration? = nil, description: String? = nil, documentMetadataConfigurationUpdates: [DocumentMetadataConfiguration]? = nil, id: String, name: String? = nil, roleArn: String? = nil, userContextPolicy: UserContextPolicy? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.capacityUnits = capacityUnits
             self.description = description
             self.documentMetadataConfigurationUpdates = documentMetadataConfigurationUpdates
             self.id = id
             self.name = name
             self.roleArn = roleArn
+            self.userContextPolicy = userContextPolicy
+            self.userTokenConfigurations = userTokenConfigurations
         }
 
         public func validate(name: String) throws {
@@ -3370,6 +3878,10 @@ extension Kendra {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.userTokenConfigurations?.forEach {
+                try $0.validate(name: "\(name).userTokenConfigurations[]")
+            }
+            try self.validate(self.userTokenConfigurations, name: "userTokenConfigurations", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3379,6 +3891,49 @@ extension Kendra {
             case id = "Id"
             case name = "Name"
             case roleArn = "RoleArn"
+            case userContextPolicy = "UserContextPolicy"
+            case userTokenConfigurations = "UserTokenConfigurations"
+        }
+    }
+
+    public struct UserContext: AWSEncodableShape {
+        /// The user context token. It must be a JWT or a JSON token.
+        public let token: String?
+
+        public init(token: String? = nil) {
+            self.token = token
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.token, name: "token", parent: name, max: 100_000)
+            try self.validate(self.token, name: "token", parent: name, min: 1)
+            try self.validate(self.token, name: "token", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case token = "Token"
+        }
+    }
+
+    public struct UserTokenConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the JSON token type configuration.
+        public let jsonTokenTypeConfiguration: JsonTokenTypeConfiguration?
+        /// Information about the JWT token type configuration.
+        public let jwtTokenTypeConfiguration: JwtTokenTypeConfiguration?
+
+        public init(jsonTokenTypeConfiguration: JsonTokenTypeConfiguration? = nil, jwtTokenTypeConfiguration: JwtTokenTypeConfiguration? = nil) {
+            self.jsonTokenTypeConfiguration = jsonTokenTypeConfiguration
+            self.jwtTokenTypeConfiguration = jwtTokenTypeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.jsonTokenTypeConfiguration?.validate(name: "\(name).jsonTokenTypeConfiguration")
+            try self.jwtTokenTypeConfiguration?.validate(name: "\(name).jwtTokenTypeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jsonTokenTypeConfiguration = "JsonTokenTypeConfiguration"
+            case jwtTokenTypeConfiguration = "JwtTokenTypeConfiguration"
         }
     }
 }

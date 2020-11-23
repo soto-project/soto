@@ -52,6 +52,18 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum Compatibility: String, CustomStringConvertible, Codable {
+        case backward = "BACKWARD"
+        case backwardAll = "BACKWARD_ALL"
+        case disabled = "DISABLED"
+        case forward = "FORWARD"
+        case forwardAll = "FORWARD_ALL"
+        case full = "FULL"
+        case fullAll = "FULL_ALL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable {
         case configFiles = "CONFIG_FILES"
         case connectionUrl = "CONNECTION_URL"
@@ -106,6 +118,11 @@ extension Glue {
         case absent = "ABSENT"
         case present = "PRESENT"
         case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataFormat: String, CustomStringConvertible, Codable {
+        case avro = "AVRO"
         public var description: String { return self.rawValue }
     }
 
@@ -170,6 +187,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum MLUserDataEncryptionModeString: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case sseKms = "SSE-KMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NodeType: String, CustomStringConvertible, Codable {
         case crawler = "CRAWLER"
         case job = "JOB"
@@ -208,6 +231,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum RegistryStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceShareType: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case foreign = "FOREIGN"
@@ -232,6 +261,26 @@ extension Glue {
         case notScheduled = "NOT_SCHEDULED"
         case scheduled = "SCHEDULED"
         case transitioning = "TRANSITIONING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchemaDiffType: String, CustomStringConvertible, Codable {
+        case syntaxDiff = "SYNTAX_DIFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchemaStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchemaVersionStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case failure = "FAILURE"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -1087,11 +1136,11 @@ extension Glue {
     }
 
     public struct BinaryColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-        /// Average length of the column.
+        /// The average bit sequence length in the column.
         public let averageLength: Double
-        /// Maximum length of the column.
+        /// The size of the longest bit sequence in the column.
         public let maximumLength: Int64
-        /// Number of nulls.
+        /// The number of null values in the column.
         public let numberOfNulls: Int64
 
         public init(averageLength: Double, maximumLength: Int64, numberOfNulls: Int64) {
@@ -1114,11 +1163,11 @@ extension Glue {
     }
 
     public struct BooleanColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-        /// Number of false value.
+        /// The number of false values in the column.
         public let numberOfFalses: Int64
-        /// Number of nulls.
+        /// The number of null values in the column.
         public let numberOfNulls: Int64
-        /// Number of true value.
+        /// The number of true values in the column.
         public let numberOfTrues: Int64
 
         public init(numberOfFalses: Int64, numberOfNulls: Int64, numberOfTrues: Int64) {
@@ -1260,6 +1309,46 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
             case tables = "Tables"
+        }
+    }
+
+    public struct CheckSchemaVersionValidityInput: AWSEncodableShape {
+        /// The data format of the schema definition. Currently only AVRO is supported.
+        public let dataFormat: DataFormat
+        /// The definition of the schema that has to be validated.
+        public let schemaDefinition: String
+
+        public init(dataFormat: DataFormat, schemaDefinition: String) {
+            self.dataFormat = dataFormat
+            self.schemaDefinition = schemaDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFormat = "DataFormat"
+            case schemaDefinition = "SchemaDefinition"
+        }
+    }
+
+    public struct CheckSchemaVersionValidityResponse: AWSDecodableShape {
+        /// A validation failure error message.
+        public let error: String?
+        /// Return true, if the schema is valid and false otherwise.
+        public let valid: Bool?
+
+        public init(error: String? = nil, valid: Bool? = nil) {
+            self.error = error
+            self.valid = valid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case valid = "Valid"
         }
     }
 
@@ -1437,9 +1526,9 @@ extension Glue {
     }
 
     public struct ColumnError: AWSDecodableShape {
-        /// The name of the column.
+        /// The name of the column that failed.
         public let columnName: String?
-        /// The error message occurred during operation.
+        /// An error message with the reason for the failure of an operation.
         public let error: ErrorDetail?
 
         public init(columnName: String? = nil, error: ErrorDetail? = nil) {
@@ -1454,13 +1543,13 @@ extension Glue {
     }
 
     public struct ColumnStatistics: AWSEncodableShape & AWSDecodableShape {
-        /// The analyzed time of the column statistics.
+        /// The timestamp of when column statistics were generated.
         public let analyzedTime: Date
-        /// The name of the column.
+        /// Name of column which statistics belong to.
         public let columnName: String
-        /// The type of the column.
+        /// The data type of the column.
         public let columnType: String
-        /// The statistics of the column.
+        /// A ColumnStatisticData object that contains the statistics data values.
         public let statisticsData: ColumnStatisticsData
 
         public init(analyzedTime: Date, columnName: String, columnType: String, statisticsData: ColumnStatisticsData) {
@@ -1489,21 +1578,21 @@ extension Glue {
     }
 
     public struct ColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-        /// Binary Column Statistics Data.
+        /// Binary column statistics data.
         public let binaryColumnStatisticsData: BinaryColumnStatisticsData?
-        /// Boolean Column Statistics Data.
+        /// Boolean column statistics data.
         public let booleanColumnStatisticsData: BooleanColumnStatisticsData?
-        /// Date Column Statistics Data.
+        /// Date column statistics data.
         public let dateColumnStatisticsData: DateColumnStatisticsData?
-        /// Decimal Column Statistics Data.
+        /// Decimal column statistics data.
         public let decimalColumnStatisticsData: DecimalColumnStatisticsData?
-        /// Double Column Statistics Data.
+        /// Double column statistics data.
         public let doubleColumnStatisticsData: DoubleColumnStatisticsData?
-        /// Long Column Statistics Data.
+        /// Long column statistics data.
         public let longColumnStatisticsData: LongColumnStatisticsData?
-        /// String Column Statistics Data.
+        /// String column statistics data.
         public let stringColumnStatisticsData: StringColumnStatisticsData?
-        /// The name of the column.
+        /// The type of column statistics data.
         public let type: ColumnStatisticsType
 
         public init(binaryColumnStatisticsData: BinaryColumnStatisticsData? = nil, booleanColumnStatisticsData: BooleanColumnStatisticsData? = nil, dateColumnStatisticsData: DateColumnStatisticsData? = nil, decimalColumnStatisticsData: DecimalColumnStatisticsData? = nil, doubleColumnStatisticsData: DoubleColumnStatisticsData? = nil, longColumnStatisticsData: LongColumnStatisticsData? = nil, stringColumnStatisticsData: StringColumnStatisticsData? = nil, type: ColumnStatisticsType) {
@@ -1542,7 +1631,7 @@ extension Glue {
     public struct ColumnStatisticsError: AWSDecodableShape {
         /// The ColumnStatistics of the column.
         public let columnStatistics: ColumnStatistics?
-        /// The error message occurred during operation.
+        /// An error message with the reason for the failure of an operation.
         public let error: ErrorDetail?
 
         public init(columnStatistics: ColumnStatistics? = nil, error: ErrorDetail? = nil) {
@@ -2564,10 +2653,12 @@ extension Glue {
         public let tags: [String: String]?
         /// The timeout of the task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
+        /// The encryption-at-rest settings of the transform that apply to accessing user data. Machine learning transforms can access user data encrypted in Amazon S3 using KMS.
+        public let transformEncryption: TransformEncryption?
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
         public let workerType: WorkerType?
 
-        public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, tags: [String: String]? = nil, timeout: Int? = nil, transformEncryption: TransformEncryption? = nil, workerType: WorkerType? = nil) {
             self.description = description
             self.glueVersion = glueVersion
             self.inputRecordTables = inputRecordTables
@@ -2579,6 +2670,7 @@ extension Glue {
             self.role = role
             self.tags = tags
             self.timeout = timeout
+            self.transformEncryption = transformEncryption
             self.workerType = workerType
         }
 
@@ -2605,6 +2697,7 @@ extension Glue {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
+            try self.transformEncryption?.validate(name: "\(name).transformEncryption")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2619,6 +2712,7 @@ extension Glue {
             case role = "Role"
             case tags = "Tags"
             case timeout = "Timeout"
+            case transformEncryption = "TransformEncryption"
             case workerType = "WorkerType"
         }
     }
@@ -2676,6 +2770,188 @@ extension Glue {
 
     public struct CreatePartitionResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CreateRegistryInput: AWSEncodableShape {
+        /// A description of the registry. If description is not provided, there will not be any default value for this.
+        public let description: String?
+        /// Name of the registry to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace.
+        public let registryName: String
+        /// AWS tags that contain a key value pair and may be searched by console, command line, or API.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, registryName: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.registryName = registryName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
+            try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
+            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case registryName = "RegistryName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRegistryResponse: AWSDecodableShape {
+        /// A description of the registry.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the newly created registry.
+        public let registryArn: String?
+        /// The name of the registry.
+        public let registryName: String?
+        /// The tags for the registry.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, registryArn: String? = nil, registryName: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.registryArn = registryArn
+            self.registryName = registryName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case registryArn = "RegistryArn"
+            case registryName = "RegistryName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSchemaInput: AWSEncodableShape {
+        /// The compatibility mode of the schema. The possible values are:    NONE: No compatibility mode applies. You can use this choice in development scenarios or if you do not know the compatibility mode that you want to apply to schemas. Any new version added will be accepted without undergoing a compatibility check.    DISABLED: This compatibility choice prevents versioning for a particular schema. You can use this choice to prevent future versioning of a schema.    BACKWARD: This compatibility choice is recommended as it allows data receivers to read both the current and one previous schema version. This means that for instance, a new schema version cannot drop data fields or change the type of these fields, so they can't be read by readers using the previous version.    BACKWARD_ALL: This compatibility choice allows data receivers to read both the current and all previous schema versions. You can use this choice when you need to delete fields or add optional fields, and check compatibility against all previous schema versions.     FORWARD: This compatibility choice allows data receivers to read both the current and one next schema version, but not necessarily later versions. You can use this choice when you need to add fields or delete optional fields, but only check compatibility against the last schema version.    FORWARD_ALL: This compatibility choice allows data receivers to read written by producers of any new registered schema. You can use this choice when you need to add fields or delete optional fields, and check compatibility against all previous schema versions.    FULL: This compatibility choice allows data receivers to read data written by producers using the previous or next version of the schema, but not necessarily earlier or later versions. You can use this choice when you need to add or remove optional fields, but only check compatibility against the last schema version.    FULL_ALL: This compatibility choice allows data receivers to read data written by producers using all previous schema versions. You can use this choice when you need to add or remove optional fields, and check compatibility against all previous schema versions.
+        public let compatibility: Compatibility?
+        /// The data format of the schema definition. Currently only AVRO is supported.
+        public let dataFormat: DataFormat
+        /// An optional description of the schema. If description is not provided, there will not be any automatic default value for this.
+        public let description: String?
+        ///  This is a wrapper shape to contain the registry identity fields. If this is not provided, the default registry will be used. The ARN format for the same will be: arn:aws:glue:us-east-2:&lt;customer id&gt;:registry/default-registry:random-5-letter-id.
+        public let registryId: RegistryId?
+        /// The schema definition using the DataFormat setting for SchemaName.
+        public let schemaDefinition: String?
+        /// Name of the schema to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace.
+        public let schemaName: String
+        /// AWS tags that contain a key value pair and may be searched by console, command line, or API. If specified, follows the AWS tags-on-create pattern.
+        public let tags: [String: String]?
+
+        public init(compatibility: Compatibility? = nil, dataFormat: DataFormat, description: String? = nil, registryId: RegistryId? = nil, schemaDefinition: String? = nil, schemaName: String, tags: [String: String]? = nil) {
+            self.compatibility = compatibility
+            self.dataFormat = dataFormat
+            self.description = description
+            self.registryId = registryId
+            self.schemaDefinition = schemaDefinition
+            self.schemaName = schemaName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.registryId?.validate(name: "\(name).registryId")
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compatibility = "Compatibility"
+            case dataFormat = "DataFormat"
+            case description = "Description"
+            case registryId = "RegistryId"
+            case schemaDefinition = "SchemaDefinition"
+            case schemaName = "SchemaName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSchemaResponse: AWSDecodableShape {
+        /// The schema compatibility mode.
+        public let compatibility: Compatibility?
+        /// The data format of the schema definition. Currently only AVRO is supported.
+        public let dataFormat: DataFormat?
+        /// A description of the schema if specified when created.
+        public let description: String?
+        /// The latest version of the schema associated with the returned schema definition.
+        public let latestSchemaVersion: Int64?
+        /// The next version of the schema associated with the returned schema definition.
+        public let nextSchemaVersion: Int64?
+        /// The Amazon Resource Name (ARN) of the registry.
+        public let registryArn: String?
+        /// The name of the registry.
+        public let registryName: String?
+        /// The Amazon Resource Name (ARN) of the schema.
+        public let schemaArn: String?
+        /// The version number of the checkpoint (the last time the compatibility mode was changed).
+        public let schemaCheckpoint: Int64?
+        /// The name of the schema.
+        public let schemaName: String?
+        /// The status of the schema.
+        public let schemaStatus: SchemaStatus?
+        /// The unique identifier of the first schema version.
+        public let schemaVersionId: String?
+        /// The status of the first schema version created.
+        public let schemaVersionStatus: SchemaVersionStatus?
+        /// The tags for the schema.
+        public let tags: [String: String]?
+
+        public init(compatibility: Compatibility? = nil, dataFormat: DataFormat? = nil, description: String? = nil, latestSchemaVersion: Int64? = nil, nextSchemaVersion: Int64? = nil, registryArn: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaCheckpoint: Int64? = nil, schemaName: String? = nil, schemaStatus: SchemaStatus? = nil, schemaVersionId: String? = nil, schemaVersionStatus: SchemaVersionStatus? = nil, tags: [String: String]? = nil) {
+            self.compatibility = compatibility
+            self.dataFormat = dataFormat
+            self.description = description
+            self.latestSchemaVersion = latestSchemaVersion
+            self.nextSchemaVersion = nextSchemaVersion
+            self.registryArn = registryArn
+            self.registryName = registryName
+            self.schemaArn = schemaArn
+            self.schemaCheckpoint = schemaCheckpoint
+            self.schemaName = schemaName
+            self.schemaStatus = schemaStatus
+            self.schemaVersionId = schemaVersionId
+            self.schemaVersionStatus = schemaVersionStatus
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compatibility = "Compatibility"
+            case dataFormat = "DataFormat"
+            case description = "Description"
+            case latestSchemaVersion = "LatestSchemaVersion"
+            case nextSchemaVersion = "NextSchemaVersion"
+            case registryArn = "RegistryArn"
+            case registryName = "RegistryName"
+            case schemaArn = "SchemaArn"
+            case schemaCheckpoint = "SchemaCheckpoint"
+            case schemaName = "SchemaName"
+            case schemaStatus = "SchemaStatus"
+            case schemaVersionId = "SchemaVersionId"
+            case schemaVersionStatus = "SchemaVersionStatus"
+            case tags = "Tags"
+        }
     }
 
     public struct CreateScriptRequest: AWSEncodableShape {
@@ -3222,13 +3498,13 @@ extension Glue {
     }
 
     public struct DateColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-        /// Maximum value of the column.
+        /// The highest value in the column.
         public let maximumValue: Date?
-        /// Minimum value of the column.
+        /// The lowest value in the column.
         public let minimumValue: Date?
-        /// Number of distinct values.
+        /// The number of distinct values in a column.
         public let numberOfDistinctValues: Int64
-        /// Number of nulls.
+        /// The number of null values in the column.
         public let numberOfNulls: Int64
 
         public init(maximumValue: Date? = nil, minimumValue: Date? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
@@ -3252,13 +3528,13 @@ extension Glue {
     }
 
     public struct DecimalColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-        /// Maximum value of the column.
+        /// The highest value in the column.
         public let maximumValue: DecimalNumber?
-        /// Minimum value of the column.
+        /// The lowest value in the column.
         public let minimumValue: DecimalNumber?
-        /// Number of distinct values.
+        /// The number of distinct values in a column.
         public let numberOfDistinctValues: Int64
-        /// Number of nulls.
+        /// The number of null values in the column.
         public let numberOfNulls: Int64
 
         public init(maximumValue: DecimalNumber? = nil, minimumValue: DecimalNumber? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
@@ -3624,6 +3900,44 @@ extension Glue {
         public init() {}
     }
 
+    public struct DeleteRegistryInput: AWSEncodableShape {
+        /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
+        public let registryId: RegistryId
+
+        public init(registryId: RegistryId) {
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.registryId.validate(name: "\(name).registryId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "RegistryId"
+        }
+    }
+
+    public struct DeleteRegistryResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the registry being deleted.
+        public let registryArn: String?
+        /// The name of the registry being deleted.
+        public let registryName: String?
+        /// The status of the registry. A successful operation will return the Deleting status.
+        public let status: RegistryStatus?
+
+        public init(registryArn: String? = nil, registryName: String? = nil, status: RegistryStatus? = nil) {
+            self.registryArn = registryArn
+            self.registryName = registryName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryArn = "RegistryArn"
+            case registryName = "RegistryName"
+            case status = "Status"
+        }
+    }
+
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
         /// The hash value returned when this policy was set.
         public let policyHashCondition: String?
@@ -3652,6 +3966,81 @@ extension Glue {
 
     public struct DeleteResourcePolicyResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteSchemaInput: AWSEncodableShape {
+        /// This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
+        public let schemaId: SchemaId
+
+        public init(schemaId: SchemaId) {
+            self.schemaId = schemaId
+        }
+
+        public func validate(name: String) throws {
+            try self.schemaId.validate(name: "\(name).schemaId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaId = "SchemaId"
+        }
+    }
+
+    public struct DeleteSchemaResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the schema being deleted.
+        public let schemaArn: String?
+        /// The name of the schema being deleted.
+        public let schemaName: String?
+        /// The status of the schema.
+        public let status: SchemaStatus?
+
+        public init(schemaArn: String? = nil, schemaName: String? = nil, status: SchemaStatus? = nil) {
+            self.schemaArn = schemaArn
+            self.schemaName = schemaName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
+            case schemaName = "SchemaName"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteSchemaVersionsInput: AWSEncodableShape {
+        /// This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
+        public let schemaId: SchemaId
+        /// A version range may be supplied which may be of the format:   a single version number, 5   a range, 5-8 : deletes versions 5, 6, 7, 8
+        public let versions: String
+
+        public init(schemaId: SchemaId, versions: String) {
+            self.schemaId = schemaId
+            self.versions = versions
+        }
+
+        public func validate(name: String) throws {
+            try self.schemaId.validate(name: "\(name).schemaId")
+            try self.validate(self.versions, name: "versions", parent: name, max: 100_000)
+            try self.validate(self.versions, name: "versions", parent: name, min: 1)
+            try self.validate(self.versions, name: "versions", parent: name, pattern: "[1-9][0-9]*|[1-9][0-9]*-[1-9][0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaId = "SchemaId"
+            case versions = "Versions"
+        }
+    }
+
+    public struct DeleteSchemaVersionsResponse: AWSDecodableShape {
+        /// A list of SchemaVersionErrorItem objects, each containing an error and schema version.
+        public let schemaVersionErrors: [SchemaVersionErrorItem]?
+
+        public init(schemaVersionErrors: [SchemaVersionErrorItem]? = nil) {
+            self.schemaVersionErrors = schemaVersionErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaVersionErrors = "SchemaVersionErrors"
+        }
     }
 
     public struct DeleteSecurityConfigurationRequest: AWSEncodableShape {
@@ -3986,13 +4375,13 @@ extension Glue {
     }
 
     public struct DoubleColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-        /// Maximum value of the column.
+        /// The highest value in the column.
         public let maximumValue: Double?
-        /// Minimum value of the column.
+        /// The lowest value in the column.
         public let minimumValue: Double?
-        /// Number of distinct values.
+        /// The number of distinct values in a column.
         public let numberOfDistinctValues: Int64
-        /// Number of nulls.
+        /// The number of null values in the column.
         public let numberOfNulls: Int64
 
         public init(maximumValue: Double? = nil, minimumValue: Double? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
@@ -4109,6 +4498,23 @@ extension Glue {
         /// The code associated with this error.
         public let errorCode: String?
         /// A message describing the error.
+        public let errorMessage: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct ErrorDetails: AWSDecodableShape {
+        /// The error code for an error.
+        public let errorCode: String?
+        /// The error message for an error.
         public let errorMessage: String?
 
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
@@ -5315,12 +5721,14 @@ extension Glue {
         public let status: TransformStatusType?
         /// The timeout for a task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
+        /// The encryption-at-rest settings of the transform that apply to accessing user data. Machine learning transforms can access user data encrypted in Amazon S3 using KMS.
+        public let transformEncryption: TransformEncryption?
         /// The unique identifier of the transform, generated at the time that the transform was created.
         public let transformId: String?
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
-        public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
+        public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformEncryption: TransformEncryption? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
             self.createdOn = createdOn
             self.description = description
             self.evaluationMetrics = evaluationMetrics
@@ -5337,6 +5745,7 @@ extension Glue {
             self.schema = schema
             self.status = status
             self.timeout = timeout
+            self.transformEncryption = transformEncryption
             self.transformId = transformId
             self.workerType = workerType
         }
@@ -5358,6 +5767,7 @@ extension Glue {
             case schema = "Schema"
             case status = "Status"
             case timeout = "Timeout"
+            case transformEncryption = "TransformEncryption"
             case transformId = "TransformId"
             case workerType = "WorkerType"
         }
@@ -5690,6 +6100,56 @@ extension Glue {
         }
     }
 
+    public struct GetRegistryInput: AWSEncodableShape {
+        /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
+        public let registryId: RegistryId
+
+        public init(registryId: RegistryId) {
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.registryId.validate(name: "\(name).registryId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "RegistryId"
+        }
+    }
+
+    public struct GetRegistryResponse: AWSDecodableShape {
+        /// The date and time the registry was created.
+        public let createdTime: String?
+        /// A description of the registry.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the registry.
+        public let registryArn: String?
+        /// The name of the registry.
+        public let registryName: String?
+        /// The status of the registry.
+        public let status: RegistryStatus?
+        /// The date and time the registry was updated.
+        public let updatedTime: String?
+
+        public init(createdTime: String? = nil, description: String? = nil, registryArn: String? = nil, registryName: String? = nil, status: RegistryStatus? = nil, updatedTime: String? = nil) {
+            self.createdTime = createdTime
+            self.description = description
+            self.registryArn = registryArn
+            self.registryName = registryName
+            self.status = status
+            self.updatedTime = updatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case registryArn = "RegistryArn"
+            case registryName = "RegistryName"
+            case status = "Status"
+            case updatedTime = "UpdatedTime"
+        }
+    }
+
     public struct GetResourcePoliciesRequest: AWSEncodableShape {
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -5770,6 +6230,247 @@ extension Glue {
             case policyHash = "PolicyHash"
             case policyInJson = "PolicyInJson"
             case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct GetSchemaByDefinitionInput: AWSEncodableShape {
+        /// The definition of the schema for which schema details are required.
+        public let schemaDefinition: String
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
+        public let schemaId: SchemaId
+
+        public init(schemaDefinition: String, schemaId: SchemaId) {
+            self.schemaDefinition = schemaDefinition
+            self.schemaId = schemaId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: ".*\\S.*")
+            try self.schemaId.validate(name: "\(name).schemaId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaDefinition = "SchemaDefinition"
+            case schemaId = "SchemaId"
+        }
+    }
+
+    public struct GetSchemaByDefinitionResponse: AWSDecodableShape {
+        /// The date and time the schema was created.
+        public let createdTime: String?
+        /// The data format of the schema definition. Currently only AVRO is supported.
+        public let dataFormat: DataFormat?
+        /// The Amazon Resource Name (ARN) of the schema.
+        public let schemaArn: String?
+        /// The schema ID of the schema version.
+        public let schemaVersionId: String?
+        /// The status of the schema version.
+        public let status: SchemaVersionStatus?
+
+        public init(createdTime: String? = nil, dataFormat: DataFormat? = nil, schemaArn: String? = nil, schemaVersionId: String? = nil, status: SchemaVersionStatus? = nil) {
+            self.createdTime = createdTime
+            self.dataFormat = dataFormat
+            self.schemaArn = schemaArn
+            self.schemaVersionId = schemaVersionId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case dataFormat = "DataFormat"
+            case schemaArn = "SchemaArn"
+            case schemaVersionId = "SchemaVersionId"
+            case status = "Status"
+        }
+    }
+
+    public struct GetSchemaInput: AWSEncodableShape {
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
+        public let schemaId: SchemaId
+
+        public init(schemaId: SchemaId) {
+            self.schemaId = schemaId
+        }
+
+        public func validate(name: String) throws {
+            try self.schemaId.validate(name: "\(name).schemaId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaId = "SchemaId"
+        }
+    }
+
+    public struct GetSchemaResponse: AWSDecodableShape {
+        /// The compatibility mode of the schema.
+        public let compatibility: Compatibility?
+        /// The date and time the schema was created.
+        public let createdTime: String?
+        /// The data format of the schema definition. Currently only AVRO is supported.
+        public let dataFormat: DataFormat?
+        /// A description of schema if specified when created
+        public let description: String?
+        /// The latest version of the schema associated with the returned schema definition.
+        public let latestSchemaVersion: Int64?
+        /// The next version of the schema associated with the returned schema definition.
+        public let nextSchemaVersion: Int64?
+        /// The Amazon Resource Name (ARN) of the registry.
+        public let registryArn: String?
+        /// The name of the registry.
+        public let registryName: String?
+        /// The Amazon Resource Name (ARN) of the schema.
+        public let schemaArn: String?
+        /// The version number of the checkpoint (the last time the compatibility mode was changed).
+        public let schemaCheckpoint: Int64?
+        /// The name of the schema.
+        public let schemaName: String?
+        /// The status of the schema.
+        public let schemaStatus: SchemaStatus?
+        /// The date and time the schema was updated.
+        public let updatedTime: String?
+
+        public init(compatibility: Compatibility? = nil, createdTime: String? = nil, dataFormat: DataFormat? = nil, description: String? = nil, latestSchemaVersion: Int64? = nil, nextSchemaVersion: Int64? = nil, registryArn: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaCheckpoint: Int64? = nil, schemaName: String? = nil, schemaStatus: SchemaStatus? = nil, updatedTime: String? = nil) {
+            self.compatibility = compatibility
+            self.createdTime = createdTime
+            self.dataFormat = dataFormat
+            self.description = description
+            self.latestSchemaVersion = latestSchemaVersion
+            self.nextSchemaVersion = nextSchemaVersion
+            self.registryArn = registryArn
+            self.registryName = registryName
+            self.schemaArn = schemaArn
+            self.schemaCheckpoint = schemaCheckpoint
+            self.schemaName = schemaName
+            self.schemaStatus = schemaStatus
+            self.updatedTime = updatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compatibility = "Compatibility"
+            case createdTime = "CreatedTime"
+            case dataFormat = "DataFormat"
+            case description = "Description"
+            case latestSchemaVersion = "LatestSchemaVersion"
+            case nextSchemaVersion = "NextSchemaVersion"
+            case registryArn = "RegistryArn"
+            case registryName = "RegistryName"
+            case schemaArn = "SchemaArn"
+            case schemaCheckpoint = "SchemaCheckpoint"
+            case schemaName = "SchemaName"
+            case schemaStatus = "SchemaStatus"
+            case updatedTime = "UpdatedTime"
+        }
+    }
+
+    public struct GetSchemaVersionInput: AWSEncodableShape {
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
+        public let schemaId: SchemaId?
+        /// The SchemaVersionId of the schema version. This field is required for fetching by schema ID. Either this or the SchemaId wrapper has to be provided.
+        public let schemaVersionId: String?
+        /// The version number of the schema.
+        public let schemaVersionNumber: SchemaVersionNumber?
+
+        public init(schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: SchemaVersionNumber? = nil) {
+            self.schemaId = schemaId
+            self.schemaVersionId = schemaVersionId
+            self.schemaVersionNumber = schemaVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaId = "SchemaId"
+            case schemaVersionId = "SchemaVersionId"
+            case schemaVersionNumber = "SchemaVersionNumber"
+        }
+    }
+
+    public struct GetSchemaVersionResponse: AWSDecodableShape {
+        /// The date and time the schema version was created.
+        public let createdTime: String?
+        /// The data format of the schema definition. Currently only AVRO is supported.
+        public let dataFormat: DataFormat?
+        /// The Amazon Resource Name (ARN) of the schema.
+        public let schemaArn: String?
+        /// The schema definition for the schema ID.
+        public let schemaDefinition: String?
+        /// The SchemaVersionId of the schema version.
+        public let schemaVersionId: String?
+        /// The status of the schema version.
+        public let status: SchemaVersionStatus?
+        /// The version number of the schema.
+        public let versionNumber: Int64?
+
+        public init(createdTime: String? = nil, dataFormat: DataFormat? = nil, schemaArn: String? = nil, schemaDefinition: String? = nil, schemaVersionId: String? = nil, status: SchemaVersionStatus? = nil, versionNumber: Int64? = nil) {
+            self.createdTime = createdTime
+            self.dataFormat = dataFormat
+            self.schemaArn = schemaArn
+            self.schemaDefinition = schemaDefinition
+            self.schemaVersionId = schemaVersionId
+            self.status = status
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case dataFormat = "DataFormat"
+            case schemaArn = "SchemaArn"
+            case schemaDefinition = "SchemaDefinition"
+            case schemaVersionId = "SchemaVersionId"
+            case status = "Status"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct GetSchemaVersionsDiffInput: AWSEncodableShape {
+        /// The first of the two schema versions to be compared.
+        public let firstSchemaVersionNumber: SchemaVersionNumber
+        /// Refers to SYNTAX_DIFF, which is the currently supported diff type.
+        public let schemaDiffType: SchemaDiffType
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
+        public let schemaId: SchemaId
+        /// The second of the two schema versions to be compared.
+        public let secondSchemaVersionNumber: SchemaVersionNumber
+
+        public init(firstSchemaVersionNumber: SchemaVersionNumber, schemaDiffType: SchemaDiffType, schemaId: SchemaId, secondSchemaVersionNumber: SchemaVersionNumber) {
+            self.firstSchemaVersionNumber = firstSchemaVersionNumber
+            self.schemaDiffType = schemaDiffType
+            self.schemaId = schemaId
+            self.secondSchemaVersionNumber = secondSchemaVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.firstSchemaVersionNumber.validate(name: "\(name).firstSchemaVersionNumber")
+            try self.schemaId.validate(name: "\(name).schemaId")
+            try self.secondSchemaVersionNumber.validate(name: "\(name).secondSchemaVersionNumber")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firstSchemaVersionNumber = "FirstSchemaVersionNumber"
+            case schemaDiffType = "SchemaDiffType"
+            case schemaId = "SchemaId"
+            case secondSchemaVersionNumber = "SecondSchemaVersionNumber"
+        }
+    }
+
+    public struct GetSchemaVersionsDiffResponse: AWSDecodableShape {
+        /// The difference between schemas as a string in JsonPatch format.
+        public let diff: String?
+
+        public init(diff: String? = nil) {
+            self.diff = diff
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diff = "Diff"
         }
     }
 
@@ -7269,6 +7970,133 @@ extension Glue {
         }
     }
 
+    public struct ListRegistriesInput: AWSEncodableShape {
+        /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRegistriesResponse: AWSDecodableShape {
+        /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+        public let nextToken: String?
+        /// An array of RegistryDetailedListItem objects containing minimal details of each registry.
+        public let registries: [RegistryListItem]?
+
+        public init(nextToken: String? = nil, registries: [RegistryListItem]? = nil) {
+            self.nextToken = nextToken
+            self.registries = registries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registries = "Registries"
+        }
+    }
+
+    public struct ListSchemaVersionsInput: AWSEncodableShape {
+        /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
+        public let schemaId: SchemaId
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, schemaId: SchemaId) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.schemaId = schemaId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.schemaId.validate(name: "\(name).schemaId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case schemaId = "SchemaId"
+        }
+    }
+
+    public struct ListSchemaVersionsResponse: AWSDecodableShape {
+        /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+        public let nextToken: String?
+        /// An array of SchemaVersionList objects containing details of each schema version.
+        public let schemas: [SchemaVersionListItem]?
+
+        public init(nextToken: String? = nil, schemas: [SchemaVersionListItem]? = nil) {
+            self.nextToken = nextToken
+            self.schemas = schemas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case schemas = "Schemas"
+        }
+    }
+
+    public struct ListSchemasInput: AWSEncodableShape {
+        /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// A wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
+        public let registryId: RegistryId?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, registryId: RegistryId? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.registryId?.validate(name: "\(name).registryId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case registryId = "RegistryId"
+        }
+    }
+
+    public struct ListSchemasResponse: AWSDecodableShape {
+        /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+        public let nextToken: String?
+        /// An array of SchemaListItem objects containing details of each schema.
+        public let schemas: [SchemaListItem]?
+
+        public init(nextToken: String? = nil, schemas: [SchemaListItem]? = nil) {
+            self.nextToken = nextToken
+            self.schemas = schemas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case schemas = "Schemas"
+        }
+    }
+
     public struct ListTriggersRequest: AWSEncodableShape {
         ///  The name of the job for which to retrieve triggers. The trigger that can start this job is returned. If there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
@@ -7395,13 +8223,13 @@ extension Glue {
     }
 
     public struct LongColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-        /// Maximum value of the column.
+        /// The highest value in the column.
         public let maximumValue: Int64?
-        /// Minimum value of the column.
+        /// The lowest value in the column.
         public let minimumValue: Int64?
-        /// Number of distinct values.
+        /// The number of distinct values in a column.
         public let numberOfDistinctValues: Int64
-        /// Number of nulls.
+        /// The number of null values in the column.
         public let numberOfNulls: Int64
 
         public init(maximumValue: Int64? = nil, minimumValue: Int64? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
@@ -7457,12 +8285,14 @@ extension Glue {
         public let status: TransformStatusType?
         /// The timeout in minutes of the machine learning transform.
         public let timeout: Int?
+        /// The encryption-at-rest settings of the transform that apply to accessing user data. Machine learning transforms can access user data encrypted in Amazon S3 using KMS.
+        public let transformEncryption: TransformEncryption?
         /// The unique transform ID that is generated for the machine learning transform. The ID is guaranteed to be unique and does not change.
         public let transformId: String?
         /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
         public let workerType: WorkerType?
 
-        public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
+        public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformEncryption: TransformEncryption? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
             self.createdOn = createdOn
             self.description = description
             self.evaluationMetrics = evaluationMetrics
@@ -7479,6 +8309,7 @@ extension Glue {
             self.schema = schema
             self.status = status
             self.timeout = timeout
+            self.transformEncryption = transformEncryption
             self.transformId = transformId
             self.workerType = workerType
         }
@@ -7500,8 +8331,32 @@ extension Glue {
             case schema = "Schema"
             case status = "Status"
             case timeout = "Timeout"
+            case transformEncryption = "TransformEncryption"
             case transformId = "TransformId"
             case workerType = "WorkerType"
+        }
+    }
+
+    public struct MLUserDataEncryption: AWSEncodableShape & AWSDecodableShape {
+        /// The ID for the customer-provided KMS key.
+        public let kmsKeyId: String?
+        /// The encryption mode applied to user data. Valid values are:   DISABLED: encryption is disabled   SSEKMS: use of server-side encryption with AWS Key Management Service (SSE-KMS) for user data stored in Amazon S3.
+        public let mlUserDataEncryptionMode: MLUserDataEncryptionModeString
+
+        public init(kmsKeyId: String? = nil, mlUserDataEncryptionMode: MLUserDataEncryptionModeString) {
+            self.kmsKeyId = kmsKeyId
+            self.mlUserDataEncryptionMode = mlUserDataEncryptionMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 255)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case mlUserDataEncryptionMode = "MlUserDataEncryptionMode"
         }
     }
 
@@ -7535,6 +8390,49 @@ extension Glue {
             case targetPath = "TargetPath"
             case targetTable = "TargetTable"
             case targetType = "TargetType"
+        }
+    }
+
+    public struct MetadataInfo: AWSDecodableShape {
+        /// The time at which the entry was created.
+        public let createdTime: String?
+        /// The metadata key’s corresponding value.
+        public let metadataValue: String?
+
+        public init(createdTime: String? = nil, metadataValue: String? = nil) {
+            self.createdTime = createdTime
+            self.metadataValue = metadataValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case metadataValue = "MetadataValue"
+        }
+    }
+
+    public struct MetadataKeyValuePair: AWSEncodableShape {
+        /// A metadata key.
+        public let metadataKey: String?
+        /// A metadata key’s corresponding value.
+        public let metadataValue: String?
+
+        public init(metadataKey: String? = nil, metadataValue: String? = nil) {
+            self.metadataKey = metadataKey
+            self.metadataValue = metadataValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataKey, name: "metadataKey", parent: name, max: 128)
+            try self.validate(self.metadataKey, name: "metadataKey", parent: name, min: 1)
+            try self.validate(self.metadataKey, name: "metadataKey", parent: name, pattern: "[a-zA-Z0-9+-=._./@]+")
+            try self.validate(self.metadataValue, name: "metadataValue", parent: name, max: 256)
+            try self.validate(self.metadataValue, name: "metadataValue", parent: name, min: 1)
+            try self.validate(self.metadataValue, name: "metadataValue", parent: name, pattern: "[a-zA-Z0-9+-=._./@]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataKey = "MetadataKey"
+            case metadataValue = "MetadataValue"
         }
     }
 
@@ -8012,6 +8910,81 @@ extension Glue {
         }
     }
 
+    public struct PutSchemaVersionMetadataInput: AWSEncodableShape {
+        /// The metadata key's corresponding value.
+        public let metadataKeyValue: MetadataKeyValuePair
+        /// The unique ID for the schema.
+        public let schemaId: SchemaId?
+        /// The unique version ID of the schema version.
+        public let schemaVersionId: String?
+        /// The version number of the schema.
+        public let schemaVersionNumber: SchemaVersionNumber?
+
+        public init(metadataKeyValue: MetadataKeyValuePair, schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: SchemaVersionNumber? = nil) {
+            self.metadataKeyValue = metadataKeyValue
+            self.schemaId = schemaId
+            self.schemaVersionId = schemaVersionId
+            self.schemaVersionNumber = schemaVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataKeyValue.validate(name: "\(name).metadataKeyValue")
+            try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataKeyValue = "MetadataKeyValue"
+            case schemaId = "SchemaId"
+            case schemaVersionId = "SchemaVersionId"
+            case schemaVersionNumber = "SchemaVersionNumber"
+        }
+    }
+
+    public struct PutSchemaVersionMetadataResponse: AWSDecodableShape {
+        /// The latest version of the schema.
+        public let latestVersion: Bool?
+        /// The metadata key.
+        public let metadataKey: String?
+        /// The value of the metadata key.
+        public let metadataValue: String?
+        /// The name for the registry.
+        public let registryName: String?
+        /// The Amazon Resource Name (ARN) for the schema.
+        public let schemaArn: String?
+        /// The name for the schema.
+        public let schemaName: String?
+        /// The unique version ID of the schema version.
+        public let schemaVersionId: String?
+        /// The version number of the schema.
+        public let versionNumber: Int64?
+
+        public init(latestVersion: Bool? = nil, metadataKey: String? = nil, metadataValue: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersionId: String? = nil, versionNumber: Int64? = nil) {
+            self.latestVersion = latestVersion
+            self.metadataKey = metadataKey
+            self.metadataValue = metadataValue
+            self.registryName = registryName
+            self.schemaArn = schemaArn
+            self.schemaName = schemaName
+            self.schemaVersionId = schemaVersionId
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestVersion = "LatestVersion"
+            case metadataKey = "MetadataKey"
+            case metadataValue = "MetadataValue"
+            case registryName = "RegistryName"
+            case schemaArn = "SchemaArn"
+            case schemaName = "SchemaName"
+            case schemaVersionId = "SchemaVersionId"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
     public struct PutWorkflowRunPropertiesRequest: AWSEncodableShape {
         /// Name of the workflow which was run.
         public let name: String
@@ -8051,6 +9024,73 @@ extension Glue {
         public init() {}
     }
 
+    public struct QuerySchemaVersionMetadataInput: AWSEncodableShape {
+        /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
+        public let maxResults: Int?
+        /// Search key-value pairs for metadata, if they are not provided all the metadata information will be fetched.
+        public let metadataList: [MetadataKeyValuePair]?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// A wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
+        public let schemaId: SchemaId?
+        /// The unique version ID of the schema version.
+        public let schemaVersionId: String?
+        /// The version number of the schema.
+        public let schemaVersionNumber: SchemaVersionNumber?
+
+        public init(maxResults: Int? = nil, metadataList: [MetadataKeyValuePair]? = nil, nextToken: String? = nil, schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: SchemaVersionNumber? = nil) {
+            self.maxResults = maxResults
+            self.metadataList = metadataList
+            self.nextToken = nextToken
+            self.schemaId = schemaId
+            self.schemaVersionId = schemaVersionId
+            self.schemaVersionNumber = schemaVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.metadataList?.forEach {
+                try $0.validate(name: "\(name).metadataList[]")
+            }
+            try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case metadataList = "MetadataList"
+            case nextToken = "NextToken"
+            case schemaId = "SchemaId"
+            case schemaVersionId = "SchemaVersionId"
+            case schemaVersionNumber = "SchemaVersionNumber"
+        }
+    }
+
+    public struct QuerySchemaVersionMetadataResponse: AWSDecodableShape {
+        /// A map of a metadata key and associated values.
+        public let metadataInfoMap: [String: MetadataInfo]?
+        /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+        public let nextToken: String?
+        /// The unique version ID of the schema version.
+        public let schemaVersionId: String?
+
+        public init(metadataInfoMap: [String: MetadataInfo]? = nil, nextToken: String? = nil, schemaVersionId: String? = nil) {
+            self.metadataInfoMap = metadataInfoMap
+            self.nextToken = nextToken
+            self.schemaVersionId = schemaVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataInfoMap = "MetadataInfoMap"
+            case nextToken = "NextToken"
+            case schemaVersionId = "SchemaVersionId"
+        }
+    }
+
     public struct RecrawlPolicy: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run. A value of CRAWL_EVERYTHING specifies crawling the entire dataset again. A value of CRAWL_NEW_FOLDERS_ONLY specifies crawling only folders that were added since the last crawler run.
         public let recrawlBehavior: RecrawlBehavior?
@@ -8061,6 +9101,185 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case recrawlBehavior = "RecrawlBehavior"
+        }
+    }
+
+    public struct RegisterSchemaVersionInput: AWSEncodableShape {
+        /// The schema definition using the DataFormat setting for the SchemaName.
+        public let schemaDefinition: String
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
+        public let schemaId: SchemaId
+
+        public init(schemaDefinition: String, schemaId: SchemaId) {
+            self.schemaDefinition = schemaDefinition
+            self.schemaId = schemaId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: ".*\\S.*")
+            try self.schemaId.validate(name: "\(name).schemaId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaDefinition = "SchemaDefinition"
+            case schemaId = "SchemaId"
+        }
+    }
+
+    public struct RegisterSchemaVersionResponse: AWSDecodableShape {
+        /// The unique ID that represents the version of this schema.
+        public let schemaVersionId: String?
+        /// The status of the schema version.
+        public let status: SchemaVersionStatus?
+        /// The version of this schema (for sync flow only, in case this is the first version).
+        public let versionNumber: Int64?
+
+        public init(schemaVersionId: String? = nil, status: SchemaVersionStatus? = nil, versionNumber: Int64? = nil) {
+            self.schemaVersionId = schemaVersionId
+            self.status = status
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaVersionId = "SchemaVersionId"
+            case status = "Status"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct RegistryId: AWSEncodableShape {
+        /// Arn of the registry to be updated. One of RegistryArn or RegistryName has to be provided.
+        public let registryArn: String?
+        /// Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided.
+        public let registryName: String?
+
+        public init(registryArn: String? = nil, registryName: String? = nil) {
+            self.registryArn = registryArn
+            self.registryName = registryName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.registryArn, name: "registryArn", parent: name, max: 10240)
+            try self.validate(self.registryArn, name: "registryArn", parent: name, min: 1)
+            try self.validate(self.registryArn, name: "registryArn", parent: name, pattern: "arn:aws:glue:.*")
+            try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
+            try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
+            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryArn = "RegistryArn"
+            case registryName = "RegistryName"
+        }
+    }
+
+    public struct RegistryListItem: AWSDecodableShape {
+        /// The data the registry was created.
+        public let createdTime: String?
+        /// A description of the registry.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the registry.
+        public let registryArn: String?
+        /// The name of the registry.
+        public let registryName: String?
+        /// The status of the registry.
+        public let status: RegistryStatus?
+        /// The date the registry was updated.
+        public let updatedTime: String?
+
+        public init(createdTime: String? = nil, description: String? = nil, registryArn: String? = nil, registryName: String? = nil, status: RegistryStatus? = nil, updatedTime: String? = nil) {
+            self.createdTime = createdTime
+            self.description = description
+            self.registryArn = registryArn
+            self.registryName = registryName
+            self.status = status
+            self.updatedTime = updatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case registryArn = "RegistryArn"
+            case registryName = "RegistryName"
+            case status = "Status"
+            case updatedTime = "UpdatedTime"
+        }
+    }
+
+    public struct RemoveSchemaVersionMetadataInput: AWSEncodableShape {
+        /// The value of the metadata key.
+        public let metadataKeyValue: MetadataKeyValuePair
+        /// A wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
+        public let schemaId: SchemaId?
+        /// The unique version ID of the schema version.
+        public let schemaVersionId: String?
+        /// The version number of the schema.
+        public let schemaVersionNumber: SchemaVersionNumber?
+
+        public init(metadataKeyValue: MetadataKeyValuePair, schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: SchemaVersionNumber? = nil) {
+            self.metadataKeyValue = metadataKeyValue
+            self.schemaId = schemaId
+            self.schemaVersionId = schemaVersionId
+            self.schemaVersionNumber = schemaVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataKeyValue.validate(name: "\(name).metadataKeyValue")
+            try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataKeyValue = "MetadataKeyValue"
+            case schemaId = "SchemaId"
+            case schemaVersionId = "SchemaVersionId"
+            case schemaVersionNumber = "SchemaVersionNumber"
+        }
+    }
+
+    public struct RemoveSchemaVersionMetadataResponse: AWSDecodableShape {
+        /// The latest version of the schema.
+        public let latestVersion: Bool?
+        /// The metadata key.
+        public let metadataKey: String?
+        /// The value of the metadata key.
+        public let metadataValue: String?
+        /// The name of the registry.
+        public let registryName: String?
+        /// The Amazon Resource Name (ARN) of the schema.
+        public let schemaArn: String?
+        /// The name of the schema.
+        public let schemaName: String?
+        /// The version ID for the schema version.
+        public let schemaVersionId: String?
+        /// The version number of the schema.
+        public let versionNumber: Int64?
+
+        public init(latestVersion: Bool? = nil, metadataKey: String? = nil, metadataValue: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersionId: String? = nil, versionNumber: Int64? = nil) {
+            self.latestVersion = latestVersion
+            self.metadataKey = metadataKey
+            self.metadataValue = metadataValue
+            self.registryName = registryName
+            self.schemaArn = schemaArn
+            self.schemaName = schemaName
+            self.schemaVersionId = schemaVersionId
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestVersion = "LatestVersion"
+            case metadataKey = "MetadataKey"
+            case metadataValue = "MetadataValue"
+            case registryName = "RegistryName"
+            case schemaArn = "SchemaArn"
+            case schemaName = "SchemaName"
+            case schemaVersionId = "SchemaVersionId"
+            case versionNumber = "VersionNumber"
         }
     }
 
@@ -8268,6 +9487,169 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case dataType = "DataType"
             case name = "Name"
+        }
+    }
+
+    public struct SchemaId: AWSEncodableShape & AWSDecodableShape {
+        public let registryName: String?
+        public let schemaArn: String?
+        public let schemaName: String?
+
+        public init(registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil) {
+            self.registryName = registryName
+            self.schemaArn = schemaArn
+            self.schemaName = schemaName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
+            try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
+            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 10240)
+            try self.validate(self.schemaArn, name: "schemaArn", parent: name, min: 1)
+            try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "arn:aws:glue:.*")
+            try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryName = "RegistryName"
+            case schemaArn = "SchemaArn"
+            case schemaName = "SchemaName"
+        }
+    }
+
+    public struct SchemaListItem: AWSDecodableShape {
+        /// The date and time that a schema was created.
+        public let createdTime: String?
+        /// A description for the schema.
+        public let description: String?
+        /// the name of the registry where the schema resides.
+        public let registryName: String?
+        /// The Amazon Resource Name (ARN) for the schema.
+        public let schemaArn: String?
+        /// The name of the schema.
+        public let schemaName: String?
+        /// The status of the schema.
+        public let schemaStatus: SchemaStatus?
+        /// The date and time that a schema was updated.
+        public let updatedTime: String?
+
+        public init(createdTime: String? = nil, description: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaStatus: SchemaStatus? = nil, updatedTime: String? = nil) {
+            self.createdTime = createdTime
+            self.description = description
+            self.registryName = registryName
+            self.schemaArn = schemaArn
+            self.schemaName = schemaName
+            self.schemaStatus = schemaStatus
+            self.updatedTime = updatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case registryName = "RegistryName"
+            case schemaArn = "SchemaArn"
+            case schemaName = "SchemaName"
+            case schemaStatus = "SchemaStatus"
+            case updatedTime = "UpdatedTime"
+        }
+    }
+
+    public struct SchemaReference: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that contains schema identity fields. Either this or the SchemaVersionId has to be provided.
+        public let schemaId: SchemaId?
+        /// The unique ID assigned to a version of the schema. Either this or the SchemaId has to be provided.
+        public let schemaVersionId: String?
+        /// The version number of the schema.
+        public let schemaVersionNumber: Int64?
+
+        public init(schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: Int64? = nil) {
+            self.schemaId = schemaId
+            self.schemaVersionId = schemaVersionId
+            self.schemaVersionNumber = schemaVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
+            try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.validate(self.schemaVersionNumber, name: "schemaVersionNumber", parent: name, max: 100_000)
+            try self.validate(self.schemaVersionNumber, name: "schemaVersionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaId = "SchemaId"
+            case schemaVersionId = "SchemaVersionId"
+            case schemaVersionNumber = "SchemaVersionNumber"
+        }
+    }
+
+    public struct SchemaVersionErrorItem: AWSDecodableShape {
+        /// The details of the error for the schema version.
+        public let errorDetails: ErrorDetails?
+        /// The version number of the schema.
+        public let versionNumber: Int64?
+
+        public init(errorDetails: ErrorDetails? = nil, versionNumber: Int64? = nil) {
+            self.errorDetails = errorDetails
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "ErrorDetails"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct SchemaVersionListItem: AWSDecodableShape {
+        /// The date and time the schema version was created.
+        public let createdTime: String?
+        /// The Amazon Resource Name (ARN) of the schema.
+        public let schemaArn: String?
+        /// The unique identifier of the schema version.
+        public let schemaVersionId: String?
+        /// The status of the schema version.
+        public let status: SchemaVersionStatus?
+        /// The version number of the schema.
+        public let versionNumber: Int64?
+
+        public init(createdTime: String? = nil, schemaArn: String? = nil, schemaVersionId: String? = nil, status: SchemaVersionStatus? = nil, versionNumber: Int64? = nil) {
+            self.createdTime = createdTime
+            self.schemaArn = schemaArn
+            self.schemaVersionId = schemaVersionId
+            self.status = status
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case schemaArn = "SchemaArn"
+            case schemaVersionId = "SchemaVersionId"
+            case status = "Status"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct SchemaVersionNumber: AWSEncodableShape {
+        public let latestVersion: Bool?
+        public let versionNumber: Int64?
+
+        public init(latestVersion: Bool? = nil, versionNumber: Int64? = nil) {
+            self.latestVersion = latestVersion
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, max: 100_000)
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestVersion = "LatestVersion"
+            case versionNumber = "VersionNumber"
         }
     }
 
@@ -8923,6 +10305,8 @@ extension Glue {
         public let outputFormat: String?
         /// The user-supplied properties in key-value form.
         public let parameters: [String: String]?
+        /// An object that references a schema stored in the AWS Glue Schema Registry. When creating a table, you can pass an empty list of columns for the schema, and instead use a schema reference.
+        public let schemaReference: SchemaReference?
         /// The serialization/deserialization (SerDe) information.
         public let serdeInfo: SerDeInfo?
         /// The information about values that appear frequently in a column (skewed values).
@@ -8932,7 +10316,7 @@ extension Glue {
         ///  True if the table data is stored in subdirectories, or False if not.
         public let storedAsSubDirectories: Bool?
 
-        public init(bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
+        public init(bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, schemaReference: SchemaReference? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
             self.bucketColumns = bucketColumns
             self.columns = columns
             self.compressed = compressed
@@ -8941,6 +10325,7 @@ extension Glue {
             self.numberOfBuckets = numberOfBuckets
             self.outputFormat = outputFormat
             self.parameters = parameters
+            self.schemaReference = schemaReference
             self.serdeInfo = serdeInfo
             self.skewedInfo = skewedInfo
             self.sortColumns = sortColumns
@@ -8968,6 +10353,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
+            try self.schemaReference?.validate(name: "\(name).schemaReference")
             try self.serdeInfo?.validate(name: "\(name).serdeInfo")
             try self.skewedInfo?.validate(name: "\(name).skewedInfo")
             try self.sortColumns?.forEach {
@@ -8984,6 +10370,7 @@ extension Glue {
             case numberOfBuckets = "NumberOfBuckets"
             case outputFormat = "OutputFormat"
             case parameters = "Parameters"
+            case schemaReference = "SchemaReference"
             case serdeInfo = "SerdeInfo"
             case skewedInfo = "SkewedInfo"
             case sortColumns = "SortColumns"
@@ -8992,13 +10379,13 @@ extension Glue {
     }
 
     public struct StringColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-        /// Average value of the column.
+        /// The average string length in the column.
         public let averageLength: Double
-        /// Maximum value of the column.
+        /// The size of the longest string in the column.
         public let maximumLength: Int64
-        /// Number of distinct values.
+        /// The number of distinct values in a column.
         public let numberOfDistinctValues: Int64
-        /// Number of nulls.
+        /// The number of null values in the column.
         public let numberOfNulls: Int64
 
         public init(averageLength: Double, maximumLength: Int64, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
@@ -9434,6 +10821,30 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case column = "Column"
             case sortDirection = "SortDirection"
+        }
+    }
+
+    public struct TransformEncryption: AWSEncodableShape & AWSDecodableShape {
+        /// An MLUserDataEncryption object containing the encryption mode and customer-provided KMS key ID.
+        public let mlUserDataEncryption: MLUserDataEncryption?
+        /// The name of the security configuration.
+        public let taskRunSecurityConfigurationName: String?
+
+        public init(mlUserDataEncryption: MLUserDataEncryption? = nil, taskRunSecurityConfigurationName: String? = nil) {
+            self.mlUserDataEncryption = mlUserDataEncryption
+            self.taskRunSecurityConfigurationName = taskRunSecurityConfigurationName
+        }
+
+        public func validate(name: String) throws {
+            try self.mlUserDataEncryption?.validate(name: "\(name).mlUserDataEncryption")
+            try self.validate(self.taskRunSecurityConfigurationName, name: "taskRunSecurityConfigurationName", parent: name, max: 255)
+            try self.validate(self.taskRunSecurityConfigurationName, name: "taskRunSecurityConfigurationName", parent: name, min: 1)
+            try self.validate(self.taskRunSecurityConfigurationName, name: "taskRunSecurityConfigurationName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mlUserDataEncryption = "MlUserDataEncryption"
+            case taskRunSecurityConfigurationName = "TaskRunSecurityConfigurationName"
         }
     }
 
@@ -10329,6 +11740,101 @@ extension Glue {
 
     public struct UpdatePartitionResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateRegistryInput: AWSEncodableShape {
+        /// A description of the registry. If description is not provided, this field will not be updated.
+        public let description: String
+        /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
+        public let registryId: RegistryId
+
+        public init(description: String, registryId: RegistryId) {
+            self.description = description
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.registryId.validate(name: "\(name).registryId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case registryId = "RegistryId"
+        }
+    }
+
+    public struct UpdateRegistryResponse: AWSDecodableShape {
+        /// The Amazon Resource name (ARN) of the updated registry.
+        public let registryArn: String?
+        /// The name of the updated registry.
+        public let registryName: String?
+
+        public init(registryArn: String? = nil, registryName: String? = nil) {
+            self.registryArn = registryArn
+            self.registryName = registryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryArn = "RegistryArn"
+            case registryName = "RegistryName"
+        }
+    }
+
+    public struct UpdateSchemaInput: AWSEncodableShape {
+        /// The new compatibility setting for the schema.
+        public let compatibility: Compatibility?
+        /// The new description for the schema.
+        public let description: String?
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
+        public let schemaId: SchemaId
+        /// Version number required for check pointing. One of VersionNumber or Compatibility has to be provided.
+        public let schemaVersionNumber: SchemaVersionNumber?
+
+        public init(compatibility: Compatibility? = nil, description: String? = nil, schemaId: SchemaId, schemaVersionNumber: SchemaVersionNumber? = nil) {
+            self.compatibility = compatibility
+            self.description = description
+            self.schemaId = schemaId
+            self.schemaVersionNumber = schemaVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.schemaId.validate(name: "\(name).schemaId")
+            try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compatibility = "Compatibility"
+            case description = "Description"
+            case schemaId = "SchemaId"
+            case schemaVersionNumber = "SchemaVersionNumber"
+        }
+    }
+
+    public struct UpdateSchemaResponse: AWSDecodableShape {
+        /// The name of the registry that contains the schema.
+        public let registryName: String?
+        /// The Amazon Resource Name (ARN) of the schema.
+        public let schemaArn: String?
+        /// The name of the schema.
+        public let schemaName: String?
+
+        public init(registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil) {
+            self.registryName = registryName
+            self.schemaArn = schemaArn
+            self.schemaName = schemaName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryName = "RegistryName"
+            case schemaArn = "SchemaArn"
+            case schemaName = "SchemaName"
+        }
     }
 
     public struct UpdateTableRequest: AWSEncodableShape {

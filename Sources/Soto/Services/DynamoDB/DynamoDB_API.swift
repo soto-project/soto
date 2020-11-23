@@ -123,6 +123,11 @@ public struct DynamoDB: AWSService {
         return self.client.execute(operation: "DescribeEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Describes an existing table export.
+    public func describeExport(_ input: DescribeExportInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeExportOutput> {
+        return self.client.execute(operation: "DescribeExport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Returns information about the specified global table.  This operation only applies to Version 2017.11.29 of global tables. If you are using global tables Version 2019.11.21 you can use DescribeTable instead.
     public func describeGlobalTable(_ input: DescribeGlobalTableInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGlobalTableOutput> {
         return self.client.execute(operation: "DescribeGlobalTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -153,6 +158,11 @@ public struct DynamoDB: AWSService {
         return self.client.execute(operation: "DescribeTimeToLive", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Exports table data to an S3 bucket. The table must have point in time recovery enabled, and you can export data from any time within the point in time recovery window.
+    public func exportTableToPointInTime(_ input: ExportTableToPointInTimeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportTableToPointInTimeOutput> {
+        return self.client.execute(operation: "ExportTableToPointInTime", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data and there will be no Item element in the response.  GetItem provides an eventually consistent read by default. If your application requires a strongly consistent read, set ConsistentRead to true. Although a strongly consistent read might take more time than an eventually consistent read, it always returns the last updated value.
     public func getItem(_ input: GetItemInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetItemOutput> {
         return self.client.execute(operation: "GetItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -166,6 +176,11 @@ public struct DynamoDB: AWSService {
     ///  Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
     public func listContributorInsights(_ input: ListContributorInsightsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContributorInsightsOutput> {
         return self.client.execute(operation: "ListContributorInsights", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Lists completed exports within the past 90 days.
+    public func listExports(_ input: ListExportsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExportsOutput> {
+        return self.client.execute(operation: "ListExports", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists all global tables that have a replica in the specified Region.  This operation only applies to Version 2017.11.29 of global tables.

@@ -864,6 +864,7 @@ extension MediaConvert {
     }
 
     public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case high = "HIGH"
         case higher = "HIGHER"
         case low = "LOW"
@@ -2768,6 +2769,53 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case audioSelectorNames
+        }
+    }
+
+    public struct AutomatedAbrSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Optional. The maximum target bit rate used in your automated ABR stack. Use this value to set an upper limit on the bandwidth consumed by the highest-quality rendition. This is the rendition that is delivered to viewers with the fastest internet connections. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default.
+        public let maxAbrBitrate: Int?
+        /// Optional. The maximum number of renditions that MediaConvert will create in your automated ABR stack. The number of renditions is determined automatically, based on analysis of each job, but will never exceed this limit. When you set this to Auto in the console, which is equivalent to excluding it from your JSON job specification, MediaConvert defaults to a limit of 15.
+        public let maxRenditions: Int?
+        /// Optional. The minimum target bitrate used in your automated ABR stack. Use this value to set a lower limit on the bitrate of video delivered to viewers with slow internet connections. If you don't specify a value, MediaConvert uses 600,000 (600 kb/s) by default.
+        public let minAbrBitrate: Int?
+
+        public init(maxAbrBitrate: Int? = nil, maxRenditions: Int? = nil, minAbrBitrate: Int? = nil) {
+            self.maxAbrBitrate = maxAbrBitrate
+            self.maxRenditions = maxRenditions
+            self.minAbrBitrate = minAbrBitrate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxAbrBitrate, name: "maxAbrBitrate", parent: name, max: 100_000_000)
+            try self.validate(self.maxAbrBitrate, name: "maxAbrBitrate", parent: name, min: 100_000)
+            try self.validate(self.maxRenditions, name: "maxRenditions", parent: name, max: 15)
+            try self.validate(self.maxRenditions, name: "maxRenditions", parent: name, min: 3)
+            try self.validate(self.minAbrBitrate, name: "minAbrBitrate", parent: name, max: 100_000_000)
+            try self.validate(self.minAbrBitrate, name: "minAbrBitrate", parent: name, min: 100_000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxAbrBitrate
+            case maxRenditions
+            case minAbrBitrate
+        }
+    }
+
+    public struct AutomatedEncodingSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Use automated ABR to have MediaConvert set up the renditions in your ABR package for you automatically, based on characteristics of your input video. This feature optimizes video quality while minimizing the overall size of your ABR package.
+        public let abrSettings: AutomatedAbrSettings?
+
+        public init(abrSettings: AutomatedAbrSettings? = nil) {
+            self.abrSettings = abrSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.abrSettings?.validate(name: "\(name).abrSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abrSettings
         }
     }
 
@@ -4893,7 +4941,7 @@ extension MediaConvert {
     }
 
     public struct H264Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to the following settings: Flicker adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive quantization (spatialAdaptiveQuantization), and Temporal adaptive quantization (temporalAdaptiveQuantization).
+        /// Keep the default value, Auto (AUTO), for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set H264AdaptiveQuantization to a value other than Auto (AUTO). Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization (H264AdaptiveQuantization) to Off (OFF). Related settings: The value that you choose here applies to the following settings: H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
         public let adaptiveQuantization: H264AdaptiveQuantization?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public let bitrate: Int?
@@ -4907,7 +4955,7 @@ extension MediaConvert {
         public let entropyEncoding: H264EntropyEncoding?
         /// Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF encoding and create separate interlaced fields.
         public let fieldEncoding: H264FieldEncoding?
-        /// Enable this setting to have the encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. This setting is disabled by default. Related setting: In addition to enabling this setting, you must also set adaptiveQuantization to a value other than Off (OFF).
+        /// Only use this setting when you change the default value, AUTO, for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264FlickerAdaptiveQuantization is Disabled (DISABLED). Change this value to Enabled (ENABLED) to reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. To manually enable or disable H264FlickerAdaptiveQuantization, you must set Adaptive quantization (H264AdaptiveQuantization) to a value other than AUTO.
         public let flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
         public let framerateControl: H264FramerateControl?
@@ -4961,13 +5009,13 @@ extension MediaConvert {
         public let slowPal: H264SlowPal?
         /// Ignore this setting unless you need to comply with a specification that requires a specific value. If you don't have a specification requirement, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness (sharpness) or by enabling a noise reducer filter (noiseReducerFilter). The Softness (softness) setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, for flat quantization. Choose the value 1 or 16 to use the default JVT softening quantization matricies from the H.264 specification. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
         public let softness: Int?
-        /// Keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization (adaptiveQuantization) depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
+        /// Only use this setting when you change the default value, Auto (AUTO), for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264SpatialAdaptiveQuantization is Enabled (ENABLED). Keep this default value to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to set H264SpatialAdaptiveQuantization to Disabled (DISABLED). Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization (H264AdaptiveQuantization) depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher. To manually enable or disable H264SpatialAdaptiveQuantization, you must set Adaptive quantization (H264AdaptiveQuantization) to a value other than AUTO.
         public let spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization?
         /// Produces a bitstream compliant with SMPTE RP-2027.
         public let syntax: H264Syntax?
         /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard or soft telecine to create a smoother picture. Hard telecine (HARD) produces a 29.97i output. Soft telecine (SOFT) produces an output with a 23.976 output that signals to the video player device to do the conversion during play back. When you keep the default value, None (NONE), MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
         public let telecine: H264Telecine?
-        /// Keep the default value, Enabled (ENABLED), to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to disable this feature. Related setting: When you enable temporal quantization, adjust the strength of the filter with the setting Adaptive quantization (adaptiveQuantization).
+        /// Only use this setting when you change the default value, AUTO, for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264TemporalAdaptiveQuantization is Enabled (ENABLED). Keep this default value to adjust quantization within each frame based on temporal variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas of the frame that aren't moving and uses more bits on complex objects with sharp edges that move a lot. For example, this feature improves the readability of text tickers on newscasts and scoreboards on sports matches. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen that doesn't have moving objects with sharp edges, such as sports athletes' faces, you might choose to set H264TemporalAdaptiveQuantization to Disabled (DISABLED). Related setting: When you enable temporal quantization, adjust the strength of the filter with the setting Adaptive quantization (adaptiveQuantization). To manually enable or disable H264TemporalAdaptiveQuantization, you must set Adaptive quantization (H264AdaptiveQuantization) to a value other than AUTO.
         public let temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H264UnregisteredSeiTimecode?
@@ -7856,6 +7904,8 @@ extension MediaConvert {
     }
 
     public struct OutputGroup: AWSEncodableShape & AWSDecodableShape {
+        /// Use automated encoding to have MediaConvert choose your encoding settings for you, based on characteristics of your input video.
+        public let automatedEncodingSettings: AutomatedEncodingSettings?
         /// Use Custom Group Name (CustomName) to specify a name for the output group. This value is displayed on the console and can make your job settings JSON more human-readable. It does not affect your outputs. Use up to twelve characters that are either letters, numbers, spaces, or underscores.
         public let customName: String?
         /// Name of the output group
@@ -7865,7 +7915,8 @@ extension MediaConvert {
         /// This object holds groups of encoding settings, one group of settings per output.
         public let outputs: [Output]?
 
-        public init(customName: String? = nil, name: String? = nil, outputGroupSettings: OutputGroupSettings? = nil, outputs: [Output]? = nil) {
+        public init(automatedEncodingSettings: AutomatedEncodingSettings? = nil, customName: String? = nil, name: String? = nil, outputGroupSettings: OutputGroupSettings? = nil, outputs: [Output]? = nil) {
+            self.automatedEncodingSettings = automatedEncodingSettings
             self.customName = customName
             self.name = name
             self.outputGroupSettings = outputGroupSettings
@@ -7873,6 +7924,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.automatedEncodingSettings?.validate(name: "\(name).automatedEncodingSettings")
             try self.outputGroupSettings?.validate(name: "\(name).outputGroupSettings")
             try self.outputs?.forEach {
                 try $0.validate(name: "\(name).outputs[]")
@@ -7880,6 +7932,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automatedEncodingSettings
             case customName
             case name
             case outputGroupSettings

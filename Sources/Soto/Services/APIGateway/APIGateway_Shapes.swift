@@ -885,6 +885,8 @@ extension APIGateway {
         public let cloneFrom: String?
         /// The description of the RestApi.
         public let description: String?
+        /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
+        public let disableExecuteApiEndpoint: Bool?
         /// The endpoint configuration of this RestApi showing the endpoint types of the API.
         public let endpointConfiguration: EndpointConfiguration?
         /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
@@ -898,11 +900,12 @@ extension APIGateway {
         /// A version identifier for the API.
         public let version: String?
 
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, minimumCompressionSize: Int? = nil, name: String, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, endpointConfiguration: EndpointConfiguration? = nil, minimumCompressionSize: Int? = nil, name: String, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.cloneFrom = cloneFrom
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.endpointConfiguration = endpointConfiguration
             self.minimumCompressionSize = minimumCompressionSize
             self.name = name
@@ -916,6 +919,7 @@ extension APIGateway {
             case binaryMediaTypes
             case cloneFrom
             case description
+            case disableExecuteApiEndpoint
             case endpointConfiguration
             case minimumCompressionSize
             case name
@@ -3723,6 +3727,8 @@ extension APIGateway {
         public let createdDate: Date?
         /// The API's description.
         public let description: String?
+        /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
+        public let disableExecuteApiEndpoint: Bool?
         /// The endpoint configuration of this RestApi showing the endpoint types of the API.
         public let endpointConfiguration: EndpointConfiguration?
         /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
@@ -3740,11 +3746,12 @@ extension APIGateway {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: Date? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.endpointConfiguration = endpointConfiguration
             self.id = id
             self.minimumCompressionSize = minimumCompressionSize
@@ -3760,6 +3767,7 @@ extension APIGateway {
             case binaryMediaTypes
             case createdDate
             case description
+            case disableExecuteApiEndpoint
             case endpointConfiguration
             case id
             case minimumCompressionSize

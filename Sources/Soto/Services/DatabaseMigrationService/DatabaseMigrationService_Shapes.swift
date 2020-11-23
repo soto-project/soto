@@ -370,6 +370,7 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    BucketName - The name of the S3 bucket to use.    CompressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }
         public let dmsTransferSettings: DmsTransferSettings?
+        public let docDbSettings: DocDbSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide.
         public let dynamoDbSettings: DynamoDbSettings?
         /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration Service User Guide.
@@ -426,10 +427,11 @@ extension DatabaseMigrationService {
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, resourceIdentifier: String? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, resourceIdentifier: String? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
+            self.docDbSettings = docDbSettings
             self.dynamoDbSettings = dynamoDbSettings
             self.elasticsearchSettings = elasticsearchSettings
             self.endpointIdentifier = endpointIdentifier
@@ -464,6 +466,7 @@ extension DatabaseMigrationService {
             case certificateArn = "CertificateArn"
             case databaseName = "DatabaseName"
             case dmsTransferSettings = "DmsTransferSettings"
+            case docDbSettings = "DocDbSettings"
             case dynamoDbSettings = "DynamoDbSettings"
             case elasticsearchSettings = "ElasticsearchSettings"
             case endpointIdentifier = "EndpointIdentifier"
@@ -1796,6 +1799,51 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct DocDbSettings: AWSEncodableShape & AWSDecodableShape {
+        ///  The database name on the DocumentDB source endpoint.
+        public let databaseName: String?
+        ///  Indicates the number of documents to preview to determine the document organization. Use this setting when NestingLevel is set to "one".  Must be a positive value greater than 0. Default value is 1000.
+        public let docsToInvestigate: Int?
+        ///  Specifies the document ID. Use this setting when NestingLevel is set to "none".  Default value is "false".
+        public let extractDocId: Bool?
+        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        public let kmsKeyId: String?
+        ///  Specifies either document or table mode.  Default value is "none". Specify "none" to use document mode. Specify "one" to use table mode.
+        public let nestingLevel: NestingLevelValue?
+        ///  The password for the user account you use to access the DocumentDB source endpoint.
+        public let password: String?
+        ///  The port value for the DocumentDB source endpoint.
+        public let port: Int?
+        ///  The name of the server on the DocumentDB source endpoint.
+        public let serverName: String?
+        /// The user name you use to access the DocumentDB source endpoint.
+        public let username: String?
+
+        public init(databaseName: String? = nil, docsToInvestigate: Int? = nil, extractDocId: Bool? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
+            self.databaseName = databaseName
+            self.docsToInvestigate = docsToInvestigate
+            self.extractDocId = extractDocId
+            self.kmsKeyId = kmsKeyId
+            self.nestingLevel = nestingLevel
+            self.password = password
+            self.port = port
+            self.serverName = serverName
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case docsToInvestigate = "DocsToInvestigate"
+            case extractDocId = "ExtractDocId"
+            case kmsKeyId = "KmsKeyId"
+            case nestingLevel = "NestingLevel"
+            case password = "Password"
+            case port = "Port"
+            case serverName = "ServerName"
+            case username = "Username"
+        }
+    }
+
     public struct DynamoDbSettings: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) used by the service access IAM role.
         public let serviceAccessRoleArn: String
@@ -1841,6 +1889,7 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    BucketName - The name of the S3 bucket to use.    CompressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }
         public let dmsTransferSettings: DmsTransferSettings?
+        public let docDbSettings: DocDbSettings?
         /// The settings for the DynamoDB target endpoint. For more information, see the DynamoDBSettings structure.
         public let dynamoDbSettings: DynamoDbSettings?
         /// The settings for the Elasticsearch source endpoint. For more information, see the ElasticsearchSettings structure.
@@ -1900,10 +1949,11 @@ extension DatabaseMigrationService {
         /// The user name used to connect to the endpoint.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
+            self.docDbSettings = docDbSettings
             self.dynamoDbSettings = dynamoDbSettings
             self.elasticsearchSettings = elasticsearchSettings
             self.endpointArn = endpointArn
@@ -1939,6 +1989,7 @@ extension DatabaseMigrationService {
             case certificateArn = "CertificateArn"
             case databaseName = "DatabaseName"
             case dmsTransferSettings = "DmsTransferSettings"
+            case docDbSettings = "DocDbSettings"
             case dynamoDbSettings = "DynamoDbSettings"
             case elasticsearchSettings = "ElasticsearchSettings"
             case endpointArn = "EndpointArn"
@@ -2334,6 +2385,8 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The settings in JSON format for the DMS transfer type of source endpoint.  Attributes include the following:   serviceAccessRoleArn - The AWS Identity and Access Management (IAM) role that has permission to access the Amazon S3 bucket.   BucketName - The name of the S3 bucket to use.   compressionType - An optional parameter to use GZIP to compress the target files. Either set this parameter to NONE (the default) or don't use it to leave the files uncompressed.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string ,BucketName=string,CompressionType=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }
         public let dmsTransferSettings: DmsTransferSettings?
+        /// Settings in JSON format for the source DocumentDB endpoint. For more information about the available settings, see the configuration properties section in  Using DocumentDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide.
+        public let docDbSettings: DocDbSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide.
         public let dynamoDbSettings: DynamoDbSettings?
         /// Settings in JSON format for the target Elasticsearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration Service User Guide.
@@ -2386,10 +2439,11 @@ extension DatabaseMigrationService {
         /// The user name to be used to login to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
+            self.docDbSettings = docDbSettings
             self.dynamoDbSettings = dynamoDbSettings
             self.elasticsearchSettings = elasticsearchSettings
             self.endpointArn = endpointArn
@@ -2422,6 +2476,7 @@ extension DatabaseMigrationService {
             case certificateArn = "CertificateArn"
             case databaseName = "DatabaseName"
             case dmsTransferSettings = "DmsTransferSettings"
+            case docDbSettings = "DocDbSettings"
             case dynamoDbSettings = "DynamoDbSettings"
             case elasticsearchSettings = "ElasticsearchSettings"
             case endpointArn = "EndpointArn"
@@ -2718,6 +2773,36 @@ extension DatabaseMigrationService {
             case port = "Port"
             case serverName = "ServerName"
             case username = "Username"
+        }
+    }
+
+    public struct MoveReplicationTaskMessage: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the task that you want to move.
+        public let replicationTaskArn: String
+        /// The ARN of the replication instance where you want to move the task to.
+        public let targetReplicationInstanceArn: String
+
+        public init(replicationTaskArn: String, targetReplicationInstanceArn: String) {
+            self.replicationTaskArn = replicationTaskArn
+            self.targetReplicationInstanceArn = targetReplicationInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskArn = "ReplicationTaskArn"
+            case targetReplicationInstanceArn = "TargetReplicationInstanceArn"
+        }
+    }
+
+    public struct MoveReplicationTaskResponse: AWSDecodableShape {
+        /// The replication task that was moved.
+        public let replicationTask: ReplicationTask?
+
+        public init(replicationTask: ReplicationTask? = nil) {
+            self.replicationTask = replicationTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
         }
     }
 
@@ -3519,7 +3604,7 @@ extension DatabaseMigrationService {
         public let migrationType: MigrationTypeValue?
         /// Indicates the last checkpoint that occurred during a change data capture (CDC) operation. You can provide this value to the CdcStartPosition parameter to start a CDC operation that begins at that checkpoint.
         public let recoveryCheckpoint: String?
-        /// The Amazon Resource Name (ARN) of the replication instance.
+        /// The ARN of the replication instance.
         public let replicationInstanceArn: String?
         /// The Amazon Resource Name (ARN) of the replication task.
         public let replicationTaskArn: String?
@@ -3533,20 +3618,22 @@ extension DatabaseMigrationService {
         public let replicationTaskStartDate: Date?
         /// The statistics for the task, including elapsed time, tables loaded, and table errors.
         public let replicationTaskStats: ReplicationTaskStats?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the endpoint.
         public let sourceEndpointArn: String?
-        /// The status of the replication task.
+        /// The status of the replication task. This response parameter can return one of the following values:    "moving" – The task is being moved in response to running the  MoveReplicationTask  operation.    "creating" – The task is being created in response to running the  CreateReplicationTask  operation.    "deleting" – The task is being deleted in response to running the  DeleteReplicationTask  operation.    "failed" – The task failed to successfully complete the database migration in response to running the  StartReplicationTask  operation.    "failed-move" – The task failed to move in response to running the  MoveReplicationTask  operation.    "modifying" – The task definition is being modified in response to running the  ModifyReplicationTask  operation.    "ready" – The task is in a ready state where it can respond to other task operations, such as  StartReplicationTask  or  DeleteReplicationTask .     "running" – The task is performing a database migration in response to running the  StartReplicationTask  operation.    "starting" – The task is preparing to perform a database migration in response to running the  StartReplicationTask  operation.    "stopped" – The task has stopped in response to running the  StopReplicationTask  operation.    "stopping" – The task is preparing to stop in response to running the  StopReplicationTask  operation.    "testing" – The database migration specified for this task is being tested in response to running either the  StartReplicationTaskAssessmentRun  or the  StartReplicationTaskAssessment  operation.    StartReplicationTaskAssessmentRun  is an improved premigration task assessment operation. The  StartReplicationTaskAssessment  operation assesses data type compatibility only between the source and target database of a given migration task. In contrast,  StartReplicationTaskAssessmentRun  enables you to specify a variety of premigration task assessments in addition to data type compatibility. These assessments include ones for the validity of primary key definitions and likely issues with database migration performance, among others.
         public let status: String?
-        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "STOP_REASON_FULL_LOAD_COMPLETED" – Full-load migration completed.    "STOP_REASON_CACHED_CHANGES_APPLIED" – Change data capture (CDC) load completed.    "STOP_REASON_CACHED_CHANGES_NOT_APPLIED" – In a full-load and CDC migration, the full-load stopped as specified before starting the CDC migration.    "STOP_REASON_SERVER_TIME" – The migration stopped at the specified server time.
+        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "STOP_REASON_FULL_LOAD_COMPLETED" – Full-load migration completed.    "STOP_REASON_CACHED_CHANGES_APPLIED" – Change data capture (CDC) load completed.    "STOP_REASON_CACHED_CHANGES_NOT_APPLIED" – In a full-load and CDC migration, the full load stopped as specified before starting the CDC migration.    "STOP_REASON_SERVER_TIME" – The migration stopped at the specified server time.
         public let stopReason: String?
         /// Table mappings specified in the task.
         public let tableMappings: String?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        /// The ARN that uniquely identifies the endpoint.
         public let targetEndpointArn: String?
+        /// The ARN of the replication instance to which this task is moved in response to running the  MoveReplicationTask  operation. Otherwise, this response parameter isn't a member of the ReplicationTask object.
+        public let targetReplicationInstanceArn: String?
         /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide.
         public let taskData: String?
 
-        public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: Date? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: Date? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil, taskData: String? = nil) {
+        public init(cdcStartPosition: String? = nil, cdcStopPosition: String? = nil, lastFailureMessage: String? = nil, migrationType: MigrationTypeValue? = nil, recoveryCheckpoint: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, replicationTaskCreationDate: Date? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, replicationTaskStartDate: Date? = nil, replicationTaskStats: ReplicationTaskStats? = nil, sourceEndpointArn: String? = nil, status: String? = nil, stopReason: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil, targetReplicationInstanceArn: String? = nil, taskData: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStopPosition = cdcStopPosition
             self.lastFailureMessage = lastFailureMessage
@@ -3564,6 +3651,7 @@ extension DatabaseMigrationService {
             self.stopReason = stopReason
             self.tableMappings = tableMappings
             self.targetEndpointArn = targetEndpointArn
+            self.targetReplicationInstanceArn = targetReplicationInstanceArn
             self.taskData = taskData
         }
 
@@ -3585,6 +3673,7 @@ extension DatabaseMigrationService {
             case stopReason = "StopReason"
             case tableMappings = "TableMappings"
             case targetEndpointArn = "TargetEndpointArn"
+            case targetReplicationInstanceArn = "TargetReplicationInstanceArn"
             case taskData = "TaskData"
         }
     }
@@ -3820,7 +3909,7 @@ extension DatabaseMigrationService {
         public let dataPageSize: Int?
         /// Specifies a date separating delimiter to use during folder partitioning. The default value is SLASH. Use this parameter when DatePartitionedEnabled is set to true.
         public let datePartitionDelimiter: DatePartitionDelimiterValue?
-        /// When set to true, this parameter partitions S3 bucket folders based on transaction commit dates. The default value is false. For more information about date-based folder partitoning, see Using date-based folder partitioning
+        /// When set to true, this parameter partitions S3 bucket folders based on transaction commit dates. The default value is false. For more information about date-based folder partitoning, see Using date-based folder partitioning.
         public let datePartitionEnabled: Bool?
         /// Identifies the sequence of the date format to use during folder partitioning. The default value is YYYYMMDD. Use this parameter when DatePartitionedEnabled is set to true.
         public let datePartitionSequence: DatePartitionSequenceValue?

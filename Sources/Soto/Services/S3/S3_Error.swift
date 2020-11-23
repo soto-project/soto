@@ -21,6 +21,7 @@ public struct S3ErrorType: AWSErrorType {
     enum Code: String {
         case bucketAlreadyExists = "BucketAlreadyExists"
         case bucketAlreadyOwnedByYou = "BucketAlreadyOwnedByYou"
+        case invalidObjectState = "InvalidObjectState"
         case noSuchBucket = "NoSuchBucket"
         case noSuchKey = "NoSuchKey"
         case noSuchUpload = "NoSuchUpload"
@@ -50,6 +51,8 @@ public struct S3ErrorType: AWSErrorType {
     public static var bucketAlreadyExists: Self { .init(.bucketAlreadyExists) }
     /// The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all AWS Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
     public static var bucketAlreadyOwnedByYou: Self { .init(.bucketAlreadyOwnedByYou) }
+    /// Object is archived and inaccessible until restored.
+    public static var invalidObjectState: Self { .init(.invalidObjectState) }
     /// The specified bucket does not exist.
     public static var noSuchBucket: Self { .init(.noSuchBucket) }
     /// The specified key does not exist.

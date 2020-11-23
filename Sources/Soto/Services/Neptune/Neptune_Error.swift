@@ -22,6 +22,9 @@ public struct NeptuneErrorType: AWSErrorType {
         case authorizationNotFoundFault = "AuthorizationNotFound"
         case certificateNotFoundFault = "CertificateNotFound"
         case dBClusterAlreadyExistsFault = "DBClusterAlreadyExistsFault"
+        case dBClusterEndpointAlreadyExistsFault = "DBClusterEndpointAlreadyExistsFault"
+        case dBClusterEndpointNotFoundFault = "DBClusterEndpointNotFoundFault"
+        case dBClusterEndpointQuotaExceededFault = "DBClusterEndpointQuotaExceededFault"
         case dBClusterNotFoundFault = "DBClusterNotFoundFault"
         case dBClusterParameterGroupNotFoundFault = "DBClusterParameterGroupNotFound"
         case dBClusterQuotaExceededFault = "DBClusterQuotaExceededFault"
@@ -50,6 +53,7 @@ public struct NeptuneErrorType: AWSErrorType {
         case insufficientDBClusterCapacityFault = "InsufficientDBClusterCapacityFault"
         case insufficientDBInstanceCapacityFault = "InsufficientDBInstanceCapacity"
         case insufficientStorageClusterCapacityFault = "InsufficientStorageClusterCapacity"
+        case invalidDBClusterEndpointStateFault = "InvalidDBClusterEndpointStateFault"
         case invalidDBClusterSnapshotStateFault = "InvalidDBClusterSnapshotStateFault"
         case invalidDBClusterStateFault = "InvalidDBClusterStateFault"
         case invalidDBInstanceStateFault = "InvalidDBInstanceState"
@@ -104,6 +108,12 @@ public struct NeptuneErrorType: AWSErrorType {
     public static var certificateNotFoundFault: Self { .init(.certificateNotFoundFault) }
     /// User already has a DB cluster with the given identifier.
     public static var dBClusterAlreadyExistsFault: Self { .init(.dBClusterAlreadyExistsFault) }
+    /// The specified custom endpoint cannot be created because it already exists.
+    public static var dBClusterEndpointAlreadyExistsFault: Self { .init(.dBClusterEndpointAlreadyExistsFault) }
+    /// The specified custom endpoint doesn't exist.
+    public static var dBClusterEndpointNotFoundFault: Self { .init(.dBClusterEndpointNotFoundFault) }
+    /// The cluster already has the maximum number of custom endpoints.
+    public static var dBClusterEndpointQuotaExceededFault: Self { .init(.dBClusterEndpointQuotaExceededFault) }
     ///  DBClusterIdentifier does not refer to an existing DB cluster.
     public static var dBClusterNotFoundFault: Self { .init(.dBClusterNotFoundFault) }
     ///  DBClusterParameterGroupName does not refer to an existing DB Cluster parameter group.
@@ -160,6 +170,8 @@ public struct NeptuneErrorType: AWSErrorType {
     public static var insufficientDBInstanceCapacityFault: Self { .init(.insufficientDBInstanceCapacityFault) }
     /// There is insufficient storage available for the current action. You may be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
     public static var insufficientStorageClusterCapacityFault: Self { .init(.insufficientStorageClusterCapacityFault) }
+    /// The requested operation cannot be performed on the endpoint while the endpoint is in this state.
+    public static var invalidDBClusterEndpointStateFault: Self { .init(.invalidDBClusterEndpointStateFault) }
     /// The supplied value is not a valid DB cluster snapshot state.
     public static var invalidDBClusterSnapshotStateFault: Self { .init(.invalidDBClusterSnapshotStateFault) }
     /// The DB cluster is not in a valid state.

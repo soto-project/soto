@@ -758,9 +758,9 @@ extension CloudWatch {
     }
 
     public struct DescribeInsightRulesInput: AWSEncodableShape {
-        /// This parameter is not currently used. Reserved for future use. If it is used in the future, the maximum value might be different.
+        /// The maximum number of results to return in one operation. If you omit this parameter, the default of 500 is used.
         public let maxResults: Int?
-        /// Reserved for future use.
+        /// Include this value, if it was returned by the previous operation, to get the next set of rules.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -783,7 +783,7 @@ extension CloudWatch {
         /// The rules returned by the operation.
         @OptionalCustomCoding<StandardArrayCoder>
         public var insightRules: [InsightRule]?
-        /// Reserved for future use.
+        /// If this parameter is present, it is a token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
         public init(insightRules: [InsightRule]? = nil, nextToken: String? = nil) {
@@ -800,7 +800,7 @@ extension CloudWatch {
     public struct Dimension: AWSEncodableShape & AWSDecodableShape {
         /// The name of the dimension. Dimension names cannot contain blank spaces or non-ASCII characters.
         public let name: String
-        /// The value of the dimension.
+        /// The value of the dimension. Dimension values cannot contain blank spaces or non-ASCII characters.
         public let value: String
 
         public init(name: String, value: String) {
@@ -1092,7 +1092,7 @@ extension CloudWatch {
         /// The metric queries to be returned. A single GetMetricData call can include as many as 500 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, or a math expression to perform on retrieved data.
         @CustomCoding<StandardArrayCoder>
         public var metricDataQueries: [MetricDataQuery]
-        /// Include this value, if it was returned by the previous call, to get the next set of data points.
+        /// Include this value, if it was returned by the previous GetMetricData operation, to get the next set of data points.
         public let nextToken: String?
         /// The order in which data points should be returned. TimestampDescending returns the newest data first and paginates when the MaxDatapoints limit is reached. TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit is reached.
         public let scanBy: ScanBy?
@@ -1405,12 +1405,12 @@ extension CloudWatch {
     }
 
     public struct ListMetricsInput: AWSEncodableShape {
-        /// The dimensions to filter against.
+        /// The dimensions to filter against. Only the dimensions that match exactly will be returned.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dimensions: [DimensionFilter]?
-        /// The name of the metric to filter against.
+        /// The name of the metric to filter against. Only the metrics with names that match exactly will be returned.
         public let metricName: String?
-        /// The namespace to filter against.
+        /// The metric namespace to filter against. Only the namespace that matches exactly will be returned.
         public let namespace: String?
         /// The token returned by a previous call to indicate that there is more data available.
         public let nextToken: String?
@@ -1579,7 +1579,7 @@ extension CloudWatch {
         public var insufficientDataActions: [String]?
         /// The name of the metric associated with the alarm, if this is an alarm based on a single metric.
         public let metricName: String?
-        /// An array of MetricDataQuery structures, used in an alarm based on a metric math expression. Each structure either retrieves a metric or performs a math expression. One item in the Metrics array is the math expression that the alarm watches. This expression by designated by having ReturnValue set to true.
+        /// An array of MetricDataQuery structures, used in an alarm based on a metric math expression. Each structure either retrieves a metric or performs a math expression. One item in the Metrics array is the math expression that the alarm watches. This expression by designated by having ReturnData set to true.
         @OptionalCustomCoding<StandardArrayCoder>
         public var metrics: [MetricDataQuery]?
         /// The namespace of the metric associated with the alarm.
@@ -1861,7 +1861,7 @@ extension CloudWatch {
     }
 
     public struct PutAnomalyDetectorInput: AWSEncodableShape {
-        /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude when training and updating the model. You can specify as many as 10 time ranges. The configuration can also include the time zone to use for the metric. You can in
+        /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude when training and updating the model. You can specify as many as 10 time ranges. The configuration can also include the time zone to use for the metric.
         public let configuration: AnomalyDetectorConfiguration?
         /// The metric dimensions to create the anomaly detection model for.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -2084,7 +2084,7 @@ extension CloudWatch {
         public var insufficientDataActions: [String]?
         /// The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
         public let metricName: String?
-        /// An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. Each item in the Metrics array either retrieves a metric or performs a math expression. One item in the Metrics array is the expression that the alarm watches. You designate this expression by setting ReturnValue to true for this object in the array. For more information, see MetricDataQuery. If you use the Metrics parameter, you cannot include the MetricName, Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
+        /// An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. Each item in the Metrics array either retrieves a metric or performs a math expression. One item in the Metrics array is the expression that the alarm watches. You designate this expression by setting ReturnData to true for this object in the array. For more information, see MetricDataQuery. If you use the Metrics parameter, you cannot include the MetricName, Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
         @OptionalCustomCoding<StandardArrayCoder>
         public var metrics: [MetricDataQuery]?
         /// The namespace for the metric associated specified in MetricName.

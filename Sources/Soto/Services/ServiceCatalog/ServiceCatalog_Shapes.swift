@@ -896,7 +896,7 @@ extension ServiceCatalog {
         public let owner: String
         /// The type of product.
         public let productType: ProductType
-        /// The configuration of the provisioning artifact.
+        /// The configuration of the provisioning artifact. The info field accepts ImportFromPhysicalID.
         public let provisioningArtifactParameters: ProvisioningArtifactProperties
         /// The support information about the product.
         public let supportDescription: String?
@@ -1097,7 +1097,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
-        /// The configuration for the provisioning artifact.
+        /// The configuration for the provisioning artifact. The info field accepts ImportFromPhysicalID.
         public let parameters: ProvisioningArtifactProperties
         /// The product identifier.
         public let productId: String
@@ -2683,6 +2683,67 @@ extension ServiceCatalog {
         }
     }
 
+    public struct ImportAsProvisionedProductInput: AWSEncodableShape {
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        public let acceptLanguage: String?
+        /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        public let idempotencyToken: String
+        /// The unique identifier of the resource to be imported. It only currently supports CloudFormation stack IDs.
+        public let physicalId: String
+        /// The product identifier.
+        public let productId: String
+        /// The user-friendly name of the provisioned product. The value must be unique for the AWS account. The name cannot be updated after the product is provisioned.
+        public let provisionedProductName: String
+        /// The identifier of the provisioning artifact.
+        public let provisioningArtifactId: String
+
+        public init(acceptLanguage: String? = nil, idempotencyToken: String = ImportAsProvisionedProductInput.idempotencyToken(), physicalId: String, productId: String, provisionedProductName: String, provisioningArtifactId: String) {
+            self.acceptLanguage = acceptLanguage
+            self.idempotencyToken = idempotencyToken
+            self.physicalId = physicalId
+            self.productId = productId
+            self.provisionedProductName = provisionedProductName
+            self.provisioningArtifactId = provisioningArtifactId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.productId, name: "productId", parent: name, max: 100)
+            try self.validate(self.productId, name: "productId", parent: name, min: 1)
+            try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, max: 128)
+            try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, min: 1)
+            try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+            try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
+            try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
+            try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case idempotencyToken = "IdempotencyToken"
+            case physicalId = "PhysicalId"
+            case productId = "ProductId"
+            case provisionedProductName = "ProvisionedProductName"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+        }
+    }
+
+    public struct ImportAsProvisionedProductOutput: AWSDecodableShape {
+        public let recordDetail: RecordDetail?
+
+        public init(recordDetail: RecordDetail? = nil) {
+            self.recordDetail = recordDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
+        }
+    }
+
     public struct LaunchPath: AWSDecodableShape {
         /// The identifier of the launch path.
         public let id: String?
@@ -3023,7 +3084,7 @@ extension ServiceCatalog {
             try self.validate(self.organizationParentId, name: "organizationParentId", parent: name, max: 100)
             try self.validate(self.organizationParentId, name: "organizationParentId", parent: name, min: 1)
             try self.validate(self.organizationParentId, name: "organizationParentId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
-            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 100)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
@@ -5259,14 +5320,17 @@ extension ServiceCatalog {
         public let provisionedProductId: String?
         /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
         public let provisionedProductName: String?
+        /// When this boolean parameter is set to true, the TerminateProvisionedProduct API deletes the Service Catalog provisioned product. However, it does not remove the CloudFormation stack, stack set, or the underlying resources of the deleted provisioned product. The default value is false.
+        public let retainPhysicalResources: Bool?
         /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNotFound.
         public let terminateToken: String
 
-        public init(acceptLanguage: String? = nil, ignoreErrors: Bool? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, terminateToken: String = TerminateProvisionedProductInput.idempotencyToken()) {
+        public init(acceptLanguage: String? = nil, ignoreErrors: Bool? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, retainPhysicalResources: Bool? = nil, terminateToken: String = TerminateProvisionedProductInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.ignoreErrors = ignoreErrors
             self.provisionedProductId = provisionedProductId
             self.provisionedProductName = provisionedProductName
+            self.retainPhysicalResources = retainPhysicalResources
             self.terminateToken = terminateToken
         }
 
@@ -5288,6 +5352,7 @@ extension ServiceCatalog {
             case ignoreErrors = "IgnoreErrors"
             case provisionedProductId = "ProvisionedProductId"
             case provisionedProductName = "ProvisionedProductName"
+            case retainPhysicalResources = "RetainPhysicalResources"
             case terminateToken = "TerminateToken"
         }
     }
@@ -5642,7 +5707,7 @@ extension ServiceCatalog {
         public let idempotencyToken: String
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
-        /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts user ARNs and role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end-user calls a provisioning operation such as UpdateProvisionedProduct, TerminateProvisionedProduct, or ExecuteProvisionedProductServiceAction. Only an ARN role is valid. A user ARN is invalid.  The OWNER key accepts user ARNs and role ARNs. The owner is the user that has permission to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
+        /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as UpdateProvisionedProduct, TerminateProvisionedProduct, or ExecuteProvisionedProductServiceAction. Only a role ARN is valid. A user ARN is invalid.  The OWNER key accepts user ARNs and role ARNs. The owner is the user that has permission to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
         public let provisionedProductProperties: [PropertyKey: String]
 
         public init(acceptLanguage: String? = nil, idempotencyToken: String = UpdateProvisionedProductPropertiesInput.idempotencyToken(), provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
@@ -5662,7 +5727,7 @@ extension ServiceCatalog {
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
             try self.provisionedProductProperties.forEach {
                 try validate($0.value, name: "provisionedProductProperties[\"\($0.key)\"]", parent: name, max: 1024)
-                try validate($0.value, name: "provisionedProductProperties[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "provisionedProductProperties[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
 

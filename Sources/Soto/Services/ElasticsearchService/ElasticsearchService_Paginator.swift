@@ -274,6 +274,57 @@ extension ElasticsearchService {
         )
     }
 
+    ///  Returns a list of versions of the package, along with their creation time and commit message.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getPackageVersionHistoryPaginator<Result>(
+        _ input: GetPackageVersionHistoryRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetPackageVersionHistoryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getPackageVersionHistory,
+            tokenKey: \GetPackageVersionHistoryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getPackageVersionHistoryPaginator(
+        _ input: GetPackageVersionHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetPackageVersionHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getPackageVersionHistory,
+            tokenKey: \GetPackageVersionHistoryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves the complete history of the last 10 upgrades that were performed on the domain.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -576,6 +627,16 @@ extension ElasticsearchService.DescribeReservedElasticsearchInstancesRequest: AW
             maxResults: self.maxResults,
             nextToken: token,
             reservedElasticsearchInstanceId: self.reservedElasticsearchInstanceId
+        )
+    }
+}
+
+extension ElasticsearchService.GetPackageVersionHistoryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ElasticsearchService.GetPackageVersionHistoryRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            packageID: self.packageID
         )
     }
 }

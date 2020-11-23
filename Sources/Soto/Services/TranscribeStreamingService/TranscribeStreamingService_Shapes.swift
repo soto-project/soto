@@ -27,12 +27,14 @@ extension TranscribeStreamingService {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable {
+        case deDe = "de-DE"
         case enAu = "en-AU"
         case enGb = "en-GB"
         case enUs = "en-US"
         case esUs = "es-US"
         case frCa = "fr-CA"
         case frFr = "fr-FR"
+        case itIt = "it-IT"
         public var description: String { return self.rawValue }
     }
 

@@ -61,12 +61,14 @@ extension MQ {
 
     public enum DeploymentMode: String, CustomStringConvertible, Codable {
         case activeStandbyMultiAz = "ACTIVE_STANDBY_MULTI_AZ"
+        case clusterMultiAz = "CLUSTER_MULTI_AZ"
         case singleInstance = "SINGLE_INSTANCE"
         public var description: String { return self.rawValue }
     }
 
     public enum EngineType: String, CustomStringConvertible, Codable {
         case activemq = "ACTIVEMQ"
+        case rabbitmq = "RABBITMQ"
         public var description: String { return self.rawValue }
     }
 
@@ -110,11 +112,11 @@ extension MQ {
     }
 
     public struct BrokerInstance: AWSDecodableShape {
-        /// The URL of the broker's ActiveMQ Web Console.
+        /// The URL of the broker's Web Console.
         public let consoleURL: String?
         /// The broker's wire-level protocol endpoints.
         public let endpoints: [String]?
-        /// The IP address of the Elastic Network Interface (ENI) attached to the broker.
+        /// The IP address of the Elastic Network Interface (ENI) attached to the broker. Does not apply to RabbitMQ brokers
         public let ipAddress: String?
 
         public init(consoleURL: String? = nil, endpoints: [String]? = nil, ipAddress: String? = nil) {
@@ -177,16 +179,19 @@ extension MQ {
         public var created: Date?
         /// Required. The deployment mode of the broker.
         public let deploymentMode: DeploymentMode?
+        /// Required. The type of broker engine.
+        public let engineType: EngineType?
         /// The broker's instance type.
         public let hostInstanceType: String?
 
-        public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: Date? = nil, deploymentMode: DeploymentMode? = nil, hostInstanceType: String? = nil) {
+        public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: Date? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, hostInstanceType: String? = nil) {
             self.brokerArn = brokerArn
             self.brokerId = brokerId
             self.brokerName = brokerName
             self.brokerState = brokerState
             self.created = created
             self.deploymentMode = deploymentMode
+            self.engineType = engineType
             self.hostInstanceType = hostInstanceType
         }
 
@@ -197,6 +202,7 @@ extension MQ {
             case brokerState
             case created
             case deploymentMode
+            case engineType
             case hostInstanceType
         }
     }
@@ -211,7 +217,7 @@ extension MQ {
         public var created: Date?
         /// Required. The description of the configuration.
         public let description: String?
-        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
+        /// Required. The type of broker engine. Note: Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
         public let engineType: EngineType?
         /// Required. The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         public let engineVersion: String?
@@ -1219,7 +1225,7 @@ extension MQ {
     }
 
     public struct Logs: AWSEncodableShape & AWSDecodableShape {
-        /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
+        /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged. Does not apply to RabbitMQ brokers.
         public let audit: Bool?
         /// Enables general logging.
         public let general: Bool?
@@ -1476,13 +1482,13 @@ extension MQ {
     }
 
     public struct User: AWSEncodableShape {
-        /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+        /// Enables access to the ActiveMQ Web Console for the ActiveMQ user (Does not apply to RabbitMQ brokers).
         public let consoleAccess: Bool?
         /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let groups: [String]?
-        /// Required. The password of the ActiveMQ user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
+        /// Required. The password of the broker user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
         public let password: String?
-        /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        /// Required. The username of the broker user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String?
 
         public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, username: String? = nil) {
@@ -1522,9 +1528,9 @@ extension MQ {
     }
 
     public struct UserSummary: AWSDecodableShape {
-        /// The type of change pending for the ActiveMQ user.
+        /// The type of change pending for the broker user.
         public let pendingChange: ChangeType?
-        /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+        /// Required. The username of the broker user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String?
 
         public init(pendingChange: ChangeType? = nil, username: String? = nil) {
