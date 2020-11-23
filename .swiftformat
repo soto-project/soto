@@ -1,5 +1,5 @@
 # Minimum swiftformat version
---minversion 0.45.3
+--minversion 0.47.4
 
 # Swift version
 --swiftversion 5.1
@@ -8,7 +8,7 @@
 --exclude .build
 
 # rules
---disable redundantReturn, redundantBackticks, trailingCommas
+--disable redundantReturn, redundantBackticks, trailingCommas, extensionAccessControl
 
 # format options
 --ifdef no-indent

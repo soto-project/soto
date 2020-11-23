@@ -52,10 +52,10 @@ extension CognitoIdentity {
             }
             .flatMapThrowing { response in
                 guard let credentials = response.credentials,
-                    let accessKeyId = credentials.accessKeyId,
-                    let secretAccessKey = credentials.secretKey,
-                    let sessionToken = credentials.sessionToken,
-                    let expiration = credentials.expiration
+                      let accessKeyId = credentials.accessKeyId,
+                      let secretAccessKey = credentials.secretKey,
+                      let sessionToken = credentials.sessionToken,
+                      let expiration = credentials.expiration
                 else {
                     throw CredentialProviderError.noProvider
                 }

@@ -125,8 +125,8 @@ extension API {
                 self.setShapeUsedIn(shape: outputShape, input: false, output: true)
                 // set eventStream flag if payload is flagged as an eventStream, set streaming flags if payload member or payload shape is flagged as streaming
                 if let payload = outputShape.payload,
-                    case .structure(let structure) = outputShape.type,
-                    let member = structure.members[payload]
+                   case .structure(let structure) = outputShape.type,
+                   let member = structure.members[payload]
                 {
                     self.operations[key]?.eventStream = member.shape.eventStream ?? false
                     if member.streaming == true || member.shape.streaming == true, member.required == false {

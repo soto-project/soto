@@ -19,7 +19,7 @@ import Stencil
 import SwiftFormat
 
 struct CodeGenerator {
-    static let sfDisabledRules = FormatRules.disabledByDefault + ["redundantReturn", "redundantBackticks", "trailingCommas"]
+    static let sfDisabledRules = FormatRules.disabledByDefault + ["redundantReturn", "redundantBackticks", "trailingCommas", "extensionAccessControl"]
     static let sfRuleNames = Set(FormatRules.byName.keys).subtracting(sfDisabledRules)
     static let sfRules: [FormatRule] = sfRuleNames.map { FormatRules.byName[$0]! }
     static let sfFormtOptions = FormatOptions(

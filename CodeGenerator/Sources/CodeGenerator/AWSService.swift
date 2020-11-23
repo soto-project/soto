@@ -369,7 +369,7 @@ extension AWSService {
         }
         // if output token is member of an optional struct add ? suffix
         if type.required.first(where: { $0 == String(split[0]) }) == nil,
-            split.count > 1
+           split.count > 1
         {
             split[0] += "?"
         }
@@ -388,10 +388,10 @@ extension AWSService {
         for paginator in paginators {
             // get related operation and its input and output shapes
             guard let operation = api.operations[paginator.key],
-                let inputShape = try operation.input.map({ try api.getShape(named: $0.shapeName) }),
-                let outputShape = try operation.output.map({ try api.getShape(named: $0.shapeName) }),
-                case .structure(let inputStructure) = inputShape.type,
-                case .structure(let outputStructure) = outputShape.type
+                  let inputShape = try operation.input.map({ try api.getShape(named: $0.shapeName) }),
+                  let outputShape = try operation.output.map({ try api.getShape(named: $0.shapeName) }),
+                  case .structure(let inputStructure) = inputShape.type,
+                  case .structure(let outputStructure) = outputShape.type
             else {
                 continue
             }
@@ -402,8 +402,8 @@ extension AWSService {
 
             // get input token member
             guard inputTokens.count > 0,
-                outputTokens.count > 0,
-                let inputTokenMember = inputStructure.members[inputTokens[0]]
+                  outputTokens.count > 0,
+                  let inputTokenMember = inputStructure.members[inputTokens[0]]
             else {
                 continue
             }
