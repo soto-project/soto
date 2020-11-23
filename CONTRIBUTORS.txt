@@ -14,6 +14,7 @@ needs to be listed here.
 - Joe Smith <yasumoto7@gmail.com>
 - Jonathan McAllister <jonny.mcallister@leagueheads.com>
 - Roland Möller <moeller.rol@gmail.com>
+- Sébastien Stormacq <sebastien.stormacq@gmail.com>
 - Tim Condon <0xtimc@gmail.com>
 - Yifei Teng <tengyifei@users.noreply.github.com>
 - Yuki Takei <yuki@miketokyo.com>
