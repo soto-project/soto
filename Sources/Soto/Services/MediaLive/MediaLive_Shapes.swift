@@ -280,6 +280,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeviceUpdateStatus: String, CustomStringConvertible, Codable {
+        case notUpToDate = "NOT_UP_TO_DATE"
+        case upToDate = "UP_TO_DATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DvbSdtOutputSdt: String, CustomStringConvertible, Codable {
         case sdtFollow = "SDT_FOLLOW"
         case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
@@ -820,6 +826,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum HlsDiscontinuityTags: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case neverInsert = "NEVER_INSERT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HlsEncryptionType: String, CustomStringConvertible, Codable {
         case aes128 = "AES128"
         case sampleAes = "SAMPLE_AES"
@@ -835,6 +847,12 @@ extension MediaLive {
     public enum HlsId3SegmentTaggingState: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsIncompleteSegmentBehavior: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
+        case suppress = "SUPPRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -1432,6 +1450,11 @@ extension MediaLive {
         case enhanced = "ENHANCED"
         case premium = "PREMIUM"
         case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RtmpAdMarkers: String, CustomStringConvertible, Codable {
+        case onCuePointScte35 = "ON_CUE_POINT_SCTE35"
         public var description: String { return self.rawValue }
     }
 
@@ -2141,17 +2164,32 @@ extension MediaLive {
     }
 
     public struct AutomaticInputFailoverSettings: AWSEncodableShape & AWSDecodableShape {
+        /// This clear time defines the requirement a recovered input must meet to be considered healthy. The input must have no failover conditions for this length of time. Enter a time in milliseconds. This value is particularly important if the input_preference for the failover pair is set to PRIMARY_INPUT_PREFERRED, because after this time, MediaLive will switch back to the primary input.
+        public let errorClearTimeMsec: Int?
+        /// A list of failover conditions. If any of these conditions occur, MediaLive will perform a failover to the other input.
+        public let failoverConditions: [FailoverCondition]?
         /// Input preference when deciding which input to make active when a previously failed input has recovered.
         public let inputPreference: InputPreference?
         /// The input ID of the secondary input in the automatic input failover pair.
         public let secondaryInputId: String
 
-        public init(inputPreference: InputPreference? = nil, secondaryInputId: String) {
+        public init(errorClearTimeMsec: Int? = nil, failoverConditions: [FailoverCondition]? = nil, inputPreference: InputPreference? = nil, secondaryInputId: String) {
+            self.errorClearTimeMsec = errorClearTimeMsec
+            self.failoverConditions = failoverConditions
             self.inputPreference = inputPreference
             self.secondaryInputId = secondaryInputId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.errorClearTimeMsec, name: "errorClearTimeMsec", parent: name, min: 1)
+            try self.failoverConditions?.forEach {
+                try $0.validate(name: "\(name).failoverConditions[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case errorClearTimeMsec
+            case failoverConditions
             case inputPreference
             case secondaryInputId
         }
@@ -3590,6 +3628,7 @@ extension MediaLive {
         public let arn: String?
         public let connectionState: InputDeviceConnectionState?
         public let deviceSettingsSyncState: DeviceSettingsSyncState?
+        public let deviceUpdateStatus: DeviceUpdateStatus?
         public let hdDeviceSettings: InputDeviceHdSettings?
         public let id: String?
         public let macAddress: String?
@@ -3598,10 +3637,11 @@ extension MediaLive {
         public let serialNumber: String?
         public let type: InputDeviceType?
 
-        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
             self.arn = arn
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
+            self.deviceUpdateStatus = deviceUpdateStatus
             self.hdDeviceSettings = hdDeviceSettings
             self.id = id
             self.macAddress = macAddress
@@ -3615,6 +3655,7 @@ extension MediaLive {
             case arn
             case connectionState
             case deviceSettingsSyncState
+            case deviceUpdateStatus
             case hdDeviceSettings
             case id
             case macAddress
@@ -4474,6 +4515,40 @@ extension MediaLive {
         }
     }
 
+    public struct FailoverCondition: AWSEncodableShape & AWSDecodableShape {
+        /// Failover condition type-specific settings.
+        public let failoverConditionSettings: FailoverConditionSettings?
+
+        public init(failoverConditionSettings: FailoverConditionSettings? = nil) {
+            self.failoverConditionSettings = failoverConditionSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.failoverConditionSettings?.validate(name: "\(name).failoverConditionSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failoverConditionSettings
+        }
+    }
+
+    public struct FailoverConditionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// MediaLive will perform a failover if content is not detected in this input for the specified period.
+        public let inputLossSettings: InputLossFailoverSettings?
+
+        public init(inputLossSettings: InputLossFailoverSettings? = nil) {
+            self.inputLossSettings = inputLossSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.inputLossSettings?.validate(name: "\(name).inputLossSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputLossSettings
+        }
+    }
+
     public struct FeatureActivations: AWSEncodableShape & AWSDecodableShape {
         /// Enables the Input Prepare feature. You can create Input Prepare actions in the schedule only if this feature is enabled.
         /// If you disable the feature on an existing schedule, make sure that you first delete all input prepare actions from the schedule.
@@ -5273,6 +5348,10 @@ extension MediaLive {
         public let destination: OutputLocationRef
         /// Place segments in subdirectories.
         public let directoryStructure: HlsDirectoryStructure?
+        /// Specifies whether to insert EXT-X-DISCONTINUITY tags in the HLS child manifests for this output group.
+        /// Typically, choose Insert because these tags are required in the manifest (according to the HLS specification) and serve an important purpose.
+        /// Choose Never Insert only if the downstream system is doing real-time failover (without using the MediaLive automatic failover feature) and only if that downstream system has advised you to exclude the tags.
+        public let discontinuityTags: HlsDiscontinuityTags?
         /// Encrypts the segments with the given encryption scheme.  Exclude this parameter if no encryption is desired.
         public let encryptionType: HlsEncryptionType?
         /// Parameters that control interactions with the CDN.
@@ -5282,6 +5361,10 @@ extension MediaLive {
         /// DISABLED: Do not create an I-frame-only manifest, but do create the master and media manifests (according to the Output Selection field).
         /// STANDARD: Create an I-frame-only manifest for each output that contains video, as well as the other manifests (according to the Output Selection field). The I-frame manifest contains a #EXT-X-I-FRAMES-ONLY tag to indicate it is I-frame only, and one or more #EXT-X-BYTERANGE entries identifying the I-frame position. For example, #EXT-X-BYTERANGE:160364@1461888"
         public let iFrameOnlyPlaylists: IFrameOnlyPlaylistType?
+        /// Specifies whether to include the final (incomplete) segment in the media output when the pipeline stops producing output because of a channel stop, a channel pause or a loss of input to the pipeline.
+        /// Auto means that MediaLive decides whether to include the final segment, depending on the channel class and the types of output groups.
+        /// Suppress means to never include the incomplete segment. We recommend you choose Auto and let MediaLive control the behavior.
+        public let incompleteSegmentBehavior: HlsIncompleteSegmentBehavior?
         /// Applies only if Mode field is LIVE.
         /// Specifies the maximum number of segments in the media manifest file. After this maximum, older segments are removed from the media manifest. This number must be smaller than the number in the Keep Segments field.
         public let indexNSegments: Int?
@@ -5340,7 +5423,7 @@ extension MediaLive {
         /// SINGLE_FILE: Applies only if Mode field is VOD. Emit the program as a single .ts media file. The media manifest includes #EXT-X-BYTERANGE tags to index segments for playback. A typical use for this value is when sending the output to AWS Elemental MediaConvert, which can accept only a single media file. Playback while the channel is running is not guaranteed due to HTTP server caching.
         public let tsFileMode: HlsTsFileMode?
 
-        public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlContent1: String? = nil, baseUrlManifest: String? = nil, baseUrlManifest1: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, hlsId3SegmentTagging: HlsId3SegmentTaggingState? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, indexNSegments: Int? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil, tsFileMode: HlsTsFileMode? = nil) {
+        public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlContent1: String? = nil, baseUrlManifest: String? = nil, baseUrlManifest1: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, discontinuityTags: HlsDiscontinuityTags? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, hlsId3SegmentTagging: HlsId3SegmentTaggingState? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, incompleteSegmentBehavior: HlsIncompleteSegmentBehavior? = nil, indexNSegments: Int? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil, tsFileMode: HlsTsFileMode? = nil) {
             self.adMarkers = adMarkers
             self.baseUrlContent = baseUrlContent
             self.baseUrlContent1 = baseUrlContent1
@@ -5353,10 +5436,12 @@ extension MediaLive {
             self.constantIv = constantIv
             self.destination = destination
             self.directoryStructure = directoryStructure
+            self.discontinuityTags = discontinuityTags
             self.encryptionType = encryptionType
             self.hlsCdnSettings = hlsCdnSettings
             self.hlsId3SegmentTagging = hlsId3SegmentTagging
             self.iFrameOnlyPlaylists = iFrameOnlyPlaylists
+            self.incompleteSegmentBehavior = incompleteSegmentBehavior
             self.indexNSegments = indexNSegments
             self.inputLossAction = inputLossAction
             self.ivInManifest = ivInManifest
@@ -5415,10 +5500,12 @@ extension MediaLive {
             case constantIv
             case destination
             case directoryStructure
+            case discontinuityTags
             case encryptionType
             case hlsCdnSettings
             case hlsId3SegmentTagging
             case iFrameOnlyPlaylists
+            case incompleteSegmentBehavior
             case indexNSegments
             case inputLossAction
             case ivInManifest
@@ -5724,6 +5811,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.automaticInputFailoverSettings?.validate(name: "\(name).automaticInputFailoverSettings")
             try self.inputSettings?.validate(name: "\(name).inputSettings")
         }
 
@@ -5957,6 +6045,8 @@ extension MediaLive {
         public let connectionState: InputDeviceConnectionState?
         /// The status of the action to synchronize the device configuration. If you change the configuration of the input device (for example, the maximum bitrate), MediaLive sends the new data to the device. The device might not update itself immediately. SYNCED means the device has updated its configuration. SYNCING means that it has not updated its configuration.
         public let deviceSettingsSyncState: DeviceSettingsSyncState?
+        /// The status of software on the input device.
+        public let deviceUpdateStatus: DeviceUpdateStatus?
         /// Settings that describe an input device that is type HD.
         public let hdDeviceSettings: InputDeviceHdSettings?
         /// The unique ID of the input device.
@@ -5972,10 +6062,11 @@ extension MediaLive {
         /// The type of the input device.
         public let type: InputDeviceType?
 
-        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
             self.arn = arn
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
+            self.deviceUpdateStatus = deviceUpdateStatus
             self.hdDeviceSettings = hdDeviceSettings
             self.id = id
             self.macAddress = macAddress
@@ -5989,6 +6080,7 @@ extension MediaLive {
             case arn
             case connectionState
             case deviceSettingsSyncState
+            case deviceUpdateStatus
             case hdDeviceSettings
             case id
             case macAddress
@@ -6055,6 +6147,23 @@ extension MediaLive {
             case inputLossImageSlate
             case inputLossImageType
             case repeatFrameMsec
+        }
+    }
+
+    public struct InputLossFailoverSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The amount of time (in milliseconds) that no input is detected. After that time, an input failover will occur.
+        public let inputLossThresholdMsec: Int?
+
+        public init(inputLossThresholdMsec: Int? = nil) {
+            self.inputLossThresholdMsec = inputLossThresholdMsec
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inputLossThresholdMsec, name: "inputLossThresholdMsec", parent: name, min: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputLossThresholdMsec
         }
     }
 
@@ -8383,6 +8492,8 @@ extension MediaLive {
     }
 
     public struct RtmpGroupSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Choose the ad marker type for this output group. MediaLive will create a message based on the content of each SCTE-35 message, format it for that marker type, and insert it in the datastream.
+        public let adMarkers: [RtmpAdMarkers]?
         /// Authentication scheme to use when connecting with CDN
         public let authenticationScheme: AuthenticationScheme?
         /// Controls behavior when content cache fills up. If remote origin server stalls the RTMP connection and does not accept content fast enough the 'Media Cache' will fill up. When the cache reaches the duration specified by cacheLength the cache will stop accepting new content. If set to disconnectImmediately, the RTMP output will force a disconnect. Clear the media cache, and reconnect after restartDelay seconds. If set to waitForServer, the RTMP output will wait up to 5 minutes to allow the origin server to begin accepting data again.
@@ -8398,7 +8509,8 @@ extension MediaLive {
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public let restartDelay: Int?
 
-        public init(authenticationScheme: AuthenticationScheme? = nil, cacheFullBehavior: RtmpCacheFullBehavior? = nil, cacheLength: Int? = nil, captionData: RtmpCaptionData? = nil, inputLossAction: InputLossActionForRtmpOut? = nil, restartDelay: Int? = nil) {
+        public init(adMarkers: [RtmpAdMarkers]? = nil, authenticationScheme: AuthenticationScheme? = nil, cacheFullBehavior: RtmpCacheFullBehavior? = nil, cacheLength: Int? = nil, captionData: RtmpCaptionData? = nil, inputLossAction: InputLossActionForRtmpOut? = nil, restartDelay: Int? = nil) {
+            self.adMarkers = adMarkers
             self.authenticationScheme = authenticationScheme
             self.cacheFullBehavior = cacheFullBehavior
             self.cacheLength = cacheLength
@@ -8413,6 +8525,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adMarkers
             case authenticationScheme
             case cacheFullBehavior
             case cacheLength
@@ -9581,6 +9694,7 @@ extension MediaLive {
         public let arn: String?
         public let connectionState: InputDeviceConnectionState?
         public let deviceSettingsSyncState: DeviceSettingsSyncState?
+        public let deviceUpdateStatus: DeviceUpdateStatus?
         public let hdDeviceSettings: InputDeviceHdSettings?
         public let id: String?
         public let macAddress: String?
@@ -9589,10 +9703,11 @@ extension MediaLive {
         public let serialNumber: String?
         public let type: InputDeviceType?
 
-        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
             self.arn = arn
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
+            self.deviceUpdateStatus = deviceUpdateStatus
             self.hdDeviceSettings = hdDeviceSettings
             self.id = id
             self.macAddress = macAddress
@@ -9606,6 +9721,7 @@ extension MediaLive {
             case arn
             case connectionState
             case deviceSettingsSyncState
+            case deviceUpdateStatus
             case hdDeviceSettings
             case id
             case macAddress

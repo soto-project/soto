@@ -23,6 +23,7 @@ public struct CodePipelineErrorType: AWSErrorType {
         case actionTypeNotFoundException = "ActionTypeNotFoundException"
         case approvalAlreadyCompletedException = "ApprovalAlreadyCompletedException"
         case concurrentModificationException = "ConcurrentModificationException"
+        case conflictException = "ConflictException"
         case duplicatedStopRequestException = "DuplicatedStopRequestException"
         case invalidActionDeclarationException = "InvalidActionDeclarationException"
         case invalidApprovalTokenException = "InvalidApprovalTokenException"
@@ -81,6 +82,8 @@ public struct CodePipelineErrorType: AWSErrorType {
     public static var approvalAlreadyCompletedException: Self { .init(.approvalAlreadyCompletedException) }
     /// Unable to modify the tag due to a simultaneous update request.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The pipeline execution is already in a Stopping state. If you already chose to stop and wait, you cannot make that request again. You can choose to stop and abandon now, but be aware that this option can lead to failed tasks or out of sequence tasks. If you already chose to stop and abandon, you cannot make that request again.
     public static var duplicatedStopRequestException: Self { .init(.duplicatedStopRequestException) }
     /// The action declaration was specified in an invalid format.

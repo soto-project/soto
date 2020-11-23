@@ -454,7 +454,7 @@ extension WorkMail {
     public struct CreateUserRequest: AWSEncodableShape {
         /// The display name for the new user.
         public let displayName: String
-        /// The name for the new user. Simple AD or AD Connector user names have a maximum length of 20. All others have a maximum length of 64.
+        /// The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20.
         public let name: String
         /// The identifier of the organization for which the user is created.
         public let organizationId: String

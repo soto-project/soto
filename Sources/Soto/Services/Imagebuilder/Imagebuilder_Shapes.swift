@@ -86,7 +86,7 @@ extension Imagebuilder {
     public struct Ami: AWSDecodableShape {
         ///  The account ID of the owner of the AMI.
         public let accountId: String?
-        /// The description of the EC2 AMI.
+        /// The description of the EC2 AMI. Minimum and maximum length are in characters.
         public let description: String?
         /// The AMI ID of the EC2 AMI.
         public let image: String?
@@ -118,7 +118,7 @@ extension Imagebuilder {
     public struct AmiDistributionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The tags to apply to AMIs distributed to this Region.
         public let amiTags: [String: String]?
-        /// The description of the distribution configuration.
+        /// The description of the distribution configuration. Minimum and maximum length are in characters.
         public let description: String?
         ///  The KMS key identifier used to encrypt the distributed image.
         public let kmsKeyId: String?
@@ -156,7 +156,7 @@ extension Imagebuilder {
             try self.targetAccountIds?.forEach {
                 try validate($0, name: "targetAccountIds[]", parent: name, pattern: "^\\d{12}$")
             }
-            try self.validate(self.targetAccountIds, name: "targetAccountIds", parent: name, max: 50)
+            try self.validate(self.targetAccountIds, name: "targetAccountIds", parent: name, max: 1536)
             try self.validate(self.targetAccountIds, name: "targetAccountIds", parent: name, min: 1)
         }
 
@@ -2277,7 +2277,7 @@ extension Imagebuilder {
             try self.userIds?.forEach {
                 try validate($0, name: "userIds[]", parent: name, pattern: "^\\d{12}$")
             }
-            try self.validate(self.userIds, name: "userIds", parent: name, max: 50)
+            try self.validate(self.userIds, name: "userIds", parent: name, max: 1536)
             try self.validate(self.userIds, name: "userIds", parent: name, min: 1)
         }
 
@@ -2305,7 +2305,7 @@ extension Imagebuilder {
             try self.validate(self.componentVersionArn, name: "componentVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2362,7 +2362,7 @@ extension Imagebuilder {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2417,7 +2417,7 @@ extension Imagebuilder {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2475,7 +2475,7 @@ extension Imagebuilder {
             try self.validate(self.imageVersionArn, name: "imageVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2534,7 +2534,7 @@ extension Imagebuilder {
             try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2589,7 +2589,7 @@ extension Imagebuilder {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2646,7 +2646,7 @@ extension Imagebuilder {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2704,7 +2704,7 @@ extension Imagebuilder {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2759,7 +2759,7 @@ extension Imagebuilder {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 

@@ -311,15 +311,19 @@ extension ElasticsearchService {
         public let enabled: Bool?
         /// True if the internal user database is enabled.
         public let internalUserDatabaseEnabled: Bool?
+        /// Describes the SAML application configured for a domain.
+        public let sAMLOptions: SAMLOptionsOutput?
 
-        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil) {
+        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, sAMLOptions: SAMLOptionsOutput? = nil) {
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
+            self.sAMLOptions = sAMLOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
+            case sAMLOptions = "SAMLOptions"
         }
     }
 
@@ -330,21 +334,26 @@ extension ElasticsearchService {
         public let internalUserDatabaseEnabled: Bool?
         /// Credentials for the master user: username and password, ARN, or both.
         public let masterUserOptions: MasterUserOptions?
+        /// Specifies the SAML application configuration for the domain.
+        public let sAMLOptions: SAMLOptionsInput?
 
-        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil) {
+        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, sAMLOptions: SAMLOptionsInput? = nil) {
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.masterUserOptions = masterUserOptions
+            self.sAMLOptions = sAMLOptions
         }
 
         public func validate(name: String) throws {
             try self.masterUserOptions?.validate(name: "\(name).masterUserOptions")
+            try self.sAMLOptions?.validate(name: "\(name).sAMLOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
             case masterUserOptions = "MasterUserOptions"
+            case sAMLOptions = "SAMLOptions"
         }
     }
 
@@ -554,6 +563,7 @@ extension ElasticsearchService {
         public func validate(name: String) throws {
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
             try self.cognitoOptions?.validate(name: "\(name).cognitoOptions")
+            try self.domainEndpointOptions?.validate(name: "\(name).domainEndpointOptions")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1240,17 +1250,35 @@ extension ElasticsearchService {
     }
 
     public struct DomainEndpointOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the fully qualified domain for your custom endpoint.
+        public let customEndpoint: String?
+        /// Specify ACM certificate ARN for your custom endpoint.
+        public let customEndpointCertificateArn: String?
+        /// Specify if custom endpoint should be enabled for the Elasticsearch domain.
+        public let customEndpointEnabled: Bool?
         /// Specify if only HTTPS endpoint should be enabled for the Elasticsearch domain.
         public let enforceHTTPS: Bool?
         /// Specify the TLS security policy that needs to be applied to the HTTPS endpoint of Elasticsearch domain.  It can be one of the following values:  Policy-Min-TLS-1-0-2019-07:  TLS security policy which supports TLSv1.0 and higher. Policy-Min-TLS-1-2-2019-07:  TLS security policy which supports only TLSv1.2
         public let tLSSecurityPolicy: TLSSecurityPolicy?
 
-        public init(enforceHTTPS: Bool? = nil, tLSSecurityPolicy: TLSSecurityPolicy? = nil) {
+        public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tLSSecurityPolicy: TLSSecurityPolicy? = nil) {
+            self.customEndpoint = customEndpoint
+            self.customEndpointCertificateArn = customEndpointCertificateArn
+            self.customEndpointEnabled = customEndpointEnabled
             self.enforceHTTPS = enforceHTTPS
             self.tLSSecurityPolicy = tLSSecurityPolicy
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.customEndpoint, name: "customEndpoint", parent: name, max: 255)
+            try self.validate(self.customEndpoint, name: "customEndpoint", parent: name, min: 1)
+            try self.validate(self.customEndpoint, name: "customEndpoint", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case customEndpoint = "CustomEndpoint"
+            case customEndpointCertificateArn = "CustomEndpointCertificateArn"
+            case customEndpointEnabled = "CustomEndpointEnabled"
             case enforceHTTPS = "EnforceHTTPS"
             case tLSSecurityPolicy = "TLSSecurityPolicy"
         }
@@ -1327,10 +1355,11 @@ extension ElasticsearchService {
         public let packageName: String?
         /// Currently supports only TXT-DICTIONARY.
         public let packageType: PackageType?
+        public let packageVersion: String?
         /// The relative path on Amazon ES nodes, which can be used as synonym_path when the package is synonym file.
         public let referencePath: String?
 
-        public init(domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: Date? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, referencePath: String? = nil) {
+        public init(domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: Date? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, packageVersion: String? = nil, referencePath: String? = nil) {
             self.domainName = domainName
             self.domainPackageStatus = domainPackageStatus
             self.errorDetails = errorDetails
@@ -1338,6 +1367,7 @@ extension ElasticsearchService {
             self.packageID = packageID
             self.packageName = packageName
             self.packageType = packageType
+            self.packageVersion = packageVersion
             self.referencePath = referencePath
         }
 
@@ -1349,6 +1379,7 @@ extension ElasticsearchService {
             case packageID = "PackageID"
             case packageName = "PackageName"
             case packageType = "PackageType"
+            case packageVersion = "PackageVersion"
             case referencePath = "ReferencePath"
         }
     }
@@ -1748,6 +1779,52 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case compatibleElasticsearchVersions = "CompatibleElasticsearchVersions"
+        }
+    }
+
+    public struct GetPackageVersionHistoryRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
+        ]
+
+        /// Limits results to a maximum number of versions.
+        public let maxResults: Int?
+        /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
+        public let nextToken: String?
+        /// Returns an audit history of versions of the package.
+        public let packageID: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, packageID: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.packageID = packageID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPackageVersionHistoryResponse: AWSDecodableShape {
+        public let nextToken: String?
+        public let packageID: String?
+        /// List of PackageVersionHistory objects.
+        public let packageVersionHistoryList: [PackageVersionHistory]?
+
+        public init(nextToken: String? = nil, packageID: String? = nil, packageVersionHistoryList: [PackageVersionHistory]? = nil) {
+            self.nextToken = nextToken
+            self.packageID = packageID
+            self.packageVersionHistoryList = packageVersionHistoryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case packageID = "PackageID"
+            case packageVersionHistoryList = "PackageVersionHistoryList"
         }
     }
 
@@ -2309,10 +2386,12 @@ extension ElasticsearchService {
     }
 
     public struct PackageDetails: AWSDecodableShape {
+        public let availablePackageVersion: String?
         /// Timestamp which tells creation date of the package.
         public let createdAt: Date?
         /// Additional information if the package is in an error state. Null otherwise.
         public let errorDetails: ErrorDetails?
+        public let lastUpdatedAt: Date?
         /// User-specified description of the package.
         public let packageDescription: String?
         /// Internal ID of the package.
@@ -2324,9 +2403,11 @@ extension ElasticsearchService {
         /// Currently supports only TXT-DICTIONARY.
         public let packageType: PackageType?
 
-        public init(createdAt: Date? = nil, errorDetails: ErrorDetails? = nil, packageDescription: String? = nil, packageID: String? = nil, packageName: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil) {
+        public init(availablePackageVersion: String? = nil, createdAt: Date? = nil, errorDetails: ErrorDetails? = nil, lastUpdatedAt: Date? = nil, packageDescription: String? = nil, packageID: String? = nil, packageName: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil) {
+            self.availablePackageVersion = availablePackageVersion
             self.createdAt = createdAt
             self.errorDetails = errorDetails
+            self.lastUpdatedAt = lastUpdatedAt
             self.packageDescription = packageDescription
             self.packageID = packageID
             self.packageName = packageName
@@ -2335,8 +2416,10 @@ extension ElasticsearchService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availablePackageVersion = "AvailablePackageVersion"
             case createdAt = "CreatedAt"
             case errorDetails = "ErrorDetails"
+            case lastUpdatedAt = "LastUpdatedAt"
             case packageDescription = "PackageDescription"
             case packageID = "PackageID"
             case packageName = "PackageName"
@@ -2364,6 +2447,27 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case s3BucketName = "S3BucketName"
             case s3Key = "S3Key"
+        }
+    }
+
+    public struct PackageVersionHistory: AWSDecodableShape {
+        /// A message associated with the version.
+        public let commitMessage: String?
+        /// Timestamp which tells creation time of the package version.
+        public let createdAt: Date?
+        /// Version of the package.
+        public let packageVersion: String?
+
+        public init(commitMessage: String? = nil, createdAt: Date? = nil, packageVersion: String? = nil) {
+            self.commitMessage = commitMessage
+            self.createdAt = createdAt
+            self.packageVersion = packageVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitMessage = "CommitMessage"
+            case createdAt = "CreatedAt"
+            case packageVersion = "PackageVersion"
         }
     }
 
@@ -2576,6 +2680,103 @@ extension ElasticsearchService {
         }
     }
 
+    public struct SAMLIdp: AWSEncodableShape & AWSDecodableShape {
+        /// The unique Entity ID of the application in SAML Identity Provider.
+        public let entityId: String
+        /// The Metadata of the SAML application in xml format.
+        public let metadataContent: String
+
+        public init(entityId: String, metadataContent: String) {
+            self.entityId = entityId
+            self.metadataContent = metadataContent
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 512)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 8)
+            try self.validate(self.metadataContent, name: "metadataContent", parent: name, max: 1_048_576)
+            try self.validate(self.metadataContent, name: "metadataContent", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case metadataContent = "MetadataContent"
+        }
+    }
+
+    public struct SAMLOptionsInput: AWSEncodableShape {
+        /// True if SAML is enabled.
+        public let enabled: Bool?
+        /// Specifies the SAML Identity Provider's information.
+        public let idp: SAMLIdp?
+        /// The backend role to which the SAML master user is mapped to.
+        public let masterBackendRole: String?
+        /// The SAML master username, which is stored in the Amazon Elasticsearch Service domain's internal database.
+        public let masterUserName: String?
+        /// The key to use for matching the SAML Roles attribute.
+        public let rolesKey: String?
+        /// The duration, in minutes, after which a user session becomes inactive. Acceptable values are between 1 and 1440, and the default value is 60.
+        public let sessionTimeoutMinutes: Int?
+        /// The key to use for matching the SAML Subject attribute.
+        public let subjectKey: String?
+
+        public init(enabled: Bool? = nil, idp: SAMLIdp? = nil, masterBackendRole: String? = nil, masterUserName: String? = nil, rolesKey: String? = nil, sessionTimeoutMinutes: Int? = nil, subjectKey: String? = nil) {
+            self.enabled = enabled
+            self.idp = idp
+            self.masterBackendRole = masterBackendRole
+            self.masterUserName = masterUserName
+            self.rolesKey = rolesKey
+            self.sessionTimeoutMinutes = sessionTimeoutMinutes
+            self.subjectKey = subjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.idp?.validate(name: "\(name).idp")
+            try self.validate(self.masterBackendRole, name: "masterBackendRole", parent: name, max: 256)
+            try self.validate(self.masterBackendRole, name: "masterBackendRole", parent: name, min: 1)
+            try self.validate(self.masterUserName, name: "masterUserName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case idp = "Idp"
+            case masterBackendRole = "MasterBackendRole"
+            case masterUserName = "MasterUserName"
+            case rolesKey = "RolesKey"
+            case sessionTimeoutMinutes = "SessionTimeoutMinutes"
+            case subjectKey = "SubjectKey"
+        }
+    }
+
+    public struct SAMLOptionsOutput: AWSDecodableShape {
+        /// True if SAML is enabled.
+        public let enabled: Bool?
+        /// Describes the SAML Identity Provider's information.
+        public let idp: SAMLIdp?
+        /// The key used for matching the SAML Roles attribute.
+        public let rolesKey: String?
+        /// The duration, in minutes, after which a user session becomes inactive.
+        public let sessionTimeoutMinutes: Int?
+        /// The key used for matching the SAML Subject attribute.
+        public let subjectKey: String?
+
+        public init(enabled: Bool? = nil, idp: SAMLIdp? = nil, rolesKey: String? = nil, sessionTimeoutMinutes: Int? = nil, subjectKey: String? = nil) {
+            self.enabled = enabled
+            self.idp = idp
+            self.rolesKey = rolesKey
+            self.sessionTimeoutMinutes = sessionTimeoutMinutes
+            self.subjectKey = subjectKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case idp = "Idp"
+            case rolesKey = "RolesKey"
+            case sessionTimeoutMinutes = "SessionTimeoutMinutes"
+            case subjectKey = "SubjectKey"
+        }
+    }
+
     public struct ServiceSoftwareOptions: AWSDecodableShape {
         /// Timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
         public let automatedUpdateDate: Date?
@@ -2784,6 +2985,7 @@ extension ElasticsearchService {
         public func validate(name: String) throws {
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
             try self.cognitoOptions?.validate(name: "\(name).cognitoOptions")
+            try self.domainEndpointOptions?.validate(name: "\(name).domainEndpointOptions")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -2813,6 +3015,49 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case domainConfig = "DomainConfig"
+        }
+    }
+
+    public struct UpdatePackageRequest: AWSEncodableShape {
+        /// An info message for the new version which will be shown as part of GetPackageVersionHistoryResponse.
+        public let commitMessage: String?
+        /// New description of the package.
+        public let packageDescription: String?
+        /// Unique identifier for the package.
+        public let packageID: String
+        public let packageSource: PackageSource
+
+        public init(commitMessage: String? = nil, packageDescription: String? = nil, packageID: String, packageSource: PackageSource) {
+            self.commitMessage = commitMessage
+            self.packageDescription = packageDescription
+            self.packageID = packageID
+            self.packageSource = packageSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.commitMessage, name: "commitMessage", parent: name, max: 160)
+            try self.validate(self.packageDescription, name: "packageDescription", parent: name, max: 1024)
+            try self.packageSource.validate(name: "\(name).packageSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitMessage = "CommitMessage"
+            case packageDescription = "PackageDescription"
+            case packageID = "PackageID"
+            case packageSource = "PackageSource"
+        }
+    }
+
+    public struct UpdatePackageResponse: AWSDecodableShape {
+        /// Information about the package PackageDetails.
+        public let packageDetails: PackageDetails?
+
+        public init(packageDetails: PackageDetails? = nil) {
+            self.packageDetails = packageDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageDetails = "PackageDetails"
         }
     }
 

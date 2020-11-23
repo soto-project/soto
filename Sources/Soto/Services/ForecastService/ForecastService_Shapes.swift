@@ -417,7 +417,7 @@ extension ForecastService {
     }
 
     public struct CreatePredictorRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/Deep_AR_Plus  Supports hyperparameter optimization (HPO)    arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
+        /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/CNN-QR     arn:aws:forecast:::algorithm/Deep_AR_Plus     arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
         public let algorithmArn: String?
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
@@ -427,13 +427,15 @@ extension ForecastService {
         public let featurizationConfig: FeaturizationConfig
         /// Specifies the number of time-steps that the model is trained to predict. The forecast horizon is also called the prediction length. For example, if you configure a dataset for daily data collection (using the DataFrequency parameter of the CreateDataset operation) and set the forecast horizon to 10, the model returns predictions for 10 days. The maximum forecast horizon is the lesser of 500 time-steps or 1/3 of the TARGET_TIME_SERIES dataset length.
         public let forecastHorizon: Int
+        /// Specifies the forecast types used to train a predictor. You can specify up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by increments of 0.01 or higher. You can also specify the mean forecast with mean.  The default value is ["0.10", "0.50", "0.9"].
+        public let forecastTypes: [String]?
         /// Provides hyperparameter override values for the algorithm. If you don't provide this parameter, Amazon Forecast uses default values. The individual algorithms specify which hyperparameters support hyperparameter optimization (HPO). For more information, see aws-forecast-choosing-recipes. If you included the HPOConfig object, you must set PerformHPO to true.
         public let hPOConfig: HyperParameterTuningJobConfig?
         /// Describes the dataset group that contains the data to use to train the predictor.
         public let inputDataConfig: InputDataConfig
         /// Whether to perform AutoML. When Amazon Forecast performs AutoML, it evaluates the algorithms it provides and chooses the best algorithm and configuration for your training dataset. The default value is false. In this case, you are required to specify an algorithm. Set PerformAutoML to true to have Amazon Forecast perform AutoML. This is a good option if you aren't sure which algorithm is suitable for your training data. In this case, PerformHPO must be false.
         public let performAutoML: Bool?
-        /// Whether to perform hyperparameter optimization (HPO). HPO finds optimal hyperparameter values for your training data. The process of performing HPO is known as running a hyperparameter tuning job. The default value is false. In this case, Amazon Forecast uses default hyperparameter values from the chosen algorithm. To override the default values, set PerformHPO to true and, optionally, supply the HyperParameterTuningJobConfig object. The tuning job specifies a metric to optimize, which hyperparameters participate in tuning, and the valid range for each tunable hyperparameter. In this case, you are required to specify an algorithm and PerformAutoML must be false. The following algorithm supports HPO:   DeepAR+
+        /// Whether to perform hyperparameter optimization (HPO). HPO finds optimal hyperparameter values for your training data. The process of performing HPO is known as running a hyperparameter tuning job. The default value is false. In this case, Amazon Forecast uses default hyperparameter values from the chosen algorithm. To override the default values, set PerformHPO to true and, optionally, supply the HyperParameterTuningJobConfig object. The tuning job specifies a metric to optimize, which hyperparameters participate in tuning, and the valid range for each tunable hyperparameter. In this case, you are required to specify an algorithm and PerformAutoML must be false. The following algorithms support HPO:   DeepAR+   CNN-QR
         public let performHPO: Bool?
         /// A name for the predictor.
         public let predictorName: String
@@ -442,12 +444,13 @@ extension ForecastService {
         /// The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.encryptionConfig = encryptionConfig
             self.evaluationParameters = evaluationParameters
             self.featurizationConfig = featurizationConfig
             self.forecastHorizon = forecastHorizon
+            self.forecastTypes = forecastTypes
             self.hPOConfig = hPOConfig
             self.inputDataConfig = inputDataConfig
             self.performAutoML = performAutoML
@@ -462,6 +465,11 @@ extension ForecastService {
             try self.validate(self.algorithmArn, name: "algorithmArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
             try self.featurizationConfig.validate(name: "\(name).featurizationConfig")
+            try self.forecastTypes?.forEach {
+                try validate($0, name: "forecastTypes[]", parent: name, pattern: "(^0?\\.\\d\\d?$|^mean$)")
+            }
+            try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, max: 20)
+            try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, min: 1)
             try self.hPOConfig?.validate(name: "\(name).hPOConfig")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.validate(self.predictorName, name: "predictorName", parent: name, max: 63)
@@ -486,6 +494,7 @@ extension ForecastService {
             case evaluationParameters = "EvaluationParameters"
             case featurizationConfig = "FeaturizationConfig"
             case forecastHorizon = "ForecastHorizon"
+            case forecastTypes = "ForecastTypes"
             case hPOConfig = "HPOConfig"
             case inputDataConfig = "InputDataConfig"
             case performAutoML = "PerformAutoML"
@@ -1096,6 +1105,8 @@ extension ForecastService {
         public let featurizationConfig: FeaturizationConfig?
         /// The number of time-steps of the forecast. The forecast horizon is also called the prediction length.
         public let forecastHorizon: Int?
+        /// The forecast types used during predictor training. Default value is ["0.1","0.5","0.9"]
+        public let forecastTypes: [String]?
         /// The hyperparameter override values for the algorithm.
         public let hPOConfig: HyperParameterTuningJobConfig?
         /// Describes the dataset group that contains the data to use to train the predictor.
@@ -1116,10 +1127,10 @@ extension ForecastService {
         public let predictorName: String?
         /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
         public let status: String?
-        /// The default training parameters or overrides selected during model training. If using the AutoML algorithm or if HPO is turned on while using the DeepAR+ algorithms, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
+        /// The default training parameters or overrides selected during model training. When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLAlgorithmArns = autoMLAlgorithmArns
             self.creationTime = creationTime
@@ -1128,6 +1139,7 @@ extension ForecastService {
             self.evaluationParameters = evaluationParameters
             self.featurizationConfig = featurizationConfig
             self.forecastHorizon = forecastHorizon
+            self.forecastTypes = forecastTypes
             self.hPOConfig = hPOConfig
             self.inputDataConfig = inputDataConfig
             self.lastModificationTime = lastModificationTime
@@ -1150,6 +1162,7 @@ extension ForecastService {
             case evaluationParameters = "EvaluationParameters"
             case featurizationConfig = "FeaturizationConfig"
             case forecastHorizon = "ForecastHorizon"
+            case forecastTypes = "ForecastTypes"
             case hPOConfig = "HPOConfig"
             case inputDataConfig = "InputDataConfig"
             case lastModificationTime = "LastModificationTime"
@@ -1185,6 +1198,27 @@ extension ForecastService {
         private enum CodingKeys: String, CodingKey {
             case kMSKeyArn = "KMSKeyArn"
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct ErrorMetric: AWSDecodableShape {
+        ///  Forecast types can be quantiles from 0.01 to 0.99 (by increments of 0.01), and the mean.
+        public let forecastType: String?
+        ///  The root-mean-square error (RMSE).
+        public let rmse: Double?
+        ///  The weighted absolute percentage error (WAPE).
+        public let wape: Double?
+
+        public init(forecastType: String? = nil, rmse: Double? = nil, wape: Double? = nil) {
+            self.forecastType = forecastType
+            self.rmse = rmse
+            self.wape = wape
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forecastType = "ForecastType"
+            case rmse = "RMSE"
+            case wape = "WAPE"
         }
     }
 
@@ -1290,7 +1324,7 @@ extension ForecastService {
     public struct FeaturizationMethod: AWSEncodableShape & AWSDecodableShape {
         /// The name of the method. The "filling" method is the only supported method.
         public let featurizationMethodName: FeaturizationMethodName
-        /// The method parameters (key-value pairs), which are a map of override parameters. Specify these parameters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number), value, median, mean, min, max     backfill: zero, nan, value, median, mean, min, max    The following list shows the parameters and their valid values for a Related Time Series featurization method (there are no defaults):    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max
+        /// The method parameters (key-value pairs), which are a map of override parameters. Specify these parameters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number), value, median, mean, min, max     backfill: zero, nan, value, median, mean, min, max    The following list shows the parameters and their valid values for a Related Time Series featurization method (there are no defaults):    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max    To set a filling method to a specific value, set the fill parameter to value and define the value in a corresponding _value parameter. For example, to set backfilling to a value of 2, include the following: "backfill": "value" and "backfill_value":"2".
         public let featurizationMethodParameters: [String: String]?
 
         public init(featurizationMethodName: FeaturizationMethodName, featurizationMethodParameters: [String: String]? = nil) {
@@ -1831,18 +1865,18 @@ extension ForecastService {
     }
 
     public struct Metrics: AWSDecodableShape {
-        /// The root mean square error (RMSE).
-        public let rmse: Double?
+        ///  Provides detailed error metrics on forecast type, root-mean square-error (RMSE), and weighted average percentage error (WAPE).
+        public let errorMetrics: [ErrorMetric]?
         /// An array of weighted quantile losses. Quantiles divide a probability distribution into regions of equal probability. The distribution in this case is the loss function.
         public let weightedQuantileLosses: [WeightedQuantileLoss]?
 
-        public init(rmse: Double? = nil, weightedQuantileLosses: [WeightedQuantileLoss]? = nil) {
-            self.rmse = rmse
+        public init(errorMetrics: [ErrorMetric]? = nil, weightedQuantileLosses: [WeightedQuantileLoss]? = nil) {
+            self.errorMetrics = errorMetrics
             self.weightedQuantileLosses = weightedQuantileLosses
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rmse = "RMSE"
+            case errorMetrics = "ErrorMetrics"
             case weightedQuantileLosses = "WeightedQuantileLosses"
         }
     }
@@ -2070,7 +2104,7 @@ extension ForecastService {
     public struct SupplementaryFeature: AWSEncodableShape & AWSDecodableShape {
         /// The name of the feature. This must be "holiday".
         public let name: String
-        /// One of the following 2 letter country codes:   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BE" - BELGIUM   "BR" - BRAZIL   "CA" - CANADA   "CN" - CHINA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "HU" - HUNGARY   "IE" - IRELAND   "IN" - INDIA   "IT" - ITALY   "JP" - JAPAN   "KR" - KOREA   "LU" - LUXEMBOURG   "MX" - MEXICO   "NL" - NETHERLANDS   "NO" - NORWAY   "PL" - POLAND   "PT" - PORTUGAL   "RU" - RUSSIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "US" - UNITED STATES   "UK" - UNITED KINGDOM
+        /// One of the following 2 letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
         public let value: String
 
         public init(name: String, value: String) {

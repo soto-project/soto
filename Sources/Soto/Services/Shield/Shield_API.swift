@@ -88,6 +88,11 @@ public struct Shield: AWSService {
         return self.client.execute(operation: "CreateProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
+    public func createProtectionGroup(_ input: CreateProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProtectionGroupResponse> {
+        return self.client.execute(operation: "CreateProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Activates AWS Shield Advanced for an account. When you initally create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request.
     public func createSubscription(_ input: CreateSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSubscriptionResponse> {
         return self.client.execute(operation: "CreateSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -96,6 +101,11 @@ public struct Shield: AWSService {
     ///  Deletes an AWS Shield Advanced Protection.
     public func deleteProtection(_ input: DeleteProtectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProtectionResponse> {
         return self.client.execute(operation: "DeleteProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Removes the specified protection group.
+    public func deleteProtectionGroup(_ input: DeleteProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProtectionGroupResponse> {
+        return self.client.execute(operation: "DeleteProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes AWS Shield Advanced from an account. AWS Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
@@ -107,6 +117,11 @@ public struct Shield: AWSService {
     ///  Describes the details of a DDoS attack.
     public func describeAttack(_ input: DescribeAttackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAttackResponse> {
         return self.client.execute(operation: "DescribeAttack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Provides information about the number and type of attacks AWS Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT, equal to 2020-10-26 22:39:32 UTC, then the time range for the attack data returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC.  The time range indicates the period covered by the attack statistics data items.
+    public func describeAttackStatistics(_ input: DescribeAttackStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAttackStatisticsResponse> {
+        return self.client.execute(operation: "DescribeAttackStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns the current role and list of Amazon S3 log buckets used by the DDoS Response Team (DRT) to access your AWS account while assisting with attack mitigation.
@@ -122,6 +137,11 @@ public struct Shield: AWSService {
     ///  Lists the details of a Protection object.
     public func describeProtection(_ input: DescribeProtectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProtectionResponse> {
         return self.client.execute(operation: "DescribeProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Returns the specification for the specified protection group.
+    public func describeProtectionGroup(_ input: DescribeProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProtectionGroupResponse> {
+        return self.client.execute(operation: "DescribeProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides details about the AWS Shield Advanced subscription for an account.
@@ -164,14 +184,29 @@ public struct Shield: AWSService {
         return self.client.execute(operation: "ListAttacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Retrieves the ProtectionGroup objects for the account.
+    public func listProtectionGroups(_ input: ListProtectionGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProtectionGroupsResponse> {
+        return self.client.execute(operation: "ListProtectionGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Lists all Protection objects for the account.
     public func listProtections(_ input: ListProtectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProtectionsResponse> {
         return self.client.execute(operation: "ListProtections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Retrieves the resources that are included in the protection group.
+    public func listResourcesInProtectionGroup(_ input: ListResourcesInProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourcesInProtectionGroupResponse> {
+        return self.client.execute(operation: "ListResourcesInProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Updates the details of the list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support.
     public func updateEmergencyContactSettings(_ input: UpdateEmergencyContactSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEmergencyContactSettingsResponse> {
         return self.client.execute(operation: "UpdateEmergencyContactSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
+    public func updateProtectionGroup(_ input: UpdateProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProtectionGroupResponse> {
+        return self.client.execute(operation: "UpdateProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the details of an existing subscription. Only enter values for parameters you want to change. Empty parameters are not updated.

@@ -73,6 +73,11 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "AddIpRoutes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Adds two domain controllers in the specified Region for the specified directory.
+    public func addRegion(_ input: AddRegionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddRegionResult> {
+        return self.client.execute(operation: "AddRegion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
     public func addTagsToResource(_ input: AddTagsToResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddTagsToResourceResult> {
         return self.client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -93,7 +98,7 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "CreateAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Creates a computer account in the specified directory, and joins the computer to the directory.
+    ///  Creates an Active Directory computer object in the specified directory.
     public func createComputer(_ input: CreateComputerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateComputerResult> {
         return self.client.execute(operation: "CreateComputer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -191,6 +196,11 @@ public struct DirectoryService: AWSService {
     ///  Describes the status of LDAP security for the specified directory.
     public func describeLDAPSSettings(_ input: DescribeLDAPSSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLDAPSSettingsResult> {
         return self.client.execute(operation: "DescribeLDAPSSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Provides information about the Regions that are configured for multi-Region replication.
+    public func describeRegions(_ input: DescribeRegionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRegionsResult> {
+        return self.client.execute(operation: "DescribeRegions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns the shared directories in your account.
@@ -291,6 +301,11 @@ public struct DirectoryService: AWSService {
     ///  Removes IP address blocks from a directory.
     public func removeIpRoutes(_ input: RemoveIpRoutesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveIpRoutesResult> {
         return self.client.execute(operation: "RemoveIpRoutes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Stops all replication and removes the domain controllers from the specified Region. You cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API.
+    public func removeRegion(_ input: RemoveRegionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveRegionResult> {
+        return self.client.execute(operation: "RemoveRegion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes tags from a directory.

@@ -670,6 +670,7 @@ extension CognitoIdentity {
             try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 60)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
         }
@@ -717,6 +718,7 @@ extension CognitoIdentity {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 60)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
         }
@@ -806,6 +808,7 @@ extension CognitoIdentity {
             try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 60)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
         }
@@ -963,7 +966,7 @@ extension CognitoIdentity {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.validate(self.rules, name: "rules", parent: name, max: 25)
+            try self.validate(self.rules, name: "rules", parent: name, max: 400)
             try self.validate(self.rules, name: "rules", parent: name, min: 1)
         }
 
@@ -996,6 +999,8 @@ extension CognitoIdentity {
                 try $0.value.validate(name: "\(name).roleMappings[\"\($0.key)\"]")
             }
             try self.roles.forEach {
+                try validate($0.key, name: "roles.key", parent: name, max: 128)
+                try validate($0.key, name: "roles.key", parent: name, min: 1)
                 try validate($0.key, name: "roles.key", parent: name, pattern: "(un)?authenticated")
                 try validate($0.value, name: "roles[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name: "roles[\"\($0.key)\"]", parent: name, min: 20)

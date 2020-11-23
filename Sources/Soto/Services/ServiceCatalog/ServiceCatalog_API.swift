@@ -19,7 +19,7 @@
 /*
  Client object for interacting with AWS ServiceCatalog service.
 
- AWS Service Catalog  AWS Service Catalog enables organizations to create and manage catalogs of IT services that are approved for use on AWS. To get the most out of this documentation, you should be familiar with the terminology discussed in AWS Service Catalog Concepts.
+ AWS Service Catalog  AWS Service Catalog enables organizations to create and manage catalogs of IT services that are approved for AWS. To get the most out of this documentation, you should be familiar with the terminology discussed in AWS Service Catalog Concepts.
  */
 public struct ServiceCatalog: AWSService {
     // MARK: Member variables
@@ -316,6 +316,11 @@ public struct ServiceCatalog: AWSService {
     ///  This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
     public func getProvisionedProductOutputs(_ input: GetProvisionedProductOutputsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProvisionedProductOutputsOutput> {
         return self.client.execute(operation: "GetProvisionedProductOutputs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Requests the import of a resource as a Service Catalog provisioned product that is associated to a Service Catalog product and provisioning artifact. Once imported all supported Service Catalog governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and non-root nested stacks are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact.
+    public func importAsProvisionedProduct(_ input: ImportAsProvisionedProductInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportAsProvisionedProductOutput> {
+        return self.client.execute(operation: "ImportAsProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists all portfolios for which sharing was accepted by this account.

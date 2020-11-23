@@ -51,6 +51,30 @@ extension Shield {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProtectedResourceType: String, CustomStringConvertible, Codable {
+        case applicationLoadBalancer = "APPLICATION_LOAD_BALANCER"
+        case classicLoadBalancer = "CLASSIC_LOAD_BALANCER"
+        case cloudfrontDistribution = "CLOUDFRONT_DISTRIBUTION"
+        case elasticIpAllocation = "ELASTIC_IP_ALLOCATION"
+        case globalAccelerator = "GLOBAL_ACCELERATOR"
+        case route53HostedZone = "ROUTE_53_HOSTED_ZONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectionGroupAggregation: String, CustomStringConvertible, Codable {
+        case max = "MAX"
+        case mean = "MEAN"
+        case sum = "SUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectionGroupPattern: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case arbitrary = "ARBITRARY"
+        case byResourceType = "BY_RESOURCE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SubResourceType: String, CustomStringConvertible, Codable {
         case ip = "IP"
         case url = "URL"
@@ -220,7 +244,7 @@ extension Shield {
         public let attackLayer: AttackLayer?
         /// Defines the DDoS attack property information that is provided. The WORDPRESS_PINGBACK_REFLECTOR and WORDPRESS_PINGBACK_SOURCE values are valid only for WordPress reflective pingback DDoS attacks.
         public let attackPropertyIdentifier: AttackPropertyIdentifier?
-        /// The array of Contributor objects that includes the top five contributors to an attack.
+        /// The array of contributor objects that includes the top five contributors to an attack.
         public let topContributors: [Contributor]?
         /// The total contributions made to this attack by all contributors, not just the five listed in the TopContributors list.
         public let total: Int64?
@@ -241,6 +265,23 @@ extension Shield {
             case topContributors = "TopContributors"
             case total = "Total"
             case unit = "Unit"
+        }
+    }
+
+    public struct AttackStatisticsDataItem: AWSDecodableShape {
+        /// The number of attacks detected during the time period. This is always present, but might be zero.
+        public let attackCount: Int64
+        /// Information about the volume of attacks during the time period. If the accompanying AttackCount is zero, this setting might be empty.
+        public let attackVolume: AttackVolume?
+
+        public init(attackCount: Int64, attackVolume: AttackVolume? = nil) {
+            self.attackCount = attackCount
+            self.attackVolume = attackVolume
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attackCount = "AttackCount"
+            case attackVolume = "AttackVolume"
         }
     }
 
@@ -286,6 +327,40 @@ extension Shield {
         }
     }
 
+    public struct AttackVolume: AWSDecodableShape {
+        /// A statistics object that uses bits per second as the unit. This is included for network level attacks.
+        public let bitsPerSecond: AttackVolumeStatistics?
+        /// A statistics object that uses packets per second as the unit. This is included for network level attacks.
+        public let packetsPerSecond: AttackVolumeStatistics?
+        /// A statistics object that uses requests per second as the unit. This is included for application level attacks, and is only available for accounts that are subscribed to Shield Advanced.
+        public let requestsPerSecond: AttackVolumeStatistics?
+
+        public init(bitsPerSecond: AttackVolumeStatistics? = nil, packetsPerSecond: AttackVolumeStatistics? = nil, requestsPerSecond: AttackVolumeStatistics? = nil) {
+            self.bitsPerSecond = bitsPerSecond
+            self.packetsPerSecond = packetsPerSecond
+            self.requestsPerSecond = requestsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitsPerSecond = "BitsPerSecond"
+            case packetsPerSecond = "PacketsPerSecond"
+            case requestsPerSecond = "RequestsPerSecond"
+        }
+    }
+
+    public struct AttackVolumeStatistics: AWSDecodableShape {
+        /// The maximum attack volume observed for the given unit.
+        public let max: Double
+
+        public init(max: Double) {
+            self.max = max
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+        }
+    }
+
     public struct Contributor: AWSDecodableShape {
         /// The name of the contributor. This is dependent on the AttackPropertyIdentifier. For example, if the AttackPropertyIdentifier is SOURCE_COUNTRY, the Name could be United States.
         public let name: String?
@@ -301,6 +376,52 @@ extension Shield {
             case name = "Name"
             case value = "Value"
         }
+    }
+
+    public struct CreateProtectionGroupRequest: AWSEncodableShape {
+        /// Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.
+        public let aggregation: ProtectionGroupAggregation
+        /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting.
+        public let members: [String]?
+        /// The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type.
+        public let pattern: ProtectionGroupPattern
+        /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
+        public let protectionGroupId: String
+        /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. Newly protected resources of this type are automatically added to the group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
+        public let resourceType: ProtectedResourceType?
+
+        public init(aggregation: ProtectionGroupAggregation, members: [String]? = nil, pattern: ProtectionGroupPattern, protectionGroupId: String, resourceType: ProtectedResourceType? = nil) {
+            self.aggregation = aggregation
+            self.members = members
+            self.pattern = pattern
+            self.protectionGroupId = protectionGroupId
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.members?.forEach {
+                try validate($0, name: "members[]", parent: name, max: 2048)
+                try validate($0, name: "members[]", parent: name, min: 1)
+                try validate($0, name: "members[]", parent: name, pattern: "^arn:aws.*")
+            }
+            try self.validate(self.members, name: "members", parent: name, max: 10000)
+            try self.validate(self.members, name: "members", parent: name, min: 0)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "Aggregation"
+            case members = "Members"
+            case pattern = "Pattern"
+            case protectionGroupId = "ProtectionGroupId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct CreateProtectionGroupResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CreateProtectionRequest: AWSEncodableShape {
@@ -347,6 +468,29 @@ extension Shield {
     }
 
     public struct CreateSubscriptionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteProtectionGroupRequest: AWSEncodableShape {
+        /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
+        public let protectionGroupId: String
+
+        public init(protectionGroupId: String) {
+            self.protectionGroupId = protectionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectionGroupId = "ProtectionGroupId"
+        }
+    }
+
+    public struct DeleteProtectionGroupResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -413,6 +557,26 @@ extension Shield {
         }
     }
 
+    public struct DescribeAttackStatisticsRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeAttackStatisticsResponse: AWSDecodableShape {
+        /// The data that describes the attacks detected during the time period.
+        public let dataItems: [AttackStatisticsDataItem]
+        public let timeRange: TimeRange
+
+        public init(dataItems: [AttackStatisticsDataItem], timeRange: TimeRange) {
+            self.dataItems = dataItems
+            self.timeRange = timeRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataItems = "DataItems"
+            case timeRange = "TimeRange"
+        }
+    }
+
     public struct DescribeDRTAccessRequest: AWSEncodableShape {
         public init() {}
     }
@@ -448,6 +612,38 @@ extension Shield {
 
         private enum CodingKeys: String, CodingKey {
             case emergencyContactList = "EmergencyContactList"
+        }
+    }
+
+    public struct DescribeProtectionGroupRequest: AWSEncodableShape {
+        /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
+        public let protectionGroupId: String
+
+        public init(protectionGroupId: String) {
+            self.protectionGroupId = protectionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectionGroupId = "ProtectionGroupId"
+        }
+    }
+
+    public struct DescribeProtectionGroupResponse: AWSDecodableShape {
+        /// A grouping of protected resources that you and AWS Shield Advanced can monitor as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
+        public let protectionGroup: ProtectionGroup
+
+        public init(protectionGroup: ProtectionGroup) {
+            self.protectionGroup = protectionGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectionGroup = "ProtectionGroup"
         }
     }
 
@@ -654,7 +850,7 @@ extension Shield {
     public struct ListAttacksRequest: AWSEncodableShape {
         /// The end of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed.
         public let endTime: TimeRange?
-        /// The maximum number of AttackSummary objects to be returned. If this is left blank, the first 20 results will be returned. This is a maximum value; it is possible that AWS WAF will return the results in smaller batches. That is, the number of AttackSummary objects returned could be less than MaxResults, even if there are still more AttackSummary objects yet to return. If there are more AttackSummary objects to return, AWS WAF will always also return a NextToken.
+        /// The maximum number of AttackSummary objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
         public let maxResults: Int?
         /// The ListAttacksRequest.NextMarker value from a previous call to ListAttacksRequest. Pass null if this is the first call.
         public let nextToken: String?
@@ -696,7 +892,7 @@ extension Shield {
     public struct ListAttacksResponse: AWSDecodableShape {
         /// The attack information for the specified time range.
         public let attackSummaries: [AttackSummary]?
-        /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items. AWS WAF might return the list of AttackSummary objects in batches smaller than the number specified by MaxResults. If there are more AttackSummary objects to return, AWS WAF will always also return a NextToken.
+        /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items. Shield Advanced might return the list of AttackSummary objects in batches smaller than the number specified by MaxResults. If there are more attack summary objects to return, Shield Advanced will always also return a NextToken.
         public let nextToken: String?
 
         public init(attackSummaries: [AttackSummary]? = nil, nextToken: String? = nil) {
@@ -710,8 +906,49 @@ extension Shield {
         }
     }
 
+    public struct ListProtectionGroupsRequest: AWSEncodableShape {
+        /// The maximum number of ProtectionGroup objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
+        public let maxResults: Int?
+        /// The next token value from a previous call to ListProtectionGroups. Pass null if this is the first call.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListProtectionGroupsResponse: AWSDecodableShape {
+        /// If you specify a value for MaxResults and you have more protection groups than the value of MaxResults, AWS Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
+        public let nextToken: String?
+        public let protectionGroups: [ProtectionGroup]
+
+        public init(nextToken: String? = nil, protectionGroups: [ProtectionGroup]) {
+            self.nextToken = nextToken
+            self.protectionGroups = protectionGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case protectionGroups = "ProtectionGroups"
+        }
+    }
+
     public struct ListProtectionsRequest: AWSEncodableShape {
-        /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned. This is a maximum value; it is possible that AWS WAF will return the results in smaller batches. That is, the number of Protection objects returned could be less than MaxResults, even if there are still more Protection objects yet to return. If there are more Protection objects to return, AWS WAF will always also return a NextToken.
+        /// The maximum number of Protection objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
         public let maxResults: Int?
         /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
         public let nextToken: String?
@@ -736,7 +973,7 @@ extension Shield {
     }
 
     public struct ListProtectionsResponse: AWSDecodableShape {
-        /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections. AWS WAF might return the list of Protection objects in batches smaller than the number specified by MaxResults. If there are more Protection objects to return, AWS WAF will always also return a NextToken.
+        /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections. Shield Advanced might return the list of Protection objects in batches smaller than the number specified by MaxResults. If there are more Protection objects to return, Shield Advanced will always also return a NextToken.
         public let nextToken: String?
         /// The array of enabled Protection objects.
         public let protections: [Protection]?
@@ -749,6 +986,55 @@ extension Shield {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case protections = "Protections"
+        }
+    }
+
+    public struct ListResourcesInProtectionGroupRequest: AWSEncodableShape {
+        /// The maximum number of resource ARN objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
+        public let maxResults: Int?
+        /// The next token value from a previous call to ListResourcesInProtectionGroup. Pass null if this is the first call.
+        public let nextToken: String?
+        /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
+        public let protectionGroupId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, protectionGroupId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.protectionGroupId = protectionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case protectionGroupId = "ProtectionGroupId"
+        }
+    }
+
+    public struct ListResourcesInProtectionGroupResponse: AWSDecodableShape {
+        /// If you specify a value for MaxResults and you have more resources in the protection group than the value of MaxResults, AWS Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
+        public let nextToken: String?
+        /// The Amazon Resource Names (ARNs) of the resources that are included in the protection group.
+        public let resourceArns: [String]
+
+        public init(nextToken: String? = nil, resourceArns: [String]) {
+            self.nextToken = nextToken
+            self.resourceArns = resourceArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceArns = "ResourceArns"
         }
     }
 
@@ -770,7 +1056,7 @@ extension Shield {
         public let healthCheckIds: [String]?
         /// The unique identifier (ID) of the protection.
         public let id: String?
-        /// The friendly name of the protection. For example, My CloudFront distributions.
+        /// The name of the protection. For example, My CloudFront distributions.
         public let name: String?
         /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
         public let resourceArn: String?
@@ -787,6 +1073,91 @@ extension Shield {
             case id = "Id"
             case name = "Name"
             case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ProtectionGroup: AWSDecodableShape {
+        /// Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.
+        public let aggregation: ProtectionGroupAggregation
+        /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting.
+        public let members: [String]
+        /// The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type.
+        public let pattern: ProtectionGroupPattern
+        /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
+        public let protectionGroupId: String
+        /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
+        public let resourceType: ProtectedResourceType?
+
+        public init(aggregation: ProtectionGroupAggregation, members: [String], pattern: ProtectionGroupPattern, protectionGroupId: String, resourceType: ProtectedResourceType? = nil) {
+            self.aggregation = aggregation
+            self.members = members
+            self.pattern = pattern
+            self.protectionGroupId = protectionGroupId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "Aggregation"
+            case members = "Members"
+            case pattern = "Pattern"
+            case protectionGroupId = "ProtectionGroupId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ProtectionGroupArbitraryPatternLimits: AWSDecodableShape {
+        /// The maximum number of resources you can specify for a single arbitrary pattern in a protection group.
+        public let maxMembers: Int64
+
+        public init(maxMembers: Int64) {
+            self.maxMembers = maxMembers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxMembers = "MaxMembers"
+        }
+    }
+
+    public struct ProtectionGroupLimits: AWSDecodableShape {
+        /// The maximum number of protection groups that you can have at one time.
+        public let maxProtectionGroups: Int64
+        /// Limits settings by pattern type in the protection groups for your subscription.
+        public let patternTypeLimits: ProtectionGroupPatternTypeLimits
+
+        public init(maxProtectionGroups: Int64, patternTypeLimits: ProtectionGroupPatternTypeLimits) {
+            self.maxProtectionGroups = maxProtectionGroups
+            self.patternTypeLimits = patternTypeLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxProtectionGroups = "MaxProtectionGroups"
+            case patternTypeLimits = "PatternTypeLimits"
+        }
+    }
+
+    public struct ProtectionGroupPatternTypeLimits: AWSDecodableShape {
+        /// Limits settings on protection groups with arbitrary pattern type.
+        public let arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits
+
+        public init(arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits) {
+            self.arbitraryPatternLimits = arbitraryPatternLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arbitraryPatternLimits = "ArbitraryPatternLimits"
+        }
+    }
+
+    public struct ProtectionLimits: AWSDecodableShape {
+        /// The maximum number of resource types that you can specify in a protection.
+        public let protectedResourceTypeLimits: [Limit]
+
+        public init(protectedResourceTypeLimits: [Limit]) {
+            self.protectedResourceTypeLimits = protectedResourceTypeLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectedResourceTypeLimits = "ProtectedResourceTypeLimits"
         }
     }
 
@@ -826,15 +1197,18 @@ extension Shield {
         public let proactiveEngagementStatus: ProactiveEngagementStatus?
         /// The start time of the subscription, in Unix time in seconds. For more information see timestamp.
         public let startTime: Date?
+        /// Limits settings for your subscription.
+        public let subscriptionLimits: SubscriptionLimits
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
         public let timeCommitmentInSeconds: Int64?
 
-        public init(autoRenew: AutoRenew? = nil, endTime: Date? = nil, limits: [Limit]? = nil, proactiveEngagementStatus: ProactiveEngagementStatus? = nil, startTime: Date? = nil, timeCommitmentInSeconds: Int64? = nil) {
+        public init(autoRenew: AutoRenew? = nil, endTime: Date? = nil, limits: [Limit]? = nil, proactiveEngagementStatus: ProactiveEngagementStatus? = nil, startTime: Date? = nil, subscriptionLimits: SubscriptionLimits, timeCommitmentInSeconds: Int64? = nil) {
             self.autoRenew = autoRenew
             self.endTime = endTime
             self.limits = limits
             self.proactiveEngagementStatus = proactiveEngagementStatus
             self.startTime = startTime
+            self.subscriptionLimits = subscriptionLimits
             self.timeCommitmentInSeconds = timeCommitmentInSeconds
         }
 
@@ -844,7 +1218,25 @@ extension Shield {
             case limits = "Limits"
             case proactiveEngagementStatus = "ProactiveEngagementStatus"
             case startTime = "StartTime"
+            case subscriptionLimits = "SubscriptionLimits"
             case timeCommitmentInSeconds = "TimeCommitmentInSeconds"
+        }
+    }
+
+    public struct SubscriptionLimits: AWSDecodableShape {
+        /// Limits settings on protection groups for your subscription.
+        public let protectionGroupLimits: ProtectionGroupLimits
+        /// Limits settings on protections for your subscription.
+        public let protectionLimits: ProtectionLimits
+
+        public init(protectionGroupLimits: ProtectionGroupLimits, protectionLimits: ProtectionLimits) {
+            self.protectionGroupLimits = protectionGroupLimits
+            self.protectionLimits = protectionLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectionGroupLimits = "ProtectionGroupLimits"
+            case protectionLimits = "ProtectionLimits"
         }
     }
 
@@ -898,7 +1290,7 @@ extension Shield {
         }
     }
 
-    public struct TimeRange: AWSEncodableShape {
+    public struct TimeRange: AWSEncodableShape & AWSDecodableShape {
         /// The start time, in Unix time in seconds. For more information see timestamp.
         public let fromInclusive: Date?
         /// The end time, in Unix time in seconds. For more information see timestamp.
@@ -937,6 +1329,52 @@ extension Shield {
     }
 
     public struct UpdateEmergencyContactSettingsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateProtectionGroupRequest: AWSEncodableShape {
+        /// Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.
+        public let aggregation: ProtectionGroupAggregation
+        /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting.
+        public let members: [String]?
+        /// The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type.
+        public let pattern: ProtectionGroupPattern
+        /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
+        public let protectionGroupId: String
+        /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
+        public let resourceType: ProtectedResourceType?
+
+        public init(aggregation: ProtectionGroupAggregation, members: [String]? = nil, pattern: ProtectionGroupPattern, protectionGroupId: String, resourceType: ProtectedResourceType? = nil) {
+            self.aggregation = aggregation
+            self.members = members
+            self.pattern = pattern
+            self.protectionGroupId = protectionGroupId
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.members?.forEach {
+                try validate($0, name: "members[]", parent: name, max: 2048)
+                try validate($0, name: "members[]", parent: name, min: 1)
+                try validate($0, name: "members[]", parent: name, pattern: "^arn:aws.*")
+            }
+            try self.validate(self.members, name: "members", parent: name, max: 10000)
+            try self.validate(self.members, name: "members", parent: name, min: 0)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
+            try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "Aggregation"
+            case members = "Members"
+            case pattern = "Pattern"
+            case protectionGroupId = "ProtectionGroupId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct UpdateProtectionGroupResponse: AWSDecodableShape {
         public init() {}
     }
 

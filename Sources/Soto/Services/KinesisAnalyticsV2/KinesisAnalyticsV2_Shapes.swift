@@ -81,6 +81,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public enum RuntimeEnvironment: String, CustomStringConvertible, Codable {
+        case flink111 = "FLINK-1_11"
         case flink16 = "FLINK-1_6"
         case flink18 = "FLINK-1_8"
         case sql10 = "SQL-1_0"
@@ -92,6 +93,11 @@ extension KinesisAnalyticsV2 {
         case deleting = "DELETING"
         case failed = "FAILED"
         case ready = "READY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UrlType: String, CustomStringConvertible, Codable {
+        case flinkDashboardUrl = "FLINK_DASHBOARD_URL"
         public var description: String { return self.rawValue }
     }
 
@@ -995,6 +1001,48 @@ extension KinesisAnalyticsV2 {
             case s3ContentLocationUpdate = "S3ContentLocationUpdate"
             case textContentUpdate = "TextContentUpdate"
             case zipFileContentUpdate = "ZipFileContentUpdate"
+        }
+    }
+
+    public struct CreateApplicationPresignedUrlRequest: AWSEncodableShape {
+        /// The name of the application.
+        public let applicationName: String
+        /// The duration in seconds for which the returned URL will be valid.
+        public let sessionExpirationDurationInSeconds: Int64?
+        /// The type of the extension for which to create and return a URL. Currently, the only valid extension URL type is FLINK_DASHBOARD_URL.
+        public let urlType: UrlType
+
+        public init(applicationName: String, sessionExpirationDurationInSeconds: Int64? = nil, urlType: UrlType) {
+            self.applicationName = applicationName
+            self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
+            self.urlType = urlType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.sessionExpirationDurationInSeconds, name: "sessionExpirationDurationInSeconds", parent: name, max: 43200)
+            try self.validate(self.sessionExpirationDurationInSeconds, name: "sessionExpirationDurationInSeconds", parent: name, min: 1800)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case sessionExpirationDurationInSeconds = "SessionExpirationDurationInSeconds"
+            case urlType = "UrlType"
+        }
+    }
+
+    public struct CreateApplicationPresignedUrlResponse: AWSDecodableShape {
+        /// The URL of the extension.
+        public let authorizedUrl: String?
+
+        public init(authorizedUrl: String? = nil) {
+            self.authorizedUrl = authorizedUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedUrl = "AuthorizedUrl"
         }
     }
 
@@ -3346,7 +3394,7 @@ extension KinesisAnalyticsV2 {
     public struct StopApplicationRequest: AWSEncodableShape {
         /// The name of the running application to stop.
         public let applicationName: String
-        /// Set to true to force the application to stop. If you set Force to true, Kinesis Data Analytics stops the application without taking a snapshot. You can only force stop a Flink-based Kinesis Data Analytics application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING state.
+        /// Set to true to force the application to stop. If you set Force to true, Kinesis Data Analytics stops the application without taking a snapshot.   Force-stopping your application may lead to data loss or duplication. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application.  You can only force stop a Flink-based Kinesis Data Analytics application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING status.
         public let force: Bool?
 
         public init(applicationName: String, force: Bool? = nil) {

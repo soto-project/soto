@@ -68,6 +68,64 @@ extension LexRuntimeService {
 
     // MARK: Shapes
 
+    public struct ActiveContext: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the context.
+        public let name: String
+        /// State variables for the current context. You can use these values as default values for slots in subsequent events.
+        public let parameters: [String: String]
+        /// The length of time or number of turns that a context remains active.
+        public let timeToLive: ActiveContextTimeToLive
+
+        public init(name: String, parameters: [String: String], timeToLive: ActiveContextTimeToLive) {
+            self.name = name
+            self.parameters = parameters
+            self.timeToLive = timeToLive
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.parameters.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 100)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.timeToLive.validate(name: "\(name).timeToLive")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case parameters
+            case timeToLive
+        }
+    }
+
+    public struct ActiveContextTimeToLive: AWSEncodableShape & AWSDecodableShape {
+        /// The number of seconds that the context should be active after it is first sent in a PostContent or PostText response. You can set the value between 5 and 86,400 seconds (24 hours).
+        public let timeToLiveInSeconds: Int?
+        /// The number of conversation turns that the context should be active. A conversation turn is one PostContent or PostText request and the corresponding response from Amazon Lex.
+        public let turnsToLive: Int?
+
+        public init(timeToLiveInSeconds: Int? = nil, turnsToLive: Int? = nil) {
+            self.timeToLiveInSeconds = timeToLiveInSeconds
+            self.turnsToLive = turnsToLive
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, max: 86400)
+            try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, min: 5)
+            try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, max: 20)
+            try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeToLiveInSeconds
+            case turnsToLive
+        }
+    }
+
     public struct Button: AWSDecodableShape {
         /// Text that is visible to the user on the button.
         public let text: String
@@ -247,6 +305,8 @@ extension LexRuntimeService {
     }
 
     public struct GetSessionResponse: AWSDecodableShape {
+        /// A list of active contexts for the session. A context can be set when an intent is fulfilled or by calling the PostContent, PostText, or PutSession operation. You can use a context to control the intents that can follow up an intent, or to modify the operation of your application.
+        public let activeContexts: [ActiveContext]?
         /// Describes the current state of the bot.
         public let dialogAction: DialogAction?
         /// An array of information about the intents used in the session. The array can contain a maximum of three summaries. If more than three intents are used in the session, the recentIntentSummaryView operation contains information about the last three intents used. If you set the checkpointLabelFilter parameter in the request, the array contains only the intents with the specified label.
@@ -256,7 +316,8 @@ extension LexRuntimeService {
         /// A unique identifier for the session.
         public let sessionId: String?
 
-        public init(dialogAction: DialogAction? = nil, recentIntentSummaryView: [IntentSummary]? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil) {
+        public init(activeContexts: [ActiveContext]? = nil, dialogAction: DialogAction? = nil, recentIntentSummaryView: [IntentSummary]? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil) {
+            self.activeContexts = activeContexts
             self.dialogAction = dialogAction
             self.recentIntentSummaryView = recentIntentSummaryView
             self.sessionAttributes = sessionAttributes
@@ -264,6 +325,7 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeContexts
             case dialogAction
             case recentIntentSummaryView
             case sessionAttributes
@@ -333,6 +395,7 @@ extension LexRuntimeService {
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")),
+            AWSMemberEncoding(label: "activeContexts", location: .header(locationName: "x-amz-lex-active-contexts")),
             AWSMemberEncoding(label: "botAlias", location: .uri(locationName: "botAlias")),
             AWSMemberEncoding(label: "botName", location: .uri(locationName: "botName")),
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
@@ -343,6 +406,8 @@ extension LexRuntimeService {
 
         ///  You pass this value as the Accept HTTP header.   The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.     If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.     If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (using the configuration you specified in the Accept header). For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm in 16-bit, little endian format.    The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/* (defaults to mpeg)
         public let accept: String?
+        /// A list of contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
+        public let activeContexts: String?
         /// Alias of the Amazon Lex bot.
         public let botAlias: String
         /// Name of the Amazon Lex bot.
@@ -358,8 +423,9 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors.   The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information.   If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier.   If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier.   A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations.
         public let userId: String
 
-        public init(accept: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: AWSPayload, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
+        public init(accept: String? = nil, activeContexts: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: AWSPayload, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
             self.accept = accept
+            self.activeContexts = activeContexts
             self.botAlias = botAlias
             self.botName = botName
             self.contentType = contentType
@@ -383,6 +449,7 @@ extension LexRuntimeService {
         public static let _payloadPath: String = "audioStream"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
+            AWSMemberEncoding(label: "activeContexts", location: .header(locationName: "x-amz-lex-active-contexts")),
             AWSMemberEncoding(label: "alternativeIntents", location: .header(locationName: "x-amz-lex-alternative-intents")),
             AWSMemberEncoding(label: "botVersion", location: .header(locationName: "x-amz-lex-bot-version")),
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
@@ -399,11 +466,13 @@ extension LexRuntimeService {
             AWSMemberEncoding(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
         ]
 
+        /// A list of active contexts for the session. A context can be set when an intent is fulfilled or by calling the PostContent, PostText, or PutSession operation. You can use a context to control the intents that can follow up an intent, or to modify the operation of your application.
+        public let activeContexts: String?
         /// One to four alternative intents that may be applicable to the user's intent. Each alternative includes a score that indicates how confident Amazon Lex is that the intent matches the user's intent. The intents are sorted by the confidence score.
         public let alternativeIntents: String?
         /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response.
         public let audioStream: AWSPayload?
-        /// The version of the bot that responded to the conversation. You can use this information to help determine if one version of a bot is performing better than another version. If you have enabled the new natural language understanding (NLU) model, you can use this to determine if the improvement is due to changes to the bot or changes to the NLU. For more information about enabling the new NLU, see the enableModelImprovements parameter of the PutBot operation.
+        /// The version of the bot that responded to the conversation. You can use this information to help determine if one version of a bot is performing better than another version.
         public let botVersion: String?
         /// Content type as specified in the Accept HTTP header in the request.
         public let contentType: String?
@@ -417,7 +486,7 @@ extension LexRuntimeService {
         public let message: String?
         /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format for the client.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.
         public let messageFormat: MessageFormatType?
-        /// Provides a score that indicates how confident Amazon Lex is that the returned intent is the one that matches the user's intent. The score is between 0.0 and 1.0. The score is a relative score, not an absolute score. The score may change based on improvements to the Amazon Lex NLU.
+        /// Provides a score that indicates how confident Amazon Lex is that the returned intent is the one that matches the user's intent. The score is between 0.0 and 1.0. The score is a relative score, not an absolute score. The score may change based on improvements to Amazon Lex.
         public let nluIntentConfidence: String?
         /// The sentiment expressed in an utterance. When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
         public let sentimentResponse: String?
@@ -430,7 +499,8 @@ extension LexRuntimeService {
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
-        public init(alternativeIntents: String? = nil, audioStream: AWSPayload? = nil, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: AWSPayload? = nil, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+            self.activeContexts = activeContexts
             self.alternativeIntents = alternativeIntents
             self.audioStream = audioStream
             self.botVersion = botVersion
@@ -449,6 +519,7 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeContexts = "x-amz-lex-active-contexts"
             case alternativeIntents = "x-amz-lex-alternative-intents"
             case audioStream
             case botVersion = "x-amz-lex-bot-version"
@@ -474,6 +545,8 @@ extension LexRuntimeService {
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
+        /// A list of contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
+        public let activeContexts: [ActiveContext]?
         /// The alias of the Amazon Lex bot.
         public let botAlias: String
         /// The name of the Amazon Lex bot.
@@ -487,7 +560,8 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors.   The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information.   If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier.   If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier.   A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations.
         public let userId: String
 
-        public init(botAlias: String, botName: String, inputText: String, requestAttributes: [String: String]? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
+        public init(activeContexts: [ActiveContext]? = nil, botAlias: String, botName: String, inputText: String, requestAttributes: [String: String]? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
+            self.activeContexts = activeContexts
             self.botAlias = botAlias
             self.botName = botName
             self.inputText = inputText
@@ -497,6 +571,11 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
+            try self.activeContexts?.forEach {
+                try $0.validate(name: "\(name).activeContexts[]")
+            }
+            try self.validate(self.activeContexts, name: "activeContexts", parent: name, max: 20)
+            try self.validate(self.activeContexts, name: "activeContexts", parent: name, min: 0)
             try self.validate(self.inputText, name: "inputText", parent: name, max: 1024)
             try self.validate(self.inputText, name: "inputText", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
@@ -505,6 +584,7 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeContexts
             case inputText
             case requestAttributes
             case sessionAttributes
@@ -512,9 +592,11 @@ extension LexRuntimeService {
     }
 
     public struct PostTextResponse: AWSDecodableShape {
+        /// A list of active contexts for the session. A context can be set when an intent is fulfilled or by calling the PostContent, PostText, or PutSession operation. You can use a context to control the intents that can follow up an intent, or to modify the operation of your application.
+        public let activeContexts: [ActiveContext]?
         /// One to four alternative intents that may be applicable to the user's intent. Each alternative includes a score that indicates how confident Amazon Lex is that the intent matches the user's intent. The intents are sorted by the confidence score.
         public let alternativeIntents: [PredictedIntent]?
-        /// The version of the bot that responded to the conversation. You can use this information to help determine if one version of a bot is performing better than another version. If you have enabled the new natural language understanding (NLU) model, you can use this to determine if the improvement is due to changes to the bot or changes to the NLU. For more information about enabling the new NLU, see the enableModelImprovements parameter of the PutBot operation.
+        /// The version of the bot that responded to the conversation. You can use this information to help determine if one version of a bot is performing better than another version.
         public let botVersion: String?
         ///  Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit user intent.  For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialogState.    ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.   For example, Amazon Lex wants user confirmation before fulfilling an intent.  Instead of a simple "yes" or "no," a user might respond with additional information. For example, "yes, but make it thick crust pizza" or "no, I want to order a drink". Amazon Lex can process such additional information (in these examples, update the crust type slot value, or change intent from OrderPizza to OrderDrink).    ElicitSlot - Amazon Lex is expecting a slot value for the current intent.  For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function configured for the intent has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the intent.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons including that the user did not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or the Lambda function failed to fulfill the intent.
         public let dialogState: DialogState?
@@ -524,7 +606,7 @@ extension LexRuntimeService {
         public let message: String?
         /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format defined by the Lambda function.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.
         public let messageFormat: MessageFormatType?
-        /// Provides a score that indicates how confident Amazon Lex is that the returned intent is the one that matches the user's intent. The score is between 0.0 and 1.0. For more information, see Confidence Scores. The score is a relative score, not an absolute score. The score may change based on improvements to the Amazon Lex natural language understanding (NLU) model.
+        /// Provides a score that indicates how confident Amazon Lex is that the returned intent is the one that matches the user's intent. The score is between 0.0 and 1.0. For more information, see Confidence Scores. The score is a relative score, not an absolute score. The score may change based on improvements to Amazon Lex.
         public let nluIntentConfidence: IntentConfidence?
         /// Represents the options that the user has to respond to the current prompt. Response Card can come from the bot configuration (in the Amazon Lex console, choose the settings button next to a slot) or from a code hook (Lambda function).
         public let responseCard: ResponseCard?
@@ -539,7 +621,8 @@ extension LexRuntimeService {
         /// If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
-        public init(alternativeIntents: [PredictedIntent]? = nil, botVersion: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: IntentConfidence? = nil, responseCard: ResponseCard? = nil, sentimentResponse: SentimentResponse? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
+        public init(activeContexts: [ActiveContext]? = nil, alternativeIntents: [PredictedIntent]? = nil, botVersion: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: IntentConfidence? = nil, responseCard: ResponseCard? = nil, sentimentResponse: SentimentResponse? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
+            self.activeContexts = activeContexts
             self.alternativeIntents = alternativeIntents
             self.botVersion = botVersion
             self.dialogState = dialogState
@@ -556,6 +639,7 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeContexts
             case alternativeIntents
             case botVersion
             case dialogState
@@ -603,6 +687,8 @@ extension LexRuntimeService {
 
         /// The message that Amazon Lex returns in the response can be either text or speech based depending on the value of this field.   If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.   If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech in the configuration that you specify. For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech is returned as audio/pcm in 16-bit, little endian format.   The following are the accepted values:    audio/mpeg     audio/ogg     audio/pcm     audio/* (defaults to mpeg)    text/plain; charset=utf-8
         public let accept: String?
+        /// A list of contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
+        public let activeContexts: [ActiveContext]?
         /// The alias in use for the bot that contains the session data.
         public let botAlias: String
         /// The name of the bot that contains the session data.
@@ -616,8 +702,9 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot.
         public let userId: String
 
-        public init(accept: String? = nil, botAlias: String, botName: String, dialogAction: DialogAction? = nil, recentIntentSummaryView: [IntentSummary]? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
+        public init(accept: String? = nil, activeContexts: [ActiveContext]? = nil, botAlias: String, botName: String, dialogAction: DialogAction? = nil, recentIntentSummaryView: [IntentSummary]? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
             self.accept = accept
+            self.activeContexts = activeContexts
             self.botAlias = botAlias
             self.botName = botName
             self.dialogAction = dialogAction
@@ -627,6 +714,11 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
+            try self.activeContexts?.forEach {
+                try $0.validate(name: "\(name).activeContexts[]")
+            }
+            try self.validate(self.activeContexts, name: "activeContexts", parent: name, max: 20)
+            try self.validate(self.activeContexts, name: "activeContexts", parent: name, min: 0)
             try self.dialogAction?.validate(name: "\(name).dialogAction")
             try self.recentIntentSummaryView?.forEach {
                 try $0.validate(name: "\(name).recentIntentSummaryView[]")
@@ -639,6 +731,7 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeContexts
             case dialogAction
             case recentIntentSummaryView
             case sessionAttributes
@@ -650,6 +743,7 @@ extension LexRuntimeService {
         public static let _payloadPath: String = "audioStream"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
+            AWSMemberEncoding(label: "activeContexts", location: .header(locationName: "x-amz-lex-active-contexts")),
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
             AWSMemberEncoding(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")),
             AWSMemberEncoding(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")),
@@ -661,6 +755,8 @@ extension LexRuntimeService {
             AWSMemberEncoding(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"))
         ]
 
+        /// A list of active contexts for the session.
+        public let activeContexts: String?
         /// The audio version of the message to convey to the user.
         public let audioStream: AWSPayload?
         /// Content type as specified in the Accept HTTP header in the request.
@@ -682,7 +778,8 @@ extension LexRuntimeService {
         /// If the dialogState is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
-        public init(audioStream: AWSPayload? = nil, contentType: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(activeContexts: String? = nil, audioStream: AWSPayload? = nil, contentType: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+            self.activeContexts = activeContexts
             self.audioStream = audioStream
             self.contentType = contentType
             self.dialogState = dialogState
@@ -696,6 +793,7 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeContexts = "x-amz-lex-active-contexts"
             case audioStream
             case contentType = "Content-Type"
             case dialogState = "x-amz-lex-dialog-state"

@@ -2644,6 +2644,14 @@
     "AutomaticInputFailoverSettings": {
       "type": "structure",
       "members": {
+        "ErrorClearTimeMsec": {
+          "shape": "__integerMin1",
+          "locationName": "errorClearTimeMsec"
+        },
+        "FailoverConditions": {
+          "shape": "__listOfFailoverCondition",
+          "locationName": "failoverConditions"
+        },
         "InputPreference": {
           "shape": "InputPreference",
           "locationName": "inputPreference"
@@ -4488,6 +4496,10 @@
           "shape": "DeviceSettingsSyncState",
           "locationName": "deviceSettingsSyncState"
         },
+        "DeviceUpdateStatus": {
+          "shape": "DeviceUpdateStatus",
+          "locationName": "deviceUpdateStatus"
+        },
         "HdDeviceSettings": {
           "shape": "InputDeviceHdSettings",
           "locationName": "hdDeviceSettings"
@@ -4982,6 +4994,13 @@
       "enum": [
         "SYNCED",
         "SYNCING"
+      ]
+    },
+    "DeviceUpdateStatus": {
+      "type": "string",
+      "enum": [
+        "UP_TO_DATE",
+        "NOT_UP_TO_DATE"
       ]
     },
     "DvbNitSettings": {
@@ -5513,6 +5532,24 @@
         "OutputGroups",
         "TimecodeConfig"
       ]
+    },
+    "FailoverCondition": {
+      "type": "structure",
+      "members": {
+        "FailoverConditionSettings": {
+          "shape": "FailoverConditionSettings",
+          "locationName": "failoverConditionSettings"
+        }
+      }
+    },
+    "FailoverConditionSettings": {
+      "type": "structure",
+      "members": {
+        "InputLossSettings": {
+          "shape": "InputLossFailoverSettings",
+          "locationName": "inputLossSettings"
+        }
+      }
     },
     "FeatureActivations": {
       "type": "structure",
@@ -6528,6 +6565,13 @@
         "SUBDIRECTORY_PER_STREAM"
       ]
     },
+    "HlsDiscontinuityTags": {
+      "type": "string",
+      "enum": [
+        "INSERT",
+        "NEVER_INSERT"
+      ]
+    },
     "HlsEncryptionType": {
       "type": "string",
       "enum": [
@@ -6586,6 +6630,10 @@
           "shape": "HlsDirectoryStructure",
           "locationName": "directoryStructure"
         },
+        "DiscontinuityTags": {
+          "shape": "HlsDiscontinuityTags",
+          "locationName": "discontinuityTags"
+        },
         "EncryptionType": {
           "shape": "HlsEncryptionType",
           "locationName": "encryptionType"
@@ -6601,6 +6649,10 @@
         "IFrameOnlyPlaylists": {
           "shape": "IFrameOnlyPlaylistType",
           "locationName": "iFrameOnlyPlaylists"
+        },
+        "IncompleteSegmentBehavior": {
+          "shape": "HlsIncompleteSegmentBehavior",
+          "locationName": "incompleteSegmentBehavior"
         },
         "IndexNSegments": {
           "shape": "__integerMin3",
@@ -6727,6 +6779,13 @@
       "enum": [
         "DISABLED",
         "ENABLED"
+      ]
+    },
+    "HlsIncompleteSegmentBehavior": {
+      "type": "string",
+      "enum": [
+        "AUTO",
+        "SUPPRESS"
       ]
     },
     "HlsInputSettings": {
@@ -7174,6 +7233,10 @@
           "shape": "DeviceSettingsSyncState",
           "locationName": "deviceSettingsSyncState"
         },
+        "DeviceUpdateStatus": {
+          "shape": "DeviceUpdateStatus",
+          "locationName": "deviceUpdateStatus"
+        },
         "HdDeviceSettings": {
           "shape": "InputDeviceHdSettings",
           "locationName": "hdDeviceSettings"
@@ -7368,6 +7431,10 @@
           "shape": "DeviceSettingsSyncState",
           "locationName": "deviceSettingsSyncState"
         },
+        "DeviceUpdateStatus": {
+          "shape": "DeviceUpdateStatus",
+          "locationName": "deviceUpdateStatus"
+        },
         "HdDeviceSettings": {
           "shape": "InputDeviceHdSettings",
           "locationName": "hdDeviceSettings"
@@ -7490,6 +7557,15 @@
         "RepeatFrameMsec": {
           "shape": "__integerMin0Max1000000",
           "locationName": "repeatFrameMsec"
+        }
+      }
+    },
+    "InputLossFailoverSettings": {
+      "type": "structure",
+      "members": {
+        "InputLossThresholdMsec": {
+          "shape": "__integerMin100",
+          "locationName": "inputLossThresholdMsec"
         }
       }
     },
@@ -10152,6 +10228,12 @@
         }
       }
     },
+    "RtmpAdMarkers": {
+      "type": "string",
+      "enum": [
+        "ON_CUE_POINT_SCTE35"
+      ]
+    },
     "RtmpCacheFullBehavior": {
       "type": "string",
       "enum": [
@@ -10175,6 +10257,10 @@
     "RtmpGroupSettings": {
       "type": "structure",
       "members": {
+        "AdMarkers": {
+          "shape": "__listOfRtmpAdMarkers",
+          "locationName": "adMarkers"
+        },
         "AuthenticationScheme": {
           "shape": "AuthenticationScheme",
           "locationName": "authenticationScheme"
@@ -11586,6 +11672,10 @@
           "shape": "DeviceSettingsSyncState",
           "locationName": "deviceSettingsSyncState"
         },
+        "DeviceUpdateStatus": {
+          "shape": "DeviceUpdateStatus",
+          "locationName": "deviceUpdateStatus"
+        },
         "HdDeviceSettings": {
           "shape": "InputDeviceHdSettings",
           "locationName": "hdDeviceSettings"
@@ -12155,6 +12245,10 @@
       "type": "integer",
       "min": 1
     },
+    "__integerMin100": {
+      "type": "integer",
+      "min": 100
+    },
     "__integerMin1000": {
       "type": "integer",
       "min": 1000
@@ -12363,6 +12457,12 @@
         "shape": "ChannelSummary"
       }
     },
+    "__listOfFailoverCondition": {
+      "type": "list",
+      "member": {
+        "shape": "FailoverCondition"
+      }
+    },
     "__listOfHlsAdMarkers": {
       "type": "list",
       "member": {
@@ -12535,6 +12635,12 @@
       "type": "list",
       "member": {
         "shape": "Reservation"
+      }
+    },
+    "__listOfRtmpAdMarkers": {
+      "type": "list",
+      "member": {
+        "shape": "RtmpAdMarkers"
       }
     },
     "__listOfScheduleAction": {

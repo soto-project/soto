@@ -1237,7 +1237,7 @@ extension RoboMaker {
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
         public let createdAt: Date?
-        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
+        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  AllWorldGenerationFailed  All of the worlds in the world generation job failed. This can happen if your worldCount is greater than 50 or less than 1.    For more information about troubleshooting WorldForge, see Troubleshooting Simulation WorldForge.
         public let failureCode: WorldExportJobErrorCode?
         /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
         public let iamRole: String?
@@ -1279,12 +1279,15 @@ extension RoboMaker {
         public let template: String
         /// Information about the world count.
         public let worldCount: WorldCount
+        /// A map that contains tag keys and tag values that are attached to the generated worlds.
+        public let worldTags: [String: String]?
 
-        public init(clientRequestToken: String? = CreateWorldGenerationJobRequest.idempotencyToken(), tags: [String: String]? = nil, template: String, worldCount: WorldCount) {
+        public init(clientRequestToken: String? = CreateWorldGenerationJobRequest.idempotencyToken(), tags: [String: String]? = nil, template: String, worldCount: WorldCount, worldTags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.tags = tags
             self.template = template
             self.worldCount = worldCount
+            self.worldTags = worldTags
         }
 
         public func validate(name: String) throws {
@@ -1302,6 +1305,14 @@ extension RoboMaker {
             try self.validate(self.template, name: "template", parent: name, max: 1224)
             try self.validate(self.template, name: "template", parent: name, min: 1)
             try self.validate(self.template, name: "template", parent: name, pattern: "arn:.*")
+            try self.worldTags?.forEach {
+                try validate($0.key, name: "worldTags.key", parent: name, max: 128)
+                try validate($0.key, name: "worldTags.key", parent: name, min: 1)
+                try validate($0.key, name: "worldTags.key", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+                try validate($0.value, name: "worldTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "worldTags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "worldTags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1309,6 +1320,7 @@ extension RoboMaker {
             case tags
             case template
             case worldCount
+            case worldTags
         }
     }
 
@@ -1329,8 +1341,10 @@ extension RoboMaker {
         public let template: String?
         /// Information about the world count.
         public let worldCount: WorldCount?
+        /// A map that contains tag keys and tag values that are attached to the generated worlds.
+        public let worldTags: [String: String]?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, failureCode: WorldGenerationJobErrorCode? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, failureCode: WorldGenerationJobErrorCode? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil, worldTags: [String: String]? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
@@ -1339,6 +1353,7 @@ extension RoboMaker {
             self.tags = tags
             self.template = template
             self.worldCount = worldCount
+            self.worldTags = worldTags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1350,6 +1365,7 @@ extension RoboMaker {
             case tags
             case template
             case worldCount
+            case worldTags
         }
     }
 
@@ -2452,8 +2468,10 @@ extension RoboMaker {
         public let template: String?
         /// Information about the world count.
         public let worldCount: WorldCount?
+        /// A map that contains tag keys and tag values that are attached to the generated worlds.
+        public let worldTags: [String: String]?
 
-        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, failureCode: WorldGenerationJobErrorCode? = nil, failureReason: String? = nil, finishedWorldsSummary: FinishedWorldsSummary? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
+        public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, failureCode: WorldGenerationJobErrorCode? = nil, failureReason: String? = nil, finishedWorldsSummary: FinishedWorldsSummary? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil, worldTags: [String: String]? = nil) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
@@ -2464,6 +2482,7 @@ extension RoboMaker {
             self.tags = tags
             self.template = template
             self.worldCount = worldCount
+            self.worldTags = worldTags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2477,6 +2496,7 @@ extension RoboMaker {
             case tags
             case template
             case worldCount
+            case worldTags
         }
     }
 

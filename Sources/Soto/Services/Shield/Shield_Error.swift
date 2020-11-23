@@ -62,7 +62,7 @@ public struct ShieldErrorType: AWSErrorType {
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
     /// Exception that indicates that the NextToken specified in the request is invalid. Submit the request using the NextToken value that was returned in the response.
     public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
-    /// Exception that indicates that the parameters passed to the API are invalid.
+    /// Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     public static var invalidResourceException: Self { .init(.invalidResourceException) }
@@ -74,9 +74,9 @@ public struct ShieldErrorType: AWSErrorType {
     public static var noAssociatedRoleException: Self { .init(.noAssociatedRoleException) }
     /// Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     public static var optimisticLockException: Self { .init(.optimisticLockException) }
-    /// Exception indicating the specified resource already exists.
+    /// Exception indicating the specified resource already exists. If available, this exception includes details in additional properties.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
-    /// Exception indicating the specified resource does not exist.
+    /// Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

@@ -20,6 +20,16 @@ import SotoCore
 extension CloudWatchEvents {
     // MARK: Enums
 
+    public enum ArchiveState: String, CustomStringConvertible, Codable {
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssignPublicIp: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -36,6 +46,16 @@ extension CloudWatchEvents {
     public enum LaunchType: String, CustomStringConvertible, Codable {
         case ec2 = "EC2"
         case fargate = "FARGATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplayState: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case starting = "STARTING"
         public var description: String { return self.rawValue }
     }
 
@@ -63,6 +83,47 @@ extension CloudWatchEvents {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+        }
+    }
+
+    public struct Archive: AWSDecodableShape {
+        /// The name of the archive.
+        public let archiveName: String?
+        /// The time stamp for the time that the archive was created.
+        public let creationTime: Date?
+        /// The number of events in the archive.
+        public let eventCount: Int64?
+        /// The ARN of the event bus associated with the archive. Only events from this event bus are sent to the archive.
+        public let eventSourceArn: String?
+        /// The number of days to retain events in the archive before they are deleted.
+        public let retentionDays: Int?
+        /// The size of the archive, in bytes.
+        public let sizeBytes: Int64?
+        /// The current state of the archive.
+        public let state: ArchiveState?
+        /// A description for the reason that the archive is in the current state.
+        public let stateReason: String?
+
+        public init(archiveName: String? = nil, creationTime: Date? = nil, eventCount: Int64? = nil, eventSourceArn: String? = nil, retentionDays: Int? = nil, sizeBytes: Int64? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
+            self.archiveName = archiveName
+            self.creationTime = creationTime
+            self.eventCount = eventCount
+            self.eventSourceArn = eventSourceArn
+            self.retentionDays = retentionDays
+            self.sizeBytes = sizeBytes
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveName = "ArchiveName"
+            case creationTime = "CreationTime"
+            case eventCount = "EventCount"
+            case eventSourceArn = "EventSourceArn"
+            case retentionDays = "RetentionDays"
+            case sizeBytes = "SizeBytes"
+            case state = "State"
+            case stateReason = "StateReason"
         }
     }
 
@@ -138,6 +199,46 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct CancelReplayRequest: AWSEncodableShape {
+        /// The name of the replay to cancel.
+        public let replayName: String
+
+        public init(replayName: String) {
+            self.replayName = replayName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
+            try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
+            try self.validate(self.replayName, name: "replayName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replayName = "ReplayName"
+        }
+    }
+
+    public struct CancelReplayResponse: AWSDecodableShape {
+        /// The ARN of the replay to cancel.
+        public let replayArn: String?
+        /// The current state of the replay.
+        public let state: ReplayState?
+        /// The reason that the replay is in the current state.
+        public let stateReason: String?
+
+        public init(replayArn: String? = nil, state: ReplayState? = nil, stateReason: String? = nil) {
+            self.replayArn = replayArn
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replayArn = "ReplayArn"
+            case state = "State"
+            case stateReason = "StateReason"
+        }
+    }
+
     public struct Condition: AWSEncodableShape {
         /// Specifies the key for the condition. Currently the only supported key is aws:PrincipalOrgID.
         public let key: String
@@ -156,6 +257,71 @@ extension CloudWatchEvents {
             case key = "Key"
             case type = "Type"
             case value = "Value"
+        }
+    }
+
+    public struct CreateArchiveRequest: AWSEncodableShape {
+        /// The name for the archive to create.
+        public let archiveName: String
+        /// A description for the archive.
+        public let description: String?
+        /// An event pattern to use to filter events sent to the archive.
+        public let eventPattern: String?
+        /// The ARN of the event source associated with the archive.
+        public let eventSourceArn: String
+        /// The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely
+        public let retentionDays: Int?
+
+        public init(archiveName: String, description: String? = nil, eventPattern: String? = nil, eventSourceArn: String, retentionDays: Int? = nil) {
+            self.archiveName = archiveName
+            self.description = description
+            self.eventPattern = eventPattern
+            self.eventSourceArn = eventSourceArn
+            self.retentionDays = retentionDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
+            try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
+            try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveName = "ArchiveName"
+            case description = "Description"
+            case eventPattern = "EventPattern"
+            case eventSourceArn = "EventSourceArn"
+            case retentionDays = "RetentionDays"
+        }
+    }
+
+    public struct CreateArchiveResponse: AWSDecodableShape {
+        /// The ARN of the archive that was created.
+        public let archiveArn: String?
+        /// The time at which the archive was created.
+        public let creationTime: Date?
+        /// The state of the archive that was created.
+        public let state: ArchiveState?
+        /// The reason that the archive is in the state.
+        public let stateReason: String?
+
+        public init(archiveArn: String? = nil, creationTime: Date? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
+            self.archiveArn = archiveArn
+            self.creationTime = creationTime
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveArn = "ArchiveArn"
+            case creationTime = "CreationTime"
+            case state = "State"
+            case stateReason = "StateReason"
         }
     }
 
@@ -281,6 +447,29 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct DeleteArchiveRequest: AWSEncodableShape {
+        /// The name of the archive to delete.
+        public let archiveName: String
+
+        public init(archiveName: String) {
+            self.archiveName = archiveName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
+            try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
+            try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveName = "ArchiveName"
+        }
+    }
+
+    public struct DeleteArchiveResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteEventBusRequest: AWSEncodableShape {
         /// The name of the event bus to delete.
         public let name: String
@@ -327,7 +516,7 @@ extension CloudWatchEvents {
     }
 
     public struct DeleteRuleRequest: AWSEncodableShape {
-        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
         public let force: Bool?
@@ -341,9 +530,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -356,8 +545,80 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct DescribeArchiveRequest: AWSEncodableShape {
+        /// The name of the archive to retrieve.
+        public let archiveName: String
+
+        public init(archiveName: String) {
+            self.archiveName = archiveName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
+            try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
+            try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveName = "ArchiveName"
+        }
+    }
+
+    public struct DescribeArchiveResponse: AWSDecodableShape {
+        /// The ARN of the archive.
+        public let archiveArn: String?
+        /// The name of the archive.
+        public let archiveName: String?
+        /// The time at which the archive was created.
+        public let creationTime: Date?
+        /// The description of the archive.
+        public let description: String?
+        /// The number of events in the archive.
+        public let eventCount: Int64?
+        /// The event pattern used to filter events sent to the archive.
+        public let eventPattern: String?
+        /// The ARN of the event source associated with the archive.
+        public let eventSourceArn: String?
+        /// The number of days to retain events for in the archive.
+        public let retentionDays: Int?
+        /// The size of the archive in bytes.
+        public let sizeBytes: Int64?
+        /// The state of the archive.
+        public let state: ArchiveState?
+        /// The reason that the archive is in the state.
+        public let stateReason: String?
+
+        public init(archiveArn: String? = nil, archiveName: String? = nil, creationTime: Date? = nil, description: String? = nil, eventCount: Int64? = nil, eventPattern: String? = nil, eventSourceArn: String? = nil, retentionDays: Int? = nil, sizeBytes: Int64? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
+            self.archiveArn = archiveArn
+            self.archiveName = archiveName
+            self.creationTime = creationTime
+            self.description = description
+            self.eventCount = eventCount
+            self.eventPattern = eventPattern
+            self.eventSourceArn = eventSourceArn
+            self.retentionDays = retentionDays
+            self.sizeBytes = sizeBytes
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveArn = "ArchiveArn"
+            case archiveName = "ArchiveName"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case eventCount = "EventCount"
+            case eventPattern = "EventPattern"
+            case eventSourceArn = "EventSourceArn"
+            case retentionDays = "RetentionDays"
+            case sizeBytes = "SizeBytes"
+            case state = "State"
+            case stateReason = "StateReason"
+        }
+    }
+
     public struct DescribeEventBusRequest: AWSEncodableShape {
-        /// The name of the event bus to show details for. If you omit this, the default event bus is displayed.
+        /// The name or ARN of the event bus to show details for. If you omit this, the default event bus is displayed.
         public let name: String?
 
         public init(name: String? = nil) {
@@ -365,9 +626,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, max: 1600)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.name, name: "name", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -484,8 +745,84 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct DescribeReplayRequest: AWSEncodableShape {
+        /// The name of the replay to retrieve.
+        public let replayName: String
+
+        public init(replayName: String) {
+            self.replayName = replayName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
+            try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
+            try self.validate(self.replayName, name: "replayName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replayName = "ReplayName"
+        }
+    }
+
+    public struct DescribeReplayResponse: AWSDecodableShape {
+        /// The description of the replay.
+        public let description: String?
+        /// A ReplayDestination object that contains details about the replay.
+        public let destination: ReplayDestination?
+        /// The time stamp for the last event that was replayed from the archive.
+        public let eventEndTime: Date?
+        /// The time that the event was last replayed.
+        public let eventLastReplayedTime: Date?
+        /// The ARN of the archive events were replayed from.
+        public let eventSourceArn: String?
+        /// The time stamp of the first event that was last replayed from the archive.
+        public let eventStartTime: Date?
+        /// The ARN of the replay.
+        public let replayArn: String?
+        /// A time stamp for the time that the replay stopped.
+        public let replayEndTime: Date?
+        /// The name of the replay.
+        public let replayName: String?
+        /// A time stamp for the time that the replay started.
+        public let replayStartTime: Date?
+        /// The current state of the replay.
+        public let state: ReplayState?
+        /// The reason that the replay is in the current state.
+        public let stateReason: String?
+
+        public init(description: String? = nil, destination: ReplayDestination? = nil, eventEndTime: Date? = nil, eventLastReplayedTime: Date? = nil, eventSourceArn: String? = nil, eventStartTime: Date? = nil, replayArn: String? = nil, replayEndTime: Date? = nil, replayName: String? = nil, replayStartTime: Date? = nil, state: ReplayState? = nil, stateReason: String? = nil) {
+            self.description = description
+            self.destination = destination
+            self.eventEndTime = eventEndTime
+            self.eventLastReplayedTime = eventLastReplayedTime
+            self.eventSourceArn = eventSourceArn
+            self.eventStartTime = eventStartTime
+            self.replayArn = replayArn
+            self.replayEndTime = replayEndTime
+            self.replayName = replayName
+            self.replayStartTime = replayStartTime
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case destination = "Destination"
+            case eventEndTime = "EventEndTime"
+            case eventLastReplayedTime = "EventLastReplayedTime"
+            case eventSourceArn = "EventSourceArn"
+            case eventStartTime = "EventStartTime"
+            case replayArn = "ReplayArn"
+            case replayEndTime = "ReplayEndTime"
+            case replayName = "ReplayName"
+            case replayStartTime = "ReplayStartTime"
+            case state = "State"
+            case stateReason = "StateReason"
+        }
+    }
+
     public struct DescribeRuleRequest: AWSEncodableShape {
-        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The name of the rule.
         public let name: String
@@ -496,9 +833,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -513,9 +850,11 @@ extension CloudWatchEvents {
     public struct DescribeRuleResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
+        /// The account ID of the user that created the rule. If you use PutRule to put a rule on an event bus in another account, the other account is the owner of the rule, and the rule ARN includes the account ID for that account. However, the value for CreatedBy is the account ID as the account that created the rule in the other account.
+        public let createdBy: String?
         /// The description of the rule.
         public let description: String?
-        /// The event bus associated with the rule.
+        /// The name of the event bus associated with the rule.
         public let eventBusName: String?
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
@@ -530,8 +869,9 @@ extension CloudWatchEvents {
         /// Specifies whether the rule is enabled or disabled.
         public let state: RuleState?
 
-        public init(arn: String? = nil, description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
             self.arn = arn
+            self.createdBy = createdBy
             self.description = description
             self.eventBusName = eventBusName
             self.eventPattern = eventPattern
@@ -544,6 +884,7 @@ extension CloudWatchEvents {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case createdBy = "CreatedBy"
             case description = "Description"
             case eventBusName = "EventBusName"
             case eventPattern = "EventPattern"
@@ -556,7 +897,7 @@ extension CloudWatchEvents {
     }
 
     public struct DisableRuleRequest: AWSEncodableShape {
-        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The name of the rule.
         public let name: String
@@ -567,9 +908,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -621,7 +962,7 @@ extension CloudWatchEvents {
     }
 
     public struct EnableRuleRequest: AWSEncodableShape {
-        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The name of the rule.
         public let name: String
@@ -632,9 +973,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -781,6 +1122,64 @@ extension CloudWatchEvents {
 
         private enum CodingKeys: String, CodingKey {
             case partitionKeyPath = "PartitionKeyPath"
+        }
+    }
+
+    public struct ListArchivesRequest: AWSEncodableShape {
+        /// The ARN of the event source associated with the archive.
+        public let eventSourceArn: String?
+        /// The maximum number of results to return.
+        public let limit: Int?
+        /// A name prefix to filter the archives returned. Only archives with name that match the prefix are returned.
+        public let namePrefix: String?
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+        /// The state of the archive.
+        public let state: ArchiveState?
+
+        public init(eventSourceArn: String? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil, state: ArchiveState? = nil) {
+            self.eventSourceArn = eventSourceArn
+            self.limit = limit
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 48)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSourceArn = "EventSourceArn"
+            case limit = "Limit"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+            case state = "State"
+        }
+    }
+
+    public struct ListArchivesResponse: AWSDecodableShape {
+        /// An array of Archive objects that include details about an archive.
+        public let archives: [Archive]?
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(archives: [Archive]? = nil, nextToken: String? = nil) {
+            self.archives = archives
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archives = "Archives"
+            case nextToken = "NextToken"
         }
     }
 
@@ -976,8 +1375,66 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct ListReplaysRequest: AWSEncodableShape {
+        /// The ARN of the event source associated with the replay.
+        public let eventSourceArn: String?
+        /// The maximum number of replays to retrieve.
+        public let limit: Int?
+        /// A name prefix to filter the replays returned. Only replays with name that match the prefix are returned.
+        public let namePrefix: String?
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+        /// The state of the replay.
+        public let state: ReplayState?
+
+        public init(eventSourceArn: String? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil, state: ReplayState? = nil) {
+            self.eventSourceArn = eventSourceArn
+            self.limit = limit
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSourceArn = "EventSourceArn"
+            case limit = "Limit"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+            case state = "State"
+        }
+    }
+
+    public struct ListReplaysResponse: AWSDecodableShape {
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+        /// An array of Replay objects that contain information about the replay.
+        public let replays: [Replay]?
+
+        public init(nextToken: String? = nil, replays: [Replay]? = nil) {
+            self.nextToken = nextToken
+            self.replays = replays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case replays = "Replays"
+        }
+    }
+
     public struct ListRuleNamesByTargetRequest: AWSEncodableShape {
-        /// Limits the results to show only the rules associated with the specified event bus.
+        /// The name or ARN of the event bus to list rules for. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The maximum number of results to return.
         public let limit: Int?
@@ -994,9 +1451,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -1031,7 +1488,7 @@ extension CloudWatchEvents {
     }
 
     public struct ListRulesRequest: AWSEncodableShape {
-        /// Limits the results to show only the rules associated with the specified event bus.
+        /// The name or ARN of the event bus to list the rules for. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The maximum number of results to return.
         public let limit: Int?
@@ -1048,9 +1505,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
@@ -1117,7 +1574,7 @@ extension CloudWatchEvents {
     }
 
     public struct ListTargetsByRuleRequest: AWSEncodableShape {
-        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The maximum number of results to return.
         public let limit: Int?
@@ -1134,9 +1591,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -1252,7 +1709,7 @@ extension CloudWatchEvents {
         public let detail: String?
         /// Free-form string used to decide what fields to expect in the event detail.
         public let detailType: String?
-        /// The event bus that will receive the event. Only the rules that are associated with this event bus will be able to match the event.
+        /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
@@ -1271,9 +1728,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1420,20 +1877,23 @@ extension CloudWatchEvents {
 
     public struct PutPermissionRequest: AWSEncodableShape {
         /// The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
-        public let action: String
+        public let action: String?
         /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
         public let condition: Condition?
-        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        /// The name of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
+        /// A JSON string that describes the permission policy statement. You can include a Policy parameter in the request instead of using the StatementId, Action, Principal, or Condition parameters.
+        public let policy: String?
         /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
-        public let principal: String
+        public let principal: String?
         /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
-        public let statementId: String
+        public let statementId: String?
 
-        public init(action: String, condition: Condition? = nil, eventBusName: String? = nil, principal: String, statementId: String) {
+        public init(action: String? = nil, condition: Condition? = nil, eventBusName: String? = nil, policy: String? = nil, principal: String? = nil, statementId: String? = nil) {
             self.action = action
             self.condition = condition
             self.eventBusName = eventBusName
+            self.policy = policy
             self.principal = principal
             self.statementId = statementId
         }
@@ -1457,6 +1917,7 @@ extension CloudWatchEvents {
             case action = "Action"
             case condition = "Condition"
             case eventBusName = "EventBusName"
+            case policy = "Policy"
             case principal = "Principal"
             case statementId = "StatementId"
         }
@@ -1465,7 +1926,7 @@ extension CloudWatchEvents {
     public struct PutRuleRequest: AWSEncodableShape {
         /// A description of the rule.
         public let description: String?
-        /// The event bus to associate with this rule. If you omit this, the default event bus is used.
+        /// The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
@@ -1493,9 +1954,9 @@ extension CloudWatchEvents {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 512)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1533,7 +1994,7 @@ extension CloudWatchEvents {
     }
 
     public struct PutTargetsRequest: AWSEncodableShape {
-        /// The name of the event bus associated with the rule. If you omit this, the default event bus is used.
+        /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The name of the rule.
         public let rule: String
@@ -1547,9 +2008,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.validate(self.rule, name: "rule", parent: name, max: 64)
             try self.validate(self.rule, name: "rule", parent: name, min: 1)
             try self.validate(self.rule, name: "rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1657,11 +2118,14 @@ extension CloudWatchEvents {
     public struct RemovePermissionRequest: AWSEncodableShape {
         /// The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
         public let eventBusName: String?
+        /// Specifies whether to remove all permissions.
+        public let removeAllPermissions: Bool?
         /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
-        public let statementId: String
+        public let statementId: String?
 
-        public init(eventBusName: String? = nil, statementId: String) {
+        public init(eventBusName: String? = nil, removeAllPermissions: Bool? = nil, statementId: String? = nil) {
             self.eventBusName = eventBusName
+            self.removeAllPermissions = removeAllPermissions
             self.statementId = statementId
         }
 
@@ -1676,12 +2140,13 @@ extension CloudWatchEvents {
 
         private enum CodingKeys: String, CodingKey {
             case eventBusName = "EventBusName"
+            case removeAllPermissions = "RemoveAllPermissions"
             case statementId = "StatementId"
         }
     }
 
     public struct RemoveTargetsRequest: AWSEncodableShape {
-        /// The name of the event bus associated with the rule.
+        /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
         public let force: Bool?
@@ -1698,9 +2163,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
-            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
             try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, max: 64)
                 try validate($0, name: "ids[]", parent: name, min: 1)
@@ -1759,6 +2224,77 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct Replay: AWSDecodableShape {
+        /// A time stamp for the time to start replaying events. Any event with a creation time prior to the EventEndTime specified is replayed.
+        public let eventEndTime: Date?
+        /// A time stamp for the time that the last event was replayed.
+        public let eventLastReplayedTime: Date?
+        /// The ARN of the archive to replay event from.
+        public let eventSourceArn: String?
+        /// A time stamp for the time to start replaying events. This is determined by the time in the event as described in Time.
+        public let eventStartTime: Date?
+        /// A time stamp for the time that the replay completed.
+        public let replayEndTime: Date?
+        /// The name of the replay.
+        public let replayName: String?
+        /// A time stamp for the time that the replay started.
+        public let replayStartTime: Date?
+        /// The current state of the replay.
+        public let state: ReplayState?
+        /// A description of why the replay is in the current state.
+        public let stateReason: String?
+
+        public init(eventEndTime: Date? = nil, eventLastReplayedTime: Date? = nil, eventSourceArn: String? = nil, eventStartTime: Date? = nil, replayEndTime: Date? = nil, replayName: String? = nil, replayStartTime: Date? = nil, state: ReplayState? = nil, stateReason: String? = nil) {
+            self.eventEndTime = eventEndTime
+            self.eventLastReplayedTime = eventLastReplayedTime
+            self.eventSourceArn = eventSourceArn
+            self.eventStartTime = eventStartTime
+            self.replayEndTime = replayEndTime
+            self.replayName = replayName
+            self.replayStartTime = replayStartTime
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventEndTime = "EventEndTime"
+            case eventLastReplayedTime = "EventLastReplayedTime"
+            case eventSourceArn = "EventSourceArn"
+            case eventStartTime = "EventStartTime"
+            case replayEndTime = "ReplayEndTime"
+            case replayName = "ReplayName"
+            case replayStartTime = "ReplayStartTime"
+            case state = "State"
+            case stateReason = "StateReason"
+        }
+    }
+
+    public struct ReplayDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the event bus to replay event to. You can replay events only to the event bus specified to create the archive.
+        public let arn: String
+        /// A list of ARNs for rules to replay events to.
+        public let filterArns: [String]?
+
+        public init(arn: String, filterArns: [String]? = nil) {
+            self.arn = arn
+            self.filterArns = filterArns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1600)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.filterArns?.forEach {
+                try validate($0, name: "filterArns[]", parent: name, max: 1600)
+                try validate($0, name: "filterArns[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case filterArns = "FilterArns"
+        }
+    }
+
     public struct RetryPolicy: AWSEncodableShape & AWSDecodableShape {
         /// The maximum amount of time, in seconds, to continue to make retry attempts.
         public let maximumEventAgeInSeconds: Int?
@@ -1788,7 +2324,7 @@ extension CloudWatchEvents {
         public let arn: String?
         /// The description of the rule.
         public let description: String?
-        /// The event bus associated with the rule.
+        /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The event pattern of the rule. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
@@ -1888,6 +2424,75 @@ extension CloudWatchEvents {
 
         private enum CodingKeys: String, CodingKey {
             case messageGroupId = "MessageGroupId"
+        }
+    }
+
+    public struct StartReplayRequest: AWSEncodableShape {
+        /// A description for the replay to start.
+        public let description: String?
+        /// A ReplayDestination object that includes details about the destination for the replay.
+        public let destination: ReplayDestination
+        /// A time stamp for the time to stop replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
+        public let eventEndTime: Date
+        /// The ARN of the archive to replay events from.
+        public let eventSourceArn: String
+        /// A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
+        public let eventStartTime: Date
+        /// The name of the replay to start.
+        public let replayName: String
+
+        public init(description: String? = nil, destination: ReplayDestination, eventEndTime: Date, eventSourceArn: String, eventStartTime: Date, replayName: String) {
+            self.description = description
+            self.destination = destination
+            self.eventEndTime = eventEndTime
+            self.eventSourceArn = eventSourceArn
+            self.eventStartTime = eventStartTime
+            self.replayName = replayName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.destination.validate(name: "\(name).destination")
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
+            try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
+            try self.validate(self.replayName, name: "replayName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case destination = "Destination"
+            case eventEndTime = "EventEndTime"
+            case eventSourceArn = "EventSourceArn"
+            case eventStartTime = "EventStartTime"
+            case replayName = "ReplayName"
+        }
+    }
+
+    public struct StartReplayResponse: AWSDecodableShape {
+        /// The ARN of the replay.
+        public let replayArn: String?
+        /// The time at which the replay started.
+        public let replayStartTime: Date?
+        /// The state of the replay.
+        public let state: ReplayState?
+        /// The reason that the replay is in the state.
+        public let stateReason: String?
+
+        public init(replayArn: String? = nil, replayStartTime: Date? = nil, state: ReplayState? = nil, stateReason: String? = nil) {
+            self.replayArn = replayArn
+            self.replayStartTime = replayStartTime
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replayArn = "ReplayArn"
+            case replayStartTime = "ReplayStartTime"
+            case state = "State"
+            case stateReason = "StateReason"
         }
     }
 
@@ -2091,5 +2696,64 @@ extension CloudWatchEvents {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateArchiveRequest: AWSEncodableShape {
+        /// The name of the archive to update.
+        public let archiveName: String
+        /// The description for the archive.
+        public let description: String?
+        /// The event pattern to use to filter events sent to the archive.
+        public let eventPattern: String?
+        /// The number of days to retain events in the archive.
+        public let retentionDays: Int?
+
+        public init(archiveName: String, description: String? = nil, eventPattern: String? = nil, retentionDays: Int? = nil) {
+            self.archiveName = archiveName
+            self.description = description
+            self.eventPattern = eventPattern
+            self.retentionDays = retentionDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
+            try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
+            try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveName = "ArchiveName"
+            case description = "Description"
+            case eventPattern = "EventPattern"
+            case retentionDays = "RetentionDays"
+        }
+    }
+
+    public struct UpdateArchiveResponse: AWSDecodableShape {
+        /// The ARN of the archive.
+        public let archiveArn: String?
+        /// The time at which the archive was updated.
+        public let creationTime: Date?
+        /// The state of the archive.
+        public let state: ArchiveState?
+        /// The reason that the archive is in the current state.
+        public let stateReason: String?
+
+        public init(archiveArn: String? = nil, creationTime: Date? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
+            self.archiveArn = archiveArn
+            self.creationTime = creationTime
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveArn = "ArchiveArn"
+            case creationTime = "CreationTime"
+            case state = "State"
+            case stateReason = "StateReason"
+        }
     }
 }

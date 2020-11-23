@@ -25,6 +25,11 @@ extension CloudHSMV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum BackupRetentionType: String, CustomStringConvertible, Codable {
+        case days = "DAYS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BackupState: String, CustomStringConvertible, Codable {
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleted = "DELETED"
@@ -70,6 +75,8 @@ extension CloudHSMV2 {
         public let createTimestamp: Date?
         /// The date and time when the backup will be permanently deleted.
         public let deleteTimestamp: Date?
+        /// Specifies whether the service should exempt a backup from the retention policy for the cluster. True exempts a backup from the retention policy. False means the service applies the backup retention policy defined at the cluster.
+        public let neverExpires: Bool?
         /// The identifier (ID) of the source backup from which the new backup was copied.
         public let sourceBackup: String?
         /// The identifier (ID) of the cluster containing the source backup from which the new backup was copied.
@@ -79,13 +86,14 @@ extension CloudHSMV2 {
         /// The list of tags for the backup.
         public let tagList: [Tag]?
 
-        public init(backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: Date? = nil, createTimestamp: Date? = nil, deleteTimestamp: Date? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil, tagList: [Tag]? = nil) {
+        public init(backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: Date? = nil, createTimestamp: Date? = nil, deleteTimestamp: Date? = nil, neverExpires: Bool? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil, tagList: [Tag]? = nil) {
             self.backupId = backupId
             self.backupState = backupState
             self.clusterId = clusterId
             self.copyTimestamp = copyTimestamp
             self.createTimestamp = createTimestamp
             self.deleteTimestamp = deleteTimestamp
+            self.neverExpires = neverExpires
             self.sourceBackup = sourceBackup
             self.sourceCluster = sourceCluster
             self.sourceRegion = sourceRegion
@@ -99,10 +107,34 @@ extension CloudHSMV2 {
             case copyTimestamp = "CopyTimestamp"
             case createTimestamp = "CreateTimestamp"
             case deleteTimestamp = "DeleteTimestamp"
+            case neverExpires = "NeverExpires"
             case sourceBackup = "SourceBackup"
             case sourceCluster = "SourceCluster"
             case sourceRegion = "SourceRegion"
             case tagList = "TagList"
+        }
+    }
+
+    public struct BackupRetentionPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The type of backup retention policy. For the DAYS type, the value is the number of days to retain backups.
+        public let type: BackupRetentionType?
+        /// Use a value between 7 - 379.
+        public let value: String?
+
+        public init(type: BackupRetentionType? = nil, value: String? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 3)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "[0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
         }
     }
 
@@ -138,6 +170,8 @@ extension CloudHSMV2 {
     public struct Cluster: AWSDecodableShape {
         /// The cluster's backup policy.
         public let backupPolicy: BackupPolicy?
+        /// A policy that defines how the service retains backups.
+        public let backupRetentionPolicy: BackupRetentionPolicy?
         /// Contains one or more certificates or a certificate signing request (CSR).
         public let certificates: Certificates?
         /// The cluster's identifier (ID).
@@ -165,8 +199,9 @@ extension CloudHSMV2 {
         /// The identifier (ID) of the virtual private cloud (VPC) that contains the cluster.
         public let vpcId: String?
 
-        public init(backupPolicy: BackupPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
+        public init(backupPolicy: BackupPolicy? = nil, backupRetentionPolicy: BackupRetentionPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
             self.backupPolicy = backupPolicy
+            self.backupRetentionPolicy = backupRetentionPolicy
             self.certificates = certificates
             self.clusterId = clusterId
             self.createTimestamp = createTimestamp
@@ -184,6 +219,7 @@ extension CloudHSMV2 {
 
         private enum CodingKeys: String, CodingKey {
             case backupPolicy = "BackupPolicy"
+            case backupRetentionPolicy = "BackupRetentionPolicy"
             case certificates = "Certificates"
             case clusterId = "ClusterId"
             case createTimestamp = "CreateTimestamp"
@@ -245,6 +281,8 @@ extension CloudHSMV2 {
     }
 
     public struct CreateClusterRequest: AWSEncodableShape {
+        /// A policy that defines how the service retains backups.
+        public let backupRetentionPolicy: BackupRetentionPolicy?
         /// The type of HSM to use in the cluster. Currently the only allowed value is hsm1.medium.
         public let hsmType: String
         /// The identifier (ID) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID, use DescribeBackups.
@@ -254,7 +292,8 @@ extension CloudHSMV2 {
         /// Tags to apply to the CloudHSM cluster during creation.
         public let tagList: [Tag]?
 
-        public init(hsmType: String, sourceBackupId: String? = nil, subnetIds: [String], tagList: [Tag]? = nil) {
+        public init(backupRetentionPolicy: BackupRetentionPolicy? = nil, hsmType: String, sourceBackupId: String? = nil, subnetIds: [String], tagList: [Tag]? = nil) {
+            self.backupRetentionPolicy = backupRetentionPolicy
             self.hsmType = hsmType
             self.sourceBackupId = sourceBackupId
             self.subnetIds = subnetIds
@@ -262,6 +301,7 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
+            try self.backupRetentionPolicy?.validate(name: "\(name).backupRetentionPolicy")
             try self.validate(self.hsmType, name: "hsmType", parent: name, pattern: "(hsm1\\.medium)")
             try self.validate(self.sourceBackupId, name: "sourceBackupId", parent: name, pattern: "backup-[2-7a-zA-Z]{11,16}")
             try self.subnetIds.forEach {
@@ -277,6 +317,7 @@ extension CloudHSMV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case backupRetentionPolicy = "BackupRetentionPolicy"
             case hsmType = "HsmType"
             case sourceBackupId = "SourceBackupId"
             case subnetIds = "SubnetIds"
@@ -443,7 +484,7 @@ extension CloudHSMV2 {
     }
 
     public struct DescribeBackupsRequest: AWSEncodableShape {
-        /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state.
+        /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state. Use the neverExpires filter to return backups filtered by the value in the neverExpires parameter. True returns all backups exempt from the backup retention policy. False returns all backups with a backup retention policy defined at the cluster.
         public let filters: [String: [String]]?
         /// The maximum number of backups to return in the response. When there are more backups than the number you specify, the response contains a NextToken value.
         public let maxResults: Int?
@@ -463,7 +504,7 @@ extension CloudHSMV2 {
             try self.filters?.forEach {
                 try validate($0.key, name: "filters.key", parent: name, pattern: "[a-zA-Z0-9_-]+")
             }
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -512,7 +553,7 @@ extension CloudHSMV2 {
             try self.filters?.forEach {
                 try validate($0.key, name: "filters.key", parent: name, pattern: "[a-zA-Z0-9_-]+")
             }
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -697,6 +738,73 @@ extension CloudHSMV2 {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tagList = "TagList"
+        }
+    }
+
+    public struct ModifyBackupAttributesRequest: AWSEncodableShape {
+        /// The identifier (ID) of the backup to modify. To find the ID of a backup, use the DescribeBackups operation.
+        public let backupId: String
+        /// Specifies whether the service should exempt a backup from the retention policy for the cluster. True exempts a backup from the retention policy. False means the service applies the backup retention policy defined at the cluster.
+        public let neverExpires: Bool
+
+        public init(backupId: String, neverExpires: Bool) {
+            self.backupId = backupId
+            self.neverExpires = neverExpires
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupId, name: "backupId", parent: name, pattern: "backup-[2-7a-zA-Z]{11,16}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupId = "BackupId"
+            case neverExpires = "NeverExpires"
+        }
+    }
+
+    public struct ModifyBackupAttributesResponse: AWSDecodableShape {
+        public let backup: Backup?
+
+        public init(backup: Backup? = nil) {
+            self.backup = backup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backup = "Backup"
+        }
+    }
+
+    public struct ModifyClusterRequest: AWSEncodableShape {
+        /// A policy that defines how the service retains backups.
+        public let backupRetentionPolicy: BackupRetentionPolicy
+        /// The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters.
+        public let clusterId: String
+
+        public init(backupRetentionPolicy: BackupRetentionPolicy, clusterId: String) {
+            self.backupRetentionPolicy = backupRetentionPolicy
+            self.clusterId = clusterId
+        }
+
+        public func validate(name: String) throws {
+            try self.backupRetentionPolicy.validate(name: "\(name).backupRetentionPolicy")
+            try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "cluster-[2-7a-zA-Z]{11,16}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupRetentionPolicy = "BackupRetentionPolicy"
+            case clusterId = "ClusterId"
+        }
+    }
+
+    public struct ModifyClusterResponse: AWSDecodableShape {
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 

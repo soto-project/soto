@@ -19,8 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension AppMesh {
-    ///  Returns a list of existing gateway routes that are associated to a virtual
-    ///           gateway.
+    ///  Returns a list of existing gateway routes that are associated to a virtual gateway.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

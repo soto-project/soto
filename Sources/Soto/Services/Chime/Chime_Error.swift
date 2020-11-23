@@ -56,7 +56,7 @@ public struct ChimeErrorType: AWSErrorType {
     public static var badRequestException: Self { .init(.badRequestException) }
     /// The request could not be processed because of conflict in the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The client is permanently forbidden from making the request. For example, when a user tries to create an account from an unsupported Region.
+    /// The client is permanently forbidden from making the request.
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// One or more of the resources in the request does not exist in the system.
     public static var notFoundException: Self { .init(.notFoundException) }

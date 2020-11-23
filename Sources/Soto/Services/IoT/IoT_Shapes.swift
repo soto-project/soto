@@ -854,19 +854,23 @@ extension IoT {
 
     public struct AssociateTargetsWithJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId"))
         ]
 
         /// An optional comment string describing why the job was associated with the targets.
         public let comment: String?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        public let namespaceId: String?
         /// A list of thing group ARNs that define the targets of the job.
         public let targets: [String]
 
-        public init(comment: String? = nil, jobId: String, targets: [String]) {
+        public init(comment: String? = nil, jobId: String, namespaceId: String? = nil, targets: [String]) {
             self.comment = comment
             self.jobId = jobId
+            self.namespaceId = namespaceId
             self.targets = targets
         }
 
@@ -876,6 +880,9 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.targets.forEach {
                 try validate($0, name: "targets[]", parent: name, max: 2048)
             }
@@ -1900,9 +1907,8 @@ extension IoT {
                 try validate($0.key, name: "statusDetails.key", parent: name, max: 128)
                 try validate($0.key, name: "statusDetails.key", parent: name, min: 1)
                 try validate($0.key, name: "statusDetails.key", parent: name, pattern: "[a-zA-Z0-9:_-]+")
-                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]*+")
+                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]+")
             }
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
@@ -2726,6 +2732,8 @@ extension IoT {
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// A job identifier which must be unique for your AWS account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
         public let jobId: String
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        public let namespaceId: String?
         /// Configuration information for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
         /// Metadata which can be used to manage the job.
@@ -2737,13 +2745,14 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
             self.document = document
             self.documentSource = documentSource
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobId = jobId
+            self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
             self.tags = tags
             self.targets = targets
@@ -2762,6 +2771,9 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.presignedUrlConfig?.validate(name: "\(name).presignedUrlConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -2778,6 +2790,7 @@ extension IoT {
             case document
             case documentSource
             case jobExecutionsRolloutConfig
+            case namespaceId
             case presignedUrlConfig
             case tags
             case targets
@@ -4069,6 +4082,7 @@ extension IoT {
             AWSMemberEncoding(label: "executionNumber", location: .uri(locationName: "executionNumber")),
             AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")),
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId")),
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
@@ -4078,13 +4092,16 @@ extension IoT {
         public let force: Bool?
         /// The ID of the job whose execution on a particular device will be deleted.
         public let jobId: String
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        public let namespaceId: String?
         /// The name of the thing whose job execution will be deleted.
         public let thingName: String
 
-        public init(executionNumber: Int64, force: Bool? = nil, jobId: String, thingName: String) {
+        public init(executionNumber: Int64, force: Bool? = nil, jobId: String, namespaceId: String? = nil, thingName: String) {
             self.executionNumber = executionNumber
             self.force = force
             self.jobId = jobId
+            self.namespaceId = namespaceId
             self.thingName = thingName
         }
 
@@ -4092,6 +4109,9 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4103,23 +4123,30 @@ extension IoT {
     public struct DeleteJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "force", location: .querystring(locationName: "force")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId"))
         ]
 
         /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state.
         public let force: Bool?
         /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
         public let jobId: String
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        public let namespaceId: String?
 
-        public init(force: Bool? = nil, jobId: String) {
+        public init(force: Bool? = nil, jobId: String, namespaceId: String? = nil) {
             self.force = force
             self.jobId = jobId
+            self.namespaceId = namespaceId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6336,6 +6363,8 @@ extension IoT {
     }
 
     public struct FirehoseAction: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to deliver the Kinesis Data Firehose stream as a batch by using  PutRecordBatch . The default value is false. When batchMode is true and the rule's SQL statement evaluates to an Array, each Array element forms one record in the  PutRecordBatch  request. The resulting array can't have more than 500 records.
+        public let batchMode: Bool?
         /// The delivery stream name.
         public let deliveryStreamName: String
         /// The IAM role that grants access to the Amazon Kinesis Firehose stream.
@@ -6343,7 +6372,8 @@ extension IoT {
         /// A character separator that will be used to separate records written to the Firehose stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
         public let separator: String?
 
-        public init(deliveryStreamName: String, roleArn: String, separator: String? = nil) {
+        public init(batchMode: Bool? = nil, deliveryStreamName: String, roleArn: String, separator: String? = nil) {
+            self.batchMode = batchMode
             self.deliveryStreamName = deliveryStreamName
             self.roleArn = roleArn
             self.separator = separator
@@ -6354,6 +6384,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchMode
             case deliveryStreamName
             case roleArn
             case separator
@@ -7064,6 +7095,8 @@ extension IoT {
     }
 
     public struct IotAnalyticsAction: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to process the action as a batch. The default value is false. When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is delivered as a separate message when passed by  BatchPutMessage  to the AWS IoT Analytics channel. The resulting array can't have more than 100 messages.
+        public let batchMode: Bool?
         /// (deprecated) The ARN of the IoT Analytics channel to which message data will be sent.
         public let channelArn: String?
         /// The name of the IoT Analytics channel to which message data will be sent.
@@ -7071,13 +7104,15 @@ extension IoT {
         /// The ARN of the role which has a policy that grants IoT Analytics permission to send message data via IoT Analytics (iotanalytics:BatchPutMessage).
         public let roleArn: String?
 
-        public init(channelArn: String? = nil, channelName: String? = nil, roleArn: String? = nil) {
+        public init(batchMode: Bool? = nil, channelArn: String? = nil, channelName: String? = nil, roleArn: String? = nil) {
+            self.batchMode = batchMode
             self.channelArn = channelArn
             self.channelName = channelName
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchMode
             case channelArn
             case channelName
             case roleArn
@@ -7085,14 +7120,17 @@ extension IoT {
     }
 
     public struct IotEventsAction: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to process the event actions as a batch. The default value is false. When batchMode is true, you can't specify a messageId.  When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is treated as a separate message when it's sent to AWS IoT Events by calling  BatchPutMessage . The resulting array can't have more than 10 messages.
+        public let batchMode: Bool?
         /// The name of the AWS IoT Events input.
         public let inputName: String
-        /// [Optional] Use this to ensure that only one input (message) with a given messageId will be processed by an AWS IoT Events detector.
+        /// The ID of the message. The default messageId is a new UUID value. When batchMode is true, you can't specify a messageId--a new UUID value will be assigned. Assign a value to this property to ensure that only one input (message) with a given messageId will be processed by an AWS IoT Events detector.
         public let messageId: String?
         /// The ARN of the role that grants AWS IoT permission to send an input to an AWS IoT Events detector. ("Action":"iotevents:BatchPutMessage").
         public let roleArn: String
 
-        public init(inputName: String, messageId: String? = nil, roleArn: String) {
+        public init(batchMode: Bool? = nil, inputName: String, messageId: String? = nil, roleArn: String) {
+            self.batchMode = batchMode
             self.inputName = inputName
             self.messageId = messageId
             self.roleArn = roleArn
@@ -7105,6 +7143,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchMode
             case inputName
             case messageId
             case roleArn
@@ -7158,6 +7197,8 @@ extension IoT {
         public let jobProcessDetails: JobProcessDetails?
         /// The time, in seconds since the epoch, when the job was last updated.
         public let lastUpdatedAt: Date?
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        public let namespaceId: String?
         /// Configuration for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
         /// If the job was updated, provides the reason code for the update.
@@ -7171,7 +7212,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, lastUpdatedAt: Date? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
@@ -7183,6 +7224,7 @@ extension IoT {
             self.jobId = jobId
             self.jobProcessDetails = jobProcessDetails
             self.lastUpdatedAt = lastUpdatedAt
+            self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
             self.reasonCode = reasonCode
             self.status = status
@@ -7203,6 +7245,7 @@ extension IoT {
             case jobId
             case jobProcessDetails
             case lastUpdatedAt
+            case namespaceId
             case presignedUrlConfig
             case reasonCode
             case status
@@ -7968,7 +8011,7 @@ extension IoT {
         public let maxResults: Int?
         /// Limit the results to billing groups whose names have the given prefix.
         public let namePrefixFilter: String?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, namePrefixFilter: String? = nil, nextToken: String? = nil) {
@@ -7991,7 +8034,7 @@ extension IoT {
     public struct ListBillingGroupsResponse: AWSDecodableShape {
         /// The list of billing groups.
         public let billingGroups: [GroupNameAndArn]?
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
         public init(billingGroups: [GroupNameAndArn]? = nil, nextToken: String? = nil) {
@@ -8337,6 +8380,7 @@ extension IoT {
     public struct ListJobExecutionsForThingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")),
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
@@ -8344,6 +8388,8 @@ extension IoT {
 
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        public let namespaceId: String?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// An optional filter that lets you search for jobs that have the specified status.
@@ -8351,8 +8397,9 @@ extension IoT {
         /// The thing name.
         public let thingName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil, thingName: String) {
+        public init(maxResults: Int? = nil, namespaceId: String? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil, thingName: String) {
             self.maxResults = maxResults
+            self.namespaceId = namespaceId
             self.nextToken = nextToken
             self.status = status
             self.thingName = thingName
@@ -8361,6 +8408,9 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -8389,6 +8439,7 @@ extension IoT {
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")),
             AWSMemberEncoding(label: "targetSelection", location: .querystring(locationName: "targetSelection")),
@@ -8398,6 +8449,8 @@ extension IoT {
 
         /// The maximum number of results to return per request.
         public let maxResults: Int?
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        public let namespaceId: String?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// An optional filter that lets you search for jobs that have the specified status.
@@ -8409,8 +8462,9 @@ extension IoT {
         /// A filter that limits the returned jobs to those for the specified group.
         public let thingGroupName: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil) {
+        public init(maxResults: Int? = nil, namespaceId: String? = nil, nextToken: String? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil) {
             self.maxResults = maxResults
+            self.namespaceId = namespaceId
             self.nextToken = nextToken
             self.status = status
             self.targetSelection = targetSelection
@@ -8421,6 +8475,9 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.validate(self.thingGroupId, name: "thingGroupId", parent: name, max: 128)
             try self.validate(self.thingGroupId, name: "thingGroupId", parent: name, min: 1)
             try self.validate(self.thingGroupId, name: "thingGroupId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
@@ -8781,7 +8838,7 @@ extension IoT {
 
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// The principal.
         public let principal: String
@@ -8801,7 +8858,7 @@ extension IoT {
     }
 
     public struct ListPrincipalThingsResponse: AWSDecodableShape {
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The things.
         public let things: [String]?
@@ -9142,7 +9199,7 @@ extension IoT {
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// The ARN of the resource.
         public let resourceArn: String
@@ -9156,7 +9213,7 @@ extension IoT {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The list of tags assigned to the resource.
         public let tags: [Tag]?
@@ -9279,7 +9336,7 @@ extension IoT {
 
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// The thing name.
         public let thingName: String
@@ -9302,7 +9359,7 @@ extension IoT {
     }
 
     public struct ListThingGroupsForThingResponse: AWSDecodableShape {
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The thing groups.
         public let thingGroups: [GroupNameAndArn]?
@@ -9331,7 +9388,7 @@ extension IoT {
         public let maxResults: Int?
         /// A filter that limits the results to those with the specified name prefix.
         public let namePrefixFilter: String?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// A filter that limits the results to those with the specified parent group.
         public let parentGroup: String?
@@ -9361,7 +9418,7 @@ extension IoT {
     }
 
     public struct ListThingGroupsResponse: AWSDecodableShape {
-        /// The token used to get the next set of results. Will not be returned if operation has returned all results.
+        /// The token to use to get the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// The thing groups.
         public let thingGroups: [GroupNameAndArn]?
@@ -9379,17 +9436,27 @@ extension IoT {
 
     public struct ListThingPrincipalsRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
+        /// The maximum number of results to return in this operation.
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
         /// The name of the thing.
         public let thingName: String
 
-        public init(thingName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, thingName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
             self.thingName = thingName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -9399,14 +9466,18 @@ extension IoT {
     }
 
     public struct ListThingPrincipalsResponse: AWSDecodableShape {
+        /// The token to use to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
         /// The principals associated with the thing.
         public let principals: [String]?
 
-        public init(principals: [String]? = nil) {
+        public init(nextToken: String? = nil, principals: [String]? = nil) {
+            self.nextToken = nextToken
             self.principals = principals
         }
 
         private enum CodingKeys: String, CodingKey {
+            case nextToken
             case principals
         }
     }
@@ -9421,7 +9492,7 @@ extension IoT {
 
         /// The maximum number of results to return per request.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// The type of task report.
         public let reportType: ReportType
@@ -9445,7 +9516,7 @@ extension IoT {
     }
 
     public struct ListThingRegistrationTaskReportsResponse: AWSDecodableShape {
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The type of task report.
         public let reportType: ReportType?
@@ -9474,7 +9545,7 @@ extension IoT {
 
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// The status of the bulk thing provisioning task.
         public let status: Status?
@@ -9494,7 +9565,7 @@ extension IoT {
     }
 
     public struct ListThingRegistrationTasksResponse: AWSDecodableShape {
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// A list of bulk thing provisioning task IDs.
         public let taskIds: [String]?
@@ -9519,7 +9590,7 @@ extension IoT {
 
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// The name of the thing type.
         public let thingTypeName: String?
@@ -9569,7 +9640,7 @@ extension IoT {
         public let billingGroupName: String
         /// The maximum number of results to return per request.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
         public init(billingGroupName: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -9590,7 +9661,7 @@ extension IoT {
     }
 
     public struct ListThingsInBillingGroupResponse: AWSDecodableShape {
-        /// The token used to get the next set of results. Will not be returned if operation has returned all results.
+        /// The token to use to get the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// A list of things in the billing group.
         public let things: [String]?
@@ -9616,7 +9687,7 @@ extension IoT {
 
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// When true, list things in this thing group and in all child groups as well.
         public let recursive: Bool?
@@ -9642,7 +9713,7 @@ extension IoT {
     }
 
     public struct ListThingsInThingGroupResponse: AWSDecodableShape {
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The things in the specified thing group.
         public let things: [String]?
@@ -9673,7 +9744,7 @@ extension IoT {
         public let attributeValue: String?
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// The name of the thing type used to search for things.
         public let thingTypeName: String?
@@ -9702,7 +9773,7 @@ extension IoT {
     }
 
     public struct ListThingsResponse: AWSDecodableShape {
-        /// The token used to get the next set of results. Will not be returned if operation has returned all results.
+        /// The token to use to get the next set of results. Will not be returned if operation has returned all results.
         public let nextToken: String?
         /// The things.
         public let things: [ThingAttribute]?
@@ -9726,7 +9797,7 @@ extension IoT {
 
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -9745,7 +9816,7 @@ extension IoT {
     public struct ListTopicRuleDestinationsResponse: AWSDecodableShape {
         /// Information about a topic rule destination.
         public let destinationSummaries: [TopicRuleDestinationSummary]?
-        /// The token to retrieve the next set of results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
         public init(destinationSummaries: [TopicRuleDestinationSummary]? = nil, nextToken: String? = nil) {
@@ -9769,7 +9840,7 @@ extension IoT {
 
         /// The maximum number of results to return.
         public let maxResults: Int?
-        /// A token used to retrieve the next value.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// Specifies whether the rule is disabled.
         public let ruleDisabled: Bool?
@@ -9792,7 +9863,7 @@ extension IoT {
     }
 
     public struct ListTopicRulesResponse: AWSDecodableShape {
-        /// A token used to retrieve the next value.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The rules.
         public let rules: [TopicRuleListItem]?
@@ -9817,7 +9888,7 @@ extension IoT {
 
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// The type of resource for which you are configuring logging. Must be THING_Group.
         public let targetType: LogTargetType?
@@ -9839,7 +9910,7 @@ extension IoT {
     public struct ListV2LoggingLevelsResponse: AWSDecodableShape {
         /// The logging configuration for a target.
         public let logTargetConfigurations: [LogTargetConfiguration]?
-        /// The token used to get the next set of results, or null if there are no additional results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
         public init(logTargetConfigurations: [LogTargetConfiguration]? = nil, nextToken: String? = nil) {
@@ -11107,7 +11178,7 @@ extension IoT {
         public let bucketName: String
         /// The Amazon S3 canned ACL that controls access to the object identified by the object key. For more information, see S3 canned ACLs.
         public let cannedAcl: CannedAccessControlList?
-        /// The object key.
+        /// The object key. For more information, see Actions, resources, and condition keys for Amazon S3.
         public let key: String
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
@@ -13331,7 +13402,8 @@ extension IoT {
 
     public struct UpdateJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
+            AWSMemberEncoding(label: "namespaceId", location: .querystring(locationName: "namespaceId"))
         ]
 
         /// Allows you to create criteria to abort a job.
@@ -13342,16 +13414,19 @@ extension IoT {
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// The ID of the job to be updated.
         public let jobId: String
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
+        public let namespaceId: String?
         /// Configuration information for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
         /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobId = jobId
+            self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
             self.timeoutConfig = timeoutConfig
         }
@@ -13364,6 +13439,9 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
+            try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.presignedUrlConfig?.validate(name: "\(name).presignedUrlConfig")
         }
 

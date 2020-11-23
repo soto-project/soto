@@ -208,7 +208,8 @@
         {"shape":"DBSnapshotNotFoundFault"},
         {"shape":"InvalidDBSnapshotStateFault"},
         {"shape":"SnapshotQuotaExceededFault"},
-        {"shape":"KMSKeyNotAccessibleFault"}
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"CustomAvailabilityZoneNotFoundFault"}
       ]
     },
     "CopyOptionGroup":{
@@ -2674,7 +2675,8 @@
         "Tags":{"shape":"TagList"},
         "CopyTags":{"shape":"BooleanOptional"},
         "PreSignedUrl":{"shape":"String"},
-        "OptionGroupName":{"shape":"String"}
+        "OptionGroupName":{"shape":"String"},
+        "TargetCustomAvailabilityZone":{"shape":"String"}
       }
     },
     "CopyDBSnapshotResult":{
@@ -2915,7 +2917,8 @@
         "DeletionProtection":{"shape":"BooleanOptional"},
         "Domain":{"shape":"String"},
         "DomainIAMRoleName":{"shape":"String"},
-        "ReplicaMode":{"shape":"ReplicaMode"}
+        "ReplicaMode":{"shape":"ReplicaMode"},
+        "MaxAllocatedStorage":{"shape":"IntegerOptional"}
       }
     },
     "CreateDBInstanceReadReplicaResult":{

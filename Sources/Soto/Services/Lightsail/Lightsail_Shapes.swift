@@ -100,6 +100,48 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContainerServiceDeploymentState: String, CustomStringConvertible, Codable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerServiceMetricName: String, CustomStringConvertible, Codable {
+        case cpuutilization = "CPUUtilization"
+        case memoryutilization = "MemoryUtilization"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerServicePowerName: String, CustomStringConvertible, Codable {
+        case large
+        case medium
+        case micro
+        case nano
+        case small
+        case xlarge
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerServiceProtocol: String, CustomStringConvertible, Codable {
+        case http = "HTTP"
+        case https = "HTTPS"
+        case tcp = "TCP"
+        case udp = "UDP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerServiceState: String, CustomStringConvertible, Codable {
+        case deleting = "DELETING"
+        case disabled = "DISABLED"
+        case pending = "PENDING"
+        case ready = "READY"
+        case running = "RUNNING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DiskSnapshotState: String, CustomStringConvertible, Codable {
         case completed
         case error
@@ -399,6 +441,9 @@ extension Lightsail {
         case closeinstancepublicports = "CloseInstancePublicPorts"
         case createcertificate = "CreateCertificate"
         case createcontactmethod = "CreateContactMethod"
+        case createcontainerservice = "CreateContainerService"
+        case createcontainerservicedeployment = "CreateContainerServiceDeployment"
+        case createcontainerserviceregistrylogin = "CreateContainerServiceRegistryLogin"
         case createdisk = "CreateDisk"
         case creatediskfromsnapshot = "CreateDiskFromSnapshot"
         case createdisksnapshot = "CreateDiskSnapshot"
@@ -415,6 +460,8 @@ extension Lightsail {
         case deletealarm = "DeleteAlarm"
         case deletecertificate = "DeleteCertificate"
         case deletecontactmethod = "DeleteContactMethod"
+        case deletecontainerimage = "DeleteContainerImage"
+        case deletecontainerservice = "DeleteContainerService"
         case deletedisk = "DeleteDisk"
         case deletedisksnapshot = "DeleteDiskSnapshot"
         case deletedistribution = "DeleteDistribution"
@@ -440,6 +487,7 @@ extension Lightsail {
         case putinstancepublicports = "PutInstancePublicPorts"
         case rebootinstance = "RebootInstance"
         case rebootrelationaldatabase = "RebootRelationalDatabase"
+        case registercontainerimage = "RegisterContainerImage"
         case releasestaticip = "ReleaseStaticIp"
         case resetdistributioncache = "ResetDistributionCache"
         case sendcontactmethodverification = "SendContactMethodVerification"
@@ -448,6 +496,7 @@ extension Lightsail {
         case stopinstance = "StopInstance"
         case stoprelationaldatabase = "StopRelationalDatabase"
         case testalarm = "TestAlarm"
+        case updatecontainerservice = "UpdateContainerService"
         case updatedistribution = "UpdateDistribution"
         case updatedistributionbundle = "UpdateDistributionBundle"
         case updatedomainentry = "UpdateDomainEntry"
@@ -543,6 +592,7 @@ extension Lightsail {
         case certificate = "Certificate"
         case cloudformationstackrecord = "CloudFormationStackRecord"
         case contactmethod = "ContactMethod"
+        case containerservice = "ContainerService"
         case disk = "Disk"
         case disksnapshot = "DiskSnapshot"
         case distribution = "Distribution"
@@ -1442,6 +1492,325 @@ extension Lightsail {
         }
     }
 
+    public struct Container: AWSEncodableShape & AWSDecodableShape {
+        /// The launch command for the container.
+        public let command: [String]?
+        /// The environment variables of the container.
+        public let environment: [String: String]?
+        /// The name of the image used for the container. Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, :container-service-1.mystaticwebsite.1. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
+        public let image: String?
+        /// The open firewall ports of the container.
+        public let ports: [String: ContainerServiceProtocol]?
+
+        public init(command: [String]? = nil, environment: [String: String]? = nil, image: String? = nil, ports: [String: ContainerServiceProtocol]? = nil) {
+            self.command = command
+            self.environment = environment
+            self.image = image
+            self.ports = ports
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command
+            case environment
+            case image
+            case ports
+        }
+    }
+
+    public struct ContainerImage: AWSDecodableShape {
+        /// The timestamp when the container image was created.
+        public let createdAt: Date?
+        /// The digest of the container image.
+        public let digest: String?
+        /// The name of the container image.
+        public let image: String?
+
+        public init(createdAt: Date? = nil, digest: String? = nil, image: String? = nil) {
+            self.createdAt = createdAt
+            self.digest = digest
+            self.image = image
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt
+            case digest
+            case image
+        }
+    }
+
+    public struct ContainerService: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the container service.
+        public let arn: String?
+        /// The name of the container service.
+        public let containerServiceName: String?
+        /// The timestamp when the container service was created.
+        public let createdAt: Date?
+        /// An object that describes the current container deployment of the container service.
+        public let currentDeployment: ContainerServiceDeployment?
+        /// A Boolean value indicating whether the container service is disabled.
+        public let isDisabled: Bool?
+        /// An object that describes the location of the container service, such as the AWS Region and Availability Zone.
+        public let location: ResourceLocation?
+        /// An object that describes the next deployment of the container service. This value is null when there is no deployment in a pending state.
+        public let nextDeployment: ContainerServiceDeployment?
+        /// The power specification of the container service. The power specifies the amount of RAM, the number of vCPUs, and the base price of the container service.
+        public let power: ContainerServicePowerName?
+        /// The ID of the power of the container service.
+        public let powerId: String?
+        /// The principal ARN of the container service. The principal ARN can be used to create a trust relationship between your standard AWS account and your Lightsail container service. This allows you to give your service permission to access resources in your standard AWS account.
+        public let principalArn: String?
+        /// The private domain name of the container service. The private domain name is accessible only by other resources within the default virtual private cloud (VPC) of your Lightsail account.
+        public let privateDomainName: String?
+        /// The public domain name of the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service.  You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.  See CreateContainerService or UpdateContainerService for information about how to specify public domain names for your Lightsail container service.
+        public let publicDomainNames: [String: [String]]?
+        /// The Lightsail resource type of the container service (i.e., ContainerService).
+        public let resourceType: ResourceType?
+        /// The scale specification of the container service. The scale specifies the allocated compute nodes of the container service.
+        public let scale: Int?
+        /// The current state of the container service. The state can be:    Pending - The container service is being created.    Ready - The container service is created but does not have a container deployment.    Disabled - The container service is disabled.    Updating - The container service capacity or other setting is being updated.    Deploying - The container service is launching a container deployment.    Running - The container service is created and it has a container deployment.
+        public let state: ContainerServiceState?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+        /// The publicly accessible URL of the container service. If no public endpoint is specified in the currentDeployment, this URL returns a 404 response.
+        public let url: String?
+
+        public init(arn: String? = nil, containerServiceName: String? = nil, createdAt: Date? = nil, currentDeployment: ContainerServiceDeployment? = nil, isDisabled: Bool? = nil, location: ResourceLocation? = nil, nextDeployment: ContainerServiceDeployment? = nil, power: ContainerServicePowerName? = nil, powerId: String? = nil, principalArn: String? = nil, privateDomainName: String? = nil, publicDomainNames: [String: [String]]? = nil, resourceType: ResourceType? = nil, scale: Int? = nil, state: ContainerServiceState? = nil, tags: [Tag]? = nil, url: String? = nil) {
+            self.arn = arn
+            self.containerServiceName = containerServiceName
+            self.createdAt = createdAt
+            self.currentDeployment = currentDeployment
+            self.isDisabled = isDisabled
+            self.location = location
+            self.nextDeployment = nextDeployment
+            self.power = power
+            self.powerId = powerId
+            self.principalArn = principalArn
+            self.privateDomainName = privateDomainName
+            self.publicDomainNames = publicDomainNames
+            self.resourceType = resourceType
+            self.scale = scale
+            self.state = state
+            self.tags = tags
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case containerServiceName
+            case createdAt
+            case currentDeployment
+            case isDisabled
+            case location
+            case nextDeployment
+            case power
+            case powerId
+            case principalArn
+            case privateDomainName
+            case publicDomainNames
+            case resourceType
+            case scale
+            case state
+            case tags
+            case url
+        }
+    }
+
+    public struct ContainerServiceDeployment: AWSDecodableShape {
+        /// An object that describes the configuration for the containers of the deployment.
+        public let containers: [String: Container]?
+        /// The timestamp when the deployment was created.
+        public let createdAt: Date?
+        /// An object that describes the endpoint of the deployment.
+        public let publicEndpoint: ContainerServiceEndpoint?
+        /// The state of the deployment. A deployment can be in one of the following states:    Activating - The deployment is being created.    Active - The deployment was successfully created, and it's currently running on the container service. The container service can have only one deployment in an active state at a time.    Inactive - The deployment was previously successfully created, but it is not currently running on the container service.    Failed - The deployment failed. Use the GetContainerLog action to view the log events for the containers in the deployment to try to determine the reason for the failure.
+        public let state: ContainerServiceDeploymentState?
+        /// The version number of the deployment.
+        public let version: Int?
+
+        public init(containers: [String: Container]? = nil, createdAt: Date? = nil, publicEndpoint: ContainerServiceEndpoint? = nil, state: ContainerServiceDeploymentState? = nil, version: Int? = nil) {
+            self.containers = containers
+            self.createdAt = createdAt
+            self.publicEndpoint = publicEndpoint
+            self.state = state
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containers
+            case createdAt
+            case publicEndpoint
+            case state
+            case version
+        }
+    }
+
+    public struct ContainerServiceDeploymentRequest: AWSEncodableShape {
+        /// An object that describes the configuration for the containers of the deployment.
+        public let containers: [String: Container]?
+        /// An object that describes the endpoint of the deployment.
+        public let publicEndpoint: EndpointRequest?
+
+        public init(containers: [String: Container]? = nil, publicEndpoint: EndpointRequest? = nil) {
+            self.containers = containers
+            self.publicEndpoint = publicEndpoint
+        }
+
+        public func validate(name: String) throws {
+            try self.containers?.forEach {
+                try validate($0.key, name: "containers.key", parent: name, max: 53)
+                try validate($0.key, name: "containers.key", parent: name, min: 1)
+                try validate($0.key, name: "containers.key", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containers
+            case publicEndpoint
+        }
+    }
+
+    public struct ContainerServiceEndpoint: AWSDecodableShape {
+        /// The name of the container entry of the deployment that the endpoint configuration applies to.
+        public let containerName: String?
+        /// The port of the specified container to which traffic is forwarded to.
+        public let containerPort: Int?
+        /// An object that describes the health check configuration of the container.
+        public let healthCheck: ContainerServiceHealthCheckConfig?
+
+        public init(containerName: String? = nil, containerPort: Int? = nil, healthCheck: ContainerServiceHealthCheckConfig? = nil) {
+            self.containerName = containerName
+            self.containerPort = containerPort
+            self.healthCheck = healthCheck
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName
+            case containerPort
+            case healthCheck
+        }
+    }
+
+    public struct ContainerServiceHealthCheckConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The number of consecutive health checks successes required before moving the container to the Healthy state.
+        public let healthyThreshold: Int?
+        /// The approximate interval, in seconds, between health checks of an individual container. You may specify between 5 and 300 seconds.
+        public let intervalSeconds: Int?
+        /// The path on the container on which to perform the health check.
+        public let path: String?
+        /// The HTTP codes to use when checking for a successful response from a container. You can specify values between 200 and 499.
+        public let successCodes: String?
+        /// The amount of time, in seconds, during which no response means a failed health check. You may specify between 2 and 60 seconds.
+        public let timeoutSeconds: Int?
+        /// The number of consecutive health check failures required before moving the container to the Unhealthy state.
+        public let unhealthyThreshold: Int?
+
+        public init(healthyThreshold: Int? = nil, intervalSeconds: Int? = nil, path: String? = nil, successCodes: String? = nil, timeoutSeconds: Int? = nil, unhealthyThreshold: Int? = nil) {
+            self.healthyThreshold = healthyThreshold
+            self.intervalSeconds = intervalSeconds
+            self.path = path
+            self.successCodes = successCodes
+            self.timeoutSeconds = timeoutSeconds
+            self.unhealthyThreshold = unhealthyThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthyThreshold
+            case intervalSeconds
+            case path
+            case successCodes
+            case timeoutSeconds
+            case unhealthyThreshold
+        }
+    }
+
+    public struct ContainerServiceLogEvent: AWSDecodableShape {
+        /// The timestamp when the container service log event was created.
+        public let createdAt: Date?
+        /// The message of the container service log event.
+        public let message: String?
+
+        public init(createdAt: Date? = nil, message: String? = nil) {
+            self.createdAt = createdAt
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt
+            case message
+        }
+    }
+
+    public struct ContainerServicePower: AWSDecodableShape {
+        /// The number of vCPUs included in the power.
+        public let cpuCount: Float?
+        /// A Boolean value indicating whether the power is active and can be specified for container services.
+        public let isActive: Bool?
+        /// The friendly name of the power (e.g., nano).
+        public let name: String?
+        /// The ID of the power (e.g., nano-1).
+        public let powerId: String?
+        /// The monthly price of the power in USD.
+        public let price: Float?
+        /// The amount of RAM (in GB) of the power.
+        public let ramSizeInGb: Float?
+
+        public init(cpuCount: Float? = nil, isActive: Bool? = nil, name: String? = nil, powerId: String? = nil, price: Float? = nil, ramSizeInGb: Float? = nil) {
+            self.cpuCount = cpuCount
+            self.isActive = isActive
+            self.name = name
+            self.powerId = powerId
+            self.price = price
+            self.ramSizeInGb = ramSizeInGb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpuCount
+            case isActive
+            case name
+            case powerId
+            case price
+            case ramSizeInGb
+        }
+    }
+
+    public struct ContainerServiceRegistryLogin: AWSDecodableShape {
+        /// The timestamp of when the container image registry username and password expire. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials using the CreateContainerServiceRegistryLogin action.
+        public let expiresAt: Date?
+        /// The container service registry password to use to push container images to the container image registry of a Lightsail account
+        public let password: String?
+        /// The address to use to push container images to the container image registry of a Lightsail account.
+        public let registry: String?
+        /// The container service registry username to use to push container images to the container image registry of a Lightsail account.
+        public let username: String?
+
+        public init(expiresAt: Date? = nil, password: String? = nil, registry: String? = nil, username: String? = nil) {
+            self.expiresAt = expiresAt
+            self.password = password
+            self.registry = registry
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiresAt
+            case password
+            case registry
+            case username
+        }
+    }
+
+    public struct ContainerServicesListResult: AWSDecodableShape {
+        /// An array of objects that describe one or more container services.
+        public let containerServices: [ContainerService]?
+
+        public init(containerServices: [ContainerService]? = nil) {
+            self.containerServices = containerServices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerServices
+        }
+    }
+
     public struct CookieObject: AWSEncodableShape & AWSDecodableShape {
         /// The specific cookies to forward to your distribution's origin.
         public let cookiesAllowList: [String]?
@@ -1616,6 +1985,123 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations
+        }
+    }
+
+    public struct CreateContainerServiceDeploymentRequest: AWSEncodableShape {
+        /// An object that describes the settings of the containers that will be launched on the container service.
+        public let containers: [String: Container]?
+        /// An object that describes the settings of the public endpoint for the container service.
+        public let publicEndpoint: EndpointRequest?
+        /// The name of the container service for which to create the deployment.
+        public let serviceName: String
+
+        public init(containers: [String: Container]? = nil, publicEndpoint: EndpointRequest? = nil, serviceName: String) {
+            self.containers = containers
+            self.publicEndpoint = publicEndpoint
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.containers?.forEach {
+                try validate($0.key, name: "containers.key", parent: name, max: 53)
+                try validate($0.key, name: "containers.key", parent: name, min: 1)
+                try validate($0.key, name: "containers.key", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+            }
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containers
+            case publicEndpoint
+            case serviceName
+        }
+    }
+
+    public struct CreateContainerServiceDeploymentResult: AWSDecodableShape {
+        /// An object that describes a container service.
+        public let containerService: ContainerService?
+
+        public init(containerService: ContainerService? = nil) {
+            self.containerService = containerService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerService
+        }
+    }
+
+    public struct CreateContainerServiceRegistryLoginRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct CreateContainerServiceRegistryLoginResult: AWSDecodableShape {
+        /// An object that describes the log in information for the container service registry of your Lightsail account.
+        public let registryLogin: ContainerServiceRegistryLogin?
+
+        public init(registryLogin: ContainerServiceRegistryLogin? = nil) {
+            self.registryLogin = registryLogin
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryLogin
+        }
+    }
+
+    public struct CreateContainerServiceRequest: AWSEncodableShape {
+        /// An object that describes a deployment for the container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration.
+        public let deployment: ContainerServiceDeploymentRequest?
+        /// The power specification for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to get a list of power options that you can specify using this parameter, and their base monthly cost.
+        public let power: ContainerServicePowerName
+        /// The public domain names to use with the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service.  You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.  You can specify public domain names using a string to array map as shown in the example later on this page.
+        public let publicDomainNames: [String: [String]]?
+        /// The scale specification for the container service. The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
+        public let scale: Int
+        /// The name for the container service. The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically https://&lt;ServiceName&gt;.&lt;RandomGUID&gt;.&lt;AWSRegion&gt;.cs.amazonlightsail.com. If the name of your container service is container-service-1, and it's located in the US East (Ohio) AWS region (us-east-2), then the domain for your container service will be like the following example: https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com  The following are the requirements for container service names:   Must be unique within each AWS Region in your Lightsail account.   Must contain 1 to 63 characters.   Must contain only alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the start or end of the name.
+        public let serviceName: String
+        /// The tag keys and optional values for the container service. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        public let tags: [Tag]?
+
+        public init(deployment: ContainerServiceDeploymentRequest? = nil, power: ContainerServicePowerName, publicDomainNames: [String: [String]]? = nil, scale: Int, serviceName: String, tags: [Tag]? = nil) {
+            self.deployment = deployment
+            self.power = power
+            self.publicDomainNames = publicDomainNames
+            self.scale = scale
+            self.serviceName = serviceName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.deployment?.validate(name: "\(name).deployment")
+            try self.validate(self.scale, name: "scale", parent: name, max: 20)
+            try self.validate(self.scale, name: "scale", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployment
+            case power
+            case publicDomainNames
+            case scale
+            case serviceName
+            case tags
+        }
+    }
+
+    public struct CreateContainerServiceResult: AWSDecodableShape {
+        /// An object that describes a container service.
+        public let containerService: ContainerService?
+
+        public init(containerService: ContainerService? = nil) {
+            self.containerService = containerService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerService
         }
     }
 
@@ -2528,6 +3014,56 @@ extension Lightsail {
         }
     }
 
+    public struct DeleteContainerImageRequest: AWSEncodableShape {
+        /// The name of the container image to delete from the container service. Use the GetContainerImages action to get the name of the container images that are registered to a container service.  Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, :container-service-1.mystaticwebsite.1. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
+        public let image: String
+        /// The name of the container service for which to delete a registered container image.
+        public let serviceName: String
+
+        public init(image: String, serviceName: String) {
+            self.image = image
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image
+            case serviceName
+        }
+    }
+
+    public struct DeleteContainerImageResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteContainerServiceRequest: AWSEncodableShape {
+        /// The name of the container service to delete.
+        public let serviceName: String
+
+        public init(serviceName: String) {
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName
+        }
+    }
+
+    public struct DeleteContainerServiceResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteDiskRequest: AWSEncodableShape {
         /// The unique name of the disk you want to delete (e.g., my-disk).
         public let diskName: String
@@ -3393,7 +3929,7 @@ extension Lightsail {
     public struct DomainEntry: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the domain recordset entry.
         public let id: String?
-        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer
+        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer.
         public let isAlias: Bool?
         /// The name of the domain.
         public let name: String?
@@ -3493,6 +4029,27 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations
+        }
+    }
+
+    public struct EndpointRequest: AWSEncodableShape {
+        /// The name of the container for the endpoint.
+        public let containerName: String
+        /// The port of the container to which traffic is forwarded to.
+        public let containerPort: Int
+        /// An object that describes the health check configuration of the container.
+        public let healthCheck: ContainerServiceHealthCheckConfig?
+
+        public init(containerName: String, containerPort: Int, healthCheck: ContainerServiceHealthCheckConfig? = nil) {
+            self.containerName = containerName
+            self.containerPort = containerPort
+            self.healthCheck = healthCheck
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName
+            case containerPort
+            case healthCheck
         }
     }
 
@@ -3624,7 +4181,7 @@ extension Lightsail {
     public struct GetActiveNamesResult: AWSDecodableShape {
         /// The list of active names returned by the get active names request.
         public let activeNames: [String]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetActiveNames request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetActiveNames request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(activeNames: [String]? = nil, nextPageToken: String? = nil) {
@@ -3667,7 +4224,7 @@ extension Lightsail {
     public struct GetAlarmsResult: AWSDecodableShape {
         /// An array of objects that describe the alarms.
         public let alarms: [Alarm]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetAlarms request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetAlarms request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(alarms: [Alarm]? = nil, nextPageToken: String? = nil) {
@@ -3739,7 +4296,7 @@ extension Lightsail {
     public struct GetBlueprintsResult: AWSDecodableShape {
         /// An array of key-value pairs that contains information about the available blueprints.
         public let blueprints: [Blueprint]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBlueprints request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBlueprints request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(blueprints: [Blueprint]? = nil, nextPageToken: String? = nil) {
@@ -3773,7 +4330,7 @@ extension Lightsail {
     public struct GetBundlesResult: AWSDecodableShape {
         /// An array of key-value pairs that contains information about the available bundles.
         public let bundles: [Bundle]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBundles request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBundles request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(bundles: [Bundle]? = nil, nextPageToken: String? = nil) {
@@ -3788,9 +4345,9 @@ extension Lightsail {
     }
 
     public struct GetCertificatesRequest: AWSEncodableShape {
-        /// The name for the certificate for which to return information. When omitted, the response includes all of your certificates in the AWS region where the request is made.
+        /// The name for the certificate for which to return information. When omitted, the response includes all of your certificates in the AWS Region where the request is made.
         public let certificateName: String?
-        /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the AWS region where the request is made, regardless of their current status.
+        /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the AWS Region where the request is made, regardless of their current status.
         public let certificateStatuses: [CertificateStatus]?
         /// Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
         public let includeCertificateDetails: Bool?
@@ -3837,7 +4394,7 @@ extension Lightsail {
     public struct GetCloudFormationStackRecordsResult: AWSDecodableShape {
         /// A list of objects describing the CloudFormation stack records.
         public let cloudFormationStackRecords: [CloudFormationStackRecord]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetCloudFormationStackRecords request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetCloudFormationStackRecords request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(cloudFormationStackRecords: [CloudFormationStackRecord]? = nil, nextPageToken: String? = nil) {
@@ -3874,6 +4431,237 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case contactMethods
+        }
+    }
+
+    public struct GetContainerAPIMetadataRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetContainerAPIMetadataResult: AWSDecodableShape {
+        /// Metadata about Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin.
+        public let metadata: [[String: String]]?
+
+        public init(metadata: [[String: String]]? = nil) {
+            self.metadata = metadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata
+        }
+    }
+
+    public struct GetContainerImagesRequest: AWSEncodableShape {
+        /// The name of the container service for which to return registered container images.
+        public let serviceName: String
+
+        public init(serviceName: String) {
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName
+        }
+    }
+
+    public struct GetContainerImagesResult: AWSDecodableShape {
+        /// An array of objects that describe container images that are registered to the container service.
+        public let containerImages: [ContainerImage]?
+
+        public init(containerImages: [ContainerImage]? = nil) {
+            self.containerImages = containerImages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerImages
+        }
+    }
+
+    public struct GetContainerLogRequest: AWSEncodableShape {
+        /// The name of the container that is either running or previously ran on the container service for which to return a log.
+        public let containerName: String
+        /// The end of the time interval for which to get log data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        public let endTime: Date?
+        /// The pattern to use to filter the returned log events to a specific term. The following are a few examples of filter patterns that you can specify:   To return all log events, specify a filter pattern of "".   To exclude log events that contain the ERROR term, and return all other log events, specify a filter pattern of "-ERROR".   To return log events that contain the ERROR term, specify a filter pattern of "ERROR".   To return log events that contain both the ERROR and Exception terms, specify a filter pattern of "ERROR Exception".   To return log events that contain the ERROR or the Exception term, specify a filter pattern of "?ERROR ?Exception".
+        public let filterPattern: String?
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetContainerLog request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        public let pageToken: String?
+        /// The name of the container service for which to get a container log.
+        public let serviceName: String
+        /// The start of the time interval for which to get log data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        public let startTime: Date?
+
+        public init(containerName: String, endTime: Date? = nil, filterPattern: String? = nil, pageToken: String? = nil, serviceName: String, startTime: Date? = nil) {
+            self.containerName = containerName
+            self.endTime = endTime
+            self.filterPattern = filterPattern
+            self.pageToken = pageToken
+            self.serviceName = serviceName
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName
+            case endTime
+            case filterPattern
+            case pageToken
+            case serviceName
+            case startTime
+        }
+    }
+
+    public struct GetContainerLogResult: AWSDecodableShape {
+        /// An array of objects that describe the log events of a container.
+        public let logEvents: [ContainerServiceLogEvent]?
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetContainerLog request and specify the next page token using the pageToken parameter.
+        public let nextPageToken: String?
+
+        public init(logEvents: [ContainerServiceLogEvent]? = nil, nextPageToken: String? = nil) {
+            self.logEvents = logEvents
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logEvents
+            case nextPageToken
+        }
+    }
+
+    public struct GetContainerServiceDeploymentsRequest: AWSEncodableShape {
+        /// The name of the container service for which to return deployments.
+        public let serviceName: String
+
+        public init(serviceName: String) {
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName
+        }
+    }
+
+    public struct GetContainerServiceDeploymentsResult: AWSDecodableShape {
+        /// An array of objects that describe deployments for a container service.
+        public let deployments: [ContainerServiceDeployment]?
+
+        public init(deployments: [ContainerServiceDeployment]? = nil) {
+            self.deployments = deployments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployments
+        }
+    }
+
+    public struct GetContainerServiceMetricDataRequest: AWSEncodableShape {
+        /// The end time of the time period.
+        public let endTime: Date
+        /// The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.    CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.    MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container service. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.
+        public let metricName: ContainerServiceMetricName
+        /// The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 seconds) granularity.
+        public let period: Int
+        /// The name of the container service for which to get metric data.
+        public let serviceName: String
+        /// The start time of the time period.
+        public let startTime: Date
+        /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
+        public let statistics: [MetricStatistic]
+
+        public init(endTime: Date, metricName: ContainerServiceMetricName, period: Int, serviceName: String, startTime: Date, statistics: [MetricStatistic]) {
+            self.endTime = endTime
+            self.metricName = metricName
+            self.period = period
+            self.serviceName = serviceName
+            self.startTime = startTime
+            self.statistics = statistics
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.period, name: "period", parent: name, max: 86400)
+            try self.validate(self.period, name: "period", parent: name, min: 60)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime
+            case metricName
+            case period
+            case serviceName
+            case startTime
+            case statistics
+        }
+    }
+
+    public struct GetContainerServiceMetricDataResult: AWSDecodableShape {
+        /// An array of objects that describe the metric data returned.
+        public let metricData: [MetricDatapoint]?
+        /// The name of the metric returned.
+        public let metricName: ContainerServiceMetricName?
+
+        public init(metricData: [MetricDatapoint]? = nil, metricName: ContainerServiceMetricName? = nil) {
+            self.metricData = metricData
+            self.metricName = metricName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricData
+            case metricName
+        }
+    }
+
+    public struct GetContainerServicePowersRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetContainerServicePowersResult: AWSDecodableShape {
+        /// An array of objects that describe the powers that can be specified for a container service.
+        public let powers: [ContainerServicePower]?
+
+        public init(powers: [ContainerServicePower]? = nil) {
+            self.powers = powers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case powers
+        }
+    }
+
+    public struct GetContainerServicesRequest: AWSEncodableShape {
+        /// The name of the container service for which to return information. When omitted, the response includes all of your container services in the AWS Region where the request is made.
+        public let serviceName: String?
+
+        public init(serviceName: String? = nil) {
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName
         }
     }
 
@@ -3953,7 +4741,7 @@ extension Lightsail {
     public struct GetDiskSnapshotsResult: AWSDecodableShape {
         /// An array of objects containing information about all block storage disk snapshots.
         public let diskSnapshots: [DiskSnapshot]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDiskSnapshots request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDiskSnapshots request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(diskSnapshots: [DiskSnapshot]? = nil, nextPageToken: String? = nil) {
@@ -3983,7 +4771,7 @@ extension Lightsail {
     public struct GetDisksResult: AWSDecodableShape {
         /// An array of objects containing information about all block storage disks.
         public let disks: [Disk]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDisks request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDisks request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(disks: [Disk]? = nil, nextPageToken: String? = nil) {
@@ -4188,7 +4976,7 @@ extension Lightsail {
     public struct GetDomainsResult: AWSDecodableShape {
         /// An array of key-value pairs containing information about each of the domain entries in the user's account.
         public let domains: [Domain]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDomains request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDomains request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(domains: [Domain]? = nil, nextPageToken: String? = nil) {
@@ -4218,7 +5006,7 @@ extension Lightsail {
     public struct GetExportSnapshotRecordsResult: AWSDecodableShape {
         /// A list of objects describing the export snapshot records.
         public let exportSnapshotRecords: [ExportSnapshotRecord]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetExportSnapshotRecords request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetExportSnapshotRecords request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(exportSnapshotRecords: [ExportSnapshotRecord]? = nil, nextPageToken: String? = nil) {
@@ -4432,7 +5220,7 @@ extension Lightsail {
     public struct GetInstanceSnapshotsResult: AWSDecodableShape {
         /// An array of key-value pairs containing information about the results of your get instance snapshots request.
         public let instanceSnapshots: [InstanceSnapshot]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstanceSnapshots request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstanceSnapshots request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(instanceSnapshots: [InstanceSnapshot]? = nil, nextPageToken: String? = nil) {
@@ -4492,7 +5280,7 @@ extension Lightsail {
     public struct GetInstancesResult: AWSDecodableShape {
         /// An array of key-value pairs containing information about your instances.
         public let instances: [Instance]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstances request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstances request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(instances: [Instance]? = nil, nextPageToken: String? = nil) {
@@ -4552,7 +5340,7 @@ extension Lightsail {
     public struct GetKeyPairsResult: AWSDecodableShape {
         /// An array of key-value pairs containing information about the key pairs.
         public let keyPairs: [KeyPair]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetKeyPairs request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetKeyPairs request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(keyPairs: [KeyPair]? = nil, nextPageToken: String? = nil) {
@@ -4702,7 +5490,7 @@ extension Lightsail {
     public struct GetLoadBalancersResult: AWSDecodableShape {
         /// An array of LoadBalancer objects describing your load balancers.
         public let loadBalancers: [LoadBalancer]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetLoadBalancers request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetLoadBalancers request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(loadBalancers: [LoadBalancer]? = nil, nextPageToken: String? = nil) {
@@ -4768,7 +5556,7 @@ extension Lightsail {
     }
 
     public struct GetOperationsForResourceResult: AWSDecodableShape {
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperationsForResource request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperationsForResource request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -4798,7 +5586,7 @@ extension Lightsail {
     }
 
     public struct GetOperationsResult: AWSDecodableShape {
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperations request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperations request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -4817,7 +5605,7 @@ extension Lightsail {
     public struct GetRegionsRequest: AWSEncodableShape {
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-2a.
         public let includeAvailabilityZones: Bool?
-        /// &gt;A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (e.g., us-east-2a).
+        /// A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (e.g., us-east-2a).
         public let includeRelationalDatabaseAvailabilityZones: Bool?
 
         public init(includeAvailabilityZones: Bool? = nil, includeRelationalDatabaseAvailabilityZones: Bool? = nil) {
@@ -4860,7 +5648,7 @@ extension Lightsail {
     public struct GetRelationalDatabaseBlueprintsResult: AWSDecodableShape {
         /// An object describing the result of your get relational database blueprints request.
         public let blueprints: [RelationalDatabaseBlueprint]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBlueprints request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBlueprints request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(blueprints: [RelationalDatabaseBlueprint]? = nil, nextPageToken: String? = nil) {
@@ -4890,7 +5678,7 @@ extension Lightsail {
     public struct GetRelationalDatabaseBundlesResult: AWSDecodableShape {
         /// An object describing the result of your get relational database bundles request.
         public let bundles: [RelationalDatabaseBundle]?
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBundles request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBundles request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(bundles: [RelationalDatabaseBundle]? = nil, nextPageToken: String? = nil) {
@@ -4930,7 +5718,7 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseEventsResult: AWSDecodableShape {
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseEvents request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseEvents request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational database events request.
         public let relationalDatabaseEvents: [RelationalDatabaseEvent]?
@@ -5154,7 +5942,7 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseParametersResult: AWSDecodableShape {
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseParameters request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseParameters request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational database parameters request.
         public let parameters: [RelationalDatabaseParameter]?
@@ -5244,7 +6032,7 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseSnapshotsResult: AWSDecodableShape {
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseSnapshots request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseSnapshots request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational database snapshots request.
         public let relationalDatabaseSnapshots: [RelationalDatabaseSnapshot]?
@@ -5274,7 +6062,7 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabasesResult: AWSDecodableShape {
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabases request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabases request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational databases request.
         public let relationalDatabases: [RelationalDatabase]?
@@ -5334,7 +6122,7 @@ extension Lightsail {
     }
 
     public struct GetStaticIpsResult: AWSDecodableShape {
-        /// The token to advance to the next page of resutls from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetStaticIps request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetStaticIps request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An array of key-value pairs containing information about your get static IPs request.
         public let staticIps: [StaticIp]?
@@ -6823,6 +7611,48 @@ extension Lightsail {
         }
     }
 
+    public struct RegisterContainerImageRequest: AWSEncodableShape {
+        /// The digest of the container image to be registered.
+        public let digest: String
+        /// The label for the container image when it's registered to the container service. Use a descriptive label that you can use to track the different versions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the &lt;imagelabel&gt; portion of the following image name example:    :container-service-1.&lt;imagelabel&gt;.1    If the name of your container service is mycontainerservice, and the label that you specify is mystaticwebsite, then the name of the registered container image will be :mycontainerservice.mystaticwebsite.1. The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2. If you push and register another container image, the version number will be 3, and so on.
+        public let label: String
+        /// The name of the container service for which to register a container image.
+        public let serviceName: String
+
+        public init(digest: String, label: String, serviceName: String) {
+            self.digest = digest
+            self.label = label
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.label, name: "label", parent: name, max: 53)
+            try self.validate(self.label, name: "label", parent: name, min: 1)
+            try self.validate(self.label, name: "label", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case digest
+            case label
+            case serviceName
+        }
+    }
+
+    public struct RegisterContainerImageResult: AWSDecodableShape {
+        public let containerImage: ContainerImage?
+
+        public init(containerImage: ContainerImage? = nil) {
+            self.containerImage = containerImage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerImage
+        }
+    }
+
     public struct RelationalDatabase: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the database.
         public let arn: String?
@@ -7661,6 +8491,56 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations
+        }
+    }
+
+    public struct UpdateContainerServiceRequest: AWSEncodableShape {
+        /// A Boolean value to indicate whether the container service is disabled.
+        public let isDisabled: Bool?
+        /// The power for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to view the specifications of each power option.
+        public let power: ContainerServicePowerName?
+        /// The public domain names to use with the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service.  You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.  You can specify public domain names using a string to array map as shown in the example later on this page.
+        public let publicDomainNames: [String: [String]]?
+        /// The scale for the container service. The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
+        public let scale: Int?
+        /// The name of the container service to update.
+        public let serviceName: String
+
+        public init(isDisabled: Bool? = nil, power: ContainerServicePowerName? = nil, publicDomainNames: [String: [String]]? = nil, scale: Int? = nil, serviceName: String) {
+            self.isDisabled = isDisabled
+            self.power = power
+            self.publicDomainNames = publicDomainNames
+            self.scale = scale
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scale, name: "scale", parent: name, max: 20)
+            try self.validate(self.scale, name: "scale", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isDisabled
+            case power
+            case publicDomainNames
+            case scale
+            case serviceName
+        }
+    }
+
+    public struct UpdateContainerServiceResult: AWSDecodableShape {
+        /// An object that describes a container service.
+        public let containerService: ContainerService?
+
+        public init(containerService: ContainerService? = nil) {
+            self.containerService = containerService
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerService
         }
     }
 

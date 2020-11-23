@@ -121,6 +121,57 @@ extension DynamoDB {
         )
     }
 
+    ///  Lists completed exports within the past 90 days.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExportsPaginator<Result>(
+        _ input: ListExportsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListExportsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listExports,
+            tokenKey: \ListExportsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExportsPaginator(
+        _ input: ListExportsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListExportsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listExports,
+            tokenKey: \ListExportsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -290,6 +341,16 @@ extension DynamoDB.ListContributorInsightsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             tableName: self.tableName
+        )
+    }
+}
+
+extension DynamoDB.ListExportsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DynamoDB.ListExportsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            tableArn: self.tableArn
         )
     }
 }

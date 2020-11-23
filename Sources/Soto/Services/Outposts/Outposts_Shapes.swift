@@ -26,10 +26,10 @@ extension Outposts {
         public let availabilityZone: String?
         public let availabilityZoneId: String?
         public let description: String?
-        public let name: String?
+        public let name: String
         public let siteId: String
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, name: String? = nil, siteId: String) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, name: String, siteId: String) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.description = description

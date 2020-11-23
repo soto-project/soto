@@ -64,7 +64,8 @@
         {"shape":"ResourceQuotaExceededFault"},
         {"shape":"InvalidResourceStateFault"},
         {"shape":"ResourceNotFoundFault"},
-        {"shape":"AccessDeniedFault"}
+        {"shape":"AccessDeniedFault"},
+        {"shape":"S3AccessDeniedFault"}
       ]
     },
     "CreateEventSubscription":{
@@ -604,6 +605,20 @@
         {"shape":"KMSKeyNotAccessibleFault"}
       ]
     },
+    "MoveReplicationTask":{
+      "name":"MoveReplicationTask",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"MoveReplicationTaskMessage"},
+      "output":{"shape":"MoveReplicationTaskResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
     "RebootReplicationInstance":{
       "name":"RebootReplicationInstance",
       "http":{
@@ -919,7 +934,8 @@
         "SybaseSettings":{"shape":"SybaseSettings"},
         "MicrosoftSQLServerSettings":{"shape":"MicrosoftSQLServerSettings"},
         "IBMDb2Settings":{"shape":"IBMDb2Settings"},
-        "ResourceIdentifier":{"shape":"String"}
+        "ResourceIdentifier":{"shape":"String"},
+        "DocDbSettings":{"shape":"DocDbSettings"}
       }
     },
     "CreateEndpointResponse":{
@@ -1508,6 +1524,20 @@
         "BucketName":{"shape":"String"}
       }
     },
+    "DocDbSettings":{
+      "type":"structure",
+      "members":{
+        "Username":{"shape":"String"},
+        "Password":{"shape":"SecretString"},
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "DatabaseName":{"shape":"String"},
+        "NestingLevel":{"shape":"NestingLevelValue"},
+        "ExtractDocId":{"shape":"BooleanOptional"},
+        "DocsToInvestigate":{"shape":"IntegerOptional"},
+        "KmsKeyId":{"shape":"String"}
+      }
+    },
     "DynamoDbSettings":{
       "type":"structure",
       "required":["ServiceAccessRoleArn"],
@@ -1577,7 +1607,8 @@
         "OracleSettings":{"shape":"OracleSettings"},
         "SybaseSettings":{"shape":"SybaseSettings"},
         "MicrosoftSQLServerSettings":{"shape":"MicrosoftSQLServerSettings"},
-        "IBMDb2Settings":{"shape":"IBMDb2Settings"}
+        "IBMDb2Settings":{"shape":"IBMDb2Settings"},
+        "DocDbSettings":{"shape":"DocDbSettings"}
       }
     },
     "EndpointList":{
@@ -1880,7 +1911,8 @@
         "OracleSettings":{"shape":"OracleSettings"},
         "SybaseSettings":{"shape":"SybaseSettings"},
         "MicrosoftSQLServerSettings":{"shape":"MicrosoftSQLServerSettings"},
-        "IBMDb2Settings":{"shape":"IBMDb2Settings"}
+        "IBMDb2Settings":{"shape":"IBMDb2Settings"},
+        "DocDbSettings":{"shape":"DocDbSettings"}
       }
     },
     "ModifyEndpointResponse":{
@@ -1983,6 +2015,23 @@
         "DocsToInvestigate":{"shape":"String"},
         "AuthSource":{"shape":"String"},
         "KmsKeyId":{"shape":"String"}
+      }
+    },
+    "MoveReplicationTaskMessage":{
+      "type":"structure",
+      "required":[
+        "ReplicationTaskArn",
+        "TargetReplicationInstanceArn"
+      ],
+      "members":{
+        "ReplicationTaskArn":{"shape":"String"},
+        "TargetReplicationInstanceArn":{"shape":"String"}
+      }
+    },
+    "MoveReplicationTaskResponse":{
+      "type":"structure",
+      "members":{
+        "ReplicationTask":{"shape":"ReplicationTask"}
       }
     },
     "MySQLSettings":{
@@ -2362,7 +2411,8 @@
         "RecoveryCheckpoint":{"shape":"String"},
         "ReplicationTaskArn":{"shape":"String"},
         "ReplicationTaskStats":{"shape":"ReplicationTaskStats"},
-        "TaskData":{"shape":"String"}
+        "TaskData":{"shape":"String"},
+        "TargetReplicationInstanceArn":{"shape":"String"}
       }
     },
     "ReplicationTaskAssessmentResult":{

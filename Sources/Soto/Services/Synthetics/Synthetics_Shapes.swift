@@ -68,7 +68,7 @@ extension Synthetics {
         /// The name of the canary.
         public let name: String?
         public let runConfig: CanaryRunConfigOutput?
-        /// Specifies the runtime version to use for the canary. Currently, the only valid values are syn-nodejs-2.0, syn-nodejs-2.0-beta, and syn-1.0. For more information about runtime versions, see  Canary Runtime Versions.
+        /// Specifies the runtime version to use for the canary. For more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String?
         /// A structure that contains information about how often the canary is to run, and when these runs are to stop.
         public let schedule: CanaryScheduleOutput?
@@ -227,18 +227,24 @@ extension Synthetics {
     public struct CanaryRunConfigInput: AWSEncodableShape {
         /// Specifies whether this canary is to use active AWS X-Ray tracing when it runs. Active tracing enables this canary run to be displayed in the ServiceLens and X-Ray service maps even if the canary does not hit an endpoint that has X-ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see  Canaries and X-Ray tracing. You can enable active tracing only for canaries that use version syn-nodejs-2.0 or later for their canary runtime.
         public let activeTracing: Bool?
+        /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For more information about reserved keys, see  Runtime environment variables.
+        public let environmentVariables: [String: String]?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public let memoryInMB: Int?
         /// How long the canary is allowed to run before it must stop. You can't set this time to be longer than the frequency of the runs of this canary. If you omit this field, the frequency of the canary is used as this value, up to a maximum of 14 minutes.
         public let timeoutInSeconds: Int?
 
-        public init(activeTracing: Bool? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
+        public init(activeTracing: Bool? = nil, environmentVariables: [String: String]? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
             self.activeTracing = activeTracing
+            self.environmentVariables = environmentVariables
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
         }
 
         public func validate(name: String) throws {
+            try self.environmentVariables?.forEach {
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "[a-zA-Z]([a-zA-Z0-9_])+")
+            }
             try self.validate(self.memoryInMB, name: "memoryInMB", parent: name, max: 3008)
             try self.validate(self.memoryInMB, name: "memoryInMB", parent: name, min: 960)
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, max: 840)
@@ -247,6 +253,7 @@ extension Synthetics {
 
         private enum CodingKeys: String, CodingKey {
             case activeTracing = "ActiveTracing"
+            case environmentVariables = "EnvironmentVariables"
             case memoryInMB = "MemoryInMB"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
@@ -411,7 +418,7 @@ extension Synthetics {
         public let name: String
         /// A structure that contains the configuration for individual canary runs, such as timeout value.
         public let runConfig: CanaryRunConfigInput?
-        /// Specifies the runtime version to use for the canary. Currently, the only valid values are syn-nodejs-2.0, syn-nodejs-2.0-beta, and syn-1.0. For more information about runtime versions, see  Canary Runtime Versions.
+        /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String
         /// A structure that contains information about how often the canary is to run and when these test runs are to stop.
         public let schedule: CanaryScheduleInput
@@ -765,7 +772,7 @@ extension Synthetics {
         public let description: String?
         /// The date that the runtime version was released.
         public let releaseDate: Date?
-        /// The name of the runtime version. Currently, the only valid values are syn-nodejs-2.0, syn-nodejs-2.0-beta, and syn-1.0.
+        /// The name of the runtime version. For a list of valid runtime versions, see  Canary Runtime Versions.
         public let versionName: String?
 
         public init(deprecationDate: Date? = nil, description: String? = nil, releaseDate: Date? = nil, versionName: String? = nil) {
@@ -920,7 +927,7 @@ extension Synthetics {
         public let name: String
         /// A structure that contains the timeout value that is used for each individual run of the canary.
         public let runConfig: CanaryRunConfigInput?
-        /// Specifies the runtime version to use for the canary. Currently, the only valid values are syn-nodejs-2.0, syn-nodejs-2.0-beta, and syn-1.0. For more information about runtime versions, see  Canary Runtime Versions.
+        /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String?
         /// A structure that contains information about how often the canary is to run, and when these runs are to stop.
         public let schedule: CanaryScheduleInput?

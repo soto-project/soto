@@ -1799,7 +1799,7 @@ extension CostExplorer {
     public struct GetReservationPurchaseRecommendationRequest: AWSEncodableShape {
         /// The account ID that is associated with the recommendation.
         public let accountId: String?
-        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the master account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
         /// The number of previous days that you want AWS to consider when it calculates your recommendations.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
@@ -2076,7 +2076,7 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansPurchaseRecommendationRequest: AWSEncodableShape {
-        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the master account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
         /// You can filter your recommendations by Account ID with the LINKED_ACCOUNT dimension. To filter your recommendations by Account ID, specify Key as LINKED_ACCOUNT and Value as the comma-separated Acount ID(s) for which you want to see Savings Plans purchase recommendations. For GetSavingsPlansPurchaseRecommendation, the Filter does not include CostCategories or Tags. It only includes Dimensions. With Dimensions, Key must be LINKED_ACCOUNT and Value can be a single Account ID or multiple comma-separated Account IDs for which you want to see Savings Plans Purchase Recommendations. AND and OR operators are not supported.
         public let filter: Expression?
@@ -3160,7 +3160,7 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansPurchaseRecommendation: AWSDecodableShape {
-        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the master account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
         /// The lookback period in days, used to generate the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
@@ -3270,17 +3270,21 @@ extension CostExplorer {
     }
 
     public struct SavingsPlansPurchaseRecommendationMetadata: AWSDecodableShape {
+        /// Additional metadata that may be applicable to the recommendation.
+        public let additionalMetadata: String?
         /// The timestamp showing when the recommendations were generated.
         public let generationTimestamp: String?
         /// The unique identifier for the recommendation set.
         public let recommendationId: String?
 
-        public init(generationTimestamp: String? = nil, recommendationId: String? = nil) {
+        public init(additionalMetadata: String? = nil, generationTimestamp: String? = nil, recommendationId: String? = nil) {
+            self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
             self.recommendationId = recommendationId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalMetadata = "AdditionalMetadata"
             case generationTimestamp = "GenerationTimestamp"
             case recommendationId = "RecommendationId"
         }

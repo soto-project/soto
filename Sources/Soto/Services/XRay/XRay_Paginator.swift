@@ -121,6 +121,108 @@ extension XRay {
         )
     }
 
+    ///  X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray console.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getInsightEventsPaginator<Result>(
+        _ input: GetInsightEventsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetInsightEventsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getInsightEvents,
+            tokenKey: \GetInsightEventsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getInsightEventsPaginator(
+        _ input: GetInsightEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetInsightEventsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getInsightEvents,
+            tokenKey: \GetInsightEventsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Retrieves the summaries of all insights in the specified group matching the provided filter values.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getInsightSummariesPaginator<Result>(
+        _ input: GetInsightSummariesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetInsightSummariesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getInsightSummaries,
+            tokenKey: \GetInsightSummariesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getInsightSummariesPaginator(
+        _ input: GetInsightSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetInsightSummariesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getInsightSummaries,
+            tokenKey: \GetInsightSummariesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves all sampling rules.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -445,6 +547,30 @@ extension XRay.GetGroupsRequest: AWSPaginateToken {
     }
 }
 
+extension XRay.GetInsightEventsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> XRay.GetInsightEventsRequest {
+        return .init(
+            insightId: self.insightId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension XRay.GetInsightSummariesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> XRay.GetInsightSummariesRequest {
+        return .init(
+            endTime: self.endTime,
+            groupARN: self.groupARN,
+            groupName: self.groupName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime,
+            states: self.states
+        )
+    }
+}
+
 extension XRay.GetSamplingRulesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> XRay.GetSamplingRulesRequest {
         return .init(
@@ -478,6 +604,7 @@ extension XRay.GetTimeSeriesServiceStatisticsRequest: AWSPaginateToken {
         return .init(
             endTime: self.endTime,
             entitySelectorExpression: self.entitySelectorExpression,
+            forecastStatistics: self.forecastStatistics,
             groupARN: self.groupARN,
             groupName: self.groupName,
             nextToken: token,

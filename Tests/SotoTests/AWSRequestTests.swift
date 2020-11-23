@@ -178,9 +178,9 @@ class AWSRequestTests: XCTestCase {
 
     func testEC2CreateInstanceExportTask() {
         let ec2 = EC2(client: Self.client)
-        let expectedResult = "Action=CreateInstanceExportTask&ExportToS3.S3Bucket=testBucket&InstanceId=i-123123&Version=2016-11-15"
+        let expectedResult = "Action=CreateInstanceExportTask&ExportToS3.S3Bucket=testBucket&InstanceId=i-123123&TargetEnvironment=vmware&Version=2016-11-15"
         let exportToS3Task = EC2.ExportToS3TaskSpecification(s3Bucket: "testBucket")
-        let request = EC2.CreateInstanceExportTaskRequest(exportToS3Task: exportToS3Task, instanceId: "i-123123")
+        let request = EC2.CreateInstanceExportTaskRequest(exportToS3Task: exportToS3Task, instanceId: "i-123123", targetEnvironment: .vmware)
 
         self.testAWSShapeRequest(
             config: ec2.config,

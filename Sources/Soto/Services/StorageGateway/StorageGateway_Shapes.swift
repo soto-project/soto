@@ -477,6 +477,62 @@ extension StorageGateway {
         }
     }
 
+    public struct BandwidthRateLimitInterval: AWSEncodableShape & AWSDecodableShape {
+        ///  The average download rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the download rate limit is not set.
+        public let averageDownloadRateLimitInBitsPerSec: Int64?
+        ///  The average upload rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the upload rate limit is not set.
+        public let averageUploadRateLimitInBitsPerSec: Int64?
+        ///  The days of the week component of the bandwidth rate limit interval, represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 Saturday.
+        public let daysOfWeek: [Int]
+        ///  The hour of the day to end the bandwidth rate limit interval.
+        public let endHourOfDay: Int
+        ///  The minute of the hour to end the bandwidth rate limit interval.    The bandwidth rate limit interval ends at the end of the minute. To end an interval at the end of an hour, use the value 59.
+        public let endMinuteOfHour: Int
+        ///  The hour of the day to start the bandwidth rate limit interval.
+        public let startHourOfDay: Int
+        ///  The minute of the hour to start the bandwidth rate limit interval. The interval begins at the start of that minute. To begin an interval exactly at the start of the hour, use the value 0.
+        public let startMinuteOfHour: Int
+
+        public init(averageDownloadRateLimitInBitsPerSec: Int64? = nil, averageUploadRateLimitInBitsPerSec: Int64? = nil, daysOfWeek: [Int], endHourOfDay: Int, endMinuteOfHour: Int, startHourOfDay: Int, startMinuteOfHour: Int) {
+            self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
+            self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
+            self.daysOfWeek = daysOfWeek
+            self.endHourOfDay = endHourOfDay
+            self.endMinuteOfHour = endMinuteOfHour
+            self.startHourOfDay = startHourOfDay
+            self.startMinuteOfHour = startMinuteOfHour
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.averageDownloadRateLimitInBitsPerSec, name: "averageDownloadRateLimitInBitsPerSec", parent: name, min: 102_400)
+            try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
+            try self.daysOfWeek.forEach {
+                try validate($0, name: "daysOfWeek[]", parent: name, max: 6)
+                try validate($0, name: "daysOfWeek[]", parent: name, min: 0)
+            }
+            try self.validate(self.daysOfWeek, name: "daysOfWeek", parent: name, max: 7)
+            try self.validate(self.daysOfWeek, name: "daysOfWeek", parent: name, min: 1)
+            try self.validate(self.endHourOfDay, name: "endHourOfDay", parent: name, max: 23)
+            try self.validate(self.endHourOfDay, name: "endHourOfDay", parent: name, min: 0)
+            try self.validate(self.endMinuteOfHour, name: "endMinuteOfHour", parent: name, max: 59)
+            try self.validate(self.endMinuteOfHour, name: "endMinuteOfHour", parent: name, min: 0)
+            try self.validate(self.startHourOfDay, name: "startHourOfDay", parent: name, max: 23)
+            try self.validate(self.startHourOfDay, name: "startHourOfDay", parent: name, min: 0)
+            try self.validate(self.startMinuteOfHour, name: "startMinuteOfHour", parent: name, max: 59)
+            try self.validate(self.startMinuteOfHour, name: "startMinuteOfHour", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case averageDownloadRateLimitInBitsPerSec = "AverageDownloadRateLimitInBitsPerSec"
+            case averageUploadRateLimitInBitsPerSec = "AverageUploadRateLimitInBitsPerSec"
+            case daysOfWeek = "DaysOfWeek"
+            case endHourOfDay = "EndHourOfDay"
+            case endMinuteOfHour = "EndMinuteOfHour"
+            case startHourOfDay = "StartHourOfDay"
+            case startMinuteOfHour = "StartMinuteOfHour"
+        }
+    }
+
     public struct CacheAttributes: AWSEncodableShape & AWSDecodableShape {
         /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket. The TTL duration is in seconds. Valid Values: 300 to 2,592,000 seconds (5 minutes to 30 days)
         public let cacheStaleTimeoutInSeconds: Int?
@@ -757,6 +813,8 @@ extension StorageGateway {
         public let locationARN: String
         /// File share default values. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
+        /// The notification policy of the file share.
+        public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
         /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false. Valid Values: true | false
@@ -770,7 +828,7 @@ extension StorageGateway {
         /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
 
-        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil) {
+        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil) {
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.clientToken = clientToken
@@ -782,6 +840,7 @@ extension StorageGateway {
             self.kMSKey = kMSKey
             self.locationARN = locationARN
             self.nFSFileShareDefaults = nFSFileShareDefaults
+            self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.readOnly = readOnly
             self.requesterPays = requesterPays
@@ -810,6 +869,9 @@ extension StorageGateway {
             try self.validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
             try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\\S+)$")
@@ -832,6 +894,7 @@ extension StorageGateway {
             case kMSKey = "KMSKey"
             case locationARN = "LocationARN"
             case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
@@ -855,6 +918,8 @@ extension StorageGateway {
     }
 
     public struct CreateSMBFileShareInput: AWSEncodableShape {
+        /// The files and folders on this share will only be visible to users with read access.
+        public let accessBasedEnumeration: Bool?
         /// A list of users or groups in the Active Directory that will be granted administrator privileges on the file share. These users can do all file operations as the super-user. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1.  Use this option very carefully, because any user in this list can do anything they like on the file share, regardless of file permissions.
         public let adminUserList: [String]?
         /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
@@ -883,6 +948,8 @@ extension StorageGateway {
         public let kMSKey: String?
         /// The ARN of the backend storage used for storing file data. A prefix name can be added to the S3 bucket name. It must end with a "/".
         public let locationARN: String
+        /// The notification policy of the file share.
+        public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
         /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false. Valid Values: true | false
@@ -898,7 +965,8 @@ extension StorageGateway {
         /// A list of users or groups in the Active Directory that are allowed to access the file  share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
-        public init(adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
+            self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
             self.authentication = authentication
@@ -913,6 +981,7 @@ extension StorageGateway {
             self.kMSEncrypted = kMSEncrypted
             self.kMSKey = kMSKey
             self.locationARN = locationARN
+            self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.readOnly = readOnly
             self.requesterPays = requesterPays
@@ -951,6 +1020,9 @@ extension StorageGateway {
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
             try self.validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\\S+)$")
@@ -966,6 +1038,7 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessBasedEnumeration = "AccessBasedEnumeration"
             case adminUserList = "AdminUserList"
             case auditDestinationARN = "AuditDestinationARN"
             case authentication = "Authentication"
@@ -980,6 +1053,7 @@ extension StorageGateway {
             case kMSEncrypted = "KMSEncrypted"
             case kMSKey = "KMSKey"
             case locationARN = "LocationARN"
+            case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
@@ -1806,6 +1880,39 @@ extension StorageGateway {
         }
     }
 
+    public struct DescribeBandwidthRateLimitScheduleInput: AWSEncodableShape {
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DescribeBandwidthRateLimitScheduleOutput: AWSDecodableShape {
+        ///  An array that contains the bandwidth rate limit intervals for a tape or volume gateway.
+        public let bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]?
+        public let gatewayARN: String?
+
+        public init(bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]? = nil, gatewayARN: String? = nil) {
+            self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthRateLimitIntervals = "BandwidthRateLimitIntervals"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
     public struct DescribeCacheInput: AWSEncodableShape {
         public let gatewayARN: String
 
@@ -2161,15 +2268,18 @@ extension StorageGateway {
         public let activeDirectoryStatus: ActiveDirectoryStatus?
         /// The name of the domain that the gateway is joined to.
         public let domainName: String?
+        /// The shares on this gateway appear when listing shares.
+        public let fileSharesVisible: Bool?
         public let gatewayARN: String?
         /// This value is true if a password for the guest user smbguest is set, otherwise false. Valid Values: true | false
         public let sMBGuestPasswordSet: Bool?
         /// The type of security strategy that was specified for file gateway.    ClientSpecified: If you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment.    MandatorySigning: If you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.    MandatoryEncryption: If you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
         public let sMBSecurityStrategy: SMBSecurityStrategy?
 
-        public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, domainName: String? = nil, gatewayARN: String? = nil, sMBGuestPasswordSet: Bool? = nil, sMBSecurityStrategy: SMBSecurityStrategy? = nil) {
+        public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, domainName: String? = nil, fileSharesVisible: Bool? = nil, gatewayARN: String? = nil, sMBGuestPasswordSet: Bool? = nil, sMBSecurityStrategy: SMBSecurityStrategy? = nil) {
             self.activeDirectoryStatus = activeDirectoryStatus
             self.domainName = domainName
+            self.fileSharesVisible = fileSharesVisible
             self.gatewayARN = gatewayARN
             self.sMBGuestPasswordSet = sMBGuestPasswordSet
             self.sMBSecurityStrategy = sMBSecurityStrategy
@@ -2178,6 +2288,7 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryStatus = "ActiveDirectoryStatus"
             case domainName = "DomainName"
+            case fileSharesVisible = "FileSharesVisible"
             case gatewayARN = "GatewayARN"
             case sMBGuestPasswordSet = "SMBGuestPasswordSet"
             case sMBSecurityStrategy = "SMBSecurityStrategy"
@@ -3291,6 +3402,8 @@ extension StorageGateway {
         public let kMSKey: String?
         public let locationARN: String?
         public let nFSFileShareDefaults: NFSFileShareDefaults?
+        /// The notification policy of the file share.
+        public let notificationPolicy: String?
         public let objectACL: ObjectACL?
         public let path: String?
         /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false. Valid Values: true | false
@@ -3302,7 +3415,7 @@ extension StorageGateway {
         /// A list of up to 50 tags assigned to the NFS file share, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
 
-        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil) {
+        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil) {
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.defaultStorageClass = defaultStorageClass
@@ -3316,6 +3429,7 @@ extension StorageGateway {
             self.kMSKey = kMSKey
             self.locationARN = locationARN
             self.nFSFileShareDefaults = nFSFileShareDefaults
+            self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.path = path
             self.readOnly = readOnly
@@ -3339,6 +3453,7 @@ extension StorageGateway {
             case kMSKey = "KMSKey"
             case locationARN = "LocationARN"
             case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case path = "Path"
             case readOnly = "ReadOnly"
@@ -3627,6 +3742,8 @@ extension StorageGateway {
     }
 
     public struct SMBFileShareInfo: AWSDecodableShape {
+        /// Indicates whether AccessBasedEnumeration is enabled.
+        public let accessBasedEnumeration: Bool?
         /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
         /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
@@ -3652,6 +3769,8 @@ extension StorageGateway {
         public let kMSEncrypted: Bool?
         public let kMSKey: String?
         public let locationARN: String?
+        /// The notification policy of the file share.
+        public let notificationPolicy: String?
         public let objectACL: ObjectACL?
         /// The file share path used by the SMB client to identify the mount point.
         public let path: String?
@@ -3667,7 +3786,8 @@ extension StorageGateway {
         /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
-        public init(adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
+            self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
             self.authentication = authentication
@@ -3684,6 +3804,7 @@ extension StorageGateway {
             self.kMSEncrypted = kMSEncrypted
             self.kMSKey = kMSKey
             self.locationARN = locationARN
+            self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.path = path
             self.readOnly = readOnly
@@ -3695,6 +3816,7 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessBasedEnumeration = "AccessBasedEnumeration"
             case adminUserList = "AdminUserList"
             case auditDestinationARN = "AuditDestinationARN"
             case authentication = "Authentication"
@@ -3711,6 +3833,7 @@ extension StorageGateway {
             case kMSEncrypted = "KMSEncrypted"
             case kMSKey = "KMSKey"
             case locationARN = "LocationARN"
+            case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case path = "Path"
             case readOnly = "ReadOnly"
@@ -4237,6 +4360,44 @@ extension StorageGateway {
         }
     }
 
+    public struct UpdateBandwidthRateLimitScheduleInput: AWSEncodableShape {
+        ///  An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty.
+        public let bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]
+        public let gatewayARN: String
+
+        public init(bandwidthRateLimitIntervals: [BandwidthRateLimitInterval], gatewayARN: String) {
+            self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
+            self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try self.bandwidthRateLimitIntervals.forEach {
+                try $0.validate(name: "\(name).bandwidthRateLimitIntervals[]")
+            }
+            try self.validate(self.bandwidthRateLimitIntervals, name: "bandwidthRateLimitIntervals", parent: name, max: 20)
+            try self.validate(self.bandwidthRateLimitIntervals, name: "bandwidthRateLimitIntervals", parent: name, min: 0)
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthRateLimitIntervals = "BandwidthRateLimitIntervals"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct UpdateBandwidthRateLimitScheduleOutput: AWSDecodableShape {
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
     public struct UpdateChapCredentialsInput: AWSEncodableShape {
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String
@@ -4442,6 +4603,8 @@ extension StorageGateway {
         public let kMSKey: String?
         /// The default values for the file share. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
+        /// The notification policy of the file share.
+        public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
         /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false. Valid Values: true | false
@@ -4451,7 +4614,7 @@ extension StorageGateway {
         /// The user mapped to anonymous user. Valid values are the following:    RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to anonymous user.    AllSquash: Everyone is mapped to anonymous user.
         public let squash: String?
 
-        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
+        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.defaultStorageClass = defaultStorageClass
@@ -4461,6 +4624,7 @@ extension StorageGateway {
             self.kMSEncrypted = kMSEncrypted
             self.kMSKey = kMSKey
             self.nFSFileShareDefaults = nFSFileShareDefaults
+            self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.readOnly = readOnly
             self.requesterPays = requesterPays
@@ -4483,6 +4647,9 @@ extension StorageGateway {
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
             try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
             try self.validate(self.squash, name: "squash", parent: name, max: 15)
             try self.validate(self.squash, name: "squash", parent: name, min: 5)
         }
@@ -4497,6 +4664,7 @@ extension StorageGateway {
             case kMSEncrypted = "KMSEncrypted"
             case kMSKey = "KMSKey"
             case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
@@ -4518,6 +4686,8 @@ extension StorageGateway {
     }
 
     public struct UpdateSMBFileShareInput: AWSEncodableShape {
+        /// The files and folders on this share will only be visible to users with read access.
+        public let accessBasedEnumeration: Bool?
         /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
         /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
@@ -4540,6 +4710,8 @@ extension StorageGateway {
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
+        /// The notification policy of the file share.
+        public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
         /// A value that sets the write status of a file share. Set this value to true to set write status to read-only, otherwise set to false. Valid Values: true | false
@@ -4551,7 +4723,8 @@ extension StorageGateway {
         /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
-        public init(adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, sMBACLEnabled: Bool? = nil, validUserList: [String]? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, sMBACLEnabled: Bool? = nil, validUserList: [String]? = nil) {
+            self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
@@ -4563,6 +4736,7 @@ extension StorageGateway {
             self.invalidUserList = invalidUserList
             self.kMSEncrypted = kMSEncrypted
             self.kMSKey = kMSKey
+            self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.readOnly = readOnly
             self.requesterPays = requesterPays
@@ -4593,6 +4767,9 @@ extension StorageGateway {
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
+            try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
             try self.validUserList?.forEach {
                 try validate($0, name: "validUserList[]", parent: name, max: 64)
                 try validate($0, name: "validUserList[]", parent: name, min: 1)
@@ -4602,6 +4779,7 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessBasedEnumeration = "AccessBasedEnumeration"
             case adminUserList = "AdminUserList"
             case auditDestinationARN = "AuditDestinationARN"
             case cacheAttributes = "CacheAttributes"
@@ -4613,6 +4791,7 @@ extension StorageGateway {
             case invalidUserList = "InvalidUserList"
             case kMSEncrypted = "KMSEncrypted"
             case kMSKey = "KMSKey"
+            case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
@@ -4631,6 +4810,39 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case fileShareARN = "FileShareARN"
+        }
+    }
+
+    public struct UpdateSMBFileShareVisibilityInput: AWSEncodableShape {
+        /// The shares on this gateway appear when listing shares.
+        public let fileSharesVisible: Bool
+        public let gatewayARN: String
+
+        public init(fileSharesVisible: Bool, gatewayARN: String) {
+            self.fileSharesVisible = fileSharesVisible
+            self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSharesVisible = "FileSharesVisible"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct UpdateSMBFileShareVisibilityOutput: AWSDecodableShape {
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 

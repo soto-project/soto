@@ -115,6 +115,20 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IsDefinedInJob: String, CustomStringConvertible, Codable {
+        case `false` = "FALSE"
+        case `true` = "TRUE"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IsMonitoredByJob: String, CustomStringConvertible, Codable {
+        case `false` = "FALSE"
+        case `true` = "TRUE"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobComparator: String, CustomStringConvertible, Codable {
         case contains = "CONTAINS"
         case eq = "EQ"
@@ -139,6 +153,12 @@ extension Macie2 {
     public enum JobType: String, CustomStringConvertible, Codable {
         case oneTime = "ONE_TIME"
         case scheduled = "SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastRunErrorStatusCode: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -624,6 +644,7 @@ extension Macie2 {
         public let bucketName: String?
         public let classifiableObjectCount: Int64?
         public let classifiableSizeInBytes: Int64?
+        public let jobDetails: JobDetails?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdated: Date?
         public let objectCount: Int64?
@@ -639,13 +660,14 @@ extension Macie2 {
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
         public let versioning: Bool?
 
-        public init(accountId: String? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
+        public init(accountId: String? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, jobDetails: JobDetails? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
             self.accountId = accountId
             self.bucketArn = bucketArn
             self.bucketCreatedAt = bucketCreatedAt
             self.bucketName = bucketName
             self.classifiableObjectCount = classifiableObjectCount
             self.classifiableSizeInBytes = classifiableSizeInBytes
+            self.jobDetails = jobDetails
             self.lastUpdated = lastUpdated
             self.objectCount = objectCount
             self.objectCountByEncryptionType = objectCountByEncryptionType
@@ -668,6 +690,7 @@ extension Macie2 {
             case bucketName
             case classifiableObjectCount
             case classifiableSizeInBytes
+            case jobDetails
             case lastUpdated
             case objectCount
             case objectCountByEncryptionType
@@ -1059,14 +1082,16 @@ extension Macie2 {
 
     public struct CriterionAdditionalProperties: AWSEncodableShape & AWSDecodableShape {
         public let eq: [String]?
+        public let eqExactMatch: [String]?
         public let gt: Int64?
         public let gte: Int64?
         public let lt: Int64?
         public let lte: Int64?
         public let neq: [String]?
 
-        public init(eq: [String]? = nil, gt: Int64? = nil, gte: Int64? = nil, lt: Int64? = nil, lte: Int64? = nil, neq: [String]? = nil) {
+        public init(eq: [String]? = nil, eqExactMatch: [String]? = nil, gt: Int64? = nil, gte: Int64? = nil, lt: Int64? = nil, lte: Int64? = nil, neq: [String]? = nil) {
             self.eq = eq
+            self.eqExactMatch = eqExactMatch
             self.gt = gt
             self.gte = gte
             self.lt = lt
@@ -1076,6 +1101,7 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case eq
+            case eqExactMatch
             case gt
             case gte
             case lt
@@ -1330,6 +1356,7 @@ extension Macie2 {
         public let jobId: String?
         public let jobStatus: JobStatus?
         public let jobType: JobType?
+        public let lastRunErrorStatus: LastRunErrorStatus?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastRunTime: Date?
         public let name: String?
@@ -1340,7 +1367,7 @@ extension Macie2 {
         public let tags: [String: String]?
         public let userPausedDetails: UserPausedDetails?
 
-        public init(clientToken: String? = DescribeClassificationJobResponse.idempotencyToken(), createdAt: Date? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunTime: Date? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, statistics: Statistics? = nil, tags: [String: String]? = nil, userPausedDetails: UserPausedDetails? = nil) {
+        public init(clientToken: String? = DescribeClassificationJobResponse.idempotencyToken(), createdAt: Date? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunErrorStatus: LastRunErrorStatus? = nil, lastRunTime: Date? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, statistics: Statistics? = nil, tags: [String: String]? = nil, userPausedDetails: UserPausedDetails? = nil) {
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.customDataIdentifierIds = customDataIdentifierIds
@@ -1350,6 +1377,7 @@ extension Macie2 {
             self.jobId = jobId
             self.jobStatus = jobStatus
             self.jobType = jobType
+            self.lastRunErrorStatus = lastRunErrorStatus
             self.lastRunTime = lastRunTime
             self.name = name
             self.s3JobDefinition = s3JobDefinition
@@ -1370,6 +1398,7 @@ extension Macie2 {
             case jobId
             case jobStatus
             case jobType
+            case lastRunErrorStatus
             case lastRunTime
             case name
             case s3JobDefinition
@@ -2224,6 +2253,28 @@ extension Macie2 {
         }
     }
 
+    public struct JobDetails: AWSDecodableShape {
+        public let isDefinedInJob: IsDefinedInJob?
+        public let isMonitoredByJob: IsMonitoredByJob?
+        public let lastJobId: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastJobRunTime: Date?
+
+        public init(isDefinedInJob: IsDefinedInJob? = nil, isMonitoredByJob: IsMonitoredByJob? = nil, lastJobId: String? = nil, lastJobRunTime: Date? = nil) {
+            self.isDefinedInJob = isDefinedInJob
+            self.isMonitoredByJob = isMonitoredByJob
+            self.lastJobId = lastJobId
+            self.lastJobRunTime = lastJobRunTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isDefinedInJob
+            case isMonitoredByJob
+            case lastJobId
+            case lastJobRunTime
+        }
+    }
+
     public struct JobScheduleFrequency: AWSEncodableShape & AWSDecodableShape {
         public let dailySchedule: DailySchedule?
         public let monthlySchedule: MonthlySchedule?
@@ -2276,15 +2327,17 @@ extension Macie2 {
         public let jobId: String?
         public let jobStatus: JobStatus?
         public let jobType: JobType?
+        public let lastRunErrorStatus: LastRunErrorStatus?
         public let name: String?
         public let userPausedDetails: UserPausedDetails?
 
-        public init(bucketDefinitions: [S3BucketDefinitionForJob]? = nil, createdAt: Date? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, name: String? = nil, userPausedDetails: UserPausedDetails? = nil) {
+        public init(bucketDefinitions: [S3BucketDefinitionForJob]? = nil, createdAt: Date? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunErrorStatus: LastRunErrorStatus? = nil, name: String? = nil, userPausedDetails: UserPausedDetails? = nil) {
             self.bucketDefinitions = bucketDefinitions
             self.createdAt = createdAt
             self.jobId = jobId
             self.jobStatus = jobStatus
             self.jobType = jobType
+            self.lastRunErrorStatus = lastRunErrorStatus
             self.name = name
             self.userPausedDetails = userPausedDetails
         }
@@ -2295,6 +2348,7 @@ extension Macie2 {
             case jobId
             case jobStatus
             case jobType
+            case lastRunErrorStatus
             case name
             case userPausedDetails
         }
@@ -2312,6 +2366,18 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case key
             case value
+        }
+    }
+
+    public struct LastRunErrorStatus: AWSDecodableShape {
+        public let code: LastRunErrorStatusCode?
+
+        public init(code: LastRunErrorStatusCode? = nil) {
+            self.code = code
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
         }
     }
 
@@ -2828,13 +2894,16 @@ extension Macie2 {
     }
 
     public struct Record: AWSDecodableShape {
+        public let jsonPath: String?
         public let recordIndex: Int64?
 
-        public init(recordIndex: Int64? = nil) {
+        public init(jsonPath: String? = nil, recordIndex: Int64? = nil) {
+            self.jsonPath = jsonPath
             self.recordIndex = recordIndex
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jsonPath
             case recordIndex
         }
     }

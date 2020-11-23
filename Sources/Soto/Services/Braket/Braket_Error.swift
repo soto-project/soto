@@ -53,11 +53,11 @@ public struct BraketErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The specified device is currently offline.
     public static var deviceOfflineException: Self { .init(.deviceOfflineException) }
-    /// The request processing has failed because of an unknown error, exception or failure.
+    /// The request processing has failed because of an unknown error, exception, or failure.
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request failed because a service quota is met.
+    /// The request failed because a service quota is exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The throttling rate limit is met.
     public static var throttlingException: Self { .init(.throttlingException) }

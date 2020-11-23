@@ -263,23 +263,32 @@ extension CodeArtifact {
         public let domain: String
         ///  The encryption key for the domain. This is used to encrypt content stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN), a key alias, or a key alias ARN. To specify an encryptionKey, your IAM role must have kms:DescribeKey and kms:CreateGrant permissions on the encryption key that is used. For more information, see DescribeKey in the AWS Key Management Service API Reference and AWS KMS API Permissions Reference in the AWS Key Management Service Developer Guide.    CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric CMK with your domain. For more information, see Using symmetric and asymmetric keys in the AWS Key Management Service Developer Guide.
         public let encryptionKey: String?
+        /// One or more tag key-value pairs for the domain.
+        public let tags: [Tag]?
 
-        public init(domain: String, encryptionKey: String? = nil) {
+        public init(domain: String, encryptionKey: String? = nil, tags: [Tag]? = nil) {
             self.domain = domain
             self.encryptionKey = encryptionKey
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 2048)
+            try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 1011)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, pattern: "\\S+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryptionKey
+            case tags
         }
     }
 
@@ -311,14 +320,17 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  The name of the repository to create.
         public let repository: String
+        /// One or more tag key-value pairs for the repository.
+        public let tags: [Tag]?
         ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when AWS CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories.
         public let upstreams: [UpstreamRepository]?
 
-        public init(description: String? = nil, domain: String, domainOwner: String? = nil, repository: String, upstreams: [UpstreamRepository]? = nil) {
+        public init(description: String? = nil, domain: String, domainOwner: String? = nil, repository: String, tags: [Tag]? = nil, upstreams: [UpstreamRepository]? = nil) {
             self.description = description
             self.domain = domain
             self.domainOwner = domainOwner
             self.repository = repository
+            self.tags = tags
             self.upstreams = upstreams
         }
 
@@ -334,6 +346,11 @@ extension CodeArtifact {
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.upstreams?.forEach {
                 try $0.validate(name: "\(name).upstreams[]")
             }
@@ -341,6 +358,7 @@ extension CodeArtifact {
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case tags
             case upstreams
         }
     }
@@ -959,10 +977,12 @@ extension CodeArtifact {
         public let owner: String?
         ///  The number of repositories in the domain.
         public let repositoryCount: Int?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket that is used to store package assets in the domain.
+        public let s3BucketArn: String?
         ///  The current status of a domain. The valid values are     Active     Deleted
         public let status: DomainStatus?
 
-        public init(arn: String? = nil, assetSizeBytes: Int64? = nil, createdTime: Date? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, repositoryCount: Int? = nil, status: DomainStatus? = nil) {
+        public init(arn: String? = nil, assetSizeBytes: Int64? = nil, createdTime: Date? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, repositoryCount: Int? = nil, s3BucketArn: String? = nil, status: DomainStatus? = nil) {
             self.arn = arn
             self.assetSizeBytes = assetSizeBytes
             self.createdTime = createdTime
@@ -970,6 +990,7 @@ extension CodeArtifact {
             self.name = name
             self.owner = owner
             self.repositoryCount = repositoryCount
+            self.s3BucketArn = s3BucketArn
             self.status = status
         }
 
@@ -981,6 +1002,7 @@ extension CodeArtifact {
             case name
             case owner
             case repositoryCount
+            case s3BucketArn
             case status
         }
     }
@@ -1029,7 +1051,7 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
         public let domainOwner: String?
-        /// The time, in seconds, that the generated authorization token is valid.
+        /// The time, in seconds, that the generated authorization token is valid. Valid values are 0 and any number between 900 (15 minutes) and 43200 (12 hours). A value of 0 will set the expiration of the authorization token to the same expiration of the user's role's temporary credentials.
         public let durationSeconds: Int64?
 
         public init(domain: String, domainOwner: String? = nil, durationSeconds: Int64? = nil) {
@@ -1997,6 +2019,40 @@ extension CodeArtifact {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource to get tags for.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResult: AWSDecodableShape {
+        /// A list of tag key and value pairs associated with the specified resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
     public struct PackageDependency: AWSDecodableShape {
         ///  The type of a package dependency. The possible values depend on the package type. Example types are compile, runtime, and test for Maven packages, and dev, prod, and optional for npm packages.
         public let dependencyType: String?
@@ -2383,6 +2439,101 @@ extension CodeArtifact {
             case revision
             case status
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The tag's key.
+        public let key: String
+        /// The tag's value.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key
+            case value
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.
+        public let resourceArn: String
+        /// The tags you want to modify or add to the resource.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S+")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
+    public struct TagResourceResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource to which you want to remove tags.
+        public let resourceArn: String
+        /// The tag key for each tag that you want to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S+")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys
+        }
+    }
+
+    public struct UntagResourceResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdatePackageVersionsStatusRequest: AWSEncodableShape {

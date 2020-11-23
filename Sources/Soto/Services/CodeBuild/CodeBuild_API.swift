@@ -238,7 +238,7 @@ public struct CodeBuild: AWSService {
         return self.client.execute(operation: "RetryBuild", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Restarts a batch build.
+    ///  Restarts a failed batch build. Only batch builds that have failed can be retried.
     public func retryBuildBatch(_ input: RetryBuildBatchInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RetryBuildBatchOutput> {
         return self.client.execute(operation: "RetryBuildBatch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

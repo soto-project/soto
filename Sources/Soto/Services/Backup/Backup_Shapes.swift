@@ -91,7 +91,7 @@ extension Backup {
     // MARK: Shapes
 
     public struct AdvancedBackupSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to "WindowsVSS”:“enabled" to enable WindowsVSS backup option and create a VSS Windows backup. Set to “WindowsVSS”:”disabled” to create a regular backup. The WindowsVSS option is not enabled by default. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see Creating a VSS-Enabled Windows Backup.
+        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values:  Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a VSS Windows backup.  Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see Creating a VSS-Enabled Windows Backup.
         public let backupOptions: [String: String]?
         /// The type of AWS resource to be backed up. For VSS Windows backups, the only supported resource type is Amazon EC2. Valid values: EC2.
         public let resourceType: String?
@@ -940,7 +940,7 @@ extension Backup {
         public let backupOptions: [String: String]?
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
-        /// Represents the actual backup type selected for a backup job. For example, if a successful WindowsVSS backup was taken, BackupType returns “WindowsVSS”. If BackupType is empty, then it is a regular backup.
+        /// Represents the actual backup type selected for a backup job. For example, if a successful WindowsVSS backup was taken, BackupType returns "WindowsVSS". If BackupType is empty, then the backup type that was is a regular backup.
         public let backupType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
@@ -1096,6 +1096,27 @@ extension Backup {
         }
     }
 
+    public struct DescribeGlobalSettingsInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeGlobalSettingsOutput: AWSDecodableShape {
+        /// A list of resources along with the opt-in preferences for the account.
+        public let globalSettings: [String: String]?
+        /// The date and time that the global settings was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let lastUpdateTime: Date?
+
+        public init(globalSettings: [String: String]? = nil, lastUpdateTime: Date? = nil) {
+            self.globalSettings = globalSettings
+            self.lastUpdateTime = lastUpdateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalSettings = "GlobalSettings"
+            case lastUpdateTime = "LastUpdateTime"
+        }
+    }
+
     public struct DescribeProtectedResourceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -1186,12 +1207,14 @@ extension Backup {
         public let resourceArn: String?
         /// The type of AWS resource to save as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
+        /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:vault:BackupVault. If the recovery is restored to the same AWS account or Region, this value will be null.
+        public let sourceBackupVaultArn: String?
         /// A status code specifying the state of the recovery point.  A partial status indicates that the recovery point was not successfully re-created and must be retried.
         public let status: RecoveryPointStatus?
         /// Specifies the storage class of the recovery point. Valid values are WARM or COLD.
         public let storageClass: StorageClass?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: RecoveryPointStatus? = nil, storageClass: StorageClass? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, storageClass: StorageClass? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -1207,6 +1230,7 @@ extension Backup {
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
             self.resourceType = resourceType
+            self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
             self.storageClass = storageClass
         }
@@ -1227,6 +1251,7 @@ extension Backup {
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
             case resourceType = "ResourceType"
+            case sourceBackupVaultArn = "SourceBackupVaultArn"
             case status = "Status"
             case storageClass = "StorageClass"
         }
@@ -2397,10 +2422,12 @@ extension Backup {
         public let resourceArn: String?
         /// The type of AWS resource saved as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For VSS Windows backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
+        /// The backup vault where the recovery point was originally copied from. If the recovery point is restored to the same account this value will be null.
+        public let sourceBackupVaultArn: String?
         /// A status code specifying the state of the recovery point.
         public let status: RecoveryPointStatus?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: RecoveryPointStatus? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -2416,6 +2443,7 @@ extension Backup {
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
             self.resourceType = resourceType
+            self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
         }
 
@@ -2435,6 +2463,7 @@ extension Backup {
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
             case resourceType = "ResourceType"
+            case sourceBackupVaultArn = "SourceBackupVaultArn"
             case status = "Status"
         }
     }
@@ -2836,6 +2865,19 @@ extension Backup {
             case backupPlanId = "BackupPlanId"
             case creationDate = "CreationDate"
             case versionId = "VersionId"
+        }
+    }
+
+    public struct UpdateGlobalSettingsInput: AWSEncodableShape {
+        /// A list of resources along with the opt-in preferences for the account.
+        public let globalSettings: [String: String]?
+
+        public init(globalSettings: [String: String]? = nil) {
+            self.globalSettings = globalSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalSettings = "GlobalSettings"
         }
     }
 

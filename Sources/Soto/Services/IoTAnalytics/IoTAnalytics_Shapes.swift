@@ -76,9 +76,9 @@ extension IoTAnalytics {
     // MARK: Shapes
 
     public struct AddAttributesActivity: AWSEncodableShape & AWSDecodableShape {
-        /// A list of 1-50 "AttributeNameMapping" objects that map an existing attribute to a new attribute.  The existing attributes remain in the message, so if you want to remove the originals, use "RemoveAttributeActivity".
+        /// A list of 1-50 AttributeNameMapping objects that map an existing attribute to a new attribute.  The existing attributes remain in the message, so if you want to remove the originals, use RemoveAttributeActivity.
         public let attributes: [String: String]
-        /// The name of the 'addAttributes' activity.
+        /// The name of the addAttributes activity.
         public let name: String
         /// The next activity in the pipeline.
         public let next: String?
@@ -114,7 +114,7 @@ extension IoTAnalytics {
         public let errorCode: String?
         /// The message associated with the error.
         public let errorMessage: String?
-        /// The ID of the message that caused the error. (See the value corresponding to the "messageId" key in the message object.)
+        /// The ID of the message that caused the error. See the value corresponding to the messageId key in the message object.
         public let messageId: String?
 
         public init(errorCode: String? = nil, errorMessage: String? = nil, messageId: String? = nil) {
@@ -133,7 +133,7 @@ extension IoTAnalytics {
     public struct BatchPutMessageRequest: AWSEncodableShape {
         /// The name of the channel where the messages are sent.
         public let channelName: String
-        /// The list of messages to be sent. Each message has format: '{ "messageId": "string", "payload": "string"}'. Note that the field names of message payloads (data) that you send to AWS IoT Analytics:   Must contain only alphanumeric characters and undescores (_); no other special characters are allowed.   Must begin with an alphabetic character or single underscore (_).   Cannot contain hyphens (-).   In regular expression terms: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)$".    Cannot be greater than 255 characters.   Are case-insensitive. (Fields named "foo" and "FOO" in the same payload are considered duplicates.)   For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
+        /// The list of messages to be sent. Each message has the format: { "messageId": "string", "payload": "string"}. The field names of message payloads (data) that you send to AWS IoT Analytics:   Must contain only alphanumeric characters and undescores (_). No other special characters are allowed.   Must begin with an alphabetic character or single underscore (_).   Cannot contain hyphens (-).   In regular expression terms: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)$".    Cannot be more than 255 characters.   Are case insensitive. (Fields named foo and FOO in the same payload are considered duplicates.)   For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
         public let messages: [Message]
 
         public init(channelName: String, messages: [Message]) {
@@ -177,7 +177,7 @@ extension IoTAnalytics {
 
         /// The name of pipeline for which data reprocessing is canceled.
         public let pipelineName: String
-        /// The ID of the reprocessing task (returned by "StartPipelineReprocessing").
+        /// The ID of the reprocessing task (returned by StartPipelineReprocessing).
         public let reprocessingId: String
 
         public init(pipelineName: String, reprocessingId: String) {
@@ -203,6 +203,8 @@ extension IoTAnalytics {
         public let arn: String?
         /// When the channel was created.
         public let creationTime: Date?
+        /// The last time when a new message arrived in the channel. AWS IoT Analytics updates this value at most once per minute for one channel. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
+        public let lastMessageArrivalTime: Date?
         /// When the channel was last updated.
         public let lastUpdateTime: Date?
         /// The name of the channel.
@@ -211,12 +213,13 @@ extension IoTAnalytics {
         public let retentionPeriod: RetentionPeriod?
         /// The status of the channel.
         public let status: ChannelStatus?
-        /// Where channel data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after creation of the channel.
+        /// Where channel data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the channel is created.
         public let storage: ChannelStorage?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: ChannelStatus? = nil, storage: ChannelStorage? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: ChannelStatus? = nil, storage: ChannelStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
+            self.lastMessageArrivalTime = lastMessageArrivalTime
             self.lastUpdateTime = lastUpdateTime
             self.name = name
             self.retentionPeriod = retentionPeriod
@@ -227,6 +230,7 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case arn
             case creationTime
+            case lastMessageArrivalTime
             case lastUpdateTime
             case name
             case retentionPeriod
@@ -238,7 +242,7 @@ extension IoTAnalytics {
     public struct ChannelActivity: AWSEncodableShape & AWSDecodableShape {
         /// The name of the channel from which the messages are processed.
         public let channelName: String
-        /// The name of the 'channel' activity.
+        /// The name of the channel activity.
         public let name: String
         /// The next activity in the pipeline.
         public let next: String?
@@ -280,9 +284,9 @@ extension IoTAnalytics {
     }
 
     public struct ChannelStorage: AWSEncodableShape & AWSDecodableShape {
-        /// Use this to store channel data in an S3 bucket that you manage. If customer managed storage is selected, the "retentionPeriod" parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the channel.
+        /// Use this to store channel data in an S3 bucket that you manage. If customer managed storage is selected, the retentionPeriod parameter is ignored. You cannot change the choice of service-managed or customer-managed S3 storage after the channel is created.
         public let customerManagedS3: CustomerManagedChannelS3Storage?
-        /// Use this to store channel data in an S3 bucket managed by the AWS IoT Analytics service. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the channel.
+        /// Use this to store channel data in an S3 bucket managed by AWS IoT Analytics. You cannot change the choice of service-managed or customer-managed S3 storage after the channel is created.
         public let serviceManagedS3: ServiceManagedChannelS3Storage?
 
         public init(customerManagedS3: CustomerManagedChannelS3Storage? = nil, serviceManagedS3: ServiceManagedChannelS3Storage? = nil) {
@@ -303,7 +307,7 @@ extension IoTAnalytics {
     public struct ChannelStorageSummary: AWSDecodableShape {
         /// Used to store channel data in an S3 bucket that you manage.
         public let customerManagedS3: CustomerManagedChannelS3StorageSummary?
-        /// Used to store channel data in an S3 bucket managed by the AWS IoT Analytics service.
+        /// Used to store channel data in an S3 bucket managed by AWS IoT Analytics.
         public let serviceManagedS3: ServiceManagedChannelS3StorageSummary?
 
         public init(customerManagedS3: CustomerManagedChannelS3StorageSummary? = nil, serviceManagedS3: ServiceManagedChannelS3StorageSummary? = nil) {
@@ -324,15 +328,18 @@ extension IoTAnalytics {
         public let channelStorage: ChannelStorageSummary?
         /// When the channel was created.
         public let creationTime: Date?
+        /// The last time when a new message arrived in the channel. AWS IoT Analytics updates this value at most once per minute for one channel. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
+        public let lastMessageArrivalTime: Date?
         /// The last time the channel was updated.
         public let lastUpdateTime: Date?
         /// The status of the channel.
         public let status: ChannelStatus?
 
-        public init(channelName: String? = nil, channelStorage: ChannelStorageSummary? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, status: ChannelStatus? = nil) {
+        public init(channelName: String? = nil, channelStorage: ChannelStorageSummary? = nil, creationTime: Date? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, status: ChannelStatus? = nil) {
             self.channelName = channelName
             self.channelStorage = channelStorage
             self.creationTime = creationTime
+            self.lastMessageArrivalTime = lastMessageArrivalTime
             self.lastUpdateTime = lastUpdateTime
             self.status = status
         }
@@ -341,19 +348,20 @@ extension IoTAnalytics {
             case channelName
             case channelStorage
             case creationTime
+            case lastMessageArrivalTime
             case lastUpdateTime
             case status
         }
     }
 
     public struct ContainerDatasetAction: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the role which gives permission to the system to access needed resources in order to run the "containerAction". This includes, at minimum, permission to retrieve the data set contents which are the input to the containerized application.
+        /// The ARN of the role that gives permission to the system to access required resources to run the containerAction. This includes, at minimum, permission to retrieve the dataset contents that are the input to the containerized application.
         public let executionRoleArn: String
-        /// The ARN of the Docker container stored in your account. The Docker container contains an application and needed support libraries and is used to generate data set contents.
+        /// The ARN of the Docker container stored in your account. The Docker container contains an application and required support libraries and is used to generate dataset contents.
         public let image: String
-        /// Configuration of the resource which executes the "containerAction".
+        /// Configuration of the resource that executes the containerAction.
         public let resourceConfiguration: ResourceConfiguration
-        /// The values of variables used within the context of the execution of the containerized application (basically, parameters passed to the application). Each variable must have a name and a value given by one of "stringValue", "datasetContentVersionValue", or "outputFileUriValue".
+        /// The values of variables used in the context of the execution of the containerized application (basically, parameters passed to the application). Each variable must have a name and a value given by one of stringValue, datasetContentVersionValue, or outputFileUriValue.
         public let variables: [Variable]?
 
         public init(executionRoleArn: String, image: String, resourceConfiguration: ResourceConfiguration, variables: [Variable]? = nil) {
@@ -386,9 +394,9 @@ extension IoTAnalytics {
     public struct CreateChannelRequest: AWSEncodableShape {
         /// The name of the channel.
         public let channelName: String
-        /// Where channel data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after creation of the channel.
+        /// Where channel data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the channel is created.
         public let channelStorage: ChannelStorage?
-        /// How long, in days, message data is kept for the channel. When "customerManagedS3" storage is selected, this parameter is ignored.
+        /// How long, in days, message data is kept for the channel. When customerManagedS3 storage is selected, this parameter is ignored.
         public let retentionPeriod: RetentionPeriod?
         /// Metadata which can be used to manage the channel.
         public let tags: [Tag]?
@@ -447,24 +455,31 @@ extension IoTAnalytics {
             AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
-        /// The name of the data set.
+        /// The name of the dataset.
         public let datasetName: String
+        /// The version ID of the dataset content. To specify versionId for a dataset content, the dataset must use a DeltaTimer filter.
+        public let versionId: String?
 
-        public init(datasetName: String) {
+        public init(datasetName: String, versionId: String? = nil) {
             self.datasetName = datasetName
+            self.versionId = versionId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 128)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
             try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.validate(self.versionId, name: "versionId", parent: name, max: 36)
+            try self.validate(self.versionId, name: "versionId", parent: name, min: 7)
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case versionId
+        }
     }
 
     public struct CreateDatasetContentResponse: AWSDecodableShape {
-        /// The version ID of the data set contents which are being created.
+        /// The version ID of the dataset contents that are being created.
         public let versionId: String?
 
         public init(versionId: String? = nil) {
@@ -479,23 +494,26 @@ extension IoTAnalytics {
     public struct CreateDatasetRequest: AWSEncodableShape {
         /// A list of actions that create the data set contents.
         public let actions: [DatasetAction]
-        /// When data set contents are created they are delivered to destinations specified here.
+        /// When dataset contents are created, they are delivered to destinations specified here.
         public let contentDeliveryRules: [DatasetContentDeliveryRule]?
         /// The name of the data set.
         public let datasetName: String
-        /// [Optional] How long, in days, versions of data set contents are kept for the data set. If not specified or set to null, versions of data set contents are retained for at most 90 days. The number of versions of data set contents retained is determined by the versioningConfiguration parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+        /// A list of data rules that send notifications to Amazon CloudWatch, when data arrives late. To specify lateDataRules, the dataset must use a DeltaTimer filter.
+        public let lateDataRules: [LateDataRule]?
+        /// Optional. How long, in days, versions of dataset contents are kept for the dataset. If not specified or set to null, versions of dataset contents are retained for at most 90 days. The number of versions of dataset contents retained is determined by the versioningConfiguration parameter. For more information, see Keeping Multiple Versions of AWS IoT Analytics Data Sets in the AWS IoT Analytics User Guide.
         public let retentionPeriod: RetentionPeriod?
         /// Metadata which can be used to manage the data set.
         public let tags: [Tag]?
         /// A list of triggers. A trigger causes data set contents to be populated at a specified time interval or when another data set's contents are created. The list of triggers can be empty or contain up to five DataSetTrigger objects.
         public let triggers: [DatasetTrigger]?
-        /// [Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the "retentionPeriod" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+        /// Optional. How many versions of dataset contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the retentionPeriod parameter. For more information, see Keeping Multiple Versions of AWS IoT Analytics Data Sets in the AWS IoT Analytics User Guide.
         public let versioningConfiguration: VersioningConfiguration?
 
-        public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
+        public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, lateDataRules: [LateDataRule]? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.contentDeliveryRules = contentDeliveryRules
             self.datasetName = datasetName
+            self.lateDataRules = lateDataRules
             self.retentionPeriod = retentionPeriod
             self.tags = tags
             self.triggers = triggers
@@ -516,6 +534,11 @@ extension IoTAnalytics {
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 128)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
             try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.lateDataRules?.forEach {
+                try $0.validate(name: "\(name).lateDataRules[]")
+            }
+            try self.validate(self.lateDataRules, name: "lateDataRules", parent: name, max: 1)
+            try self.validate(self.lateDataRules, name: "lateDataRules", parent: name, min: 1)
             try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -534,6 +557,7 @@ extension IoTAnalytics {
             case actions
             case contentDeliveryRules
             case datasetName
+            case lateDataRules
             case retentionPeriod
             case tags
             case triggers
@@ -542,11 +566,11 @@ extension IoTAnalytics {
     }
 
     public struct CreateDatasetResponse: AWSDecodableShape {
-        /// The ARN of the data set.
+        /// The ARN of the dataset.
         public let datasetArn: String?
-        /// The name of the data set.
+        /// The name of the dataset.
         public let datasetName: String?
-        /// How long, in days, data set contents are kept for the data set.
+        /// How long, in days, dataset contents are kept for the dataset.
         public let retentionPeriod: RetentionPeriod?
 
         public init(datasetArn: String? = nil, datasetName: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
@@ -565,9 +589,9 @@ extension IoTAnalytics {
     public struct CreateDatastoreRequest: AWSEncodableShape {
         /// The name of the data store.
         public let datastoreName: String
-        /// Where data store data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after the data store is created.
+        /// Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the data store is created.
         public let datastoreStorage: DatastoreStorage?
-        /// How long, in days, message data is kept for the data store. When "customerManagedS3" storage is selected, this parameter is ignored.
+        /// How long, in days, message data is kept for the data store. When customerManagedS3 storage is selected, this parameter is ignored.
         public let retentionPeriod: RetentionPeriod?
         /// Metadata which can be used to manage the data store.
         public let tags: [Tag]?
@@ -622,7 +646,7 @@ extension IoTAnalytics {
     }
 
     public struct CreatePipelineRequest: AWSEncodableShape {
-        /// A list of "PipelineActivity" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]
+        /// A list of PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity. For example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]
         public let pipelineActivities: [PipelineActivity]
         /// The name of the pipeline.
         public let pipelineName: String
@@ -676,11 +700,11 @@ extension IoTAnalytics {
     }
 
     public struct CustomerManagedChannelS3Storage: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the Amazon S3 bucket in which channel data is stored.
+        /// The name of the S3 bucket in which channel data is stored.
         public let bucket: String
-        /// [Optional] The prefix used to create the keys of the channel data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a '/'.
+        /// Optional. The prefix used to create the keys of the channel data objects. Each object in an S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
         public let keyPrefix: String?
-        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
+        /// The ARN of the role that grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String
 
         public init(bucket: String, keyPrefix: String? = nil, roleArn: String) {
@@ -708,11 +732,11 @@ extension IoTAnalytics {
     }
 
     public struct CustomerManagedChannelS3StorageSummary: AWSDecodableShape {
-        /// The name of the Amazon S3 bucket in which channel data is stored.
+        /// The name of the S3 bucket in which channel data is stored.
         public let bucket: String?
-        /// [Optional] The prefix used to create the keys of the channel data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a '/'.
+        /// Optional. The prefix used to create the keys of the channel data objects. Each object in an S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a forward slash (/).
         public let keyPrefix: String?
-        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
+        /// The ARN of the role that grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String?
 
         public init(bucket: String? = nil, keyPrefix: String? = nil, roleArn: String? = nil) {
@@ -729,11 +753,11 @@ extension IoTAnalytics {
     }
 
     public struct CustomerManagedDatastoreS3Storage: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the Amazon S3 bucket in which data store data is stored.
+        /// The name of the S3 bucket in which data store data is stored.
         public let bucket: String
-        /// [Optional] The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a '/'.
+        /// Optional. The prefix used to create the keys of the data store data objects. Each object in an S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
         public let keyPrefix: String?
-        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
+        /// The ARN of the role that grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String
 
         public init(bucket: String, keyPrefix: String? = nil, roleArn: String) {
@@ -761,11 +785,11 @@ extension IoTAnalytics {
     }
 
     public struct CustomerManagedDatastoreS3StorageSummary: AWSDecodableShape {
-        /// The name of the Amazon S3 bucket in which data store data is stored.
+        /// The name of the S3 bucket in which data store data is stored.
         public let bucket: String?
-        /// [Optional] The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a '/'.
+        /// Optional. The prefix used to create the keys of the data store data objects. Each object in an S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
         public let keyPrefix: String?
-        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
+        /// The ARN of the role that grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String?
 
         public init(bucket: String? = nil, keyPrefix: String? = nil, roleArn: String? = nil) {
@@ -782,33 +806,36 @@ extension IoTAnalytics {
     }
 
     public struct Dataset: AWSDecodableShape {
-        /// The "DatasetAction" objects that automatically create the data set contents.
+        /// The DatasetAction objects that automatically create the data set contents.
         public let actions: [DatasetAction]?
         /// The ARN of the data set.
         public let arn: String?
-        /// When data set contents are created they are delivered to destinations specified here.
+        /// When dataset contents are created they are delivered to destinations specified here.
         public let contentDeliveryRules: [DatasetContentDeliveryRule]?
         /// When the data set was created.
         public let creationTime: Date?
         /// The last time the data set was updated.
         public let lastUpdateTime: Date?
+        /// A list of data rules that send notifications to Amazon CloudWatch, when data arrives late. To specify lateDataRules, the dataset must use a DeltaTimer filter.
+        public let lateDataRules: [LateDataRule]?
         /// The name of the data set.
         public let name: String?
-        /// [Optional] How long, in days, message data is kept for the data set.
+        /// Optional. How long, in days, message data is kept for the data set.
         public let retentionPeriod: RetentionPeriod?
         /// The status of the data set.
         public let status: DatasetStatus?
-        /// The "DatasetTrigger" objects that specify when the data set is automatically updated.
+        /// The DatasetTrigger objects that specify when the data set is automatically updated.
         public let triggers: [DatasetTrigger]?
-        /// [Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the "retentionPeriod" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+        /// Optional. How many versions of dataset contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the retentionPeriod parameter. For more information, see Keeping Multiple Versions of AWS IoT Analytics Data Sets in the AWS IoT Analytics User Guide.
         public let versioningConfiguration: VersioningConfiguration?
 
-        public init(actions: [DatasetAction]? = nil, arn: String? = nil, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
+        public init(actions: [DatasetAction]? = nil, arn: String? = nil, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, lateDataRules: [LateDataRule]? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.arn = arn
             self.contentDeliveryRules = contentDeliveryRules
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
+            self.lateDataRules = lateDataRules
             self.name = name
             self.retentionPeriod = retentionPeriod
             self.status = status
@@ -822,6 +849,7 @@ extension IoTAnalytics {
             case contentDeliveryRules
             case creationTime
             case lastUpdateTime
+            case lateDataRules
             case name
             case retentionPeriod
             case status
@@ -833,9 +861,9 @@ extension IoTAnalytics {
     public struct DatasetAction: AWSEncodableShape & AWSDecodableShape {
         /// The name of the data set action by which data set contents are automatically created.
         public let actionName: String?
-        /// Information which allows the system to run a containerized application in order to create the data set contents. The application must be in a Docker container along with any needed support libraries.
+        /// Information that allows the system to run a containerized application to create the dataset contents. The application must be in a Docker container along with any required support libraries.
         public let containerAction: ContainerDatasetAction?
-        /// An "SqlQueryDatasetAction" object that uses an SQL query to automatically create data set contents.
+        /// An SqlQueryDatasetAction object that uses an SQL query to automatically create data set contents.
         public let queryAction: SqlQueryDatasetAction?
 
         public init(actionName: String? = nil, containerAction: ContainerDatasetAction? = nil, queryAction: SqlQueryDatasetAction? = nil) {
@@ -860,9 +888,9 @@ extension IoTAnalytics {
     }
 
     public struct DatasetActionSummary: AWSDecodableShape {
-        /// The name of the action which automatically creates the data set's contents.
+        /// The name of the action that automatically creates the dataset's contents.
         public let actionName: String?
-        /// The type of action by which the data set's contents are automatically created.
+        /// The type of action by which the dataset's contents are automatically created.
         public let actionType: DatasetActionType?
 
         public init(actionName: String? = nil, actionType: DatasetActionType? = nil) {
@@ -877,9 +905,9 @@ extension IoTAnalytics {
     }
 
     public struct DatasetContentDeliveryDestination: AWSEncodableShape & AWSDecodableShape {
-        /// Configuration information for delivery of data set contents to AWS IoT Events.
+        /// Configuration information for delivery of dataset contents to AWS IoT Events.
         public let iotEventsDestinationConfiguration: IotEventsDestinationConfiguration?
-        /// Configuration information for delivery of data set contents to Amazon S3.
+        /// Configuration information for delivery of dataset contents to Amazon S3.
         public let s3DestinationConfiguration: S3DestinationConfiguration?
 
         public init(iotEventsDestinationConfiguration: IotEventsDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil) {
@@ -899,9 +927,9 @@ extension IoTAnalytics {
     }
 
     public struct DatasetContentDeliveryRule: AWSEncodableShape & AWSDecodableShape {
-        /// The destination to which data set contents are delivered.
+        /// The destination to which dataset contents are delivered.
         public let destination: DatasetContentDeliveryDestination
-        /// The name of the data set content delivery rules entry.
+        /// The name of the dataset content delivery rules entry.
         public let entryName: String?
 
         public init(destination: DatasetContentDeliveryDestination, entryName: String? = nil) {
@@ -922,7 +950,7 @@ extension IoTAnalytics {
     public struct DatasetContentStatus: AWSDecodableShape {
         /// The reason the data set contents are in this state.
         public let reason: String?
-        /// The state of the data set contents. Can be one of "READY", "CREATING", "SUCCEEDED" or "FAILED".
+        /// The state of the data set contents. Can be one of READY, CREATING, SUCCEEDED, or FAILED.
         public let state: DatasetContentState?
 
         public init(reason: String? = nil, state: DatasetContentState? = nil) {
@@ -939,13 +967,13 @@ extension IoTAnalytics {
     public struct DatasetContentSummary: AWSDecodableShape {
         /// The time the dataset content status was updated to SUCCEEDED or FAILED.
         public let completionTime: Date?
-        /// The actual time the creation of the data set contents was started.
+        /// The actual time the creation of the dataset contents was started.
         public let creationTime: Date?
-        /// The time the creation of the data set contents was scheduled to start.
+        /// The time the creation of the dataset contents was scheduled to start.
         public let scheduleTime: Date?
         /// The status of the data set contents.
         public let status: DatasetContentStatus?
-        /// The version of the data set contents.
+        /// The version of the dataset contents.
         public let version: String?
 
         public init(completionTime: Date? = nil, creationTime: Date? = nil, scheduleTime: Date? = nil, status: DatasetContentStatus? = nil, version: String? = nil) {
@@ -966,7 +994,7 @@ extension IoTAnalytics {
     }
 
     public struct DatasetContentVersionValue: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the data set whose latest contents are used as input to the notebook or application.
+        /// The name of the dataset whose latest contents are used as input to the notebook or application.
         public let datasetName: String
 
         public init(datasetName: String) {
@@ -985,7 +1013,7 @@ extension IoTAnalytics {
     }
 
     public struct DatasetEntry: AWSDecodableShape {
-        /// The pre-signed URI of the data set item.
+        /// The presigned URI of the data set item.
         public let dataURI: String?
         /// The name of the data set item.
         public let entryName: String?
@@ -1002,7 +1030,7 @@ extension IoTAnalytics {
     }
 
     public struct DatasetSummary: AWSDecodableShape {
-        /// A list of "DataActionSummary" objects.
+        /// A list of DataActionSummary objects.
         public let actions: [DatasetActionSummary]?
         /// The time the data set was created.
         public let creationTime: Date?
@@ -1037,7 +1065,7 @@ extension IoTAnalytics {
     public struct DatasetTrigger: AWSEncodableShape & AWSDecodableShape {
         /// The data set whose content creation triggers the creation of this data set's contents.
         public let dataset: TriggeringDataset?
-        /// The "Schedule" when the trigger is initiated.
+        /// The Schedule when the trigger is initiated.
         public let schedule: Schedule?
 
         public init(dataset: TriggeringDataset? = nil, schedule: Schedule? = nil) {
@@ -1060,20 +1088,23 @@ extension IoTAnalytics {
         public let arn: String?
         /// When the data store was created.
         public let creationTime: Date?
+        /// The last time when a new message arrived in the data store. AWS IoT Analytics updates this value at most once per minute for one data store. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
+        public let lastMessageArrivalTime: Date?
         /// The last time the data store was updated.
         public let lastUpdateTime: Date?
         /// The name of the data store.
         public let name: String?
-        /// How long, in days, message data is kept for the data store. When "customerManagedS3" storage is selected, this parameter is ignored.
+        /// How long, in days, message data is kept for the data store. When customerManagedS3 storage is selected, this parameter is ignored.
         public let retentionPeriod: RetentionPeriod?
         /// The status of a data store:  CREATING  The data store is being created.  ACTIVE  The data store has been created and can be used.  DELETING  The data store is being deleted.
         public let status: DatastoreStatus?
-        /// Where data store data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after the data store is created.
+        /// Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the data store is created.
         public let storage: DatastoreStorage?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
+            self.lastMessageArrivalTime = lastMessageArrivalTime
             self.lastUpdateTime = lastUpdateTime
             self.name = name
             self.retentionPeriod = retentionPeriod
@@ -1084,6 +1115,7 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case arn
             case creationTime
+            case lastMessageArrivalTime
             case lastUpdateTime
             case name
             case retentionPeriod
@@ -1095,7 +1127,7 @@ extension IoTAnalytics {
     public struct DatastoreActivity: AWSEncodableShape & AWSDecodableShape {
         /// The name of the data store where processed messages are stored.
         public let datastoreName: String
-        /// The name of the 'datastore' activity.
+        /// The name of the datastore activity.
         public let name: String
 
         public init(datastoreName: String, name: String) {
@@ -1131,9 +1163,9 @@ extension IoTAnalytics {
     }
 
     public struct DatastoreStorage: AWSEncodableShape & AWSDecodableShape {
-        /// Use this to store data store data in an S3 bucket that you manage. When customer managed storage is selected, the "retentionPeriod" parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the data store.
+        /// Use this to store data store data in an S3 bucket that you manage. When customer managed storage is selected, the retentionPeriod parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the data store.
         public let customerManagedS3: CustomerManagedDatastoreS3Storage?
-        /// Use this to store data store data in an S3 bucket managed by the AWS IoT Analytics service. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the data store.
+        /// Use this to store data store data in an S3 bucket managed by AWS IoT Analytics. You cannot change the choice of service-managed or customer-managed S3 storage after the data store is created.
         public let serviceManagedS3: ServiceManagedDatastoreS3Storage?
 
         public init(customerManagedS3: CustomerManagedDatastoreS3Storage? = nil, serviceManagedS3: ServiceManagedDatastoreS3Storage? = nil) {
@@ -1154,7 +1186,7 @@ extension IoTAnalytics {
     public struct DatastoreStorageSummary: AWSDecodableShape {
         /// Used to store data store data in an S3 bucket that you manage.
         public let customerManagedS3: CustomerManagedDatastoreS3StorageSummary?
-        /// Used to store data store data in an S3 bucket managed by the AWS IoT Analytics service.
+        /// Used to store data store data in an S3 bucket managed by AWS IoT Analytics.
         public let serviceManagedS3: ServiceManagedDatastoreS3StorageSummary?
 
         public init(customerManagedS3: CustomerManagedDatastoreS3StorageSummary? = nil, serviceManagedS3: ServiceManagedDatastoreS3StorageSummary? = nil) {
@@ -1175,15 +1207,18 @@ extension IoTAnalytics {
         public let datastoreName: String?
         /// Where data store data is stored.
         public let datastoreStorage: DatastoreStorageSummary?
+        /// The last time when a new message arrived in the data store. AWS IoT Analytics updates this value at most once per minute for one data store. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
+        public let lastMessageArrivalTime: Date?
         /// The last time the data store was updated.
         public let lastUpdateTime: Date?
         /// The status of the data store.
         public let status: DatastoreStatus?
 
-        public init(creationTime: Date? = nil, datastoreName: String? = nil, datastoreStorage: DatastoreStorageSummary? = nil, lastUpdateTime: Date? = nil, status: DatastoreStatus? = nil) {
+        public init(creationTime: Date? = nil, datastoreName: String? = nil, datastoreStorage: DatastoreStorageSummary? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, status: DatastoreStatus? = nil) {
             self.creationTime = creationTime
             self.datastoreName = datastoreName
             self.datastoreStorage = datastoreStorage
+            self.lastMessageArrivalTime = lastMessageArrivalTime
             self.lastUpdateTime = lastUpdateTime
             self.status = status
         }
@@ -1192,6 +1227,7 @@ extension IoTAnalytics {
             case creationTime
             case datastoreName
             case datastoreStorage
+            case lastMessageArrivalTime
             case lastUpdateTime
             case status
         }
@@ -1224,9 +1260,9 @@ extension IoTAnalytics {
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
-        /// The name of the data set whose content is deleted.
+        /// The name of the dataset whose content is deleted.
         public let datasetName: String
-        /// The version of the data set whose content is deleted. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to delete the latest or latest successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is the default.
+        /// The version of the dataset whose content is deleted. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to delete the latest or latest successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is the default.
         public let versionId: String?
 
         public init(datasetName: String, versionId: String? = nil) {
@@ -1309,9 +1345,9 @@ extension IoTAnalytics {
     }
 
     public struct DeltaTime: AWSEncodableShape & AWSDecodableShape {
-        /// The number of seconds of estimated "in flight" lag time of message data. When you create data set contents using message data from a specified time frame, some message data may still be "in flight" when processing begins, and so will not arrive in time to be processed. Use this field to make allowances for the "in flight" time of your message data, so that data not processed from a previous time frame will be included with the next time frame. Without this, missed message data would be excluded from processing during the next time frame as well, because its timestamp places it within the previous time frame.
+        /// The number of seconds of estimated in-flight lag time of message data. When you create dataset contents using message data from a specified timeframe, some message data might still be in flight when processing begins, and so do not arrive in time to be processed. Use this field to make allowances for the in flight time of your message data, so that data not processed from a previous timeframe is included with the next timeframe. Otherwise, missed message data would be excluded from processing during the next timeframe too, because its timestamp places it within the previous timeframe.
         public let offsetSeconds: Int
-        /// An expression by which the time of the message data may be determined. This may be the name of a timestamp field, or a SQL expression which is used to derive the time the message data was generated.
+        /// An expression by which the time of the message data might be determined. This can be the name of a timestamp field or a SQL expression that is used to derive the time the message data was generated.
         public let timeExpression: String
 
         public init(offsetSeconds: Int, timeExpression: String) {
@@ -1322,6 +1358,24 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case offsetSeconds
             case timeExpression
+        }
+    }
+
+    public struct DeltaTimeSessionWindowConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A time interval. You can use timeoutInMinutes so that AWS IoT Analytics can batch up late data notifications that have been generated since the last execution. AWS IoT Analytics sends one batch of notifications to Amazon CloudWatch Events at one time. For more information about how to write a timestamp expression, see Date and Time Functions and Operators, in the Presto 0.172 Documentation.
+        public let timeoutInMinutes: Int
+
+        public init(timeoutInMinutes: Int) {
+            self.timeoutInMinutes = timeoutInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 60)
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeoutInMinutes
         }
     }
 
@@ -1353,7 +1407,7 @@ extension IoTAnalytics {
     public struct DescribeChannelResponse: AWSDecodableShape {
         /// An object that contains information about the channel.
         public let channel: Channel?
-        /// Statistics about the channel. Included if the 'includeStatistics' parameter is set to true in the request.
+        /// Statistics about the channel. Included if the includeStatistics parameter is set to true in the request.
         public let statistics: ChannelStatistics?
 
         public init(channel: Channel? = nil, statistics: ChannelStatistics? = nil) {
@@ -1429,7 +1483,7 @@ extension IoTAnalytics {
     public struct DescribeDatastoreResponse: AWSDecodableShape {
         /// Information about the data store.
         public let datastore: Datastore?
-        /// Additional statistical information about the data store. Included if the 'includeStatistics' parameter is set to true in the request.
+        /// Additional statistical information about the data store. Included if the includeStatistics parameter is set to true in the request.
         public let statistics: DatastoreStatistics?
 
         public init(datastore: Datastore? = nil, statistics: DatastoreStatistics? = nil) {
@@ -1482,7 +1536,7 @@ extension IoTAnalytics {
     }
 
     public struct DescribePipelineResponse: AWSDecodableShape {
-        /// A "Pipeline" object that contains information about the pipeline.
+        /// A Pipeline object that contains information about the pipeline.
         public let pipeline: Pipeline?
 
         public init(pipeline: Pipeline? = nil) {
@@ -1497,7 +1551,7 @@ extension IoTAnalytics {
     public struct DeviceRegistryEnrichActivity: AWSEncodableShape & AWSDecodableShape {
         /// The name of the attribute that is added to the message.
         public let attribute: String
-        /// The name of the 'deviceRegistryEnrich' activity.
+        /// The name of the deviceRegistryEnrich activity.
         public let name: String
         /// The next activity in the pipeline.
         public let next: String?
@@ -1539,7 +1593,7 @@ extension IoTAnalytics {
     public struct DeviceShadowEnrichActivity: AWSEncodableShape & AWSDecodableShape {
         /// The name of the attribute that is added to the message.
         public let attribute: String
-        /// The name of the 'deviceShadowEnrich' activity.
+        /// The name of the deviceShadowEnrich activity.
         public let name: String
         /// The next activity in the pipeline.
         public let next: String?
@@ -1581,7 +1635,7 @@ extension IoTAnalytics {
     public struct EstimatedResourceSize: AWSDecodableShape {
         /// The time when the estimate of the size of the resource was made.
         public let estimatedOn: Date?
-        /// The estimated size of the resource in bytes.
+        /// The estimated size of the resource, in bytes.
         public let estimatedSizeInBytes: Double?
 
         public init(estimatedOn: Date? = nil, estimatedSizeInBytes: Double? = nil) {
@@ -1596,9 +1650,9 @@ extension IoTAnalytics {
     }
 
     public struct FilterActivity: AWSEncodableShape & AWSDecodableShape {
-        /// An expression that looks like a SQL WHERE clause that must return a Boolean value.
+        /// An expression that looks like a SQL WHERE clause that must return a Boolean value. Messages that satisfy the condition are passed to the next activity.
         public let filter: String
-        /// The name of the 'filter' activity.
+        /// The name of the filter activity.
         public let name: String
         /// The next activity in the pipeline.
         public let next: String?
@@ -1653,7 +1707,7 @@ extension IoTAnalytics {
     }
 
     public struct GetDatasetContentResponse: AWSDecodableShape {
-        /// A list of "DatasetEntry" objects.
+        /// A list of DatasetEntry objects.
         public let entries: [DatasetEntry]?
         /// The status of the data set content.
         public let status: DatasetContentStatus?
@@ -1674,9 +1728,9 @@ extension IoTAnalytics {
     }
 
     public struct GlueConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the database in your AWS Glue Data Catalog in which the table is located. (An AWS Glue Data Catalog database contains Glue Data tables.)
+        /// The name of the database in your AWS Glue Data Catalog in which the table is located. An AWS Glue Data Catalog database contains metadata tables.
         public let databaseName: String
-        /// The name of the table in your AWS Glue Data Catalog which is used to perform the ETL (extract, transform and load) operations. (An AWS Glue Data Catalog table contains partitioned data and descriptions of data sources and targets.)
+        /// The name of the table in your AWS Glue Data Catalog that is used to perform the ETL operations. An AWS Glue Data Catalog table contains partitioned data and descriptions of data sources and targets.
         public let tableName: String
 
         public init(databaseName: String, tableName: String) {
@@ -1700,9 +1754,9 @@ extension IoTAnalytics {
     }
 
     public struct IotEventsDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the AWS IoT Events input to which data set contents are delivered.
+        /// The name of the AWS IoT Events input to which dataset contents are delivered.
         public let inputName: String
-        /// The ARN of the role which grants AWS IoT Analytics permission to deliver data set contents to an AWS IoT Events input.
+        /// The ARN of the role that grants AWS IoT Analytics permission to deliver dataset contents to an AWS IoT Events input.
         public let roleArn: String
 
         public init(inputName: String, roleArn: String) {
@@ -1725,11 +1779,11 @@ extension IoTAnalytics {
     }
 
     public struct LambdaActivity: AWSEncodableShape & AWSDecodableShape {
-        /// The number of messages passed to the Lambda function for processing. The AWS Lambda function must be able to process all of these messages within five minutes, which is the maximum timeout duration for Lambda functions.
+        /// The number of messages passed to the Lambda function for processing. The Lambda function must be able to process all of these messages within five minutes, which is the maximum timeout duration for Lambda functions.
         public let batchSize: Int
         /// The name of the Lambda function that is run on the message.
         public let lambdaName: String
-        /// The name of the 'lambda' activity.
+        /// The name of the lambda activity.
         public let name: String
         /// The next activity in the pipeline.
         public let next: String?
@@ -1761,6 +1815,47 @@ extension IoTAnalytics {
         }
     }
 
+    public struct LateDataRule: AWSEncodableShape & AWSDecodableShape {
+        /// The information needed to configure the late data rule.
+        public let ruleConfiguration: LateDataRuleConfiguration
+        /// The name of the late data rule.
+        public let ruleName: String?
+
+        public init(ruleConfiguration: LateDataRuleConfiguration, ruleName: String? = nil) {
+            self.ruleConfiguration = ruleConfiguration
+            self.ruleName = ruleName
+        }
+
+        public func validate(name: String) throws {
+            try self.ruleConfiguration.validate(name: "\(name).ruleConfiguration")
+            try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleConfiguration
+            case ruleName
+        }
+    }
+
+    public struct LateDataRuleConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The information needed to configure a delta time session window.
+        public let deltaTimeSessionWindowConfiguration: DeltaTimeSessionWindowConfiguration?
+
+        public init(deltaTimeSessionWindowConfiguration: DeltaTimeSessionWindowConfiguration? = nil) {
+            self.deltaTimeSessionWindowConfiguration = deltaTimeSessionWindowConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.deltaTimeSessionWindowConfiguration?.validate(name: "\(name).deltaTimeSessionWindowConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deltaTimeSessionWindowConfiguration
+        }
+    }
+
     public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
@@ -1786,7 +1881,7 @@ extension IoTAnalytics {
     }
 
     public struct ListChannelsResponse: AWSDecodableShape {
-        /// A list of "ChannelSummary" objects.
+        /// A list of ChannelSummary objects.
         public let channelSummaries: [ChannelSummary]?
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -1883,7 +1978,7 @@ extension IoTAnalytics {
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
-        /// A list of "DatasetSummary" objects.
+        /// A list of DatasetSummary objects.
         public let datasetSummaries: [DatasetSummary]?
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -1924,7 +2019,7 @@ extension IoTAnalytics {
     }
 
     public struct ListDatastoresResponse: AWSDecodableShape {
-        /// A list of "DatastoreSummary" objects.
+        /// A list of DatastoreSummary objects.
         public let datastoreSummaries: [DatastoreSummary]?
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -1967,7 +2062,7 @@ extension IoTAnalytics {
     public struct ListPipelinesResponse: AWSDecodableShape {
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// A list of "PipelineSummary" objects.
+        /// A list of PipelineSummary objects.
         public let pipelineSummaries: [PipelineSummary]?
 
         public init(nextToken: String? = nil, pipelineSummaries: [PipelineSummary]? = nil) {
@@ -2002,7 +2097,7 @@ extension IoTAnalytics {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// The tags (metadata) which you have assigned to the resource.
+        /// The tags (metadata) that you have assigned to the resource.
         public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -2017,7 +2112,7 @@ extension IoTAnalytics {
     public struct LoggingOptions: AWSEncodableShape & AWSDecodableShape {
         /// If true, logging is enabled for AWS IoT Analytics.
         public let enabled: Bool
-        /// The logging level. Currently, only "ERROR" is supported.
+        /// The logging level. Currently, only ERROR is supported.
         public let level: LoggingLevel
         /// The ARN of the role that grants permission to AWS IoT Analytics to perform logging.
         public let roleArn: String
@@ -2045,7 +2140,7 @@ extension IoTAnalytics {
         public let attribute: String
         /// An expression that uses one or more existing attributes and must return an integer value.
         public let math: String
-        /// The name of the 'math' activity.
+        /// The name of the math activity.
         public let name: String
         /// The next activity in the pipeline.
         public let next: String?
@@ -2077,9 +2172,9 @@ extension IoTAnalytics {
     }
 
     public struct Message: AWSEncodableShape {
-        /// The ID you wish to assign to the message. Each "messageId" must be unique within each batch sent.
+        /// The ID you want to assign to the message. Each messageId must be unique within each batch sent.
         public let messageId: String
-        /// The payload of the message. This may be a JSON string or a Base64-encoded string representing binary data (in which case you must decode it by means of a pipeline activity).
+        /// The payload of the message. This can be a JSON string or a base64-encoded string representing binary data, in which case you must decode it by means of a pipeline activity.
         public let payload: Data
 
         public init(messageId: String, payload: Data) {
@@ -2099,7 +2194,7 @@ extension IoTAnalytics {
     }
 
     public struct OutputFileUriValue: AWSEncodableShape & AWSDecodableShape {
-        /// The URI of the location where data set contents are stored, usually the URI of a file in an S3 bucket.
+        /// The URI of the location where dataset contents are stored, usually the URI of a file in an S3 bucket.
         public let fileName: String
 
         public init(fileName: String) {
@@ -2157,7 +2252,7 @@ extension IoTAnalytics {
         public let datastore: DatastoreActivity?
         /// Adds data from the AWS IoT device registry to your message.
         public let deviceRegistryEnrich: DeviceRegistryEnrichActivity?
-        /// Adds information from the AWS IoT Device Shadows service to a message.
+        /// Adds information from the AWS IoT Device Shadow service to a message.
         public let deviceShadowEnrich: DeviceShadowEnrichActivity?
         /// Filters a message based on its attributes.
         public let filter: FilterActivity?
@@ -2268,7 +2363,7 @@ extension IoTAnalytics {
     public struct RemoveAttributesActivity: AWSEncodableShape & AWSDecodableShape {
         /// A list of 1-50 attributes to remove from the message.
         public let attributes: [String]
-        /// The name of the 'removeAttributes' activity.
+        /// The name of the removeAttributes activity.
         public let name: String
         /// The next activity in the pipeline.
         public let next: String?
@@ -2302,7 +2397,7 @@ extension IoTAnalytics {
     public struct ReprocessingSummary: AWSDecodableShape {
         /// The time the pipeline reprocessing was created.
         public let creationTime: Date?
-        /// The 'reprocessingId' returned by "StartPipelineReprocessing".
+        /// The reprocessingId returned by StartPipelineReprocessing.
         public let id: String?
         /// The status of the pipeline reprocessing.
         public let status: ReprocessingStatus?
@@ -2321,9 +2416,9 @@ extension IoTAnalytics {
     }
 
     public struct ResourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of the compute resource used to execute the "containerAction". Possible values are: ACU_1 (vCPU=4, memory=16GiB) or ACU_2 (vCPU=8, memory=32GiB).
+        /// The type of the compute resource used to execute the containerAction. Possible values are: ACU_1 (vCPU=4, memory=16 GiB) or ACU_2 (vCPU=8, memory=32 GiB).
         public let computeType: ComputeType
-        /// The size (in GB) of the persistent storage available to the resource instance used to execute the "containerAction" (min: 1, max: 50).
+        /// The size, in GB, of the persistent storage available to the resource instance used to execute the containerAction (min: 1, max: 50).
         public let volumeSizeInGB: Int
 
         public init(computeType: ComputeType, volumeSizeInGB: Int) {
@@ -2343,7 +2438,7 @@ extension IoTAnalytics {
     }
 
     public struct RetentionPeriod: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days that message data is kept. The "unlimited" parameter must be false.
+        /// The number of days that message data is kept. The unlimited parameter must be false.
         public let numberOfDays: Int?
         /// If true, message data is kept indefinitely.
         public let unlimited: Bool?
@@ -2366,7 +2461,7 @@ extension IoTAnalytics {
     public struct RunPipelineActivityRequest: AWSEncodableShape {
         /// The sample message payloads on which the pipeline activity is run.
         public let payloads: [Data]
-        /// The pipeline activity that is run. This must not be a 'channel' activity or a 'datastore' activity because these activities are used in a pipeline only to load the original message and to store the (possibly) transformed message. If a 'lambda' activity is specified, only short-running Lambda functions (those with a timeout of less than 30 seconds or less) can be used.
+        /// The pipeline activity that is run. This must not be a channel activity or a datastore activity because these activities are used in a pipeline only to load the original message and to store the (possibly) transformed message. If a lambda activity is specified, only short-running Lambda functions (those with a timeout of less than 30 seconds or less) can be used.
         public let pipelineActivity: PipelineActivity
 
         public init(payloads: [Data], pipelineActivity: PipelineActivity) {
@@ -2404,13 +2499,13 @@ extension IoTAnalytics {
     }
 
     public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the Amazon S3 bucket to which data set contents are delivered.
+        /// The name of the S3 bucket to which dataset contents are delivered.
         public let bucket: String
-        /// Configuration information for coordination with the AWS Glue ETL (extract, transform and load) service.
+        /// Configuration information for coordination with AWS Glue, a fully managed extract, transform and load (ETL) service.
         public let glueConfiguration: GlueConfiguration?
-        /// The key of the data set contents object. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). To produce a unique key, you can use "!{iotanalytics:scheduledTime}" to insert the time of the scheduled SQL query run, or "!{iotanalytics:versioned} to insert a unique hash identifying the data set, for example: "/DataSet/!{iotanalytics:scheduledTime}/!{iotanalytics:versioned}.csv".
+        /// The key of the dataset contents object in an S3 bucket. Each object has a key that is a unique identifier. Each object has exactly one key. You can create a unique key with the following options:   Use !{iotanalytics:scheduleTime} to insert the time of a scheduled SQL query run.   Use !{iotanalytics:versionId} to insert a unique hash that identifies a dataset content.   Use !{iotanalytics:creationTime} to insert the creation time of a dataset content.   The following example creates a unique key for a CSV file: dataset/mydataset/!{iotanalytics:scheduleTime}/!{iotanalytics:versionId}.csv   If you don't use !{iotanalytics:versionId} to specify the key, you might get duplicate keys. For example, you might have two dataset contents with the same scheduleTime but different versionIds. This means that one dataset content overwrites the other.
         public let key: String
-        /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 and AWS Glue resources.
+        /// The ARN of the role that grants AWS IoT Analytics permission to interact with your Amazon S3 and AWS Glue resources.
         public let roleArn: String
 
         public init(bucket: String, glueConfiguration: GlueConfiguration? = nil, key: String, roleArn: String) {
@@ -2452,7 +2547,7 @@ extension IoTAnalytics {
         public let channelName: String
         /// The end of the time window from which sample messages are retrieved.
         public let endTime: Date?
-        /// The number of sample messages to be retrieved. The limit is 10, the default is also 10.
+        /// The number of sample messages to be retrieved. The limit is 10. The default is also 10.
         public let maxMessages: Int?
         /// The start of the time window from which sample messages are retrieved.
         public let startTime: Date?
@@ -2489,7 +2584,7 @@ extension IoTAnalytics {
     }
 
     public struct Schedule: AWSEncodableShape & AWSDecodableShape {
-        /// The expression that defines when to trigger an update. For more information, see  Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.
+        /// The expression that defines when to trigger an update. For more information, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.
         public let expression: String?
 
         public init(expression: String? = nil) {
@@ -2504,7 +2599,7 @@ extension IoTAnalytics {
     public struct SelectAttributesActivity: AWSEncodableShape & AWSDecodableShape {
         /// A list of the attributes to select from the message.
         public let attributes: [String]
-        /// The name of the 'selectAttributes' activity.
+        /// The name of the selectAttributes activity.
         public let name: String
         /// The next activity in the pipeline.
         public let next: String?
@@ -2552,7 +2647,7 @@ extension IoTAnalytics {
     }
 
     public struct SqlQueryDatasetAction: AWSEncodableShape & AWSDecodableShape {
-        /// Pre-filters applied to message data.
+        /// Prefilters applied to message data.
         public let filters: [QueryFilter]?
         /// A SQL query string.
         public let sqlQuery: String
@@ -2675,7 +2770,7 @@ extension IoTAnalytics {
     }
 
     public struct TriggeringDataset: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the data set whose content generation triggers the new data set content generation.
+        /// The name of the dataset whose content generation triggers the new dataset content generation.
         public let name: String
 
         public init(name: String) {
@@ -2734,7 +2829,7 @@ extension IoTAnalytics {
 
         /// The name of the channel to be updated.
         public let channelName: String
-        /// Where channel data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after creation of the channel.
+        /// Where channel data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the channel is created.
         public let channelStorage: ChannelStorage?
         /// How long, in days, message data is kept for the channel. The retention period cannot be updated if the channel's S3 storage is customer-managed.
         public let retentionPeriod: RetentionPeriod?
@@ -2764,23 +2859,26 @@ extension IoTAnalytics {
             AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName"))
         ]
 
-        /// A list of "DatasetAction" objects.
+        /// A list of DatasetAction objects.
         public let actions: [DatasetAction]
-        /// When data set contents are created they are delivered to destinations specified here.
+        /// When dataset contents are created, they are delivered to destinations specified here.
         public let contentDeliveryRules: [DatasetContentDeliveryRule]?
         /// The name of the data set to update.
         public let datasetName: String
-        /// How long, in days, data set contents are kept for the data set.
+        /// A list of data rules that send notifications to Amazon CloudWatch, when data arrives late. To specify lateDataRules, the dataset must use a DeltaTimer filter.
+        public let lateDataRules: [LateDataRule]?
+        /// How long, in days, dataset contents are kept for the dataset.
         public let retentionPeriod: RetentionPeriod?
-        /// A list of "DatasetTrigger" objects. The list can be empty or can contain up to five DataSetTrigger objects.
+        /// A list of DatasetTrigger objects. The list can be empty or can contain up to five DatasetTrigger objects.
         public let triggers: [DatasetTrigger]?
-        /// [Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the "retentionPeriod" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+        /// Optional. How many versions of dataset contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the retentionPeriod parameter. For more information, see Keeping Multiple Versions of AWS IoT Analytics Data Sets in the AWS IoT Analytics User Guide.
         public let versioningConfiguration: VersioningConfiguration?
 
-        public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, retentionPeriod: RetentionPeriod? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
+        public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, lateDataRules: [LateDataRule]? = nil, retentionPeriod: RetentionPeriod? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.contentDeliveryRules = contentDeliveryRules
             self.datasetName = datasetName
+            self.lateDataRules = lateDataRules
             self.retentionPeriod = retentionPeriod
             self.triggers = triggers
             self.versioningConfiguration = versioningConfiguration
@@ -2800,6 +2898,11 @@ extension IoTAnalytics {
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 128)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
             try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.lateDataRules?.forEach {
+                try $0.validate(name: "\(name).lateDataRules[]")
+            }
+            try self.validate(self.lateDataRules, name: "lateDataRules", parent: name, max: 1)
+            try self.validate(self.lateDataRules, name: "lateDataRules", parent: name, min: 1)
             try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
             try self.triggers?.forEach {
                 try $0.validate(name: "\(name).triggers[]")
@@ -2812,6 +2915,7 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case actions
             case contentDeliveryRules
+            case lateDataRules
             case retentionPeriod
             case triggers
             case versioningConfiguration
@@ -2825,7 +2929,7 @@ extension IoTAnalytics {
 
         /// The name of the data store to be updated.
         public let datastoreName: String
-        /// Where data store data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after the data store is created.
+        /// Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default isserviceManagedS3. You cannot change this storage option after the data store is created.
         public let datastoreStorage: DatastoreStorage?
         /// How long, in days, message data is kept for the data store. The retention period cannot be updated if the data store's S3 storage is customer-managed.
         public let retentionPeriod: RetentionPeriod?
@@ -2855,7 +2959,7 @@ extension IoTAnalytics {
             AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
-        /// A list of "PipelineActivity" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]
+        /// A list of PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity. For example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]
         public let pipelineActivities: [PipelineActivity]
         /// The name of the pipeline to update.
         public let pipelineName: String
@@ -2882,7 +2986,7 @@ extension IoTAnalytics {
     }
 
     public struct Variable: AWSEncodableShape & AWSDecodableShape {
-        /// The value of the variable as a structure that specifies a data set content version.
+        /// The value of the variable as a structure that specifies a dataset content version.
         public let datasetContentVersionValue: DatasetContentVersionValue?
         /// The value of the variable as a double (numeric).
         public let doubleValue: Double?
@@ -2920,9 +3024,9 @@ extension IoTAnalytics {
     }
 
     public struct VersioningConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// How many versions of data set contents will be kept. The "unlimited" parameter must be false.
+        /// How many versions of dataset contents are kept. The unlimited parameter must be false.
         public let maxVersions: Int?
-        /// If true, unlimited versions of data set contents will be kept.
+        /// If true, unlimited versions of dataset contents are kept.
         public let unlimited: Bool?
 
         public init(maxVersions: Int? = nil, unlimited: Bool? = nil) {

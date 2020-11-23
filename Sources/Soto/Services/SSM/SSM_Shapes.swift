@@ -97,6 +97,7 @@ extension SSM {
         case starttimeafter = "StartTimeAfter"
         case starttimebefore = "StartTimeBefore"
         case tagkey = "TagKey"
+        case targetresourcegroup = "TargetResourceGroup"
         public var description: String { return self.rawValue }
     }
 
@@ -583,6 +584,7 @@ extension SSM {
         case invokedafter = "InvokedAfter"
         case invokedbefore = "InvokedBefore"
         case owner = "Owner"
+        case sessionid = "SessionId"
         case status = "Status"
         case target = "Target"
         public var description: String { return self.rawValue }
@@ -1008,7 +1010,7 @@ extension SSM {
     }
 
     public struct AssociationFilter: AWSEncodableShape {
-        /// The name of the filter.
+        /// The name of the filter.   InstanceId has been deprecated.
         public let key: AssociationFilterKey
         /// The filter value.
         public let value: String
@@ -1332,7 +1334,7 @@ extension SSM {
     }
 
     public struct AutomationExecutionFilter: AWSEncodableShape {
-        /// One or more keys to limit the results. Valid filter keys include the following: DocumentNamePrefix, ExecutionStatus, ExecutionId, ParentExecutionId, CurrentAction, StartTimeBefore, StartTimeAfter.
+        /// One or more keys to limit the results. Valid filter keys include the following: DocumentNamePrefix, ExecutionStatus, ExecutionId, ParentExecutionId, CurrentAction, StartTimeBefore, StartTimeAfter, TargetResourceGroup.
         public let key: AutomationExecutionFilterKey
         /// The values used to limit the execution information associated with the filter's key.
         public let values: [String]
@@ -4721,7 +4723,7 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.validate(self.filters, name: "filters", parent: name, max: 5)
+            try self.validate(self.filters, name: "filters", parent: name, max: 6)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -7243,7 +7245,7 @@ extension SSM {
     }
 
     public struct ListAssociationsRequest: AWSEncodableShape {
-        /// One or more filters. Use a filter to return a more specific list of results.
+        /// One or more filters. Use a filter to return a more specific list of results.  Filtering associations using the InstanceID attribute only returns legacy associations created using the InstanceID attribute. Associations targeting the instance that are part of the Target Attributes ResourceGroup or Tags are not returned.
         public let associationFilterList: [AssociationFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -10599,7 +10601,7 @@ extension SSM {
     public struct SessionFilter: AWSEncodableShape {
         /// The name of the filter.
         public let key: SessionFilterKey
-        /// The filter value. Valid values for each filter key are as follows:   InvokedAfter: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started August 29, 2018, and later.   InvokedBefore: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started before August 29, 2018.   Target: Specify an instance to which session connections have been made.   Owner: Specify an AWS user account to see a list of sessions started by that user.   Status: Specify a valid session status to see a list of all sessions with that status. Status values you can specify include:   Connected   Connecting   Disconnected   Terminated   Terminating   Failed
+        /// The filter value. Valid values for each filter key are as follows:   InvokedAfter: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started August 29, 2018, and later.   InvokedBefore: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started before August 29, 2018.   Target: Specify an instance to which session connections have been made.   Owner: Specify an AWS user account to see a list of sessions started by that user.   Status: Specify a valid session status to see a list of all sessions with that status. Status values you can specify include:   Connected   Connecting   Disconnected   Terminated   Terminating   Failed     SessionId: Specify a session ID to return details about the session.
         public let value: String
 
         public init(key: SessionFilterKey, value: String) {

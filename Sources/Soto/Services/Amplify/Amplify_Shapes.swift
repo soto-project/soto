@@ -82,6 +82,8 @@ extension Amplify {
         public let buildSpec: String?
         ///  Creates a date and time for the Amplify app.
         public let createTime: Date
+        /// Describes the custom HTTP headers for the Amplify app.
+        public let customHeaders: String?
         ///  Describes the custom redirect and rewrite rules for the Amplify app.
         public let customRules: [CustomRule]?
         ///  The default domain for the Amplify app.
@@ -113,7 +115,7 @@ extension Amplify {
         ///  Updates the date and time for the Amplify app.
         public let updateTime: Date
 
-        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: Date, customRules: [CustomRule]? = nil, defaultDomain: String, description: String, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String], iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String, tags: [String: String]? = nil, updateTime: Date) {
+        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String], iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String, tags: [String: String]? = nil, updateTime: Date) {
             self.appArn = appArn
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -121,6 +123,7 @@ extension Amplify {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
             self.createTime = createTime
+            self.customHeaders = customHeaders
             self.customRules = customRules
             self.defaultDomain = defaultDomain
             self.description = description
@@ -146,6 +149,7 @@ extension Amplify {
             case basicAuthCredentials
             case buildSpec
             case createTime
+            case customHeaders
             case customRules
             case defaultDomain
             case description
@@ -190,9 +194,9 @@ extension Amplify {
         public let enableAutoBuild: Bool?
         ///  Enables basic authorization for the autocreated branch.
         public let enableBasicAuth: Bool?
-        ///  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out.
+        /// Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out.
         public let enablePerformanceMode: Bool?
-        ///  Enables pull request preview for the autocreated branch.
+        ///  Enables pull request previews for the autocreated branch.
         public let enablePullRequestPreview: Bool?
         ///  The environment variables for the autocreated branch.
         public let environmentVariables: [String: String]?
@@ -306,9 +310,9 @@ extension Amplify {
         public let enableBasicAuth: Bool
         ///  Enables notifications for a branch that is part of an Amplify app.
         public let enableNotification: Bool
-        ///  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out.
+        /// Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out.
         public let enablePerformanceMode: Bool?
-        ///  Enables pull request preview for the branch.
+        ///  Enables pull request previews for the branch.
         public let enablePullRequestPreview: Bool
         ///  The environment variables specific to a branch of an Amplify app.
         public let environmentVariables: [String: String]
@@ -395,19 +399,21 @@ extension Amplify {
     public struct CreateAppRequest: AWSEncodableShape {
         ///  The personal access token for a third-party source control system for an Amplify app. The personal access token is used to create a webhook and a read-only deploy key. The token is not stored.
         public let accessToken: String?
-        ///  The automated branch creation configuration for the Amplify app.
+        ///  The automated branch creation configuration for an Amplify app.
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
-        ///  The automated branch creation glob patterns for the Amplify app.
+        ///  The automated branch creation glob patterns for an Amplify app.
         public let autoBranchCreationPatterns: [String]?
         ///  The credentials for basic authorization for an Amplify app.
         public let basicAuthCredentials: String?
         ///  The build specification (build spec) for an Amplify app.
         public let buildSpec: String?
+        /// The custom HTTP headers for an Amplify app.
+        public let customHeaders: String?
         ///  The custom rewrite and redirect rules for an Amplify app.
         public let customRules: [CustomRule]?
         ///  The description for an Amplify app.
         public let description: String?
-        ///  Enables automated branch creation for the Amplify app.
+        ///  Enables automated branch creation for an Amplify app.
         public let enableAutoBranchCreation: Bool?
         ///  Enables basic authorization for an Amplify app. This will apply to all branches that are part of this app.
         public let enableBasicAuth: Bool?
@@ -419,7 +425,7 @@ extension Amplify {
         public let environmentVariables: [String: String]?
         ///  The AWS Identity and Access Management (IAM) service role for an Amplify app.
         public let iamServiceRoleArn: String?
-        ///  The name for the Amplify app.
+        ///  The name for an Amplify app.
         public let name: String
         ///  The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key. The OAuth token is not stored.
         public let oauthToken: String?
@@ -430,12 +436,13 @@ extension Amplify {
         ///  The tag for an Amplify app.
         public let tags: [String: String]?
 
-        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
+        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
             self.accessToken = accessToken
             self.autoBranchCreationConfig = autoBranchCreationConfig
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
+            self.customHeaders = customHeaders
             self.customRules = customRules
             self.description = description
             self.enableAutoBranchCreation = enableAutoBranchCreation
@@ -462,6 +469,8 @@ extension Amplify {
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.validate(self.customHeaders, name: "customHeaders", parent: name, max: 25000)
+            try self.validate(self.customHeaders, name: "customHeaders", parent: name, min: 1)
             try self.customRules?.forEach {
                 try $0.validate(name: "\(name).customRules[]")
             }
@@ -490,6 +499,7 @@ extension Amplify {
             case autoBranchCreationPatterns
             case basicAuthCredentials
             case buildSpec
+            case customHeaders
             case customRules
             case description
             case enableAutoBranchCreation
@@ -540,8 +550,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.deploymentArtifacts, name: "deploymentArtifacts", parent: name, max: 1000)
             try self.validate(self.deploymentArtifacts, name: "deploymentArtifacts", parent: name, min: 1)
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
@@ -595,9 +606,9 @@ extension Amplify {
         public let enableBasicAuth: Bool?
         ///  Enables notifications for the branch.
         public let enableNotification: Bool?
-        ///  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out.
+        /// Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out.
         public let enablePerformanceMode: Bool?
-        ///  Enables pull request preview for this branch.
+        ///  Enables pull request previews for this branch.
         public let enablePullRequestPreview: Bool?
         ///  The environment variables for the branch.
         public let environmentVariables: [String: String]?
@@ -634,8 +645,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, max: 1000)
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, min: 1)
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
@@ -713,8 +725,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.fileMap?.forEach {
@@ -777,8 +790,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.autoSubDomainCreationPatterns?.forEach {
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, min: 1)
@@ -833,8 +847,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
@@ -908,8 +923,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -944,8 +960,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
         }
@@ -983,8 +1000,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
         }
@@ -1022,8 +1040,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1063,8 +1082,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
@@ -1184,8 +1204,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1222,8 +1243,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1294,8 +1316,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
         }
@@ -1333,8 +1356,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
         }
@@ -1371,8 +1395,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1413,8 +1438,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
@@ -1547,7 +1573,7 @@ extension Amplify {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1600,13 +1626,14 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1655,12 +1682,13 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1705,10 +1733,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1753,10 +1782,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1805,12 +1835,13 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1887,10 +1918,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1962,8 +1994,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
@@ -2024,8 +2057,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.commitId, name: "commitId", parent: name, max: 255)
@@ -2131,8 +2165,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
@@ -2275,19 +2310,21 @@ extension Amplify {
         public let accessToken: String?
         ///  The unique ID for an Amplify app.
         public let appId: String
-        ///  The automated branch creation configuration for the Amplify app.
+        ///  The automated branch creation configuration for an Amplify app.
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
-        ///  Describes the automated branch creation glob patterns for the Amplify app.
+        ///  Describes the automated branch creation glob patterns for an Amplify app.
         public let autoBranchCreationPatterns: [String]?
         ///  The basic authorization credentials for an Amplify app.
         public let basicAuthCredentials: String?
         ///  The build specification (build spec) for an Amplify app.
         public let buildSpec: String?
+        /// The custom HTTP headers for an Amplify app.
+        public let customHeaders: String?
         ///  The custom redirect and rewrite rules for an Amplify app.
         public let customRules: [CustomRule]?
         ///  The description for an Amplify app.
         public let description: String?
-        ///  Enables automated branch creation for the Amplify app.
+        ///  Enables automated branch creation for an Amplify app.
         public let enableAutoBranchCreation: Bool?
         ///  Enables basic authorization for an Amplify app.
         public let enableBasicAuth: Bool?
@@ -2308,13 +2345,14 @@ extension Amplify {
         ///  The name of the repository for an Amplify app
         public let repository: String?
 
-        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
+        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
             self.accessToken = accessToken
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
+            self.customHeaders = customHeaders
             self.customRules = customRules
             self.description = description
             self.enableAutoBranchCreation = enableAutoBranchCreation
@@ -2332,8 +2370,9 @@ extension Amplify {
         public func validate(name: String) throws {
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 255)
             try self.validate(self.accessToken, name: "accessToken", parent: name, min: 1)
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.autoBranchCreationConfig?.validate(name: "\(name).autoBranchCreationConfig")
             try self.autoBranchCreationPatterns?.forEach {
                 try validate($0, name: "autoBranchCreationPatterns[]", parent: name, max: 2048)
@@ -2342,6 +2381,8 @@ extension Amplify {
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.validate(self.customHeaders, name: "customHeaders", parent: name, max: 25000)
+            try self.validate(self.customHeaders, name: "customHeaders", parent: name, min: 1)
             try self.customRules?.forEach {
                 try $0.validate(name: "\(name).customRules[]")
             }
@@ -2364,6 +2405,7 @@ extension Amplify {
             case autoBranchCreationPatterns
             case basicAuthCredentials
             case buildSpec
+            case customHeaders
             case customRules
             case description
             case enableAutoBranchCreation
@@ -2418,9 +2460,9 @@ extension Amplify {
         public let enableBasicAuth: Bool?
         ///  Enables notifications for the branch.
         public let enableNotification: Bool?
-        ///  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out.
+        /// Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out.
         public let enablePerformanceMode: Bool?
-        ///  Enables pull request preview for this branch.
+        ///  Enables pull request previews for this branch.
         public let enablePullRequestPreview: Bool?
         ///  The environment variables for the branch.
         public let environmentVariables: [String: String]?
@@ -2454,8 +2496,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, max: 1000)
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, min: 1)
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
@@ -2534,8 +2577,9 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, max: 255)
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.autoSubDomainCreationPatterns?.forEach {
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, min: 1)

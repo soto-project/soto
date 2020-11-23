@@ -56,6 +56,7 @@ extension FMS {
     }
 
     public enum SecurityServiceType: String, CustomStringConvertible, Codable {
+        case networkFirewall = "NETWORK_FIREWALL"
         case securityGroupsCommon = "SECURITY_GROUPS_COMMON"
         case securityGroupsContentAudit = "SECURITY_GROUPS_CONTENT_AUDIT"
         case securityGroupsUsageAudit = "SECURITY_GROUPS_USAGE_AUDIT"
@@ -66,6 +67,10 @@ extension FMS {
     }
 
     public enum ViolationReason: String, CustomStringConvertible, Codable {
+        case missingExpectedRouteTable = "MISSING_EXPECTED_ROUTE_TABLE"
+        case missingFirewall = "MISSING_FIREWALL"
+        case missingFirewallSubnetInAz = "MISSING_FIREWALL_SUBNET_IN_AZ"
+        case networkFirewallPolicyModified = "NETWORK_FIREWALL_POLICY_MODIFIED"
         case resourceIncorrectWebAcl = "RESOURCE_INCORRECT_WEB_ACL"
         case resourceMissingSecurityGroup = "RESOURCE_MISSING_SECURITY_GROUP"
         case resourceMissingShieldProtection = "RESOURCE_MISSING_SHIELD_PROTECTION"
@@ -275,7 +280,7 @@ extension FMS {
     public struct ComplianceViolator: AWSDecodableShape {
         /// The resource ID.
         public let resourceId: String?
-        /// The resource type. This is in the format shown in the AWS Resource Types Reference. For example: AWS::ElasticLoadBalancingV2::LoadBalancer or AWS::CloudFront::Distribution.
+        /// The resource type. This is in the format shown in the AWS Resource Types Reference. For example: AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::CloudFront::Distribution, or AWS::NetworkFirewall::FirewallPolicy.
         public let resourceType: String?
         /// The reason that the resource is not protected by the policy.
         public let violationReason: ViolationReason?
@@ -659,7 +664,7 @@ extension FMS {
         public let policyId: String
         /// The ID of the resource that has violations.
         public let resourceId: String
-        /// The resource type. This is in the format shown in the AWS Resource Types Reference. Supported resource types are: AWS::EC2::Instance, AWS::EC2::NetworkInterface, or AWS::EC2::SecurityGroup.
+        /// The resource type. This is in the format shown in the AWS Resource Types Reference. Supported resource types are: AWS::EC2::Instance, AWS::EC2::NetworkInterface, AWS::EC2::SecurityGroup, AWS::NetworkFirewall::FirewallPolicy, and AWS::EC2::Subnet.
         public let resourceType: String
 
         public init(memberAccount: String, policyId: String, resourceId: String, resourceType: String) {
@@ -962,6 +967,135 @@ extension FMS {
         }
     }
 
+    public struct NetworkFirewallMissingExpectedRTViolation: AWSDecodableShape {
+        /// The Availability Zone of a violating subnet.
+        public let availabilityZone: String?
+        /// The resource ID of the current route table that's associated with the subnet, if one is available.
+        public let currentRouteTable: String?
+        /// The resource ID of the route table that should be associated with the subnet.
+        public let expectedRouteTable: String?
+        /// The ID of the AWS Network Firewall or VPC resource that's in violation.
+        public let violationTarget: String?
+        /// The resource ID of the VPC associated with a violating subnet.
+        public let vpc: String?
+
+        public init(availabilityZone: String? = nil, currentRouteTable: String? = nil, expectedRouteTable: String? = nil, violationTarget: String? = nil, vpc: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.currentRouteTable = currentRouteTable
+            self.expectedRouteTable = expectedRouteTable
+            self.violationTarget = violationTarget
+            self.vpc = vpc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case currentRouteTable = "CurrentRouteTable"
+            case expectedRouteTable = "ExpectedRouteTable"
+            case violationTarget = "ViolationTarget"
+            case vpc = "VPC"
+        }
+    }
+
+    public struct NetworkFirewallMissingFirewallViolation: AWSDecodableShape {
+        /// The Availability Zone of a violating subnet.
+        public let availabilityZone: String?
+        /// The reason the resource has this violation, if one is available.
+        public let targetViolationReason: String?
+        /// The ID of the AWS Network Firewall or VPC resource that's in violation.
+        public let violationTarget: String?
+        /// The resource ID of the VPC associated with a violating subnet.
+        public let vpc: String?
+
+        public init(availabilityZone: String? = nil, targetViolationReason: String? = nil, violationTarget: String? = nil, vpc: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.targetViolationReason = targetViolationReason
+            self.violationTarget = violationTarget
+            self.vpc = vpc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case targetViolationReason = "TargetViolationReason"
+            case violationTarget = "ViolationTarget"
+            case vpc = "VPC"
+        }
+    }
+
+    public struct NetworkFirewallMissingSubnetViolation: AWSDecodableShape {
+        /// The Availability Zone of a violating subnet.
+        public let availabilityZone: String?
+        /// The reason the resource has this violation, if one is available.
+        public let targetViolationReason: String?
+        /// The ID of the AWS Network Firewall or VPC resource that's in violation.
+        public let violationTarget: String?
+        /// The resource ID of the VPC associated with a violating subnet.
+        public let vpc: String?
+
+        public init(availabilityZone: String? = nil, targetViolationReason: String? = nil, violationTarget: String? = nil, vpc: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.targetViolationReason = targetViolationReason
+            self.violationTarget = violationTarget
+            self.vpc = vpc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case targetViolationReason = "TargetViolationReason"
+            case violationTarget = "ViolationTarget"
+            case vpc = "VPC"
+        }
+    }
+
+    public struct NetworkFirewallPolicyDescription: AWSDecodableShape {
+        /// The stateful rule groups that are used in the Network Firewall firewall policy.
+        public let statefulRuleGroups: [StatefulRuleGroup]?
+        /// Names of custom actions that are available for use in the stateless default actions settings.
+        public let statelessCustomActions: [String]?
+        /// The actions to take on packets that don't match any of the stateless rule groups.
+        public let statelessDefaultActions: [String]?
+        /// The actions to take on packet fragments that don't match any of the stateless rule groups.
+        public let statelessFragmentDefaultActions: [String]?
+        /// The stateless rule groups that are used in the Network Firewall firewall policy.
+        public let statelessRuleGroups: [StatelessRuleGroup]?
+
+        public init(statefulRuleGroups: [StatefulRuleGroup]? = nil, statelessCustomActions: [String]? = nil, statelessDefaultActions: [String]? = nil, statelessFragmentDefaultActions: [String]? = nil, statelessRuleGroups: [StatelessRuleGroup]? = nil) {
+            self.statefulRuleGroups = statefulRuleGroups
+            self.statelessCustomActions = statelessCustomActions
+            self.statelessDefaultActions = statelessDefaultActions
+            self.statelessFragmentDefaultActions = statelessFragmentDefaultActions
+            self.statelessRuleGroups = statelessRuleGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statefulRuleGroups = "StatefulRuleGroups"
+            case statelessCustomActions = "StatelessCustomActions"
+            case statelessDefaultActions = "StatelessDefaultActions"
+            case statelessFragmentDefaultActions = "StatelessFragmentDefaultActions"
+            case statelessRuleGroups = "StatelessRuleGroups"
+        }
+    }
+
+    public struct NetworkFirewallPolicyModifiedViolation: AWSDecodableShape {
+        /// The policy that's currently in use in the individual account.
+        public let currentPolicyDescription: NetworkFirewallPolicyDescription?
+        /// The policy that should be in use in the individual account in order to be compliant.
+        public let expectedPolicyDescription: NetworkFirewallPolicyDescription?
+        /// The ID of the AWS Network Firewall or VPC resource that's in violation.
+        public let violationTarget: String?
+
+        public init(currentPolicyDescription: NetworkFirewallPolicyDescription? = nil, expectedPolicyDescription: NetworkFirewallPolicyDescription? = nil, violationTarget: String? = nil) {
+            self.currentPolicyDescription = currentPolicyDescription
+            self.expectedPolicyDescription = expectedPolicyDescription
+            self.violationTarget = violationTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentPolicyDescription = "CurrentPolicyDescription"
+            case expectedPolicyDescription = "ExpectedPolicyDescription"
+            case violationTarget = "ViolationTarget"
+        }
+    }
+
     public struct PartialMatch: AWSDecodableShape {
         /// The reference rule from the master security group of the AWS Firewall Manager policy.
         public let reference: String?
@@ -996,7 +1130,7 @@ extension FMS {
         public let remediationEnabled: Bool
         /// An array of ResourceTag objects.
         public let resourceTags: [ResourceTag]?
-        /// The type of resource protected by or in scope of the policy. This is in the format shown in the AWS Resource Types Reference. For AWS WAF and Shield Advanced, examples include AWS::ElasticLoadBalancingV2::LoadBalancer and AWS::CloudFront::Distribution. For a security group common policy, valid values are AWS::EC2::NetworkInterface and AWS::EC2::Instance. For a security group content audit policy, valid values are AWS::EC2::SecurityGroup, AWS::EC2::NetworkInterface, and AWS::EC2::Instance. For a security group usage audit policy, the value is AWS::EC2::SecurityGroup.
+        /// The type of resource protected by or in scope of the policy. This is in the format shown in the AWS Resource Types Reference. For AWS WAF and Shield Advanced, examples include AWS::ElasticLoadBalancingV2::LoadBalancer and AWS::CloudFront::Distribution. For a security group common policy, valid values are AWS::EC2::NetworkInterface and AWS::EC2::Instance. For a security group content audit policy, valid values are AWS::EC2::SecurityGroup, AWS::EC2::NetworkInterface, and AWS::EC2::Instance. For a security group usage audit policy, the value is AWS::EC2::SecurityGroup. For an AWS Network Firewall policy, the value is AWS::EC2::VPC.
         public let resourceType: String
         /// An array of ResourceType.
         public let resourceTypeList: [String]?
@@ -1141,7 +1275,7 @@ extension FMS {
         public let policyName: String?
         /// Indicates if the policy should be automatically applied to new resources.
         public let remediationEnabled: Bool?
-        /// The type of resource protected by or in scope of the policy. This is in the format shown in the AWS Resource Types Reference. For AWS WAF and Shield Advanced, examples include AWS::ElasticLoadBalancingV2::LoadBalancer and AWS::CloudFront::Distribution. For a security group common policy, valid values are AWS::EC2::NetworkInterface and AWS::EC2::Instance. For a security group content audit policy, valid values are AWS::EC2::SecurityGroup, AWS::EC2::NetworkInterface, and AWS::EC2::Instance. For a security group usage audit policy, the value is AWS::EC2::SecurityGroup.
+        /// The type of resource protected by or in scope of the policy. This is in the format shown in the AWS Resource Types Reference. For AWS WAF and Shield Advanced, examples include AWS::ElasticLoadBalancingV2::LoadBalancer and AWS::CloudFront::Distribution. For a security group common policy, valid values are AWS::EC2::NetworkInterface and AWS::EC2::Instance. For a security group content audit policy, valid values are AWS::EC2::SecurityGroup, AWS::EC2::NetworkInterface, and AWS::EC2::Instance. For a security group usage audit policy, the value is AWS::EC2::SecurityGroup. For an AWS Network Firewall policy, the value is AWS::EC2::VPC.
         public let resourceType: String?
         /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either an AWS WAF policy, a Shield Advanced policy, or a security group policy.
         public let securityServiceType: SecurityServiceType?
@@ -1436,17 +1570,33 @@ extension FMS {
         public let awsEc2NetworkInterfaceViolation: AwsEc2NetworkInterfaceViolation?
         /// Violation details for security groups.
         public let awsVPCSecurityGroupViolation: AwsVPCSecurityGroupViolation?
+        /// Violation detail for an Network Firewall policy that indicates that a subnet is not associated with the expected Firewall Manager managed route table.
+        public let networkFirewallMissingExpectedRTViolation: NetworkFirewallMissingExpectedRTViolation?
+        /// Violation detail for an Network Firewall policy that indicates that a subnet has no Firewall Manager managed firewall in its VPC.
+        public let networkFirewallMissingFirewallViolation: NetworkFirewallMissingFirewallViolation?
+        /// Violation detail for an Network Firewall policy that indicates that an Availability Zone is missing the expected Firewall Manager managed subnet.
+        public let networkFirewallMissingSubnetViolation: NetworkFirewallMissingSubnetViolation?
+        /// Violation detail for an Network Firewall policy that indicates that a firewall policy in an individual account has been modified in a way that makes it noncompliant. For example, the individual account owner might have deleted a rule group, changed the priority of a stateless rule group, or changed a policy default action.
+        public let networkFirewallPolicyModifiedViolation: NetworkFirewallPolicyModifiedViolation?
 
-        public init(awsEc2InstanceViolation: AwsEc2InstanceViolation? = nil, awsEc2NetworkInterfaceViolation: AwsEc2NetworkInterfaceViolation? = nil, awsVPCSecurityGroupViolation: AwsVPCSecurityGroupViolation? = nil) {
+        public init(awsEc2InstanceViolation: AwsEc2InstanceViolation? = nil, awsEc2NetworkInterfaceViolation: AwsEc2NetworkInterfaceViolation? = nil, awsVPCSecurityGroupViolation: AwsVPCSecurityGroupViolation? = nil, networkFirewallMissingExpectedRTViolation: NetworkFirewallMissingExpectedRTViolation? = nil, networkFirewallMissingFirewallViolation: NetworkFirewallMissingFirewallViolation? = nil, networkFirewallMissingSubnetViolation: NetworkFirewallMissingSubnetViolation? = nil, networkFirewallPolicyModifiedViolation: NetworkFirewallPolicyModifiedViolation? = nil) {
             self.awsEc2InstanceViolation = awsEc2InstanceViolation
             self.awsEc2NetworkInterfaceViolation = awsEc2NetworkInterfaceViolation
             self.awsVPCSecurityGroupViolation = awsVPCSecurityGroupViolation
+            self.networkFirewallMissingExpectedRTViolation = networkFirewallMissingExpectedRTViolation
+            self.networkFirewallMissingFirewallViolation = networkFirewallMissingFirewallViolation
+            self.networkFirewallMissingSubnetViolation = networkFirewallMissingSubnetViolation
+            self.networkFirewallPolicyModifiedViolation = networkFirewallPolicyModifiedViolation
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsEc2InstanceViolation = "AwsEc2InstanceViolation"
             case awsEc2NetworkInterfaceViolation = "AwsEc2NetworkInterfaceViolation"
             case awsVPCSecurityGroupViolation = "AwsVPCSecurityGroupViolation"
+            case networkFirewallMissingExpectedRTViolation = "NetworkFirewallMissingExpectedRTViolation"
+            case networkFirewallMissingFirewallViolation = "NetworkFirewallMissingFirewallViolation"
+            case networkFirewallMissingSubnetViolation = "NetworkFirewallMissingSubnetViolation"
+            case networkFirewallPolicyModifiedViolation = "NetworkFirewallPolicyModifiedViolation"
         }
     }
 
@@ -1509,7 +1659,7 @@ extension FMS {
     }
 
     public struct SecurityServicePolicyData: AWSEncodableShape & AWSDecodableShape {
-        /// Details about the service that are specific to the service type, in JSON format. For service type SHIELD_ADVANCED, this is an empty string.   Example: WAFV2   "ManagedServiceData": "{\"type\":\"WAFV2\",\"defaultAction\":{\"type\":\"ALLOW\"},\"preProcessRuleGroups\":[{\"managedRuleGroupIdentifier\":null,\"ruleGroupArn\":\"rulegrouparn\",\"overrideAction\":{\"type\":\"COUNT\"},\"excludeRules\":[{\"name\":\"EntityName\"}],\"ruleGroupType\":\"RuleGroup\"}],\"postProcessRuleGroups\":[{\"managedRuleGroupIdentifier\":{\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\",\"vendorName\":\"AWS\"},\"ruleGroupArn\":\"rulegrouparn\",\"overrideAction\":{\"type\":\"NONE\"},\"excludeRules\":[],\"ruleGroupType\":\"ManagedRuleGroup\"}],\"overrideCustomerWebACLAssociation\":false}"    Example: WAF Classic   "ManagedServiceData": "{\"type\": \"WAF\", \"ruleGroups\": [{\"id\": \"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}    Example: SECURITY_GROUPS_COMMON   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_COMMON","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false, \"applyToAllEC2InstanceENIs\":false,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}    Example: SECURITY_GROUPS_CONTENT_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_CONTENT_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd \"}],\"securityGroupAction\":{\"type\":\"ALLOW\"}}"},"RemediationEnabled":false,"ResourceType":"AWS::EC2::NetworkInterface"}  The security group action for content audit can be ALLOW or DENY. For ALLOW, all in-scope security group rules must be within the allowed range of the policy's security group rules. For DENY, all in-scope security group rules must not contain a value or a range that matches a rule value or range in the policy security group.   Example: SECURITY_GROUPS_USAGE_AUDIT   "SecurityServicePolicyData":{"Type":"SECURITY_GROUPS_USAGE_AUDIT","ManagedServiceData":"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"},"RemediationEnabled":false,"Resou rceType":"AWS::EC2::SecurityGroup"}
+        /// Details about the service that are specific to the service type, in JSON format. For service type SHIELD_ADVANCED, this is an empty string.   Example: NETWORK_FIREWALL   "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-1:1234567891011:stateless-rulegroup/rulegroup2\",\"priority\":10}],\"networkFirewallStatelessDefaultActions\":[\"aws:pass\",\"custom1\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"custom2\",\"aws:pass\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"custom1\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"dimension1\"}]}}},{\"actionName\":\"custom2\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"dimension2\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-1:1234567891011:stateful-rulegroup/rulegroup1\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":true,\"allowedIPV4CidrList\":[\"10.24.34.0/28\"]} }"    Example: WAFV2   "{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesAmazonIpReputationList\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":{\"logDestinationConfigs\":[\"arn:aws:firehose:us-west-2:12345678912:deliverystream/aws-waf-logs-fms-admin-destination\"],\"redactedFields\":[{\"redactedFieldType\":\"SingleHeader\",\"redactedFieldValue\":\"Cookies\"},{\"redactedFieldType\":\"Method\"}]}}"  In the loggingConfiguration, you can specify one logDestinationConfigs, you can optionally provide up to 20 redactedFields, and the RedactedFieldType must be one of URI, QUERY_STRING, HEADER, or METHOD.   Example: WAF Classic   "{\"type\": \"WAF\", \"ruleGroups\": [{\"id\":\"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}"    Example: SECURITY_GROUPS_COMMON   "{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false, \"applyToAllEC2InstanceENIs\":false,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"    Example: SECURITY_GROUPS_CONTENT_AUDIT   "{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"securityGroups\":[{\"id\":\"sg-000e55995d61a06bd\"}],\"securityGroupAction\":{\"type\":\"ALLOW\"}}"  The security group action for content audit can be ALLOW or DENY. For ALLOW, all in-scope security group rules must be within the allowed range of the policy's security group rules. For DENY, all in-scope security group rules must not contain a value or a range that matches a rule value or range in the policy security group.   Example: SECURITY_GROUPS_USAGE_AUDIT   "{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"
         public let managedServiceData: String?
         /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either an AWS WAF policy, a Shield Advanced policy, or a security group policy. For security group policies, Firewall Manager supports one security group for each common policy and for each content audit policy. This is an adjustable limit that you can increase by contacting AWS Support.
         public let type: SecurityServiceType
@@ -1528,6 +1678,44 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case managedServiceData = "ManagedServiceData"
             case type = "Type"
+        }
+    }
+
+    public struct StatefulRuleGroup: AWSDecodableShape {
+        /// The resource ID of the rule group.
+        public let resourceId: String?
+        /// The name of the rule group.
+        public let ruleGroupName: String?
+
+        public init(resourceId: String? = nil, ruleGroupName: String? = nil) {
+            self.resourceId = resourceId
+            self.ruleGroupName = ruleGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case ruleGroupName = "RuleGroupName"
+        }
+    }
+
+    public struct StatelessRuleGroup: AWSDecodableShape {
+        /// The priority of the rule group. AWS Network Firewall evaluates the stateless rule groups in a firewall policy starting from the lowest priority setting.
+        public let priority: Int?
+        /// The resource ID of the rule group.
+        public let resourceId: String?
+        /// The name of the rule group.
+        public let ruleGroupName: String?
+
+        public init(priority: Int? = nil, resourceId: String? = nil, ruleGroupName: String? = nil) {
+            self.priority = priority
+            self.resourceId = resourceId
+            self.ruleGroupName = ruleGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case resourceId = "ResourceId"
+            case ruleGroupName = "RuleGroupName"
         }
     }
 

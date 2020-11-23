@@ -26,6 +26,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
         case certificateInUseException = "CertificateInUseException"
         case certificateLimitExceededException = "CertificateLimitExceededException"
         case clientException = "ClientException"
+        case directoryAlreadyInRegionException = "DirectoryAlreadyInRegionException"
         case directoryAlreadySharedException = "DirectoryAlreadySharedException"
         case directoryDoesNotExistException = "DirectoryDoesNotExistException"
         case directoryLimitExceededException = "DirectoryLimitExceededException"
@@ -44,6 +45,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
         case ipRouteLimitExceededException = "IpRouteLimitExceededException"
         case noAvailableCertificateException = "NoAvailableCertificateException"
         case organizationsException = "OrganizationsException"
+        case regionLimitExceededException = "RegionLimitExceededException"
         case serviceException = "ServiceException"
         case shareLimitExceededException = "ShareLimitExceededException"
         case snapshotLimitExceededException = "SnapshotLimitExceededException"
@@ -84,6 +86,8 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var certificateLimitExceededException: Self { .init(.certificateLimitExceededException) }
     /// A client exception has occurred.
     public static var clientException: Self { .init(.clientException) }
+    /// The Region you specified is the same Region where the AWS Managed Microsoft AD directory was created. Specify a different Region and try again.
+    public static var directoryAlreadyInRegionException: Self { .init(.directoryAlreadyInRegionException) }
     /// The specified directory has already been shared with this AWS account.
     public static var directoryAlreadySharedException: Self { .init(.directoryAlreadySharedException) }
     /// The specified directory does not exist in the system.
@@ -120,6 +124,8 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var noAvailableCertificateException: Self { .init(.noAvailableCertificateException) }
     /// Exception encountered while trying to access your AWS organization.
     public static var organizationsException: Self { .init(.organizationsException) }
+    /// You have reached the limit for maximum number of simultaneous region replications per directory.
+    public static var regionLimitExceededException: Self { .init(.regionLimitExceededException) }
     /// An exception has occurred in AWS Directory Service.
     public static var serviceException: Self { .init(.serviceException) }
     /// The maximum number of AWS accounts that you can share with this directory has been reached.

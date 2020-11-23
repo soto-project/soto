@@ -102,6 +102,26 @@ public struct XRay: AWSService {
         return self.client.execute(operation: "GetGroups", path: "/Groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Retrieves the summary information of an insight. This includes impact to clients and root cause services, the top anomalous services, the category, the state of the insight, and the start and end time of the insight.
+    public func getInsight(_ input: GetInsightRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInsightResult> {
+        return self.client.execute(operation: "GetInsight", path: "/Insight", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray console.
+    public func getInsightEvents(_ input: GetInsightEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInsightEventsResult> {
+        return self.client.execute(operation: "GetInsightEvents", path: "/InsightEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Retrieves a service graph structure filtered by the specified insight. The service graph is limited to only structural information. For a complete service graph, use this API with the GetServiceGraph API.
+    public func getInsightImpactGraph(_ input: GetInsightImpactGraphRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInsightImpactGraphResult> {
+        return self.client.execute(operation: "GetInsightImpactGraph", path: "/InsightImpactGraph", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Retrieves the summaries of all insights in the specified group matching the provided filter values.
+    public func getInsightSummaries(_ input: GetInsightSummariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInsightSummariesResult> {
+        return self.client.execute(operation: "GetInsightSummaries", path: "/InsightSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Retrieves all sampling rules.
     public func getSamplingRules(_ input: GetSamplingRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSamplingRulesResult> {
         return self.client.execute(operation: "GetSamplingRules", path: "/GetSamplingRules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

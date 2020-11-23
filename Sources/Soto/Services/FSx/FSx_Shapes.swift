@@ -21,8 +21,19 @@ extension FSx {
     // MARK: Enums
 
     public enum AdministrativeActionType: String, CustomStringConvertible, Codable {
+        case fileSystemAliasAssociation = "FILE_SYSTEM_ALIAS_ASSOCIATION"
+        case fileSystemAliasDisassociation = "FILE_SYSTEM_ALIAS_DISASSOCIATION"
         case fileSystemUpdate = "FILE_SYSTEM_UPDATE"
         case storageOptimization = "STORAGE_OPTIMIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AliasLifecycle: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -44,6 +55,7 @@ extension FSx {
 
     public enum BackupType: String, CustomStringConvertible, Codable {
         case automatic = "AUTOMATIC"
+        case awsBackup = "AWS_BACKUP"
         case userInitiated = "USER_INITIATED"
         public var description: String { return self.rawValue }
     }
@@ -174,13 +186,13 @@ extension FSx {
     public struct AdministrativeAction: AWSDecodableShape {
         public let administrativeActionType: AdministrativeActionType?
         public let failureDetails: AdministrativeActionFailureDetails?
-        /// Provides the percent complete of a STORAGE_OPTIMIZATION administrative action.
+        /// Provides the percent complete of a STORAGE_OPTIMIZATION administrative action. Does not apply to any other administrative action type.
         public let progressPercent: Int?
         /// Time that the administrative action request was received.
         public let requestTime: Date?
         /// Describes the status of the administrative action, as follows:    FAILED - Amazon FSx failed to process the administrative action successfully.    IN_PROGRESS - Amazon FSx is processing the administrative action.    PENDING - Amazon FSx is waiting to process the administrative action.    COMPLETED - Amazon FSx has finished processing the administrative task.    UPDATED_OPTIMIZING - For a storage capacity increase update, Amazon FSx has updated the file system with the new storage capacity, and is now performing the storage optimization process. For more information, see Managing Storage Capacity.
         public let status: Status?
-        /// Describes the target StorageCapacity or ThroughputCapacity value provided in the UpdateFileSystem operation. Returned for FILE_SYSTEM_UPDATE administrative actions.
+        /// Describes the target value for the administration action, provided in the UpdateFileSystem operation. Returned for FILE_SYSTEM_UPDATE administrative actions.
         public let targetFileSystemValues: FileSystem?
 
         public init(administrativeActionType: AdministrativeActionType? = nil, failureDetails: AdministrativeActionFailureDetails? = nil, progressPercent: Int? = nil, requestTime: Date? = nil, status: Status? = nil, targetFileSystemValues: FileSystem? = nil) {
@@ -203,7 +215,7 @@ extension FSx {
     }
 
     public struct AdministrativeActionFailureDetails: AWSDecodableShape {
-        /// Error message providing details about the failure.
+        /// Error message providing details about the failed administrative action.
         public let message: String?
 
         public init(message: String? = nil) {
@@ -212,6 +224,71 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
+        }
+    }
+
+    public struct Alias: AWSDecodableShape {
+        /// Describes the state of the DNS alias.   AVAILABLE - The DNS alias is associated with an Amazon FSx file system.   CREATING - Amazon FSx is creating the DNS alias and associating it with the file system.   CREATE_FAILED - Amazon FSx was unable to associate the DNS alias with the file system.   DELETING - Amazon FSx is disassociating the DNS alias from the file system and deleting it.   DELETE_FAILED - Amazon FSx was unable to disassocate the DNS alias from the file system.
+        public let lifecycle: AliasLifecycle?
+        /// The name of the DNS alias. The alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
+        public let name: String?
+
+        public init(lifecycle: AliasLifecycle? = nil, name: String? = nil) {
+            self.lifecycle = lifecycle
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycle = "Lifecycle"
+            case name = "Name"
+        }
+    }
+
+    public struct AssociateFileSystemAliasesRequest: AWSEncodableShape {
+        /// An array of one or more DNS alias names to associate with the file system. The alias name has to comply with the following formatting requirements:   Formatted as a fully-qualified domain name (FQDN),  hostname.domain , for example, accounting.corp.example.com.   Can contain alphanumeric characters and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
+        public let aliases: [String]
+        public let clientRequestToken: String?
+        /// Specifies the file system with which you want to associate one or more DNS aliases.
+        public let fileSystemId: String
+
+        public init(aliases: [String], clientRequestToken: String? = AssociateFileSystemAliasesRequest.idempotencyToken(), fileSystemId: String) {
+            self.aliases = aliases
+            self.clientRequestToken = clientRequestToken
+            self.fileSystemId = fileSystemId
+        }
+
+        public func validate(name: String) throws {
+            try self.aliases.forEach {
+                try validate($0, name: "aliases[]", parent: name, max: 253)
+                try validate($0, name: "aliases[]", parent: name, min: 4)
+                try validate($0, name: "aliases[]", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{4,253}$")
+            }
+            try self.validate(self.aliases, name: "aliases", parent: name, max: 50)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 21)
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, min: 11)
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
+            case clientRequestToken = "ClientRequestToken"
+            case fileSystemId = "FileSystemId"
+        }
+    }
+
+    public struct AssociateFileSystemAliasesResponse: AWSDecodableShape {
+        /// An array of the DNS aliases that Amazon FSx is associating with the file system.
+        public let aliases: [Alias]?
+
+        public init(aliases: [Alias]? = nil) {
+            self.aliases = aliases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
         }
     }
 
@@ -334,7 +411,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.path, name: "path", parent: name, max: 900)
+            try self.validate(self.path, name: "path", parent: name, max: 4357)
             try self.validate(self.path, name: "path", parent: name, min: 3)
             try self.validate(self.path, name: "path", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
         }
@@ -581,12 +658,12 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
-            try self.validate(self.exportPath, name: "exportPath", parent: name, max: 900)
+            try self.validate(self.exportPath, name: "exportPath", parent: name, max: 4357)
             try self.validate(self.exportPath, name: "exportPath", parent: name, min: 3)
             try self.validate(self.exportPath, name: "exportPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
             try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512_000)
             try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, min: 1)
-            try self.validate(self.importPath, name: "importPath", parent: name, max: 900)
+            try self.validate(self.importPath, name: "importPath", parent: name, max: 4357)
             try self.validate(self.importPath, name: "importPath", parent: name, min: 3)
             try self.validate(self.importPath, name: "importPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
             try self.validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, max: 200)
@@ -704,6 +781,8 @@ extension FSx {
     public struct CreateFileSystemWindowsConfiguration: AWSEncodableShape {
         /// The ID for an existing AWS Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public let activeDirectoryId: String?
+        /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system, including additional steps you must take to be able to access your file system using a DNS alias. An alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
+        public let aliases: [String]?
         /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 90 days.
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
@@ -720,8 +799,9 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, aliases: [String]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
+            self.aliases = aliases
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -736,6 +816,12 @@ extension FSx {
             try self.validate(self.activeDirectoryId, name: "activeDirectoryId", parent: name, max: 12)
             try self.validate(self.activeDirectoryId, name: "activeDirectoryId", parent: name, min: 12)
             try self.validate(self.activeDirectoryId, name: "activeDirectoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.aliases?.forEach {
+                try validate($0, name: "aliases[]", parent: name, max: 253)
+                try validate($0, name: "aliases[]", parent: name, min: 4)
+                try validate($0, name: "aliases[]", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{4,253}$")
+            }
+            try self.validate(self.aliases, name: "aliases", parent: name, max: 50)
             try self.validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 90)
             try self.validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, min: 0)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
@@ -754,6 +840,7 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryId = "ActiveDirectoryId"
+            case aliases = "Aliases"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
@@ -1229,6 +1316,61 @@ extension FSx {
         }
     }
 
+    public struct DescribeFileSystemAliasesRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The ID of the file system to return the associated DNS aliases for (String).
+        public let fileSystemId: String
+        /// Maximum number of DNS aliases to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
+        public let maxResults: Int?
+        /// Opaque pagination token returned from a previous DescribeFileSystemAliases operation (String). If a token is included in the request, the action continues the list from where the previous returning call left off.
+        public let nextToken: String?
+
+        public init(clientRequestToken: String? = DescribeFileSystemAliasesRequest.idempotencyToken(), fileSystemId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.fileSystemId = fileSystemId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 21)
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, min: 11)
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case fileSystemId = "FileSystemId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFileSystemAliasesResponse: AWSDecodableShape {
+        /// An array of one or more DNS aliases currently associated with the specified file system.
+        public let aliases: [Alias]?
+        /// Present if there are more DNS aliases than returned in the response (String). You can use the NextToken value in a later request to fetch additional descriptions.
+        public let nextToken: String?
+
+        public init(aliases: [Alias]? = nil, nextToken: String? = nil) {
+            self.aliases = aliases
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeFileSystemsRequest: AWSEncodableShape {
         /// IDs of the file systems whose descriptions you want to retrieve (String).
         public let fileSystemIds: [String]?
@@ -1278,6 +1420,54 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case fileSystems = "FileSystems"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct DisassociateFileSystemAliasesRequest: AWSEncodableShape {
+        /// An array of one or more DNS alias names to disassociate, or remove, from the file system.
+        public let aliases: [String]
+        public let clientRequestToken: String?
+        /// Specifies the file system from which to disassociate the DNS aliases.
+        public let fileSystemId: String
+
+        public init(aliases: [String], clientRequestToken: String? = DisassociateFileSystemAliasesRequest.idempotencyToken(), fileSystemId: String) {
+            self.aliases = aliases
+            self.clientRequestToken = clientRequestToken
+            self.fileSystemId = fileSystemId
+        }
+
+        public func validate(name: String) throws {
+            try self.aliases.forEach {
+                try validate($0, name: "aliases[]", parent: name, max: 253)
+                try validate($0, name: "aliases[]", parent: name, min: 4)
+                try validate($0, name: "aliases[]", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{4,253}$")
+            }
+            try self.validate(self.aliases, name: "aliases", parent: name, max: 50)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 21)
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, min: 11)
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
+            case clientRequestToken = "ClientRequestToken"
+            case fileSystemId = "FileSystemId"
+        }
+    }
+
+    public struct DisassociateFileSystemAliasesResponse: AWSDecodableShape {
+        /// An array of one or more DNS aliases that Amazon FSx is attempting to disassociate from the file system.
+        public let aliases: [Alias]?
+
+        public init(aliases: [Alias]? = nil) {
+            self.aliases = aliases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
         }
     }
 
@@ -1840,6 +2030,7 @@ extension FSx {
     public struct WindowsFileSystemConfiguration: AWSDecodableShape {
         /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
         public let activeDirectoryId: String?
+        public let aliases: [Alias]?
         /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days.
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags on the file system should be copied to backups. This value defaults to false. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
@@ -1862,8 +2053,9 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
+            self.aliases = aliases
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -1879,6 +2071,7 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryId = "ActiveDirectoryId"
+            case aliases = "Aliases"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
