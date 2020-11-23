@@ -34,10 +34,10 @@ extension S3.SelectObjectContentEventStream {
             var headers: [String: String] = [:]
             while byteBuffer.readableBytes > 0 {
                 guard let headerLength: UInt8 = byteBuffer.readInteger(),
-                    let header: String = byteBuffer.readString(length: Int(headerLength)),
-                    let byte: UInt8 = byteBuffer.readInteger(), byte == 7,
-                    let valueLength: UInt16 = byteBuffer.readInteger(),
-                    let value: String = byteBuffer.readString(length: Int(valueLength))
+                      let header: String = byteBuffer.readString(length: Int(headerLength)),
+                      let byte: UInt8 = byteBuffer.readInteger(), byte == 7,
+                      let valueLength: UInt16 = byteBuffer.readInteger(),
+                      let value: String = byteBuffer.readString(length: Int(valueLength))
                 else {
                     throw S3SelectError.corruptHeader
                 }
@@ -58,11 +58,11 @@ extension S3.SelectObjectContentEventStream {
             guard UInt(preludeCRC) == calculatedPreludeCRC else { throw S3SelectError.corruptPayload }
             // get lengths
             guard let totalLength: Int32 = preludeBuffer.readInteger(),
-                let headerLength: Int32 = preludeBuffer.readInteger() else { return nil }
+                  let headerLength: Int32 = preludeBuffer.readInteger() else { return nil }
 
             // get message and message CRC. Return nil if we don't have enough data
             guard var messageBuffer = byteBuffer.readSlice(length: Int(totalLength - 4)),
-                let messageCRC: UInt32 = byteBuffer.readInteger() else { return nil }
+                  let messageCRC: UInt32 = byteBuffer.readInteger() else { return nil }
             // verify message CRC
             let messageBufferView = ByteBufferView(messageBuffer)
             let calculatedCRC = messageBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }

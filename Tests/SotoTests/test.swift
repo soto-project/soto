@@ -35,7 +35,7 @@ extension EventLoopFuture {
 }
 
 /// Provide various test environment variables
-struct TestEnvironment {
+enum TestEnvironment {
     /// are we using Localstack to test. Also return use localstack if we are running a github action and don't have an access key if
     static var isUsingLocalstack: Bool {
         return Environment["AWS_DISABLE_LOCALSTACK"] != "true" ||

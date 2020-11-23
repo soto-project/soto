@@ -15,7 +15,7 @@
 import Darwin.C
 import Foundation
 
-public class Glob {
+public enum Glob {
     public static func entries(pattern: String) -> [String] {
         var files = [String]()
         var gt = glob_t()
