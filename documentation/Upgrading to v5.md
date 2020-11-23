@@ -5,7 +5,6 @@ There are a number of changes to Soto which you will need to take into account w
 ## Package.swift
 
 If we first look at the `Package.swift` you will notice 
-- Soto now requires Swift 5.3.
 - The package name has changed to "soto". 
 - All the library names are prefixed with "Soto". 
 
