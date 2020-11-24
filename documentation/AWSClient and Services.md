@@ -114,13 +114,13 @@ A series of flags, that can affect how requests are constructed. The only option
 
 ## AWSService
 
-All service object conform to the `AWSService` protocol. This protocol brings along a couple of extra bits of functionality
+All service objects conform to the `AWSService` protocol. This protocol brings along a couple of extra bits of functionality
 
-### Signing requests
+### Presigned URLs
 
-Signing URLs is probably one of the more common bits of functionality that people request. A signed URL has an additional signature query parameter that the AWS server can use to find out who is making the request and that it can trust the request. The signature creation uses your AWS credentials plus elements of the request. The AWS server creates its own version of the signature and if they match the operation is allowed to go ahead. It is common for a server to create signed URLs to pass back to clients to allow them to do a single operation. 
+When a request is made to AWS it has to be signed. This uses your AWS credentials and the contents of the request to create a signature. When the request is sent to the AWS server, the server also creates a version of this signature. If these two signatures match then AWS knows who is making the request and that it can be trusted. If you want to allow your clients to access AWS resources, creating a presigned request to send to your client is a common way to do this. Alternatively you would have to send AWS credentials to the client and these could be abused. 
 
-One of the most common operations where this is used is for uploading an object to S3. 
+One of the most common operations where this is used is for uploading an object to S3. Below creates a presigned URL which someone could use to upload a file to S3.
 ```swift
 let signedURL = s3.signURL(
     url: URL(string: "https://<bucketname>.s3.us-east-1.amazonaws.com/<key>")!, 
