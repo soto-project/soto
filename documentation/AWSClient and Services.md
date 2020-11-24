@@ -111,3 +111,31 @@ During request processing the `AWSClient` will most likely be required to alloca
 #### Options
 
 A series of flags, that can affect how requests are constructed. The only option available at the moment is `s3ForceVirtualHost`. S3 uses virtual host addressing by default except if you use a custom endpoint. `s3ForceVirtualHost` will force virtual host addressing even when you specify a custom endpoint.
+
+## AWSService
+
+All service object conform to the `AWSService` protocol. This protocol brings along a couple of extra bits of functionality
+
+### Signing requests
+
+Signing URLs is probably one of the more common bits of functionality that people request. A signed URL has an additional signature query parameter that the AWS server can use to find out who is making the request and that it can trust the request. The signature creation uses your AWS credentials plus elements of the request. The AWS server creates its own version of the signature and if they match the operation is allowed to go ahead. It is common for a server to create signed URLs to pass back to clients to allow them to do a single operation. 
+
+One of the most common operations where this is used is for uploading an object to S3. 
+```swift
+let signedURL = s3.signURL(
+    url: URL(string: "https://<bucketname>.s3.us-east-1.amazonaws.com/<key>")!, 
+    httpMethod: .PUT, 
+    expires: .minutes(60)
+).wait()
+```
+
+The function `signURL` returns an `EventLoopFuture<URL>` as it is dependent on a credential provider that may not have been resolved yet. In most cases though you are safe to just `wait` on the result as the credentials will be available.
+
+### Creating new service objects from existing 
+
+It is possible to create a new version of a service object from an already existing one with additional `AWSServiceMiddleware`, an edited `timeOut`, `byteBufferAllocator` or `options` using the `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` function. 
+
+If you are loading a much larger object then usual into S3 and want to extend the `timeout` value for this one operation you can do it as follows.
+```swift
+s3.with(timeout: .minutes(10)).putObject(request)
+```
