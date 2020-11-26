@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS SageMakerRuntime service.
-
-  The Amazon SageMaker runtime API.
- */
+/// Client object for interacting with AWS SageMakerRuntime service.
+///
+///  The Amazon SageMaker runtime API.
 public struct SageMakerRuntime: AWSService {
     // MARK: Member variables
 

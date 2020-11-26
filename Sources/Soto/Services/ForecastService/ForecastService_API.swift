@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS ForecastService service.
-
- Provides APIs for creating and managing Amazon Forecast resources.
- */
+/// Client object for interacting with AWS ForecastService service.
+///
+/// Provides APIs for creating and managing Amazon Forecast resources.
 public struct ForecastService: AWSService {
     // MARK: Member variables
 

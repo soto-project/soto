@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS KinesisVideoSignalingChannels service.
-
- Kinesis Video Streams Signaling Service is a intermediate service that establishes a communication channel for discovering peers, transmitting offers and answers in order to establish peer-to-peer connection in webRTC technology.
- */
+/// Client object for interacting with AWS KinesisVideoSignalingChannels service.
+///
+/// Kinesis Video Streams Signaling Service is a intermediate service that establishes a communication channel for discovering peers, transmitting offers and answers in order to establish peer-to-peer connection in webRTC technology.
 public struct KinesisVideoSignalingChannels: AWSService {
     // MARK: Member variables
 

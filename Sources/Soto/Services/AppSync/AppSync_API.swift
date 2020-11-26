@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS AppSync service.
-
- AWS AppSync provides API actions for creating and interacting with data sources using GraphQL from your application.
- */
+/// Client object for interacting with AWS AppSync service.
+///
+/// AWS AppSync provides API actions for creating and interacting with data sources using GraphQL from your application.
 public struct AppSync: AWSService {
     // MARK: Member variables
 

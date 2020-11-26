@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS ApiGatewayV2 service.
-
- Amazon API Gateway V2
- */
+/// Client object for interacting with AWS ApiGatewayV2 service.
+///
+/// Amazon API Gateway V2
 public struct ApiGatewayV2: AWSService {
     // MARK: Member variables
 

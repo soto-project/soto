@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MarketplaceCommerceAnalytics service.
-
- Provides AWS Marketplace business intelligence data on-demand.
- */
+/// Client object for interacting with AWS MarketplaceCommerceAnalytics service.
+///
+/// Provides AWS Marketplace business intelligence data on-demand.
 public struct MarketplaceCommerceAnalytics: AWSService {
     // MARK: Member variables
 

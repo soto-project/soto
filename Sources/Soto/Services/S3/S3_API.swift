@@ -16,10 +16,7 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS S3 service.
-
- */
+/// Client object for interacting with AWS S3 service.
 public struct S3: AWSService {
     // MARK: Member variables
 

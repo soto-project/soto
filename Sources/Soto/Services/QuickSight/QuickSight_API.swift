@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS QuickSight service.
-
- Amazon QuickSight API Reference Amazon QuickSight is a fully managed, serverless business intelligence service for the AWS Cloud that makes it easy to extend data and insights to every user in your organization. This API reference contains documentation for a programming interface that you can use to manage Amazon QuickSight.
- */
+/// Client object for interacting with AWS QuickSight service.
+///
+/// Amazon QuickSight API Reference Amazon QuickSight is a fully managed, serverless business intelligence service for the AWS Cloud that makes it easy to extend data and insights to every user in your organization. This API reference contains documentation for a programming interface that you can use to manage Amazon QuickSight.
 public struct QuickSight: AWSService {
     // MARK: Member variables
 

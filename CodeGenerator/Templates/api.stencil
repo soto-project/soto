@@ -6,13 +6,12 @@
 import {{ middlewareFramework }}
 
 {% endif %}
-/*
-Client object for interacting with AWS {{name}} service.
 
+/// Client object for interacting with AWS {{name}} service.
 {%if description %}
-{{description}}
+///
+/// {{description}}
 {% endif %}
-*/
 public struct {{ name }}: AWSService {
 
     // MARK: Member variables

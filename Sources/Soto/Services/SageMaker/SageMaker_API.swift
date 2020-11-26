@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS SageMaker service.
-
- Provides APIs for creating and managing Amazon SageMaker resources.  Other Resources:    Amazon SageMaker Developer Guide     Amazon Augmented AI Runtime API Reference
- */
+/// Client object for interacting with AWS SageMaker service.
+///
+/// Provides APIs for creating and managing Amazon SageMaker resources.  Other Resources:    Amazon SageMaker Developer Guide     Amazon Augmented AI Runtime API Reference
 public struct SageMaker: AWSService {
     // MARK: Member variables
 

@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS Route53 service.
-
- Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service.
- */
+/// Client object for interacting with AWS Route53 service.
+///
+/// Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service.
 public struct Route53: AWSService {
     // MARK: Member variables
 

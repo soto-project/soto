@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS DataExchange service.
-
- This is the API reference for AWS Data Exchange.
- */
+/// Client object for interacting with AWS DataExchange service.
+///
+/// This is the API reference for AWS Data Exchange.
 public struct DataExchange: AWSService {
     // MARK: Member variables
 

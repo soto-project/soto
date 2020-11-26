@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS ElasticTranscoder service.
-
- AWS Elastic Transcoder Service The AWS Elastic Transcoder Service.
- */
+/// Client object for interacting with AWS ElasticTranscoder service.
+///
+/// AWS Elastic Transcoder Service The AWS Elastic Transcoder Service.
 public struct ElasticTranscoder: AWSService {
     // MARK: Member variables
 

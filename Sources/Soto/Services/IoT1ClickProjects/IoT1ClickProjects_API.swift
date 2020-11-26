@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS IoT1ClickProjects service.
-
- The AWS IoT 1-Click Projects API Reference
- */
+/// Client object for interacting with AWS IoT1ClickProjects service.
+///
+/// The AWS IoT 1-Click Projects API Reference
 public struct IoT1ClickProjects: AWSService {
     // MARK: Member variables
 

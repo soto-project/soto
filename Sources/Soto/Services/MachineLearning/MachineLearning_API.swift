@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MachineLearning service.
-
- Definition of the public APIs exposed by Amazon Machine Learning
- */
+/// Client object for interacting with AWS MachineLearning service.
+///
+/// Definition of the public APIs exposed by Amazon Machine Learning
 public struct MachineLearning: AWSService {
     // MARK: Member variables
 

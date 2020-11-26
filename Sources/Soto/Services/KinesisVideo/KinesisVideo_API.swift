@@ -16,10 +16,7 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS KinesisVideo service.
-
- */
+/// Client object for interacting with AWS KinesisVideo service.
 public struct KinesisVideo: AWSService {
     // MARK: Member variables
 

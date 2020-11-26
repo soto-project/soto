@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS DocDB service.
-
- Amazon DocumentDB API documentation
- */
+/// Client object for interacting with AWS DocDB service.
+///
+/// Amazon DocumentDB API documentation
 public struct DocDB: AWSService {
     // MARK: Member variables
 

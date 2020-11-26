@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS ACMPCA service.
-
-    This is the ACM Private CA API Reference. It provides descriptions, syntax, and usage examples for each of the actions and data types involved in creating and managing private certificate authorities (CA) for your organization. The documentation for each action shows the Query API request parameters and the XML response. Alternatively, you can use one of the AWS SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see AWS SDKs.  Each ACM Private CA API action has a quota that determines the number of times the action can be called per second. For more information, see API Rate Quotas in ACM Private CA in the ACM Private CA user guide.
- */
+/// Client object for interacting with AWS ACMPCA service.
+///
+///    This is the ACM Private CA API Reference. It provides descriptions, syntax, and usage examples for each of the actions and data types involved in creating and managing private certificate authorities (CA) for your organization. The documentation for each action shows the Query API request parameters and the XML response. Alternatively, you can use one of the AWS SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see AWS SDKs.  Each ACM Private CA API action has a quota that determines the number of times the action can be called per second. For more information, see API Rate Quotas in ACM Private CA in the ACM Private CA user guide.
 public struct ACMPCA: AWSService {
     // MARK: Member variables
 

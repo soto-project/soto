@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MediaLive service.
-
- API for AWS Elemental MediaLive
- */
+/// Client object for interacting with AWS MediaLive service.
+///
+/// API for AWS Elemental MediaLive
 public struct MediaLive: AWSService {
     // MARK: Member variables
 

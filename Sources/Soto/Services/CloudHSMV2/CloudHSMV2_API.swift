@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS CloudHSMV2 service.
-
- For more information about AWS CloudHSM, see AWS CloudHSM and the AWS CloudHSM User Guide.
- */
+/// Client object for interacting with AWS CloudHSMV2 service.
+///
+/// For more information about AWS CloudHSM, see AWS CloudHSM and the AWS CloudHSM User Guide.
 public struct CloudHSMV2: AWSService {
     // MARK: Member variables
 

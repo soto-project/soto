@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS ElasticInference service.
-
-  Elastic Inference public APIs.
- */
+/// Client object for interacting with AWS ElasticInference service.
+///
+///  Elastic Inference public APIs.
 public struct ElasticInference: AWSService {
     // MARK: Member variables
 

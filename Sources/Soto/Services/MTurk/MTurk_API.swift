@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MTurk service.
-
- Amazon Mechanical Turk API Reference
- */
+/// Client object for interacting with AWS MTurk service.
+///
+/// Amazon Mechanical Turk API Reference
 public struct MTurk: AWSService {
     // MARK: Member variables
 

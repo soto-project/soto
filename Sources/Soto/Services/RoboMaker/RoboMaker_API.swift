@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS RoboMaker service.
-
- This section provides documentation for the AWS RoboMaker API operations.
- */
+/// Client object for interacting with AWS RoboMaker service.
+///
+/// This section provides documentation for the AWS RoboMaker API operations.
 public struct RoboMaker: AWSService {
     // MARK: Member variables
 

@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS Organizations service.
-
- AWS Organizations
- */
+/// Client object for interacting with AWS Organizations service.
+///
+/// AWS Organizations
 public struct Organizations: AWSService {
     // MARK: Member variables
 

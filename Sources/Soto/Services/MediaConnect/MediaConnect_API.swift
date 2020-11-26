@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MediaConnect service.
-
- API for AWS Elemental MediaConnect
- */
+/// Client object for interacting with AWS MediaConnect service.
+///
+/// API for AWS Elemental MediaConnect
 public struct MediaConnect: AWSService {
     // MARK: Member variables
 

@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS Route53Domains service.
-
- Amazon Route 53 API actions let you register domain names and perform related operations.
- */
+/// Client object for interacting with AWS Route53Domains service.
+///
+/// Amazon Route 53 API actions let you register domain names and perform related operations.
 public struct Route53Domains: AWSService {
     // MARK: Member variables
 

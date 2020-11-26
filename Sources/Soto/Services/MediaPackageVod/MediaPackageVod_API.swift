@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MediaPackageVod service.
-
- AWS Elemental MediaPackage VOD
- */
+/// Client object for interacting with AWS MediaPackageVod service.
+///
+/// AWS Elemental MediaPackage VOD
 public struct MediaPackageVod: AWSService {
     // MARK: Member variables
 

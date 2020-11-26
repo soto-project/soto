@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS Kafka service.
-
- The operations for managing an Amazon MSK cluster.
- */
+/// Client object for interacting with AWS Kafka service.
+///
+/// The operations for managing an Amazon MSK cluster.
 public struct Kafka: AWSService {
     // MARK: Member variables
 

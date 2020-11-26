@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MediaPackage service.
-
- AWS Elemental MediaPackage
- */
+/// Client object for interacting with AWS MediaPackage service.
+///
+/// AWS Elemental MediaPackage
 public struct MediaPackage: AWSService {
     // MARK: Member variables
 

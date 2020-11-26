@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MobileAnalytics service.
-
- Amazon Mobile Analytics is a service for collecting, visualizing, and understanding app usage data at scale.
- */
+/// Client object for interacting with AWS MobileAnalytics service.
+///
+/// Amazon Mobile Analytics is a service for collecting, visualizing, and understanding app usage data at scale.
 public struct MobileAnalytics: AWSService {
     // MARK: Member variables
 

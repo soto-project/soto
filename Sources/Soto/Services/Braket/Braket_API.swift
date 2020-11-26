@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS Braket service.
-
- The Amazon Braket API Reference provides information about the operations and structures supported in Amazon Braket.
- */
+/// Client object for interacting with AWS Braket service.
+///
+/// The Amazon Braket API Reference provides information about the operations and structures supported in Amazon Braket.
 public struct Braket: AWSService {
     // MARK: Member variables
 

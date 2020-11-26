@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS Glue service.
-
- AWS Glue Defines the public endpoint for the AWS Glue service.
- */
+/// Client object for interacting with AWS Glue service.
+///
+/// AWS Glue Defines the public endpoint for the AWS Glue service.
 public struct Glue: AWSService {
     // MARK: Member variables
 

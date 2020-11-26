@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS FMS service.
-
- AWS Firewall Manager This is the AWS Firewall Manager API Reference. This guide is for developers who need detailed information about the AWS Firewall Manager API actions, data types, and errors. For detailed information about AWS Firewall Manager features, see the AWS Firewall Manager Developer Guide. Some API actions require explicit resource permissions. For information, see the developer guide topic Firewall Manager required permissions for API actions.
- */
+/// Client object for interacting with AWS FMS service.
+///
+/// AWS Firewall Manager This is the AWS Firewall Manager API Reference. This guide is for developers who need detailed information about the AWS Firewall Manager API actions, data types, and errors. For detailed information about AWS Firewall Manager features, see the AWS Firewall Manager Developer Guide. Some API actions require explicit resource permissions. For information, see the developer guide topic Firewall Manager required permissions for API actions.
 public struct FMS: AWSService {
     // MARK: Member variables
 

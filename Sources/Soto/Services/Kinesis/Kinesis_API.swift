@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS Kinesis service.
-
- Amazon Kinesis Data Streams Service API Reference Amazon Kinesis Data Streams is a managed service that scales elastically for real-time processing of streaming big data.
- */
+/// Client object for interacting with AWS Kinesis service.
+///
+/// Amazon Kinesis Data Streams Service API Reference Amazon Kinesis Data Streams is a managed service that scales elastically for real-time processing of streaming big data.
 public struct Kinesis: AWSService {
     // MARK: Member variables
 

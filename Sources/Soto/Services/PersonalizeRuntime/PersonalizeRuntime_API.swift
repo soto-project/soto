@@ -16,10 +16,7 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS PersonalizeRuntime service.
-
- */
+/// Client object for interacting with AWS PersonalizeRuntime service.
 public struct PersonalizeRuntime: AWSService {
     // MARK: Member variables
 

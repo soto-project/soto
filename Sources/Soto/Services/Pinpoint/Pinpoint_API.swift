@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS Pinpoint service.
-
- Doc Engage API - Amazon Pinpoint API
- */
+/// Client object for interacting with AWS Pinpoint service.
+///
+/// Doc Engage API - Amazon Pinpoint API
 public struct Pinpoint: AWSService {
     // MARK: Member variables
 

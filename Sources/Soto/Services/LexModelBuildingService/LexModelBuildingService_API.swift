@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS LexModelBuildingService service.
-
- Amazon Lex Build-Time Actions  Amazon Lex is an AWS service for building conversational voice and text interfaces. Use these actions to create, update, and delete conversational bots for new and existing client applications.
- */
+/// Client object for interacting with AWS LexModelBuildingService service.
+///
+/// Amazon Lex Build-Time Actions  Amazon Lex is an AWS service for building conversational voice and text interfaces. Use these actions to create, update, and delete conversational bots for new and existing client applications.
 public struct LexModelBuildingService: AWSService {
     // MARK: Member variables
 

@@ -16,10 +16,7 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS IdentityStore service.
-
- */
+/// Client object for interacting with AWS IdentityStore service.
 public struct IdentityStore: AWSService {
     // MARK: Member variables
 

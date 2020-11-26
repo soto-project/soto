@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MediaStore service.
-
- An AWS Elemental MediaStore container is a namespace that holds folders and objects. You use a container endpoint to create, read, and delete objects.
- */
+/// Client object for interacting with AWS MediaStore service.
+///
+/// An AWS Elemental MediaStore container is a namespace that holds folders and objects. You use a container endpoint to create, read, and delete objects.
 public struct MediaStore: AWSService {
     // MARK: Member variables
 

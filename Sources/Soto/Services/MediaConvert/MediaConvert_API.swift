@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MediaConvert service.
-
- AWS Elemental MediaConvert
- */
+/// Client object for interacting with AWS MediaConvert service.
+///
+/// AWS Elemental MediaConvert
 public struct MediaConvert: AWSService {
     // MARK: Member variables
 

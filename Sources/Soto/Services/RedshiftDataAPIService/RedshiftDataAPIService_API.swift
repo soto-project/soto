@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS RedshiftDataAPIService service.
-
- You can use the Amazon Redshift Data API to run queries on Amazon Redshift tables. You can run individual SQL statements, which are committed if the statement succeeds.
- */
+/// Client object for interacting with AWS RedshiftDataAPIService service.
+///
+/// You can use the Amazon Redshift Data API to run queries on Amazon Redshift tables. You can run individual SQL statements, which are committed if the statement succeeds.
 public struct RedshiftDataAPIService: AWSService {
     // MARK: Member variables
 
