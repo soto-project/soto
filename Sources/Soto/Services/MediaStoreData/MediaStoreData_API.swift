@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS MediaStoreData service.
-
- An AWS Elemental MediaStore asset is an object, similar to an object in the Amazon S3 service. Objects are the fundamental entities that are stored in AWS Elemental MediaStore.
- */
+/// Client object for interacting with AWS MediaStoreData service.
+///
+/// An AWS Elemental MediaStore asset is an object, similar to an object in the Amazon S3 service. Objects are the fundamental entities that are stored in AWS Elemental MediaStore.
 public struct MediaStoreData: AWSService {
     // MARK: Member variables
 
@@ -63,34 +61,34 @@ public struct MediaStoreData: AWSService {
 
     // MARK: API Calls
 
-    ///  Deletes an object at the specified path.
+    /// Deletes an object at the specified path.
     public func deleteObject(_ input: DeleteObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteObjectResponse> {
         return self.client.execute(operation: "DeleteObject", path: "/{Path+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Gets the headers for an object at the specified path.
+    /// Gets the headers for an object at the specified path.
     public func describeObject(_ input: DescribeObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeObjectResponse> {
         return self.client.execute(operation: "DescribeObject", path: "/{Path+}", httpMethod: .HEAD, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
+    /// Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     public func getObject(_ input: GetObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetObjectResponse> {
         return self.client.execute(operation: "GetObject", path: "/{Path+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Provides a list of metadata entries about folders and objects in the specified folder.
+    /// Provides a list of metadata entries about folders and objects in the specified folder.
     public func listItems(_ input: ListItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListItemsResponse> {
         return self.client.execute(operation: "ListItems", path: "/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
+    /// Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
     public func putObject(_ input: PutObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutObjectResponse> {
         return self.client.execute(operation: "PutObject", path: "/{Path+}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     // MARK: Streaming API Calls
 
-    ///  Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
+    /// Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     public func getObjectStreaming(_ input: GetObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<GetObjectResponse> {
         return self.client.execute(operation: "GetObject", path: "/{Path+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop, stream: stream)
     }

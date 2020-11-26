@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS IoTDataPlane service.
-
- AWS IoT AWS IoT-Data enables secure, bi-directional communication between Internet-connected things (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. It implements a broker for applications and things to publish messages over HTTP (Publish) and retrieve, update, and delete shadows. A shadow is a persistent representation of your things and their state in the AWS cloud. Find the endpoint address for actions in the AWS IoT data plane by running this CLI command:  aws iot describe-endpoint --endpoint-type iot:Data-ATS  The service name used by AWS Signature Version 4 to sign requests is: iotdevicegateway.
- */
+/// Client object for interacting with AWS IoTDataPlane service.
+///
+/// AWS IoT AWS IoT-Data enables secure, bi-directional communication between Internet-connected things (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. It implements a broker for applications and things to publish messages over HTTP (Publish) and retrieve, update, and delete shadows. A shadow is a persistent representation of your things and their state in the AWS cloud. Find the endpoint address for actions in the AWS IoT data plane by running this CLI command:  aws iot describe-endpoint --endpoint-type iot:Data-ATS  The service name used by AWS Signature Version 4 to sign requests is: iotdevicegateway.
 public struct IoTDataPlane: AWSService {
     // MARK: Member variables
 
@@ -63,27 +61,27 @@ public struct IoTDataPlane: AWSService {
 
     // MARK: API Calls
 
-    ///  Deletes the shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
+    /// Deletes the shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
     public func deleteThingShadow(_ input: DeleteThingShadowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThingShadowResponse> {
         return self.client.execute(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Gets the shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
+    /// Gets the shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
     public func getThingShadow(_ input: GetThingShadowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThingShadowResponse> {
         return self.client.execute(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Lists the shadows for the specified thing.
+    /// Lists the shadows for the specified thing.
     public func listNamedShadowsForThing(_ input: ListNamedShadowsForThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNamedShadowsForThingResponse> {
         return self.client.execute(operation: "ListNamedShadowsForThing", path: "/api/things/shadow/ListNamedShadowsForThing/{thingName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
+    /// Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
     @discardableResult public func publish(_ input: PublishRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "Publish", path: "/topics/{topic}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Updates the shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
+    /// Updates the shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
     public func updateThingShadow(_ input: UpdateThingShadowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThingShadowResponse> {
         return self.client.execute(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

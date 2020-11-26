@@ -6,13 +6,14 @@
 import {{ middlewareFramework }}
 
 {% endif %}
-/*
-Client object for interacting with AWS {{name}} service.
 
+/// Client object for interacting with AWS {{name}} service.
 {%if description %}
-{{description}}
+///
+{%for comment in description %}
+/// {{comment}}
+{%endfor %}
 {% endif %}
-*/
 public struct {{ name }}: AWSService {
 
     // MARK: Member variables
@@ -75,10 +76,10 @@ public struct {{ name }}: AWSService {
 {%for op in operations %}
 
 {%for comment in op.comment %}
-    ///  {{comment}}
+    /// {{comment}}
 {%endfor %}
 {%if op.documentationUrl %}
-    ///  {{op.documentationUrl}}
+    /// {{op.documentationUrl}}
 {%endif %}
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")
@@ -93,7 +94,7 @@ public struct {{ name }}: AWSService {
 {%for op in streamingOperations %}
 
 {%for comment in op.comment %}
-    ///  {{comment}}
+    /// {{comment}}
 {%endfor %}
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")

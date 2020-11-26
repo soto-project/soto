@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS TranscribeStreamingService service.
-
- Operations and objects for transcribing streaming speech to text.
- */
+/// Client object for interacting with AWS TranscribeStreamingService service.
+///
+/// Operations and objects for transcribing streaming speech to text.
 public struct TranscribeStreamingService: AWSService {
     // MARK: Member variables
 

@@ -16,11 +16,9 @@
 
 @_exported import SotoCore
 
-/*
- Client object for interacting with AWS EC2InstanceConnect service.
-
- AWS EC2 Connect Service is a service that enables system administrators to publish temporary SSH keys to their EC2 instances in order to establish connections to their instances without leaving a permanent authentication option.
- */
+/// Client object for interacting with AWS EC2InstanceConnect service.
+///
+/// AWS EC2 Connect Service is a service that enables system administrators to publish temporary SSH keys to their EC2 instances in order to establish connections to their instances without leaving a permanent authentication option.
 public struct EC2InstanceConnect: AWSService {
     // MARK: Member variables
 
@@ -63,7 +61,7 @@ public struct EC2InstanceConnect: AWSService {
 
     // MARK: API Calls
 
-    ///  Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
+    /// Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
     public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendSSHPublicKeyResponse> {
         return self.client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
