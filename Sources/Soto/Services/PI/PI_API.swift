@@ -61,12 +61,12 @@ public struct PI: AWSService {
 
     // MARK: API Calls
 
-    ///  For a specific time period, retrieve the top N dimension keys for a metric.
+    /// For a specific time period, retrieve the top N dimension keys for a metric.
     public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDimensionKeysResponse> {
         return self.client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
+    /// Retrieve Performance Insights metrics for a set of data sources, over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.
     public func getResourceMetrics(_ input: GetResourceMetricsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceMetricsResponse> {
         return self.client.execute(operation: "GetResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -61,22 +61,22 @@ public struct IoTEventsData: AWSService {
 
     // MARK: API Calls
 
-    ///  Sends a set of messages to the AWS IoT Events system. Each message payload is transformed into the input you specify ("inputName") and ingested into any detectors that monitor that input. If multiple messages are sent, the order in which the messages are processed isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for a successful response.
+    /// Sends a set of messages to the AWS IoT Events system. Each message payload is transformed into the input you specify ("inputName") and ingested into any detectors that monitor that input. If multiple messages are sent, the order in which the messages are processed isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for a successful response.
     public func batchPutMessage(_ input: BatchPutMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchPutMessageResponse> {
         return self.client.execute(operation: "BatchPutMessage", path: "/inputs/messages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Updates the state, variable values, and timer settings of one or more detectors (instances) of a specified detector model.
+    /// Updates the state, variable values, and timer settings of one or more detectors (instances) of a specified detector model.
     public func batchUpdateDetector(_ input: BatchUpdateDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateDetectorResponse> {
         return self.client.execute(operation: "BatchUpdateDetector", path: "/detectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns information about the specified detector (instance).
+    /// Returns information about the specified detector (instance).
     public func describeDetector(_ input: DescribeDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDetectorResponse> {
         return self.client.execute(operation: "DescribeDetector", path: "/detectors/{detectorModelName}/keyValues/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Lists detectors (the instances of a detector model).
+    /// Lists detectors (the instances of a detector model).
     public func listDetectors(_ input: ListDetectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectorsResponse> {
         return self.client.execute(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
