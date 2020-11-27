@@ -20,13 +20,15 @@ struct AWSService {
     var paginators: Paginators?
     var endpoints: Endpoints
     var errors: [Shape]
+    var stripHTMLTagsFromComments: Bool
 
-    init(api: API, docs: Docs, paginators: Paginators?, endpoints: Endpoints) throws {
+    init(api: API, docs: Docs, paginators: Paginators?, endpoints: Endpoints, stripHTMLTags: Bool) throws {
         self.api = api
         self.docs = docs
         self.paginators = paginators
         self.endpoints = endpoints
         self.errors = try Self.getErrors(from: api)
+        self.stripHTMLTagsFromComments = stripHTMLTags
     }
 
     /// Return list of errors from API
@@ -248,10 +250,15 @@ extension AWSService {
         let region: String
     }
 
+    func stripHTMLTags(_ string: String?) -> String? {
+        guard self.stripHTMLTagsFromComments == true else { return string }
+        return string?.tagStriped()
+    }
+
     /// generate operations context
     func generateOperationContext(_ operation: Operation, name: String, streaming: Bool) -> OperationContext {
         return OperationContext(
-            comment: self.docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
+            comment: stripHTMLTags(self.docs.operations[name])?.split(separator: "\n") ?? [],
             funcName: name.toSwiftVariableCase(),
             inputShape: operation.input?.shapeName,
             outputShape: operation.output?.shapeName,
@@ -270,7 +277,7 @@ extension AWSService {
 
         // Service initialization
         context["name"] = self.api.serviceName
-        context["description"] = self.docs.service?.tagStriped().split(separator: "\n") ?? []
+        context["description"] = stripHTMLTags(self.docs.service)?.split(separator: "\n") ?? []
         context["amzTarget"] = self.api.metadata.targetPrefix
         context["endpointPrefix"] = self.api.metadata.endpointPrefix
         if self.api.metadata.signingName != self.api.metadata.endpointPrefix {
@@ -339,7 +346,7 @@ extension AWSService {
         for error in errors {
             let code: String = error.error?.code ?? error.name
             let errorContext = ErrorContext(
-                comment: self.docs.shapes[error.name]?.base?.tagStriped().split(separator: "\n") ?? [],
+                comment: stripHTMLTags(self.docs.shapes[error.name]?.base)?.split(separator: "\n") ?? [],
                 enum: error.name.toSwiftVariableCase(),
                 string: code
             )
@@ -596,7 +603,7 @@ extension AWSService {
         } else {
             defaultValue = nil
         }
-        let memberDocs = self.docs.shapes[shape.name]?.refs[name]?.tagStriped().split(separator: "\n")
+        let memberDocs = stripHTMLTags(self.docs.shapes[shape.name]?.refs[name])?.split(separator: "\n")
         let propertyWrapper = self.generatePropertyWrapper(member, name: name)
         guard propertyWrapper == nil || member.location == .body || member.location == nil else {
             preconditionFailure("Cannot have a non-body variable with a property wrapper")

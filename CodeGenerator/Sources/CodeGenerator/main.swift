@@ -34,6 +34,9 @@ struct CodeGeneratorCommand: ParsableCommand {
     @Flag(name: .shortAndLong, help: "Verbose logging")
     var verbose: Bool = false
 
+    @Flag(name: .long, help: "HTML comments")
+    var htmlComments: Bool = false
+
     static var rootPath: String {
         return #file
             .split(separator: "/", omittingEmptySubsequences: false)

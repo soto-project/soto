@@ -144,7 +144,13 @@ struct CodeGenerator {
             DispatchQueue.global().async {
                 defer { group.leave() }
                 do {
-                    let service = try AWSService(api: model.api, docs: model.docs, paginators: model.paginators, endpoints: endpoints)
+                    let service = try AWSService(
+                        api: model.api,
+                        docs: model.docs,
+                        paginators: model.paginators,
+                        endpoints: endpoints,
+                        stripHTMLTags: !command.htmlComments
+                    )
                     if self.command.output {
                         try self.generateFiles(with: service)
                     }
