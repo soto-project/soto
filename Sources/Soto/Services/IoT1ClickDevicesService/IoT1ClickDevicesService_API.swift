@@ -16,7 +16,7 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS IoT1ClickDevicesService service.
+/// Service object for interacting with AWS IoT1ClickDevicesService service.
 ///
 /// Describes all of the AWS IoT 1-Click device-related API operations for the service.
 ///  Also provides sample requests, responses, and errors for the supported web services
@@ -24,7 +24,9 @@
 public struct IoT1ClickDevicesService: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

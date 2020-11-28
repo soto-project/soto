@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS Translate service.
+/// Service object for interacting with AWS Translate service.
 ///
 /// Provides translation between one source language and another of the same set of languages.
 public struct Translate: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

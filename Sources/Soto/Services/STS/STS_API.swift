@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS STS service.
+/// Service object for interacting with AWS STS service.
 ///
 /// AWS Security Token Service AWS Security Token Service (STS) enables you to request temporary, limited-privilege credentials for AWS Identity and Access Management (IAM) users or for users that you authenticate (federated users). This guide provides descriptions of the STS API. For more information about using this service, see Temporary Security Credentials.
 public struct STS: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

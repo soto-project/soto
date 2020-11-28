@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS LicenseManager service.
+/// Service object for interacting with AWS LicenseManager service.
 ///
 ///  AWS License Manager  AWS License Manager makes it easier to manage licenses from software vendors across multiple AWS accounts and on-premises servers.
 public struct LicenseManager: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

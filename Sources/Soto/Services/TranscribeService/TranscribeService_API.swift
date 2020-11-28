@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS TranscribeService service.
+/// Service object for interacting with AWS TranscribeService service.
 ///
 /// Operations and objects for transcribing speech to text.
 public struct TranscribeService: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

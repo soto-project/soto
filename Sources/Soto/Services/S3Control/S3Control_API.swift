@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS S3Control service.
+/// Service object for interacting with AWS S3Control service.
 ///
 ///  AWS S3 Control provides access to Amazon S3 control plane operations.
 public struct S3Control: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

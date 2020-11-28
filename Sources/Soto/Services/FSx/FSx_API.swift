@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS FSx service.
+/// Service object for interacting with AWS FSx service.
 ///
 /// Amazon FSx is a fully managed service that makes it easy for storage and application administrators to launch and use shared file storage.
 public struct FSx: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

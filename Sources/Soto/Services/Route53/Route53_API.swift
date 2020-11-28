@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS Route53 service.
+/// Service object for interacting with AWS Route53 service.
 ///
 /// Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service.
 public struct Route53: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

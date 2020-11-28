@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS ComprehendMedical service.
+/// Service object for interacting with AWS ComprehendMedical service.
 ///
 ///  Amazon Comprehend Medical extracts structured information from unstructured clinical text. Use these actions to gain insight in your documents.
 public struct ComprehendMedical: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

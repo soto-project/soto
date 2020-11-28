@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS Personalize service.
+/// Service object for interacting with AWS Personalize service.
 ///
 /// Amazon Personalize is a machine learning service that makes it easy to add individualized recommendations to customers.
 public struct Personalize: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

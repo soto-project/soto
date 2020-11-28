@@ -7,7 +7,7 @@ import {{ middlewareFramework }}
 
 {% endif %}
 
-/// Client object for interacting with AWS {{name}} service.
+/// Service object for interacting with AWS {{name}} service.
 {%if description %}
 ///
 {%for comment in description %}
@@ -18,7 +18,9 @@ public struct {{ name }}: AWSService {
 
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

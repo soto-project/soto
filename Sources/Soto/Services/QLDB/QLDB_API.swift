@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS QLDB service.
+/// Service object for interacting with AWS QLDB service.
 ///
 /// The control plane for Amazon QLDB
 public struct QLDB: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

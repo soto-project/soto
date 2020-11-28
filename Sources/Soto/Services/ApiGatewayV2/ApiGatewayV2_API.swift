@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS ApiGatewayV2 service.
+/// Service object for interacting with AWS ApiGatewayV2 service.
 ///
 /// Amazon API Gateway V2
 public struct ApiGatewayV2: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

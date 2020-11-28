@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS Pinpoint service.
+/// Service object for interacting with AWS Pinpoint service.
 ///
 /// Doc Engage API - Amazon Pinpoint API
 public struct Pinpoint: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

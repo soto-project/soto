@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS LakeFormation service.
+/// Service object for interacting with AWS LakeFormation service.
 ///
 /// AWS Lake Formation Defines the public endpoint for the AWS Lake Formation service.
 public struct LakeFormation: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

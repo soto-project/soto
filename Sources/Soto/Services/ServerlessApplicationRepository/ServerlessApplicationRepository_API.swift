@@ -16,7 +16,7 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS ServerlessApplicationRepository service.
+/// Service object for interacting with AWS ServerlessApplicationRepository service.
 ///
 /// The AWS Serverless Application Repository makes it easy for developers and enterprises to quickly find
 ///  and deploy serverless applications in the AWS Cloud. For more information about serverless applications,
@@ -41,7 +41,9 @@
 public struct ServerlessApplicationRepository: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization
