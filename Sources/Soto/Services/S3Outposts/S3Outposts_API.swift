@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS S3Outposts service.
+/// Service object for interacting with AWS S3Outposts service.
 ///
 /// Amazon S3 on Outposts provides access to S3 on Outposts operations.
 public struct S3Outposts: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

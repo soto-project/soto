@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS Schemas service.
+/// Service object for interacting with AWS Schemas service.
 ///
 /// Amazon EventBridge Schema Registry
 public struct Schemas: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

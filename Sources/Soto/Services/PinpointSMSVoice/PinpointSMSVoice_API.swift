@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS PinpointSMSVoice service.
+/// Service object for interacting with AWS PinpointSMSVoice service.
 ///
 /// Pinpoint SMS and Voice Messaging public facing APIs
 public struct PinpointSMSVoice: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization

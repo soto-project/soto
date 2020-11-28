@@ -16,13 +16,15 @@
 
 @_exported import SotoCore
 
-/// Client object for interacting with AWS Kendra service.
+/// Service object for interacting with AWS Kendra service.
 ///
 /// Amazon Kendra is a service for indexing large document sets.
 public struct Kendra: AWSService {
     // MARK: Member variables
 
+    /// Client used for communication with AWS
     public let client: AWSClient
+    /// Service configuration
     public let config: AWSServiceConfig
 
     // MARK: Initialization
