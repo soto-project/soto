@@ -19,10 +19,6 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Install Dependencies
-      run: |
-        brew install mint
-        mint install nicklockwood/swiftformat@0.46.3
     - name: Update Models
       id: update-models
       run: |

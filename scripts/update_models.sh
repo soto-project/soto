@@ -19,7 +19,7 @@ TEMP_DIR=""
 
 usage()
 {
-    echo "Usage: update_models.sh -c [ -v MODELS_VERSION_NUMBER ]"
+    echo "Usage: update_models.sh -bupc [ -v MODELS_VERSION_NUMBER ]"
     exit 2
 }
 
@@ -57,15 +57,11 @@ copy_model_files()
 build_files()
 {
     # build the code generator and run it
-    echo "Build the code generator"
+    echo "Build and run the code generator"
     CURRENT_FOLDER=$(pwd)
     cd "$CURRENT_FOLDER"/CodeGenerator
-    swift build
-    echo "Run the code generator"
-    swift run
+    swift run -c release soto-codegenerator --format
     cd "$CURRENT_FOLDER"
-
-    swiftformat Sources/Soto/Services
 }
 
 compile_files()
@@ -106,6 +102,8 @@ cleanup()
 }
 
 AWS_MODELS_VERSION=""
+COMPILE_FILES=""
+DONT_COMMIT=""
 
 while getopts 'bcv:' option
 do
