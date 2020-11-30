@@ -47,7 +47,7 @@ extension CodeStarconnections {
         public let hostArn: String?
         /// The identifier of the external provider where your third-party code repository is configured. For Bitbucket, this is the account ID of the owner of the Bitbucket repository.
         public let ownerAccountId: String?
-        /// The name of the external provider where your third-party code repository is configured. The valid provider type is Bitbucket.
+        /// The name of the external provider where your third-party code repository is configured.
         public let providerType: ProviderType?
 
         public init(connectionArn: String? = nil, connectionName: String? = nil, connectionStatus: ConnectionStatus? = nil, hostArn: String? = nil, ownerAccountId: String? = nil, providerType: ProviderType? = nil) {
@@ -74,7 +74,7 @@ extension CodeStarconnections {
         public let connectionName: String
         /// The Amazon Resource Name (ARN) of the host associated with the connection to be created.
         public let hostArn: String?
-        /// The name of the external provider where your third-party code repository is configured. The valid provider type is Bitbucket.
+        /// The name of the external provider where your third-party code repository is configured.
         public let providerType: ProviderType?
         /// The key-value pair to use when tagging the resource.
         public let tags: [Tag]?
@@ -89,6 +89,7 @@ extension CodeStarconnections {
         public func validate(name: String) throws {
             try self.validate(self.connectionName, name: "connectionName", parent: name, max: 32)
             try self.validate(self.connectionName, name: "connectionName", parent: name, min: 1)
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.hostArn, name: "hostArn", parent: name, max: 256)
             try self.validate(self.hostArn, name: "hostArn", parent: name, min: 0)
             try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
@@ -142,10 +143,12 @@ extension CodeStarconnections {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*")
             try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, max: 512)
             try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, min: 1)
+            try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, pattern: ".*")
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
@@ -358,6 +361,7 @@ extension CodeStarconnections {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -401,6 +405,7 @@ extension CodeStarconnections {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -437,6 +442,7 @@ extension CodeStarconnections {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -471,8 +477,10 @@ extension CodeStarconnections {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: ".*")
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -495,6 +503,7 @@ extension CodeStarconnections {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -526,9 +535,11 @@ extension CodeStarconnections {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: ".*")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
@@ -541,6 +552,41 @@ extension CodeStarconnections {
     }
 
     public struct UntagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateHostInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the host to be updated.
+        public let hostArn: String
+        /// The URL or endpoint of the host to be updated.
+        public let providerEndpoint: String?
+        /// The VPC configuration of the host to be updated. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(hostArn: String, providerEndpoint: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+            self.hostArn = hostArn
+            self.providerEndpoint = providerEndpoint
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostArn, name: "hostArn", parent: name, max: 256)
+            try self.validate(self.hostArn, name: "hostArn", parent: name, min: 0)
+            try self.validate(self.hostArn, name: "hostArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codestar-connections:.+:[0-9]{12}:host\\/.+")
+            try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, max: 512)
+            try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, min: 1)
+            try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, pattern: ".*")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostArn = "HostArn"
+            case providerEndpoint = "ProviderEndpoint"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct UpdateHostOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -563,17 +609,24 @@ extension CodeStarconnections {
 
         public func validate(name: String) throws {
             try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 20)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "sg-\\w{8}(\\w{9})?")
             }
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 10)
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
             try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 24)
+                try validate($0, name: "subnetIds[]", parent: name, min: 15)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "subnet-\\w{8}(\\w{9})?")
             }
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 10)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
             try self.validate(self.tlsCertificate, name: "tlsCertificate", parent: name, max: 16384)
             try self.validate(self.tlsCertificate, name: "tlsCertificate", parent: name, min: 1)
+            try self.validate(self.tlsCertificate, name: "tlsCertificate", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 21)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 12)
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "vpc-\\w{8}(\\w{9})?")
         }
 

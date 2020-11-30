@@ -35,6 +35,7 @@ public struct QuickSightErrorType: AWSErrorType {
         case resourceUnavailableException = "ResourceUnavailableException"
         case sessionLifetimeInMinutesInvalidException = "SessionLifetimeInMinutesInvalidException"
         case throttlingException = "ThrottlingException"
+        case unsupportedPricingPlanException = "UnsupportedPricingPlanException"
         case unsupportedUserEditionException = "UnsupportedUserEditionException"
     }
 
@@ -88,6 +89,8 @@ public struct QuickSightErrorType: AWSErrorType {
     public static var sessionLifetimeInMinutesInvalidException: Self { .init(.sessionLifetimeInMinutesInvalidException) }
     /// Access is throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your AWS account. Before you can use anonymous embedding, a QuickSight administrator needs to add capacity pricing to QuickSight. You can do this on the Manage QuickSight page.  After capacity pricing is added, you can enable anonymous embedding by using the  GetDashboardEmbedUrl  API operation with the --identity-type ANONYMOUS option.
+    public static var unsupportedPricingPlanException: Self { .init(.unsupportedPricingPlanException) }
     /// This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public static var unsupportedUserEditionException: Self { .init(.unsupportedUserEditionException) }
 }

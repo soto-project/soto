@@ -20,6 +20,13 @@ import SotoCore
 extension SSOAdmin {
     // MARK: Enums
 
+    public enum InstanceAccessControlAttributeConfigurationStatus: String, CustomStringConvertible, Codable {
+        case creationFailed = "CREATION_FAILED"
+        case creationInProgress = "CREATION_IN_PROGRESS"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrincipalType: String, CustomStringConvertible, Codable {
         case group = "GROUP"
         case user = "USER"
@@ -51,6 +58,53 @@ extension SSOAdmin {
     }
 
     // MARK: Shapes
+
+    public struct AccessControlAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the attribute associated with your identities in your identity source. This is used to map a specified attribute in your identity source with an attribute in AWS SSO.
+        public let key: String
+        /// The value used for mapping a specified attribute to an identity source.
+        public let value: AccessControlAttributeValue
+
+        public init(key: String, value: AccessControlAttributeValue) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]+")
+            try self.value.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct AccessControlAttributeValue: AWSEncodableShape & AWSDecodableShape {
+        /// The identity source to use when mapping a specified attribute to AWS SSO.
+        public let source: [String]
+
+        public init(source: [String]) {
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.source.forEach {
+                try validate($0, name: "source[]", parent: name, max: 256)
+                try validate($0, name: "source[]", parent: name, min: 0)
+                try validate($0, name: "source[]", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@\\[\\]\\{\\}\\$\\\\\"]*")
+            }
+            try self.validate(self.source, name: "source", parent: name, max: 1)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "Source"
+        }
+    }
 
     public struct AccountAssignment: AWSDecodableShape {
         /// The identifier of the AWS account.
@@ -255,6 +309,34 @@ extension SSOAdmin {
         }
     }
 
+    public struct CreateInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
+        /// Specifies the AWS SSO identity store attributes to add to your ABAC configuration. When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the AWS SSO identity store. If a SAML assertion passes any of these attributes, AWS SSO will replace the attribute value with the value from the AWS SSO identity store.
+        public let instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration
+        /// The ARN of the SSO instance under which the operation will be executed.
+        public let instanceArn: String
+
+        public init(instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration, instanceArn: String) {
+            self.instanceAccessControlAttributeConfiguration = instanceAccessControlAttributeConfiguration
+            self.instanceArn = instanceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceAccessControlAttributeConfiguration.validate(name: "\(name).instanceAccessControlAttributeConfiguration")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceAccessControlAttributeConfiguration = "InstanceAccessControlAttributeConfiguration"
+            case instanceArn = "InstanceArn"
+        }
+    }
+
+    public struct CreateInstanceAccessControlAttributeConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CreatePermissionSetRequest: AWSEncodableShape {
         /// The description of the PermissionSet.
         public let description: String?
@@ -413,6 +495,29 @@ extension SSOAdmin {
         public init() {}
     }
 
+    public struct DeleteInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
+        /// The ARN of the SSO instance under which the operation will be executed.
+        public let instanceArn: String
+
+        public init(instanceArn: String) {
+            self.instanceArn = instanceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+        }
+    }
+
+    public struct DeleteInstanceAccessControlAttributeConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeletePermissionSetRequest: AWSEncodableShape {
         /// The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let instanceArn: String
@@ -514,6 +619,46 @@ extension SSOAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case accountAssignmentDeletionStatus = "AccountAssignmentDeletionStatus"
+        }
+    }
+
+    public struct DescribeInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
+        /// The ARN of the SSO instance under which the operation will be executed.
+        public let instanceArn: String
+
+        public init(instanceArn: String) {
+            self.instanceArn = instanceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+        }
+    }
+
+    public struct DescribeInstanceAccessControlAttributeConfigurationResponse: AWSDecodableShape {
+        /// Gets the list of AWS SSO identity store attributes added to your ABAC configuration.
+        public let instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration?
+        /// The status of the attribute configuration process.
+        public let status: InstanceAccessControlAttributeConfigurationStatus?
+        /// Provides more details about the current status of the specified attribute.
+        public let statusReason: String?
+
+        public init(instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration? = nil, status: InstanceAccessControlAttributeConfigurationStatus? = nil, statusReason: String? = nil) {
+            self.instanceAccessControlAttributeConfiguration = instanceAccessControlAttributeConfiguration
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceAccessControlAttributeConfiguration = "InstanceAccessControlAttributeConfiguration"
+            case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
@@ -665,6 +810,27 @@ extension SSOAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case inlinePolicy = "InlinePolicy"
+        }
+    }
+
+    public struct InstanceAccessControlAttributeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Lists the attributes that are configured for ABAC in the specified AWS SSO instance.
+        public let accessControlAttributes: [AccessControlAttribute]
+
+        public init(accessControlAttributes: [AccessControlAttribute]) {
+            self.accessControlAttributes = accessControlAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.accessControlAttributes.forEach {
+                try $0.validate(name: "\(name).accessControlAttributes[]")
+            }
+            try self.validate(self.accessControlAttributes, name: "accessControlAttributes", parent: name, max: 50)
+            try self.validate(self.accessControlAttributes, name: "accessControlAttributes", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlAttributes = "AccessControlAttributes"
         }
     }
 
@@ -1498,6 +1664,34 @@ extension SSOAdmin {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateInstanceAccessControlAttributeConfigurationRequest: AWSEncodableShape {
+        /// Updates the attributes for your ABAC configuration.
+        public let instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration
+        /// The ARN of the SSO instance under which the operation will be executed.
+        public let instanceArn: String
+
+        public init(instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration, instanceArn: String) {
+            self.instanceAccessControlAttributeConfiguration = instanceAccessControlAttributeConfiguration
+            self.instanceArn = instanceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceAccessControlAttributeConfiguration.validate(name: "\(name).instanceAccessControlAttributeConfiguration")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceAccessControlAttributeConfiguration = "InstanceAccessControlAttributeConfiguration"
+            case instanceArn = "InstanceArn"
+        }
+    }
+
+    public struct UpdateInstanceAccessControlAttributeConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 

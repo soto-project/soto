@@ -426,6 +426,108 @@ extension EMR {
             onPage: onPage
         )
     }
+
+    ///   The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns a list of all user or group session mappings for the EMR Studio specified by StudioId.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listStudioSessionMappingsPaginator<Result>(
+        _ input: ListStudioSessionMappingsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListStudioSessionMappingsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listStudioSessionMappings,
+            tokenKey: \ListStudioSessionMappingsOutput.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listStudioSessionMappingsPaginator(
+        _ input: ListStudioSessionMappingsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStudioSessionMappingsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listStudioSessionMappings,
+            tokenKey: \ListStudioSessionMappingsOutput.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns a list of all Amazon EMR Studios associated with the AWS account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listStudiosPaginator<Result>(
+        _ input: ListStudiosInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListStudiosOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listStudios,
+            tokenKey: \ListStudiosOutput.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listStudiosPaginator(
+        _ input: ListStudiosInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStudiosOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listStudios,
+            tokenKey: \ListStudiosOutput.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension EMR.ListBootstrapActionsInput: AWSPaginateToken {
@@ -507,6 +609,24 @@ extension EMR.ListStepsInput: AWSPaginateToken {
             marker: token,
             stepIds: self.stepIds,
             stepStates: self.stepStates
+        )
+    }
+}
+
+extension EMR.ListStudioSessionMappingsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EMR.ListStudioSessionMappingsInput {
+        return .init(
+            identityType: self.identityType,
+            marker: token,
+            studioId: self.studioId
+        )
+    }
+}
+
+extension EMR.ListStudiosInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EMR.ListStudiosInput {
+        return .init(
+            marker: token
         )
     }
 }

@@ -27438,6 +27438,19 @@ extension EC2 {
         }
     }
 
+    public struct PrivateDnsDetails: AWSDecodableShape {
+        /// The private DNS name assigned to the VPC endpoint service.
+        public let privateDnsName: String?
+
+        public init(privateDnsName: String? = nil) {
+            self.privateDnsName = privateDnsName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateDnsName
+        }
+    }
+
     public struct PrivateDnsNameConfiguration: AWSDecodableShape {
         /// The name of the record subdomain the service provider needs to create. The service provider adds the value text to the name.
         public let name: String?
@@ -31215,6 +31228,7 @@ extension EC2 {
     public struct ServiceDetail: AWSDecodableShape {
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _BaseEndpointDnsNamesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _PrivateDnsNamesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _ServiceTypeEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -31232,6 +31246,9 @@ extension EC2 {
         public let owner: String?
         /// The private DNS name for the service.
         public let privateDnsName: String?
+        /// The private DNS names assigned to the VPC endpoint service.
+        @OptionalCustomCoding<ArrayCoder<_PrivateDnsNamesEncoding, PrivateDnsDetails>>
+        public var privateDnsNames: [PrivateDnsDetails]?
         /// The verification state of the VPC endpoint service. Consumers of the endpoint service cannot use the private name when the state is not verified.
         public let privateDnsNameVerificationState: DnsNameState?
         /// The ID of the endpoint service.
@@ -31247,13 +31264,14 @@ extension EC2 {
         /// Indicates whether the service supports endpoint policies.
         public let vpcEndpointPolicySupported: Bool?
 
-        public init(acceptanceRequired: Bool? = nil, availabilityZones: [String]? = nil, baseEndpointDnsNames: [String]? = nil, managesVpcEndpoints: Bool? = nil, owner: String? = nil, privateDnsName: String? = nil, privateDnsNameVerificationState: DnsNameState? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceType: [ServiceTypeDetail]? = nil, tags: [Tag]? = nil, vpcEndpointPolicySupported: Bool? = nil) {
+        public init(acceptanceRequired: Bool? = nil, availabilityZones: [String]? = nil, baseEndpointDnsNames: [String]? = nil, managesVpcEndpoints: Bool? = nil, owner: String? = nil, privateDnsName: String? = nil, privateDnsNames: [PrivateDnsDetails]? = nil, privateDnsNameVerificationState: DnsNameState? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceType: [ServiceTypeDetail]? = nil, tags: [Tag]? = nil, vpcEndpointPolicySupported: Bool? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.availabilityZones = availabilityZones
             self.baseEndpointDnsNames = baseEndpointDnsNames
             self.managesVpcEndpoints = managesVpcEndpoints
             self.owner = owner
             self.privateDnsName = privateDnsName
+            self.privateDnsNames = privateDnsNames
             self.privateDnsNameVerificationState = privateDnsNameVerificationState
             self.serviceId = serviceId
             self.serviceName = serviceName
@@ -31269,6 +31287,7 @@ extension EC2 {
             case managesVpcEndpoints
             case owner
             case privateDnsName
+            case privateDnsNames = "privateDnsNameSet"
             case privateDnsNameVerificationState
             case serviceId
             case serviceName

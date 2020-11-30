@@ -112,7 +112,7 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "CreatePortal", path: "/portals", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a pre-signed URL to a portal. Use this operation to create URLs to portals that use AWS Identity and Access Management (IAM) to authenticate users. An IAM user with access to a portal can call this API to get a URL to that portal. The URL contains a session token that lets the IAM user access the portal.
+    /// Creates a pre-signed URL to a portal. Use this operation to create URLs to portals that use AWS Identity and Access Management (IAM) to authenticate users. An IAM user with access to a portal can call this API to get a URL to that portal. The URL contains an authentication token that lets the IAM user access the portal.
     public func createPresignedPortalUrl(_ input: CreatePresignedPortalUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePresignedPortalUrlResponse> {
         return self.client.execute(operation: "CreatePresignedPortalUrl", path: "/portals/{portalId}/presigned-url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -180,6 +180,11 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves information about a dashboard.
     public func describeDashboard(_ input: DescribeDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDashboardResponse> {
         return self.client.execute(operation: "DescribeDashboard", path: "/dashboards/{dashboardId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information about the default encryption configuration for the AWS account in the default or specified region. For more information, see Key management in the AWS IoT SiteWise User Guide.
+    public func describeDefaultEncryptionConfiguration(_ input: DescribeDefaultEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDefaultEncryptionConfigurationResponse> {
+        return self.client.execute(operation: "DescribeDefaultEncryptionConfiguration", path: "/configuration/account/encryption", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves information about a gateway.
@@ -275,6 +280,11 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves the list of tags for an AWS IoT SiteWise resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Sets the default encryption configuration for the AWS account. For more information, see Key management in the AWS IoT SiteWise User Guide.
+    public func putDefaultEncryptionConfiguration(_ input: PutDefaultEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDefaultEncryptionConfigurationResponse> {
+        return self.client.execute(operation: "PutDefaultEncryptionConfiguration", path: "/configuration/account/encryption", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Sets logging options for AWS IoT SiteWise.

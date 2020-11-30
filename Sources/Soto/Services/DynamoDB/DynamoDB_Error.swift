@@ -23,6 +23,7 @@ public struct DynamoDBErrorType: AWSErrorType {
         case backupNotFoundException = "BackupNotFoundException"
         case conditionalCheckFailedException = "ConditionalCheckFailedException"
         case continuousBackupsUnavailableException = "ContinuousBackupsUnavailableException"
+        case duplicateItemException = "DuplicateItemException"
         case exportConflictException = "ExportConflictException"
         case exportNotFoundException = "ExportNotFoundException"
         case globalTableAlreadyExistsException = "GlobalTableAlreadyExistsException"
@@ -75,6 +76,8 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var conditionalCheckFailedException: Self { .init(.conditionalCheckFailedException) }
     /// Backups have not yet been enabled for this table.
     public static var continuousBackupsUnavailableException: Self { .init(.continuousBackupsUnavailableException) }
+    ///  There was an attempt to insert an item with the same primary key as an item that already exists in the DynamoDB table.
+    public static var duplicateItemException: Self { .init(.duplicateItemException) }
     /// There was a conflict when writing to the specified S3 bucket.
     public static var exportConflictException: Self { .init(.exportConflictException) }
     /// The specified export was not found.

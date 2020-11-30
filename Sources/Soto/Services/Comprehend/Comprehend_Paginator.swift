@@ -274,6 +274,57 @@ extension Comprehend {
         )
     }
 
+    ///  Gets a list of the events detection jobs that you have submitted.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEventsDetectionJobsPaginator<Result>(
+        _ input: ListEventsDetectionJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListEventsDetectionJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listEventsDetectionJobs,
+            tokenKey: \ListEventsDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listEventsDetectionJobsPaginator(
+        _ input: ListEventsDetectionJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListEventsDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listEventsDetectionJobs,
+            tokenKey: \ListEventsDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Get a list of key phrase detection jobs that you have submitted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -470,6 +521,16 @@ extension Comprehend.ListEntitiesDetectionJobsRequest: AWSPaginateToken {
 
 extension Comprehend.ListEntityRecognizersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListEntityRecognizersRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Comprehend.ListEventsDetectionJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListEventsDetectionJobsRequest {
         return .init(
             filter: self.filter,
             maxResults: self.maxResults,

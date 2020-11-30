@@ -24,12 +24,14 @@ extension ApplicationInsights {
         case codeDeploy = "CODE_DEPLOY"
         case ec2 = "EC2"
         case health = "HEALTH"
+        case rds = "RDS"
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigurationEventResourceType: String, CustomStringConvertible, Codable {
         case cloudformation = "CLOUDFORMATION"
         case cloudwatchAlarm = "CLOUDWATCH_ALARM"
+        case cloudwatchLog = "CLOUDWATCH_LOG"
         case ssmAssociation = "SSM_ASSOCIATION"
         public var description: String { return self.rawValue }
     }
@@ -60,6 +62,12 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
+    public enum OsType: String, CustomStringConvertible, Codable {
+        case linux = "LINUX"
+        case windows = "WINDOWS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SeverityLevel: String, CustomStringConvertible, Codable {
         case high = "High"
         case low = "Low"
@@ -75,11 +83,18 @@ extension ApplicationInsights {
     }
 
     public enum Tier: String, CustomStringConvertible, Codable {
+        case custom = "CUSTOM"
         case `default` = "DEFAULT"
         case dotNetCore = "DOT_NET_CORE"
         case dotNetWeb = "DOT_NET_WEB"
+        case dotNetWebTier = "DOT_NET_WEB_TIER"
         case dotNetWorker = "DOT_NET_WORKER"
+        case javaJmx = "JAVA_JMX"
+        case mysql = "MYSQL"
+        case oracle = "ORACLE"
+        case postgresql = "POSTGRESQL"
         case sqlServer = "SQL_SERVER"
+        case sqlServerAlwaysonAvailabilityGroup = "SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP"
         public var description: String { return self.rawValue }
     }
 
@@ -88,23 +103,35 @@ extension ApplicationInsights {
     public struct ApplicationComponent: AWSDecodableShape {
         /// The name of the component.
         public let componentName: String?
+        ///  If logging is supported for the resource type, indicates whether the component has configured logs to be monitored.
+        public let componentRemarks: String?
+        ///  Workloads detected in the application component.
+        public let detectedWorkload: [Tier: [String: String]]?
         /// Indicates whether the application component is monitored.
         public let monitor: Bool?
+        ///  The operating system of the component.
+        public let osType: OsType?
         /// The resource type. Supported resource types include EC2 instances, Auto Scaling group, Classic ELB, Application ELB, and SQS Queue.
         public let resourceType: String?
         /// The stack tier of the application component.
         public let tier: Tier?
 
-        public init(componentName: String? = nil, monitor: Bool? = nil, resourceType: String? = nil, tier: Tier? = nil) {
+        public init(componentName: String? = nil, componentRemarks: String? = nil, detectedWorkload: [Tier: [String: String]]? = nil, monitor: Bool? = nil, osType: OsType? = nil, resourceType: String? = nil, tier: Tier? = nil) {
             self.componentName = componentName
+            self.componentRemarks = componentRemarks
+            self.detectedWorkload = detectedWorkload
             self.monitor = monitor
+            self.osType = osType
             self.resourceType = resourceType
             self.tier = tier
         }
 
         private enum CodingKeys: String, CodingKey {
             case componentName = "ComponentName"
+            case componentRemarks = "ComponentRemarks"
+            case detectedWorkload = "DetectedWorkload"
             case monitor = "Monitor"
+            case osType = "OsType"
             case resourceType = "ResourceType"
             case tier = "Tier"
         }
@@ -199,6 +226,7 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, max: 300)
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, min: 20)
+            try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -246,12 +274,16 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[\\d\\w\\-_\\.+]*$")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
             try self.resourceList.forEach {
                 try validate($0, name: "resourceList[]", parent: name, max: 1011)
                 try validate($0, name: "resourceList[]", parent: name, min: 1)
+                try validate($0, name: "resourceList[]", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             }
         }
 
@@ -267,13 +299,13 @@ extension ApplicationInsights {
     }
 
     public struct CreateLogPatternRequest: AWSEncodableShape {
-        /// The log pattern.
+        /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
         public let pattern: String
         /// The name of the log pattern.
         public let patternName: String
         /// The name of the log pattern set.
         public let patternSetName: String
-        /// Rank of the log pattern.
+        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
         public let rank: Int
         /// The name of the resource group.
         public let resourceGroupName: String
@@ -289,6 +321,7 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.pattern, name: "pattern", parent: name, max: 50)
             try self.validate(self.pattern, name: "pattern", parent: name, min: 1)
+            try self.validate(self.pattern, name: "pattern", parent: name, pattern: "[\\S\\s]+")
             try self.validate(self.patternName, name: "patternName", parent: name, max: 50)
             try self.validate(self.patternName, name: "patternName", parent: name, min: 1)
             try self.validate(self.patternName, name: "patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -361,6 +394,9 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[\\d\\w\\-_\\.+]*$")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -460,6 +496,9 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -497,6 +536,9 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -541,6 +583,9 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -728,6 +773,9 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -770,6 +818,9 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -825,6 +876,9 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -874,6 +928,9 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -927,6 +984,9 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, max: 30)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, min: 1)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -987,6 +1047,9 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -1029,6 +1092,7 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1050,13 +1114,13 @@ extension ApplicationInsights {
     }
 
     public struct LogPattern: AWSDecodableShape {
-        /// A regular expression that defines the log pattern. A log pattern can contains at many as 50 characters, and it cannot be empty.
+        /// A regular expression that defines the log pattern. A log pattern can contain as many as 50 characters, and it cannot be empty. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
         public let pattern: String?
-        /// The name of the log pattern. A log pattern name can contains at many as 50 characters, and it cannot be empty. The characters can be Unicode letters, digits or one of the following symbols: period, dash, underscore.
+        /// The name of the log pattern. A log pattern name can contain as many as 50 characters, and it cannot be empty. The characters can be Unicode letters, digits, or one of the following symbols: period, dash, underscore.
         public let patternName: String?
-        /// The name of the log pattern. A log pattern name can contains at many as 30 characters, and it cannot be empty. The characters can be Unicode letters, digits or one of the following symbols: period, dash, underscore.
+        /// The name of the log pattern. A log pattern name can contain as many as 30 characters, and it cannot be empty. The characters can be Unicode letters, digits, or one of the following symbols: period, dash, underscore.
         public let patternSetName: String?
-        /// Rank of the log pattern.
+        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
         public let rank: Int?
 
         public init(pattern: String? = nil, patternName: String? = nil, patternSetName: String? = nil, rank: Int? = nil) {
@@ -1091,6 +1155,14 @@ extension ApplicationInsights {
         public let codeDeployInstanceGroupId: String?
         ///  The status of the CodeDeploy deployment, for example SUCCESS or  FAILURE.
         public let codeDeployState: String?
+        ///  The cause of an EBS CloudWatch event.
+        public let ebsCause: String?
+        ///  The type of EBS CloudWatch event, such as createVolume, deleteVolume or attachVolume.
+        public let ebsEvent: String?
+        ///  The request ID of an EBS CloudWatch event.
+        public let ebsRequestId: String?
+        ///  The result of an EBS CloudWatch event, such as failed or succeeded.
+        public let ebsResult: String?
         ///  The state of the instance, such as STOPPING or TERMINATING.
         public let ec2State: String?
         /// The time when the observation ended, in epoch seconds.
@@ -1119,12 +1191,26 @@ extension ApplicationInsights {
         public let metricName: String?
         /// The namespace of the observation metric.
         public let metricNamespace: String?
+        ///  The category of an RDS event.
+        public let rdsEventCategories: String?
+        ///  The message of an RDS event.
+        public let rdsEventMessage: String?
+        ///  The name of the S3 CloudWatch Event-based observation.
+        public let s3EventName: String?
         /// The source resource ARN of the observation.
         public let sourceARN: String?
         /// The source type of the observation.
         public let sourceType: String?
         /// The time when the observation was first detected, in epoch seconds.
         public let startTime: Date?
+        ///  The Amazon Resource Name (ARN) of the step function-based observation.
+        public let statesArn: String?
+        ///  The Amazon Resource Name (ARN) of the step function execution-based observation.
+        public let statesExecutionArn: String?
+        ///  The input to the step function-based observation.
+        public let statesInput: String?
+        ///  The status of the step function-related observation.
+        public let statesStatus: String?
         /// The unit of the source observation metric.
         public let unit: String?
         /// The value of the source observation metric.
@@ -1144,7 +1230,7 @@ extension ApplicationInsights {
         ///  The X-Ray request throttle percentage for this node.
         public let xRayThrottlePercent: Int?
 
-        public init(cloudWatchEventDetailType: String? = nil, cloudWatchEventId: String? = nil, cloudWatchEventSource: CloudWatchEventSource? = nil, codeDeployApplication: String? = nil, codeDeployDeploymentGroup: String? = nil, codeDeployDeploymentId: String? = nil, codeDeployInstanceGroupId: String? = nil, codeDeployState: String? = nil, ec2State: String? = nil, endTime: Date? = nil, healthEventArn: String? = nil, healthEventDescription: String? = nil, healthEventTypeCategory: String? = nil, healthEventTypeCode: String? = nil, healthService: String? = nil, id: String? = nil, lineTime: Date? = nil, logFilter: LogFilter? = nil, logGroup: String? = nil, logText: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, sourceARN: String? = nil, sourceType: String? = nil, startTime: Date? = nil, unit: String? = nil, value: Double? = nil, xRayErrorPercent: Int? = nil, xRayFaultPercent: Int? = nil, xRayNodeName: String? = nil, xRayNodeType: String? = nil, xRayRequestAverageLatency: Int64? = nil, xRayRequestCount: Int? = nil, xRayThrottlePercent: Int? = nil) {
+        public init(cloudWatchEventDetailType: String? = nil, cloudWatchEventId: String? = nil, cloudWatchEventSource: CloudWatchEventSource? = nil, codeDeployApplication: String? = nil, codeDeployDeploymentGroup: String? = nil, codeDeployDeploymentId: String? = nil, codeDeployInstanceGroupId: String? = nil, codeDeployState: String? = nil, ebsCause: String? = nil, ebsEvent: String? = nil, ebsRequestId: String? = nil, ebsResult: String? = nil, ec2State: String? = nil, endTime: Date? = nil, healthEventArn: String? = nil, healthEventDescription: String? = nil, healthEventTypeCategory: String? = nil, healthEventTypeCode: String? = nil, healthService: String? = nil, id: String? = nil, lineTime: Date? = nil, logFilter: LogFilter? = nil, logGroup: String? = nil, logText: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, rdsEventCategories: String? = nil, rdsEventMessage: String? = nil, s3EventName: String? = nil, sourceARN: String? = nil, sourceType: String? = nil, startTime: Date? = nil, statesArn: String? = nil, statesExecutionArn: String? = nil, statesInput: String? = nil, statesStatus: String? = nil, unit: String? = nil, value: Double? = nil, xRayErrorPercent: Int? = nil, xRayFaultPercent: Int? = nil, xRayNodeName: String? = nil, xRayNodeType: String? = nil, xRayRequestAverageLatency: Int64? = nil, xRayRequestCount: Int? = nil, xRayThrottlePercent: Int? = nil) {
             self.cloudWatchEventDetailType = cloudWatchEventDetailType
             self.cloudWatchEventId = cloudWatchEventId
             self.cloudWatchEventSource = cloudWatchEventSource
@@ -1153,6 +1239,10 @@ extension ApplicationInsights {
             self.codeDeployDeploymentId = codeDeployDeploymentId
             self.codeDeployInstanceGroupId = codeDeployInstanceGroupId
             self.codeDeployState = codeDeployState
+            self.ebsCause = ebsCause
+            self.ebsEvent = ebsEvent
+            self.ebsRequestId = ebsRequestId
+            self.ebsResult = ebsResult
             self.ec2State = ec2State
             self.endTime = endTime
             self.healthEventArn = healthEventArn
@@ -1167,9 +1257,16 @@ extension ApplicationInsights {
             self.logText = logText
             self.metricName = metricName
             self.metricNamespace = metricNamespace
+            self.rdsEventCategories = rdsEventCategories
+            self.rdsEventMessage = rdsEventMessage
+            self.s3EventName = s3EventName
             self.sourceARN = sourceARN
             self.sourceType = sourceType
             self.startTime = startTime
+            self.statesArn = statesArn
+            self.statesExecutionArn = statesExecutionArn
+            self.statesInput = statesInput
+            self.statesStatus = statesStatus
             self.unit = unit
             self.value = value
             self.xRayErrorPercent = xRayErrorPercent
@@ -1190,6 +1287,10 @@ extension ApplicationInsights {
             case codeDeployDeploymentId = "CodeDeployDeploymentId"
             case codeDeployInstanceGroupId = "CodeDeployInstanceGroupId"
             case codeDeployState = "CodeDeployState"
+            case ebsCause = "EbsCause"
+            case ebsEvent = "EbsEvent"
+            case ebsRequestId = "EbsRequestId"
+            case ebsResult = "EbsResult"
             case ec2State = "Ec2State"
             case endTime = "EndTime"
             case healthEventArn = "HealthEventArn"
@@ -1204,9 +1305,16 @@ extension ApplicationInsights {
             case logText = "LogText"
             case metricName = "MetricName"
             case metricNamespace = "MetricNamespace"
+            case rdsEventCategories = "RdsEventCategories"
+            case rdsEventMessage = "RdsEventMessage"
+            case s3EventName = "S3EventName"
             case sourceARN = "SourceARN"
             case sourceType = "SourceType"
             case startTime = "StartTime"
+            case statesArn = "StatesArn"
+            case statesExecutionArn = "StatesExecutionArn"
+            case statesInput = "StatesInput"
+            case statesStatus = "StatesStatus"
             case unit = "Unit"
             case value = "Value"
             case xRayErrorPercent = "XRayErrorPercent"
@@ -1295,8 +1403,10 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1319,6 +1429,7 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1350,9 +1461,11 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
@@ -1391,6 +1504,7 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, max: 300)
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, min: 20)
+            try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -1441,6 +1555,10 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.componentConfiguration, name: "componentConfiguration", parent: name, max: 10000)
             try self.validate(self.componentConfiguration, name: "componentConfiguration", parent: name, min: 1)
+            try self.validate(self.componentConfiguration, name: "componentConfiguration", parent: name, pattern: "[\\S\\s]+")
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -1477,12 +1595,19 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[\\d\\w\\-_\\.+]*$")
+            try self.validate(self.newComponentName, name: "newComponentName", parent: name, max: 128)
+            try self.validate(self.newComponentName, name: "newComponentName", parent: name, min: 1)
+            try self.validate(self.newComponentName, name: "newComponentName", parent: name, pattern: "^[\\d\\w\\-_\\.+]*$")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
             try self.resourceList?.forEach {
                 try validate($0, name: "resourceList[]", parent: name, max: 1011)
                 try validate($0, name: "resourceList[]", parent: name, min: 1)
+                try validate($0, name: "resourceList[]", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             }
         }
 
@@ -1499,13 +1624,13 @@ extension ApplicationInsights {
     }
 
     public struct UpdateLogPatternRequest: AWSEncodableShape {
-        /// The log pattern.
+        /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
         public let pattern: String?
         /// The name of the log pattern.
         public let patternName: String
         /// The name of the log pattern set.
         public let patternSetName: String
-        /// Rank of the log pattern.
+        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
         public let rank: Int?
         /// The name of the resource group.
         public let resourceGroupName: String
@@ -1521,6 +1646,7 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try self.validate(self.pattern, name: "pattern", parent: name, max: 50)
             try self.validate(self.pattern, name: "pattern", parent: name, min: 1)
+            try self.validate(self.pattern, name: "pattern", parent: name, pattern: "[\\S\\s]+")
             try self.validate(self.patternName, name: "patternName", parent: name, max: 50)
             try self.validate(self.patternName, name: "patternName", parent: name, min: 1)
             try self.validate(self.patternName, name: "patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")

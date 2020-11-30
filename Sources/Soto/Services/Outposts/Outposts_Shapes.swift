@@ -28,13 +28,16 @@ extension Outposts {
         public let description: String?
         public let name: String
         public let siteId: String
+        /// The tags to apply to the Outpost.
+        public let tags: [String: String]?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, name: String, siteId: String) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, name: String, siteId: String, tags: [String: String]? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.description = description
             self.name = name
             self.siteId = siteId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -53,6 +56,13 @@ extension Outposts {
             try self.validate(self.siteId, name: "siteId", parent: name, max: 255)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 1)
             try self.validate(self.siteId, name: "siteId", parent: name, pattern: "os-[a-f0-9]{17}")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\S \\n]+$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -61,6 +71,7 @@ extension Outposts {
             case description = "Description"
             case name = "Name"
             case siteId = "SiteId"
+            case tags = "Tags"
         }
     }
 
@@ -310,8 +321,10 @@ extension Outposts {
         public let outpostId: String?
         public let ownerId: String?
         public let siteId: String?
+        /// The Outpost tags.
+        public let tags: [String: String]?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, lifeCycleStatus: String? = nil, name: String? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil, siteId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, lifeCycleStatus: String? = nil, name: String? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil, siteId: String? = nil, tags: [String: String]? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.description = description
@@ -321,6 +334,7 @@ extension Outposts {
             self.outpostId = outpostId
             self.ownerId = ownerId
             self.siteId = siteId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -333,6 +347,7 @@ extension Outposts {
             case outpostId = "OutpostId"
             case ownerId = "OwnerId"
             case siteId = "SiteId"
+            case tags = "Tags"
         }
     }
 
@@ -341,12 +356,15 @@ extension Outposts {
         public let description: String?
         public let name: String?
         public let siteId: String?
+        /// The site tags.
+        public let tags: [String: String]?
 
-        public init(accountId: String? = nil, description: String? = nil, name: String? = nil, siteId: String? = nil) {
+        public init(accountId: String? = nil, description: String? = nil, name: String? = nil, siteId: String? = nil, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.description = description
             self.name = name
             self.siteId = siteId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -354,6 +372,7 @@ extension Outposts {
             case description = "Description"
             case name = "Name"
             case siteId = "SiteId"
+            case tags = "Tags"
         }
     }
 }

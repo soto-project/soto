@@ -41,6 +41,22 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
+    public enum ParallelDataFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case tmx = "TMX"
+        case tsv = "TSV"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParallelDataStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TerminologyDataFormat: String, CustomStringConvertible, Codable {
         case csv = "CSV"
         case tmx = "TMX"
@@ -63,6 +79,100 @@ extension Translate {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case terms = "Terms"
+        }
+    }
+
+    public struct CreateParallelDataRequest: AWSEncodableShape {
+        /// A unique identifier for the request. This token is automatically generated when you use Amazon Translate through an AWS SDK.
+        public let clientToken: String
+        /// A custom description for the parallel data resource in Amazon Translate.
+        public let description: String?
+        public let encryptionKey: EncryptionKey?
+        /// A custom name for the parallel data resource in Amazon Translate. You must assign a name that is unique in the account and region.
+        public let name: String
+        /// Specifies the format and S3 location of the parallel data input file.
+        public let parallelDataConfig: ParallelDataConfig
+
+        public init(clientToken: String = CreateParallelDataRequest.idempotencyToken(), description: String? = nil, encryptionKey: EncryptionKey? = nil, name: String, parallelDataConfig: ParallelDataConfig) {
+            self.clientToken = clientToken
+            self.description = description
+            self.encryptionKey = encryptionKey
+            self.name = name
+            self.parallelDataConfig = parallelDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\P{M}\\p{M}]{0,256}")
+            try self.encryptionKey?.validate(name: "\(name).encryptionKey")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            try self.parallelDataConfig.validate(name: "\(name).parallelDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case encryptionKey = "EncryptionKey"
+            case name = "Name"
+            case parallelDataConfig = "ParallelDataConfig"
+        }
+    }
+
+    public struct CreateParallelDataResponse: AWSDecodableShape {
+        /// The custom name that you assigned to the parallel data resource.
+        public let name: String?
+        /// The status of the parallel data resource. When the resource is ready for you to use, the status is ACTIVE.
+        public let status: ParallelDataStatus?
+
+        public init(name: String? = nil, status: ParallelDataStatus? = nil) {
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteParallelDataRequest: AWSEncodableShape {
+        /// The name of the parallel data resource that is being deleted.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteParallelDataResponse: AWSDecodableShape {
+        /// The name of the parallel data resource that is being deleted.
+        public let name: String?
+        /// The status of the parallel data deletion.
+        public let status: ParallelDataStatus?
+
+        public init(name: String? = nil, status: ParallelDataStatus? = nil) {
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case status = "Status"
         }
     }
 
@@ -137,6 +247,50 @@ extension Translate {
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case type = "Type"
+        }
+    }
+
+    public struct GetParallelDataRequest: AWSEncodableShape {
+        /// The name of the parallel data resource that is being retrieved.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetParallelDataResponse: AWSDecodableShape {
+        /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to create a parallel data resource. The location is returned as a presigned URL to that has a 30 minute expiration.
+        public let auxiliaryDataLocation: ParallelDataDataLocation?
+        /// The location of the most recent parallel data input file that was successfully imported into Amazon Translate. The location is returned as a presigned URL that has a 30 minute expiration.
+        public let dataLocation: ParallelDataDataLocation?
+        /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to update a parallel data resource. The location is returned as a presigned URL to that has a 30 minute expiration.
+        public let latestUpdateAttemptAuxiliaryDataLocation: ParallelDataDataLocation?
+        /// The properties of the parallel data resource that is being retrieved.
+        public let parallelDataProperties: ParallelDataProperties?
+
+        public init(auxiliaryDataLocation: ParallelDataDataLocation? = nil, dataLocation: ParallelDataDataLocation? = nil, latestUpdateAttemptAuxiliaryDataLocation: ParallelDataDataLocation? = nil, parallelDataProperties: ParallelDataProperties? = nil) {
+            self.auxiliaryDataLocation = auxiliaryDataLocation
+            self.dataLocation = dataLocation
+            self.latestUpdateAttemptAuxiliaryDataLocation = latestUpdateAttemptAuxiliaryDataLocation
+            self.parallelDataProperties = parallelDataProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auxiliaryDataLocation = "AuxiliaryDataLocation"
+            case dataLocation = "DataLocation"
+            case latestUpdateAttemptAuxiliaryDataLocation = "LatestUpdateAttemptAuxiliaryDataLocation"
+            case parallelDataProperties = "ParallelDataProperties"
         }
     }
 
@@ -277,6 +431,47 @@ extension Translate {
         }
     }
 
+    public struct ListParallelDataRequest: AWSEncodableShape {
+        /// The maximum number of parallel data resources returned for each request.
+        public let maxResults: Int?
+        /// A string that specifies the next page of results to return in a paginated response.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\p{ASCII}{0,8192}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListParallelDataResponse: AWSDecodableShape {
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+        public let nextToken: String?
+        /// The properties of the parallel data resources returned by this request.
+        public let parallelDataPropertiesList: [ParallelDataProperties]?
+
+        public init(nextToken: String? = nil, parallelDataPropertiesList: [ParallelDataProperties]? = nil) {
+            self.nextToken = nextToken
+            self.parallelDataPropertiesList = parallelDataPropertiesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case parallelDataPropertiesList = "ParallelDataPropertiesList"
+        }
+    }
+
     public struct ListTerminologiesRequest: AWSEncodableShape {
         /// The maximum number of custom terminologies returned per list request.
         public let maxResults: Int?
@@ -382,6 +577,121 @@ extension Translate {
         }
     }
 
+    public struct ParallelDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The format of the parallel data input file.
+        public let format: ParallelDataFormat
+        /// The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling.
+        public let s3Uri: String
+
+        public init(format: ParallelDataFormat, s3Uri: String) {
+            self.format = format
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct ParallelDataDataLocation: AWSDecodableShape {
+        /// The Amazon S3 location of the parallel data input file. The location is returned as a presigned URL to that has a 30 minute expiration.
+        public let location: String
+        /// Describes the repository that contains the parallel data input file.
+        public let repositoryType: String
+
+        public init(location: String, repositoryType: String) {
+            self.location = location
+            self.repositoryType = repositoryType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case repositoryType = "RepositoryType"
+        }
+    }
+
+    public struct ParallelDataProperties: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the parallel data resource.
+        public let arn: String?
+        /// The time at which the parallel data resource was created.
+        public let createdAt: Date?
+        /// The description assigned to the parallel data resource.
+        public let description: String?
+        public let encryptionKey: EncryptionKey?
+        /// The number of records unsuccessfully imported from the parallel data input file.
+        public let failedRecordCount: Int64?
+        /// The number of UTF-8 characters that Amazon Translate imported from the parallel data input file. This number includes only the characters in your translation examples. It does not include characters that are used to format your file. For example, if you provided a Translation Memory Exchange (.tmx) file, this number does not include the tags.
+        public let importedDataSize: Int64?
+        /// The number of records successfully imported from the parallel data input file.
+        public let importedRecordCount: Int64?
+        /// The time at which the parallel data resource was last updated.
+        public let lastUpdatedAt: Date?
+        /// The time that the most recent update was attempted.
+        public let latestUpdateAttemptAt: Date?
+        /// The status of the most recent update attempt for the parallel data resource.
+        public let latestUpdateAttemptStatus: ParallelDataStatus?
+        /// Additional information from Amazon Translate about the parallel data resource.
+        public let message: String?
+        /// The custom name assigned to the parallel data resource.
+        public let name: String?
+        /// Specifies the format and S3 location of the parallel data input file.
+        public let parallelDataConfig: ParallelDataConfig?
+        /// The number of items in the input file that Amazon Translate skipped when you created or updated the parallel data resource. For example, Amazon Translate skips empty records, empty target texts, and empty lines.
+        public let skippedRecordCount: Int64?
+        /// The source language of the translations in the parallel data file.
+        public let sourceLanguageCode: String?
+        /// The status of the parallel data resource. When the parallel data is ready for you to use, the status is ACTIVE.
+        public let status: ParallelDataStatus?
+        /// The language codes for the target languages available in the parallel data file. All possible target languages are returned as an array.
+        public let targetLanguageCodes: [String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, encryptionKey: EncryptionKey? = nil, failedRecordCount: Int64? = nil, importedDataSize: Int64? = nil, importedRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, latestUpdateAttemptAt: Date? = nil, latestUpdateAttemptStatus: ParallelDataStatus? = nil, message: String? = nil, name: String? = nil, parallelDataConfig: ParallelDataConfig? = nil, skippedRecordCount: Int64? = nil, sourceLanguageCode: String? = nil, status: ParallelDataStatus? = nil, targetLanguageCodes: [String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.encryptionKey = encryptionKey
+            self.failedRecordCount = failedRecordCount
+            self.importedDataSize = importedDataSize
+            self.importedRecordCount = importedRecordCount
+            self.lastUpdatedAt = lastUpdatedAt
+            self.latestUpdateAttemptAt = latestUpdateAttemptAt
+            self.latestUpdateAttemptStatus = latestUpdateAttemptStatus
+            self.message = message
+            self.name = name
+            self.parallelDataConfig = parallelDataConfig
+            self.skippedRecordCount = skippedRecordCount
+            self.sourceLanguageCode = sourceLanguageCode
+            self.status = status
+            self.targetLanguageCodes = targetLanguageCodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case encryptionKey = "EncryptionKey"
+            case failedRecordCount = "FailedRecordCount"
+            case importedDataSize = "ImportedDataSize"
+            case importedRecordCount = "ImportedRecordCount"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case latestUpdateAttemptAt = "LatestUpdateAttemptAt"
+            case latestUpdateAttemptStatus = "LatestUpdateAttemptStatus"
+            case message = "Message"
+            case name = "Name"
+            case parallelDataConfig = "ParallelDataConfig"
+            case skippedRecordCount = "SkippedRecordCount"
+            case sourceLanguageCode = "SourceLanguageCode"
+            case status = "Status"
+            case targetLanguageCodes = "TargetLanguageCodes"
+        }
+    }
+
     public struct StartTextTranslationJobRequest: AWSEncodableShape {
         /// A unique identifier for the request. This token is auto-generated when using the Amazon Translate SDK.
         public let clientToken: String
@@ -393,6 +703,8 @@ extension Translate {
         public let jobName: String?
         /// Specifies the S3 folder to which your job output will be saved.
         public let outputDataConfig: OutputDataConfig
+        /// The names of the parallel data resources to use in the batch translation job. For a list of available parallel data resources, use the ListParallelData operation.
+        public let parallelDataNames: [String]?
         /// The language code of the input language. For a list of language codes, see what-is-languages. Amazon Translate does not automatically detect a source language during batch translation jobs.
         public let sourceLanguageCode: String
         /// The language code of the output language.
@@ -400,12 +712,13 @@ extension Translate {
         /// The name of the terminology to use in the batch translation job. For a list of available terminologies, use the ListTerminologies operation.
         public let terminologyNames: [String]?
 
-        public init(clientToken: String = StartTextTranslationJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, sourceLanguageCode: String, targetLanguageCodes: [String], terminologyNames: [String]? = nil) {
+        public init(clientToken: String = StartTextTranslationJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, parallelDataNames: [String]? = nil, sourceLanguageCode: String, targetLanguageCodes: [String], terminologyNames: [String]? = nil) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.outputDataConfig = outputDataConfig
+            self.parallelDataNames = parallelDataNames
             self.sourceLanguageCode = sourceLanguageCode
             self.targetLanguageCodes = targetLanguageCodes
             self.terminologyNames = terminologyNames
@@ -423,6 +736,11 @@ extension Translate {
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.parallelDataNames?.forEach {
+                try validate($0, name: "parallelDataNames[]", parent: name, max: 256)
+                try validate($0, name: "parallelDataNames[]", parent: name, min: 1)
+                try validate($0, name: "parallelDataNames[]", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            }
             try self.validate(self.sourceLanguageCode, name: "sourceLanguageCode", parent: name, max: 5)
             try self.validate(self.sourceLanguageCode, name: "sourceLanguageCode", parent: name, min: 2)
             try self.targetLanguageCodes.forEach {
@@ -444,6 +762,7 @@ extension Translate {
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
             case outputDataConfig = "OutputDataConfig"
+            case parallelDataNames = "ParallelDataNames"
             case sourceLanguageCode = "SourceLanguageCode"
             case targetLanguageCodes = "TargetLanguageCodes"
             case terminologyNames = "TerminologyNames"
@@ -657,6 +976,8 @@ extension Translate {
         public let message: String?
         /// The output configuration properties that were specified when the job was requested.
         public let outputDataConfig: OutputDataConfig?
+        /// A list containing the names of the parallel data resources applied to the translation job.
+        public let parallelDataNames: [String]?
         /// The language code of the language of the source text. The language must be a language supported by Amazon Translate.
         public let sourceLanguageCode: String?
         /// The time at which the translation job was submitted.
@@ -666,7 +987,7 @@ extension Translate {
         /// A list containing the names of the terminologies applied to a translation job. Only one terminology can be applied per StartTextTranslationJob request at this time.
         public let terminologyNames: [String]?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobDetails: JobDetails? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, sourceLanguageCode: String? = nil, submittedTime: Date? = nil, targetLanguageCodes: [String]? = nil, terminologyNames: [String]? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobDetails: JobDetails? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, parallelDataNames: [String]? = nil, sourceLanguageCode: String? = nil, submittedTime: Date? = nil, targetLanguageCodes: [String]? = nil, terminologyNames: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -676,6 +997,7 @@ extension Translate {
             self.jobStatus = jobStatus
             self.message = message
             self.outputDataConfig = outputDataConfig
+            self.parallelDataNames = parallelDataNames
             self.sourceLanguageCode = sourceLanguageCode
             self.submittedTime = submittedTime
             self.targetLanguageCodes = targetLanguageCodes
@@ -692,6 +1014,7 @@ extension Translate {
             case jobStatus = "JobStatus"
             case message = "Message"
             case outputDataConfig = "OutputDataConfig"
+            case parallelDataNames = "ParallelDataNames"
             case sourceLanguageCode = "SourceLanguageCode"
             case submittedTime = "SubmittedTime"
             case targetLanguageCodes = "TargetLanguageCodes"
@@ -761,6 +1084,68 @@ extension Translate {
             case sourceLanguageCode = "SourceLanguageCode"
             case targetLanguageCode = "TargetLanguageCode"
             case translatedText = "TranslatedText"
+        }
+    }
+
+    public struct UpdateParallelDataRequest: AWSEncodableShape {
+        /// A unique identifier for the request. This token is automatically generated when you use Amazon Translate through an AWS SDK.
+        public let clientToken: String
+        /// A custom description for the parallel data resource in Amazon Translate.
+        public let description: String?
+        /// The name of the parallel data resource being updated.
+        public let name: String
+        /// Specifies the format and S3 location of the parallel data input file.
+        public let parallelDataConfig: ParallelDataConfig
+
+        public init(clientToken: String = UpdateParallelDataRequest.idempotencyToken(), description: String? = nil, name: String, parallelDataConfig: ParallelDataConfig) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.parallelDataConfig = parallelDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\P{M}\\p{M}]{0,256}")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            try self.parallelDataConfig.validate(name: "\(name).parallelDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case name = "Name"
+            case parallelDataConfig = "ParallelDataConfig"
+        }
+    }
+
+    public struct UpdateParallelDataResponse: AWSDecodableShape {
+        /// The time that the most recent update was attempted.
+        public let latestUpdateAttemptAt: Date?
+        /// The status of the parallel data update attempt. When the updated parallel data resource is ready for you to use, the status is ACTIVE.
+        public let latestUpdateAttemptStatus: ParallelDataStatus?
+        /// The name of the parallel data resource being updated.
+        public let name: String?
+        /// The status of the parallel data resource that you are attempting to update. Your update request is accepted only if this status is either ACTIVE or FAILED.
+        public let status: ParallelDataStatus?
+
+        public init(latestUpdateAttemptAt: Date? = nil, latestUpdateAttemptStatus: ParallelDataStatus? = nil, name: String? = nil, status: ParallelDataStatus? = nil) {
+            self.latestUpdateAttemptAt = latestUpdateAttemptAt
+            self.latestUpdateAttemptStatus = latestUpdateAttemptStatus
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestUpdateAttemptAt = "LatestUpdateAttemptAt"
+            case latestUpdateAttemptStatus = "LatestUpdateAttemptStatus"
+            case name = "Name"
+            case status = "Status"
         }
     }
 }

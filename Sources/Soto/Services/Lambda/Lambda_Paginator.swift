@@ -70,6 +70,57 @@ extension Lambda {
         )
     }
 
+    ///  Returns a list of code signing configurations for the specified function. A request returns up to 10,000 configurations per call. You can use the MaxItems parameter to return fewer configurations per call.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCodeSigningConfigsPaginator<Result>(
+        _ input: ListCodeSigningConfigsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCodeSigningConfigsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCodeSigningConfigs,
+            tokenKey: \ListCodeSigningConfigsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCodeSigningConfigsPaginator(
+        _ input: ListCodeSigningConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCodeSigningConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCodeSigningConfigs,
+            tokenKey: \ListCodeSigningConfigsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists event source mappings. Specify an EventSourceArn to only show event source mappings for a single event source.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -218,6 +269,57 @@ extension Lambda {
             input: input,
             command: listFunctions,
             tokenKey: \ListFunctionsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFunctionsByCodeSigningConfigPaginator<Result>(
+        _ input: ListFunctionsByCodeSigningConfigRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListFunctionsByCodeSigningConfigResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFunctionsByCodeSigningConfig,
+            tokenKey: \ListFunctionsByCodeSigningConfigResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listFunctionsByCodeSigningConfigPaginator(
+        _ input: ListFunctionsByCodeSigningConfigRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFunctionsByCodeSigningConfigResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listFunctionsByCodeSigningConfig,
+            tokenKey: \ListFunctionsByCodeSigningConfigResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -439,6 +541,15 @@ extension Lambda.ListAliasesRequest: AWSPaginateToken {
     }
 }
 
+extension Lambda.ListCodeSigningConfigsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Lambda.ListCodeSigningConfigsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
 extension Lambda.ListEventSourceMappingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Lambda.ListEventSourceMappingsRequest {
         return .init(
@@ -466,6 +577,16 @@ extension Lambda.ListFunctionsRequest: AWSPaginateToken {
             functionVersion: self.functionVersion,
             marker: token,
             masterRegion: self.masterRegion,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension Lambda.ListFunctionsByCodeSigningConfigRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionsByCodeSigningConfigRequest {
+        return .init(
+            codeSigningConfigArn: self.codeSigningConfigArn,
+            marker: token,
             maxItems: self.maxItems
         )
     }

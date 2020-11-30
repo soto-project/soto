@@ -19,6 +19,7 @@ import SotoCore
 /// Error enum for ApplicationInsights
 public struct ApplicationInsightsErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case badRequestException = "BadRequestException"
         case internalServerException = "InternalServerException"
         case resourceInUseException = "ResourceInUseException"
@@ -46,6 +47,8 @@ public struct ApplicationInsightsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  User does not have permissions to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request is not understood by the server.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// The server encountered an internal error and is unable to complete the request.

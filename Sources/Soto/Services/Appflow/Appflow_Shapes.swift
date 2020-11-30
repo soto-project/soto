@@ -53,6 +53,7 @@ extension Appflow {
         case slack = "Slack"
         case snowflake = "Snowflake"
         case trendmicro = "Trendmicro"
+        case upsolver = "Upsolver"
         case veeva = "Veeva"
         case zendesk = "Zendesk"
         public var description: String { return self.rawValue }
@@ -632,12 +633,14 @@ extension Appflow {
         public let snowflake: SnowflakeMetadata?
         ///  The connector metadata specific to Trend Micro.
         public let trendmicro: TrendmicroMetadata?
+        ///  The connector metadata specific to Upsolver.
+        public let upsolver: UpsolverMetadata?
         ///  The connector metadata specific to Veeva.
         public let veeva: VeevaMetadata?
         ///  The connector metadata specific to Zendesk.
         public let zendesk: ZendeskMetadata?
 
-        public init(amplitude: AmplitudeMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
+        public init(amplitude: AmplitudeMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
@@ -653,6 +656,7 @@ extension Appflow {
             self.slack = slack
             self.snowflake = snowflake
             self.trendmicro = trendmicro
+            self.upsolver = upsolver
             self.veeva = veeva
             self.zendesk = zendesk
         }
@@ -673,6 +677,7 @@ extension Appflow {
             case slack = "Slack"
             case snowflake = "Snowflake"
             case trendmicro = "Trendmicro"
+            case upsolver = "Upsolver"
             case veeva = "Veeva"
             case zendesk = "Zendesk"
         }
@@ -1536,13 +1541,16 @@ extension Appflow {
         public let salesforce: SalesforceDestinationProperties?
         ///  The properties required to query Snowflake.
         public let snowflake: SnowflakeDestinationProperties?
+        ///  The properties required to query Upsolver.
+        public let upsolver: UpsolverDestinationProperties?
 
-        public init(eventBridge: EventBridgeDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil) {
+        public init(eventBridge: EventBridgeDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil, upsolver: UpsolverDestinationProperties? = nil) {
             self.eventBridge = eventBridge
             self.redshift = redshift
             self.s3 = s3
             self.salesforce = salesforce
             self.snowflake = snowflake
+            self.upsolver = upsolver
         }
 
         public func validate(name: String) throws {
@@ -1551,6 +1559,7 @@ extension Appflow {
             try self.s3?.validate(name: "\(name).s3")
             try self.salesforce?.validate(name: "\(name).salesforce")
             try self.snowflake?.validate(name: "\(name).snowflake")
+            try self.upsolver?.validate(name: "\(name).upsolver")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1559,6 +1568,7 @@ extension Appflow {
             case s3 = "S3"
             case salesforce = "Salesforce"
             case snowflake = "Snowflake"
+            case upsolver = "Upsolver"
         }
     }
 
@@ -2599,7 +2609,7 @@ extension Appflow {
         public let dataPullMode: DataPullMode?
         ///  Specifies the scheduled end time for a schedule-triggered flow.
         public let scheduleEndTime: Date?
-        ///  The scheduling expression that determines when and how often the rule runs.
+        ///  The scheduling expression that determines the rate at which the schedule will run, for example rate(5minutes).
         public let scheduleExpression: String
         ///  Specifies the scheduled start time for a schedule-triggered flow.
         public let scheduleStartTime: Date?
@@ -3460,6 +3470,58 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case flowStatus
+        }
+    }
+
+    public struct UpsolverDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  The Upsolver Amazon S3 bucket name in which Amazon AppFlow places the transferred data.
+        public let bucketName: String
+        ///  The object key for the destination Upsolver Amazon S3 bucket in which Amazon AppFlow places the files.
+        public let bucketPrefix: String?
+        ///  The configuration that determines how data is formatted when Upsolver is used as the flow destination.
+        public let s3OutputFormatConfig: UpsolverS3OutputFormatConfig
+
+        public init(bucketName: String, bucketPrefix: String? = nil, s3OutputFormatConfig: UpsolverS3OutputFormatConfig) {
+            self.bucketName = bucketName
+            self.bucketPrefix = bucketPrefix
+            self.s3OutputFormatConfig = s3OutputFormatConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 16)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^(upsolver-appflow)\\S*")
+            try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
+            try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName
+            case bucketPrefix
+            case s3OutputFormatConfig
+        }
+    }
+
+    public struct UpsolverMetadata: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpsolverS3OutputFormatConfig: AWSEncodableShape & AWSDecodableShape {
+        public let aggregationConfig: AggregationConfig?
+        ///  Indicates the file type that Amazon AppFlow places in the Upsolver Amazon S3 bucket.
+        public let fileType: FileType?
+        public let prefixConfig: PrefixConfig
+
+        public init(aggregationConfig: AggregationConfig? = nil, fileType: FileType? = nil, prefixConfig: PrefixConfig) {
+            self.aggregationConfig = aggregationConfig
+            self.fileType = fileType
+            self.prefixConfig = prefixConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationConfig
+            case fileType
+            case prefixConfig
         }
     }
 

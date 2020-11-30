@@ -19,6 +19,8 @@ import SotoCore
 /// Error enum for Translate
 public struct TranslateErrorType: AWSErrorType {
     enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case conflictException = "ConflictException"
         case detectedLanguageLowConfidenceException = "DetectedLanguageLowConfidenceException"
         case internalServerException = "InternalServerException"
         case invalidFilterException = "InvalidFilterException"
@@ -50,6 +52,10 @@ public struct TranslateErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Another modification is being made. That modification must complete before you can make your change.
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// There was a conflict processing the request. Try your request again.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The confidence that Amazon Comprehend accurately detected the source language is low. If a low confidence level is acceptable for your application, you can use the language in the exception to call Amazon Translate again. For more information, see the DetectDominantLanguage operation in the Amazon Comprehend Developer Guide.
     public static var detectedLanguageLowConfidenceException: Self { .init(.detectedLanguageLowConfidenceException) }
     /// An internal server error occurred. Retry your request.

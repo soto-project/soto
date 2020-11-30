@@ -20,6 +20,15 @@ import SotoCore
 extension Glue {
     // MARK: Enums
 
+    public enum BackfillErrorCode: String, CustomStringConvertible, Codable {
+        case encryptedPartitionError = "ENCRYPTED_PARTITION_ERROR"
+        case internalError = "INTERNAL_ERROR"
+        case invalidPartitionTypeDataError = "INVALID_PARTITION_TYPE_DATA_ERROR"
+        case missingPartitionValueError = "MISSING_PARTITION_VALUE_ERROR"
+        case unsupportedPartitionCharacterError = "UNSUPPORTED_PARTITION_CHARACTER_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case sseKms = "SSE-KMS"
@@ -104,6 +113,12 @@ extension Glue {
         case failed = "FAILED"
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CrawlerLineageSettings: String, CustomStringConvertible, Codable {
+        case disable = "DISABLE"
+        case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -202,6 +217,9 @@ extension Glue {
 
     public enum PartitionIndexStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -431,6 +449,23 @@ extension Glue {
             case notificationProperty = "NotificationProperty"
             case securityConfiguration = "SecurityConfiguration"
             case timeout = "Timeout"
+        }
+    }
+
+    public struct BackfillError: AWSDecodableShape {
+        /// The error code for an error that occurred when registering partition indexes for an existing table.
+        public let code: BackfillErrorCode?
+        /// A list of a limited number of partitions in the response.
+        public let partitions: [PartitionValueList]?
+
+        public init(code: BackfillErrorCode? = nil, partitions: [PartitionValueList]? = nil) {
+            self.code = code
+            self.partitions = partitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case partitions = "Partitions"
         }
     }
 
@@ -1894,6 +1929,8 @@ extension Glue {
         public let lastCrawl: LastCrawlInfo?
         /// The time that the crawler was last updated.
         public let lastUpdated: Date?
+        /// A configuration that specifies whether data lineage is enabled for the crawler.
+        public let lineageConfiguration: LineageConfiguration?
         /// The name of the crawler.
         public let name: String?
         /// A policy that specifies whether to crawl the entire dataset again, or to crawl only folders that were added since the last crawler run.
@@ -1913,7 +1950,7 @@ extension Glue {
         /// The version of the crawler.
         public let version: Int64?
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlElapsedTime = crawlElapsedTime
@@ -1923,6 +1960,7 @@ extension Glue {
             self.description = description
             self.lastCrawl = lastCrawl
             self.lastUpdated = lastUpdated
+            self.lineageConfiguration = lineageConfiguration
             self.name = name
             self.recrawlPolicy = recrawlPolicy
             self.role = role
@@ -1944,6 +1982,7 @@ extension Glue {
             case description = "Description"
             case lastCrawl = "LastCrawl"
             case lastUpdated = "LastUpdated"
+            case lineageConfiguration = "LineageConfiguration"
             case name = "Name"
             case recrawlPolicy = "RecrawlPolicy"
             case role = "Role"
@@ -2120,6 +2159,8 @@ extension Glue {
         public let databaseName: String?
         /// A description of the new crawler.
         public let description: String?
+        /// Specifies data lineage configuration settings for the crawler.
+        public let lineageConfiguration: LineageConfiguration?
         /// Name of the new crawler.
         public let name: String
         /// A policy that specifies whether to crawl the entire dataset again, or to crawl only folders that were added since the last crawler run.
@@ -2137,12 +2178,13 @@ extension Glue {
         /// A list of collection of targets to crawl.
         public let targets: CrawlerTargets
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
             self.databaseName = databaseName
             self.description = description
+            self.lineageConfiguration = lineageConfiguration
             self.name = name
             self.recrawlPolicy = recrawlPolicy
             self.role = role
@@ -2184,6 +2226,7 @@ extension Glue {
             case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
             case databaseName = "DatabaseName"
             case description = "Description"
+            case lineageConfiguration = "LineageConfiguration"
             case name = "Name"
             case recrawlPolicy = "RecrawlPolicy"
             case role = "Role"
@@ -2728,6 +2771,48 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case transformId = "TransformId"
         }
+    }
+
+    public struct CreatePartitionIndexRequest: AWSEncodableShape {
+        /// The catalog ID where the table resides.
+        public let catalogId: String?
+        /// Specifies the name of a database in which you want to create a partition index.
+        public let databaseName: String
+        /// Specifies a PartitionIndex structure to create a partition index in an existing table.
+        public let partitionIndex: PartitionIndex
+        /// Specifies the name of a table in which you want to create a partition index.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, partitionIndex: PartitionIndex, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.partitionIndex = partitionIndex
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.partitionIndex.validate(name: "\(name).partitionIndex")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case partitionIndex = "PartitionIndex"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct CreatePartitionIndexResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CreatePartitionRequest: AWSEncodableShape {
@@ -3854,6 +3939,50 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case transformId = "TransformId"
         }
+    }
+
+    public struct DeletePartitionIndexRequest: AWSEncodableShape {
+        /// The catalog ID where the table resides.
+        public let catalogId: String?
+        /// Specifies the name of a database from which you want to delete a partition index.
+        public let databaseName: String
+        /// The name of the partition index to be deleted.
+        public let indexName: String
+        /// Specifies the name of a table from which you want to delete a partition index.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, indexName: String, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.indexName = indexName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case indexName = "IndexName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DeletePartitionIndexResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeletePartitionRequest: AWSEncodableShape {
@@ -7765,6 +7894,19 @@ extension Glue {
         }
     }
 
+    public struct LineageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether data lineage is enabled for the crawler. Valid values are:   ENABLE: enables data lineage for the crawler   DISABLE: disables data lineage for the crawler
+        public let crawlerLineageSettings: CrawlerLineageSettings?
+
+        public init(crawlerLineageSettings: CrawlerLineageSettings? = nil) {
+            self.crawlerLineageSettings = crawlerLineageSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerLineageSettings = "CrawlerLineageSettings"
+        }
+    }
+
     public struct ListCrawlersRequest: AWSEncodableShape {
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -8624,20 +8766,24 @@ extension Glue {
     }
 
     public struct PartitionIndexDescriptor: AWSDecodableShape {
+        /// A list of errors that can occur when registering partition indexes for an existing table.
+        public let backfillErrors: [BackfillError]?
         /// The name of the partition index.
         public let indexName: String
-        /// The status of the partition index.
+        /// The status of the partition index.  The possible statuses are:   CREATING: The index is being created. When an index is in a CREATING state, the index or its table cannot be deleted.   ACTIVE: The index creation succeeds.   FAILED: The index creation fails.    DELETING: The index is deleted from the list of indexes.
         public let indexStatus: PartitionIndexStatus
         /// A list of one or more keys, as KeySchemaElement structures, for the partition index.
         public let keys: [KeySchemaElement]
 
-        public init(indexName: String, indexStatus: PartitionIndexStatus, keys: [KeySchemaElement]) {
+        public init(backfillErrors: [BackfillError]? = nil, indexName: String, indexStatus: PartitionIndexStatus, keys: [KeySchemaElement]) {
+            self.backfillErrors = backfillErrors
             self.indexName = indexName
             self.indexStatus = indexStatus
             self.keys = keys
         }
 
         private enum CodingKeys: String, CodingKey {
+            case backfillErrors = "BackfillErrors"
             case indexName = "IndexName"
             case indexStatus = "IndexStatus"
             case keys = "Keys"
@@ -11276,6 +11422,8 @@ extension Glue {
         public let databaseName: String?
         /// A description of the new crawler.
         public let description: String?
+        /// Specifies data lineage configuration settings for the crawler.
+        public let lineageConfiguration: LineageConfiguration?
         /// Name of the new crawler.
         public let name: String
         /// A policy that specifies whether to crawl the entire dataset again, or to crawl only folders that were added since the last crawler run.
@@ -11291,12 +11439,13 @@ extension Glue {
         /// A list of targets to crawl.
         public let targets: CrawlerTargets?
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
             self.databaseName = databaseName
             self.description = description
+            self.lineageConfiguration = lineageConfiguration
             self.name = name
             self.recrawlPolicy = recrawlPolicy
             self.role = role
@@ -11331,6 +11480,7 @@ extension Glue {
             case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
             case databaseName = "DatabaseName"
             case description = "Description"
+            case lineageConfiguration = "LineageConfiguration"
             case name = "Name"
             case recrawlPolicy = "RecrawlPolicy"
             case role = "Role"

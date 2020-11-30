@@ -609,7 +609,7 @@ extension Comprehend {
     public struct ClassifyDocumentResponse: AWSDecodableShape {
         /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time.
         public let classes: [DocumentClass]?
-        /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not multually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
+        /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not mutually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
         public let labels: [DocumentLabel]?
 
         public init(classes: [DocumentClass]? = nil, labels: [DocumentLabel]? = nil) {
@@ -1082,6 +1082,38 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case entityRecognizerProperties = "EntityRecognizerProperties"
+        }
+    }
+
+    public struct DescribeEventsDetectionJobRequest: AWSEncodableShape {
+        /// The identifier of the events detection job.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribeEventsDetectionJobResponse: AWSDecodableShape {
+        /// An object that contains the properties associated with an event detection job.
+        public let eventsDetectionJobProperties: EventsDetectionJobProperties?
+
+        public init(eventsDetectionJobProperties: EventsDetectionJobProperties? = nil) {
+            self.eventsDetectionJobProperties = eventsDetectionJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventsDetectionJobProperties = "EventsDetectionJobProperties"
         }
     }
 
@@ -2235,7 +2267,7 @@ extension Comprehend {
     }
 
     public struct EntityTypesEvaluationMetrics: AWSDecodableShape {
-        /// A measure of how accurate the recognizer results are for for a specific entity type in the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0.
+        /// A measure of how accurate the recognizer results are for a specific entity type in the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0.
         public let f1Score: Double?
         /// A measure of the usefulness of the recognizer results for a specific entity type in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones.
         public let precision: Double?
@@ -2270,6 +2302,90 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case type = "Type"
+        }
+    }
+
+    public struct EventsDetectionJobFilter: AWSEncodableShape {
+        /// Filters on the name of the events detection job.
+        public let jobName: String?
+        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
+        public let jobStatus: JobStatus?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeAfter: Date?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: Date?
+
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.submitTimeAfter = submitTimeAfter
+            self.submitTimeBefore = submitTimeBefore
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case submitTimeAfter = "SubmitTimeAfter"
+            case submitTimeBefore = "SubmitTimeBefore"
+        }
+    }
+
+    public struct EventsDetectionJobProperties: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Identify and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The time that the events detection job completed.
+        public let endTime: Date?
+        /// The input data configuration that you supplied when you created the events detection job.
+        public let inputDataConfig: InputDataConfig?
+        /// The identifier assigned to the events detection job.
+        public let jobId: String?
+        /// The name you assigned the events detection job.
+        public let jobName: String?
+        /// The current status of the events detection job.
+        public let jobStatus: JobStatus?
+        /// The language code of the input documents.
+        public let languageCode: LanguageCode?
+        /// A description of the status of the events detection job.
+        public let message: String?
+        /// The output data configuration that you supplied when you created the events detection job.
+        public let outputDataConfig: OutputDataConfig?
+        /// The time that the events detection job was submitted for processing.
+        public let submitTime: Date?
+        /// The types of events that are detected by the job.
+        public let targetEventTypes: [String]?
+
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, targetEventTypes: [String]? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.endTime = endTime
+            self.inputDataConfig = inputDataConfig
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.languageCode = languageCode
+            self.message = message
+            self.outputDataConfig = outputDataConfig
+            self.submitTime = submitTime
+            self.targetEventTypes = targetEventTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case endTime = "EndTime"
+            case inputDataConfig = "InputDataConfig"
+            case jobId = "JobId"
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case languageCode = "LanguageCode"
+            case message = "Message"
+            case outputDataConfig = "OutputDataConfig"
+            case submitTime = "SubmitTime"
+            case targetEventTypes = "TargetEventTypes"
         }
     }
 
@@ -2672,6 +2788,51 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case entityRecognizerPropertiesList = "EntityRecognizerPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEventsDetectionJobsRequest: AWSEncodableShape {
+        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: EventsDetectionJobFilter?
+        /// The maximum number of results to return in each page.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: EventsDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEventsDetectionJobsResponse: AWSDecodableShape {
+        /// A list containing the properties of each job that is returned.
+        public let eventsDetectionJobPropertiesList: [EventsDetectionJobProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(eventsDetectionJobPropertiesList: [EventsDetectionJobProperties]? = nil, nextToken: String? = nil) {
+            self.eventsDetectionJobPropertiesList = eventsDetectionJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventsDetectionJobPropertiesList = "EventsDetectionJobPropertiesList"
             case nextToken = "NextToken"
         }
     }
@@ -3427,6 +3588,80 @@ extension Comprehend {
         }
     }
 
+    public struct StartEventsDetectionJobRequest: AWSEncodableShape {
+        /// An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+        /// The identifier of the events detection job.
+        public let jobName: String?
+        /// The language code of the input documents.
+        public let languageCode: LanguageCode
+        /// Specifies where to send the output files.
+        public let outputDataConfig: OutputDataConfig
+        /// The types of events to detect in the input documents.
+        public let targetEventTypes: [String]
+
+        public init(clientRequestToken: String? = StartEventsDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, targetEventTypes: [String]) {
+            self.clientRequestToken = clientRequestToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.languageCode = languageCode
+            self.outputDataConfig = outputDataConfig
+            self.targetEventTypes = targetEventTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.targetEventTypes.forEach {
+                try validate($0, name: "targetEventTypes[]", parent: name, max: 40)
+                try validate($0, name: "targetEventTypes[]", parent: name, min: 1)
+                try validate($0, name: "targetEventTypes[]", parent: name, pattern: "[A-Z_]*")
+            }
+            try self.validate(self.targetEventTypes, name: "targetEventTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case languageCode = "LanguageCode"
+            case outputDataConfig = "OutputDataConfig"
+            case targetEventTypes = "TargetEventTypes"
+        }
+    }
+
+    public struct StartEventsDetectionJobResponse: AWSDecodableShape {
+        /// An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        public let jobId: String?
+        /// The status of the events detection job.
+        public let jobStatus: JobStatus?
+
+        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
     public struct StartKeyPhrasesDetectionJobRequest: AWSEncodableShape {
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
@@ -3783,6 +4018,42 @@ extension Comprehend {
         /// The identifier of the entities detection job to stop.
         public let jobId: String?
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopEntitiesDetectionJob operation.
+        public let jobStatus: JobStatus?
+
+        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct StopEventsDetectionJobRequest: AWSEncodableShape {
+        /// The identifier of the events detection job to stop.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopEventsDetectionJobResponse: AWSDecodableShape {
+        /// The identifier of the events detection job to stop.
+        public let jobId: String?
+        /// The status of the events detection job.
         public let jobStatus: JobStatus?
 
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {

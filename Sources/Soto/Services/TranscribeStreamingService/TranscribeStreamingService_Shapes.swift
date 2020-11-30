@@ -35,11 +35,32 @@ extension TranscribeStreamingService {
         case frCa = "fr-CA"
         case frFr = "fr-FR"
         case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case koKr = "ko-KR"
+        case ptBr = "pt-BR"
         public var description: String { return self.rawValue }
     }
 
     public enum MediaEncoding: String, CustomStringConvertible, Codable {
+        case flac
+        case oggOpus = "ogg-opus"
         case pcm
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Specialty: String, CustomStringConvertible, Codable {
+        case cardiology = "CARDIOLOGY"
+        case neurology = "NEUROLOGY"
+        case oncology = "ONCOLOGY"
+        case primarycare = "PRIMARYCARE"
+        case radiology = "RADIOLOGY"
+        case urology = "UROLOGY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case conversation = "CONVERSATION"
+        case dictation = "DICTATION"
         public var description: String { return self.rawValue }
     }
 
@@ -176,6 +197,143 @@ extension TranscribeStreamingService {
         }
     }
 
+    public struct MedicalAlternative: AWSDecodableShape {
+        /// A list of objects that contains words and punctuation marks that represents one or more interpretations of the input audio.
+        public let items: [MedicalItem]?
+        /// The text that was transcribed from the audio.
+        public let transcript: String?
+
+        public init(items: [MedicalItem]? = nil, transcript: String? = nil) {
+            self.items = items
+            self.transcript = transcript
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case transcript = "Transcript"
+        }
+    }
+
+    public struct MedicalItem: AWSDecodableShape {
+        /// A value between 0 and 1 for an item that is a confidence score that Amazon Transcribe Medical assigns to each word that it transcribes.
+        public let confidence: Double?
+        /// The word or punctuation mark that was recognized in the input audio.
+        public let content: String?
+        /// The number of seconds into an audio stream that indicates the creation time of an item.
+        public let endTime: Double?
+        /// If speaker identification is enabled, shows the integer values that correspond to the different speakers identified in the stream. For example, if the value of Speaker in the stream is either a 0 or a 1, that indicates that Amazon Transcribe Medical has identified two speakers in the stream. The value of 0 corresponds to one speaker and the value of 1 corresponds to the other speaker.
+        public let speaker: String?
+        /// The number of seconds into an audio stream that indicates the creation time of an item.
+        public let startTime: Double?
+        /// The type of the item. PRONUNCIATION indicates that the item is a word that was recognized in the input audio. PUNCTUATION indicates that the item was interpreted as a pause in the input audio, such as a period to indicate the end of a sentence.
+        public let type: ItemType?
+
+        public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, startTime: Double? = nil, type: ItemType? = nil) {
+            self.confidence = confidence
+            self.content = content
+            self.endTime = endTime
+            self.speaker = speaker
+            self.startTime = startTime
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case content = "Content"
+            case endTime = "EndTime"
+            case speaker = "Speaker"
+            case startTime = "StartTime"
+            case type = "Type"
+        }
+    }
+
+    public struct MedicalResult: AWSDecodableShape {
+        /// A list of possible transcriptions of the audio. Each alternative typically contains one Item that contains the result of the transcription.
+        public let alternatives: [MedicalAlternative]?
+        /// When channel identification is enabled, Amazon Transcribe Medical transcribes the speech from each audio channel separately. You can use ChannelId to retrieve the transcription results for a single channel in your audio stream.
+        public let channelId: String?
+        /// The time, in seconds, from the beginning of the audio stream to the end of the result.
+        public let endTime: Double?
+        /// Amazon Transcribe Medical divides the incoming audio stream into segments at natural points in the audio. Transcription results are returned based on these segments. The IsPartial field is true to indicate that Amazon Transcribe Medical has additional transcription data to send. The IsPartial field is false to indicate that this is the last transcription result for the segment.
+        public let isPartial: Bool?
+        /// A unique identifier for the result.
+        public let resultId: String?
+        /// The time, in seconds, from the beginning of the audio stream to the beginning of the result.
+        public let startTime: Double?
+
+        public init(alternatives: [MedicalAlternative]? = nil, channelId: String? = nil, endTime: Double? = nil, isPartial: Bool? = nil, resultId: String? = nil, startTime: Double? = nil) {
+            self.alternatives = alternatives
+            self.channelId = channelId
+            self.endTime = endTime
+            self.isPartial = isPartial
+            self.resultId = resultId
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alternatives = "Alternatives"
+            case channelId = "ChannelId"
+            case endTime = "EndTime"
+            case isPartial = "IsPartial"
+            case resultId = "ResultId"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct MedicalTranscript: AWSDecodableShape {
+        ///  MedicalResult objects that contain the results of transcribing a portion of the input audio stream. The array can be empty.
+        public let results: [MedicalResult]?
+
+        public init(results: [MedicalResult]? = nil) {
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "Results"
+        }
+    }
+
+    public struct MedicalTranscriptEvent: AWSDecodableShape {
+        /// The transcription of the audio stream. The transcription is composed of all of the items in the results list.
+        public let transcript: MedicalTranscript?
+
+        public init(transcript: MedicalTranscript? = nil) {
+            self.transcript = transcript
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transcript = "Transcript"
+        }
+    }
+
+    public struct MedicalTranscriptResultStream: AWSDecodableShape {
+        public let badRequestException: BadRequestException?
+        public let conflictException: ConflictException?
+        public let internalFailureException: InternalFailureException?
+        public let limitExceededException: LimitExceededException?
+        public let serviceUnavailableException: ServiceUnavailableException?
+        /// A portion of the transcription of the audio stream. Events are sent periodically from Amazon Transcribe Medical to your application. The event can be a partial transcription of a section of the audio stream, or it can be the entire transcription of that portion of the audio stream.
+        public let transcriptEvent: MedicalTranscriptEvent?
+
+        public init(badRequestException: BadRequestException? = nil, conflictException: ConflictException? = nil, internalFailureException: InternalFailureException? = nil, limitExceededException: LimitExceededException? = nil, serviceUnavailableException: ServiceUnavailableException? = nil, transcriptEvent: MedicalTranscriptEvent? = nil) {
+            self.badRequestException = badRequestException
+            self.conflictException = conflictException
+            self.internalFailureException = internalFailureException
+            self.limitExceededException = limitExceededException
+            self.serviceUnavailableException = serviceUnavailableException
+            self.transcriptEvent = transcriptEvent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case badRequestException = "BadRequestException"
+            case conflictException = "ConflictException"
+            case internalFailureException = "InternalFailureException"
+            case limitExceededException = "LimitExceededException"
+            case serviceUnavailableException = "ServiceUnavailableException"
+            case transcriptEvent = "TranscriptEvent"
+        }
+    }
+
     public struct Result: AWSDecodableShape {
         /// A list of possible transcriptions for the audio. Each alternative typically contains one item that contains the result of the transcription.
         public let alternatives: [Alternative]?
@@ -221,6 +379,150 @@ extension TranscribeStreamingService {
         }
     }
 
+    public struct StartMedicalStreamTranscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "audioStream"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")),
+            AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
+            AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
+            AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
+            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")),
+            AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")),
+            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")),
+            AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")),
+            AWSMemberEncoding(label: "specialty", location: .header(locationName: "x-amzn-transcribe-specialty")),
+            AWSMemberEncoding(label: "type", location: .header(locationName: "x-amzn-transcribe-type")),
+            AWSMemberEncoding(label: "vocabularyName", location: .header(locationName: "x-amzn-transcribe-vocabulary-name"))
+        ]
+
+        public let audioStream: AudioStream
+        /// When true, instructs Amazon Transcribe Medical to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe Medical also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions. You can't set both ShowSpeakerLabel and EnableChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
+        public let enableChannelIdentification: Bool?
+        ///  Indicates the source language used in the input audio stream. For Amazon Transcribe Medical, this is US English (en-US).
+        public let languageCode: LanguageCode
+        /// The encoding used for the input audio.
+        public let mediaEncoding: MediaEncoding
+        /// The sample rate of the input audio in Hertz. Sample rates of 16000 Hz or higher are accepted.
+        public let mediaSampleRateHertz: Int
+        /// The number of channels that are in your audio stream.
+        public let numberOfChannels: Int?
+        ///  Optional. An identifier for the transcription session. If you don't provide a session ID, Amazon Transcribe generates one for you and returns it in the response.
+        public let sessionId: String?
+        /// When true, enables speaker identification in your real-time stream.
+        public let showSpeakerLabel: Bool?
+        /// The medical specialty of the clinician or provider.
+        public let specialty: Specialty
+        /// The type of input audio. Choose DICTATION for a provider dictating patient notes. Choose CONVERSATION for a dialogue between a patient and one or more medical professionanls.
+        public let type: `Type`
+        /// The name of the medical custom vocabulary to use when processing the real-time stream.
+        public let vocabularyName: String?
+
+        public init(audioStream: AudioStream, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty, type: `Type`, vocabularyName: String? = nil) {
+            self.audioStream = audioStream
+            self.enableChannelIdentification = enableChannelIdentification
+            self.languageCode = languageCode
+            self.mediaEncoding = mediaEncoding
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.numberOfChannels = numberOfChannels
+            self.sessionId = sessionId
+            self.showSpeakerLabel = showSpeakerLabel
+            self.specialty = specialty
+            self.type = type
+            self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
+            try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
+            try self.validate(self.numberOfChannels, name: "numberOfChannels", parent: name, min: 2)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioStream = "AudioStream"
+        }
+    }
+
+    public struct StartMedicalStreamTranscriptionResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "transcriptResultStream"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
+            AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
+            AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
+            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")),
+            AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")),
+            AWSMemberEncoding(label: "requestId", location: .header(locationName: "x-amzn-request-id")),
+            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")),
+            AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")),
+            AWSMemberEncoding(label: "specialty", location: .header(locationName: "x-amzn-transcribe-specialty")),
+            AWSMemberEncoding(label: "transcriptResultStream", location: .body(locationName: "TranscriptResultStream")),
+            AWSMemberEncoding(label: "type", location: .header(locationName: "x-amzn-transcribe-type")),
+            AWSMemberEncoding(label: "vocabularyName", location: .header(locationName: "x-amzn-transcribe-vocabulary-name"))
+        ]
+
+        /// Shows whether channel identification has been enabled in the stream.
+        public let enableChannelIdentification: Bool?
+        /// The language code for the response transcript. For Amazon Transcribe Medical, this is US English (en-US).
+        public let languageCode: LanguageCode?
+        /// The encoding used for the input audio stream.
+        public let mediaEncoding: MediaEncoding?
+        /// The sample rate of the input audio in Hertz. Valid value: 16000 Hz.
+        public let mediaSampleRateHertz: Int?
+        /// The number of channels identified in the stream.
+        public let numberOfChannels: Int?
+        /// An identifier for the streaming transcription.
+        public let requestId: String?
+        /// Optional. An identifier for the transcription session. If you don't provide a session ID, Amazon Transcribe generates one for you and returns it in the response.
+        public let sessionId: String?
+        /// Shows whether speaker identification was enabled in the stream.
+        public let showSpeakerLabel: Bool?
+        /// The specialty in the medical domain.
+        public let specialty: Specialty?
+        /// Represents the stream of transcription events from Amazon Transcribe Medical to your application.
+        public let transcriptResultStream: MedicalTranscriptResultStream?
+        /// The type of audio that was transcribed.
+        public let type: `Type`?
+        /// The name of the vocabulary used when processing the stream.
+        public let vocabularyName: String?
+
+        public init(enableChannelIdentification: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty? = nil, transcriptResultStream: MedicalTranscriptResultStream? = nil, type: `Type`? = nil, vocabularyName: String? = nil) {
+            self.enableChannelIdentification = enableChannelIdentification
+            self.languageCode = languageCode
+            self.mediaEncoding = mediaEncoding
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.numberOfChannels = numberOfChannels
+            self.requestId = requestId
+            self.sessionId = sessionId
+            self.showSpeakerLabel = showSpeakerLabel
+            self.specialty = specialty
+            self.transcriptResultStream = transcriptResultStream
+            self.type = type
+            self.vocabularyName = vocabularyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableChannelIdentification = "x-amzn-transcribe-enable-channel-identification"
+            case languageCode = "x-amzn-transcribe-language-code"
+            case mediaEncoding = "x-amzn-transcribe-media-encoding"
+            case mediaSampleRateHertz = "x-amzn-transcribe-sample-rate"
+            case numberOfChannels = "x-amzn-transcribe-number-of-channels"
+            case requestId = "x-amzn-request-id"
+            case sessionId = "x-amzn-transcribe-session-id"
+            case showSpeakerLabel = "x-amzn-transcribe-show-speaker-label"
+            case specialty = "x-amzn-transcribe-specialty"
+            case transcriptResultStream = "TranscriptResultStream"
+            case type = "x-amzn-transcribe-type"
+            case vocabularyName = "x-amzn-transcribe-vocabulary-name"
+        }
+    }
+
     public struct StartStreamTranscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "audioStream"
@@ -244,7 +546,7 @@ extension TranscribeStreamingService {
         public let enableChannelIdentification: Bool?
         /// Indicates the source language used in the input audio stream.
         public let languageCode: LanguageCode
-        /// The encoding used for the input audio. pcm is the only valid value.
+        /// The encoding used for the input audio.
         public let mediaEncoding: MediaEncoding
         /// The sample rate, in Hertz, of the input audio. We suggest that you use 8000 Hz for low quality audio and 16000 Hz for high quality audio.
         public let mediaSampleRateHertz: Int

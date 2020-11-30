@@ -20,6 +20,12 @@ import SotoCore
 extension Lambda {
     // MARK: Enums
 
+    public enum CodeSigningPolicy: String, CustomStringConvertible, Codable {
+        case enforce = "Enforce"
+        case warn = "Warn"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventSourcePosition: String, CustomStringConvertible, Codable {
         case atTimestamp = "AT_TIMESTAMP"
         case latest = "LATEST"
@@ -383,6 +389,73 @@ extension Lambda {
         }
     }
 
+    public struct AllowedPublishers: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for each of the signing profiles. A signing profile defines a trusted user who can sign a code package.
+        public let signingProfileVersionArns: [String]
+
+        public init(signingProfileVersionArns: [String]) {
+            self.signingProfileVersionArns = signingProfileVersionArns
+        }
+
+        public func validate(name: String) throws {
+            try self.signingProfileVersionArns.forEach {
+                try validate($0, name: "signingProfileVersionArns[]", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            }
+            try self.validate(self.signingProfileVersionArns, name: "signingProfileVersionArns", parent: name, max: 20)
+            try self.validate(self.signingProfileVersionArns, name: "signingProfileVersionArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signingProfileVersionArns = "SigningProfileVersionArns"
+        }
+    }
+
+    public struct CodeSigningConfig: AWSDecodableShape {
+        /// List of allowed publishers.
+        public let allowedPublishers: AllowedPublishers
+        /// The Amazon Resource Name (ARN) of the Code signing configuration.
+        public let codeSigningConfigArn: String
+        /// Unique identifer for the Code signing configuration.
+        public let codeSigningConfigId: String
+        /// The code signing policy controls the validation failure action for signature mismatch or expiry.
+        public let codeSigningPolicies: CodeSigningPolicies
+        /// Code signing configuration description.
+        public let description: String?
+        /// The date and time that the Code signing configuration was last modified, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        public let lastModified: String
+
+        public init(allowedPublishers: AllowedPublishers, codeSigningConfigArn: String, codeSigningConfigId: String, codeSigningPolicies: CodeSigningPolicies, description: String? = nil, lastModified: String) {
+            self.allowedPublishers = allowedPublishers
+            self.codeSigningConfigArn = codeSigningConfigArn
+            self.codeSigningConfigId = codeSigningConfigId
+            self.codeSigningPolicies = codeSigningPolicies
+            self.description = description
+            self.lastModified = lastModified
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedPublishers = "AllowedPublishers"
+            case codeSigningConfigArn = "CodeSigningConfigArn"
+            case codeSigningConfigId = "CodeSigningConfigId"
+            case codeSigningPolicies = "CodeSigningPolicies"
+            case description = "Description"
+            case lastModified = "LastModified"
+        }
+    }
+
+    public struct CodeSigningPolicies: AWSEncodableShape & AWSDecodableShape {
+        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if code-signing validation checks fail. If you set the policy to Warn, Lambda allows the deployment and creates a CloudWatch log.  Default value: Warn
+        public let untrustedArtifactOnDeployment: CodeSigningPolicy?
+
+        public init(untrustedArtifactOnDeployment: CodeSigningPolicy? = nil) {
+            self.untrustedArtifactOnDeployment = untrustedArtifactOnDeployment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case untrustedArtifactOnDeployment = "UntrustedArtifactOnDeployment"
+        }
+    }
+
     public struct Concurrency: AWSDecodableShape {
         /// The number of concurrent executions that are reserved for this function. For more information, see Managing Concurrency.
         public let reservedConcurrentExecutions: Int?
@@ -440,6 +513,46 @@ extension Lambda {
             case functionVersion = "FunctionVersion"
             case name = "Name"
             case routingConfig = "RoutingConfig"
+        }
+    }
+
+    public struct CreateCodeSigningConfigRequest: AWSEncodableShape {
+        /// Signing profiles for this code signing configuration.
+        public let allowedPublishers: AllowedPublishers
+        /// The code signing policies define the actions to take if the validation checks fail.
+        public let codeSigningPolicies: CodeSigningPolicies?
+        /// Descriptive name for this code signing configuration.
+        public let description: String?
+
+        public init(allowedPublishers: AllowedPublishers, codeSigningPolicies: CodeSigningPolicies? = nil, description: String? = nil) {
+            self.allowedPublishers = allowedPublishers
+            self.codeSigningPolicies = codeSigningPolicies
+            self.description = description
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedPublishers.validate(name: "\(name).allowedPublishers")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedPublishers = "AllowedPublishers"
+            case codeSigningPolicies = "CodeSigningPolicies"
+            case description = "Description"
+        }
+    }
+
+    public struct CreateCodeSigningConfigResponse: AWSDecodableShape {
+        /// The code signing configuration.
+        public let codeSigningConfig: CodeSigningConfig
+
+        public init(codeSigningConfig: CodeSigningConfig) {
+            self.codeSigningConfig = codeSigningConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSigningConfig = "CodeSigningConfig"
         }
     }
 
@@ -552,6 +665,8 @@ extension Lambda {
     public struct CreateFunctionRequest: AWSEncodableShape {
         /// The code for the function.
         public let code: FunctionCode
+        /// To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes set set of signing profiles, which define the trusted publishers for this function.
+        public let codeSigningConfigArn: String?
         /// A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.
         public let deadLetterConfig: DeadLetterConfig?
         /// A description of the function.
@@ -585,8 +700,9 @@ extension Lambda {
         /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(code: FunctionCode, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, publish: Bool? = nil, role: String, runtime: Runtime, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, publish: Bool? = nil, role: String, runtime: Runtime, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.code = code
+            self.codeSigningConfigArn = codeSigningConfigArn
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
@@ -607,6 +723,8 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.code.validate(name: "\(name).code")
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
@@ -635,6 +753,7 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
+            case codeSigningConfigArn = "CodeSigningConfigArn"
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
@@ -699,6 +818,30 @@ extension Lambda {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteCodeSigningConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri(locationName: "CodeSigningConfigArn"))
+        ]
+
+        /// The The Amazon Resource Name (ARN) of the code signing configuration.
+        public let codeSigningConfigArn: String
+
+        public init(codeSigningConfigArn: String) {
+            self.codeSigningConfigArn = codeSigningConfigArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCodeSigningConfigResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteEventSourceMappingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "uuid", location: .uri(locationName: "UUID"))
@@ -709,6 +852,27 @@ extension Lambda {
 
         public init(uuid: String) {
             self.uuid = uuid
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFunctionCodeSigningConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+
+        public init(functionName: String) {
+            self.functionName = functionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1121,6 +1285,10 @@ extension Lambda {
         public let role: String?
         /// The runtime environment for the Lambda function.
         public let runtime: Runtime?
+        /// The ARN of the signing job.
+        public let signingJobArn: String?
+        /// The ARN of the signing profile version.
+        public let signingProfileVersionArn: String?
         /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
         public let state: State?
         /// The reason for the function's current state.
@@ -1136,7 +1304,7 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.deadLetterConfig = deadLetterConfig
@@ -1157,6 +1325,8 @@ extension Lambda {
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
+            self.signingJobArn = signingJobArn
+            self.signingProfileVersionArn = signingProfileVersionArn
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
@@ -1187,6 +1357,8 @@ extension Lambda {
             case revisionId = "RevisionId"
             case role = "Role"
             case runtime = "Runtime"
+            case signingJobArn = "SigningJobArn"
+            case signingProfileVersionArn = "SigningProfileVersionArn"
             case state = "State"
             case stateReason = "StateReason"
             case stateReasonCode = "StateReasonCode"
@@ -1275,6 +1447,39 @@ extension Lambda {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetCodeSigningConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri(locationName: "CodeSigningConfigArn"))
+        ]
+
+        /// The The Amazon Resource Name (ARN) of the code signing configuration.
+        public let codeSigningConfigArn: String
+
+        public init(codeSigningConfigArn: String) {
+            self.codeSigningConfigArn = codeSigningConfigArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCodeSigningConfigResponse: AWSDecodableShape {
+        /// The code signing configuration
+        public let codeSigningConfig: CodeSigningConfig
+
+        public init(codeSigningConfig: CodeSigningConfig) {
+            self.codeSigningConfig = codeSigningConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSigningConfig = "CodeSigningConfig"
+        }
+    }
+
     public struct GetEventSourceMappingRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "uuid", location: .uri(locationName: "UUID"))
@@ -1288,6 +1493,44 @@ extension Lambda {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFunctionCodeSigningConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+
+        public init(functionName: String) {
+            self.functionName = functionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFunctionCodeSigningConfigResponse: AWSDecodableShape {
+        /// The The Amazon Resource Name (ARN) of the code signing configuration.
+        public let codeSigningConfigArn: String
+        /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+
+        public init(codeSigningConfigArn: String, functionName: String) {
+            self.codeSigningConfigArn = codeSigningConfigArn
+            self.functionName = functionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSigningConfigArn = "CodeSigningConfigArn"
+            case functionName = "FunctionName"
+        }
     }
 
     public struct GetFunctionConcurrencyRequest: AWSEncodableShape {
@@ -1805,15 +2048,23 @@ extension Lambda {
         public let arn: String?
         /// The size of the layer archive in bytes.
         public let codeSize: Int64?
+        /// The Amazon Resource Name (ARN) of a signing job.
+        public let signingJobArn: String?
+        /// The Amazon Resource Name (ARN) for a signing profile version.
+        public let signingProfileVersionArn: String?
 
-        public init(arn: String? = nil, codeSize: Int64? = nil) {
+        public init(arn: String? = nil, codeSize: Int64? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil) {
             self.arn = arn
             self.codeSize = codeSize
+            self.signingJobArn = signingJobArn
+            self.signingProfileVersionArn = signingProfileVersionArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case codeSize = "CodeSize"
+            case signingJobArn = "SigningJobArn"
+            case signingProfileVersionArn = "SigningProfileVersionArn"
         }
     }
 
@@ -1859,17 +2110,25 @@ extension Lambda {
         public let codeSize: Int64?
         /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
         public let location: String?
+        /// The Amazon Resource Name (ARN) of a signing job.
+        public let signingJobArn: String?
+        /// The Amazon Resource Name (ARN) for a signing profile version.
+        public let signingProfileVersionArn: String?
 
-        public init(codeSha256: String? = nil, codeSize: Int64? = nil, location: String? = nil) {
+        public init(codeSha256: String? = nil, codeSize: Int64? = nil, location: String? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.location = location
+            self.signingJobArn = signingJobArn
+            self.signingProfileVersionArn = signingProfileVersionArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case codeSha256 = "CodeSha256"
             case codeSize = "CodeSize"
             case location = "Location"
+            case signingJobArn = "SigningJobArn"
+            case signingProfileVersionArn = "SigningProfileVersionArn"
         }
     }
 
@@ -1982,6 +2241,47 @@ extension Lambda {
         }
     }
 
+    public struct ListCodeSigningConfigsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
+        ]
+
+        /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+        public let marker: String?
+        /// Maximum number of items to return.
+        public let maxItems: Int?
+
+        public init(marker: String? = nil, maxItems: Int? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCodeSigningConfigsResponse: AWSDecodableShape {
+        /// The code signing configurations
+        public let codeSigningConfigs: [CodeSigningConfig]?
+        /// The pagination token that's included if more results are available.
+        public let nextMarker: String?
+
+        public init(codeSigningConfigs: [CodeSigningConfig]? = nil, nextMarker: String? = nil) {
+            self.codeSigningConfigs = codeSigningConfigs
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSigningConfigs = "CodeSigningConfigs"
+            case nextMarker = "NextMarker"
+        }
+    }
+
     public struct ListEventSourceMappingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventSourceArn", location: .querystring(locationName: "EventSourceArn")),
@@ -2079,6 +2379,53 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case functionEventInvokeConfigs = "FunctionEventInvokeConfigs"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ListFunctionsByCodeSigningConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri(locationName: "CodeSigningConfigArn")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
+        ]
+
+        /// The The Amazon Resource Name (ARN) of the code signing configuration.
+        public let codeSigningConfigArn: String
+        /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+        public let marker: String?
+        /// Maximum number of items to return.
+        public let maxItems: Int?
+
+        public init(codeSigningConfigArn: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.codeSigningConfigArn = codeSigningConfigArn
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFunctionsByCodeSigningConfigResponse: AWSDecodableShape {
+        /// The function ARNs.
+        public let functionArns: [String]?
+        /// The pagination token that's included if more results are available.
+        public let nextMarker: String?
+
+        public init(functionArns: [String]? = nil, nextMarker: String? = nil) {
+            self.functionArns = functionArns
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionArns = "FunctionArns"
             case nextMarker = "NextMarker"
         }
     }
@@ -2457,7 +2804,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.compatibleRuntimes, name: "compatibleRuntimes", parent: name, max: 5)
+            try self.validate(self.compatibleRuntimes, name: "compatibleRuntimes", parent: name, max: 15)
             try self.content.validate(name: "\(name).content")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
@@ -2549,6 +2896,51 @@ extension Lambda {
             case codeSha256 = "CodeSha256"
             case description = "Description"
             case revisionId = "RevisionId"
+        }
+    }
+
+    public struct PutFunctionCodeSigningConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
+        ]
+
+        /// The The Amazon Resource Name (ARN) of the code signing configuration.
+        public let codeSigningConfigArn: String
+        /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+
+        public init(codeSigningConfigArn: String, functionName: String) {
+            self.codeSigningConfigArn = codeSigningConfigArn
+            self.functionName = functionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSigningConfigArn = "CodeSigningConfigArn"
+        }
+    }
+
+    public struct PutFunctionCodeSigningConfigResponse: AWSDecodableShape {
+        /// The The Amazon Resource Name (ARN) of the code signing configuration.
+        public let codeSigningConfigArn: String
+        /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+
+        public init(codeSigningConfigArn: String, functionName: String) {
+            self.codeSigningConfigArn = codeSigningConfigArn
+            self.functionName = functionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSigningConfigArn = "CodeSigningConfigArn"
+            case functionName = "FunctionName"
         }
     }
 
@@ -2909,6 +3301,55 @@ extension Lambda {
             case functionVersion = "FunctionVersion"
             case revisionId = "RevisionId"
             case routingConfig = "RoutingConfig"
+        }
+    }
+
+    public struct UpdateCodeSigningConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri(locationName: "CodeSigningConfigArn"))
+        ]
+
+        /// Signing profiles for this code signing configuration.
+        public let allowedPublishers: AllowedPublishers?
+        /// The The Amazon Resource Name (ARN) of the code signing configuration.
+        public let codeSigningConfigArn: String
+        /// The code signing policy.
+        public let codeSigningPolicies: CodeSigningPolicies?
+        /// Descriptive name for this code signing configuration.
+        public let description: String?
+
+        public init(allowedPublishers: AllowedPublishers? = nil, codeSigningConfigArn: String, codeSigningPolicies: CodeSigningPolicies? = nil, description: String? = nil) {
+            self.allowedPublishers = allowedPublishers
+            self.codeSigningConfigArn = codeSigningConfigArn
+            self.codeSigningPolicies = codeSigningPolicies
+            self.description = description
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedPublishers?.validate(name: "\(name).allowedPublishers")
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedPublishers = "AllowedPublishers"
+            case codeSigningPolicies = "CodeSigningPolicies"
+            case description = "Description"
+        }
+    }
+
+    public struct UpdateCodeSigningConfigResponse: AWSDecodableShape {
+        /// The code signing configuration
+        public let codeSigningConfig: CodeSigningConfig
+
+        public init(codeSigningConfig: CodeSigningConfig) {
+            self.codeSigningConfig = codeSigningConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSigningConfig = "CodeSigningConfig"
         }
     }
 

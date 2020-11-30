@@ -79,6 +79,14 @@ extension GameLift {
         case c59Xlarge = "c5.9xlarge"
         case c5Large = "c5.large"
         case c5Xlarge = "c5.xlarge"
+        case c5a12Xlarge = "c5a.12xlarge"
+        case c5a16Xlarge = "c5a.16xlarge"
+        case c5a24Xlarge = "c5a.24xlarge"
+        case c5a2Xlarge = "c5a.2xlarge"
+        case c5a4Xlarge = "c5a.4xlarge"
+        case c5a8Xlarge = "c5a.8xlarge"
+        case c5aLarge = "c5a.large"
+        case c5aXlarge = "c5a.xlarge"
         case m32Xlarge = "m3.2xlarge"
         case m3Large = "m3.large"
         case m3Medium = "m3.medium"
@@ -96,6 +104,14 @@ extension GameLift {
         case m58Xlarge = "m5.8xlarge"
         case m5Large = "m5.large"
         case m5Xlarge = "m5.xlarge"
+        case m5a12Xlarge = "m5a.12xlarge"
+        case m5a16Xlarge = "m5a.16xlarge"
+        case m5a24Xlarge = "m5a.24xlarge"
+        case m5a2Xlarge = "m5a.2xlarge"
+        case m5a4Xlarge = "m5a.4xlarge"
+        case m5a8Xlarge = "m5a.8xlarge"
+        case m5aLarge = "m5a.large"
+        case m5aXlarge = "m5a.xlarge"
         case r32Xlarge = "r3.2xlarge"
         case r34Xlarge = "r3.4xlarge"
         case r38Xlarge = "r3.8xlarge"
@@ -115,6 +131,14 @@ extension GameLift {
         case r58Xlarge = "r5.8xlarge"
         case r5Large = "r5.large"
         case r5Xlarge = "r5.xlarge"
+        case r5a12Xlarge = "r5a.12xlarge"
+        case r5a16Xlarge = "r5a.16xlarge"
+        case r5a24Xlarge = "r5a.24xlarge"
+        case r5a2Xlarge = "r5a.2xlarge"
+        case r5a4Xlarge = "r5a.4xlarge"
+        case r5a8Xlarge = "r5a.8xlarge"
+        case r5aLarge = "r5a.large"
+        case r5aXlarge = "r5a.xlarge"
         case t2Large = "t2.large"
         case t2Medium = "t2.medium"
         case t2Micro = "t2.micro"
@@ -180,6 +204,12 @@ extension GameLift {
     public enum FleetType: String, CustomStringConvertible, Codable {
         case onDemand = "ON_DEMAND"
         case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlexMatchMode: String, CustomStringConvertible, Codable {
+        case standalone = "STANDALONE"
+        case withQueue = "WITH_QUEUE"
         public var description: String { return self.rawValue }
     }
 
@@ -694,7 +724,7 @@ extension GameLift {
         public let name: String?
         /// The operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system is not specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value cannot be changed later.
         public let operatingSystem: OperatingSystem?
-        /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an S3 bucket that you own. The storage location must specify an S3 bucket name and key. The location must also specify a role ARN that you set up to allow Amazon GameLift to access your S3 bucket. The S3 bucket and your new build must be in the same Region.
+        /// The location where your game build files are stored. Use this parameter only when creating a build using files that are stored in an S3 bucket that you own. Identify an S3 bucket name and key, which must in the same Region where you're creating a build. This parameter must also specify the ARN for an IAM role that you've set up to give Amazon GameLift access your S3 bucket. To call this operation with a storage location, you must have IAM PassRole permission. For more details on IAM roles and PassRole permissions, see  Set up a role for GameLift access.
         public let storageLocation: S3Location?
         /// A list of labels to assign to the new build resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
@@ -765,7 +795,7 @@ extension GameLift {
         public let eC2InstanceType: EC2InstanceType
         /// Indicates whether to use On-Demand instances or Spot instances for this fleet. If empty, the default is ON_DEMAND. Both categories of instances use identical hardware and configurations based on the instance type selected for this fleet. Learn more about  On-Demand versus Spot Instances.
         public let fleetType: FleetType?
-        /// A unique identifier for an AWS IAM role that manages access to your AWS services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN from the IAM dashboard in the AWS Management Console. Learn more about using on-box credentials for your game servers at  Access external resources from a game server.
+        /// A unique identifier for an AWS IAM role that manages access to your AWS services. Fleets with an instance role ARN allow applications that are running on the fleet's instances to assume the role. Learn more about using on-box credentials for your game servers at  Access external resources from a game server. To call this operation with instance role ARN, you must have IAM PassRole permissions. See IAM policy examples for GameLift.
         public let instanceRoleArn: String?
         /// This parameter is no longer used. Instead, to specify where Amazon GameLift should store log files once a server process shuts down, use the Amazon GameLift server API ProcessReady() and specify one or more directory paths in logParameters. See more information in the Server API Reference.
         public let logPaths: [String]?
@@ -909,7 +939,7 @@ extension GameLift {
         public let roleArn: String
         /// A list of labels to assign to the new game server group resource. Tags are developer-defined key-value pairs. Tagging AWS resources is useful for resource management, access management, and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags, respectively. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
-        /// A list of virtual private cloud (VPC) subnets to use with instances in the game server group. By default, all GameLift FleetIQ-supported Availability Zones are used. You can use this parameter to specify VPCs that you've set up. This property cannot be updated after the game server group is created, and the corresponding Auto Scaling group will always use the property value that is set with this request, even if the Auto Scaling group is updated directly
+        /// A list of virtual private cloud (VPC) subnets to use with instances in the game server group. By default, all GameLift FleetIQ-supported Availability Zones are used. You can use this parameter to specify VPCs that you've set up. This property cannot be updated after the game server group is created, and the corresponding Auto Scaling group will always use the property value that is set with this request, even if the Auto Scaling group is updated directly.
         public let vpcSubnets: [String]?
 
         public init(autoScalingPolicy: GameServerGroupAutoScalingPolicy? = nil, balancingStrategy: BalancingStrategy? = nil, gameServerGroupName: String, gameServerProtectionPolicy: GameServerProtectionPolicy? = nil, instanceDefinitions: [InstanceDefinition], launchTemplate: LaunchTemplateSpecification, maxSize: Int, minSize: Int, roleArn: String, tags: [Tag]? = nil, vpcSubnets: [String]? = nil) {
@@ -1125,24 +1155,26 @@ extension GameLift {
     }
 
     public struct CreateMatchmakingConfigurationInput: AWSEncodableShape {
-        /// A flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+        /// A flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. With this option enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
         public let acceptanceRequired: Bool
-        /// The length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
+        /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. If any player rejects the match or fails to accept before the timeout, the tickets are returned to the ticket pool and continue to be evaluated for an acceptable match.
         public let acceptanceTimeoutSeconds: Int?
-        /// The number of player slots in a match to keep open for future players. For example, assume that the configuration's rule set specifies a match for a single 12-person team. If the additional player count is set to 2, only 10 players are initially selected for the match.
+        /// The number of player slots in a match to keep open for future players. For example, assume that the configuration's rule set specifies a match for a single 12-person team. If the additional player count is set to 2, only 10 players are initially selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let additionalPlayerCount: Int?
-        /// The method used to backfill game sessions that are created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a StartMatchBackfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in  Backfill Existing Games with FlexMatch.
+        /// The method used to backfill game sessions that are created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a StartMatchBackfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in  Backfill Existing Games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public let backfillMode: BackfillMode?
         /// Information to be added to all events related to this matchmaking configuration.
         public let customEventData: String?
         /// A human-readable description of the matchmaking configuration.
         public let description: String?
-        /// A set of custom properties for a game session, formatted as key-value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
+        /// Indicates whether this matchmaking configuration is being used with GameLift hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified GameLift queue to start a game session for the match.
+        public let flexMatchMode: FlexMatchMode?
+        /// A set of custom properties for a game session, formatted as key-value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameProperties: [GameProperty]?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any Region.
-        public let gameSessionQueueArns: [String]
+        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
+        public let gameSessionQueueArns: [String]?
         /// A unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
         public let name: String
         /// An SNS topic ARN that is set up to receive matchmaking notifications.
@@ -1154,13 +1186,14 @@ extension GameLift {
         /// A list of labels to assign to the new matchmaking configuration resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
 
-        public init(acceptanceRequired: Bool, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String], name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int, ruleSetName: String, tags: [Tag]? = nil) {
+        public init(acceptanceRequired: Bool, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, customEventData: String? = nil, description: String? = nil, flexMatchMode: FlexMatchMode? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int, ruleSetName: String, tags: [Tag]? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
             self.additionalPlayerCount = additionalPlayerCount
             self.backfillMode = backfillMode
             self.customEventData = customEventData
             self.description = description
+            self.flexMatchMode = flexMatchMode
             self.gameProperties = gameProperties
             self.gameSessionData = gameSessionData
             self.gameSessionQueueArns = gameSessionQueueArns
@@ -1185,7 +1218,7 @@ extension GameLift {
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 4096)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
-            try self.gameSessionQueueArns.forEach {
+            try self.gameSessionQueueArns?.forEach {
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, max: 256)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, min: 1)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, pattern: "[a-zA-Z0-9:/-]+")
@@ -1214,6 +1247,7 @@ extension GameLift {
             case backfillMode = "BackfillMode"
             case customEventData = "CustomEventData"
             case description = "Description"
+            case flexMatchMode = "FlexMatchMode"
             case gameProperties = "GameProperties"
             case gameSessionData = "GameSessionData"
             case gameSessionQueueArns = "GameSessionQueueArns"
@@ -1383,7 +1417,7 @@ extension GameLift {
     public struct CreateScriptInput: AWSEncodableShape {
         /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use UpdateScript to change this value later.
         public let name: String?
-        /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
+        /// The Amazon S3 location of your Realtime scripts. The storage location must specify the S3 bucket name, the zip file name (the "key"), and an IAM role ARN that allows Amazon GameLift to access the S3 storage location. The S3 bucket must be in the same Region where you are creating a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version. To call this operation with a storage location, you must have IAM PassRole permission. For more details on IAM roles and PassRole permissions, see  Set up a role for GameLift access.
         public let storageLocation: S3Location?
         /// A list of labels to assign to the new script resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
@@ -1558,7 +1592,7 @@ extension GameLift {
     }
 
     public struct DeleteGameServerGroupInput: AWSEncodableShape {
-        /// The type of delete to perform. Options include the following:    SAFE_DELETE – Terminates the game server group and EC2 Auto Scaling group only when it has no game servers that are in UTILIZED status.    FORCE_DELETE – Terminates the game server group, including all active game servers regardless of their utilization status, and the EC2 Auto Scaling group.     RETAIN – Does a safe delete of the game server group but retains the EC2 Auto Scaling group as is.
+        /// The type of delete to perform. Options include the following:    SAFE_DELETE – (default) Terminates the game server group and EC2 Auto Scaling group only when it has no game servers that are in UTILIZED status.    FORCE_DELETE – Terminates the game server group, including all active game servers regardless of their utilization status, and the EC2 Auto Scaling group.     RETAIN – Does a safe delete of the game server group but retains the EC2 Auto Scaling group as is.
         public let deleteOption: GameServerGroupDeleteOption?
         /// A unique identifier for the game server group. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
@@ -2975,7 +3009,7 @@ extension GameLift {
         public let fleetId: String?
         /// Indicates whether the fleet uses on-demand or spot instances. A spot instance in use may be interrupted with a two-minute notification.
         public let fleetType: FleetType?
-        /// A unique identifier for an AWS IAM role that manages access to your AWS services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN from the IAM dashboard in the AWS Management Console. Learn more about using on-box credentials for your game servers at  Access external resources from a game server.
+        /// A unique identifier for an AWS IAM role that manages access to your AWS services.
         public let instanceRoleArn: String?
         /// EC2 instance type indicating the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions.
         public let instanceType: EC2InstanceType?
@@ -4107,13 +4141,13 @@ extension GameLift {
     }
 
     public struct MatchmakingConfiguration: AWSDecodableShape {
-        /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+        /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. When this option is enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
         public let acceptanceRequired: Bool?
-        /// The length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
+        /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. If any player rejects the match or fails to accept before the timeout, the tickets are returned to the ticket pool and continue to be evaluated for an acceptable match.
         public let acceptanceTimeoutSeconds: Int?
-        /// The number of player slots in a match to keep open for future players. For example, assume that the configuration's rule set specifies a match for a single 12-person team. If the additional player count is set to 2, only 10 players are initially selected for the match.
+        /// The number of player slots in a match to keep open for future players. For example, assume that the configuration's rule set specifies a match for a single 12-person team. If the additional player count is set to 2, only 10 players are initially selected for the match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let additionalPlayerCount: Int?
-        /// The method used to backfill game sessions created with this matchmaking configuration. MANUAL indicates that the game makes backfill requests or does not use the match backfill feature. AUTOMATIC indicates that GameLift creates StartMatchBackfill requests whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch.
+        /// The method used to backfill game sessions created with this matchmaking configuration. MANUAL indicates that the game makes backfill requests or does not use the match backfill feature. AUTOMATIC indicates that GameLift creates StartMatchBackfill requests whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public let backfillMode: BackfillMode?
         /// Amazon Resource Name (ARN) that is assigned to a GameLift matchmaking configuration resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift configuration ARN, the resource ID matches the Name value.
         public let configurationArn: String?
@@ -4123,11 +4157,13 @@ extension GameLift {
         public let customEventData: String?
         /// A descriptive label that is associated with matchmaking configuration.
         public let description: String?
-        /// A set of custom properties for a game session, formatted as key-value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
+        /// Indicates whether this matchmaking configuration is being used with GameLift hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified GameLift queue to start a game session for the match.
+        public let flexMatchMode: FlexMatchMode?
+        /// A set of custom properties for a game session, formatted as key-value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let gameProperties: [GameProperty]?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. GameLift uses the listed queues when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any Region.
+        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. Thais property is not set when FlexMatchMode is set to STANDALONE.
         public let gameSessionQueueArns: [String]?
         /// A unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
         public let name: String?
@@ -4140,7 +4176,7 @@ extension GameLift {
         /// A unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same Region.
         public let ruleSetName: String?
 
-        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, configurationArn: String? = nil, creationTime: Date? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String? = nil, notificationTarget: String? = nil, requestTimeoutSeconds: Int? = nil, ruleSetArn: String? = nil, ruleSetName: String? = nil) {
+        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, configurationArn: String? = nil, creationTime: Date? = nil, customEventData: String? = nil, description: String? = nil, flexMatchMode: FlexMatchMode? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String? = nil, notificationTarget: String? = nil, requestTimeoutSeconds: Int? = nil, ruleSetArn: String? = nil, ruleSetName: String? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
             self.additionalPlayerCount = additionalPlayerCount
@@ -4149,6 +4185,7 @@ extension GameLift {
             self.creationTime = creationTime
             self.customEventData = customEventData
             self.description = description
+            self.flexMatchMode = flexMatchMode
             self.gameProperties = gameProperties
             self.gameSessionData = gameSessionData
             self.gameSessionQueueArns = gameSessionQueueArns
@@ -4168,6 +4205,7 @@ extension GameLift {
             case creationTime = "CreationTime"
             case customEventData = "CustomEventData"
             case description = "Description"
+            case flexMatchMode = "FlexMatchMode"
             case gameProperties = "GameProperties"
             case gameSessionData = "GameSessionData"
             case gameSessionQueueArns = "GameSessionQueueArns"
@@ -4213,7 +4251,7 @@ extension GameLift {
         public let endTime: Date?
         /// Average amount of time (in seconds) that players are currently waiting for a match. If there is not enough recent data, this property may be empty.
         public let estimatedWaitTime: Int?
-        /// Identifier and connection information of the game session created for the match. This information is added to the ticket only after the matchmaking request has been successfully completed.
+        /// Identifier and connection information of the game session created for the match. This information is added to the ticket only after the matchmaking request has been successfully completed. This parameter is not set when FlexMatch is being used without GameLift hosting.
         public let gameSessionConnectionInfo: GameSessionConnectionInfo?
         /// A set of Player objects, each representing a player to find matches for. Players are identified by a unique player ID and may include latency data for use during matchmaking. If the ticket is in status COMPLETED, the Player objects include the team the players were assigned to in the resulting match.
         public let players: [Player]?
@@ -5058,13 +5096,13 @@ extension GameLift {
         /// Name of the matchmaker to use for this request. You can use either the configuration name or ARN value. The ARN of the matchmaker that was used with the original game session is listed in the GameSession object, MatchmakerData property.
         public let configurationName: String
         /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it. This is the same as the game session ID.
-        public let gameSessionArn: String
+        public let gameSessionArn: String?
         /// Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game.   PlayerID, PlayerAttributes, Team -\\- This information is maintained in the GameSession object, MatchmakerData property, for all players who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see  Match Data.    LatencyInMs -\\- If the matchmaker uses player latency, include a latency value, in milliseconds, for the Region that the game session is currently in. Do not include latency values for any other Region.
         public let players: [Player]
         /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.
         public let ticketId: String?
 
-        public init(configurationName: String, gameSessionArn: String, players: [Player], ticketId: String? = nil) {
+        public init(configurationName: String, gameSessionArn: String? = nil, players: [Player], ticketId: String? = nil) {
             self.configurationName = configurationName
             self.gameSessionArn = gameSessionArn
             self.players = players
@@ -5841,23 +5879,25 @@ extension GameLift {
     }
 
     public struct UpdateMatchmakingConfigurationInput: AWSEncodableShape {
-        /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE.
+        /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. With this option enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
         public let acceptanceRequired: Bool?
-        /// The length of time (in seconds) to wait for players to accept a proposed match. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
+        /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. If any player rejects the match or fails to accept before the timeout, the tickets are returned to the ticket pool and continue to be evaluated for an acceptable match.
         public let acceptanceTimeoutSeconds: Int?
-        /// The number of player slots in a match to keep open for future players. For example, assume that the configuration's rule set specifies a match for a single 12-person team. If the additional player count is set to 2, only 10 players are initially selected for the match.
+        /// The number of player slots in a match to keep open for future players. For example, assume that the configuration's rule set specifies a match for a single 12-person team. If the additional player count is set to 2, only 10 players are initially selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let additionalPlayerCount: Int?
-        /// The method that is used to backfill game sessions created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a StartMatchBackfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch.
+        /// The method that is used to backfill game sessions created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a StartMatchBackfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public let backfillMode: BackfillMode?
         /// Information to add to all events related to the matchmaking configuration.
         public let customEventData: String?
         /// A descriptive label that is associated with matchmaking configuration.
         public let description: String?
-        /// A set of custom properties for a game session, formatted as key-value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
+        /// Indicates whether this matchmaking configuration is being used with GameLift hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified GameLift queue to start a game session for the match.
+        public let flexMatchMode: FlexMatchMode?
+        /// A set of custom properties for a game session, formatted as key-value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameProperties: [GameProperty]?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match.
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. These queues are used when placing game sessions for matches that are created with this matchmaking configuration. Queues can be located in any Region.
+        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
         public let gameSessionQueueArns: [String]?
         /// A unique identifier for a matchmaking configuration to update. You can use either the configuration name or ARN value.
         public let name: String
@@ -5868,13 +5908,14 @@ extension GameLift {
         /// A unique identifier for a matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region.
         public let ruleSetName: String?
 
-        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, customEventData: String? = nil, description: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int? = nil, ruleSetName: String? = nil) {
+        public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, customEventData: String? = nil, description: String? = nil, flexMatchMode: FlexMatchMode? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int? = nil, ruleSetName: String? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
             self.additionalPlayerCount = additionalPlayerCount
             self.backfillMode = backfillMode
             self.customEventData = customEventData
             self.description = description
+            self.flexMatchMode = flexMatchMode
             self.gameProperties = gameProperties
             self.gameSessionData = gameSessionData
             self.gameSessionQueueArns = gameSessionQueueArns
@@ -5923,6 +5964,7 @@ extension GameLift {
             case backfillMode = "BackfillMode"
             case customEventData = "CustomEventData"
             case description = "Description"
+            case flexMatchMode = "FlexMatchMode"
             case gameProperties = "GameProperties"
             case gameSessionData = "GameSessionData"
             case gameSessionQueueArns = "GameSessionQueueArns"
@@ -5986,7 +6028,7 @@ extension GameLift {
         public let name: String?
         /// A unique identifier for a Realtime script to update. You can use either the script ID or ARN value.
         public let scriptId: String
-        /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
+        /// The Amazon S3 location of your Realtime scripts. The storage location must specify the S3 bucket name, the zip file name (the "key"), and an IAM role ARN that allows Amazon GameLift to access the S3 storage location. The S3 bucket must be in the same Region as the script you're updating. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version. To call this operation with a storage location, you must have IAM PassRole permission. For more details on IAM roles and PassRole permissions, see  Set up a role for GameLift access.
         public let storageLocation: S3Location?
         /// The version that is associated with a build or script. Version strings do not need to be unique.
         public let version: String?

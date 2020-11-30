@@ -153,6 +153,10 @@ public struct CodeBuild: AWSService {
         return self.client.execute(operation: "DescribeTestCases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    public func getReportGroupTrend(_ input: GetReportGroupTrendInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReportGroupTrendOutput> {
+        return self.client.execute(operation: "GetReportGroupTrend", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Gets a resource policy that is identified by its resource ARN.
     public func getResourcePolicy(_ input: GetResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcePolicyOutput> {
         return self.client.execute(operation: "GetResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -77,12 +77,17 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "CreateAlias", path: "/2015-03-31/functions/{FunctionName}/aliases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a code signing configuration. A code signing configuration defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail).
+    public func createCodeSigningConfig(_ input: CreateCodeSigningConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCodeSigningConfigResponse> {
+        return self.client.execute(operation: "CreateCodeSigningConfig", path: "/2020-04-22/code-signing-configs/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a mapping between an event source and an AWS Lambda function. Lambda reads items from the event source and triggers the function. For details about each event source type, see the following topics.    Using AWS Lambda with Amazon DynamoDB     Using AWS Lambda with Amazon Kinesis     Using AWS Lambda with Amazon SQS     Using AWS Lambda with Amazon MQ     Using AWS Lambda with Amazon MSK    The following error handling options are only available for stream sources (DynamoDB and Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts - Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor - Process multiple batches from each shard concurrently.
     public func createEventSourceMapping(_ input: CreateEventSourceMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EventSourceMappingConfiguration> {
         return self.client.execute(operation: "CreateEventSourceMapping", path: "/2015-03-31/event-source-mappings/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Lambda function. To create a function, you need a deployment package and an execution role. The deployment package contains your function code. The execution role grants the function permission to use AWS services, such as Amazon CloudWatch Logs for log streaming and AWS X-Ray for request tracing. When you create a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute or so. During this time, you can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in the response from GetFunctionConfiguration indicate when the function is ready to invoke. For more information, see Function States. A function has an unpublished version, and can have published versions and aliases. The unpublished version changes when you update your function's code and configuration. A published version is a snapshot of your function code and configuration that can't be changed. An alias is a named resource that maps to a version, and can be changed to map to a different version. Use the Publish parameter to create version 1 of your function from its initial configuration. The other parameters let you configure version-specific and function-level settings. You can modify version-specific settings later with UpdateFunctionConfiguration. Function-level settings apply to both the unpublished and published versions of the function, and include tags (TagResource) and per-function concurrency limits (PutFunctionConcurrency). If another account or an AWS service invokes your function, use AddPermission to grant permission by creating a resource-based IAM policy. You can grant permissions at the function level, on a version, or on an alias. To invoke your function directly, use Invoke. To invoke your function in response to events in other AWS services, create an event source mapping (CreateEventSourceMapping), or configure a function trigger in the other service. For more information, see Invoking Functions.
+    /// Creates a Lambda function. To create a function, you need a deployment package and an execution role. The deployment package contains your function code. The execution role grants the function permission to use AWS services, such as Amazon CloudWatch Logs for log streaming and AWS X-Ray for request tracing. When you create a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute or so. During this time, you can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in the response from GetFunctionConfiguration indicate when the function is ready to invoke. For more information, see Function States. A function has an unpublished version, and can have published versions and aliases. The unpublished version changes when you update your function's code and configuration. A published version is a snapshot of your function code and configuration that can't be changed. An alias is a named resource that maps to a version, and can be changed to map to a different version. Use the Publish parameter to create version 1 of your function from its initial configuration. The other parameters let you configure version-specific and function-level settings. You can modify version-specific settings later with UpdateFunctionConfiguration. Function-level settings apply to both the unpublished and published versions of the function, and include tags (TagResource) and per-function concurrency limits (PutFunctionConcurrency). To enable code signing for this function, specify the ARN of a code-signing configuration. When a user attempts to deploy a code package with UpdateFunctionCode, Lambda checks that the code package has a valid signature from a trusted publisher. The code-signing configuration includes set set of signing profiles, which define the trusted publishers for this function. If another account or an AWS service invokes your function, use AddPermission to grant permission by creating a resource-based IAM policy. You can grant permissions at the function level, on a version, or on an alias. To invoke your function directly, use Invoke. To invoke your function in response to events in other AWS services, create an event source mapping (CreateEventSourceMapping), or configure a function trigger in the other service. For more information, see Invoking Functions.
     public func createFunction(_ input: CreateFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FunctionConfiguration> {
         return self.client.execute(operation: "CreateFunction", path: "/2015-03-31/functions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -90,6 +95,11 @@ public struct Lambda: AWSService {
     /// Deletes a Lambda function alias.
     @discardableResult public func deleteAlias(_ input: DeleteAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it.
+    public func deleteCodeSigningConfig(_ input: DeleteCodeSigningConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCodeSigningConfigResponse> {
+        return self.client.execute(operation: "DeleteCodeSigningConfig", path: "/2020-04-22/code-signing-configs/{CodeSigningConfigArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings. When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds.
@@ -100,6 +110,11 @@ public struct Lambda: AWSService {
     /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping. For AWS services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
     @discardableResult public func deleteFunction(_ input: DeleteFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes the code signing configuration from the function.
+    @discardableResult public func deleteFunctionCodeSigningConfig(_ input: DeleteFunctionCodeSigningConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteFunctionCodeSigningConfig", path: "/2020-06-30/functions/{FunctionName}/code-signing-config", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes a concurrent execution limit from a function.
@@ -132,6 +147,11 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "GetAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about the specified code signing configuration.
+    public func getCodeSigningConfig(_ input: GetCodeSigningConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCodeSigningConfigResponse> {
+        return self.client.execute(operation: "GetCodeSigningConfig", path: "/2020-04-22/code-signing-configs/{CodeSigningConfigArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns details about an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings.
     public func getEventSourceMapping(_ input: GetEventSourceMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EventSourceMappingConfiguration> {
         return self.client.execute(operation: "GetEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -140,6 +160,11 @@ public struct Lambda: AWSService {
     /// Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
     public func getFunction(_ input: GetFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionResponse> {
         return self.client.execute(operation: "GetFunction", path: "/2015-03-31/functions/{FunctionName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the code signing configuration for the specified function.
+    public func getFunctionCodeSigningConfig(_ input: GetFunctionCodeSigningConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionCodeSigningConfigResponse> {
+        return self.client.execute(operation: "GetFunctionCodeSigningConfig", path: "/2020-06-30/functions/{FunctionName}/code-signing-config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use PutFunctionConcurrency.
@@ -198,6 +223,11 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "ListAliases", path: "/2015-03-31/functions/{FunctionName}/aliases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of code signing configurations for the specified function. A request returns up to 10,000 configurations per call. You can use the MaxItems parameter to return fewer configurations per call.
+    public func listCodeSigningConfigs(_ input: ListCodeSigningConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCodeSigningConfigsResponse> {
+        return self.client.execute(operation: "ListCodeSigningConfigs", path: "/2020-04-22/code-signing-configs/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists event source mappings. Specify an EventSourceArn to only show event source mappings for a single event source.
     public func listEventSourceMappings(_ input: ListEventSourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventSourceMappingsResponse> {
         return self.client.execute(operation: "ListEventSourceMappings", path: "/2015-03-31/event-source-mappings/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -211,6 +241,11 @@ public struct Lambda: AWSService {
     /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. To get more information about a function or version, use GetFunction.
     public func listFunctions(_ input: ListFunctionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionsResponse> {
         return self.client.execute(operation: "ListFunctions", path: "/2015-03-31/functions/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it.
+    public func listFunctionsByCodeSigningConfig(_ input: ListFunctionsByCodeSigningConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionsByCodeSigningConfigResponse> {
+        return self.client.execute(operation: "ListFunctionsByCodeSigningConfig", path: "/2020-04-22/code-signing-configs/{CodeSigningConfigArn}/functions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the versions of an AWS Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime.
@@ -246,6 +281,11 @@ public struct Lambda: AWSService {
     /// Creates a version from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change. AWS Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use UpdateFunctionCode or UpdateFunctionConfiguration to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use CreateAlias.
     public func publishVersion(_ input: PublishVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FunctionConfiguration> {
         return self.client.execute(operation: "PublishVersion", path: "/2015-03-31/functions/{FunctionName}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
+    public func putFunctionCodeSigningConfig(_ input: PutFunctionCodeSigningConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutFunctionCodeSigningConfigResponse> {
+        return self.client.execute(operation: "PutFunctionCodeSigningConfig", path: "/2020-06-30/functions/{FunctionName}/code-signing-config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Sets the maximum number of simultaneous executions for a function, and reserves capacity for that concurrency level. Concurrency settings apply to the function as a whole, including all published versions and the unpublished version. Reserving concurrency both ensures that your function has capacity to process the specified number of events simultaneously, and prevents it from scaling beyond that level. Use GetFunction to see the current setting for a function. Use GetAccountSettings to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see Managing Concurrency.
@@ -288,12 +328,17 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "UpdateAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
+    public func updateCodeSigningConfig(_ input: UpdateCodeSigningConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCodeSigningConfigResponse> {
+        return self.client.execute(operation: "UpdateCodeSigningConfig", path: "/2020-04-22/code-signing-configs/{CodeSigningConfigArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates an event source mapping. You can change the function that AWS Lambda invokes, or pause invocation and resume later from the same location. The following error handling options are only available for stream sources (DynamoDB and Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts - Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor - Process multiple batches from each shard concurrently.
     public func updateEventSourceMapping(_ input: UpdateEventSourceMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EventSourceMappingConfiguration> {
         return self.client.execute(operation: "UpdateEventSourceMapping", path: "/2015-03-31/event-source-mappings/{UUID}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a Lambda function's code. The function's code is locked when you publish a version. You can't modify the code of a published version, only the unpublished version.
+    /// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing. The function's code is locked when you publish a version. You can't modify the code of a published version, only the unpublished version.
     public func updateFunctionCode(_ input: UpdateFunctionCodeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FunctionConfiguration> {
         return self.client.execute(operation: "UpdateFunctionCode", path: "/2015-03-31/functions/{FunctionName}/code", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

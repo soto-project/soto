@@ -2171,7 +2171,7 @@ extension ElastiCache {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int?
-        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization"
+        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" |"All Upfront"|"Partial Upfront"| "No Upfront"
         public let offeringType: String?
         /// The product description filter value. Use this parameter to show only the available offerings matching the specified product description.
         public let productDescription: String?

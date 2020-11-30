@@ -51,6 +51,9 @@ extension ECS {
         case deleteComplete = "DELETE_COMPLETE"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateComplete = "UPDATE_COMPLETE"
+        case updateFailed = "UPDATE_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -105,6 +108,13 @@ extension ECS {
         case codeDeploy = "CODE_DEPLOY"
         case ecs = "ECS"
         case external = "EXTERNAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentRolloutState: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -446,6 +456,26 @@ extension ECS {
         }
     }
 
+    public struct AutoScalingGroupProviderUpdate: AWSEncodableShape {
+        public let managedScaling: ManagedScaling?
+        /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection.  When using managed termination protection, managed scaling must also be used otherwise managed termination protection will not work.  When managed termination protection is enabled, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions enabled as well. For more information, see Instance Protection in the AWS Auto Scaling User Guide. When managed termination protection is disabled, your Amazon EC2 instances are not protected from termination when the Auto Scaling group scales in.
+        public let managedTerminationProtection: ManagedTerminationProtection?
+
+        public init(managedScaling: ManagedScaling? = nil, managedTerminationProtection: ManagedTerminationProtection? = nil) {
+            self.managedScaling = managedScaling
+            self.managedTerminationProtection = managedTerminationProtection
+        }
+
+        public func validate(name: String) throws {
+            try self.managedScaling?.validate(name: "\(name).managedScaling")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedScaling
+            case managedTerminationProtection
+        }
+    }
+
     public struct AwsVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Whether the task's elastic network interface receives a public IP address. The default value is DISABLED.
         public let assignPublicIp: AssignPublicIp?
@@ -760,7 +790,7 @@ extension ECS {
         public let systemControls: [SystemControl]?
         /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it will override the default values set by Docker. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run. Valid naming values are displayed in the Ulimit data type. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   This parameter is not supported for Windows containers or tasks that use the awsvpc network mode.
         public let ulimits: [Ulimit]?
-        /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. You can use the following formats. If specifying a UID or GID, you must specify it as a positive integer.    user     user:group     uid     uid:gid     user:gid     uid:group     This parameter is not supported for Windows containers or tasks that use the awsvpc network mode.
+        /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.  When running tasks using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.    user     user:group     uid     uid:gid     user:gid     uid:group     This parameter is not supported for Windows containers or tasks that use the awsvpc network mode.
         public let user: String?
         /// Data volumes to mount from another container. This parameter maps to VolumesFrom in the Create a container section of the Docker Remote API and the --volumes-from option to docker run.
         public let volumesFrom: [VolumeFrom]?
@@ -1508,6 +1538,8 @@ extension ECS {
         public let createdAt: Date?
         /// The most recent desired count of tasks that was specified for the service to deploy or maintain.
         public let desiredCount: Int?
+        /// The number of consecutively failed tasks in the deployment. A task is considered a failure if the service scheduler can't launch the task, the task doesn't transition to a RUNNING state, or if it fails any of its defined health checks and is stopped.  Once a service deployment has one or more successfully running tasks, the failed task count resets to zero and stops being evaluated.
+        public let failedTasks: Int?
         /// The ID of the deployment.
         public let id: String?
         /// The launch type the tasks in the service are using. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
@@ -1518,6 +1550,10 @@ extension ECS {
         public let pendingCount: Int?
         /// The platform version on which your tasks in the service are running. A platform version is only specified for tasks using the Fargate launch type. If one is not specified, the LATEST platform version is used by default. For more information, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
+        ///  The rolloutState of a service is only returned for services that use the rolling update (ECS) deployment type that are not behind a Classic Load Balancer.  The rollout state of the deployment. When a service deployment is started, it begins in an IN_PROGRESS state. When the service reaches a steady state, the deployment will transition to a COMPLETED state. If the service fails to reach a steady state and circuit breaker is enabled, the deployment will transition to a FAILED state. A deployment in FAILED state will launch no new tasks. For more information, see DeploymentCircuitBreaker.
+        public let rolloutState: DeploymentRolloutState?
+        /// A description of the rollout state of a deployment.
+        public let rolloutStateReason: String?
         /// The number of tasks in the deployment that are in the RUNNING status.
         public let runningCount: Int?
         /// The status of the deployment. The following describes each state:  PRIMARY  The most recent deployment of a service.  ACTIVE  A service deployment that still has running tasks, but are in the process of being replaced with a new PRIMARY deployment.  INACTIVE  A deployment that has been completely replaced.
@@ -1527,15 +1563,18 @@ extension ECS {
         /// The Unix timestamp for when the service deployment was last updated.
         public let updatedAt: Date?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, createdAt: Date? = nil, desiredCount: Int? = nil, id: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, runningCount: Int? = nil, status: String? = nil, taskDefinition: String? = nil, updatedAt: Date? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, createdAt: Date? = nil, desiredCount: Int? = nil, failedTasks: Int? = nil, id: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformVersion: String? = nil, rolloutState: DeploymentRolloutState? = nil, rolloutStateReason: String? = nil, runningCount: Int? = nil, status: String? = nil, taskDefinition: String? = nil, updatedAt: Date? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.createdAt = createdAt
             self.desiredCount = desiredCount
+            self.failedTasks = failedTasks
             self.id = id
             self.launchType = launchType
             self.networkConfiguration = networkConfiguration
             self.pendingCount = pendingCount
             self.platformVersion = platformVersion
+            self.rolloutState = rolloutState
+            self.rolloutStateReason = rolloutStateReason
             self.runningCount = runningCount
             self.status = status
             self.taskDefinition = taskDefinition
@@ -1546,11 +1585,14 @@ extension ECS {
             case capacityProviderStrategy
             case createdAt
             case desiredCount
+            case failedTasks
             case id
             case launchType
             case networkConfiguration
             case pendingCount
             case platformVersion
+            case rolloutState
+            case rolloutStateReason
             case runningCount
             case status
             case taskDefinition
@@ -1558,18 +1600,39 @@ extension ECS {
         }
     }
 
+    public struct DeploymentCircuitBreaker: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to enable the deployment circuit breaker logic for the service.
+        public let enable: Bool
+        /// Whether to enable Amazon ECS to roll back the service if a service deployment fails. If rollback is enabled, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
+        public let rollback: Bool
+
+        public init(enable: Bool, rollback: Bool) {
+            self.enable = enable
+            self.rollback = rollback
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enable
+            case rollback
+        }
+    }
+
     public struct DeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type.  The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If deployment circuit breaker is enabled, a service deployment will transition to a failed state and stop launching new tasks. If rollback is enabled, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
+        public let deploymentCircuitBreaker: DeploymentCircuitBreaker?
         /// If a service is using the rolling update (ECS) deployment type, the maximum percent parameter represents an upper limit on the number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desired number of tasks (rounded down to the nearest integer), and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. This parameter enables you to define the deployment batch size. For example, if your service has a desired number of four tasks and a maximum percent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximum percent is 200%. If a service is using the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the maximum percent value is set to the default value and is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the maximum percent value is not used, although it is returned when describing your service.
         public let maximumPercent: Int?
         /// If a service is using the rolling update (ECS) deployment type, the minimum healthy percent represents a lower limit on the number of tasks in a service that must remain in the RUNNING state during a deployment, as a percentage of the desired number of tasks (rounded up to the nearest integer), and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desired number of four tasks and a minimum healthy percent of 50%, the scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. Tasks for services that do not use a load balancer are considered healthy if they are in the RUNNING state; tasks for services that do use a load balancer are considered healthy if they are in the RUNNING state and they are reported as healthy by the load balancer. The default value for minimum healthy percent is 100%. If a service is using the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the minimum healthy percent value is set to the default value and is used to define the lower limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the minimum healthy percent value is not used, although it is returned when describing your service.
         public let minimumHealthyPercent: Int?
 
-        public init(maximumPercent: Int? = nil, minimumHealthyPercent: Int? = nil) {
+        public init(deploymentCircuitBreaker: DeploymentCircuitBreaker? = nil, maximumPercent: Int? = nil, minimumHealthyPercent: Int? = nil) {
+            self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deploymentCircuitBreaker
             case maximumPercent
             case minimumHealthyPercent
         }
@@ -2066,9 +2129,9 @@ extension ECS {
     }
 
     public struct FSxWindowsFileServerAuthorizationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The authorization credential option to use. The authorization credential options can be provided using either the AWS Secrets Manager ARN or the AWS Systems Manager ARN. The ARNs refer to the stored credentials.  options:     ARN of an AWS Secrets Manager secret.    ARN of an AWS Systems Manager parameter.
+        /// The authorization credential option to use. The authorization credential options can be provided using either the Amazon Resource Name (ARN) of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
         public let credentialsParameter: String
-        /// A fully qualified domain name hosted by an AWS Directory Service Managed Microsoft AD (Active Directory) or self-hosted EC2 AD.
+        /// A fully qualified domain name hosted by an AWS Directory Service Managed Microsoft AD (Active Directory) or self-hosted AD on Amazon EC2.
         public let domain: String
 
         public init(credentialsParameter: String, domain: String) {
@@ -2754,16 +2817,19 @@ extension ECS {
     }
 
     public struct ManagedScaling: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale in process is not affected by this parameter. If this parameter is omitted, the default value of 10000 is used.
+        /// The period of time, in seconds, after a newly launched Amazon EC2 instance can contribute to CloudWatch metrics for Auto Scaling group. If this parameter is omitted, the default value of 300 seconds is used.
+        public let instanceWarmupPeriod: Int?
+        /// The maximum number of container instances that Amazon ECS will scale in or scale out at one time. If this parameter is omitted, the default value of 10000 is used.
         public let maximumScalingStepSize: Int?
-        /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale in process is not affected by this parameter If this parameter is omitted, the default value of 1 is used. When additional capacity is required, Amazon ECS will scale up the minimum scaling step size even if the actual demand is less than the minimum scaling step size. If you use a capacity provider with an Auto Scaling group configured with more than one Amazon EC2 instance type or Availability Zone, Amazon ECS will scale up by the exact minimum scaling step size value and will ignore both the maximum scaling step size as well as the capacity demand.
+        /// The minimum number of container instances that Amazon ECS will scale in or scale out at one time. If this parameter is omitted, the default value of 1 is used.
         public let minimumScalingStepSize: Int?
         /// Whether or not to enable managed scaling for the capacity provider.
         public let status: ManagedScalingStatus?
         /// The target capacity value for the capacity provider. The specified value must be greater than 0 and less than or equal to 100. A value of 100 will result in the Amazon EC2 instances in your Auto Scaling group being completely utilized.
         public let targetCapacity: Int?
 
-        public init(maximumScalingStepSize: Int? = nil, minimumScalingStepSize: Int? = nil, status: ManagedScalingStatus? = nil, targetCapacity: Int? = nil) {
+        public init(instanceWarmupPeriod: Int? = nil, maximumScalingStepSize: Int? = nil, minimumScalingStepSize: Int? = nil, status: ManagedScalingStatus? = nil, targetCapacity: Int? = nil) {
+            self.instanceWarmupPeriod = instanceWarmupPeriod
             self.maximumScalingStepSize = maximumScalingStepSize
             self.minimumScalingStepSize = minimumScalingStepSize
             self.status = status
@@ -2771,6 +2837,8 @@ extension ECS {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.instanceWarmupPeriod, name: "instanceWarmupPeriod", parent: name, max: 10000)
+            try self.validate(self.instanceWarmupPeriod, name: "instanceWarmupPeriod", parent: name, min: 0)
             try self.validate(self.maximumScalingStepSize, name: "maximumScalingStepSize", parent: name, max: 10000)
             try self.validate(self.maximumScalingStepSize, name: "maximumScalingStepSize", parent: name, min: 1)
             try self.validate(self.minimumScalingStepSize, name: "minimumScalingStepSize", parent: name, max: 10000)
@@ -2780,6 +2848,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case instanceWarmupPeriod
             case maximumScalingStepSize
             case minimumScalingStepSize
             case status
@@ -3173,7 +3242,7 @@ extension ECS {
         public let ipcMode: IpcMode?
         /// The amount of memory (in MiB) used by the task. It can be expressed as an integer using MiB, for example 1024, or as a string using GB, for example 1GB or 1 GB, in a task definition. String values are converted to an integer indicating the MiB when the task definition is registered.  Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers.  If using the EC2 launch type, this field is optional. If using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of supported values for the cpu parameter:   512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)
         public let memory: String?
-        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. The default Docker network mode is bridge. If you are using the Fargate launch type, the awsvpc network mode is required. If you are using the EC2 launch type, any network mode can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.  Currently, only Amazon ECS-optimized AMIs, other Amazon Linux variants with the ecs-init package, or AWS Fargate infrastructure support the awsvpc network mode.   If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. Docker for Windows uses different network modes than Docker for Linux. When you register a task definition with Windows containers, you must not specify a network mode. If you use the console to register a task definition with Windows containers, you must choose the &lt;default&gt; network mode object.  For more information, see Network settings in the Docker run reference.
+        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 instances, any network mode can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.  Currently, only Amazon ECS-optimized AMIs, other Amazon Linux variants with the ecs-init package, or AWS Fargate infrastructure support the awsvpc network mode.   If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. Docker for Windows uses different network modes than Docker for Linux. When you register a task definition with Windows containers, you must not specify a network mode. If you use the console to register a task definition with Windows containers, you must choose the &lt;default&gt; network mode object.  For more information, see Network settings in the Docker run reference.
         public let networkMode: NetworkMode?
         /// The process namespace to use for the containers in the task. The valid values are host or task. If host is specified, then all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace. For more information, see PID settings in the Docker run reference. If the host PID mode is used, be aware that there is a heightened risk of undesired process namespace expose. For more information, see Docker security.  This parameter is not supported for Windows containers or tasks using the Fargate launch type.
         public let pidMode: PidMode?
@@ -4125,7 +4194,7 @@ extension ECS {
         public let ipcMode: IpcMode?
         /// The amount (in MiB) of memory used by the task. If using the EC2 launch type, you must specify either a task-level memory value or a container-level memory value. This field is optional and any value can be used. If a task-level memory value is specified then the container-level memory value is optional. For more information regarding container-level memory and memory reservation, see ContainerDefinition. If using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of valid values for the cpu parameter:   512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)
         public let memory: String?
-        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. The default Docker network mode is bridge. If you are using the Fargate launch type, the awsvpc network mode is required. If you are using the EC2 launch type, any network mode can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.  Currently, only Amazon ECS-optimized AMIs, other Amazon Linux variants with the ecs-init package, or AWS Fargate infrastructure support the awsvpc network mode.   If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. Docker for Windows uses different network modes than Docker for Linux. When you register a task definition with Windows containers, you must not specify a network mode. If you use the console to register a task definition with Windows containers, you must choose the &lt;default&gt; network mode object.  For more information, see Network settings in the Docker run reference.
+        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 instances, any network mode can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.  Currently, only Amazon ECS-optimized AMIs, other Amazon Linux variants with the ecs-init package, or AWS Fargate infrastructure support the awsvpc network mode.   If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. Docker for Windows uses different network modes than Docker for Linux. When you register a task definition with Windows containers, you must not specify a network mode. If you use the console to register a task definition with Windows containers, you must choose the &lt;default&gt; network mode object.  For more information, see Network settings in the Docker run reference.
         public let networkMode: NetworkMode?
         /// The process namespace to use for the containers in the task. The valid values are host or task. If host is specified, then all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace. For more information, see PID settings in the Docker run reference. If the host PID mode is used, be aware that there is a heightened risk of undesired process namespace expose. For more information, see Docker security.  This parameter is not supported for Windows containers or tasks using the Fargate launch type.
         public let pidMode: PidMode?
@@ -4413,6 +4482,39 @@ extension ECS {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateCapacityProviderRequest: AWSEncodableShape {
+        /// The name of the capacity provider to update.
+        public let autoScalingGroupProvider: AutoScalingGroupProviderUpdate
+        /// An object representing the parameters to update for the Auto Scaling group capacity provider.
+        public let name: String
+
+        public init(autoScalingGroupProvider: AutoScalingGroupProviderUpdate, name: String) {
+            self.autoScalingGroupProvider = autoScalingGroupProvider
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.autoScalingGroupProvider.validate(name: "\(name).autoScalingGroupProvider")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupProvider
+            case name
+        }
+    }
+
+    public struct UpdateCapacityProviderResponse: AWSDecodableShape {
+        public let capacityProvider: CapacityProvider?
+
+        public init(capacityProvider: CapacityProvider? = nil) {
+            self.capacityProvider = capacityProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityProvider
+        }
     }
 
     public struct UpdateClusterSettingsRequest: AWSEncodableShape {

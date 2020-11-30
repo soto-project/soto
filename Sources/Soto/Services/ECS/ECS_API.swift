@@ -278,6 +278,11 @@ public struct ECS: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modifies the parameters for a capacity provider.
+    public func updateCapacityProvider(_ input: UpdateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCapacityProviderResponse> {
+        return self.client.execute(operation: "UpdateCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies the settings to use for a cluster.
     public func updateClusterSettings(_ input: UpdateClusterSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClusterSettingsResponse> {
         return self.client.execute(operation: "UpdateClusterSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

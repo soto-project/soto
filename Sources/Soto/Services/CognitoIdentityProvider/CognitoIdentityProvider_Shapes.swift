@@ -93,6 +93,16 @@ extension CognitoIdentityProvider {
         public var description: String { return self.rawValue }
     }
 
+    public enum CustomEmailSenderLambdaVersionType: String, CustomStringConvertible, Codable {
+        case v10 = "V1_0"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomSMSSenderLambdaVersionType: String, CustomStringConvertible, Codable {
+        case v10 = "V1_0"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DefaultEmailOptionType: String, CustomStringConvertible, Codable {
         case confirmWithCode = "CONFIRM_WITH_CODE"
         case confirmWithLink = "CONFIRM_WITH_LINK"
@@ -2462,9 +2472,9 @@ extension CognitoIdentityProvider {
         public let deviceConfiguration: DeviceConfigurationType?
         /// The email configuration.
         public let emailConfiguration: EmailConfigurationType?
-        /// A string representing the email verification message.
+        /// A string representing the email verification message. EmailVerificationMessage is allowed only if EmailSendingAccount is DEVELOPER.
         public let emailVerificationMessage: String?
-        /// A string representing the email verification subject.
+        /// A string representing the email verification subject. EmailVerificationSubject is allowed only if EmailSendingAccount is DEVELOPER.
         public let emailVerificationSubject: String?
         /// The Lambda trigger configuration information for the new user pool.  In a push model, event sources (such as Amazon S3 and custom applications) need permission to invoke a function. So you will need to make an extra call to add permission for these event sources to invoke your Lambda function.  For more information on using the Lambda API to add permission, see  AddPermission .  For adding permission using the AWS CLI, see  add-permission .
         public let lambdaConfig: LambdaConfigType?
@@ -2607,6 +2617,52 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
+        }
+    }
+
+    public struct CustomEmailLambdaVersionConfigType: AWSEncodableShape & AWSDecodableShape {
+        /// The Lambda Amazon Resource Name of the Lambda function that Amazon Cognito triggers to send email notifications to users.
+        public let lambdaArn: String
+        /// The Lambda version represents the signature of the "request" attribute in the "event" information Amazon Cognito passes to your custom email Lambda function. The only supported value is V1_0.
+        public let lambdaVersion: CustomEmailSenderLambdaVersionType
+
+        public init(lambdaArn: String, lambdaVersion: CustomEmailSenderLambdaVersionType) {
+            self.lambdaArn = lambdaArn
+            self.lambdaVersion = lambdaVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 2048)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, min: 20)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaArn = "LambdaArn"
+            case lambdaVersion = "LambdaVersion"
+        }
+    }
+
+    public struct CustomSMSLambdaVersionConfigType: AWSEncodableShape & AWSDecodableShape {
+        /// The Lambda Amazon Resource Name of the Lambda function that Amazon Cognito triggers to send SMS notifications to users.
+        public let lambdaArn: String
+        /// The Lambda version represents the signature of the "request" attribute in the "event" information Amazon Cognito passes to your custom SMS Lambda function. The only supported value is V1_0.
+        public let lambdaVersion: CustomSMSSenderLambdaVersionType
+
+        public init(lambdaArn: String, lambdaVersion: CustomSMSSenderLambdaVersionType) {
+            self.lambdaArn = lambdaArn
+            self.lambdaVersion = lambdaVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 2048)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, min: 20)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaArn = "LambdaArn"
+            case lambdaVersion = "LambdaVersion"
         }
     }
 
@@ -3176,7 +3232,7 @@ extension CognitoIdentityProvider {
     public struct EmailConfigurationType: AWSEncodableShape & AWSDecodableShape {
         /// The set of configuration rules that can be applied to emails sent using Amazon SES. A configuration set is applied to an email by including a reference to the configuration set in the headers of the email. Once applied, all of the rules in that configuration set are applied to the email. Configuration sets can be used to apply the following types of rules to emails:    Event publishing – Amazon SES can track the number of send, delivery, open, click, bounce, and complaint events for each email sent. Use event publishing to send information about these events to other AWS services such as SNS and CloudWatch.   IP pool management – When leasing dedicated IP addresses with Amazon SES, you can create groups of IP addresses, called dedicated IP pools. You can then associate the dedicated IP pools with configuration sets.
         public let configurationSet: String?
-        /// Specifies whether Amazon Cognito emails your users by using its built-in email functionality or your Amazon SES email configuration. Specify one of the following values:  COGNITO_DEFAULT  When Amazon Cognito emails your users, it uses its built-in email functionality. When you use the default option, Amazon Cognito allows only a limited number of emails each day for your user pool. For typical production environments, the default email limit is below the required delivery volume. To achieve a higher delivery volume, specify DEVELOPER to use your Amazon SES email configuration. To look up the email delivery limit for the default option, see Limits in Amazon Cognito in the Amazon Cognito Developer Guide. The default FROM address is no-reply@verificationemail.com. To customize the FROM address, provide the ARN of an Amazon SES verified email address for the SourceArn parameter.  DEVELOPER  When Amazon Cognito emails your users, it uses your Amazon SES configuration. Amazon Cognito calls Amazon SES on your behalf to send email from your verified email address. When you use this option, the email delivery limits are the same limits that apply to your Amazon SES verified email address in your AWS account. If you use this option, you must provide the ARN of an Amazon SES verified email address for the SourceArn parameter. Before Amazon Cognito can email your users, it requires additional permissions to call Amazon SES on your behalf. When you update your user pool with this option, Amazon Cognito creates a service-linked role, which is a type of IAM role, in your AWS account. This role contains the permissions that allow Amazon Cognito to access Amazon SES and send email messages with your address. For more information about the service-linked role that Amazon Cognito creates, see Using Service-Linked Roles for Amazon Cognito in the Amazon Cognito Developer Guide.
+        /// Specifies whether Amazon Cognito emails your users by using its built-in email functionality or your Amazon SES email configuration. Specify one of the following values:  COGNITO_DEFAULT  When Amazon Cognito emails your users, it uses its built-in email functionality. When you use the default option, Amazon Cognito allows only a limited number of emails each day for your user pool. For typical production environments, the default email limit is below the required delivery volume. To achieve a higher delivery volume, specify DEVELOPER to use your Amazon SES email configuration. To look up the email delivery limit for the default option, see Limits in Amazon Cognito in the Amazon Cognito Developer Guide. The default FROM address is no-reply@verificationemail.com. To customize the FROM address, provide the ARN of an Amazon SES verified email address for the SourceArn parameter.  If EmailSendingAccount is COGNITO_DEFAULT, the following parameters aren't allowed:   EmailVerificationMessage   EmailVerificationSubject   InviteMessageTemplate.EmailMessage   InviteMessageTemplate.EmailSubject   VerificationMessageTemplate.EmailMessage   VerificationMessageTemplate.EmailMessageByLink   VerificationMessageTemplate.EmailSubject,   VerificationMessageTemplate.EmailSubjectByLink    DEVELOPER EmailSendingAccount is required.   DEVELOPER  When Amazon Cognito emails your users, it uses your Amazon SES configuration. Amazon Cognito calls Amazon SES on your behalf to send email from your verified email address. When you use this option, the email delivery limits are the same limits that apply to your Amazon SES verified email address in your AWS account. If you use this option, you must provide the ARN of an Amazon SES verified email address for the SourceArn parameter. Before Amazon Cognito can email your users, it requires additional permissions to call Amazon SES on your behalf. When you update your user pool with this option, Amazon Cognito creates a service-linked role, which is a type of IAM role, in your AWS account. This role contains the permissions that allow Amazon Cognito to access Amazon SES and send email messages with your address. For more information about the service-linked role that Amazon Cognito creates, see Using Service-Linked Roles for Amazon Cognito in the Amazon Cognito Developer Guide.
         public let emailSendingAccount: EmailSendingAccountType?
         /// Identifies either the sender’s email address or the sender’s name with their email address. For example, testuser@example.com or Test User &lt;testuser@example.com&gt;. This address will appear before the body of the email.
         public let from: String?
@@ -3897,10 +3953,16 @@ extension CognitoIdentityProvider {
     public struct LambdaConfigType: AWSEncodableShape & AWSDecodableShape {
         /// Creates an authentication challenge.
         public let createAuthChallenge: String?
+        /// A custom email sender AWS Lambda trigger.
+        public let customEmailSender: CustomEmailLambdaVersionConfigType?
         /// A custom Message AWS Lambda trigger.
         public let customMessage: String?
+        /// A custom SMS sender AWS Lambda trigger.
+        public let customSMSSender: CustomSMSLambdaVersionConfigType?
         /// Defines the authentication challenge.
         public let defineAuthChallenge: String?
+        /// The Amazon Resource Name of Key Management Service Customer master keys . Amazon Cognito uses the key to encrypt codes and temporary passwords sent to CustomEmailSender and CustomSMSSender.
+        public let kMSKeyID: String?
         /// A post-authentication AWS Lambda trigger.
         public let postAuthentication: String?
         /// A post-confirmation AWS Lambda trigger.
@@ -3916,10 +3978,13 @@ extension CognitoIdentityProvider {
         /// Verifies the authentication challenge response.
         public let verifyAuthChallengeResponse: String?
 
-        public init(createAuthChallenge: String? = nil, customMessage: String? = nil, defineAuthChallenge: String? = nil, postAuthentication: String? = nil, postConfirmation: String? = nil, preAuthentication: String? = nil, preSignUp: String? = nil, preTokenGeneration: String? = nil, userMigration: String? = nil, verifyAuthChallengeResponse: String? = nil) {
+        public init(createAuthChallenge: String? = nil, customEmailSender: CustomEmailLambdaVersionConfigType? = nil, customMessage: String? = nil, customSMSSender: CustomSMSLambdaVersionConfigType? = nil, defineAuthChallenge: String? = nil, kMSKeyID: String? = nil, postAuthentication: String? = nil, postConfirmation: String? = nil, preAuthentication: String? = nil, preSignUp: String? = nil, preTokenGeneration: String? = nil, userMigration: String? = nil, verifyAuthChallengeResponse: String? = nil) {
             self.createAuthChallenge = createAuthChallenge
+            self.customEmailSender = customEmailSender
             self.customMessage = customMessage
+            self.customSMSSender = customSMSSender
             self.defineAuthChallenge = defineAuthChallenge
+            self.kMSKeyID = kMSKeyID
             self.postAuthentication = postAuthentication
             self.postConfirmation = postConfirmation
             self.preAuthentication = preAuthentication
@@ -3933,12 +3998,17 @@ extension CognitoIdentityProvider {
             try self.validate(self.createAuthChallenge, name: "createAuthChallenge", parent: name, max: 2048)
             try self.validate(self.createAuthChallenge, name: "createAuthChallenge", parent: name, min: 20)
             try self.validate(self.createAuthChallenge, name: "createAuthChallenge", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
+            try self.customEmailSender?.validate(name: "\(name).customEmailSender")
             try self.validate(self.customMessage, name: "customMessage", parent: name, max: 2048)
             try self.validate(self.customMessage, name: "customMessage", parent: name, min: 20)
             try self.validate(self.customMessage, name: "customMessage", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
+            try self.customSMSSender?.validate(name: "\(name).customSMSSender")
             try self.validate(self.defineAuthChallenge, name: "defineAuthChallenge", parent: name, max: 2048)
             try self.validate(self.defineAuthChallenge, name: "defineAuthChallenge", parent: name, min: 20)
             try self.validate(self.defineAuthChallenge, name: "defineAuthChallenge", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
+            try self.validate(self.kMSKeyID, name: "kMSKeyID", parent: name, max: 2048)
+            try self.validate(self.kMSKeyID, name: "kMSKeyID", parent: name, min: 20)
+            try self.validate(self.kMSKeyID, name: "kMSKeyID", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
             try self.validate(self.postAuthentication, name: "postAuthentication", parent: name, max: 2048)
             try self.validate(self.postAuthentication, name: "postAuthentication", parent: name, min: 20)
             try self.validate(self.postAuthentication, name: "postAuthentication", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -3964,8 +4034,11 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case createAuthChallenge = "CreateAuthChallenge"
+            case customEmailSender = "CustomEmailSender"
             case customMessage = "CustomMessage"
+            case customSMSSender = "CustomSMSSender"
             case defineAuthChallenge = "DefineAuthChallenge"
+            case kMSKeyID = "KMSKeyID"
             case postAuthentication = "PostAuthentication"
             case postConfirmation = "PostConfirmation"
             case preAuthentication = "PreAuthentication"
@@ -4476,9 +4549,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct MessageTemplateType: AWSEncodableShape & AWSDecodableShape {
-        /// The message template for email messages.
+        /// The message template for email messages. EmailMessage is allowed only if EmailSendingAccount is DEVELOPER.
         public let emailMessage: String?
-        /// The subject line for email messages.
+        /// The subject line for email messages. EmailSubject is allowed only if EmailSendingAccount is DEVELOPER.
         public let emailSubject: String?
         /// The message template for SMS messages.
         public let sMSMessage: String?
@@ -4965,7 +5038,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct SMSMfaSettingsType: AWSEncodableShape {
-        /// Specifies whether SMS text message MFA is enabled.
+        /// Specifies whether SMS text message MFA is enabled. If an MFA type is enabled for a user, the user will be prompted for MFA during all sign in attempts, unless device tracking is turned on and the device has been trusted.
         public let enabled: Bool?
         /// Specifies whether SMS is the preferred MFA method.
         public let preferredMfa: Bool?
@@ -5324,7 +5397,7 @@ extension CognitoIdentityProvider {
     public struct SmsConfigurationType: AWSEncodableShape & AWSDecodableShape {
         /// The external ID is a value that we recommend you use to add security to your IAM role which is used to call Amazon SNS to send SMS messages for your user pool. If you provide an ExternalId, the Cognito User Pool will include it when attempting to assume your IAM role, so that you can set your roles trust policy to require the ExternalID. If you use the Cognito Management Console to create a role for SMS MFA, Cognito will create a role with the required permissions and a trust policy that demonstrates use of the ExternalId.
         public let externalId: String?
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller. This is the ARN of the IAM role in your AWS account which Cognito will use to send SMS messages.
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller. This is the ARN of the IAM role in your AWS account which Cognito will use to send SMS messages. SMS messages are subject to a spending limit.
         public let snsCallerArn: String
 
         public init(externalId: String? = nil, snsCallerArn: String) {
@@ -5382,7 +5455,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct SoftwareTokenMfaSettingsType: AWSEncodableShape {
-        /// Specifies whether software token MFA is enabled.
+        /// Specifies whether software token MFA is enabled. If an MFA type is enabled for a user, the user will be prompted for MFA during all sign in attempts, unless device tracking is turned on and the device has been trusted.
         public let enabled: Bool?
         /// Specifies whether software token MFA is the preferred MFA method.
         public let preferredMfa: Bool?
@@ -6658,13 +6731,13 @@ extension CognitoIdentityProvider {
     public struct VerificationMessageTemplateType: AWSEncodableShape & AWSDecodableShape {
         /// The default email option.
         public let defaultEmailOption: DefaultEmailOptionType?
-        /// The email message template.
+        /// The email message template. EmailMessage is allowed only if  EmailSendingAccount is DEVELOPER.
         public let emailMessage: String?
-        /// The email message template for sending a confirmation link to the user.
+        /// The email message template for sending a confirmation link to the user. EmailMessageByLink is allowed only if  EmailSendingAccount is DEVELOPER.
         public let emailMessageByLink: String?
-        /// The subject line for the email message template.
+        /// The subject line for the email message template. EmailSubject is allowed only if EmailSendingAccount is DEVELOPER.
         public let emailSubject: String?
-        /// The subject line for the email message template for sending a confirmation link to the user.
+        /// The subject line for the email message template for sending a confirmation link to the user. EmailSubjectByLink is allowed only  EmailSendingAccount is DEVELOPER.
         public let emailSubjectByLink: String?
         /// The SMS message template.
         public let smsMessage: String?
