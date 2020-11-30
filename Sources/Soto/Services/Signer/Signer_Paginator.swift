@@ -176,10 +176,14 @@ extension Signer {
 extension Signer.ListSigningJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Signer.ListSigningJobsRequest {
         return .init(
+            isRevoked: self.isRevoked,
+            jobInvoker: self.jobInvoker,
             maxResults: self.maxResults,
             nextToken: token,
             platformId: self.platformId,
             requestedBy: self.requestedBy,
+            signatureExpiresAfter: self.signatureExpiresAfter,
+            signatureExpiresBefore: self.signatureExpiresBefore,
             status: self.status
         )
     }
@@ -202,7 +206,9 @@ extension Signer.ListSigningProfilesRequest: AWSPaginateToken {
         return .init(
             includeCanceled: self.includeCanceled,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            platformId: self.platformId,
+            statuses: self.statuses
         )
     }
 }

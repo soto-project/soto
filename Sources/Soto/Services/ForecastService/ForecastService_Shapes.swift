@@ -416,6 +416,57 @@ extension ForecastService {
         }
     }
 
+    public struct CreatePredictorBacktestExportJobRequest: AWSEncodableShape {
+        public let destination: DataDestination
+        /// The Amazon Resource Name (ARN) of the predictor that you want to export.
+        public let predictorArn: String
+        /// The name for the backtest export job.
+        public let predictorBacktestExportJobName: String
+        /// Optional metadata to help you categorize and organize your backtests. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
+        public let tags: [Tag]?
+
+        public init(destination: DataDestination, predictorArn: String, predictorBacktestExportJobName: String, tags: [Tag]? = nil) {
+            self.destination = destination
+            self.predictorArn = predictorArn
+            self.predictorBacktestExportJobName = predictorBacktestExportJobName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.destination.validate(name: "\(name).destination")
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
+            try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+            try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, max: 63)
+            try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, min: 1)
+            try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case predictorArn = "PredictorArn"
+            case predictorBacktestExportJobName = "PredictorBacktestExportJobName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreatePredictorBacktestExportJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the predictor backtest export job that you want to export.
+        public let predictorBacktestExportJobArn: String?
+
+        public init(predictorBacktestExportJobArn: String? = nil) {
+            self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predictorBacktestExportJobArn = "PredictorBacktestExportJobArn"
+        }
+    }
+
     public struct CreatePredictorRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/CNN-QR     arn:aws:forecast:::algorithm/Deep_AR_Plus     arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
         public let algorithmArn: String?
@@ -734,6 +785,24 @@ extension ForecastService {
 
         private enum CodingKeys: String, CodingKey {
             case forecastArn = "ForecastArn"
+        }
+    }
+
+    public struct DeletePredictorBacktestExportJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the predictor backtest export job to delete.
+        public let predictorBacktestExportJobArn: String
+
+        public init(predictorBacktestExportJobArn: String) {
+            self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, max: 256)
+            try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predictorBacktestExportJobArn = "PredictorBacktestExportJobArn"
         }
     }
 
@@ -1070,6 +1139,64 @@ extension ForecastService {
         }
     }
 
+    public struct DescribePredictorBacktestExportJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the predictor backtest export job.
+        public let predictorBacktestExportJobArn: String
+
+        public init(predictorBacktestExportJobArn: String) {
+            self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, max: 256)
+            try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predictorBacktestExportJobArn = "PredictorBacktestExportJobArn"
+        }
+    }
+
+    public struct DescribePredictorBacktestExportJobResponse: AWSDecodableShape {
+        /// When the predictor backtest export job was created.
+        public let creationTime: Date?
+        public let destination: DataDestination?
+        /// When the last successful export job finished.
+        public let lastModificationTime: Date?
+        /// Information about any errors that may have occurred during the backtest export.
+        public let message: String?
+        /// The Amazon Resource Name (ARN) of the predictor.
+        public let predictorArn: String?
+        /// The Amazon Resource Name (ARN) of the predictor backtest export job.
+        public let predictorBacktestExportJobArn: String?
+        /// The name of the predictor backtest export job.
+        public let predictorBacktestExportJobName: String?
+        /// The status of the predictor backtest export job. States include:     ACTIVE     CREATE_PENDING     CREATE_IN_PROGRESS     CREATE_FAILED     DELETE_PENDING     DELETE_IN_PROGRESS     DELETE_FAILED
+        public let status: String?
+
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorBacktestExportJobArn: String? = nil, predictorBacktestExportJobName: String? = nil, status: String? = nil) {
+            self.creationTime = creationTime
+            self.destination = destination
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.predictorArn = predictorArn
+            self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
+            self.predictorBacktestExportJobName = predictorBacktestExportJobName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case destination = "Destination"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case predictorArn = "PredictorArn"
+            case predictorBacktestExportJobArn = "PredictorBacktestExportJobArn"
+            case predictorBacktestExportJobName = "PredictorBacktestExportJobName"
+            case status = "Status"
+        }
+    }
+
     public struct DescribePredictorRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the predictor that you want information about.
         public let predictorArn: String
@@ -1202,7 +1329,7 @@ extension ForecastService {
     }
 
     public struct ErrorMetric: AWSDecodableShape {
-        ///  Forecast types can be quantiles from 0.01 to 0.99 (by increments of 0.01), and the mean.
+        ///  The Forecast type used to compute WAPE and RMSE.
         public let forecastType: String?
         ///  The root-mean-square error (RMSE).
         public let rmse: Double?
@@ -1785,6 +1912,54 @@ extension ForecastService {
         }
     }
 
+    public struct ListPredictorBacktestExportJobsRequest: AWSEncodableShape {
+        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictor backtest export jobs that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictor backtest export jobs that match the statement, specify IS. To exclude matching predictor backtest export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are PredictorBacktestExportJobArn and Status.    Value - The value to match.
+        public let filters: [Filter]?
+        /// The number of items to return in the response.
+        public let maxResults: Int?
+        /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPredictorBacktestExportJobsResponse: AWSDecodableShape {
+        /// Returns this token if the response is truncated. To retrieve the next set of results, use the token in the next request.
+        public let nextToken: String?
+        /// An array of objects that summarize the properties of each predictor backtest export job.
+        public let predictorBacktestExportJobs: [PredictorBacktestExportJobSummary]?
+
+        public init(nextToken: String? = nil, predictorBacktestExportJobs: [PredictorBacktestExportJobSummary]? = nil) {
+            self.nextToken = nextToken
+            self.predictorBacktestExportJobs = predictorBacktestExportJobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case predictorBacktestExportJobs = "PredictorBacktestExportJobs"
+        }
+    }
+
     public struct ListPredictorsRequest: AWSEncodableShape {
         /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictors that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictors that match the statement, specify IS. To exclude matching predictors, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn and Status.    Value - The value to match.   For example, to list all predictors whose status is ACTIVE, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ]
         public let filters: [Filter]?
@@ -1917,6 +2092,42 @@ extension ForecastService {
             case categoricalParameterRanges = "CategoricalParameterRanges"
             case continuousParameterRanges = "ContinuousParameterRanges"
             case integerParameterRanges = "IntegerParameterRanges"
+        }
+    }
+
+    public struct PredictorBacktestExportJobSummary: AWSDecodableShape {
+        /// When the predictor backtest export job was created.
+        public let creationTime: Date?
+        public let destination: DataDestination?
+        /// When the last successful export job finished.
+        public let lastModificationTime: Date?
+        /// Information about any errors that may have occurred during the backtest export.
+        public let message: String?
+        /// The Amazon Resource Name (ARN) of the predictor backtest export job.
+        public let predictorBacktestExportJobArn: String?
+        /// The name of the predictor backtest export job.
+        public let predictorBacktestExportJobName: String?
+        /// The status of the predictor backtest export job. States include:     ACTIVE     CREATE_PENDING     CREATE_IN_PROGRESS     CREATE_FAILED     DELETE_PENDING     DELETE_IN_PROGRESS     DELETE_FAILED
+        public let status: String?
+
+        public init(creationTime: Date? = nil, destination: DataDestination? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorBacktestExportJobArn: String? = nil, predictorBacktestExportJobName: String? = nil, status: String? = nil) {
+            self.creationTime = creationTime
+            self.destination = destination
+            self.lastModificationTime = lastModificationTime
+            self.message = message
+            self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
+            self.predictorBacktestExportJobName = predictorBacktestExportJobName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case destination = "Destination"
+            case lastModificationTime = "LastModificationTime"
+            case message = "Message"
+            case predictorBacktestExportJobArn = "PredictorBacktestExportJobArn"
+            case predictorBacktestExportJobName = "PredictorBacktestExportJobName"
+            case status = "Status"
         }
     }
 

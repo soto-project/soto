@@ -476,6 +476,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum CmfcAudioDuration: String, CustomStringConvertible, Codable {
+        case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
+        case matchVideoDuration = "MATCH_VIDEO_DURATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CmfcScte35Esam: String, CustomStringConvertible, Codable {
         case insert = "INSERT"
         case none = "NONE"
@@ -1609,6 +1615,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum M2tsAudioDuration: String, CustomStringConvertible, Codable {
+        case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
+        case matchVideoDuration = "MATCH_VIDEO_DURATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum M2tsBufferModel: String, CustomStringConvertible, Codable {
         case multiplex = "MULTIPLEX"
         case none = "NONE"
@@ -1676,6 +1688,12 @@ extension MediaConvert {
     public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable {
         case maintainCadence = "MAINTAIN_CADENCE"
         case resetCadence = "RESET_CADENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum M3u8AudioDuration: String, CustomStringConvertible, Codable {
+        case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
+        case matchVideoDuration = "MATCH_VIDEO_DURATION"
         public var description: String { return self.rawValue }
     }
 
@@ -1760,6 +1778,18 @@ extension MediaConvert {
     public enum Mp4MoovPlacement: String, CustomStringConvertible, Codable {
         case normal = "NORMAL"
         case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpdAccessibilityCaptionHints: String, CustomStringConvertible, Codable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpdAudioDuration: String, CustomStringConvertible, Codable {
+        case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
+        case matchVideoDuration = "MATCH_VIDEO_DURATION"
         public var description: String { return self.rawValue }
     }
 
@@ -3401,7 +3431,7 @@ extension MediaConvert {
         public let additionalManifests: [CmafAdditionalManifest]?
         /// A partial URI prefix that will be put in the manifest file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public let baseUrl: String?
-        /// When set to ENABLED, sets #EXT-X-ALLOW-CACHE:no tag, which prevents client from saving media segments for later replay.
+        /// Disable this setting only when your workflow requires the #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled (ENABLED) and control caching in your video distribution set up. For example, use the Cache-Control http header.
         public let clientCache: CmafClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public let codecSpecification: CmafCodecSpecification?
@@ -3497,17 +3527,21 @@ extension MediaConvert {
     }
 
     public struct CmfcSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        public let audioDuration: CmfcAudioDuration?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public let scte35Esam: CmfcScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
         public let scte35Source: CmfcScte35Source?
 
-        public init(scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil) {
+        public init(audioDuration: CmfcAudioDuration? = nil, scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil) {
+            self.audioDuration = audioDuration
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioDuration
             case scte35Esam
             case scte35Source
         }
@@ -3632,9 +3666,9 @@ extension MediaConvert {
         public let simulateReservedQueue: SimulateReservedQueue?
         /// Optional. Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
-        /// Optional. The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
+        /// Optional. The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.  Use standard AWS tags on your job for automatic integration with AWS services and for custom integrations and workflows.
         public let tags: [String: String]?
-        /// Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
+        /// Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.  Use only for existing integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you use standard AWS tags.
         public let userMetadata: [String: String]?
 
         public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
@@ -3917,6 +3951,8 @@ extension MediaConvert {
         public let hbbtvCompliance: DashIsoHbbtvCompliance?
         /// Minimum time of initially buffered media that is needed to ensure smooth playout.
         public let minBufferTime: Int?
+        /// Keep this setting at the default value of 0, unless you are troubleshooting a problem with how devices play back the end of your video asset. If you know that player devices are hanging on the final segment of your video because the length of your final segment is too short, use this setting to specify a minimum final segment length, in seconds. Choose a value that is greater than or equal to 1 and less than your segment length. When you specify a value for this setting, the encoder will combine any final segment that is shorter than the length that you specify with the previous segment. For example, your segment length is 3 seconds and your final segment is .5 seconds without a minimum final segment length; when you set the minimum final segment length to 1, your final segment is 3.5 seconds.
+        public let minFinalSegmentLength: Double?
         /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals  urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
         public let mpdProfile: DashIsoMpdProfile?
         /// When set to SINGLE_FILE, a single output file is generated, which is internally segmented using the Fragment Length and Segment Length. When set to SEGMENTED_FILES, separate segment files will be created.
@@ -3926,7 +3962,7 @@ extension MediaConvert {
         /// If you get an HTTP error in the 400 range when you play back your DASH output, enable this setting and run your transcoding job again. When you enable this setting, the service writes precise segment durations in the DASH manifest. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When you don't enable this setting, the service writes approximate segment durations in your DASH manifest.
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [DashAdditionalManifest]? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, minBufferTime: Int? = nil, mpdProfile: DashIsoMpdProfile? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [DashAdditionalManifest]? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: DashIsoMpdProfile? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.destination = destination
@@ -3935,6 +3971,7 @@ extension MediaConvert {
             self.fragmentLength = fragmentLength
             self.hbbtvCompliance = hbbtvCompliance
             self.minBufferTime = minBufferTime
+            self.minFinalSegmentLength = minFinalSegmentLength
             self.mpdProfile = mpdProfile
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
@@ -3965,6 +4002,7 @@ extension MediaConvert {
             case fragmentLength
             case hbbtvCompliance
             case minBufferTime
+            case minFinalSegmentLength
             case mpdProfile
             case segmentControl
             case segmentLength
@@ -5559,7 +5597,7 @@ extension MediaConvert {
         public let captionLanguageMappings: [HlsCaptionLanguageMapping]?
         /// Applies only to 608 Embedded output captions. Insert: Include CLOSED-CAPTIONS lines in the manifest. Specify at least one language in the CC1 Language Code field. One CLOSED-CAPTION line is added for each Language Code you specify. Make sure to specify the languages in the order in which they appear in the original source (if the source is embedded format) or the order of the caption selectors (if the source is other than embedded). Otherwise, languages in the manifest will not match up properly with the output captions. None: Include CLOSED-CAPTIONS=NONE line in the manifest. Omit: Omit any CLOSED-CAPTIONS line from the manifest.
         public let captionLanguageSetting: HlsCaptionLanguageSetting?
-        /// When set to ENABLED, sets #EXT-X-ALLOW-CACHE:no tag, which prevents client from saving media segments for later replay.
+        /// Disable this setting only when your workflow requires the #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled (ENABLED) and control caching in your video distribution set up. For example, use the Cache-Control http header.
         public let clientCache: HlsClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public let codecSpecification: HlsCodecSpecification?
@@ -5873,7 +5911,7 @@ extension MediaConvert {
             }
             try self.crop?.validate(name: "\(name).crop")
             try self.decryptionSettings?.validate(name: "\(name).decryptionSettings")
-            try self.validate(self.fileInput, name: "fileInput", parent: name, pattern: "^((s3://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[pP]|[mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][kK][aA]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL]))))|(https?://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][kK][aA]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL])))(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
+            try self.validate(self.fileInput, name: "fileInput", parent: name, pattern: "^((s3://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[pP]|[mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][kK][aA]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL]|[oO][gG][gGaA]))))|(https?://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][kK][aA]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL]|[oO][gG][gGaA])))(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, max: 5)
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, min: -5)
             try self.imageInserter?.validate(name: "\(name).imageInserter")
@@ -6736,6 +6774,8 @@ extension MediaConvert {
     public struct M2tsSettings: AWSEncodableShape & AWSDecodableShape {
         /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
         public let audioBufferModel: M2tsAudioBufferModel?
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        public let audioDuration: M2tsAudioDuration?
         /// The number of audio frames to insert for each PES packet.
         public let audioFramesPerPes: Int?
         /// Specify the packet identifiers (PIDs) for any elementary audio streams you include in this output. Specify multiple PIDs as a JSON array. Default is the range 482-492.
@@ -6807,8 +6847,9 @@ extension MediaConvert {
         /// Specify the packet identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int?
 
-        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioDuration: M2tsAudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
             self.audioBufferModel = audioBufferModel
+            self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
             self.bitrate = bitrate
@@ -6893,6 +6934,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case audioBufferModel
+            case audioDuration
             case audioFramesPerPes
             case audioPids
             case bitrate
@@ -6932,6 +6974,8 @@ extension MediaConvert {
     }
 
     public struct M3u8Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        public let audioDuration: M3u8AudioDuration?
         /// The number of audio frames to insert for each PES packet.
         public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation.
@@ -6965,7 +7009,8 @@ extension MediaConvert {
         /// Packet Identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int?
 
-        public init(audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioDuration: M3u8AudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+            self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
             self.nielsenId3 = nielsenId3
@@ -7014,6 +7059,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioDuration
             case audioFramesPerPes
             case audioPids
             case nielsenId3
@@ -7225,6 +7271,8 @@ extension MediaConvert {
     }
 
     public struct Mp4Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        public let audioDuration: CmfcAudioDuration?
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
         public let cslgAtom: Mp4CslgAtom?
         /// Ignore this setting unless compliance to the CTTS box version specification matters in your workflow. Specify a value of 1 to set your CTTS box version to 1 and make your output compliant with the specification. When you specify a value of 1, you must also set CSLG atom (cslgAtom) to the value INCLUDE. Keep the default value 0 to set your CTTS box version to 0. This can provide backward compatibility for some players and packagers.
@@ -7236,7 +7284,8 @@ extension MediaConvert {
         /// Overrides the "Major Brand" field in the output file. Usually not necessary to specify.
         public let mp4MajorBrand: String?
 
-        public init(cslgAtom: Mp4CslgAtom? = nil, cttsVersion: Int? = nil, freeSpaceBox: Mp4FreeSpaceBox? = nil, moovPlacement: Mp4MoovPlacement? = nil, mp4MajorBrand: String? = nil) {
+        public init(audioDuration: CmfcAudioDuration? = nil, cslgAtom: Mp4CslgAtom? = nil, cttsVersion: Int? = nil, freeSpaceBox: Mp4FreeSpaceBox? = nil, moovPlacement: Mp4MoovPlacement? = nil, mp4MajorBrand: String? = nil) {
+            self.audioDuration = audioDuration
             self.cslgAtom = cslgAtom
             self.cttsVersion = cttsVersion
             self.freeSpaceBox = freeSpaceBox
@@ -7250,6 +7299,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioDuration
             case cslgAtom
             case cttsVersion
             case freeSpaceBox
@@ -7259,6 +7309,10 @@ extension MediaConvert {
     }
 
     public struct MpdSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Optional. Choose Include (INCLUDE) to have MediaConvert mark up your DASH manifest with  elements for embedded 608 captions. This markup isn't generally required, but some video players require it to discover and play embedded 608 captions. Keep the default value, Exclude (EXCLUDE), to leave these elements out. When you enable this setting, this is the markup that MediaConvert includes in your manifest:
+        public let accessibilityCaptionHints: MpdAccessibilityCaptionHints?
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        public let audioDuration: MpdAudioDuration?
         /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions.  You specify sidecar captions in a separate output from your audio and video. Choose Raw (RAW) for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public let captionContainerType: MpdCaptionContainerType?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
@@ -7266,13 +7320,17 @@ extension MediaConvert {
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
         public let scte35Source: MpdScte35Source?
 
-        public init(captionContainerType: MpdCaptionContainerType? = nil, scte35Esam: MpdScte35Esam? = nil, scte35Source: MpdScte35Source? = nil) {
+        public init(accessibilityCaptionHints: MpdAccessibilityCaptionHints? = nil, audioDuration: MpdAudioDuration? = nil, captionContainerType: MpdCaptionContainerType? = nil, scte35Esam: MpdScte35Esam? = nil, scte35Source: MpdScte35Source? = nil) {
+            self.accessibilityCaptionHints = accessibilityCaptionHints
+            self.audioDuration = audioDuration
             self.captionContainerType = captionContainerType
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessibilityCaptionHints
+            case audioDuration
             case captionContainerType
             case scte35Esam
             case scte35Source

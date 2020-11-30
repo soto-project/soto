@@ -80,6 +80,19 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case updateFailed = "UPDATE_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case kmsBasedEncryption = "KMS_BASED_ENCRYPTION"
+        case sitewiseDefaultEncryption = "SITEWISE_DEFAULT_ENCRYPTION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case internalFailure = "INTERNAL_FAILURE"
         case validationError = "VALIDATION_ERROR"
@@ -885,6 +898,36 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ConfigurationErrorDetails: AWSDecodableShape {
+        public let code: ErrorCode
+        public let message: String
+
+        public init(code: ErrorCode, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+        }
+    }
+
+    public struct ConfigurationStatus: AWSDecodableShape {
+        public let error: ConfigurationErrorDetails?
+        public let state: ConfigurationState
+
+        public init(error: ConfigurationErrorDetails? = nil, state: ConfigurationState) {
+            self.error = error
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error
+            case state
+        }
+    }
+
     public struct CreateAccessPolicyRequest: AWSEncodableShape {
         /// The identity for this access policy. Choose an AWS SSO user, an AWS SSO group, or an IAM user.
         public let accessPolicyIdentity: Identity
@@ -1315,7 +1358,7 @@ extension IoTSiteWise {
 
         /// The ID of the portal to access.
         public let portalId: String
-        /// The duration (in seconds) for which the session at the URL is valid. Default: 900 seconds (15 minutes)
+        /// The duration (in seconds) for which the session at the URL is valid. Default: 43,200 seconds (12 hours)
         public let sessionDurationSeconds: Int?
 
         public init(portalId: String, sessionDurationSeconds: Int? = nil) {
@@ -1335,7 +1378,7 @@ extension IoTSiteWise {
     }
 
     public struct CreatePresignedPortalUrlResponse: AWSDecodableShape {
-        /// The pre-signed URL to the portal. The URL contains the portal ID and a session token that lets you access the portal. The URL has the following format.  https://&lt;portal-id&gt;.app.iotsitewise.aws/auth?token=&lt;encrypted-token&gt;
+        /// The pre-signed URL to the portal. The URL contains the portal ID and an authentication token that lets you access the portal. The URL has the following format.  https://&lt;portal-id&gt;.app.iotsitewise.aws/iam?token=&lt;encrypted-token&gt;
         public let presignedPortalUrl: String
 
         public init(presignedPortalUrl: String) {
@@ -1985,6 +2028,31 @@ extension IoTSiteWise {
             case dashboardLastUpdateDate
             case dashboardName
             case projectId
+        }
+    }
+
+    public struct DescribeDefaultEncryptionConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeDefaultEncryptionConfigurationResponse: AWSDecodableShape {
+        /// The status of the account configuration. This contains the ConfigurationState. If there's an error, it also contains the ErrorDetails.
+        public let configurationStatus: ConfigurationStatus
+        /// The type of encryption used for the encryption configuration.
+        public let encryptionType: EncryptionType
+        /// The key ARN of the customer managed customer master key (CMK) used for AWS KMS encryption if you use KMS_BASED_ENCRYPTION.
+        public let kmsKeyArn: String?
+
+        public init(configurationStatus: ConfigurationStatus, encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
+            self.configurationStatus = configurationStatus
+            self.encryptionType = encryptionType
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationStatus
+            case encryptionType
+            case kmsKeyArn
         }
     }
 
@@ -3617,6 +3685,49 @@ extension IoTSiteWise {
             case propertyAlias
             case propertyId
             case propertyValues
+        }
+    }
+
+    public struct PutDefaultEncryptionConfigurationRequest: AWSEncodableShape {
+        /// The type of encryption used for the encryption configuration.
+        public let encryptionType: EncryptionType
+        /// The Key ID of the customer managed customer master key (CMK) used for AWS KMS encryption. This is required if you use KMS_BASED_ENCRYPTION.
+        public let kmsKeyId: String?
+
+        public init(encryptionType: EncryptionType, kmsKeyId: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType
+            case kmsKeyId
+        }
+    }
+
+    public struct PutDefaultEncryptionConfigurationResponse: AWSDecodableShape {
+        /// The status of the account configuration. This contains the ConfigurationState. If there is an error, it also contains the ErrorDetails.
+        public let configurationStatus: ConfigurationStatus
+        /// The type of encryption used for the encryption configuration.
+        public let encryptionType: EncryptionType
+        /// The Key ARN of the AWS KMS CMK used for AWS KMS encryption if you use KMS_BASED_ENCRYPTION.
+        public let kmsKeyArn: String?
+
+        public init(configurationStatus: ConfigurationStatus, encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
+            self.configurationStatus = configurationStatus
+            self.encryptionType = encryptionType
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationStatus
+            case encryptionType
+            case kmsKeyArn
         }
     }
 

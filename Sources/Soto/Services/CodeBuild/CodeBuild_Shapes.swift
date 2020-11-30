@@ -186,6 +186,19 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReportGroupTrendFieldType: String, CustomStringConvertible, Codable {
+        case branchCoverage = "BRANCH_COVERAGE"
+        case branchesCovered = "BRANCHES_COVERED"
+        case branchesMissed = "BRANCHES_MISSED"
+        case duration = "DURATION"
+        case lineCoverage = "LINE_COVERAGE"
+        case linesCovered = "LINES_COVERED"
+        case linesMissed = "LINES_MISSED"
+        case passRate = "PASS_RATE"
+        case total = "TOTAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReportPackagingType: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case zip = "ZIP"
@@ -1721,6 +1734,45 @@ extension CodeBuild {
         }
     }
 
+    public struct GetReportGroupTrendInput: AWSEncodableShape {
+        public let numOfReports: Int?
+        public let reportGroupArn: String
+        public let trendField: ReportGroupTrendFieldType
+
+        public init(numOfReports: Int? = nil, reportGroupArn: String, trendField: ReportGroupTrendFieldType) {
+            self.numOfReports = numOfReports
+            self.reportGroupArn = reportGroupArn
+            self.trendField = trendField
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.numOfReports, name: "numOfReports", parent: name, max: 100)
+            try self.validate(self.numOfReports, name: "numOfReports", parent: name, min: 1)
+            try self.validate(self.reportGroupArn, name: "reportGroupArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numOfReports
+            case reportGroupArn
+            case trendField
+        }
+    }
+
+    public struct GetReportGroupTrendOutput: AWSDecodableShape {
+        public let rawData: [ReportWithRawData]?
+        public let stats: ReportGroupTrendStats?
+
+        public init(rawData: [ReportWithRawData]? = nil, stats: ReportGroupTrendStats? = nil) {
+            self.rawData = rawData
+            self.stats = stats
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rawData
+            case stats
+        }
+    }
+
     public struct GetResourcePolicyInput: AWSEncodableShape {
         ///  The ARN of the resource that is associated with the resource policy.
         public let resourceArn: String
@@ -2965,6 +3017,39 @@ extension CodeBuild {
             case status
             case tags
             case type
+        }
+    }
+
+    public struct ReportGroupTrendStats: AWSDecodableShape {
+        public let average: String?
+        public let max: String?
+        public let min: String?
+
+        public init(average: String? = nil, max: String? = nil, min: String? = nil) {
+            self.average = average
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case average
+            case max
+            case min
+        }
+    }
+
+    public struct ReportWithRawData: AWSDecodableShape {
+        public let data: String?
+        public let reportArn: String?
+
+        public init(data: String? = nil, reportArn: String? = nil) {
+            self.data = data
+            self.reportArn = reportArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data
+            case reportArn
         }
     }
 

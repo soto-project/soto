@@ -79,6 +79,7 @@ extension LexModelBuildingService {
         case enAu = "en-AU"
         case enGb = "en-GB"
         case enUs = "en-US"
+        case es419 = "es-419"
         case esEs = "es-ES"
         case esUs = "es-US"
         case frCa = "fr-CA"

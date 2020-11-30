@@ -108,6 +108,13 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
+    public enum SyncExecutionStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ActivityFailedEventDetails: AWSDecodableShape {
@@ -238,6 +245,23 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case cause
             case error
+        }
+    }
+
+    public struct BillingDetails: AWSDecodableShape {
+        /// Billed duration of your workflow, in milliseconds.
+        public let billedDurationInMilliseconds: Int64?
+        /// Billed memory consumption of your workflow, in MB.
+        public let billedMemoryUsedInMB: Int64?
+
+        public init(billedDurationInMilliseconds: Int64? = nil, billedMemoryUsedInMB: Int64? = nil) {
+            self.billedDurationInMilliseconds = billedDurationInMilliseconds
+            self.billedMemoryUsedInMB = billedMemoryUsedInMB
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billedDurationInMilliseconds
+            case billedMemoryUsedInMB
         }
     }
 
@@ -483,7 +507,7 @@ extension SFN {
     }
 
     public struct DescribeExecutionOutput: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that id entifies the execution.
+        /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
         /// The string that contains the JSON input data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
@@ -501,7 +525,7 @@ extension SFN {
         public let status: ExecutionStatus
         /// If the execution has already ended, the date the execution stopped.
         public let stopDate: Date?
-        /// The AWS X-Ray trace header which was passed to the execution.
+        /// The AWS X-Ray trace header that was passed to the execution.
         public let traceHeader: String?
 
         public init(executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil, traceHeader: String? = nil) {
@@ -684,7 +708,7 @@ extension SFN {
     }
 
     public struct ExecutionListItem: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that id entifies the execution.
+        /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
         /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
@@ -1484,7 +1508,7 @@ extension SFN {
     }
 
     public struct StartExecutionOutput: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that id entifies the execution.
+        /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
         /// The date the execution is started.
         public let startDate: Date
@@ -1497,6 +1521,105 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case executionArn
             case startDate
+        }
+    }
+
+    public struct StartSyncExecutionInput: AWSEncodableShape {
+        /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        public let input: String?
+        /// The name of the execution.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the state machine to execute.
+        public let stateMachineArn: String
+        /// Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
+        public let traceHeader: String?
+
+        public init(input: String? = nil, name: String? = nil, stateMachineArn: String, traceHeader: String? = nil) {
+            self.input = input
+            self.name = name
+            self.stateMachineArn = stateMachineArn
+            self.traceHeader = traceHeader
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.input, name: "input", parent: name, max: 262_144)
+            try self.validate(self.name, name: "name", parent: name, max: 80)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
+            try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, max: 256)
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, min: 0)
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, pattern: "\\p{ASCII}*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input
+            case name
+            case stateMachineArn
+            case traceHeader
+        }
+    }
+
+    public struct StartSyncExecutionOutput: AWSDecodableShape {
+        /// An object that describes workflow billing details, including billed duration and memory use.
+        public let billingDetails: BillingDetails?
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+        /// The error code of the failure.
+        public let error: String?
+        /// The Amazon Resource Name (ARN) that identifies the execution.
+        public let executionArn: String
+        /// The string that contains the JSON input data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        public let input: String?
+        public let inputDetails: CloudWatchEventsExecutionDataDetails?
+        /// The name of the execution.
+        public let name: String?
+        /// The JSON output data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.  This field is set only if the execution succeeds. If the execution fails, this field is null.
+        public let output: String?
+        public let outputDetails: CloudWatchEventsExecutionDataDetails?
+        /// The date the execution is started.
+        public let startDate: Date
+        /// The Amazon Resource Name (ARN) that identifies the state machine.
+        public let stateMachineArn: String?
+        /// The current status of the execution.
+        public let status: SyncExecutionStatus
+        /// If the execution has already ended, the date the execution stopped.
+        public let stopDate: Date
+        /// The AWS X-Ray trace header that was passed to the execution.
+        public let traceHeader: String?
+
+        public init(billingDetails: BillingDetails? = nil, cause: String? = nil, error: String? = nil, executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String? = nil, status: SyncExecutionStatus, stopDate: Date, traceHeader: String? = nil) {
+            self.billingDetails = billingDetails
+            self.cause = cause
+            self.error = error
+            self.executionArn = executionArn
+            self.input = input
+            self.inputDetails = inputDetails
+            self.name = name
+            self.output = output
+            self.outputDetails = outputDetails
+            self.startDate = startDate
+            self.stateMachineArn = stateMachineArn
+            self.status = status
+            self.stopDate = stopDate
+            self.traceHeader = traceHeader
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingDetails
+            case cause
+            case error
+            case executionArn
+            case input
+            case inputDetails
+            case name
+            case output
+            case outputDetails
+            case startDate
+            case stateMachineArn
+            case status
+            case stopDate
+            case traceHeader
         }
     }
 

@@ -72,6 +72,103 @@ extension CloudTrail {
         public init() {}
     }
 
+    public struct AdvancedEventSelector: AWSEncodableShape & AWSDecodableShape {
+        public let fieldSelectors: [AdvancedFieldSelector]
+        public let name: String
+
+        public init(fieldSelectors: [AdvancedFieldSelector], name: String) {
+            self.fieldSelectors = fieldSelectors
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldSelectors.forEach {
+                try $0.validate(name: "\(name).fieldSelectors[]")
+            }
+            try self.validate(self.fieldSelectors, name: "fieldSelectors", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldSelectors = "FieldSelectors"
+            case name = "Name"
+        }
+    }
+
+    public struct AdvancedFieldSelector: AWSEncodableShape & AWSDecodableShape {
+        public let endsWith: [String]?
+        public let equals: [String]?
+        public let field: String
+        public let notEndsWith: [String]?
+        public let notEquals: [String]?
+        public let notStartsWith: [String]?
+        public let startsWith: [String]?
+
+        public init(endsWith: [String]? = nil, equals: [String]? = nil, field: String, notEndsWith: [String]? = nil, notEquals: [String]? = nil, notStartsWith: [String]? = nil, startsWith: [String]? = nil) {
+            self.endsWith = endsWith
+            self.equals = equals
+            self.field = field
+            self.notEndsWith = notEndsWith
+            self.notEquals = notEquals
+            self.notStartsWith = notStartsWith
+            self.startsWith = startsWith
+        }
+
+        public func validate(name: String) throws {
+            try self.endsWith?.forEach {
+                try validate($0, name: "endsWith[]", parent: name, max: 2048)
+                try validate($0, name: "endsWith[]", parent: name, min: 1)
+                try validate($0, name: "endsWith[]", parent: name, pattern: ".+")
+            }
+            try self.validate(self.endsWith, name: "endsWith", parent: name, min: 1)
+            try self.equals?.forEach {
+                try validate($0, name: "equals[]", parent: name, max: 2048)
+                try validate($0, name: "equals[]", parent: name, min: 1)
+                try validate($0, name: "equals[]", parent: name, pattern: ".+")
+            }
+            try self.validate(self.equals, name: "equals", parent: name, min: 1)
+            try self.validate(self.field, name: "field", parent: name, max: 1000)
+            try self.validate(self.field, name: "field", parent: name, min: 1)
+            try self.validate(self.field, name: "field", parent: name, pattern: "[\\w|\\d|\\.|_]+")
+            try self.notEndsWith?.forEach {
+                try validate($0, name: "notEndsWith[]", parent: name, max: 2048)
+                try validate($0, name: "notEndsWith[]", parent: name, min: 1)
+                try validate($0, name: "notEndsWith[]", parent: name, pattern: ".+")
+            }
+            try self.validate(self.notEndsWith, name: "notEndsWith", parent: name, min: 1)
+            try self.notEquals?.forEach {
+                try validate($0, name: "notEquals[]", parent: name, max: 2048)
+                try validate($0, name: "notEquals[]", parent: name, min: 1)
+                try validate($0, name: "notEquals[]", parent: name, pattern: ".+")
+            }
+            try self.validate(self.notEquals, name: "notEquals", parent: name, min: 1)
+            try self.notStartsWith?.forEach {
+                try validate($0, name: "notStartsWith[]", parent: name, max: 2048)
+                try validate($0, name: "notStartsWith[]", parent: name, min: 1)
+                try validate($0, name: "notStartsWith[]", parent: name, pattern: ".+")
+            }
+            try self.validate(self.notStartsWith, name: "notStartsWith", parent: name, min: 1)
+            try self.startsWith?.forEach {
+                try validate($0, name: "startsWith[]", parent: name, max: 2048)
+                try validate($0, name: "startsWith[]", parent: name, min: 1)
+                try validate($0, name: "startsWith[]", parent: name, pattern: ".+")
+            }
+            try self.validate(self.startsWith, name: "startsWith", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endsWith = "EndsWith"
+            case equals = "Equals"
+            case field = "Field"
+            case notEndsWith = "NotEndsWith"
+            case notEquals = "NotEquals"
+            case notStartsWith = "NotStartsWith"
+            case startsWith = "StartsWith"
+        }
+    }
+
     public struct CreateTrailRequest: AWSEncodableShape {
         /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
         public let cloudWatchLogsLogGroupArn: String?
@@ -299,7 +396,7 @@ extension CloudTrail {
         public let dataResources: [DataResource]?
         /// An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out AWS Key Management Service events by containing "kms.amazonaws.com". By default, ExcludeManagementEventSources is empty, and AWS KMS events are included in events that are logged to your trail.
         public let excludeManagementEventSources: [String]?
-        /// Specify if you want your event selector to include management events for your trail.  For more information, see Management Events in the AWS CloudTrail User Guide. By default, the value is true.
+        /// Specify if you want your event selector to include management events for your trail.  For more information, see Management Events in the AWS CloudTrail User Guide. By default, the value is true. The first copy of management events is free. You are charged for additional copies of management events that you are logging on any subsequent trail in the same region. For more information about CloudTrail pricing, see AWS CloudTrail Pricing.
         public let includeManagementEvents: Bool?
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.  By default, the value is All.
         public let readWriteType: ReadWriteType?
@@ -333,17 +430,20 @@ extension CloudTrail {
     }
 
     public struct GetEventSelectorsResponse: AWSDecodableShape {
+        public let advancedEventSelectors: [AdvancedEventSelector]?
         /// The event selectors that are configured for the trail.
         public let eventSelectors: [EventSelector]?
         /// The specified trail ARN that has the event selectors.
         public let trailARN: String?
 
-        public init(eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
+            self.advancedEventSelectors = advancedEventSelectors
             self.eventSelectors = eventSelectors
             self.trailARN = trailARN
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
             case eventSelectors = "EventSelectors"
             case trailARN = "TrailARN"
         }
@@ -707,34 +807,46 @@ extension CloudTrail {
     }
 
     public struct PutEventSelectorsRequest: AWSEncodableShape {
+        public let advancedEventSelectors: [AdvancedEventSelector]?
         /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
-        public let eventSelectors: [EventSelector]
+        public let eventSelectors: [EventSelector]?
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailName: String
 
-        public init(eventSelectors: [EventSelector], trailName: String) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventSelectors: [EventSelector]? = nil, trailName: String) {
+            self.advancedEventSelectors = advancedEventSelectors
             self.eventSelectors = eventSelectors
             self.trailName = trailName
         }
 
+        public func validate(name: String) throws {
+            try self.advancedEventSelectors?.forEach {
+                try $0.validate(name: "\(name).advancedEventSelectors[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
             case eventSelectors = "EventSelectors"
             case trailName = "TrailName"
         }
     }
 
     public struct PutEventSelectorsResponse: AWSDecodableShape {
+        public let advancedEventSelectors: [AdvancedEventSelector]?
         /// Specifies the event selectors configured for your trail.
         public let eventSelectors: [EventSelector]?
         /// Specifies the ARN of the trail that was updated with event selectors. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?
 
-        public init(eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
+            self.advancedEventSelectors = advancedEventSelectors
             self.eventSelectors = eventSelectors
             self.trailARN = trailARN
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
             case eventSelectors = "EventSelectors"
             case trailARN = "TrailARN"
         }

@@ -178,6 +178,11 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "CreatePartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a specified partition index in an existing table.
+    public func createPartitionIndex(_ input: CreatePartitionIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePartitionIndexResponse> {
+        return self.client.execute(operation: "CreatePartitionIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new registry which may be used to hold a collection of schemas.
     public func createRegistry(_ input: CreateRegistryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRegistryResponse> {
         return self.client.execute(operation: "CreateRegistry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -266,6 +271,11 @@ public struct Glue: AWSService {
     /// Deletes a specified partition.
     public func deletePartition(_ input: DeletePartitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePartitionResponse> {
         return self.client.execute(operation: "DeletePartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a specified partition index from an existing table.
+    public func deletePartitionIndex(_ input: DeletePartitionIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePartitionIndexResponse> {
+        return self.client.execute(operation: "DeletePartitionIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will disable all online operations for the registry such as the UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.

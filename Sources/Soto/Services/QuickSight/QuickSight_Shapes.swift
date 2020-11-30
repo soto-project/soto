@@ -136,6 +136,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum EmbeddingIdentityType: String, CustomStringConvertible, Codable {
+        case anonymous = "ANONYMOUS"
+        case iam = "IAM"
+        case quicksight = "QUICKSIGHT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FileFormat: String, CustomStringConvertible, Codable {
         case clf = "CLF"
         case csv = "CSV"
@@ -5144,9 +5151,11 @@ extension QuickSight {
 
     public struct GetDashboardEmbedUrlRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "additionalDashboardIds", location: .querystring(locationName: "additional-dashboard-ids")),
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")),
             AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "DashboardId")),
             AWSMemberEncoding(label: "identityType", location: .querystring(locationName: "creds-type")),
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
             AWSMemberEncoding(label: "resetDisabled", location: .querystring(locationName: "reset-disabled")),
             AWSMemberEncoding(label: "sessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime")),
             AWSMemberEncoding(label: "statePersistenceEnabled", location: .querystring(locationName: "state-persistence-enabled")),
@@ -5154,12 +5163,16 @@ extension QuickSight {
             AWSMemberEncoding(label: "userArn", location: .querystring(locationName: "user-arn"))
         ]
 
+        /// A list of one or more dashboard ids that you want to add to a session that includes anonymous authorizations. IdentityType must be set to ANONYMOUS for this to work, because other other identity types authenticate as QuickSight users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
+        public let additionalDashboardIds: [String]?
         /// The ID for the AWS account that contains the dashboard that you're embedding.
         public let awsAccountId: String
         /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
         /// The authentication method that the user uses to sign in.
-        public let identityType: IdentityType
+        public let identityType: EmbeddingIdentityType
+        /// The QuickSight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set this to "default".
+        public let namespace: String?
         /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
         public let resetDisabled: Bool?
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
@@ -5171,10 +5184,12 @@ extension QuickSight {
         /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
-        public init(awsAccountId: String, dashboardId: String, identityType: IdentityType, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
+        public init(additionalDashboardIds: [String]? = nil, awsAccountId: String, dashboardId: String, identityType: EmbeddingIdentityType, namespace: String? = nil, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
+            self.additionalDashboardIds = additionalDashboardIds
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.identityType = identityType
+            self.namespace = namespace
             self.resetDisabled = resetDisabled
             self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
             self.statePersistenceEnabled = statePersistenceEnabled
@@ -5183,12 +5198,21 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.additionalDashboardIds?.forEach {
+                try validate($0, name: "additionalDashboardIds[]", parent: name, max: 2048)
+                try validate($0, name: "additionalDashboardIds[]", parent: name, min: 1)
+                try validate($0, name: "additionalDashboardIds[]", parent: name, pattern: "[\\w\\-]+")
+            }
+            try self.validate(self.additionalDashboardIds, name: "additionalDashboardIds", parent: name, max: 20)
+            try self.validate(self.additionalDashboardIds, name: "additionalDashboardIds", parent: name, min: 1)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, max: 600)
             try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, min: 15)
         }

@@ -188,13 +188,16 @@ extension TimestreamQuery {
         public let nextToken: String?
         ///  A unique ID for the given query.
         public let queryId: String
+        /// Information about the status of the query, including progress and bytes scannned.
+        public let queryStatus: QueryStatus?
         ///  The result set rows returned by the query.
         public let rows: [Row]
 
-        public init(columnInfo: [ColumnInfo], nextToken: String? = nil, queryId: String, rows: [Row]) {
+        public init(columnInfo: [ColumnInfo], nextToken: String? = nil, queryId: String, queryStatus: QueryStatus? = nil, rows: [Row]) {
             self.columnInfo = columnInfo
             self.nextToken = nextToken
             self.queryId = queryId
+            self.queryStatus = queryStatus
             self.rows = rows
         }
 
@@ -202,7 +205,29 @@ extension TimestreamQuery {
             case columnInfo = "ColumnInfo"
             case nextToken = "NextToken"
             case queryId = "QueryId"
+            case queryStatus = "QueryStatus"
             case rows = "Rows"
+        }
+    }
+
+    public struct QueryStatus: AWSDecodableShape {
+        /// The amount of data scanned by the query in bytes that you will be charged for. This is a cumulative sum and represents the total amount of data that you will be charged for since the query was started. The charge is applied only once and is either applied when the query completes execution or when the query is cancelled.
+        public let cumulativeBytesMetered: Int64?
+        /// The amount of data scanned by the query in bytes. This is a cumulative sum and represents the total amount of bytes scanned since the query was started.
+        public let cumulativeBytesScanned: Int64?
+        /// The progress of the query, expressed as a percentage.
+        public let progressPercentage: Double?
+
+        public init(cumulativeBytesMetered: Int64? = nil, cumulativeBytesScanned: Int64? = nil, progressPercentage: Double? = nil) {
+            self.cumulativeBytesMetered = cumulativeBytesMetered
+            self.cumulativeBytesScanned = cumulativeBytesScanned
+            self.progressPercentage = progressPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cumulativeBytesMetered = "CumulativeBytesMetered"
+            case cumulativeBytesScanned = "CumulativeBytesScanned"
+            case progressPercentage = "ProgressPercentage"
         }
     }
 

@@ -328,10 +328,10 @@ extension Batch {
         public let bidPercentage: Int?
         /// The desired number of Amazon EC2 vCPUS in the compute environment.
         public let desiredvCpus: Int?
+        /// Provides additional details used to selecting the AMI to use for instances in a compute environment.
+        public let ec2Configuration: [Ec2Configuration]?
         /// The Amazon EC2 key pair that is used for instances launched in the compute environment.
         public let ec2KeyPair: String?
-        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment.
-        public let imageId: String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam::&lt;aws_account_id&gt;:instance-profile/ecsInstanceRole . For more information, see Amazon ECS Instance Role in the AWS Batch User Guide.
         public let instanceRole: String
         /// The instances types that may be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). You can also choose optimal to pick instance types (from the C, M, and R instance families) on the fly that match the demand of your job queues.
@@ -355,12 +355,12 @@ extension Batch {
         /// The type of compute environment: EC2 or SPOT.
         public let type: CRType
 
-        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String, instanceTypes: [String], launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int, minvCpus: Int, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
+        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, instanceRole: String, instanceTypes: [String], launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int, minvCpus: Int, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
+            self.ec2Configuration = ec2Configuration
             self.ec2KeyPair = ec2KeyPair
-            self.imageId = imageId
             self.instanceRole = instanceRole
             self.instanceTypes = instanceTypes
             self.launchTemplate = launchTemplate
@@ -374,12 +374,18 @@ extension Batch {
             self.type = type
         }
 
+        public func validate(name: String) throws {
+            try self.ec2Configuration?.forEach {
+                try $0.validate(name: "\(name).ec2Configuration[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case allocationStrategy
             case bidPercentage
             case desiredvCpus
+            case ec2Configuration
             case ec2KeyPair
-            case imageId
             case instanceRole
             case instanceTypes
             case launchTemplate
@@ -675,6 +681,7 @@ extension Batch {
         }
 
         public func validate(name: String) throws {
+            try self.computeResources?.validate(name: "\(name).computeResources")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -980,6 +987,30 @@ extension Batch {
             case containerPath
             case hostPath
             case permissions
+        }
+    }
+
+    public struct Ec2Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The AMI ID used for instances launched in the compute environment that match the image type. This setting overrides the imageId set in the computeResource object.
+        public let imageIdOverride: String?
+        /// The image type to match with the instance type to pick an AMI. If the imageIdOverride parameter is not specified, then a recent Amazon ECS-optimized AMI will be used.  ECS_AL2   Amazon Linux 2− Default for all AWS Graviton-based instance families (for example, C6g, M6g, R6g, and T4g) and can be used for all non-GPU instance types.  ECS_AL2_NVIDIA   Amazon Linux 2 (GPU)−Default for all GPU instance families (for example P4 and G4) and can be used for all non-AWS Graviton-based instance types.  ECS_AL1   Amazon Linux−Default for all non-GPU, non-AWS-Graviton instance families. Amazon Linux is reaching the end-of-life of standard support. For more information, see Amazon Linux AMI.
+        public let imageType: String
+
+        public init(imageIdOverride: String? = nil, imageType: String) {
+            self.imageIdOverride = imageIdOverride
+            self.imageType = imageType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageIdOverride, name: "imageIdOverride", parent: name, max: 256)
+            try self.validate(self.imageIdOverride, name: "imageIdOverride", parent: name, min: 1)
+            try self.validate(self.imageType, name: "imageType", parent: name, max: 256)
+            try self.validate(self.imageType, name: "imageType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageIdOverride
+            case imageType
         }
     }
 

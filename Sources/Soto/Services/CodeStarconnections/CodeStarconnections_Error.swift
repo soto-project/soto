@@ -19,9 +19,11 @@ import SotoCore
 /// Error enum for CodeStarconnections
 public struct CodeStarconnectionsErrorType: AWSErrorType {
     enum Code: String {
+        case conflictException = "ConflictException"
         case limitExceededException = "LimitExceededException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case resourceUnavailableException = "ResourceUnavailableException"
+        case unsupportedOperationException = "UnsupportedOperationException"
     }
 
     private let error: Code
@@ -42,12 +44,16 @@ public struct CodeStarconnectionsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Two conflicting operations have been made on the same resource.
+    public static var conflictException: Self { .init(.conflictException) }
     /// Exceeded the maximum limit for connections.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// Resource not found. Verify the connection resource ARN and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Resource not found. Verify the ARN for the host resource and try again.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
+    /// The operation is not supported. Check the connection status and try again.
+    public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
 }
 
 extension CodeStarconnectionsErrorType: Equatable {

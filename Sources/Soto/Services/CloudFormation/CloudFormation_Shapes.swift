@@ -159,6 +159,7 @@ extension CloudFormation {
     }
 
     public enum RegistryType: String, CustomStringConvertible, Codable {
+        case module = "MODULE"
         case resource = "RESOURCE"
         public var description: String { return self.rawValue }
     }
@@ -1144,9 +1145,9 @@ extension CloudFormation {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
-            try self.validate(self.typeName, name: "typeName", parent: name, max: 196)
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
-            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[A-Za-z0-9-]+")
@@ -1697,9 +1698,9 @@ extension CloudFormation {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
-            try self.validate(self.typeName, name: "typeName", parent: name, max: 196)
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
-            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[A-Za-z0-9-]+")
@@ -2636,9 +2637,9 @@ extension CloudFormation {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.typeArn, name: "typeArn", parent: name, max: 1024)
             try self.validate(self.typeArn, name: "typeArn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
-            try self.validate(self.typeName, name: "typeName", parent: name, max: 196)
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
-            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2699,9 +2700,9 @@ extension CloudFormation {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.typeName, name: "typeName", parent: name, max: 196)
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
-            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2741,14 +2742,17 @@ extension CloudFormation {
         public let nextToken: String?
         /// The provisioning behavior of the type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The type does not include an update handler, so the type cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The type does not include create, read, and delete handlers, and therefore cannot actually be provisioned.
         public let provisioningType: ProvisioningType?
+        /// The type of extension.
+        public let type: RegistryType?
         /// The scope at which the type is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The type is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you create as PRIVATE.    PUBLIC: The type is publically visible and usable within any Amazon account.   The default is PRIVATE.
         public let visibility: Visibility?
 
-        public init(deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, provisioningType: ProvisioningType? = nil, visibility: Visibility? = nil) {
+        public init(deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, provisioningType: ProvisioningType? = nil, type: RegistryType? = nil, visibility: Visibility? = nil) {
             self.deprecatedStatus = deprecatedStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.provisioningType = provisioningType
+            self.type = type
             self.visibility = visibility
         }
 
@@ -2764,6 +2768,7 @@ extension CloudFormation {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case provisioningType = "ProvisioningType"
+            case type = "Type"
             case visibility = "Visibility"
         }
     }
@@ -2809,6 +2814,23 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case logGroupName = "LogGroupName"
             case logRoleArn = "LogRoleArn"
+        }
+    }
+
+    public struct ModuleInfo: AWSDecodableShape {
+        /// A concantenated list of the logical IDs of the module or modules containing the resource. Modules are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module, moduleA, that is nested inside a parent module, moduleB.  moduleA/moduleB  For more information, see Referencing resources in a module in the CloudFormation User Guide.
+        public let logicalIdHierarchy: String?
+        /// A concantenated list of the the module type or types containing the resource. Module types are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module of type AWS::First::Example::MODULE, that is nested inside a parent module of type AWS::Second::Example::MODULE.  AWS::First::Example::MODULE/AWS::Second::Example::MODULE
+        public let typeHierarchy: String?
+
+        public init(logicalIdHierarchy: String? = nil, typeHierarchy: String? = nil) {
+            self.logicalIdHierarchy = logicalIdHierarchy
+            self.typeHierarchy = typeHierarchy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalIdHierarchy = "LogicalIdHierarchy"
+            case typeHierarchy = "TypeHierarchy"
         }
     }
 
@@ -3036,9 +3058,9 @@ extension CloudFormation {
             try self.loggingConfig?.validate(name: "\(name).loggingConfig")
             try self.validate(self.schemaHandlerPackage, name: "schemaHandlerPackage", parent: name, max: 4096)
             try self.validate(self.schemaHandlerPackage, name: "schemaHandlerPackage", parent: name, min: 1)
-            try self.validate(self.typeName, name: "typeName", parent: name, max: 196)
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
-            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3074,6 +3096,8 @@ extension CloudFormation {
         public var details: [ResourceChangeDetail]?
         /// The resource's logical ID, which is defined in the stack's template.
         public let logicalResourceId: String?
+        /// Contains information about the module from which the resource was created, if the resource was created from a module included in the stack template.
+        public let moduleInfo: ModuleInfo?
         /// The resource's physical ID (resource name). Resources that you are adding don't have physical IDs because they haven't been created.
         public let physicalResourceId: String?
         /// For the Modify action, indicates whether AWS CloudFormation will replace the resource by creating a new one and deleting the old one. This value depends on the value of the RequiresRecreation property in the ResourceTargetDefinition structure. For example, if the RequiresRecreation field is Always and the Evaluation field is Static, Replacement is True. If the RequiresRecreation field is Always and the Evaluation field is Dynamic, Replacement is Conditionally. If you have multiple changes with different RequiresRecreation values, the Replacement value depends on the change with the most impact. A RequiresRecreation value of Always has the most impact, followed by Conditionally, and then Never.
@@ -3084,11 +3108,12 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder>
         public var scope: [ResourceAttribute]?
 
-        public init(action: ChangeAction? = nil, changeSetId: String? = nil, details: [ResourceChangeDetail]? = nil, logicalResourceId: String? = nil, physicalResourceId: String? = nil, replacement: Replacement? = nil, resourceType: String? = nil, scope: [ResourceAttribute]? = nil) {
+        public init(action: ChangeAction? = nil, changeSetId: String? = nil, details: [ResourceChangeDetail]? = nil, logicalResourceId: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, replacement: Replacement? = nil, resourceType: String? = nil, scope: [ResourceAttribute]? = nil) {
             self.action = action
             self.changeSetId = changeSetId
             self.details = details
             self.logicalResourceId = logicalResourceId
+            self.moduleInfo = moduleInfo
             self.physicalResourceId = physicalResourceId
             self.replacement = replacement
             self.resourceType = resourceType
@@ -3100,6 +3125,7 @@ extension CloudFormation {
             case changeSetId = "ChangeSetId"
             case details = "Details"
             case logicalResourceId = "LogicalResourceId"
+            case moduleInfo = "ModuleInfo"
             case physicalResourceId = "PhysicalResourceId"
             case replacement = "Replacement"
             case resourceType = "ResourceType"
@@ -3298,9 +3324,9 @@ extension CloudFormation {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
-            try self.validate(self.typeName, name: "typeName", parent: name, max: 196)
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
-            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}")
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[A-Za-z0-9-]+")
@@ -3684,6 +3710,8 @@ extension CloudFormation {
         public let driftInformation: StackResourceDriftInformation?
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
+        /// Contains information about the module from which the resource was created, if the resource was created from a module included in the stack template.
+        public let moduleInfo: ModuleInfo?
         /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by AWS CloudFormation.
         public let physicalResourceId: String?
         /// Current status of the resource.
@@ -3699,10 +3727,11 @@ extension CloudFormation {
         /// Time the status was updated.
         public let timestamp: Date
 
-        public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, logicalResourceId: String, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String, stackId: String? = nil, stackName: String? = nil, timestamp: Date) {
+        public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, logicalResourceId: String, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String, stackId: String? = nil, stackName: String? = nil, timestamp: Date) {
             self.description = description
             self.driftInformation = driftInformation
             self.logicalResourceId = logicalResourceId
+            self.moduleInfo = moduleInfo
             self.physicalResourceId = physicalResourceId
             self.resourceStatus = resourceStatus
             self.resourceStatusReason = resourceStatusReason
@@ -3716,6 +3745,7 @@ extension CloudFormation {
             case description = "Description"
             case driftInformation = "DriftInformation"
             case logicalResourceId = "LogicalResourceId"
+            case moduleInfo = "ModuleInfo"
             case physicalResourceId = "PhysicalResourceId"
             case resourceStatus = "ResourceStatus"
             case resourceStatusReason = "ResourceStatusReason"
@@ -3737,6 +3767,8 @@ extension CloudFormation {
         public let logicalResourceId: String
         /// The content of the Metadata attribute declared for the resource. For more information, see Metadata Attribute in the AWS CloudFormation User Guide.
         public let metadata: String?
+        /// Contains information about the module from which the resource was created, if the resource was created from a module included in the stack template.
+        public let moduleInfo: ModuleInfo?
         /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by AWS CloudFormation.
         public let physicalResourceId: String?
         /// Current status of the resource.
@@ -3750,12 +3782,13 @@ extension CloudFormation {
         /// The name associated with the stack.
         public let stackName: String?
 
-        public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, lastUpdatedTimestamp: Date, logicalResourceId: String, metadata: String? = nil, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String, stackId: String? = nil, stackName: String? = nil) {
+        public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, lastUpdatedTimestamp: Date, logicalResourceId: String, metadata: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String, stackId: String? = nil, stackName: String? = nil) {
             self.description = description
             self.driftInformation = driftInformation
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.logicalResourceId = logicalResourceId
             self.metadata = metadata
+            self.moduleInfo = moduleInfo
             self.physicalResourceId = physicalResourceId
             self.resourceStatus = resourceStatus
             self.resourceStatusReason = resourceStatusReason
@@ -3770,6 +3803,7 @@ extension CloudFormation {
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
             case logicalResourceId = "LogicalResourceId"
             case metadata = "Metadata"
+            case moduleInfo = "ModuleInfo"
             case physicalResourceId = "PhysicalResourceId"
             case resourceStatus = "ResourceStatus"
             case resourceStatusReason = "ResourceStatusReason"
@@ -3786,6 +3820,8 @@ extension CloudFormation {
         public let expectedProperties: String?
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
+        /// Contains information about the module from which the resource was created, if the resource was created from a module included in the stack template.
+        public let moduleInfo: ModuleInfo?
         /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by AWS CloudFormation.
         public let physicalResourceId: String?
         /// Context information that enables AWS CloudFormation to uniquely identify a resource. AWS CloudFormation uses context key-value pairs in cases where a resource's logical and physical IDs are not enough to uniquely identify that resource. Each context key-value pair specifies a unique resource that contains the targeted resource.
@@ -3803,10 +3839,11 @@ extension CloudFormation {
         /// Time at which AWS CloudFormation performed drift detection on the stack resource.
         public let timestamp: Date
 
-        public init(actualProperties: String? = nil, expectedProperties: String? = nil, logicalResourceId: String, physicalResourceId: String? = nil, physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]? = nil, propertyDifferences: [PropertyDifference]? = nil, resourceType: String, stackId: String, stackResourceDriftStatus: StackResourceDriftStatus, timestamp: Date) {
+        public init(actualProperties: String? = nil, expectedProperties: String? = nil, logicalResourceId: String, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]? = nil, propertyDifferences: [PropertyDifference]? = nil, resourceType: String, stackId: String, stackResourceDriftStatus: StackResourceDriftStatus, timestamp: Date) {
             self.actualProperties = actualProperties
             self.expectedProperties = expectedProperties
             self.logicalResourceId = logicalResourceId
+            self.moduleInfo = moduleInfo
             self.physicalResourceId = physicalResourceId
             self.physicalResourceIdContext = physicalResourceIdContext
             self.propertyDifferences = propertyDifferences
@@ -3820,6 +3857,7 @@ extension CloudFormation {
             case actualProperties = "ActualProperties"
             case expectedProperties = "ExpectedProperties"
             case logicalResourceId = "LogicalResourceId"
+            case moduleInfo = "ModuleInfo"
             case physicalResourceId = "PhysicalResourceId"
             case physicalResourceIdContext = "PhysicalResourceIdContext"
             case propertyDifferences = "PropertyDifferences"
@@ -3871,6 +3909,8 @@ extension CloudFormation {
         public let lastUpdatedTimestamp: Date
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
+        /// Contains information about the module from which the resource was created, if the resource was created from a module included in the stack template.
+        public let moduleInfo: ModuleInfo?
         /// The name or unique identifier that corresponds to a physical instance ID of the resource.
         public let physicalResourceId: String?
         /// Current status of the resource.
@@ -3880,10 +3920,11 @@ extension CloudFormation {
         /// Type of resource. (For more information, go to  AWS Resource Types Reference in the AWS CloudFormation User Guide.)
         public let resourceType: String
 
-        public init(driftInformation: StackResourceDriftInformationSummary? = nil, lastUpdatedTimestamp: Date, logicalResourceId: String, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String) {
+        public init(driftInformation: StackResourceDriftInformationSummary? = nil, lastUpdatedTimestamp: Date, logicalResourceId: String, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, resourceStatus: ResourceStatus, resourceStatusReason: String? = nil, resourceType: String) {
             self.driftInformation = driftInformation
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.logicalResourceId = logicalResourceId
+            self.moduleInfo = moduleInfo
             self.physicalResourceId = physicalResourceId
             self.resourceStatus = resourceStatus
             self.resourceStatusReason = resourceStatusReason
@@ -3894,6 +3935,7 @@ extension CloudFormation {
             case driftInformation = "DriftInformation"
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
             case logicalResourceId = "LogicalResourceId"
+            case moduleInfo = "ModuleInfo"
             case physicalResourceId = "PhysicalResourceId"
             case resourceStatus = "ResourceStatus"
             case resourceStatusReason = "ResourceStatusReason"

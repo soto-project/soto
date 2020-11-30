@@ -49,6 +49,21 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum BatchStatementErrorCodeEnum: String, CustomStringConvertible, Codable {
+        case accessdenied = "AccessDenied"
+        case conditionalcheckfailed = "ConditionalCheckFailed"
+        case duplicateitem = "DuplicateItem"
+        case internalservererror = "InternalServerError"
+        case itemcollectionsizelimitexceeded = "ItemCollectionSizeLimitExceeded"
+        case provisionedthroughputexceeded = "ProvisionedThroughputExceeded"
+        case requestlimitexceeded = "RequestLimitExceeded"
+        case resourcenotfound = "ResourceNotFound"
+        case throttlingerror = "ThrottlingError"
+        case transactionconflict = "TransactionConflict"
+        case validationerror = "ValidationError"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BillingMode: String, CustomStringConvertible, Codable {
         case payPerRequest = "PAY_PER_REQUEST"
         case provisioned = "PROVISIONED"
@@ -96,6 +111,15 @@ extension DynamoDB {
         case enabled = "ENABLED"
         case enabling = "ENABLING"
         case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DestinationStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enableFailed = "ENABLE_FAILED"
+        case enabling = "ENABLING"
         public var description: String { return self.rawValue }
     }
 
@@ -745,6 +769,40 @@ extension DynamoDB {
         }
     }
 
+    public struct BatchExecuteStatementInput: AWSEncodableShape {
+        ///  The list of PartiQL statements representing the batch to run.
+        public let statements: [BatchStatementRequest]
+
+        public init(statements: [BatchStatementRequest]) {
+            self.statements = statements
+        }
+
+        public func validate(name: String) throws {
+            try self.statements.forEach {
+                try $0.validate(name: "\(name).statements[]")
+            }
+            try self.validate(self.statements, name: "statements", parent: name, max: 25)
+            try self.validate(self.statements, name: "statements", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statements = "Statements"
+        }
+    }
+
+    public struct BatchExecuteStatementOutput: AWSDecodableShape {
+        ///  The response to each PartiQL statement in the batch.
+        public let responses: [BatchStatementResponse]?
+
+        public init(responses: [BatchStatementResponse]? = nil) {
+            self.responses = responses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responses = "Responses"
+        }
+    }
+
     public struct BatchGetItemInput: AWSEncodableShape {
         /// A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per BatchGetItem request. Each element in the map of items to retrieve consists of the following:    ConsistentRead - If true, a strongly consistent read is used; if false (the default), an eventually consistent read is used.    ExpressionAttributeNames - One or more substitution tokens for attribute names in the ProjectionExpression parameter. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information about expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    Keys - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide both the partition key value and the sort key value.    ProjectionExpression - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes are returned. If any of the requested attributes are not found, they do not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    AttributesToGet - This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
         public let requestItems: [String: KeysAndAttributes]
@@ -788,6 +846,74 @@ extension DynamoDB {
             case consumedCapacity = "ConsumedCapacity"
             case responses = "Responses"
             case unprocessedKeys = "UnprocessedKeys"
+        }
+    }
+
+    public struct BatchStatementError: AWSDecodableShape {
+        ///  The error code associated with the failed PartiQL batch statement.
+        public let code: BatchStatementErrorCodeEnum?
+        ///  The error message associated with the PartiQL batch resposne.
+        public let message: String?
+
+        public init(code: BatchStatementErrorCodeEnum? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct BatchStatementRequest: AWSEncodableShape {
+        ///  The read consistency of the PartiQL batch request.
+        public let consistentRead: Bool?
+        ///  The parameters associated with a PartiQL statement in the batch request.
+        public let parameters: [AttributeValue]?
+        ///  A valid PartiQL statement.
+        public let statement: String
+
+        public init(consistentRead: Bool? = nil, parameters: [AttributeValue]? = nil, statement: String) {
+            self.consistentRead = consistentRead
+            self.parameters = parameters
+            self.statement = statement
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+            try self.validate(self.statement, name: "statement", parent: name, max: 8192)
+            try self.validate(self.statement, name: "statement", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consistentRead = "ConsistentRead"
+            case parameters = "Parameters"
+            case statement = "Statement"
+        }
+    }
+
+    public struct BatchStatementResponse: AWSDecodableShape {
+        ///  The error associated with a failed PartiQL batch statement.
+        public let error: BatchStatementError?
+        ///  A DynamoDB item associated with a BatchStatementResponse
+        public let item: [String: AttributeValue]?
+        ///  The table name associated with a failed PartiQL batch statement.
+        public let tableName: String?
+
+        public init(error: BatchStatementError? = nil, item: [String: AttributeValue]? = nil, tableName: String? = nil) {
+            self.error = error
+            self.item = item
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case item = "Item"
+            case tableName = "TableName"
         }
     }
 
@@ -1776,6 +1902,42 @@ extension DynamoDB {
         }
     }
 
+    public struct DescribeKinesisStreamingDestinationInput: AWSEncodableShape {
+        /// The name of the table being described.
+        public let tableName: String
+
+        public init(tableName: String) {
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DescribeKinesisStreamingDestinationOutput: AWSDecodableShape {
+        /// The list of replica structures for the table being described.
+        public let kinesisDataStreamDestinations: [KinesisDataStreamDestination]?
+        /// The name of the table being described.
+        public let tableName: String?
+
+        public init(kinesisDataStreamDestinations: [KinesisDataStreamDestination]? = nil, tableName: String? = nil) {
+            self.kinesisDataStreamDestinations = kinesisDataStreamDestinations
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisDataStreamDestinations = "KinesisDataStreamDestinations"
+            case tableName = "TableName"
+        }
+    }
+
     public struct DescribeLimitsInput: AWSEncodableShape {
         public init() {}
     }
@@ -1914,6 +2076,99 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
             case cachePeriodInMinutes = "CachePeriodInMinutes"
+        }
+    }
+
+    public struct ExecuteStatementInput: AWSEncodableShape {
+        ///  The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
+        public let consistentRead: Bool?
+        ///  Set this value to get remaining results, if NextToken was returned in the statement response.
+        public let nextToken: String?
+        ///  The parameters for the PartiQL statement, if any.
+        public let parameters: [AttributeValue]?
+        ///  The PartiQL statement representing the operation to run.
+        public let statement: String
+
+        public init(consistentRead: Bool? = nil, nextToken: String? = nil, parameters: [AttributeValue]? = nil, statement: String) {
+            self.consistentRead = consistentRead
+            self.nextToken = nextToken
+            self.parameters = parameters
+            self.statement = statement
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 32768)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+            try self.validate(self.statement, name: "statement", parent: name, max: 8192)
+            try self.validate(self.statement, name: "statement", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consistentRead = "ConsistentRead"
+            case nextToken = "NextToken"
+            case parameters = "Parameters"
+            case statement = "Statement"
+        }
+    }
+
+    public struct ExecuteStatementOutput: AWSDecodableShape {
+        ///  If a read operation was used, this property will contain the result of the reade operation; a map of attribute names and their values. For the write operations this value will be empty.
+        public let items: [[String: AttributeValue]]?
+        ///  If the response of a read request exceeds the response payload limit DynamoDB will set this value in the response. If set, you can use that this value in the subsequent request to get the remaining results.
+        public let nextToken: String?
+
+        public init(items: [[String: AttributeValue]]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ExecuteTransactionInput: AWSEncodableShape {
+        ///  Set this value to get remaining results, if NextToken was returned in the statement response.
+        public let clientRequestToken: String?
+        ///  The list of PartiQL statements representing the transaction to run.
+        public let transactStatements: [ParameterizedStatement]
+
+        public init(clientRequestToken: String? = ExecuteTransactionInput.idempotencyToken(), transactStatements: [ParameterizedStatement]) {
+            self.clientRequestToken = clientRequestToken
+            self.transactStatements = transactStatements
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 36)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.transactStatements.forEach {
+                try $0.validate(name: "\(name).transactStatements[]")
+            }
+            try self.validate(self.transactStatements, name: "transactStatements", parent: name, max: 25)
+            try self.validate(self.transactStatements, name: "transactStatements", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case transactStatements = "TransactStatements"
+        }
+    }
+
+    public struct ExecuteTransactionOutput: AWSDecodableShape {
+        ///  The response to a PartiQL transaction.
+        public let responses: [ItemResponse]?
+
+        public init(responses: [ItemResponse]? = nil) {
+            self.responses = responses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responses = "Responses"
         }
     }
 
@@ -2565,6 +2820,73 @@ extension DynamoDB {
         }
     }
 
+    public struct KinesisDataStreamDestination: AWSDecodableShape {
+        /// The current status of replication.
+        public let destinationStatus: DestinationStatus?
+        /// The human-readable string that corresponds to the replica status.
+        public let destinationStatusDescription: String?
+        /// The ARN for a specific Kinesis data stream.
+        public let streamArn: String?
+
+        public init(destinationStatus: DestinationStatus? = nil, destinationStatusDescription: String? = nil, streamArn: String? = nil) {
+            self.destinationStatus = destinationStatus
+            self.destinationStatusDescription = destinationStatusDescription
+            self.streamArn = streamArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationStatus = "DestinationStatus"
+            case destinationStatusDescription = "DestinationStatusDescription"
+            case streamArn = "StreamArn"
+        }
+    }
+
+    public struct KinesisStreamingDestinationInput: AWSEncodableShape {
+        /// The ARN for a Kinesis data stream.
+        public let streamArn: String
+        /// The name of the DynamoDB table.
+        public let tableName: String
+
+        public init(streamArn: String, tableName: String) {
+            self.streamArn = streamArn
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamArn, name: "streamArn", parent: name, max: 1024)
+            try self.validate(self.streamArn, name: "streamArn", parent: name, min: 37)
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamArn = "StreamArn"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct KinesisStreamingDestinationOutput: AWSDecodableShape {
+        /// The current status of the replication.
+        public let destinationStatus: DestinationStatus?
+        /// The ARN for the specific Kinesis data stream.
+        public let streamArn: String?
+        /// The name of the table being modified.
+        public let tableName: String?
+
+        public init(destinationStatus: DestinationStatus? = nil, streamArn: String? = nil, tableName: String? = nil) {
+            self.destinationStatus = destinationStatus
+            self.streamArn = streamArn
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationStatus = "DestinationStatus"
+            case streamArn = "StreamArn"
+            case tableName = "TableName"
+        }
+    }
+
     public struct ListBackupsInput: AWSEncodableShape {
         /// The backups from the table specified by BackupType are listed. Where BackupType can be:    USER - On-demand backup created by you.    SYSTEM - On-demand backup automatically created by DynamoDB.    ALL - All types of on-demand backups (USER and SYSTEM).
         public let backupType: BackupTypeFilter?
@@ -2923,6 +3245,32 @@ extension DynamoDB {
             case indexName = "IndexName"
             case keySchema = "KeySchema"
             case projection = "Projection"
+        }
+    }
+
+    public struct ParameterizedStatement: AWSEncodableShape {
+        ///  The parameter values.
+        public let parameters: [AttributeValue]?
+        ///  A PartiQL statment that uses parameters.
+        public let statement: String
+
+        public init(parameters: [AttributeValue]? = nil, statement: String) {
+            self.parameters = parameters
+            self.statement = statement
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+            try self.validate(self.statement, name: "statement", parent: name, max: 8192)
+            try self.validate(self.statement, name: "statement", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case statement = "Statement"
         }
     }
 

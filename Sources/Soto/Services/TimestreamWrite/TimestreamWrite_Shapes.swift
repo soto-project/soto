@@ -318,7 +318,7 @@ extension TimestreamWrite {
     public struct Dimension: AWSEncodableShape {
         /// The data type of the dimension for the time series data point.
         public let dimensionValueType: DimensionValueType?
-        ///  Dimension represents the meta data attributes of the time series. For example, the name and availability zone of an EC2 instance or the name of the manufacturer of a wind turbine are dimensions. Dimension names can only contain alphanumeric characters and underscores. Dimension names cannot end with an underscore.
+        ///  Dimension represents the meta data attributes of the time series. For example, the name and availability zone of an EC2 instance or the name of the manufacturer of a wind turbine are dimensions.  For constraints on Dimension names, see Naming Constraints.
         public let name: String
         /// The value of the dimension.
         public let value: String
@@ -485,18 +485,21 @@ extension TimestreamWrite {
         public let measureValue: String?
         ///  Contains the data type of the measure value for the time series data point.
         public let measureValueType: MeasureValueType?
-        ///  Contains the time at which the measure value for the data point was collected.
+        ///  Contains the time at which the measure value for the data point was collected. The time value plus the unit provides the time elapsed since the epoch. For example, if the time value is 12345 and the unit is ms, then 12345 ms have elapsed since the epoch.
         public let time: String?
         ///  The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds or other supported values.
         public let timeUnit: TimeUnit?
+        /// 64-bit attribute used for record updates. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated . Default value is to 1.
+        public let version: Int64?
 
-        public init(dimensions: [Dimension]? = nil, measureName: String? = nil, measureValue: String? = nil, measureValueType: MeasureValueType? = nil, time: String? = nil, timeUnit: TimeUnit? = nil) {
+        public init(dimensions: [Dimension]? = nil, measureName: String? = nil, measureValue: String? = nil, measureValueType: MeasureValueType? = nil, time: String? = nil, timeUnit: TimeUnit? = nil, version: Int64? = nil) {
             self.dimensions = dimensions
             self.measureName = measureName
             self.measureValue = measureValue
             self.measureValueType = measureValueType
             self.time = time
             self.timeUnit = timeUnit
+            self.version = version
         }
 
         public func validate(name: String) throws {
@@ -519,6 +522,7 @@ extension TimestreamWrite {
             case measureValueType = "MeasureValueType"
             case time = "Time"
             case timeUnit = "TimeUnit"
+            case version = "Version"
         }
     }
 

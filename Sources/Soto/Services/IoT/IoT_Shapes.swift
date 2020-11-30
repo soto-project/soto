@@ -10260,20 +10260,25 @@ extension IoT {
         public let fileLocation: FileLocation?
         /// The name of the file.
         public let fileName: String?
+        /// An integer value you can include in the job document to allow your devices to identify the type of file received from the cloud.
+        public let fileType: Int?
         /// The file version.
         public let fileVersion: String?
 
-        public init(attributes: [String: String]? = nil, codeSigning: CodeSigning? = nil, fileLocation: FileLocation? = nil, fileName: String? = nil, fileVersion: String? = nil) {
+        public init(attributes: [String: String]? = nil, codeSigning: CodeSigning? = nil, fileLocation: FileLocation? = nil, fileName: String? = nil, fileType: Int? = nil, fileVersion: String? = nil) {
             self.attributes = attributes
             self.codeSigning = codeSigning
             self.fileLocation = fileLocation
             self.fileName = fileName
+            self.fileType = fileType
             self.fileVersion = fileVersion
         }
 
         public func validate(name: String) throws {
             try self.codeSigning?.validate(name: "\(name).codeSigning")
             try self.fileLocation?.validate(name: "\(name).fileLocation")
+            try self.validate(self.fileType, name: "fileType", parent: name, max: 255)
+            try self.validate(self.fileType, name: "fileType", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10281,6 +10286,7 @@ extension IoT {
             case codeSigning
             case fileLocation
             case fileName
+            case fileType
             case fileVersion
         }
     }

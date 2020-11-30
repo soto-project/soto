@@ -153,6 +153,11 @@ public struct Comprehend: AWSService {
         return self.client.execute(operation: "DescribeEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the status and details of an events detection job.
+    public func describeEventsDetectionJob(_ input: DescribeEventsDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEventsDetectionJobResponse> {
+        return self.client.execute(operation: "DescribeEventsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the properties associated with a key phrases detection job. Use this operation to get the status of a detection job.
     public func describeKeyPhrasesDetectionJob(_ input: DescribeKeyPhrasesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeKeyPhrasesDetectionJobResponse> {
         return self.client.execute(operation: "DescribeKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -233,6 +238,11 @@ public struct Comprehend: AWSService {
         return self.client.execute(operation: "ListEntityRecognizers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a list of the events detection jobs that you have submitted.
+    public func listEventsDetectionJobs(_ input: ListEventsDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventsDetectionJobsResponse> {
+        return self.client.execute(operation: "ListEventsDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Get a list of key phrase detection jobs that you have submitted.
     public func listKeyPhrasesDetectionJobs(_ input: ListKeyPhrasesDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKeyPhrasesDetectionJobsResponse> {
         return self.client.execute(operation: "ListKeyPhrasesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -273,6 +283,11 @@ public struct Comprehend: AWSService {
         return self.client.execute(operation: "StartEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Starts an asynchronous event detection job for a collection of documents.
+    public func startEventsDetectionJob(_ input: StartEventsDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartEventsDetectionJobResponse> {
+        return self.client.execute(operation: "StartEventsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts an asynchronous key phrase detection job for a collection of documents. Use the operation to track the status of a job.
     public func startKeyPhrasesDetectionJob(_ input: StartKeyPhrasesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartKeyPhrasesDetectionJobResponse> {
         return self.client.execute(operation: "StartKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -301,6 +316,11 @@ public struct Comprehend: AWSService {
     /// Stops an entities detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     public func stopEntitiesDetectionJob(_ input: StopEntitiesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopEntitiesDetectionJobResponse> {
         return self.client.execute(operation: "StopEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops an events detection job in progress.
+    public func stopEventsDetectionJob(_ input: StopEventsDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopEventsDetectionJobResponse> {
+        return self.client.execute(operation: "StopEventsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.

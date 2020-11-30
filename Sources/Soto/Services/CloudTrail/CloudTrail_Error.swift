@@ -137,7 +137,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var kmsException: Self { .init(.kmsException) }
     /// This exception is no longer in use.
     public static var kmsKeyDisabledException: Self { .init(.kmsKeyDisabledException) }
-    /// This exception is thrown when the KMS key does not exist, or when the S3 bucket and the KMS key are not in the same region.
+    /// This exception is thrown when the KMS key does not exist, when the S3 bucket and the KMS key are not in the same region, or when the KMS key associated with the SNS topic either does not exist or is not in the same region.
     public static var kmsKeyNotFoundException: Self { .init(.kmsKeyNotFoundException) }
     /// This exception is thrown when the maximum number of trails is reached.
     public static var maximumNumberOfTrailsExceededException: Self { .init(.maximumNumberOfTrailsExceededException) }

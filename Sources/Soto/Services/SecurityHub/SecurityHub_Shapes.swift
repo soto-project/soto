@@ -20,6 +20,12 @@ import SotoCore
 extension SecurityHub {
     // MARK: Enums
 
+    public enum AdminStatus: String, CustomStringConvertible, Codable {
+        case disableInProgress = "DISABLE_IN_PROGRESS"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable {
         case active = "Active"
         case inactive = "Inactive"
@@ -222,11 +228,11 @@ extension SecurityHub {
 
     public struct AccountDetails: AWSEncodableShape {
         /// The ID of an AWS account.
-        public let accountId: String?
+        public let accountId: String
         /// The email of an AWS account.
         public let email: String?
 
-        public init(accountId: String? = nil, email: String? = nil) {
+        public init(accountId: String, email: String? = nil) {
             self.accountId = accountId
             self.email = email
         }
@@ -259,6 +265,23 @@ extension SecurityHub {
             case actionTargetArn = "ActionTargetArn"
             case description = "Description"
             case name = "Name"
+        }
+    }
+
+    public struct AdminAccount: AWSDecodableShape {
+        /// The AWS account identifier of the Security Hub administrator account.
+        public let accountId: String?
+        /// The current status of the Security Hub administrator account. Indicates whether the account is currently enabled as a Security Hub administrator.
+        public let status: AdminStatus?
+
+        public init(accountId: String? = nil, status: AdminStatus? = nil) {
+            self.accountId = accountId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case status = "Status"
         }
     }
 
@@ -7585,15 +7608,15 @@ extension SecurityHub {
     }
 
     public struct CreateMembersRequest: AWSEncodableShape {
-        /// The list of accounts to associate with the Security Hub master account. For each account, the list includes the account ID and the email address.
-        public let accountDetails: [AccountDetails]?
+        /// The list of accounts to associate with the Security Hub master account. For each account, the list includes the account ID and optionally the email address.
+        public let accountDetails: [AccountDetails]
 
-        public init(accountDetails: [AccountDetails]? = nil) {
+        public init(accountDetails: [AccountDetails]) {
             self.accountDetails = accountDetails
         }
 
         public func validate(name: String) throws {
-            try self.accountDetails?.forEach {
+            try self.accountDetails.forEach {
                 try $0.validate(name: "\(name).accountDetails[]")
             }
         }
@@ -7815,14 +7838,14 @@ extension SecurityHub {
 
     public struct DeleteMembersRequest: AWSEncodableShape {
         /// The list of account IDs for the member accounts to delete.
-        public let accountIds: [String]?
+        public let accountIds: [String]
 
-        public init(accountIds: [String]? = nil) {
+        public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
 
         public func validate(name: String) throws {
-            try self.accountIds?.forEach {
+            try self.accountIds.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -7931,6 +7954,27 @@ extension SecurityHub {
         }
     }
 
+    public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
+        /// Whether to automatically enable Security Hub for new accounts in the organization. If set to true, then Security Hub is enabled for new accounts. If set to false, then new accounts are not added automatically.
+        public let autoEnable: Bool?
+        /// Whether the maximum number of allowed member accounts are already associated with the Security Hub administrator account.
+        public let memberAccountLimitReached: Bool?
+
+        public init(autoEnable: Bool? = nil, memberAccountLimitReached: Bool? = nil) {
+            self.autoEnable = autoEnable
+            self.memberAccountLimitReached = memberAccountLimitReached
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "AutoEnable"
+            case memberAccountLimitReached = "MemberAccountLimitReached"
+        }
+    }
+
     public struct DescribeProductsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
@@ -7983,7 +8027,7 @@ extension SecurityHub {
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
-        /// The ARN of a resource that represents your subscription to a supported standard.
+        /// The ARN of a resource that represents your subscription to a supported standard. To get the subscription ARNs of the standards you have enabled, use the  GetEnabledStandards  operation.
         public let standardsSubscriptionArn: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, standardsSubscriptionArn: String) {
@@ -8082,6 +8126,27 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct DisableOrganizationAdminAccountRequest: AWSEncodableShape {
+        /// The AWS account identifier of the Security Hub administrator account.
+        public let adminAccountId: String
+
+        public init(adminAccountId: String) {
+            self.adminAccountId = adminAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adminAccountId, name: "adminAccountId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminAccountId = "AdminAccountId"
+        }
+    }
+
+    public struct DisableOrganizationAdminAccountResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisableSecurityHubRequest: AWSEncodableShape {
         public init() {}
     }
@@ -8100,14 +8165,14 @@ extension SecurityHub {
 
     public struct DisassociateMembersRequest: AWSEncodableShape {
         /// The account IDs of the member accounts to disassociate from the master account.
-        public let accountIds: [String]?
+        public let accountIds: [String]
 
-        public init(accountIds: [String]? = nil) {
+        public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
 
         public func validate(name: String) throws {
-            try self.accountIds?.forEach {
+            try self.accountIds.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -8149,6 +8214,27 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case productSubscriptionArn = "ProductSubscriptionArn"
         }
+    }
+
+    public struct EnableOrganizationAdminAccountRequest: AWSEncodableShape {
+        /// The AWS account identifier of the account to designate as the Security Hub administrator account.
+        public let adminAccountId: String
+
+        public init(adminAccountId: String) {
+            self.adminAccountId = adminAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adminAccountId, name: "adminAccountId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminAccountId = "AdminAccountId"
+        }
+    }
+
+    public struct EnableOrganizationAdminAccountResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct EnableSecurityHubRequest: AWSEncodableShape {
@@ -8540,14 +8626,14 @@ extension SecurityHub {
 
     public struct InviteMembersRequest: AWSEncodableShape {
         /// The list of account IDs of the AWS accounts to invite to Security Hub as members.
-        public let accountIds: [String]?
+        public let accountIds: [String]
 
-        public init(accountIds: [String]? = nil) {
+        public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
 
         public func validate(name: String) throws {
-            try self.accountIds?.forEach {
+            try self.accountIds.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -8689,7 +8775,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -8724,7 +8810,7 @@ extension SecurityHub {
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
-        /// Specifies which member accounts to include in the response based on their relationship status with the master account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED or DISABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts.
+        /// Specifies which member accounts to include in the response based on their relationship status with the master account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts.
         public let onlyAssociated: Bool?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: Bool? = nil) {
@@ -8734,7 +8820,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -8754,6 +8840,47 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case members = "Members"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+        ]
+
+        /// The maximum number of items to return in the response.
+        public let maxResults: Int?
+        /// The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListOrganizationAdminAccountsResponse: AWSDecodableShape {
+        /// The list of Security Hub administrator accounts.
+        public let adminAccounts: [AdminAccount]?
+        /// The pagination token to use to request the next page of results.
+        public let nextToken: String?
+
+        public init(adminAccounts: [AdminAccount]? = nil, nextToken: String? = nil) {
+            self.adminAccounts = adminAccounts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminAccounts = "AdminAccounts"
             case nextToken = "NextToken"
         }
     }
@@ -8878,7 +9005,7 @@ extension SecurityHub {
         public var invitedAt: Date?
         /// The AWS account ID of the Security Hub master account associated with this member account.
         public let masterId: String?
-        /// The status of the relationship between the member account and its master account.  The status can have one of the following values:    CREATED - Indicates that the master account added the member account, but has not yet invited the member account.    INVITED - Indicates that the master account invited the member account. The member account has not yet responded to the invitation.    ASSOCIATED - Indicates that the member account accepted the invitation.    REMOVED - Indicates that the master account disassociated the member account.    RESIGNED - Indicates that the member account disassociated themselves from the master account.    DELETED - Indicates that the master account deleted the member account.
+        /// The status of the relationship between the member account and its master account.  The status can have one of the following values:    CREATED - Indicates that the master account added the member account, but has not yet invited the member account.    INVITED - Indicates that the master account invited the member account. The member account has not yet responded to the invitation.    ENABLED - Indicates that the member account is currently active. For manually invited member accounts, indicates that the member account accepted the invitation.    REMOVED - Indicates that the master account disassociated the member account.    RESIGNED - Indicates that the member account disassociated themselves from the master account.    DELETED - Indicates that the master account deleted the member account.
         public let memberStatus: String?
         /// The timestamp for the date and time when the member account was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -10107,6 +10234,23 @@ extension SecurityHub {
     }
 
     public struct UpdateInsightResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
+        /// Whether to automatically enable Security Hub for new accounts in the organization. By default, this is false, and new accounts are not added automatically. To automatically enable Security Hub for new accounts, set this to true.
+        public let autoEnable: Bool
+
+        public init(autoEnable: Bool) {
+            self.autoEnable = autoEnable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "AutoEnable"
+        }
+    }
+
+    public struct UpdateOrganizationConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 

@@ -994,6 +994,7 @@ extension CloudFormation.ListTypesInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             provisioningType: self.provisioningType,
+            type: self.type,
             visibility: self.visibility
         )
     }

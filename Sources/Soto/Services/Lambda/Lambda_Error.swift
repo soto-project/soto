@@ -19,7 +19,9 @@ import SotoCore
 /// Error enum for Lambda
 public struct LambdaErrorType: AWSErrorType {
     enum Code: String {
+        case codeSigningConfigNotFoundException = "CodeSigningConfigNotFoundException"
         case codeStorageExceededException = "CodeStorageExceededException"
+        case codeVerificationFailedException = "CodeVerificationFailedException"
         case eC2AccessDeniedException = "EC2AccessDeniedException"
         case eC2ThrottledException = "EC2ThrottledException"
         case eC2UnexpectedException = "EC2UnexpectedException"
@@ -28,6 +30,7 @@ public struct LambdaErrorType: AWSErrorType {
         case eFSMountFailureException = "EFSMountFailureException"
         case eFSMountTimeoutException = "EFSMountTimeoutException"
         case eNILimitReachedException = "ENILimitReachedException"
+        case invalidCodeSignatureException = "InvalidCodeSignatureException"
         case invalidParameterValueException = "InvalidParameterValueException"
         case invalidRequestContentException = "InvalidRequestContentException"
         case invalidRuntimeException = "InvalidRuntimeException"
@@ -70,8 +73,12 @@ public struct LambdaErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The specified code signing configuration does not exist.
+    public static var codeSigningConfigNotFoundException: Self { .init(.codeSigningConfigNotFoundException) }
     /// You have exceeded your maximum total code size per account. Learn more
     public static var codeStorageExceededException: Self { .init(.codeStorageExceededException) }
+    /// The code signature failed one or more of the validation checks for signature mismatch or expiry, and the code signing policy is set to ENFORCE. Lambda blocks the deployment.
+    public static var codeVerificationFailedException: Self { .init(.codeVerificationFailedException) }
     /// Need additional permissions to configure VPC settings.
     public static var eC2AccessDeniedException: Self { .init(.eC2AccessDeniedException) }
     /// AWS Lambda was throttled by Amazon EC2 during Lambda function initialization using the execution role provided for the Lambda function.
@@ -88,6 +95,8 @@ public struct LambdaErrorType: AWSErrorType {
     public static var eFSMountTimeoutException: Self { .init(.eFSMountTimeoutException) }
     /// AWS Lambda was not able to create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached.
     public static var eNILimitReachedException: Self { .init(.eNILimitReachedException) }
+    /// The code signature failed the integrity check. Lambda always blocks deployment if the integrity check fails, even if code signing policy is set to WARN.
+    public static var invalidCodeSignatureException: Self { .init(.invalidCodeSignatureException) }
     /// One of the parameters in the request is invalid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
     /// The request body could not be parsed as JSON.

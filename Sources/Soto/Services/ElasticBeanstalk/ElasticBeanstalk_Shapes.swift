@@ -1589,6 +1589,8 @@ extension ElasticBeanstalk {
         public func validate(name: String) throws {
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

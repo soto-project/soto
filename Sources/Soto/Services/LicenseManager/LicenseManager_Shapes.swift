@@ -381,6 +381,8 @@ extension LicenseManager {
     }
 
     public struct LicenseConfigurationAssociation: AWSDecodableShape {
+        /// Scope of AMI associations.
+        public let amiAssociationScope: String?
         /// Time when the license configuration was associated with the resource.
         public let associationTime: Date?
         /// Amazon Resource Name (ARN) of the resource.
@@ -390,7 +392,8 @@ extension LicenseManager {
         /// Type of server resource.
         public let resourceType: ResourceType?
 
-        public init(associationTime: Date? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
+        public init(amiAssociationScope: String? = nil, associationTime: Date? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
+            self.amiAssociationScope = amiAssociationScope
             self.associationTime = associationTime
             self.resourceArn = resourceArn
             self.resourceOwnerId = resourceOwnerId
@@ -398,6 +401,7 @@ extension LicenseManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amiAssociationScope = "AmiAssociationScope"
             case associationTime = "AssociationTime"
             case resourceArn = "ResourceArn"
             case resourceOwnerId = "ResourceOwnerId"
@@ -480,14 +484,18 @@ extension LicenseManager {
     }
 
     public struct LicenseSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Scope of AMI associations.
+        public let amiAssociationScope: String?
         /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String
 
-        public init(licenseConfigurationArn: String) {
+        public init(amiAssociationScope: String? = nil, licenseConfigurationArn: String) {
+            self.amiAssociationScope = amiAssociationScope
             self.licenseConfigurationArn = licenseConfigurationArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amiAssociationScope = "AmiAssociationScope"
             case licenseConfigurationArn = "LicenseConfigurationArn"
         }
     }
