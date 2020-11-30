@@ -183,6 +183,38 @@ extension DynamoDB {
     ///  A single `Query` operation will read up to the maximum number of items set (if using the `Limit` parameter) or a maximum of 1 MB of data and then apply any filtering to the results using `FilterExpression`. If `LastEvaluatedKey` is present in the response, you will need to paginate the result set. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html#Query.Pagination">Paginating the Results</a> in the <i>Amazon DynamoDB Developer Guide</i>.
     ///
     ///  `FilterExpression` is applied after a `Query` finishes, but before the results are returned. A `FilterExpression` cannot contain partition key or sort key attributes. You need to specify those attributes in the `KeyConditionExpression`. </p> <note> <p> A `Query` operation can return an empty result set and a `LastEvaluatedKey` if all the items read for the page of results are filtered out. </p> </note> <p>You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the `ConsistentRead` parameter to `true` and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify `ConsistentRead` when querying a global secondary index.
+    public func queryPaginator<T: Decodable, Result>(
+        _ input: QueryInput,
+        _ initialValue: Result,
+        type: T.Type,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, QueryCodableOutput<T>, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.query,
+            tokenKey: \QueryOutput.lastEvaluatedKey,
+            logger: logger,
+            on: eventLoop
+        ) { (result, response, eventLoop) -> EventLoopFuture<(Bool, Result)> in
+            do {
+                let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+                let queryOutput = QueryCodableOutput(
+                    consumedCapacity: response.consumedCapacity,
+                    count: response.count,
+                    items: items,
+                    lastEvaluatedKey: response.lastEvaluatedKey,
+                    scannedCount: response.scannedCount
+                )
+                return onPage(result, queryOutput, eventLoop)
+            } catch {
+                return eventLoop.makeFailedFuture(error)
+            }
+        }
+    }
+
     public func queryPaginator<T: Decodable>(
         _ input: QueryInput,
         type: T.Type,
@@ -222,6 +254,38 @@ extension DynamoDB {
     ///  `Scan` operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel `Scan` operation by providing the `Segment` and `TotalSegments` parameters. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan">Parallel Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
     ///
     ///  `Scan` uses eventually consistent reads when accessing the data in a table; therefore, the result set might not include the changes to data in the table immediately before the operation began. If you need a consistent copy of the data, as of the time that the `Scan` begins, you can set the `ConsistentRead` parameter to `true`.
+    public func scanPaginator<T: Decodable, Result>(
+        _ input: ScanInput,
+        _ initialValue: Result,
+        type: T.Type,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ScanCodableOutput<T>, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.scan,
+            tokenKey: \ScanOutput.lastEvaluatedKey,
+            logger: logger,
+            on: eventLoop
+        ) { (result, response, eventLoop) -> EventLoopFuture<(Bool, Result)> in
+            do {
+                let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+                let scanOutput = ScanCodableOutput(
+                    consumedCapacity: response.consumedCapacity,
+                    count: response.count,
+                    items: items,
+                    lastEvaluatedKey: response.lastEvaluatedKey,
+                    scannedCount: response.scannedCount
+                )
+                return onPage(result, scanOutput, eventLoop)
+            } catch {
+                return eventLoop.makeFailedFuture(error)
+            }
+        }
+    }
+
     public func scanPaginator<T: Decodable>(
         _ input: ScanInput,
         type: T.Type,

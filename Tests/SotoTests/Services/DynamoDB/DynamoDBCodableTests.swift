@@ -234,11 +234,28 @@ final class DynamoDBCodableTests: XCTestCase {
                 return eventLoop.makeSucceededFuture(true)
             }
         }
-        .map { _ in
+        .flatMap { _ -> EventLoopFuture<[TestObject]> in
+            let request = DynamoDB.QueryInput(
+                consistentRead: true,
+                expressionAttributeValues: [":id": .s("test"), ":version": .n("2")],
+                keyConditionExpression: "id = :id and version >= :version",
+                limit: 3,
+                tableName: tableName
+            )
+            return Self.dynamoDB.queryPaginator(request, [], type: TestObject.self, logger: TestEnvironment.logger) { result, response, eventLoop in
+                let newResult = result + (response.items ?? [])
+                return eventLoop.makeSucceededFuture((true, newResult))
+            }
+        }
+        .map { results2 in
             XCTAssertEqual(testItems[1], results[0])
             XCTAssertEqual(testItems[2], results[1])
             XCTAssertEqual(testItems[3], results[2])
             XCTAssertEqual(testItems[4], results[3])
+            XCTAssertEqual(testItems[1], results2[0])
+            XCTAssertEqual(testItems[2], results2[1])
+            XCTAssertEqual(testItems[3], results2[2])
+            XCTAssertEqual(testItems[4], results2[3])
         }
         .flatAlways { _ in
             self.deleteTable(name: tableName)
