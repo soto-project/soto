@@ -69,11 +69,16 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ArchitectureType: String, CustomStringConvertible, Codable {
-        case arm64
-        case i386
-        case x8664 = "x86_64"
-        public var description: String { return self.rawValue }
+    public struct ArchitectureType: RawRepresentable, Equatable, Codable {
+        public var rawValue: String
+
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+
+        public static var arm64: Self { .init(rawValue: "arm64") }
+        public static var i386: Self { .init(rawValue: "i386") }
+        public static var x8664: Self { .init(rawValue: "x86_64") }
     }
 
     public enum ArchitectureValues: String, CustomStringConvertible, Codable {
