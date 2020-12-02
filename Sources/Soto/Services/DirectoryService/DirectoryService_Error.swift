@@ -37,6 +37,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
         case entityDoesNotExistException = "EntityDoesNotExistException"
         case insufficientPermissionsException = "InsufficientPermissionsException"
         case invalidCertificateException = "InvalidCertificateException"
+        case invalidClientAuthStatusException = "InvalidClientAuthStatusException"
         case invalidLDAPSStatusException = "InvalidLDAPSStatusException"
         case invalidNextTokenException = "InvalidNextTokenException"
         case invalidParameterException = "InvalidParameterException"
@@ -108,6 +109,8 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }
     /// The certificate PEM that was provided has incorrect encoding.
     public static var invalidCertificateException: Self { .init(.invalidCertificateException) }
+    /// The client authorization was invalid.
+    public static var invalidClientAuthStatusException: Self { .init(.invalidClientAuthStatusException) }
     /// The LDAP activities could not be performed because they are limited by the LDAPS status.
     public static var invalidLDAPSStatusException: Self { .init(.invalidLDAPSStatusException) }
     /// The NextToken value is not valid.
@@ -124,7 +127,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var noAvailableCertificateException: Self { .init(.noAvailableCertificateException) }
     /// Exception encountered while trying to access your AWS organization.
     public static var organizationsException: Self { .init(.organizationsException) }
-    /// You have reached the limit for maximum number of simultaneous region replications per directory.
+    /// You have reached the limit for maximum number of simultaneous Region replications per directory.
     public static var regionLimitExceededException: Self { .init(.regionLimitExceededException) }
     /// An exception has occurred in AWS Directory Service.
     public static var serviceException: Self { .init(.serviceException) }

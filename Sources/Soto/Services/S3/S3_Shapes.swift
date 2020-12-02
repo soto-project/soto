@@ -327,6 +327,12 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicaModificationsStatus: String, CustomStringConvertible, Codable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -649,7 +655,7 @@ extension S3 {
     }
 
     public struct Bucket: AWSDecodableShape {
-        /// Date the bucket was created.
+        /// Date the bucket was created. This date can change when making changes to your bucket, such as editing its bucket policy.
         public let creationDate: Date?
         /// The name of the bucket.
         public let name: String?
@@ -849,6 +855,7 @@ extension S3 {
 
     public struct CompleteMultipartUploadOutput: AWSDecodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")),
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
             AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
@@ -858,6 +865,8 @@ extension S3 {
 
         /// The name of the bucket that contains the newly created object. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String?
+        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).
+        public let bucketKeyEnabled: Bool?
         /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits.
         public let eTag: String?
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
@@ -874,8 +883,9 @@ extension S3 {
         /// Version ID of the newly created object, in case the bucket has versioning turned on.
         public let versionId: String?
 
-        public init(bucket: String? = nil, eTag: String? = nil, expiration: String? = nil, key: String? = nil, location: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
+        public init(bucket: String? = nil, bucketKeyEnabled: Bool? = nil, eTag: String? = nil, expiration: String? = nil, key: String? = nil, location: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.eTag = eTag
             self.expiration = expiration
             self.key = key
@@ -888,6 +898,7 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
+            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
             case eTag = "ETag"
             case expiration = "x-amz-expiration"
             case key = "Key"
@@ -998,6 +1009,7 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "copyObjectResult"
         public static var _encoding = [
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "copyObjectResult", location: .body(locationName: "CopyObjectResult")),
             AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")),
             AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")),
@@ -1010,6 +1022,8 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
 
+        /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).
+        public let bucketKeyEnabled: Bool?
         /// Container for all response elements.
         public let copyObjectResult: CopyObjectResult?
         /// Version of the copied object in the destination bucket.
@@ -1030,7 +1044,8 @@ extension S3 {
         /// Version ID of the newly created copy.
         public let versionId: String?
 
-        public init(copyObjectResult: CopyObjectResult? = nil, copySourceVersionId: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, copyObjectResult: CopyObjectResult? = nil, copySourceVersionId: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.copyObjectResult = copyObjectResult
             self.copySourceVersionId = copySourceVersionId
             self.expiration = expiration
@@ -1044,6 +1059,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
             case copyObjectResult = "CopyObjectResult"
             case copySourceVersionId = "x-amz-copy-source-version-id"
             case expiration = "x-amz-expiration"
@@ -1061,6 +1077,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
             AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
             AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
@@ -1104,6 +1121,8 @@ extension S3 {
         public let acl: ObjectCannedACL?
         /// The name of the destination bucket. When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS.  Specifying this header with a COPY operation doesn’t affect bucket-level settings for S3 Bucket Key.
+        public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
         /// Specifies presentational information for the object.
@@ -1178,9 +1197,10 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
@@ -1349,6 +1369,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "abortDate", location: .header(locationName: "x-amz-abort-date")),
             AWSMemberEncoding(label: "abortRuleId", location: .header(locationName: "x-amz-abort-rule-id")),
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
             AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
             AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
@@ -1363,6 +1384,8 @@ extension S3 {
         public let abortRuleId: String?
         /// The name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String?
+        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).
+        public let bucketKeyEnabled: Bool?
         /// Object key for which the multipart upload was initiated.
         public let key: String?
         public let requestCharged: RequestCharged?
@@ -1379,10 +1402,11 @@ extension S3 {
         /// ID for the initiated multipart upload.
         public let uploadId: String?
 
-        public init(abortDate: Date? = nil, abortRuleId: String? = nil, bucket: String? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, uploadId: String? = nil) {
+        public init(abortDate: Date? = nil, abortRuleId: String? = nil, bucket: String? = nil, bucketKeyEnabled: Bool? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, uploadId: String? = nil) {
             self.abortDate = abortDate
             self.abortRuleId = abortRuleId
             self.bucket = bucket
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.key = key
             self.requestCharged = requestCharged
             self.serverSideEncryption = serverSideEncryption
@@ -1397,6 +1421,7 @@ extension S3 {
             case abortDate = "x-amz-abort-date"
             case abortRuleId = "x-amz-abort-rule-id"
             case bucket = "Bucket"
+            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
             case key = "Key"
             case requestCharged = "x-amz-request-charged"
             case serverSideEncryption = "x-amz-server-side-encryption"
@@ -1412,6 +1437,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
             AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
             AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
@@ -1444,6 +1470,8 @@ extension S3 {
         public let acl: ObjectCannedACL?
         /// The name of the bucket to which to initiate the upload When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object operation doesn’t affect bucket-level settings for S3 Bucket Key.
+        public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
         /// Specifies presentational information for the object.
@@ -1496,9 +1524,10 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
@@ -3162,6 +3191,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "accept-ranges")),
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
             AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
             AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
@@ -3197,6 +3227,8 @@ extension S3 {
         public let acceptRanges: String?
         /// Object data.
         public let body: AWSPayload?
+        /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).
+        public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
         /// Specifies presentational information for the object.
@@ -3255,9 +3287,10 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acceptRanges: String? = nil, body: AWSPayload? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSPayload? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
@@ -3292,6 +3325,7 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case acceptRanges = "accept-ranges"
             case body = "Body"
+            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
             case cacheControl = "Cache-Control"
             case contentDisposition = "Content-Disposition"
             case contentEncoding = "Content-Encoding"
@@ -3701,6 +3735,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "accept-ranges")),
             AWSMemberEncoding(label: "archiveStatus", location: .header(locationName: "x-amz-archive-status")),
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
             AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
             AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
@@ -3734,6 +3769,8 @@ extension S3 {
         public let acceptRanges: String?
         /// The archive state of the head object.
         public let archiveStatus: ArchiveStatus?
+        /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).
+        public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
         /// Specifies presentational information for the object.
@@ -3768,7 +3805,7 @@ extension S3 {
         public let objectLockRetainUntilDate: Date?
         /// The count of parts this object has.
         public let partsCount: Int?
-        /// Amazon S3 can return this header if your request involves a bucket that is either a source or destination in a replication rule. In replication, you have a source bucket on which you configure replication and destination bucket where Amazon S3 stores object replicas. When you request an object (GetObject) or object metadata (HeadObject) from these buckets, Amazon S3 will return the x-amz-replication-status header in the response as follows:   If requesting an object from the source bucket — Amazon S3 will return the x-amz-replication-status header if the object in your request is eligible for replication.  For example, suppose that in your replication configuration, you specify object prefix TaxDocs requesting Amazon S3 to replicate objects with key prefix TaxDocs. Any objects you upload with this key name prefix, for example TaxDocs/document1.pdf, are eligible for replication. For any object request with this key name prefix, Amazon S3 will return the x-amz-replication-status header with value PENDING, COMPLETED or FAILED indicating object replication status.   If requesting an object from the destination bucket — Amazon S3 will return the x-amz-replication-status header with value REPLICA if the object in your request is a replica that Amazon S3 created.   For more information, see Replication.
+        /// Amazon S3 can return this header if your request involves a bucket that is either a source or a destination in a replication rule. In replication, you have a source bucket on which you configure replication and destination bucket or buckets where Amazon S3 stores object replicas. When you request an object (GetObject) or object metadata (HeadObject) from these buckets, Amazon S3 will return the x-amz-replication-status header in the response as follows:   If requesting an object from the source bucket — Amazon S3 will return the x-amz-replication-status header if the object in your request is eligible for replication.  For example, suppose that in your replication configuration, you specify object prefix TaxDocs requesting Amazon S3 to replicate objects with key prefix TaxDocs. Any objects you upload with this key name prefix, for example TaxDocs/document1.pdf, are eligible for replication. For any object request with this key name prefix, Amazon S3 will return the x-amz-replication-status header with value PENDING, COMPLETED or FAILED indicating object replication status.   If requesting an object from a destination bucket — Amazon S3 will return the x-amz-replication-status header with value REPLICA if the object in your request is a replica that Amazon S3 created and there is no replica modification replication in progress.   When replicating objects to multiple destination buckets the x-amz-replication-status header acts differently. The header of the source object will only return a value of COMPLETED when replication is successful to all destinations. The header will remain at value PENDING until replication has completed for all destinations. If one or more destinations fails replication the header will return FAILED.    For more information, see Replication.
         public let replicationStatus: ReplicationStatus?
         public let requestCharged: RequestCharged?
         /// If the object is an archived object (an object whose storage class is GLACIER), the response includes this header if either the archive restoration is in progress (see RestoreObject or an archive copy is already restored.  If an archive copy is already restored, the header value indicates when Amazon S3 is scheduled to delete the object copy. For example:  x-amz-restore: ongoing-request="false", expiry-date="Fri, 23 Dec 2012 00:00:00 GMT"  If the object restoration is in progress, the header returns the value ongoing-request="true". For more information about archiving objects, see Transitioning Objects: General Considerations.
@@ -3788,9 +3825,10 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveStatus = archiveStatus
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
@@ -3823,6 +3861,7 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case acceptRanges = "accept-ranges"
             case archiveStatus = "x-amz-archive-status"
+            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
             case cacheControl = "Cache-Control"
             case contentDisposition = "Content-Disposition"
             case contentEncoding = "Content-Encoding"
@@ -6541,6 +6580,7 @@ extension S3 {
 
     public struct PutObjectOutput: AWSDecodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
             AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")),
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
@@ -6552,6 +6592,8 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
 
+        /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).
+        public let bucketKeyEnabled: Bool?
         /// Entity tag for the uploaded object.
         public let eTag: String?
         ///  If the expiration is configured for the object (see PutBucketLifecycleConfiguration), the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide information about object expiration. The value of the rule-id is URL encoded.
@@ -6570,7 +6612,8 @@ extension S3 {
         /// Version of the object.
         public let versionId: String?
 
-        public init(eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, versionId: String? = nil) {
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.eTag = eTag
             self.expiration = expiration
             self.requestCharged = requestCharged
@@ -6583,6 +6626,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
             case eTag = "ETag"
             case expiration = "x-amz-expiration"
             case requestCharged = "x-amz-request-charged"
@@ -6603,6 +6647,7 @@ extension S3 {
             AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
             AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
             AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
@@ -6639,6 +6684,8 @@ extension S3 {
         public let body: AWSPayload?
         /// The bucket name to which the PUT operation was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
         public let bucket: String
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT operation doesn’t affect bucket-level settings for S3 Bucket Key.
+        public let bucketKeyEnabled: Bool?
         ///  Can be used to specify caching behavior along the request/reply chain. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
         public let cacheControl: String?
         /// Specifies presentational information for the object. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.5.1.
@@ -6695,10 +6742,11 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, body: AWSPayload? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSPayload? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
@@ -6996,6 +7044,19 @@ extension S3 {
         }
     }
 
+    public struct ReplicaModifications: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether Amazon S3 replicates modifications on replicas.
+        public let status: ReplicaModificationsStatus
+
+        public init(status: ReplicaModificationsStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct ReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
@@ -7029,7 +7090,7 @@ extension S3 {
         public let filter: ReplicationRuleFilter?
         /// A unique identifier for the rule. The maximum value is 255 characters.
         public let id: String?
-        /// The priority associated with the rule. If you specify multiple rules in a replication configuration, Amazon S3 prioritizes the rules to prevent conflicts when filtering. If two or more rules identify the same object based on a specified filter, the rule with higher priority takes precedence. For example:   Same object quality prefix-based filter criteria if prefixes you specified in multiple rules overlap    Same object qualify tag-based filter criteria specified in multiple rules   For more information, see Replication in the Amazon Simple Storage Service Developer Guide.
+        /// The priority indicates which rule has precedence whenever two or more replication rules conflict. Amazon S3 will attempt to replicate objects according to all replication rules. However, if there are two or more rules with the same destination bucket, then objects will be replicated according to the rule with the highest priority. The higher the number, the higher the priority.  For more information, see Replication in the Amazon Simple Storage Service Developer Guide.
         public let priority: Int?
         /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects. Currently, Amazon S3 supports only the filter that you can specify for objects created with server-side encryption using a customer master key (CMK) stored in AWS Key Management Service (SSE-KMS).
         public let sourceSelectionCriteria: SourceSelectionCriteria?
@@ -7599,25 +7660,33 @@ extension S3 {
     public struct ServerSideEncryptionRule: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied.
         public let applyServerSideEncryptionByDefault: ServerSideEncryptionByDefault?
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key with server-side encryption using KMS (SSE-KMS) for new objects in the bucket. Existing objects are not affected. Setting the BucketKeyEnabled element to true causes Amazon S3 to use an S3 Bucket Key. By default, S3 Bucket Key is not enabled. For more information, see Amazon S3 Bucket Keys in the Amazon Simple Storage Service Developer Guide.
+        public let bucketKeyEnabled: Bool?
 
-        public init(applyServerSideEncryptionByDefault: ServerSideEncryptionByDefault? = nil) {
+        public init(applyServerSideEncryptionByDefault: ServerSideEncryptionByDefault? = nil, bucketKeyEnabled: Bool? = nil) {
             self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
+            self.bucketKeyEnabled = bucketKeyEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
             case applyServerSideEncryptionByDefault = "ApplyServerSideEncryptionByDefault"
+            case bucketKeyEnabled = "BucketKeyEnabled"
         }
     }
 
     public struct SourceSelectionCriteria: AWSEncodableShape & AWSDecodableShape {
+        /// A filter that you can specify for selections for modifications on replicas. Amazon S3 doesn't replicate replica modifications by default. In the latest version of replication configuration (when Filter is specified), you can specify this element and set the status to Enabled to replicate modifications on replicas.    If you don't specify the Filter element, Amazon S3 assumes that the replication configuration is the earlier version, V1. In the earlier version, this element is not allowed
+        public let replicaModifications: ReplicaModifications?
         ///  A container for filter information for the selection of Amazon S3 objects encrypted with AWS KMS. If you include SourceSelectionCriteria in the replication configuration, this element is required.
         public let sseKmsEncryptedObjects: SseKmsEncryptedObjects?
 
-        public init(sseKmsEncryptedObjects: SseKmsEncryptedObjects? = nil) {
+        public init(replicaModifications: ReplicaModifications? = nil, sseKmsEncryptedObjects: SseKmsEncryptedObjects? = nil) {
+            self.replicaModifications = replicaModifications
             self.sseKmsEncryptedObjects = sseKmsEncryptedObjects
         }
 
         private enum CodingKeys: String, CodingKey {
+            case replicaModifications = "ReplicaModifications"
             case sseKmsEncryptedObjects = "SseKmsEncryptedObjects"
         }
     }
@@ -7846,6 +7915,7 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "copyPartResult"
         public static var _encoding = [
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "copyPartResult", location: .body(locationName: "CopyPartResult")),
             AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")),
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
@@ -7855,6 +7925,8 @@ extension S3 {
             AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"))
         ]
 
+        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).
+        public let bucketKeyEnabled: Bool?
         /// Container for all response elements.
         public let copyPartResult: CopyPartResult?
         /// The version of the source object that was copied, if you have enabled versioning on the source bucket.
@@ -7869,7 +7941,8 @@ extension S3 {
         /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
         public let sSEKMSKeyId: String?
 
-        public init(copyPartResult: CopyPartResult? = nil, copySourceVersionId: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, copyPartResult: CopyPartResult? = nil, copySourceVersionId: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil) {
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.copyPartResult = copyPartResult
             self.copySourceVersionId = copySourceVersionId
             self.requestCharged = requestCharged
@@ -7880,6 +7953,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
             case copyPartResult = "CopyPartResult"
             case copySourceVersionId = "x-amz-copy-source-version-id"
             case requestCharged = "x-amz-request-charged"
@@ -7983,6 +8057,7 @@ extension S3 {
 
     public struct UploadPartOutput: AWSDecodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header(locationName: "x-amz-server-side-encryption-bucket-key-enabled")),
             AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
             AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
@@ -7991,6 +8066,8 @@ extension S3 {
             AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"))
         ]
 
+        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).
+        public let bucketKeyEnabled: Bool?
         /// Entity tag for the uploaded object.
         public let eTag: String?
         public let requestCharged: RequestCharged?
@@ -8003,7 +8080,8 @@ extension S3 {
         /// If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) was used for the object.
         public let sSEKMSKeyId: String?
 
-        public init(eTag: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, eTag: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil) {
+            self.bucketKeyEnabled = bucketKeyEnabled
             self.eTag = eTag
             self.requestCharged = requestCharged
             self.serverSideEncryption = serverSideEncryption
@@ -8013,6 +8091,7 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
             case eTag = "ETag"
             case requestCharged = "x-amz-request-charged"
             case serverSideEncryption = "x-amz-server-side-encryption"

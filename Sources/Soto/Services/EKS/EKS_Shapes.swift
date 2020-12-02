@@ -27,6 +27,32 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum AddonIssueCode: String, CustomStringConvertible, Codable {
+        case accessdenied = "AccessDenied"
+        case clusterunreachable = "ClusterUnreachable"
+        case configurationconflict = "ConfigurationConflict"
+        case insufficientnumberofreplicas = "InsufficientNumberOfReplicas"
+        case internalfailure = "InternalFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AddonStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case degraded = "DEGRADED"
+        case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityTypes: String, CustomStringConvertible, Codable {
+        case onDemand = "ON_DEMAND"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -39,8 +65,10 @@ extension EKS {
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case accessdenied = "AccessDenied"
         case clusterunreachable = "ClusterUnreachable"
+        case configurationconflict = "ConfigurationConflict"
         case enilimitreached = "EniLimitReached"
         case insufficientfreeaddresses = "InsufficientFreeAddresses"
+        case insufficientnumberofreplicas = "InsufficientNumberOfReplicas"
         case ipnotavailable = "IpNotAvailable"
         case nodecreationfailure = "NodeCreationFailure"
         case operationnotpermitted = "OperationNotPermitted"
@@ -103,7 +131,14 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResolveConflicts: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case overwrite = "OVERWRITE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UpdateParamType: String, CustomStringConvertible, Codable {
+        case addonversion = "AddonVersion"
         case clusterlogging = "ClusterLogging"
         case desiredsize = "DesiredSize"
         case endpointprivateaccess = "EndpointPrivateAccess"
@@ -115,6 +150,8 @@ extension EKS {
         case platformversion = "PlatformVersion"
         case publicaccesscidrs = "PublicAccessCidrs"
         case releaseversion = "ReleaseVersion"
+        case resolveconflicts = "ResolveConflicts"
+        case serviceaccountrolearn = "ServiceAccountRoleArn"
         case version = "Version"
         public var description: String { return self.rawValue }
     }
@@ -128,6 +165,7 @@ extension EKS {
     }
 
     public enum UpdateType: String, CustomStringConvertible, Codable {
+        case addonupdate = "AddonUpdate"
         case configupdate = "ConfigUpdate"
         case endpointaccessupdate = "EndpointAccessUpdate"
         case loggingupdate = "LoggingUpdate"
@@ -136,6 +174,131 @@ extension EKS {
     }
 
     // MARK: Shapes
+
+    public struct Addon: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the add-on.
+        public let addonArn: String?
+        /// The name of the add-on.
+        public let addonName: String?
+        /// The version of the add-on.
+        public let addonVersion: String?
+        /// The name of the cluster.
+        public let clusterName: String?
+        /// The date and time that the add-on was created.
+        public let createdAt: Date?
+        /// An object that represents the health of the add-on.
+        public let health: AddonHealth?
+        /// The date and time that the add-on was last modified.
+        public let modifiedAt: Date?
+        /// The Amazon Resource Name (ARN) of the IAM role that is bound to the Kubernetes service account used by the add-on.
+        public let serviceAccountRoleArn: String?
+        /// The status of the add-on.
+        public let status: AddonStatus?
+        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Cluster tags do not propagate to any other resources associated with the cluster.
+        public let tags: [String: String]?
+
+        public init(addonArn: String? = nil, addonName: String? = nil, addonVersion: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, health: AddonHealth? = nil, modifiedAt: Date? = nil, serviceAccountRoleArn: String? = nil, status: AddonStatus? = nil, tags: [String: String]? = nil) {
+            self.addonArn = addonArn
+            self.addonName = addonName
+            self.addonVersion = addonVersion
+            self.clusterName = clusterName
+            self.createdAt = createdAt
+            self.health = health
+            self.modifiedAt = modifiedAt
+            self.serviceAccountRoleArn = serviceAccountRoleArn
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonArn
+            case addonName
+            case addonVersion
+            case clusterName
+            case createdAt
+            case health
+            case modifiedAt
+            case serviceAccountRoleArn
+            case status
+            case tags
+        }
+    }
+
+    public struct AddonHealth: AWSDecodableShape {
+        /// An object that represents the add-on's health issues.
+        public let issues: [AddonIssue]?
+
+        public init(issues: [AddonIssue]? = nil) {
+            self.issues = issues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issues
+        }
+    }
+
+    public struct AddonInfo: AWSDecodableShape {
+        /// The name of the add-on.
+        public let addonName: String?
+        /// An object that represents information about available add-on versions and compatible Kubernetes versions.
+        public let addonVersions: [AddonVersionInfo]?
+        /// The type of the add-on.
+        public let type: String?
+
+        public init(addonName: String? = nil, addonVersions: [AddonVersionInfo]? = nil, type: String? = nil) {
+            self.addonName = addonName
+            self.addonVersions = addonVersions
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonName
+            case addonVersions
+            case type
+        }
+    }
+
+    public struct AddonIssue: AWSDecodableShape {
+        /// A code that describes the type of issue.
+        public let code: AddonIssueCode?
+        /// A message that provides details about the issue and what might cause it.
+        public let message: String?
+        /// The resource IDs of the issue.
+        public let resourceIds: [String]?
+
+        public init(code: AddonIssueCode? = nil, message: String? = nil, resourceIds: [String]? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceIds = resourceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+            case resourceIds
+        }
+    }
+
+    public struct AddonVersionInfo: AWSDecodableShape {
+        /// The version of the add-on.
+        public let addonVersion: String?
+        /// The architectures that the version supports.
+        public let architecture: [String]?
+        /// An object that represents the compatibilities of a version.
+        public let compatibilities: [Compatibility]?
+
+        public init(addonVersion: String? = nil, architecture: [String]? = nil, compatibilities: [Compatibility]? = nil) {
+            self.addonVersion = addonVersion
+            self.architecture = architecture
+            self.compatibilities = compatibilities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonVersion
+            case architecture
+            case compatibilities
+        }
+    }
 
     public struct AutoScalingGroup: AWSDecodableShape {
         /// The name of the Auto Scaling group associated with an Amazon EKS managed node group.
@@ -178,7 +341,7 @@ extension EKS {
         public let endpoint: String?
         /// The identity provider information for the cluster.
         public let identity: Identity?
-        /// Network configuration settings for your cluster.
+        /// The Kubernetes network configuration for the cluster.
         public let kubernetesNetworkConfig: KubernetesNetworkConfigResponse?
         /// The logging configuration for your cluster.
         public let logging: Logging?
@@ -233,6 +396,92 @@ extension EKS {
             case status
             case tags
             case version
+        }
+    }
+
+    public struct Compatibility: AWSDecodableShape {
+        /// The supported Kubernetes version of the cluster.
+        public let clusterVersion: String?
+        /// The supported default version.
+        public let defaultVersion: Bool?
+        /// The supported compute platform.
+        public let platformVersions: [String]?
+
+        public init(clusterVersion: String? = nil, defaultVersion: Bool? = nil, platformVersions: [String]? = nil) {
+            self.clusterVersion = clusterVersion
+            self.defaultVersion = defaultVersion
+            self.platformVersions = platformVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterVersion
+            case defaultVersion
+            case platformVersions
+        }
+    }
+
+    public struct CreateAddonRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
+        ]
+
+        /// The name of the add-on. The name must match one of the names returned by  ListAddons .
+        public let addonName: String
+        /// The version of the add-on. The version must match one of the versions returned by  DescribeAddonVersions .
+        public let addonVersion: String?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the cluster to create the add-on for.
+        public let clusterName: String
+        /// How to resolve parameter value conflicts when migrating an existing add-on to an Amazon EKS add-on.
+        public let resolveConflicts: ResolveConflicts?
+        /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
+        public let serviceAccountRoleArn: String?
+        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [String: String]?
+
+        public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = CreateAddonRequest.idempotencyToken(), clusterName: String, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil, tags: [String: String]? = nil) {
+            self.addonName = addonName
+            self.addonVersion = addonVersion
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.resolveConflicts = resolveConflicts
+            self.serviceAccountRoleArn = serviceAccountRoleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+            try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, max: 255)
+            try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonName
+            case addonVersion
+            case clientRequestToken
+            case resolveConflicts
+            case serviceAccountRoleArn
+            case tags
+        }
+    }
+
+    public struct CreateAddonResponse: AWSDecodableShape {
+        public let addon: Addon?
+
+        public init(addon: Addon? = nil) {
+            self.addon = addon
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addon
         }
     }
 
@@ -372,15 +621,17 @@ extension EKS {
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
         ]
 
-        /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type. Non-GPU instances should use the AL2_x86_64 AMI type. Arm instances should use the AL2_ARM_64 AMI type. All types use the Amazon EKS-optimized Amazon Linux 2 AMI. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type. Non-GPU instances should use the AL2_x86_64 AMI type. Arm instances should use the AL2_ARM_64 AMI type. All types use the Amazon EKS optimized Amazon Linux 2 AMI. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let amiType: AMITypes?
+        /// The capacity type for your node group.
+        public let capacityType: CapacityTypes?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the cluster to create the node group in.
         public let clusterName: String
         /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB. If you specify launchTemplate, then don't specify diskSize, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let diskSize: Int?
-        /// The instance type to use for your node group. You can specify a single instance type for a node group. The default value for instanceTypes is t3.medium. If you choose a GPU instance type, be sure to specify AL2_x86_64_GPU with the amiType parameter. If you specify launchTemplate, then don't specify instanceTypes, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// Specify the instance types for a node group. If you specify a GPU instance type, be sure to specify AL2_x86_64_GPU with the amiType parameter. If you specify launchTemplate, then you can specify zero or one instance type in your launch template or you can specify 0-20 instance types for instanceTypes. If however, you specify an instance type in your launch template and specify any instanceTypes, the node group deployment will fail. If you don't specify an instance type in a launch template or for instanceTypes, then t3.medium is used, by default. If you specify Spot for capacityType, then we recommend specifying multiple values for instanceTypes. For more information, see Managed node group capacity types and Launch template support in the Amazon EKS User Guide.
         public let instanceTypes: [String]?
         /// The Kubernetes labels to be applied to the nodes in the node group when they are created.
         public let labels: [String: String]?
@@ -390,7 +641,7 @@ extension EKS {
         public let nodegroupName: String
         /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify  IamInstanceProfile  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let nodeRole: String
-        /// The AMI version of the Amazon EKS-optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let releaseVersion: String?
         /// The remote access (SSH) configuration to use with your node group. If you specify launchTemplate, then don't specify remoteAccess, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let remoteAccess: RemoteAccessConfig?
@@ -403,8 +654,9 @@ extension EKS {
         /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, version: String? = nil) {
             self.amiType = amiType
+            self.capacityType = capacityType
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.diskSize = diskSize
@@ -438,6 +690,7 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case amiType
+            case capacityType
             case clientRequestToken
             case diskSize
             case instanceTypes
@@ -464,6 +717,43 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case nodegroup
+        }
+    }
+
+    public struct DeleteAddonRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "addonName", location: .uri(locationName: "addonName")),
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
+        ]
+
+        /// The name of the add-on. The name must match one of the names returned by  ListAddons .
+        public let addonName: String
+        /// The name of the cluster to delete the add-on from.
+        public let clusterName: String
+
+        public init(addonName: String, clusterName: String) {
+            self.addonName = addonName
+            self.clusterName = clusterName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAddonResponse: AWSDecodableShape {
+        public let addon: Addon?
+
+        public init(addon: Addon? = nil) {
+            self.addon = addon
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addon
         }
     }
 
@@ -556,6 +846,92 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case nodegroup
+        }
+    }
+
+    public struct DescribeAddonRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "addonName", location: .uri(locationName: "addonName")),
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
+        ]
+
+        /// The name of the add-on. The name must match one of the names returned by  ListAddons .
+        public let addonName: String
+        /// The name of the cluster.
+        public let clusterName: String
+
+        public init(addonName: String, clusterName: String) {
+            self.addonName = addonName
+            self.clusterName = clusterName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAddonResponse: AWSDecodableShape {
+        public let addon: Addon?
+
+        public init(addon: Addon? = nil) {
+            self.addon = addon
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addon
+        }
+    }
+
+    public struct DescribeAddonVersionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "addonName", location: .querystring(locationName: "addonName")),
+            AWSMemberEncoding(label: "kubernetesVersion", location: .querystring(locationName: "kubernetesVersion")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The name of the add-on. The name must match one of the names returned by  ListAddons .
+        public let addonName: String?
+        /// The Kubernetes versions that the add-on can be used with.
+        public let kubernetesVersion: String?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated DescribeAddonVersionsRequest where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        public init(addonName: String? = nil, kubernetesVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.addonName = addonName
+            self.kubernetesVersion = kubernetesVersion
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAddonVersionsResponse: AWSDecodableShape {
+        /// The list of available versions with Kubernetes version compatibility.
+        public let addons: [AddonInfo]?
+        /// The nextToken value returned from a previous paginated DescribeAddonVersionsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        public init(addons: [AddonInfo]? = nil, nextToken: String? = nil) {
+            self.addons = addons
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addons
+            case nextToken
         }
     }
 
@@ -653,11 +1029,14 @@ extension EKS {
 
     public struct DescribeUpdateRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "addonName", location: .querystring(locationName: "addonName")),
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
             AWSMemberEncoding(label: "nodegroupName", location: .querystring(locationName: "nodegroupName")),
             AWSMemberEncoding(label: "updateId", location: .uri(locationName: "updateId"))
         ]
 
+        /// The name of the add-on. The name must match one of the names returned by  ListAddons .
+        public let addonName: String?
         /// The name of the Amazon EKS cluster associated with the update.
         public let name: String
         /// The name of the Amazon EKS node group associated with the update.
@@ -665,7 +1044,8 @@ extension EKS {
         /// The ID of the update to describe.
         public let updateId: String
 
-        public init(name: String, nodegroupName: String? = nil, updateId: String) {
+        public init(addonName: String? = nil, name: String, nodegroupName: String? = nil, updateId: String) {
+            self.addonName = addonName
             self.name = name
             self.nodegroupName = nodegroupName
             self.updateId = updateId
@@ -801,7 +1181,7 @@ extension EKS {
     }
 
     public struct Issue: AWSDecodableShape {
-        /// A brief description of the error.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient worker node IAM role permissions or lack of outbound internet access for the nodes.     InstanceLimitExceeded: Your AWS account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    AccessDenied: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.
+        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your AWS account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient worker node IAM role permissions or lack of outbound internet access for the nodes.
         public let code: NodegroupIssueCode?
         /// The error message associated with the issue.
         public let message: String?
@@ -835,7 +1215,7 @@ extension EKS {
     }
 
     public struct KubernetesNetworkConfigResponse: AWSDecodableShape {
-        /// The CIDR block that Kubernetes service IP addresses are assigned from. If you didn't specify a CIDR block, then Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. If this was specified, then it was specified when the cluster was created and it cannot be changed.
+        /// The CIDR block that Kubernetes service IP addresses are assigned from. If you didn't specify a CIDR block when you created the cluster, then Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. If this was specified, then it was specified when the cluster was created and it cannot be changed.
         public let serviceIpv4Cidr: String?
 
         public init(serviceIpv4Cidr: String? = nil) {
@@ -865,6 +1245,54 @@ extension EKS {
             case id
             case name
             case version
+        }
+    }
+
+    public struct ListAddonsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The name of the cluster.
+        public let clusterName: String
+        /// The maximum number of add-on results returned by ListAddonsRequest in paginated output. When you use this parameter, ListAddonsRequest returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListAddonsRequest request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListAddonsRequest returns up to 100 results and a nextToken value, if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListAddonsRequest where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterName = clusterName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAddonsResponse: AWSDecodableShape {
+        /// A list of available add-ons.
+        public let addons: [String]?
+        /// The nextToken value returned from a previous paginated ListAddonsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        public init(addons: [String]? = nil, nextToken: String? = nil) {
+            self.addons = addons
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addons
+            case nextToken
         }
     }
 
@@ -1029,12 +1457,15 @@ extension EKS {
 
     public struct ListUpdatesRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "addonName", location: .querystring(locationName: "addonName")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "nodegroupName", location: .querystring(locationName: "nodegroupName"))
         ]
 
+        /// The names of the installed add-ons that have available updates.
+        public let addonName: String?
         /// The maximum number of update results returned by ListUpdates in paginated output. When you use this parameter, ListUpdates returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListUpdates request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListUpdates returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
         /// The name of the Amazon EKS cluster to list updates for.
@@ -1044,7 +1475,8 @@ extension EKS {
         /// The name of the Amazon EKS managed node group to list updates for.
         public let nodegroupName: String?
 
-        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil, nodegroupName: String? = nil) {
+        public init(addonName: String? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil, nodegroupName: String? = nil) {
+            self.addonName = addonName
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -1109,6 +1541,8 @@ extension EKS {
     public struct Nodegroup: AWSDecodableShape {
         /// If the node group was deployed using a launch template with a custom AMI, then this is CUSTOM. For node groups that weren't deployed using a launch template, this is the AMI type that was specified in the node group configuration.
         public let amiType: AMITypes?
+        /// The capacity type of your managed node group.
+        public let capacityType: CapacityTypes?
         /// The name of the cluster that the managed node group resides in.
         public let clusterName: String?
         /// The Unix epoch timestamp in seconds for when the managed node group was created.
@@ -1131,7 +1565,7 @@ extension EKS {
         public let nodegroupName: String?
         /// The IAM role associated with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies.
         public let nodeRole: String?
-        /// If the node group was deployed using a launch template with a custom AMI, then this is the AMI ID that was specified in the launch template. For node groups that weren't deployed using a launch template, this is the version of the Amazon EKS-optimized AMI that the node group was deployed with.
+        /// If the node group was deployed using a launch template with a custom AMI, then this is the AMI ID that was specified in the launch template. For node groups that weren't deployed using a launch template, this is the version of the Amazon EKS optimized AMI that the node group was deployed with.
         public let releaseVersion: String?
         /// If the node group wasn't deployed with a launch template, then this is the remote access configuration that is associated with the node group. If the node group was deployed with a launch template, then this is null.
         public let remoteAccess: RemoteAccessConfig?
@@ -1148,8 +1582,9 @@ extension EKS {
         /// The Kubernetes version of the managed node group.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.amiType = amiType
+            self.capacityType = capacityType
             self.clusterName = clusterName
             self.createdAt = createdAt
             self.diskSize = diskSize
@@ -1173,6 +1608,7 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case amiType
+            case capacityType
             case clusterName
             case createdAt
             case diskSize
@@ -1392,6 +1828,62 @@ extension EKS {
         }
     }
 
+    public struct UpdateAddonRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "addonName", location: .uri(locationName: "addonName")),
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
+        ]
+
+        /// The name of the add-on. The name must match one of the names returned by  ListAddons .
+        public let addonName: String
+        /// The version of the add-on. The version must match one of the versions returned by  DescribeAddonVersions .
+        public let addonVersion: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the cluster.
+        public let clusterName: String
+        /// How to resolve parameter value conflicts when applying the new version of the add-on to the cluster.
+        public let resolveConflicts: ResolveConflicts?
+        /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
+        public let serviceAccountRoleArn: String?
+
+        public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = UpdateAddonRequest.idempotencyToken(), clusterName: String, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil) {
+            self.addonName = addonName
+            self.addonVersion = addonVersion
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.resolveConflicts = resolveConflicts
+            self.serviceAccountRoleArn = serviceAccountRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+            try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, max: 255)
+            try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonVersion
+            case clientRequestToken
+            case resolveConflicts
+            case serviceAccountRoleArn
+        }
+    }
+
+    public struct UpdateAddonResponse: AWSDecodableShape {
+        public let update: Update?
+
+        public init(update: Update? = nil) {
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case update
+        }
+    }
+
     public struct UpdateClusterConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -1559,7 +2051,7 @@ extension EKS {
         public let launchTemplate: LaunchTemplateSpecification?
         /// The name of the managed node group to update.
         public let nodegroupName: String
-        /// The AMI version of the Amazon EKS-optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions  in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions  in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let releaseVersion: String?
         /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let version: String?
@@ -1619,7 +2111,7 @@ extension EKS {
         public let endpointPublicAccess: Bool?
         /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have worker nodes or AWS Fargate pods in the cluster, then ensure that you specify the necessary CIDR blocks. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let publicAccessCidrs: [String]?
-        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane. If you don't specify a security group, the default security group for your VPC is used.
+        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes:   1.14 Amazon EKS platform version eks.2 and earlier   1.14 Amazon EKS platform version eks.3 and later    For more information, see Amazon EKS security group considerations in the  Amazon EKS User Guide .
         public let securityGroupIds: [String]?
         /// Specify subnets for your Amazon EKS worker nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your worker nodes and the Kubernetes control plane.
         public let subnetIds: [String]?

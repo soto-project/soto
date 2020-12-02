@@ -20,6 +20,16 @@ import SotoCore
 extension SageMaker {
     // MARK: Enums
 
+    public enum ActionStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AlgorithmSortBy: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
         case name = "Name"
@@ -105,9 +115,41 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ArtifactSourceIdType: String, CustomStringConvertible, Codable {
+        case custom = "Custom"
+        case md5hash = "MD5Hash"
+        case s3etag = "S3ETag"
+        case s3version = "S3Version"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssemblyType: String, CustomStringConvertible, Codable {
         case line = "Line"
         case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationEdgeType: String, CustomStringConvertible, Codable {
+        case associatedwith = "AssociatedWith"
+        case contributedto = "ContributedTo"
+        case derivedfrom = "DerivedFrom"
+        case produced = "Produced"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AthenaResultCompressionType: String, CustomStringConvertible, Codable {
+        case gzip = "GZIP"
+        case snappy = "SNAPPY"
+        case zlib = "ZLIB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AthenaResultFormat: String, CustomStringConvertible, Codable {
+        case avro = "AVRO"
+        case json = "JSON"
+        case orc = "ORC"
+        case parquet = "PARQUET"
+        case textfile = "TEXTFILE"
         public var description: String { return self.rawValue }
     }
 
@@ -215,6 +257,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacitySizeType: String, CustomStringConvertible, Codable {
+        case capacityPercent = "CAPACITY_PERCENT"
+        case instanceCount = "INSTANCE_COUNT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CaptureMode: String, CustomStringConvertible, Codable {
         case input = "Input"
         case output = "Output"
@@ -256,6 +304,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConditionOutcome: String, CustomStringConvertible, Codable {
+        case `false` = "False"
+        case `true` = "True"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContainerMode: String, CustomStringConvertible, Codable {
         case multimodel = "MultiModel"
         case singlemodel = "SingleModel"
@@ -265,6 +319,12 @@ extension SageMaker {
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
         case freeofadultcontent = "FreeOfAdultContent"
         case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataDistributionType: String, CustomStringConvertible, Codable {
+        case fullyreplicated = "FullyReplicated"
+        case shardedbys3key = "ShardedByS3Key"
         public var description: String { return self.rawValue }
     }
 
@@ -337,6 +397,36 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum FeatureGroupSortBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case featuregroupstatus = "FeatureGroupStatus"
+        case name = "Name"
+        case offlinestorestatus = "OfflineStoreStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureGroupSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureGroupStatus: String, CustomStringConvertible, Codable {
+        case created = "Created"
+        case createfailed = "CreateFailed"
+        case creating = "Creating"
+        case deletefailed = "DeleteFailed"
+        case deleting = "Deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureType: String, CustomStringConvertible, Codable {
+        case fractional = "Fractional"
+        case integral = "Integral"
+        case string = "String"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FileSystemAccessMode: String, CustomStringConvertible, Codable {
         case ro
         case rw
@@ -363,6 +453,7 @@ extension SageMaker {
         case mxnet = "MXNET"
         case onnx = "ONNX"
         case pytorch = "PYTORCH"
+        case sklearn = "SKLEARN"
         case tensorflow = "TENSORFLOW"
         case tflite = "TFLITE"
         case xgboost = "XGBOOST"
@@ -463,6 +554,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum InputMode: String, CustomStringConvertible, Codable {
+        case file = "File"
+        case pipe = "Pipe"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceType: String, CustomStringConvertible, Codable {
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
@@ -545,6 +642,29 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ModelApprovalStatus: String, CustomStringConvertible, Codable {
+        case approved = "Approved"
+        case pendingmanualapproval = "PendingManualApproval"
+        case rejected = "Rejected"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelPackageGroupSortBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelPackageGroupStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case deletefailed = "DeleteFailed"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelPackageSortBy: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
         case name = "Name"
@@ -557,6 +677,13 @@ extension SageMaker {
         case failed = "Failed"
         case inprogress = "InProgress"
         case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelPackageType: String, CustomStringConvertible, Codable {
+        case both = "Both"
+        case unversioned = "Unversioned"
+        case versioned = "Versioned"
         public var description: String { return self.rawValue }
     }
 
@@ -640,6 +767,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum OfflineStoreStatusValue: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case blocked = "Blocked"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Operator`: String, CustomStringConvertible, Codable {
         case contains = "Contains"
         case equals = "Equals"
@@ -665,6 +799,20 @@ extension SageMaker {
         case continuous = "Continuous"
         case freetext = "FreeText"
         case integer = "Integer"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable {
+        case executing = "Executing"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PipelineStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
         public var description: String { return self.rawValue }
     }
 
@@ -836,9 +984,47 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProjectSortBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectStatus: String, CustomStringConvertible, Codable {
+        case createcompleted = "CreateCompleted"
+        case createfailed = "CreateFailed"
+        case createinprogress = "CreateInProgress"
+        case deletecompleted = "DeleteCompleted"
+        case deletefailed = "DeleteFailed"
+        case deleteinprogress = "DeleteInProgress"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecordWrapper: String, CustomStringConvertible, Codable {
         case none = "None"
         case recordio = "RecordIO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RedshiftResultCompressionType: String, CustomStringConvertible, Codable {
+        case bzip2 = "BZIP2"
+        case gzip = "GZIP"
+        case none = "None"
+        case snappy = "SNAPPY"
+        case zstd = "ZSTD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RedshiftResultFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
@@ -849,9 +1035,15 @@ extension SageMaker {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
+        case endpoint = "Endpoint"
         case experiment = "Experiment"
         case experimenttrial = "ExperimentTrial"
         case experimenttrialcomponent = "ExperimentTrialComponent"
+        case featuregroup = "FeatureGroup"
+        case modelpackage = "ModelPackage"
+        case modelpackagegroup = "ModelPackageGroup"
+        case pipeline = "Pipeline"
+        case pipelineexecution = "PipelineExecution"
         case trainingjob = "TrainingJob"
         public var description: String { return self.rawValue }
     }
@@ -891,6 +1083,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum SagemakerServicecatalogStatus: String, CustomStringConvertible, Codable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScheduleStatus: String, CustomStringConvertible, Codable {
         case failed = "Failed"
         case pending = "Pending"
@@ -919,7 +1117,28 @@ extension SageMaker {
         case stopped = "Stopped"
         case stopping = "Stopping"
         case training = "Training"
+        case updating = "Updating"
         case uploading = "Uploading"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortActionsBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortArtifactsBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortAssociationsBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case destinationarn = "DestinationArn"
+        case destinationtype = "DestinationType"
+        case sourcearn = "SourceArn"
+        case sourcetype = "SourceType"
         public var description: String { return self.rawValue }
     }
 
@@ -927,6 +1146,12 @@ extension SageMaker {
         case creationtime = "CreationTime"
         case name = "Name"
         case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortContextsBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
@@ -939,6 +1164,18 @@ extension SageMaker {
     public enum SortOrder: String, CustomStringConvertible, Codable {
         case ascending = "Ascending"
         case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortPipelineExecutionsBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case pipelineexecutionarn = "PipelineExecutionArn"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortPipelinesBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
@@ -962,12 +1199,23 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum StepStatus: String, CustomStringConvertible, Codable {
+        case executing = "Executing"
+        case failed = "Failed"
+        case starting = "Starting"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetDevice: String, CustomStringConvertible, Codable {
         case aisage
         case ambaCv22 = "amba_cv22"
         case coreml
         case deeplens
         case imx8qm
+        case jacintoTda4Vm = "jacinto_tda4vm"
         case jetsonNano = "jetson_nano"
         case jetsonTx1 = "jetson_tx1"
         case jetsonTx2 = "jetson_tx2"
@@ -1012,6 +1260,12 @@ extension SageMaker {
     public enum TargetPlatformOs: String, CustomStringConvertible, Codable {
         case android = "ANDROID"
         case linux = "LINUX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficRoutingConfigType: String, CustomStringConvertible, Codable {
+        case allAtOnce = "ALL_AT_ONCE"
+        case canary = "CANARY"
         public var description: String { return self.rawValue }
     }
 
@@ -1161,10 +1415,119 @@ extension SageMaker {
 
     // MARK: Shapes
 
+    public struct ActionSource: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the source.
+        public let sourceId: String?
+        /// The type of the source.
+        public let sourceType: String?
+        /// The URI of the source.
+        public let sourceUri: String
+
+        public init(sourceId: String? = nil, sourceType: String? = nil, sourceUri: String) {
+            self.sourceId = sourceId
+            self.sourceType = sourceType
+            self.sourceUri = sourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceId, name: "sourceId", parent: name, max: 256)
+            try self.validate(self.sourceType, name: "sourceType", parent: name, max: 256)
+            try self.validate(self.sourceUri, name: "sourceUri", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceId = "SourceId"
+            case sourceType = "SourceType"
+            case sourceUri = "SourceUri"
+        }
+    }
+
+    public struct ActionSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the action.
+        public let actionArn: String?
+        /// The name of the action.
+        public let actionName: String?
+        /// The type of the action.
+        public let actionType: String?
+        /// When the action was created.
+        public let creationTime: Date?
+        /// When the action was last modified.
+        public let lastModifiedTime: Date?
+        /// The source of the action.
+        public let source: ActionSource?
+        /// The status of the action.
+        public let status: ActionStatus?
+
+        public init(actionArn: String? = nil, actionName: String? = nil, actionType: String? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, source: ActionSource? = nil, status: ActionStatus? = nil) {
+            self.actionArn = actionArn
+            self.actionName = actionName
+            self.actionType = actionType
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.source = source
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArn = "ActionArn"
+            case actionName = "ActionName"
+            case actionType = "ActionType"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case source = "Source"
+            case status = "Status"
+        }
+    }
+
+    public struct AddAssociationRequest: AWSEncodableShape {
+        /// The type of association. The following are suggested uses for each type. Amazon SageMaker places no restrictions on their use.   ContributedTo - The source contributed to the destination or had a part in enabling the destination. For example, the training data contributed to the training job.   AssociatedWith - The source is connected to the destination. For example, an approval workflow is associated with a model deployment.   DerivedFrom - The destination is a modification of the source. For example, a digest output of a channel input for a processing job is derived from the original inputs.   Produced - The source generated the destination. For example, a training job produced a model artifact.
+        public let associationType: AssociationEdgeType?
+        /// The Amazon Resource Name (ARN) of the destination.
+        public let destinationArn: String
+        /// The ARN of the source.
+        public let sourceArn: String
+
+        public init(associationType: AssociationEdgeType? = nil, destinationArn: String, sourceArn: String) {
+            self.associationType = associationType
+            self.destinationArn = destinationArn
+            self.sourceArn = sourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 256)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*")
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 256)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationType = "AssociationType"
+            case destinationArn = "DestinationArn"
+            case sourceArn = "SourceArn"
+        }
+    }
+
+    public struct AddAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination.
+        public let destinationArn: String?
+        /// The ARN of the source.
+        public let sourceArn: String?
+
+        public init(destinationArn: String? = nil, sourceArn: String? = nil) {
+            self.destinationArn = destinationArn
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "DestinationArn"
+            case sourceArn = "SourceArn"
+        }
+    }
+
     public struct AddTagsInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
-        /// An array of Tag objects. Each tag is a key-value pair. Only the key parameter is required. If you don't specify a value, Amazon SageMaker sets the value to an empty string.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -1174,7 +1537,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:.*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1198,6 +1561,24 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct Alarm: AWSEncodableShape & AWSDecodableShape {
+        public let alarmName: String?
+
+        public init(alarmName: String? = nil) {
+            self.alarmName = alarmName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmName, name: "alarmName", parent: name, max: 255)
+            try self.validate(self.alarmName, name: "alarmName", parent: name, min: 1)
+            try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "^(?!\\s*$).+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "AlarmName"
         }
     }
 
@@ -1327,7 +1708,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 63)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 1)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.trainingJobDefinition.validate(name: "\(name).trainingJobDefinition")
             try self.transformJobDefinition?.validate(name: "\(name).transformJobDefinition")
         }
@@ -1377,7 +1758,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.annotationConsolidationLambdaArn, name: "annotationConsolidationLambdaArn", parent: name, max: 2048)
-            try self.validate(self.annotationConsolidationLambdaArn, name: "annotationConsolidationLambdaArn", parent: name, pattern: "arn:aws[a-z\\-]*:lambda:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.validate(self.annotationConsolidationLambdaArn, name: "annotationConsolidationLambdaArn", parent: name, pattern: "arn:aws[a-z\\-]*:lambda:[a-z0-9\\-]*:[0-9]{12}:function:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1485,6 +1866,84 @@ extension SageMaker {
         }
     }
 
+    public struct ArtifactSource: AWSEncodableShape & AWSDecodableShape {
+        /// A list of source types.
+        public let sourceTypes: [ArtifactSourceType]?
+        /// The URI of the source.
+        public let sourceUri: String
+
+        public init(sourceTypes: [ArtifactSourceType]? = nil, sourceUri: String) {
+            self.sourceTypes = sourceTypes
+            self.sourceUri = sourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceTypes?.forEach {
+                try $0.validate(name: "\(name).sourceTypes[]")
+            }
+            try self.validate(self.sourceUri, name: "sourceUri", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceTypes = "SourceTypes"
+            case sourceUri = "SourceUri"
+        }
+    }
+
+    public struct ArtifactSourceType: AWSEncodableShape & AWSDecodableShape {
+        /// The type of ID.
+        public let sourceIdType: ArtifactSourceIdType
+        /// The ID.
+        public let value: String
+
+        public init(sourceIdType: ArtifactSourceIdType, value: String) {
+            self.sourceIdType = sourceIdType
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIdType = "SourceIdType"
+            case value = "Value"
+        }
+    }
+
+    public struct ArtifactSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the artifact.
+        public let artifactArn: String?
+        /// The name of the artifact.
+        public let artifactName: String?
+        /// The type of the artifact.
+        public let artifactType: String?
+        /// When the artifact was created.
+        public let creationTime: Date?
+        /// When the artifact was last modified.
+        public let lastModifiedTime: Date?
+        /// The source of the artifact.
+        public let source: ArtifactSource?
+
+        public init(artifactArn: String? = nil, artifactName: String? = nil, artifactType: String? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, source: ArtifactSource? = nil) {
+            self.artifactArn = artifactArn
+            self.artifactName = artifactName
+            self.artifactType = artifactType
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactArn = "ArtifactArn"
+            case artifactName = "ArtifactName"
+            case artifactType = "ArtifactType"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case source = "Source"
+        }
+    }
+
     public struct AssociateTrialComponentRequest: AWSEncodableShape {
         /// The name of the component to associated with the trial.
         public let trialComponentName: String
@@ -1499,10 +1958,10 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, max: 120)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, min: 1)
-            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.trialName, name: "trialName", parent: name, max: 120)
             try self.validate(self.trialName, name: "trialName", parent: name, min: 1)
-            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1525,6 +1984,104 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case trialArn = "TrialArn"
             case trialComponentArn = "TrialComponentArn"
+        }
+    }
+
+    public struct AssociationSummary: AWSDecodableShape {
+        /// The type of the association.
+        public let associationType: AssociationEdgeType?
+        public let createdBy: UserContext?
+        /// When the association was created.
+        public let creationTime: Date?
+        /// The Amazon Resource Name (ARN) of the destination.
+        public let destinationArn: String?
+        /// The name of the destination.
+        public let destinationName: String?
+        /// The destination type.
+        public let destinationType: String?
+        /// The ARN of the source.
+        public let sourceArn: String?
+        /// The name of the source.
+        public let sourceName: String?
+        /// The source type.
+        public let sourceType: String?
+
+        public init(associationType: AssociationEdgeType? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, destinationArn: String? = nil, destinationName: String? = nil, destinationType: String? = nil, sourceArn: String? = nil, sourceName: String? = nil, sourceType: String? = nil) {
+            self.associationType = associationType
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.destinationArn = destinationArn
+            self.destinationName = destinationName
+            self.destinationType = destinationType
+            self.sourceArn = sourceArn
+            self.sourceName = sourceName
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationType = "AssociationType"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case destinationArn = "DestinationArn"
+            case destinationName = "DestinationName"
+            case destinationType = "DestinationType"
+            case sourceArn = "SourceArn"
+            case sourceName = "SourceName"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct AthenaDatasetDefinition: AWSEncodableShape & AWSDecodableShape {
+        public let catalog: String
+        public let database: String
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data generated from an Athena query execution.
+        public let kmsKeyId: String?
+        public let outputCompression: AthenaResultCompressionType?
+        public let outputFormat: AthenaResultFormat
+        /// The location in Amazon S3 where Athena query results are stored.
+        public let outputS3Uri: String
+        public let queryString: String
+        public let workGroup: String?
+
+        public init(catalog: String, database: String, kmsKeyId: String? = nil, outputCompression: AthenaResultCompressionType? = nil, outputFormat: AthenaResultFormat, outputS3Uri: String, queryString: String, workGroup: String? = nil) {
+            self.catalog = catalog
+            self.database = database
+            self.kmsKeyId = kmsKeyId
+            self.outputCompression = outputCompression
+            self.outputFormat = outputFormat
+            self.outputS3Uri = outputS3Uri
+            self.queryString = queryString
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 256)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.database, name: "database", parent: name, max: 255)
+            try self.validate(self.database, name: "database", parent: name, min: 1)
+            try self.validate(self.database, name: "database", parent: name, pattern: ".*")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.outputS3Uri, name: "outputS3Uri", parent: name, max: 1024)
+            try self.validate(self.outputS3Uri, name: "outputS3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 4096)
+            try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.validate(self.queryString, name: "queryString", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.workGroup, name: "workGroup", parent: name, max: 128)
+            try self.validate(self.workGroup, name: "workGroup", parent: name, min: 1)
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case database = "Database"
+            case kmsKeyId = "KmsKeyId"
+            case outputCompression = "OutputCompression"
+            case outputFormat = "OutputFormat"
+            case outputS3Uri = "OutputS3Uri"
+            case queryString = "QueryString"
+            case workGroup = "WorkGroup"
         }
     }
 
@@ -1851,6 +2408,102 @@ extension SageMaker {
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
             case volumeKmsKeyId = "VolumeKmsKeyId"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct AutoRollbackConfig: AWSEncodableShape & AWSDecodableShape {
+        public let alarms: [Alarm]?
+
+        public init(alarms: [Alarm]? = nil) {
+            self.alarms = alarms
+        }
+
+        public func validate(name: String) throws {
+            try self.alarms?.forEach {
+                try $0.validate(name: "\(name).alarms[]")
+            }
+            try self.validate(self.alarms, name: "alarms", parent: name, max: 10)
+            try self.validate(self.alarms, name: "alarms", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarms = "Alarms"
+        }
+    }
+
+    public struct Bias: AWSEncodableShape & AWSDecodableShape {
+        /// The bias report for a model
+        public let report: MetricsSource?
+
+        public init(report: MetricsSource? = nil) {
+            self.report = report
+        }
+
+        public func validate(name: String) throws {
+            try self.report?.validate(name: "\(name).report")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case report = "Report"
+        }
+    }
+
+    public struct BlueGreenUpdatePolicy: AWSEncodableShape & AWSDecodableShape {
+        public let maximumExecutionTimeoutInSeconds: Int?
+        public let terminationWaitInSeconds: Int?
+        public let trafficRoutingConfiguration: TrafficRoutingConfig
+
+        public init(maximumExecutionTimeoutInSeconds: Int? = nil, terminationWaitInSeconds: Int? = nil, trafficRoutingConfiguration: TrafficRoutingConfig) {
+            self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
+            self.terminationWaitInSeconds = terminationWaitInSeconds
+            self.trafficRoutingConfiguration = trafficRoutingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximumExecutionTimeoutInSeconds, name: "maximumExecutionTimeoutInSeconds", parent: name, max: 14400)
+            try self.validate(self.maximumExecutionTimeoutInSeconds, name: "maximumExecutionTimeoutInSeconds", parent: name, min: 600)
+            try self.validate(self.terminationWaitInSeconds, name: "terminationWaitInSeconds", parent: name, max: 3600)
+            try self.validate(self.terminationWaitInSeconds, name: "terminationWaitInSeconds", parent: name, min: 0)
+            try self.trafficRoutingConfiguration.validate(name: "\(name).trafficRoutingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumExecutionTimeoutInSeconds = "MaximumExecutionTimeoutInSeconds"
+            case terminationWaitInSeconds = "TerminationWaitInSeconds"
+            case trafficRoutingConfiguration = "TrafficRoutingConfiguration"
+        }
+    }
+
+    public struct CacheHitResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let sourcePipelineExecutionArn: String?
+
+        public init(sourcePipelineExecutionArn: String? = nil) {
+            self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourcePipelineExecutionArn = "SourcePipelineExecutionArn"
+        }
+    }
+
+    public struct CapacitySize: AWSEncodableShape & AWSDecodableShape {
+        /// This API is not supported.
+        public let type: CapacitySizeType
+        public let value: Int
+
+        public init(type: CapacitySizeType, value: Int) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
         }
     }
 
@@ -2235,6 +2888,19 @@ extension SageMaker {
         }
     }
 
+    public struct ConditionStepMetadata: AWSDecodableShape {
+        /// The outcome of the Condition step evaluation.
+        public let outcome: ConditionOutcome?
+
+        public init(outcome: ConditionOutcome? = nil) {
+            self.outcome = outcome
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outcome = "Outcome"
+        }
+    }
+
     public struct ContainerDefinition: AWSEncodableShape & AWSDecodableShape {
         /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of the parameter uniquely identifies the container for the purposes of logging and metrics. For information, see Use Logs and Metrics to Monitor an Inference Pipeline. If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public let containerHostname: String?
@@ -2263,7 +2929,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.containerHostname, name: "containerHostname", parent: name, max: 63)
-            try self.validate(self.containerHostname, name: "containerHostname", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.containerHostname, name: "containerHostname", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.environment?.forEach {
                 try validate($0.key, name: "environment.key", parent: name, max: 1024)
                 try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
@@ -2287,6 +2953,66 @@ extension SageMaker {
             case mode = "Mode"
             case modelDataUrl = "ModelDataUrl"
             case modelPackageName = "ModelPackageName"
+        }
+    }
+
+    public struct ContextSource: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the source.
+        public let sourceId: String?
+        /// The type of the source.
+        public let sourceType: String?
+        /// The URI of the source.
+        public let sourceUri: String
+
+        public init(sourceId: String? = nil, sourceType: String? = nil, sourceUri: String) {
+            self.sourceId = sourceId
+            self.sourceType = sourceType
+            self.sourceUri = sourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceId, name: "sourceId", parent: name, max: 256)
+            try self.validate(self.sourceType, name: "sourceType", parent: name, max: 256)
+            try self.validate(self.sourceUri, name: "sourceUri", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceId = "SourceId"
+            case sourceType = "SourceType"
+            case sourceUri = "SourceUri"
+        }
+    }
+
+    public struct ContextSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the context.
+        public let contextArn: String?
+        /// The name of the context.
+        public let contextName: String?
+        /// The type of the context.
+        public let contextType: String?
+        /// When the context was created.
+        public let creationTime: Date?
+        /// When the context was last modified.
+        public let lastModifiedTime: Date?
+        /// The source of the context.
+        public let source: ContextSource?
+
+        public init(contextArn: String? = nil, contextName: String? = nil, contextType: String? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, source: ContextSource? = nil) {
+            self.contextArn = contextArn
+            self.contextName = contextName
+            self.contextType = contextType
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextArn = "ContextArn"
+            case contextName = "ContextName"
+            case contextType = "ContextType"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case source = "Source"
         }
     }
 
@@ -2348,6 +3074,81 @@ extension SageMaker {
         }
     }
 
+    public struct CreateActionRequest: AWSEncodableShape {
+        /// The name of the action. Must be unique to your account in an AWS Region.
+        public let actionName: String
+        /// The action type.
+        public let actionType: String
+        /// The description of the action.
+        public let description: String?
+        public let metadataProperties: MetadataProperties?
+        /// A list of properties to add to the action.
+        public let properties: [String: String]?
+        /// The source type, ID, and URI.
+        public let source: ActionSource
+        /// The status of the action.
+        public let status: ActionStatus?
+        /// A list of tags to apply to the action.
+        public let tags: [Tag]?
+
+        public init(actionName: String, actionType: String, description: String? = nil, metadataProperties: MetadataProperties? = nil, properties: [String: String]? = nil, source: ActionSource, status: ActionStatus? = nil, tags: [Tag]? = nil) {
+            self.actionName = actionName
+            self.actionType = actionType
+            self.description = description
+            self.metadataProperties = metadataProperties
+            self.properties = properties
+            self.source = source
+            self.status = status
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionName, name: "actionName", parent: name, max: 120)
+            try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+            try self.validate(self.actionType, name: "actionType", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, max: 3072)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.metadataProperties?.validate(name: "\(name).metadataProperties")
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 256)
+                try validate($0.key, name: "properties.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.source.validate(name: "\(name).source")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "ActionName"
+            case actionType = "ActionType"
+            case description = "Description"
+            case metadataProperties = "MetadataProperties"
+            case properties = "Properties"
+            case source = "Source"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateActionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the action.
+        public let actionArn: String?
+
+        public init(actionArn: String? = nil) {
+            self.actionArn = actionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArn = "ActionArn"
+        }
+    }
+
     public struct CreateAlgorithmInput: AWSEncodableShape {
         /// A description of the algorithm.
         public let algorithmDescription: String?
@@ -2357,16 +3158,19 @@ extension SageMaker {
         public let certifyForMarketplace: Bool?
         /// Specifies details about inference jobs that the algorithm runs, including the following:   The Amazon ECR paths of containers that contain the inference code and model artifacts.   The instance types that the algorithm supports for transform jobs and real-time endpoints used for inference.   The input and output content formats that the algorithm supports for inference.
         public let inferenceSpecification: InferenceSpecification?
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        public let tags: [Tag]?
         /// Specifies details about training jobs run by this algorithm, including the following:   The Amazon ECR path of the container and the version digest of the algorithm.   The hyperparameters that the algorithm supports.   The instance types that the algorithm supports for training.   Whether the algorithm supports distributed training.   The metrics that the algorithm emits to Amazon CloudWatch.   Which metrics that the algorithm emits can be used as the objective metric for hyperparameter tuning jobs.   The input channels that the algorithm supports for training data. For example, an algorithm might support train, validation, and test channels.
         public let trainingSpecification: TrainingSpecification
         /// Specifies configurations for one or more training jobs and that Amazon SageMaker runs to test the algorithm's training code and, optionally, one or more batch transform jobs that Amazon SageMaker runs to test the algorithm's inference code.
         public let validationSpecification: AlgorithmValidationSpecification?
 
-        public init(algorithmDescription: String? = nil, algorithmName: String, certifyForMarketplace: Bool? = nil, inferenceSpecification: InferenceSpecification? = nil, trainingSpecification: TrainingSpecification, validationSpecification: AlgorithmValidationSpecification? = nil) {
+        public init(algorithmDescription: String? = nil, algorithmName: String, certifyForMarketplace: Bool? = nil, inferenceSpecification: InferenceSpecification? = nil, tags: [Tag]? = nil, trainingSpecification: TrainingSpecification, validationSpecification: AlgorithmValidationSpecification? = nil) {
             self.algorithmDescription = algorithmDescription
             self.algorithmName = algorithmName
             self.certifyForMarketplace = certifyForMarketplace
             self.inferenceSpecification = inferenceSpecification
+            self.tags = tags
             self.trainingSpecification = trainingSpecification
             self.validationSpecification = validationSpecification
         }
@@ -2376,8 +3180,13 @@ extension SageMaker {
             try self.validate(self.algorithmDescription, name: "algorithmDescription", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
             try self.validate(self.algorithmName, name: "algorithmName", parent: name, max: 63)
             try self.validate(self.algorithmName, name: "algorithmName", parent: name, min: 1)
-            try self.validate(self.algorithmName, name: "algorithmName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.algorithmName, name: "algorithmName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.inferenceSpecification?.validate(name: "\(name).inferenceSpecification")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.trainingSpecification.validate(name: "\(name).trainingSpecification")
             try self.validationSpecification?.validate(name: "\(name).validationSpecification")
         }
@@ -2387,6 +3196,7 @@ extension SageMaker {
             case algorithmName = "AlgorithmName"
             case certifyForMarketplace = "CertifyForMarketplace"
             case inferenceSpecification = "InferenceSpecification"
+            case tags = "Tags"
             case trainingSpecification = "TrainingSpecification"
             case validationSpecification = "ValidationSpecification"
         }
@@ -2421,7 +3231,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, max: 63)
-            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.kernelGatewayImageConfig?.validate(name: "\(name).kernelGatewayImageConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -2475,7 +3285,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.appName, name: "appName", parent: name, max: 63)
-            try self.validate(self.appName, name: "appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.appName, name: "appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
             try self.resourceSpec?.validate(name: "\(name).resourceSpec")
             try self.tags?.forEach {
@@ -2484,7 +3294,7 @@ extension SageMaker {
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
-            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2507,6 +3317,71 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case appArn = "AppArn"
+        }
+    }
+
+    public struct CreateArtifactRequest: AWSEncodableShape {
+        /// The name of the artifact. Must be unique to your account in an AWS Region.
+        public let artifactName: String?
+        /// The artifact type.
+        public let artifactType: String
+        public let metadataProperties: MetadataProperties?
+        /// A list of properties to add to the artifact.
+        public let properties: [String: String]?
+        /// The ID, ID type, and URI of the source.
+        public let source: ArtifactSource
+        /// A list of tags to apply to the artifact.
+        public let tags: [Tag]?
+
+        public init(artifactName: String? = nil, artifactType: String, metadataProperties: MetadataProperties? = nil, properties: [String: String]? = nil, source: ArtifactSource, tags: [Tag]? = nil) {
+            self.artifactName = artifactName
+            self.artifactType = artifactType
+            self.metadataProperties = metadataProperties
+            self.properties = properties
+            self.source = source
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.artifactName, name: "artifactName", parent: name, max: 120)
+            try self.validate(self.artifactName, name: "artifactName", parent: name, min: 1)
+            try self.validate(self.artifactName, name: "artifactName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+            try self.validate(self.artifactType, name: "artifactType", parent: name, max: 256)
+            try self.metadataProperties?.validate(name: "\(name).metadataProperties")
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 256)
+                try validate($0.key, name: "properties.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.source.validate(name: "\(name).source")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactName = "ArtifactName"
+            case artifactType = "ArtifactType"
+            case metadataProperties = "MetadataProperties"
+            case properties = "Properties"
+            case source = "Source"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateArtifactResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the artifact.
+        public let artifactArn: String?
+
+        public init(artifactArn: String? = nil) {
+            self.artifactArn = artifactArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactArn = "ArtifactArn"
         }
     }
 
@@ -2546,7 +3421,7 @@ extension SageMaker {
             try self.autoMLJobConfig?.validate(name: "\(name).autoMLJobConfig")
             try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, max: 32)
             try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, min: 1)
-            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
             try self.inputDataConfig.forEach {
                 try $0.validate(name: "\(name).inputDataConfig[]")
             }
@@ -2594,22 +3469,31 @@ extension SageMaker {
         public let codeRepositoryName: String
         /// Specifies details about the repository, including the URL where the repository is located, the default branch, and credentials to use to access the repository.
         public let gitConfig: GitConfig
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        public let tags: [Tag]?
 
-        public init(codeRepositoryName: String, gitConfig: GitConfig) {
+        public init(codeRepositoryName: String, gitConfig: GitConfig, tags: [Tag]? = nil) {
             self.codeRepositoryName = codeRepositoryName
             self.gitConfig = gitConfig
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, max: 63)
             try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, min: 1)
-            try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.gitConfig.validate(name: "\(name).gitConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case codeRepositoryName = "CodeRepositoryName"
             case gitConfig = "GitConfig"
+            case tags = "Tags"
         }
     }
 
@@ -2637,7 +3521,7 @@ extension SageMaker {
         public let roleArn: String
         /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
-        /// An array of key-value pairs that you want to use to organize and track your AWS resource costs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
 
         public init(compilationJobName: String, inputConfig: InputConfig, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil) {
@@ -2652,7 +3536,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, max: 63)
             try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, min: 1)
-            try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.inputConfig.validate(name: "\(name).inputConfig")
             try self.outputConfig.validate(name: "\(name).outputConfig")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
@@ -2689,6 +3573,73 @@ extension SageMaker {
         }
     }
 
+    public struct CreateContextRequest: AWSEncodableShape {
+        /// The name of the context. Must be unique to your account in an AWS Region.
+        public let contextName: String
+        /// The context type.
+        public let contextType: String
+        /// The description of the context.
+        public let description: String?
+        /// A list of properties to add to the context.
+        public let properties: [String: String]?
+        /// The source type, ID, and URI.
+        public let source: ContextSource
+        /// A list of tags to apply to the context.
+        public let tags: [Tag]?
+
+        public init(contextName: String, contextType: String, description: String? = nil, properties: [String: String]? = nil, source: ContextSource, tags: [Tag]? = nil) {
+            self.contextName = contextName
+            self.contextType = contextType
+            self.description = description
+            self.properties = properties
+            self.source = source
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contextName, name: "contextName", parent: name, max: 120)
+            try self.validate(self.contextName, name: "contextName", parent: name, min: 1)
+            try self.validate(self.contextName, name: "contextName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+            try self.validate(self.contextType, name: "contextType", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, max: 3072)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 256)
+                try validate($0.key, name: "properties.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.source.validate(name: "\(name).source")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextName = "ContextName"
+            case contextType = "ContextType"
+            case description = "Description"
+            case properties = "Properties"
+            case source = "Source"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateContextResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the context.
+        public let contextArn: String?
+
+        public init(contextArn: String? = nil) {
+            self.contextArn = contextArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextArn = "ContextArn"
+        }
+    }
+
     public struct CreateDomainRequest: AWSEncodableShape {
         /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is through the specified VPC and subnets
         public let appNetworkAccessType: AppNetworkAccessType?
@@ -2721,7 +3672,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.defaultUserSettings.validate(name: "\(name).defaultUserSettings")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 63)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
             try self.subnetIds.forEach {
@@ -2776,7 +3727,7 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// An list of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
-        /// A list of key-value pairs. For more information, see Using Cost Allocation Tags in the  AWS Billing and Cost Management User Guide.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
 
         public init(dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], tags: [Tag]? = nil) {
@@ -2790,7 +3741,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.dataCaptureConfig?.validate(name: "\(name).dataCaptureConfig")
             try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, max: 63)
-            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
             try self.productionVariants.forEach {
@@ -2832,7 +3783,7 @@ extension SageMaker {
         public let endpointConfigName: String
         /// The name of the endpoint.The name must be unique within an AWS Region in your AWS account. The name is case-insensitive in CreateEndpoint, but the case is preserved and must be matched in .
         public let endpointName: String
-        /// An array of key-value pairs. For more information, see Using Cost Allocation Tagsin the AWS Billing and Cost Management User Guide.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
 
         public init(endpointConfigName: String, endpointName: String, tags: [Tag]? = nil) {
@@ -2843,9 +3794,9 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, max: 63)
-            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
-            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2895,10 +3846,10 @@ extension SageMaker {
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 120)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.experimentName, name: "experimentName", parent: name, max: 120)
             try self.validate(self.experimentName, name: "experimentName", parent: name, min: 1)
-            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2924,6 +3875,92 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case experimentArn = "ExperimentArn"
+        }
+    }
+
+    public struct CreateFeatureGroupRequest: AWSEncodableShape {
+        /// A free-form description of a FeatureGroup.
+        public let description: String?
+        /// The name of the feature that stores the EventTime of a Record in a FeatureGroup. An EventTime is a point in time when a new event occurs that corresponds to the creation or update of a Record in a FeatureGroup. All Records in the FeatureGroup must have a corresponding EventTime. An EventTime can be a String or Fractional.     Fractional: EventTime feature values must be a Unix timestamp in seconds.    String: EventTime feature values must be an ISO-8601 string in the format. The following formats are supported yyyy-MM-dd'T'HH:mm:ssZ and yyyy-MM-dd'T'HH:mm:ss.SSSZ where yyyy, MM, and dd represent the year, month, and day respectively and HH, mm, ss, and if applicable, SSS represent the hour, month, second and milliseconds respsectively. 'T' and Z are constants.
+        public let eventTimeFeatureName: String
+        /// A list of Feature names and types. Name and Type is compulsory per Feature.  Valid feature FeatureTypes are Integral, Fractional and String.  FeatureNames cannot be any of the following: is_deleted, write_time, api_invocation_time  You can create up to 2,500 FeatureDefinitions per FeatureGroup.
+        public let featureDefinitions: [FeatureDefinition]
+        /// The name of the FeatureGroup. The name must be unique within an AWS Region in an AWS account. The name:   Must start and end with an alphanumeric character.   Can only contain alphanumeric character and hyphens. Spaces are not allowed.
+        public let featureGroupName: String
+        /// Use this to configure an OfflineFeatureStore. This parameter allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an OfflineStore.   A configuration for an AWS Glue or AWS Hive data cataolgue.    An KMS encryption key to encrypt the Amazon S3 location used for OfflineStore.   To learn more about this parameter, see OfflineStoreConfig.
+        public let offlineStoreConfig: OfflineStoreConfig?
+        /// You can turn the OnlineStore on or off by specifying True for the EnableOnlineStore flag in OnlineStoreConfig; the default value is False. You can also include an AWS KMS key ID (KMSKeyId) for at-rest encryption of the OnlineStore.
+        public let onlineStoreConfig: OnlineStoreConfig?
+        /// The name of the Feature whose value uniquely identifies a Record defined in the FeatureStore. Only the latest record per identifier value will be stored in the OnlineStore. RecordIdentifierFeatureName must be one of feature definitions' names. You use the RecordIdentifierFeatureName to access data in a FeatureStore. This name:   Must start and end with an alphanumeric character.   Can only contains alphanumeric characters, hyphens, underscores. Spaces are not allowed.
+        public let recordIdentifierFeatureName: String
+        /// The Amazon Resource Name (ARN) of the IAM execution role used to persist data into the OfflineStore if an OfflineStoreConfig is provided.
+        public let roleArn: String?
+        /// Tags used to identify Features in each FeatureGroup.
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, eventTimeFeatureName: String, featureDefinitions: [FeatureDefinition], featureGroupName: String, offlineStoreConfig: OfflineStoreConfig? = nil, onlineStoreConfig: OnlineStoreConfig? = nil, recordIdentifierFeatureName: String, roleArn: String? = nil, tags: [Tag]? = nil) {
+            self.description = description
+            self.eventTimeFeatureName = eventTimeFeatureName
+            self.featureDefinitions = featureDefinitions
+            self.featureGroupName = featureGroupName
+            self.offlineStoreConfig = offlineStoreConfig
+            self.onlineStoreConfig = onlineStoreConfig
+            self.recordIdentifierFeatureName = recordIdentifierFeatureName
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 128)
+            try self.validate(self.eventTimeFeatureName, name: "eventTimeFeatureName", parent: name, max: 64)
+            try self.validate(self.eventTimeFeatureName, name: "eventTimeFeatureName", parent: name, min: 1)
+            try self.validate(self.eventTimeFeatureName, name: "eventTimeFeatureName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}")
+            try self.featureDefinitions.forEach {
+                try $0.validate(name: "\(name).featureDefinitions[]")
+            }
+            try self.validate(self.featureDefinitions, name: "featureDefinitions", parent: name, max: 2500)
+            try self.validate(self.featureDefinitions, name: "featureDefinitions", parent: name, min: 1)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}")
+            try self.offlineStoreConfig?.validate(name: "\(name).offlineStoreConfig")
+            try self.onlineStoreConfig?.validate(name: "\(name).onlineStoreConfig")
+            try self.validate(self.recordIdentifierFeatureName, name: "recordIdentifierFeatureName", parent: name, max: 64)
+            try self.validate(self.recordIdentifierFeatureName, name: "recordIdentifierFeatureName", parent: name, min: 1)
+            try self.validate(self.recordIdentifierFeatureName, name: "recordIdentifierFeatureName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case eventTimeFeatureName = "EventTimeFeatureName"
+            case featureDefinitions = "FeatureDefinitions"
+            case featureGroupName = "FeatureGroupName"
+            case offlineStoreConfig = "OfflineStoreConfig"
+            case onlineStoreConfig = "OnlineStoreConfig"
+            case recordIdentifierFeatureName = "RecordIdentifierFeatureName"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateFeatureGroupResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the FeatureGroup. This is a unique identifier for the feature group.
+        public let featureGroupArn: String
+
+        public init(featureGroupArn: String) {
+            self.featureGroupArn = featureGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureGroupArn = "FeatureGroupArn"
         }
     }
 
@@ -2956,7 +3993,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, max: 63)
             try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, min: 1)
-            try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
+            try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9]){0,62}")
             try self.humanLoopActivationConfig?.validate(name: "\(name).humanLoopActivationConfig")
             try self.humanLoopConfig.validate(name: "\(name).humanLoopConfig")
             try self.outputConfig.validate(name: "\(name).outputConfig")
@@ -3044,7 +4081,7 @@ extension SageMaker {
         public let hyperParameterTuningJobConfig: HyperParameterTuningJobConfig
         /// The name of the tuning job. This name is the prefix for the names of all training jobs that this tuning job launches. The name must be unique within the same AWS account and AWS Region. The name must have 1 to 32 characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen). The name is not case sensitive.
         public let hyperParameterTuningJobName: String
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see AWS Tagging Strategies. Tags that you specify for the tuning job are also added to all training jobs that the tuning job launches.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources. Tags that you specify for the tuning job are also added to all training jobs that the tuning job launches.
         public let tags: [Tag]?
         /// The HyperParameterTrainingJobDefinition object that describes the training jobs that this tuning job launches, including static hyperparameters, input data configuration, output data configuration, resource configuration, and stopping condition.
         public let trainingJobDefinition: HyperParameterTrainingJobDefinition?
@@ -3066,7 +4103,7 @@ extension SageMaker {
             try self.hyperParameterTuningJobConfig.validate(name: "\(name).hyperParameterTuningJobConfig")
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, max: 32)
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, min: 1)
-            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3127,13 +4164,13 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\S(.*\\S)?$")
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 128)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^\\S(.*\\S)?$")
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -3189,7 +4226,7 @@ extension SageMaker {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3252,13 +4289,13 @@ extension SageMaker {
             try self.inputConfig.validate(name: "\(name).inputConfig")
             try self.validate(self.labelAttributeName, name: "labelAttributeName", parent: name, max: 127)
             try self.validate(self.labelAttributeName, name: "labelAttributeName", parent: name, min: 1)
-            try self.validate(self.labelAttributeName, name: "labelAttributeName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.labelAttributeName, name: "labelAttributeName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,126}")
             try self.validate(self.labelCategoryConfigS3Uri, name: "labelCategoryConfigS3Uri", parent: name, max: 1024)
             try self.validate(self.labelCategoryConfigS3Uri, name: "labelCategoryConfigS3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
             try self.labelingJobAlgorithmsConfig?.validate(name: "\(name).labelingJobAlgorithmsConfig")
             try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, max: 63)
             try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, min: 1)
-            try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.outputConfig.validate(name: "\(name).outputConfig")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
@@ -3309,7 +4346,7 @@ extension SageMaker {
         public let modelName: String
         /// The location of the primary docker image containing inference code, associated artifacts, and custom environment map that the inference code uses when the model is deployed for predictions.
         public let primaryContainer: ContainerDefinition?
-        /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
         /// A VpcConfig object that specifies the VPC that you want your model to connect to. Control access to and from your model container by configuring the VPC. VpcConfig is used in hosting services and in batch transform. For more information, see Protect Endpoints by Using an Amazon Virtual Private Cloud and Protect Data in Batch Transform Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
@@ -3367,46 +4404,129 @@ extension SageMaker {
         }
     }
 
+    public struct CreateModelPackageGroupInput: AWSEncodableShape {
+        /// A description for the model group.
+        public let modelPackageGroupDescription: String?
+        /// The name of the model group.
+        public let modelPackageGroupName: String
+        /// A list of key value pairs associated with the model group. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        public let tags: [Tag]?
+
+        public init(modelPackageGroupDescription: String? = nil, modelPackageGroupName: String, tags: [Tag]? = nil) {
+            self.modelPackageGroupDescription = modelPackageGroupDescription
+            self.modelPackageGroupName = modelPackageGroupName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelPackageGroupDescription, name: "modelPackageGroupDescription", parent: name, max: 1024)
+            try self.validate(self.modelPackageGroupDescription, name: "modelPackageGroupDescription", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 63)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupDescription = "ModelPackageGroupDescription"
+            case modelPackageGroupName = "ModelPackageGroupName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateModelPackageGroupOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model group.
+        public let modelPackageGroupArn: String
+
+        public init(modelPackageGroupArn: String) {
+            self.modelPackageGroupArn = modelPackageGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupArn = "ModelPackageGroupArn"
+        }
+    }
+
     public struct CreateModelPackageInput: AWSEncodableShape {
-        /// Whether to certify the model package for listing on AWS Marketplace.
+        /// Whether to certify the model package for listing on AWS Marketplace. This parameter is optional for unversioned models, and does not apply to versioned models.
         public let certifyForMarketplace: Bool?
+        /// A unique token that guarantees that the call to this API is idempotent.
+        public let clientToken: String?
         /// Specifies details about inference jobs that can be run with models based on this model package, including the following:   The Amazon ECR paths of containers that contain the inference code and model artifacts.   The instance types that the model package supports for transform jobs and real-time endpoints used for inference.   The input and output content formats that the model package supports for inference.
         public let inferenceSpecification: InferenceSpecification?
+        public let metadataProperties: MetadataProperties?
+        /// Whether the model is approved for deployment. This parameter is optional for versioned models, and does not apply to unversioned models. For versioned models, the value of this parameter must be set to Approved to deploy the model.
+        public let modelApprovalStatus: ModelApprovalStatus?
+        /// A structure that contains model metrics reports.
+        public let modelMetrics: ModelMetrics?
         /// A description of the model package.
         public let modelPackageDescription: String?
-        /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
+        /// The name of the model group that this model version belongs to. This parameter is required for versioned models, and does not apply to unversioned models.
+        public let modelPackageGroupName: String?
+        /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). This parameter is required for unversioned models. It is not applicable to versioned models.
         public let modelPackageName: String?
         /// Details about the algorithm that was used to create the model package.
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
+        /// A list of key value pairs associated with the model. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        public let tags: [Tag]?
         /// Specifies configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
-        public init(certifyForMarketplace: Bool? = nil, inferenceSpecification: InferenceSpecification? = nil, modelPackageDescription: String? = nil, modelPackageName: String? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(certifyForMarketplace: Bool? = nil, clientToken: String? = CreateModelPackageInput.idempotencyToken(), inferenceSpecification: InferenceSpecification? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, tags: [Tag]? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.certifyForMarketplace = certifyForMarketplace
+            self.clientToken = clientToken
             self.inferenceSpecification = inferenceSpecification
+            self.metadataProperties = metadataProperties
+            self.modelApprovalStatus = modelApprovalStatus
+            self.modelMetrics = modelMetrics
             self.modelPackageDescription = modelPackageDescription
+            self.modelPackageGroupName = modelPackageGroupName
             self.modelPackageName = modelPackageName
             self.sourceAlgorithmSpecification = sourceAlgorithmSpecification
+            self.tags = tags
             self.validationSpecification = validationSpecification
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.inferenceSpecification?.validate(name: "\(name).inferenceSpecification")
+            try self.metadataProperties?.validate(name: "\(name).metadataProperties")
+            try self.modelMetrics?.validate(name: "\(name).modelMetrics")
             try self.validate(self.modelPackageDescription, name: "modelPackageDescription", parent: name, max: 1024)
             try self.validate(self.modelPackageDescription, name: "modelPackageDescription", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 63)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.modelPackageName, name: "modelPackageName", parent: name, max: 63)
             try self.validate(self.modelPackageName, name: "modelPackageName", parent: name, min: 1)
-            try self.validate(self.modelPackageName, name: "modelPackageName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.modelPackageName, name: "modelPackageName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.sourceAlgorithmSpecification?.validate(name: "\(name).sourceAlgorithmSpecification")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.validationSpecification?.validate(name: "\(name).validationSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case certifyForMarketplace = "CertifyForMarketplace"
+            case clientToken = "ClientToken"
             case inferenceSpecification = "InferenceSpecification"
+            case metadataProperties = "MetadataProperties"
+            case modelApprovalStatus = "ModelApprovalStatus"
+            case modelMetrics = "ModelMetrics"
             case modelPackageDescription = "ModelPackageDescription"
+            case modelPackageGroupName = "ModelPackageGroupName"
             case modelPackageName = "ModelPackageName"
             case sourceAlgorithmSpecification = "SourceAlgorithmSpecification"
+            case tags = "Tags"
             case validationSpecification = "ValidationSpecification"
         }
     }
@@ -3442,7 +4562,7 @@ extension SageMaker {
             try self.monitoringScheduleConfig.validate(name: "\(name).monitoringScheduleConfig")
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
-            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3495,7 +4615,7 @@ extension SageMaker {
         public let securityGroupIds: [String]?
         /// The ID of the subnet in a VPC to which you would like to have a connectivity from your ML compute instance.
         public let subnetId: String?
-        /// A list of tags to associate with the notebook instance. You can add tags later by using the CreateTags API.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB.
         public let volumeSizeInGB: Int?
@@ -3630,6 +4750,81 @@ extension SageMaker {
         }
     }
 
+    public struct CreatePipelineRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
+        public let clientRequestToken: String
+        /// The JSON pipeline definition of the pipeline.
+        public let pipelineDefinition: String
+        /// A description of the pipeline.
+        public let pipelineDescription: String?
+        /// The display name of the pipeline.
+        public let pipelineDisplayName: String?
+        /// The name of the pipeline.
+        public let pipelineName: String
+        /// The Amazon Resource Name (ARN) of the role used by the pipeline to access and create resources.
+        public let roleArn: String
+        /// A list of tags to apply to the created pipeline.
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String = CreatePipelineRequest.idempotencyToken(), pipelineDefinition: String, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String, roleArn: String, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.pipelineDefinition = pipelineDefinition
+            self.pipelineDescription = pipelineDescription
+            self.pipelineDisplayName = pipelineDisplayName
+            self.pipelineName = pipelineName
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, max: 1_048_576)
+            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, min: 1)
+            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, pattern: ".*(?:[ \\r\\n\\t].*)*")
+            try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, max: 3072)
+            try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, min: 0)
+            try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, pattern: ".*")
+            try self.validate(self.pipelineDisplayName, name: "pipelineDisplayName", parent: name, max: 256)
+            try self.validate(self.pipelineDisplayName, name: "pipelineDisplayName", parent: name, min: 1)
+            try self.validate(self.pipelineDisplayName, name: "pipelineDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 256)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case pipelineDefinition = "PipelineDefinition"
+            case pipelineDescription = "PipelineDescription"
+            case pipelineDisplayName = "PipelineDisplayName"
+            case pipelineName = "PipelineName"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreatePipelineResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created pipeline.
+        public let pipelineArn: String?
+
+        public init(pipelineArn: String? = nil) {
+            self.pipelineArn = pipelineArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineArn = "PipelineArn"
+        }
+    }
+
     public struct CreatePresignedDomainUrlRequest: AWSEncodableShape {
         /// The domain ID.
         public let domainId: String
@@ -3649,7 +4844,7 @@ extension SageMaker {
             try self.validate(self.sessionExpirationDurationInSeconds, name: "sessionExpirationDurationInSeconds", parent: name, max: 43200)
             try self.validate(self.sessionExpirationDurationInSeconds, name: "sessionExpirationDurationInSeconds", parent: name, min: 1800)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
-            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3717,7 +4912,7 @@ extension SageMaker {
         public let experimentConfig: ExperimentConfig?
         /// Networking options for a processing job.
         public let networkConfig: NetworkConfig?
-        /// For each input, data is downloaded from S3 into the processing container before the processing job begins running if "S3InputMode" is set to File.
+        /// List of input configurations for the processing job.
         public let processingInputs: [ProcessingInput]?
         ///  The name of the processing job. The name must be unique within an AWS Region in the AWS account.
         public let processingJobName: String
@@ -3763,7 +4958,7 @@ extension SageMaker {
             try self.validate(self.processingInputs, name: "processingInputs", parent: name, min: 0)
             try self.validate(self.processingJobName, name: "processingJobName", parent: name, max: 63)
             try self.validate(self.processingJobName, name: "processingJobName", parent: name, min: 1)
-            try self.validate(self.processingJobName, name: "processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.processingJobName, name: "processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.processingOutputConfig?.validate(name: "\(name).processingOutputConfig")
             try self.processingResources.validate(name: "\(name).processingResources")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
@@ -3805,6 +5000,62 @@ extension SageMaker {
         }
     }
 
+    public struct CreateProjectInput: AWSEncodableShape {
+        /// A description for the project.
+        public let projectDescription: String?
+        /// The name of the project.
+        public let projectName: String
+        /// The product ID and provisioning artifact ID to provision a service catalog. For information, see What is AWS Service Catalog.
+        public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails
+        /// An array of key-value pairs that you want to use to organize and track your AWS resource costs. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        public let tags: [Tag]?
+
+        public init(projectDescription: String? = nil, projectName: String, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails, tags: [Tag]? = nil) {
+            self.projectDescription = projectDescription
+            self.projectName = projectName
+            self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 1024)
+            try self.validate(self.projectDescription, name: "projectDescription", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 32)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
+            try self.serviceCatalogProvisioningDetails.validate(name: "\(name).serviceCatalogProvisioningDetails")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectDescription = "ProjectDescription"
+            case projectName = "ProjectName"
+            case serviceCatalogProvisioningDetails = "ServiceCatalogProvisioningDetails"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateProjectOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the project.
+        public let projectArn: String
+        /// The ID of the new project.
+        public let projectId: String
+
+        public init(projectArn: String, projectId: String) {
+            self.projectArn = projectArn
+            self.projectId = projectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectArn = "ProjectArn"
+            case projectId = "ProjectId"
+        }
+    }
+
     public struct CreateTrainingJobRequest: AWSEncodableShape {
         /// The registry path of the Docker image that contains the training algorithm and algorithm-specific metadata, including the input mode. For more information about algorithms provided by Amazon SageMaker, see Algorithms. For information about providing your own algorithms, see Using Your Own Algorithms with Amazon SageMaker.
         public let algorithmSpecification: AlgorithmSpecification
@@ -3832,7 +5083,7 @@ extension SageMaker {
         public let roleArn: String
         /// Specifies a limit to how long a model training job can run. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition
-        /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
         public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// The name of the training job. The name must be unique within an AWS Region in an AWS account.
@@ -3896,7 +5147,7 @@ extension SageMaker {
             try self.tensorBoardOutputConfig?.validate(name: "\(name).tensorBoardOutputConfig")
             try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, max: 63)
             try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, min: 1)
-            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -3982,7 +5233,7 @@ extension SageMaker {
             try self.dataProcessing?.validate(name: "\(name).dataProcessing")
             try self.environment?.forEach {
                 try validate($0.key, name: "environment.key", parent: name, max: 1024)
-                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]{0,1023}")
                 try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, max: 10240)
                 try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
             }
@@ -4000,7 +5251,7 @@ extension SageMaker {
             try self.transformInput.validate(name: "\(name).transformInput")
             try self.validate(self.transformJobName, name: "transformJobName", parent: name, max: 63)
             try self.validate(self.transformJobName, name: "transformJobName", parent: name, min: 1)
-            try self.validate(self.transformJobName, name: "transformJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.transformJobName, name: "transformJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.transformOutput.validate(name: "\(name).transformOutput")
             try self.transformResources.validate(name: "\(name).transformResources")
         }
@@ -4042,6 +5293,7 @@ extension SageMaker {
         public let endTime: Date?
         /// The input artifacts for the component. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types.
         public let inputArtifacts: [String: TrialComponentArtifact]?
+        public let metadataProperties: MetadataProperties?
         /// The output artifacts for the component. Examples of output artifacts are metrics, snapshots, logs, and images.
         public let outputArtifacts: [String: TrialComponentArtifact]?
         /// The hyperparameters for the component.
@@ -4055,10 +5307,11 @@ extension SageMaker {
         /// The name of the component. The name must be unique in your AWS account and is not case-sensitive.
         public let trialComponentName: String
 
-        public init(displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentName: String) {
+        public init(displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, metadataProperties: MetadataProperties? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentName: String) {
             self.displayName = displayName
             self.endTime = endTime
             self.inputArtifacts = inputArtifacts
+            self.metadataProperties = metadataProperties
             self.outputArtifacts = outputArtifacts
             self.parameters = parameters
             self.startTime = startTime
@@ -4070,12 +5323,13 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 120)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.inputArtifacts?.forEach {
                 try validate($0.key, name: "inputArtifacts.key", parent: name, max: 64)
                 try validate($0.key, name: "inputArtifacts.key", parent: name, pattern: ".*")
                 try $0.value.validate(name: "\(name).inputArtifacts[\"\($0.key)\"]")
             }
+            try self.metadataProperties?.validate(name: "\(name).metadataProperties")
             try self.outputArtifacts?.forEach {
                 try validate($0.key, name: "outputArtifacts.key", parent: name, max: 64)
                 try validate($0.key, name: "outputArtifacts.key", parent: name, pattern: ".*")
@@ -4094,13 +5348,14 @@ extension SageMaker {
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, max: 120)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, min: 1)
-            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
             case displayName = "DisplayName"
             case endTime = "EndTime"
             case inputArtifacts = "InputArtifacts"
+            case metadataProperties = "MetadataProperties"
             case outputArtifacts = "OutputArtifacts"
             case parameters = "Parameters"
             case startTime = "StartTime"
@@ -4128,14 +5383,16 @@ extension SageMaker {
         public let displayName: String?
         /// The name of the experiment to associate the trial with.
         public let experimentName: String
+        public let metadataProperties: MetadataProperties?
         /// A list of tags to associate with the trial. You can use Search API to search on the tags.
         public let tags: [Tag]?
         /// The name of the trial. The name must be unique in your AWS account and is not case-sensitive.
         public let trialName: String
 
-        public init(displayName: String? = nil, experimentName: String, tags: [Tag]? = nil, trialName: String) {
+        public init(displayName: String? = nil, experimentName: String, metadataProperties: MetadataProperties? = nil, tags: [Tag]? = nil, trialName: String) {
             self.displayName = displayName
             self.experimentName = experimentName
+            self.metadataProperties = metadataProperties
             self.tags = tags
             self.trialName = trialName
         }
@@ -4143,10 +5400,11 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 120)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.experimentName, name: "experimentName", parent: name, max: 120)
             try self.validate(self.experimentName, name: "experimentName", parent: name, min: 1)
-            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+            try self.metadataProperties?.validate(name: "\(name).metadataProperties")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4154,12 +5412,13 @@ extension SageMaker {
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.validate(self.trialName, name: "trialName", parent: name, max: 120)
             try self.validate(self.trialName, name: "trialName", parent: name, min: 1)
-            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
             case displayName = "DisplayName"
             case experimentName = "ExperimentName"
+            case metadataProperties = "MetadataProperties"
             case tags = "Tags"
             case trialName = "TrialName"
         }
@@ -4211,7 +5470,7 @@ extension SageMaker {
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
-            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.userSettings?.validate(name: "\(name).userSettings")
         }
 
@@ -4268,7 +5527,7 @@ extension SageMaker {
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.validate(self.workforceName, name: "workforceName", parent: name, max: 63)
             try self.validate(self.workforceName, name: "workforceName", parent: name, min: 1)
-            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4333,10 +5592,10 @@ extension SageMaker {
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.validate(self.workforceName, name: "workforceName", parent: name, max: 63)
             try self.validate(self.workforceName, name: "workforceName", parent: name, min: 1)
-            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-]){0,62}$")
             try self.validate(self.workteamName, name: "workteamName", parent: name, max: 63)
             try self.validate(self.workteamName, name: "workteamName", parent: name, min: 1)
-            try self.validate(self.workteamName, name: "workteamName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.workteamName, name: "workteamName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4378,10 +5637,10 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, max: 63)
-            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
             try self.validate(self.imageVersionNumber, name: "imageVersionNumber", parent: name, min: 0)
         }
 
@@ -4455,6 +5714,39 @@ extension SageMaker {
         }
     }
 
+    public struct DataCatalogConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Glue table catalog.
+        public let catalog: String
+        /// The name of the Glue table database.
+        public let database: String
+        /// The name of the Glue table.
+        public let tableName: String
+
+        public init(catalog: String, database: String, tableName: String) {
+            self.catalog = catalog
+            self.database = database
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 255)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.database, name: "database", parent: name, max: 255)
+            try self.validate(self.database, name: "database", parent: name, min: 1)
+            try self.validate(self.database, name: "database", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case database = "Database"
+            case tableName = "TableName"
+        }
+    }
+
     public struct DataProcessing: AWSEncodableShape & AWSDecodableShape {
         /// A JSONPath expression used to select a portion of the input data to pass to the algorithm. Use the InputFilter parameter to exclude fields, such as an ID column, from the input. If you want Amazon SageMaker to pass the entire input dataset to the algorithm, accept the default value $. Examples: "$", "$[1:]", "$.features"
         public let inputFilter: String?
@@ -4502,6 +5794,40 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case fileSystemDataSource = "FileSystemDataSource"
             case s3DataSource = "S3DataSource"
+        }
+    }
+
+    public struct DatasetDefinition: AWSEncodableShape & AWSDecodableShape {
+        public let athenaDatasetDefinition: AthenaDatasetDefinition?
+        /// Whether the generated dataset is FullyReplicated or ShardedByS3Key (default).
+        public let dataDistributionType: DataDistributionType?
+        /// Whether to use File or Pipe input mode. In File (default) mode, Amazon SageMaker copies the data from the input source onto the local Amazon Elastic Block Store (Amazon EBS) volumes before starting your training algorithm. This is the most commonly used input mode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your algorithm without using the EBS volume.
+        public let inputMode: InputMode?
+        /// The local path where you want Amazon SageMaker to download the Dataset Definition inputs to run a processing job. LocalPath is an absolute path to the input data. This is a required parameter when AppManaged is False (default).
+        public let localPath: String?
+        public let redshiftDatasetDefinition: RedshiftDatasetDefinition?
+
+        public init(athenaDatasetDefinition: AthenaDatasetDefinition? = nil, dataDistributionType: DataDistributionType? = nil, inputMode: InputMode? = nil, localPath: String? = nil, redshiftDatasetDefinition: RedshiftDatasetDefinition? = nil) {
+            self.athenaDatasetDefinition = athenaDatasetDefinition
+            self.dataDistributionType = dataDistributionType
+            self.inputMode = inputMode
+            self.localPath = localPath
+            self.redshiftDatasetDefinition = redshiftDatasetDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.athenaDatasetDefinition?.validate(name: "\(name).athenaDatasetDefinition")
+            try self.validate(self.localPath, name: "localPath", parent: name, max: 256)
+            try self.validate(self.localPath, name: "localPath", parent: name, pattern: ".*")
+            try self.redshiftDatasetDefinition?.validate(name: "\(name).redshiftDatasetDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case athenaDatasetDefinition = "AthenaDatasetDefinition"
+            case dataDistributionType = "DataDistributionType"
+            case inputMode = "InputMode"
+            case localPath = "LocalPath"
+            case redshiftDatasetDefinition = "RedshiftDatasetDefinition"
         }
     }
 
@@ -4635,6 +5961,38 @@ extension SageMaker {
         }
     }
 
+    public struct DeleteActionRequest: AWSEncodableShape {
+        /// The name of the action to delete.
+        public let actionName: String
+
+        public init(actionName: String) {
+            self.actionName = actionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionName, name: "actionName", parent: name, max: 120)
+            try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "ActionName"
+        }
+    }
+
+    public struct DeleteActionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the action.
+        public let actionArn: String?
+
+        public init(actionArn: String? = nil) {
+            self.actionArn = actionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArn = "ActionArn"
+        }
+    }
+
     public struct DeleteAlgorithmInput: AWSEncodableShape {
         /// The name of the algorithm to delete.
         public let algorithmName: String
@@ -4646,7 +6004,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.algorithmName, name: "algorithmName", parent: name, max: 63)
             try self.validate(self.algorithmName, name: "algorithmName", parent: name, min: 1)
-            try self.validate(self.algorithmName, name: "algorithmName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.algorithmName, name: "algorithmName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4664,7 +6022,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, max: 63)
-            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4691,10 +6049,10 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.appName, name: "appName", parent: name, max: 63)
-            try self.validate(self.appName, name: "appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.appName, name: "appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
-            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4702,6 +6060,83 @@ extension SageMaker {
             case appType = "AppType"
             case domainId = "DomainId"
             case userProfileName = "UserProfileName"
+        }
+    }
+
+    public struct DeleteArtifactRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the artifact to delete.
+        public let artifactArn: String?
+        /// The URI of the source.
+        public let source: ArtifactSource?
+
+        public init(artifactArn: String? = nil, source: ArtifactSource? = nil) {
+            self.artifactArn = artifactArn
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.artifactArn, name: "artifactArn", parent: name, max: 256)
+            try self.validate(self.artifactArn, name: "artifactArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:artifact/.*")
+            try self.source?.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactArn = "ArtifactArn"
+            case source = "Source"
+        }
+    }
+
+    public struct DeleteArtifactResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the artifact.
+        public let artifactArn: String?
+
+        public init(artifactArn: String? = nil) {
+            self.artifactArn = artifactArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactArn = "ArtifactArn"
+        }
+    }
+
+    public struct DeleteAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the destination.
+        public let destinationArn: String
+        /// The ARN of the source.
+        public let sourceArn: String
+
+        public init(destinationArn: String, sourceArn: String) {
+            self.destinationArn = destinationArn
+            self.sourceArn = sourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 256)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*")
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 256)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "DestinationArn"
+            case sourceArn = "SourceArn"
+        }
+    }
+
+    public struct DeleteAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination.
+        public let destinationArn: String?
+        /// The ARN of the source.
+        public let sourceArn: String?
+
+        public init(destinationArn: String? = nil, sourceArn: String? = nil) {
+            self.destinationArn = destinationArn
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "DestinationArn"
+            case sourceArn = "SourceArn"
         }
     }
 
@@ -4716,11 +6151,43 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, max: 63)
             try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, min: 1)
-            try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case codeRepositoryName = "CodeRepositoryName"
+        }
+    }
+
+    public struct DeleteContextRequest: AWSEncodableShape {
+        /// The name of the context to delete.
+        public let contextName: String
+
+        public init(contextName: String) {
+            self.contextName = contextName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contextName, name: "contextName", parent: name, max: 120)
+            try self.validate(self.contextName, name: "contextName", parent: name, min: 1)
+            try self.validate(self.contextName, name: "contextName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextName = "ContextName"
+        }
+    }
+
+    public struct DeleteContextResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the context.
+        public let contextArn: String?
+
+        public init(contextArn: String? = nil) {
+            self.contextArn = contextArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextArn = "ContextArn"
         }
     }
 
@@ -4755,7 +6222,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, max: 63)
-            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4773,7 +6240,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
-            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4792,7 +6259,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.experimentName, name: "experimentName", parent: name, max: 120)
             try self.validate(self.experimentName, name: "experimentName", parent: name, min: 1)
-            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4813,6 +6280,25 @@ extension SageMaker {
         }
     }
 
+    public struct DeleteFeatureGroupRequest: AWSEncodableShape {
+        /// The name of the FeatureGroup you want to delete. The name must be unique within an AWS Region in an AWS account.
+        public let featureGroupName: String
+
+        public init(featureGroupName: String) {
+            self.featureGroupName = featureGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureGroupName = "FeatureGroupName"
+        }
+    }
+
     public struct DeleteFlowDefinitionRequest: AWSEncodableShape {
         /// The name of the flow definition you are deleting.
         public let flowDefinitionName: String
@@ -4824,7 +6310,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, max: 63)
             try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, min: 1)
-            try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
+            try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4870,7 +6356,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4896,7 +6382,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
             try self.validate(self.version, name: "version", parent: name, min: 0)
         }
 
@@ -4925,6 +6411,44 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case modelName = "ModelName"
+        }
+    }
+
+    public struct DeleteModelPackageGroupInput: AWSEncodableShape {
+        /// The name of the model group to delete.
+        public let modelPackageGroupName: String
+
+        public init(modelPackageGroupName: String) {
+            self.modelPackageGroupName = modelPackageGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 170)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupName = "ModelPackageGroupName"
+        }
+    }
+
+    public struct DeleteModelPackageGroupPolicyInput: AWSEncodableShape {
+        /// The name of the model group for which to delete the policy.
+        public let modelPackageGroupName: String
+
+        public init(modelPackageGroupName: String) {
+            self.modelPackageGroupName = modelPackageGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 63)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupName = "ModelPackageGroupName"
         }
     }
 
@@ -4958,7 +6482,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
-            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5002,6 +6526,63 @@ extension SageMaker {
         }
     }
 
+    public struct DeletePipelineRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
+        public let clientRequestToken: String
+        /// The name of the pipeline to delete.
+        public let pipelineName: String
+
+        public init(clientRequestToken: String = DeletePipelineRequest.idempotencyToken(), pipelineName: String) {
+            self.clientRequestToken = clientRequestToken
+            self.pipelineName = pipelineName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 256)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case pipelineName = "PipelineName"
+        }
+    }
+
+    public struct DeletePipelineResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline to delete.
+        public let pipelineArn: String?
+
+        public init(pipelineArn: String? = nil) {
+            self.pipelineArn = pipelineArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineArn = "PipelineArn"
+        }
+    }
+
+    public struct DeleteProjectInput: AWSEncodableShape {
+        /// The name of the project to delete.
+        public let projectName: String
+
+        public init(projectName: String) {
+            self.projectName = projectName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 32)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectName = "ProjectName"
+        }
+    }
+
     public struct DeleteTagsInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to delete.
         public let resourceArn: String
@@ -5015,7 +6596,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:.*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -5046,7 +6627,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, max: 120)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, min: 1)
-            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5078,7 +6659,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.trialName, name: "trialName", parent: name, max: 120)
             try self.validate(self.trialName, name: "trialName", parent: name, min: 1)
-            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5113,7 +6694,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
-            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5133,7 +6714,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.workforceName, name: "workforceName", parent: name, max: 63)
             try self.validate(self.workforceName, name: "workforceName", parent: name, min: 1)
-            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5156,7 +6737,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.workteamName, name: "workteamName", parent: name, max: 63)
             try self.validate(self.workteamName, name: "workteamName", parent: name, min: 1)
-            try self.validate(self.workteamName, name: "workteamName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.workteamName, name: "workteamName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5195,6 +6776,99 @@ extension SageMaker {
             case resolutionTime = "ResolutionTime"
             case resolvedImage = "ResolvedImage"
             case specifiedImage = "SpecifiedImage"
+        }
+    }
+
+    public struct DeploymentConfig: AWSEncodableShape & AWSDecodableShape {
+        public let autoRollbackConfiguration: AutoRollbackConfig?
+        public let blueGreenUpdatePolicy: BlueGreenUpdatePolicy
+
+        public init(autoRollbackConfiguration: AutoRollbackConfig? = nil, blueGreenUpdatePolicy: BlueGreenUpdatePolicy) {
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.blueGreenUpdatePolicy = blueGreenUpdatePolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.autoRollbackConfiguration?.validate(name: "\(name).autoRollbackConfiguration")
+            try self.blueGreenUpdatePolicy.validate(name: "\(name).blueGreenUpdatePolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRollbackConfiguration = "AutoRollbackConfiguration"
+            case blueGreenUpdatePolicy = "BlueGreenUpdatePolicy"
+        }
+    }
+
+    public struct DescribeActionRequest: AWSEncodableShape {
+        /// The name of the action to describe.
+        public let actionName: String
+
+        public init(actionName: String) {
+            self.actionName = actionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionName, name: "actionName", parent: name, max: 120)
+            try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "ActionName"
+        }
+    }
+
+    public struct DescribeActionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the action.
+        public let actionArn: String?
+        /// The name of the action.
+        public let actionName: String?
+        /// The type of the action.
+        public let actionType: String?
+        public let createdBy: UserContext?
+        /// When the action was created.
+        public let creationTime: Date?
+        /// The description of the action.
+        public let description: String?
+        public let lastModifiedBy: UserContext?
+        /// When the action was last modified.
+        public let lastModifiedTime: Date?
+        public let metadataProperties: MetadataProperties?
+        /// A list of the action's properties.
+        public let properties: [String: String]?
+        /// The source of the action.
+        public let source: ActionSource?
+        /// The status of the action.
+        public let status: ActionStatus?
+
+        public init(actionArn: String? = nil, actionName: String? = nil, actionType: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, properties: [String: String]? = nil, source: ActionSource? = nil, status: ActionStatus? = nil) {
+            self.actionArn = actionArn
+            self.actionName = actionName
+            self.actionType = actionType
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.description = description
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.metadataProperties = metadataProperties
+            self.properties = properties
+            self.source = source
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArn = "ActionArn"
+            case actionName = "ActionName"
+            case actionType = "ActionType"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case metadataProperties = "MetadataProperties"
+            case properties = "Properties"
+            case source = "Source"
+            case status = "Status"
         }
     }
 
@@ -5280,7 +6954,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, max: 63)
-            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5336,10 +7010,10 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.appName, name: "appName", parent: name, max: 63)
-            try self.validate(self.appName, name: "appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.appName, name: "appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
-            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5403,6 +7077,70 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeArtifactRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the artifact to describe.
+        public let artifactArn: String
+
+        public init(artifactArn: String) {
+            self.artifactArn = artifactArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.artifactArn, name: "artifactArn", parent: name, max: 256)
+            try self.validate(self.artifactArn, name: "artifactArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:artifact/.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactArn = "ArtifactArn"
+        }
+    }
+
+    public struct DescribeArtifactResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the artifact.
+        public let artifactArn: String?
+        /// The name of the artifact.
+        public let artifactName: String?
+        /// The type of the artifact.
+        public let artifactType: String?
+        public let createdBy: UserContext?
+        /// When the artifact was created.
+        public let creationTime: Date?
+        public let lastModifiedBy: UserContext?
+        /// When the artifact was last modified.
+        public let lastModifiedTime: Date?
+        public let metadataProperties: MetadataProperties?
+        /// A list of the artifact's properties.
+        public let properties: [String: String]?
+        /// The source of the artifact.
+        public let source: ArtifactSource?
+
+        public init(artifactArn: String? = nil, artifactName: String? = nil, artifactType: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, properties: [String: String]? = nil, source: ArtifactSource? = nil) {
+            self.artifactArn = artifactArn
+            self.artifactName = artifactName
+            self.artifactType = artifactType
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.metadataProperties = metadataProperties
+            self.properties = properties
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactArn = "ArtifactArn"
+            case artifactName = "ArtifactName"
+            case artifactType = "ArtifactType"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case metadataProperties = "MetadataProperties"
+            case properties = "Properties"
+            case source = "Source"
+        }
+    }
+
     public struct DescribeAutoMLJobRequest: AWSEncodableShape {
         /// Request information about a job using that job's unique name.
         public let autoMLJobName: String
@@ -5414,7 +7152,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, max: 32)
             try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, min: 1)
-            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5514,7 +7252,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, max: 63)
             try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, min: 1)
-            try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5562,7 +7300,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, max: 63)
             try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, min: 1)
-            try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5591,6 +7329,8 @@ extension SageMaker {
         public let lastModifiedTime: Date
         /// Information about the location in Amazon S3 that has been configured for storing the model artifacts used in the compilation job.
         public let modelArtifacts: ModelArtifacts
+        /// Provides a BLAKE2 hash value that identifies the compiled model artifacts in Amazon S3.
+        public let modelDigests: ModelDigests?
         /// Information about the output location for the compiled model and the target device that the model runs on.
         public let outputConfig: OutputConfig
         /// The Amazon Resource Name (ARN) of the model compilation job.
@@ -5598,7 +7338,7 @@ extension SageMaker {
         /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
 
-        public init(compilationEndTime: Date? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: Date? = nil, creationTime: Date, failureReason: String, inputConfig: InputConfig, lastModifiedTime: Date, modelArtifacts: ModelArtifacts, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition) {
+        public init(compilationEndTime: Date? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: Date? = nil, creationTime: Date, failureReason: String, inputConfig: InputConfig, lastModifiedTime: Date, modelArtifacts: ModelArtifacts, modelDigests: ModelDigests? = nil, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
             self.compilationJobName = compilationJobName
@@ -5609,6 +7349,7 @@ extension SageMaker {
             self.inputConfig = inputConfig
             self.lastModifiedTime = lastModifiedTime
             self.modelArtifacts = modelArtifacts
+            self.modelDigests = modelDigests
             self.outputConfig = outputConfig
             self.roleArn = roleArn
             self.stoppingCondition = stoppingCondition
@@ -5625,9 +7366,76 @@ extension SageMaker {
             case inputConfig = "InputConfig"
             case lastModifiedTime = "LastModifiedTime"
             case modelArtifacts = "ModelArtifacts"
+            case modelDigests = "ModelDigests"
             case outputConfig = "OutputConfig"
             case roleArn = "RoleArn"
             case stoppingCondition = "StoppingCondition"
+        }
+    }
+
+    public struct DescribeContextRequest: AWSEncodableShape {
+        /// The name of the context to describe.
+        public let contextName: String
+
+        public init(contextName: String) {
+            self.contextName = contextName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contextName, name: "contextName", parent: name, max: 120)
+            try self.validate(self.contextName, name: "contextName", parent: name, min: 1)
+            try self.validate(self.contextName, name: "contextName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextName = "ContextName"
+        }
+    }
+
+    public struct DescribeContextResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the context.
+        public let contextArn: String?
+        /// The name of the context.
+        public let contextName: String?
+        /// The type of the context.
+        public let contextType: String?
+        public let createdBy: UserContext?
+        /// When the context was created.
+        public let creationTime: Date?
+        /// The description of the context.
+        public let description: String?
+        public let lastModifiedBy: UserContext?
+        /// When the context was last modified.
+        public let lastModifiedTime: Date?
+        /// A list of the context's properties.
+        public let properties: [String: String]?
+        /// The source of the context.
+        public let source: ContextSource?
+
+        public init(contextArn: String? = nil, contextName: String? = nil, contextType: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, properties: [String: String]? = nil, source: ContextSource? = nil) {
+            self.contextArn = contextArn
+            self.contextName = contextName
+            self.contextType = contextType
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.description = description
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.properties = properties
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextArn = "ContextArn"
+            case contextName = "ContextName"
+            case contextType = "ContextType"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case properties = "Properties"
+            case source = "Source"
         }
     }
 
@@ -5731,7 +7539,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, max: 63)
-            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5781,7 +7589,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
-            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5803,12 +7611,14 @@ extension SageMaker {
         public let endpointStatus: EndpointStatus
         /// If the status of the endpoint is Failed, the reason why it failed.
         public let failureReason: String?
+        /// The most recent deployment configuration for the endpoint.
+        public let lastDeploymentConfig: DeploymentConfig?
         /// A timestamp that shows when the endpoint was last modified.
         public let lastModifiedTime: Date
         ///  An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint.
         public let productionVariants: [ProductionVariantSummary]?
 
-        public init(creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: Date, productionVariants: [ProductionVariantSummary]? = nil) {
+        public init(creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date, productionVariants: [ProductionVariantSummary]? = nil) {
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointArn = endpointArn
@@ -5816,6 +7626,7 @@ extension SageMaker {
             self.endpointName = endpointName
             self.endpointStatus = endpointStatus
             self.failureReason = failureReason
+            self.lastDeploymentConfig = lastDeploymentConfig
             self.lastModifiedTime = lastModifiedTime
             self.productionVariants = productionVariants
         }
@@ -5828,6 +7639,7 @@ extension SageMaker {
             case endpointName = "EndpointName"
             case endpointStatus = "EndpointStatus"
             case failureReason = "FailureReason"
+            case lastDeploymentConfig = "LastDeploymentConfig"
             case lastModifiedTime = "LastModifiedTime"
             case productionVariants = "ProductionVariants"
         }
@@ -5844,7 +7656,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.experimentName, name: "experimentName", parent: name, max: 120)
             try self.validate(self.experimentName, name: "experimentName", parent: name, min: 1)
-            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5897,6 +7709,96 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeFeatureGroupRequest: AWSEncodableShape {
+        /// The name of the FeatureGroup you want described.
+        public let featureGroupName: String
+        /// A token to resume pagination of the list of Features (FeatureDefinitions). 2,500 Features are returned by default.
+        public let nextToken: String?
+
+        public init(featureGroupName: String, nextToken: String? = nil) {
+            self.featureGroupName = featureGroupName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureGroupName = "FeatureGroupName"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFeatureGroupResponse: AWSDecodableShape {
+        /// A timestamp indicating when SageMaker created the FeatureGroup.
+        public let creationTime: Date
+        /// A free form description of the feature group.
+        public let description: String?
+        /// The name of the feature that stores the EventTime of a Record in a FeatureGroup.  An EventTime is a point in time when a new event occurs that corresponds to the creation or update of a Record in a FeatureGroup. All Records in the FeatureGroup have a corresponding EventTime.
+        public let eventTimeFeatureName: String
+        /// The reason that the FeatureGroup failed to be replicated in the OfflineStore. This is failure can occur because:   The FeatureGroup could not be created in the OfflineStore.   The FeatureGroup could not be deleted from the OfflineStore.
+        public let failureReason: String?
+        /// A list of the Features in the FeatureGroup. Each feature is defined by a FeatureName and FeatureType.
+        public let featureDefinitions: [FeatureDefinition]
+        /// The Amazon Resource Name (ARN) of the FeatureGroup.
+        public let featureGroupArn: String
+        /// he name of the FeatureGroup.
+        public let featureGroupName: String
+        /// The status of the feature group.
+        public let featureGroupStatus: FeatureGroupStatus?
+        /// A token to resume pagination of the list of Features (FeatureDefinitions).
+        public let nextToken: String
+        /// The configuration of the OfflineStore, inducing the S3 location of the OfflineStore, AWS Glue or AWS Hive data catalogue configurations, and the security configuration.
+        public let offlineStoreConfig: OfflineStoreConfig?
+        /// The status of the OfflineStore. Notifies you if replicating data into the OfflineStore has failed. Returns either: Active or Blocked
+        public let offlineStoreStatus: OfflineStoreStatus?
+        /// The configuration for the OnlineStore.
+        public let onlineStoreConfig: OnlineStoreConfig?
+        /// The name of the Feature used for RecordIdentifier, whose value uniquely identifies a record stored in the feature store.
+        public let recordIdentifierFeatureName: String
+        /// The Amazon Resource Name (ARN) of the IAM execution role used to persist data into the OfflineStore if an OfflineStoreConfig is provided.
+        public let roleArn: String?
+
+        public init(creationTime: Date, description: String? = nil, eventTimeFeatureName: String, failureReason: String? = nil, featureDefinitions: [FeatureDefinition], featureGroupArn: String, featureGroupName: String, featureGroupStatus: FeatureGroupStatus? = nil, nextToken: String, offlineStoreConfig: OfflineStoreConfig? = nil, offlineStoreStatus: OfflineStoreStatus? = nil, onlineStoreConfig: OnlineStoreConfig? = nil, recordIdentifierFeatureName: String, roleArn: String? = nil) {
+            self.creationTime = creationTime
+            self.description = description
+            self.eventTimeFeatureName = eventTimeFeatureName
+            self.failureReason = failureReason
+            self.featureDefinitions = featureDefinitions
+            self.featureGroupArn = featureGroupArn
+            self.featureGroupName = featureGroupName
+            self.featureGroupStatus = featureGroupStatus
+            self.nextToken = nextToken
+            self.offlineStoreConfig = offlineStoreConfig
+            self.offlineStoreStatus = offlineStoreStatus
+            self.onlineStoreConfig = onlineStoreConfig
+            self.recordIdentifierFeatureName = recordIdentifierFeatureName
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case eventTimeFeatureName = "EventTimeFeatureName"
+            case failureReason = "FailureReason"
+            case featureDefinitions = "FeatureDefinitions"
+            case featureGroupArn = "FeatureGroupArn"
+            case featureGroupName = "FeatureGroupName"
+            case featureGroupStatus = "FeatureGroupStatus"
+            case nextToken = "NextToken"
+            case offlineStoreConfig = "OfflineStoreConfig"
+            case offlineStoreStatus = "OfflineStoreStatus"
+            case onlineStoreConfig = "OnlineStoreConfig"
+            case recordIdentifierFeatureName = "RecordIdentifierFeatureName"
+            case roleArn = "RoleArn"
+        }
+    }
+
     public struct DescribeFlowDefinitionRequest: AWSEncodableShape {
         /// The name of the flow definition.
         public let flowDefinitionName: String
@@ -5908,7 +7810,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, max: 63)
             try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, min: 1)
-            try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
+            try self.validate(self.flowDefinitionName, name: "flowDefinitionName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6023,7 +7925,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, max: 32)
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, min: 1)
-            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6111,7 +8013,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6178,7 +8080,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
             try self.validate(self.version, name: "version", parent: name, min: 0)
         }
 
@@ -6244,7 +8146,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, max: 63)
             try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, min: 1)
-            try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6287,7 +8189,7 @@ extension SageMaker {
         public let roleArn: String
         /// A set of conditions for stopping a labeling job. If any of the conditions are met, the job is automatically stopped.
         public let stoppingConditions: LabelingJobStoppingConditions?
-        /// An array of key/value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
 
         public init(creationTime: Date, failureReason: String? = nil, humanTaskConfig: HumanTaskConfig, inputConfig: LabelingJobInputConfig, jobReferenceCode: String, labelAttributeName: String? = nil, labelCategoryConfigS3Uri: String? = nil, labelCounters: LabelCounters, labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig? = nil, labelingJobArn: String, labelingJobName: String, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus, lastModifiedTime: Date, outputConfig: LabelingJobOutputConfig, roleArn: String, stoppingConditions: LabelingJobStoppingConditions? = nil, tags: [Tag]? = nil) {
@@ -6392,6 +8294,57 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeModelPackageGroupInput: AWSEncodableShape {
+        /// The name of the model group to describe.
+        public let modelPackageGroupName: String
+
+        public init(modelPackageGroupName: String) {
+            self.modelPackageGroupName = modelPackageGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 170)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupName = "ModelPackageGroupName"
+        }
+    }
+
+    public struct DescribeModelPackageGroupOutput: AWSDecodableShape {
+        public let createdBy: UserContext
+        /// The time that the model group was created.
+        public let creationTime: Date
+        /// The Amazon Resource Name (ARN) of the model group.
+        public let modelPackageGroupArn: String
+        /// A description of the model group.
+        public let modelPackageGroupDescription: String?
+        /// The name of the model group.
+        public let modelPackageGroupName: String
+        /// The status of the model group.
+        public let modelPackageGroupStatus: ModelPackageGroupStatus
+
+        public init(createdBy: UserContext, creationTime: Date, modelPackageGroupArn: String, modelPackageGroupDescription: String? = nil, modelPackageGroupName: String, modelPackageGroupStatus: ModelPackageGroupStatus) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.modelPackageGroupArn = modelPackageGroupArn
+            self.modelPackageGroupDescription = modelPackageGroupDescription
+            self.modelPackageGroupName = modelPackageGroupName
+            self.modelPackageGroupStatus = modelPackageGroupStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case modelPackageGroupArn = "ModelPackageGroupArn"
+            case modelPackageGroupDescription = "ModelPackageGroupDescription"
+            case modelPackageGroupName = "ModelPackageGroupName"
+            case modelPackageGroupStatus = "ModelPackageGroupStatus"
+        }
+    }
+
     public struct DescribeModelPackageInput: AWSEncodableShape {
         /// The name of the model package to describe.
         public let modelPackageName: String
@@ -6412,49 +8365,82 @@ extension SageMaker {
     }
 
     public struct DescribeModelPackageOutput: AWSDecodableShape {
+        /// A description provided for the model approval.
+        public let approvalDescription: String?
         /// Whether the model package is certified for listing on AWS Marketplace.
         public let certifyForMarketplace: Bool?
+        public let createdBy: UserContext?
         /// A timestamp specifying when the model package was created.
         public let creationTime: Date
         /// Details about inference jobs that can be run with models based on this model package.
         public let inferenceSpecification: InferenceSpecification?
+        public let lastModifiedBy: UserContext?
+        /// The last time the model package was modified.
+        public let lastModifiedTime: Date?
+        public let metadataProperties: MetadataProperties?
+        /// The approval status of the model package.
+        public let modelApprovalStatus: ModelApprovalStatus?
+        /// Metrics for the model.
+        public let modelMetrics: ModelMetrics?
         /// The Amazon Resource Name (ARN) of the model package.
         public let modelPackageArn: String
         /// A brief summary of the model package.
         public let modelPackageDescription: String?
+        /// If the model is a versioned model, the name of the model group that the versioned model belongs to.
+        public let modelPackageGroupName: String?
         /// The name of the model package being described.
         public let modelPackageName: String
         /// The current status of the model package.
         public let modelPackageStatus: ModelPackageStatus
         /// Details about the current status of the model package.
         public let modelPackageStatusDetails: ModelPackageStatusDetails
+        /// The version of the model package.
+        public let modelPackageVersion: Int?
         /// Details about the algorithm that was used to create the model package.
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
         /// Configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
-        public init(certifyForMarketplace: Bool? = nil, creationTime: Date, inferenceSpecification: InferenceSpecification? = nil, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus, modelPackageStatusDetails: ModelPackageStatusDetails, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus, modelPackageStatusDetails: ModelPackageStatusDetails, modelPackageVersion: Int? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+            self.approvalDescription = approvalDescription
             self.certifyForMarketplace = certifyForMarketplace
+            self.createdBy = createdBy
             self.creationTime = creationTime
             self.inferenceSpecification = inferenceSpecification
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.metadataProperties = metadataProperties
+            self.modelApprovalStatus = modelApprovalStatus
+            self.modelMetrics = modelMetrics
             self.modelPackageArn = modelPackageArn
             self.modelPackageDescription = modelPackageDescription
+            self.modelPackageGroupName = modelPackageGroupName
             self.modelPackageName = modelPackageName
             self.modelPackageStatus = modelPackageStatus
             self.modelPackageStatusDetails = modelPackageStatusDetails
+            self.modelPackageVersion = modelPackageVersion
             self.sourceAlgorithmSpecification = sourceAlgorithmSpecification
             self.validationSpecification = validationSpecification
         }
 
         private enum CodingKeys: String, CodingKey {
+            case approvalDescription = "ApprovalDescription"
             case certifyForMarketplace = "CertifyForMarketplace"
+            case createdBy = "CreatedBy"
             case creationTime = "CreationTime"
             case inferenceSpecification = "InferenceSpecification"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case metadataProperties = "MetadataProperties"
+            case modelApprovalStatus = "ModelApprovalStatus"
+            case modelMetrics = "ModelMetrics"
             case modelPackageArn = "ModelPackageArn"
             case modelPackageDescription = "ModelPackageDescription"
+            case modelPackageGroupName = "ModelPackageGroupName"
             case modelPackageName = "ModelPackageName"
             case modelPackageStatus = "ModelPackageStatus"
             case modelPackageStatusDetails = "ModelPackageStatusDetails"
+            case modelPackageVersion = "ModelPackageVersion"
             case sourceAlgorithmSpecification = "SourceAlgorithmSpecification"
             case validationSpecification = "ValidationSpecification"
         }
@@ -6471,7 +8457,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
-            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6682,6 +8668,176 @@ extension SageMaker {
         }
     }
 
+    public struct DescribePipelineDefinitionForExecutionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String
+
+        public init(pipelineExecutionArn: String) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, max: 256)
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline\\/.*\\/execution\\/.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
+    public struct DescribePipelineDefinitionForExecutionResponse: AWSDecodableShape {
+        /// The time when the pipeline was created.
+        public let creationTime: Date?
+        /// The JSON pipeline definition.
+        public let pipelineDefinition: String?
+
+        public init(creationTime: Date? = nil, pipelineDefinition: String? = nil) {
+            self.creationTime = creationTime
+            self.pipelineDefinition = pipelineDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case pipelineDefinition = "PipelineDefinition"
+        }
+    }
+
+    public struct DescribePipelineExecutionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String
+
+        public init(pipelineExecutionArn: String) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, max: 256)
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline\\/.*\\/execution\\/.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
+    public struct DescribePipelineExecutionResponse: AWSDecodableShape {
+        public let createdBy: UserContext?
+        /// The time when the pipeline execution was created.
+        public let creationTime: Date?
+        public let lastModifiedBy: UserContext?
+        /// The time when the pipeline execution was modified last.
+        public let lastModifiedTime: Date?
+        /// The Amazon Resource Name (ARN) of the pipeline.
+        public let pipelineArn: String?
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String?
+        /// The description of the pipeline execution.
+        public let pipelineExecutionDescription: String?
+        /// The display name of the pipeline execution.
+        public let pipelineExecutionDisplayName: String?
+        /// The status of the pipeline execution.
+        public let pipelineExecutionStatus: PipelineExecutionStatus?
+
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.pipelineArn = pipelineArn
+            self.pipelineExecutionArn = pipelineExecutionArn
+            self.pipelineExecutionDescription = pipelineExecutionDescription
+            self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
+            self.pipelineExecutionStatus = pipelineExecutionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case pipelineArn = "PipelineArn"
+            case pipelineExecutionArn = "PipelineExecutionArn"
+            case pipelineExecutionDescription = "PipelineExecutionDescription"
+            case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
+            case pipelineExecutionStatus = "PipelineExecutionStatus"
+        }
+    }
+
+    public struct DescribePipelineRequest: AWSEncodableShape {
+        /// The name of the pipeline to describe.
+        public let pipelineName: String
+
+        public init(pipelineName: String) {
+            self.pipelineName = pipelineName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 256)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineName = "PipelineName"
+        }
+    }
+
+    public struct DescribePipelineResponse: AWSDecodableShape {
+        public let createdBy: UserContext?
+        /// The time when the pipeline was created.
+        public let creationTime: Date?
+        public let lastModifiedBy: UserContext?
+        /// The time when the pipeline was last modified.
+        public let lastModifiedTime: Date?
+        /// The time when the pipeline was last run.
+        public let lastRunTime: Date?
+        /// The Amazon Resource Name (ARN) of the pipeline.
+        public let pipelineArn: String?
+        /// The JSON pipeline definition.
+        public let pipelineDefinition: String?
+        /// The description of the pipeline.
+        public let pipelineDescription: String?
+        /// The display name of the pipeline.
+        public let pipelineDisplayName: String?
+        /// The name of the pipeline.
+        public let pipelineName: String?
+        /// The status of the pipeline execution.
+        public let pipelineStatus: PipelineStatus?
+        /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
+        public let roleArn: String?
+
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lastRunTime: Date? = nil, pipelineArn: String? = nil, pipelineDefinition: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, pipelineStatus: PipelineStatus? = nil, roleArn: String? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.lastRunTime = lastRunTime
+            self.pipelineArn = pipelineArn
+            self.pipelineDefinition = pipelineDefinition
+            self.pipelineDescription = pipelineDescription
+            self.pipelineDisplayName = pipelineDisplayName
+            self.pipelineName = pipelineName
+            self.pipelineStatus = pipelineStatus
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case lastRunTime = "LastRunTime"
+            case pipelineArn = "PipelineArn"
+            case pipelineDefinition = "PipelineDefinition"
+            case pipelineDescription = "PipelineDescription"
+            case pipelineDisplayName = "PipelineDisplayName"
+            case pipelineName = "PipelineName"
+            case pipelineStatus = "PipelineStatus"
+            case roleArn = "RoleArn"
+        }
+    }
+
     public struct DescribeProcessingJobRequest: AWSEncodableShape {
         /// The name of the processing job. The name must be unique within an AWS Region in the AWS account.
         public let processingJobName: String
@@ -6693,7 +8849,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.processingJobName, name: "processingJobName", parent: name, max: 63)
             try self.validate(self.processingJobName, name: "processingJobName", parent: name, min: 1)
-            try self.validate(self.processingJobName, name: "processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.processingJobName, name: "processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6794,6 +8950,69 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeProjectInput: AWSEncodableShape {
+        /// The name of the project to describe.
+        public let projectName: String
+
+        public init(projectName: String) {
+            self.projectName = projectName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 32)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectName = "ProjectName"
+        }
+    }
+
+    public struct DescribeProjectOutput: AWSDecodableShape {
+        public let createdBy: UserContext?
+        /// The time when the project was created.
+        public let creationTime: Date
+        /// The Amazon Resource Name (ARN) of the project.
+        public let projectArn: String
+        /// The description of the project.
+        public let projectDescription: String?
+        /// The ID of the project.
+        public let projectId: String
+        /// The name of the project.
+        public let projectName: String
+        /// The status of the project.
+        public let projectStatus: ProjectStatus
+        /// Information about a provisioned service catalog product.
+        public let serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails?
+        /// Information used to provision a service catalog product. For information, see What is AWS Service Catalog.
+        public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails
+
+        public init(createdBy: UserContext? = nil, creationTime: Date, projectArn: String, projectDescription: String? = nil, projectId: String, projectName: String, projectStatus: ProjectStatus, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.projectArn = projectArn
+            self.projectDescription = projectDescription
+            self.projectId = projectId
+            self.projectName = projectName
+            self.projectStatus = projectStatus
+            self.serviceCatalogProvisionedProductDetails = serviceCatalogProvisionedProductDetails
+            self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case projectArn = "ProjectArn"
+            case projectDescription = "ProjectDescription"
+            case projectId = "ProjectId"
+            case projectName = "ProjectName"
+            case projectStatus = "ProjectStatus"
+            case serviceCatalogProvisionedProductDetails = "ServiceCatalogProvisionedProductDetails"
+            case serviceCatalogProvisioningDetails = "ServiceCatalogProvisioningDetails"
+        }
+    }
+
     public struct DescribeSubscribedWorkteamRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the subscribed work team to describe.
         public let workteamArn: String
@@ -6836,7 +9055,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, max: 63)
             try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, min: 1)
-            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6996,7 +9215,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.transformJobName, name: "transformJobName", parent: name, max: 63)
             try self.validate(self.transformJobName, name: "transformJobName", parent: name, min: 1)
-            try self.validate(self.transformJobName, name: "transformJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.transformJobName, name: "transformJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7102,7 +9321,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, max: 120)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, min: 1)
-            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7125,6 +9344,7 @@ extension SageMaker {
         public let lastModifiedBy: UserContext?
         /// When the component was last modified.
         public let lastModifiedTime: Date?
+        public let metadataProperties: MetadataProperties?
         /// The metrics for the component.
         public let metrics: [TrialComponentMetricSummary]?
         /// The output artifacts of the component.
@@ -7142,7 +9362,7 @@ extension SageMaker {
         /// The name of the trial component.
         public let trialComponentName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, source: TrialComponentSource? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, source: TrialComponentSource? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -7150,6 +9370,7 @@ extension SageMaker {
             self.inputArtifacts = inputArtifacts
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.metadataProperties = metadataProperties
             self.metrics = metrics
             self.outputArtifacts = outputArtifacts
             self.parameters = parameters
@@ -7168,6 +9389,7 @@ extension SageMaker {
             case inputArtifacts = "InputArtifacts"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
+            case metadataProperties = "MetadataProperties"
             case metrics = "Metrics"
             case outputArtifacts = "OutputArtifacts"
             case parameters = "Parameters"
@@ -7190,7 +9412,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.trialName, name: "trialName", parent: name, max: 120)
             try self.validate(self.trialName, name: "trialName", parent: name, min: 1)
-            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7211,6 +9433,7 @@ extension SageMaker {
         public let lastModifiedBy: UserContext?
         /// When the trial was last modified.
         public let lastModifiedTime: Date?
+        public let metadataProperties: MetadataProperties?
         /// The Amazon Resource Name (ARN) of the source and, optionally, the job type.
         public let source: TrialSource?
         /// The Amazon Resource Name (ARN) of the trial.
@@ -7218,13 +9441,14 @@ extension SageMaker {
         /// The name of the trial.
         public let trialName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, source: TrialSource? = nil, trialArn: String? = nil, trialName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, source: TrialSource? = nil, trialArn: String? = nil, trialName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
             self.experimentName = experimentName
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.metadataProperties = metadataProperties
             self.source = source
             self.trialArn = trialArn
             self.trialName = trialName
@@ -7237,6 +9461,7 @@ extension SageMaker {
             case experimentName = "ExperimentName"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
+            case metadataProperties = "MetadataProperties"
             case source = "Source"
             case trialArn = "TrialArn"
             case trialName = "TrialName"
@@ -7257,7 +9482,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
-            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7330,7 +9555,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.workforceName, name: "workforceName", parent: name, max: 63)
             try self.validate(self.workforceName, name: "workforceName", parent: name, min: 1)
-            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7362,7 +9587,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.workteamName, name: "workteamName", parent: name, max: 63)
             try self.validate(self.workteamName, name: "workteamName", parent: name, min: 1)
-            try self.validate(self.workteamName, name: "workteamName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.workteamName, name: "workteamName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7401,7 +9626,7 @@ extension SageMaker {
             try self.validate(self.desiredInstanceCount, name: "desiredInstanceCount", parent: name, min: 1)
             try self.validate(self.desiredWeight, name: "desiredWeight", parent: name, min: 0)
             try self.validate(self.variantName, name: "variantName", parent: name, max: 63)
-            try self.validate(self.variantName, name: "variantName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.variantName, name: "variantName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7409,6 +9634,14 @@ extension SageMaker {
             case desiredWeight = "DesiredWeight"
             case variantName = "VariantName"
         }
+    }
+
+    public struct DisableSagemakerServicecatalogPortfolioInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DisableSagemakerServicecatalogPortfolioOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DisassociateTrialComponentRequest: AWSEncodableShape {
@@ -7425,10 +9658,10 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, max: 120)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, min: 1)
-            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.trialName, name: "trialName", parent: name, max: 120)
             try self.validate(self.trialName, name: "trialName", parent: name, min: 1)
-            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7491,6 +9724,66 @@ extension SageMaker {
         }
     }
 
+    public struct EnableSagemakerServicecatalogPortfolioInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct EnableSagemakerServicecatalogPortfolioOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct Endpoint: AWSDecodableShape {
+        /// The time that the endpoint was created.
+        public let creationTime: Date
+        public let dataCaptureConfig: DataCaptureConfigSummary?
+        /// The Amazon Resource Name (ARN) of the endpoint.
+        public let endpointArn: String
+        /// The endpoint configuration associated with the endpoint.
+        public let endpointConfigName: String
+        /// The name of the endpoint.
+        public let endpointName: String
+        /// The status of the endpoint.
+        public let endpointStatus: EndpointStatus
+        /// If the endpoint failed, the reason it failed.
+        public let failureReason: String?
+        /// The last time the endpoint was modified.
+        public let lastModifiedTime: Date
+        /// A list of monitoring schedules for the endpoint. For information about model monitoring, see Amazon SageMaker Model Monitor.
+        public let monitoringSchedules: [MonitoringSchedule]?
+        /// A list of the production variants hosted on the endpoint. Each production variant is a model.
+        public let productionVariants: [ProductionVariantSummary]?
+        /// A list of the tags associated with the endpoint. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        public let tags: [Tag]?
+
+        public init(creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: Date, monitoringSchedules: [MonitoringSchedule]? = nil, productionVariants: [ProductionVariantSummary]? = nil, tags: [Tag]? = nil) {
+            self.creationTime = creationTime
+            self.dataCaptureConfig = dataCaptureConfig
+            self.endpointArn = endpointArn
+            self.endpointConfigName = endpointConfigName
+            self.endpointName = endpointName
+            self.endpointStatus = endpointStatus
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.monitoringSchedules = monitoringSchedules
+            self.productionVariants = productionVariants
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case dataCaptureConfig = "DataCaptureConfig"
+            case endpointArn = "EndpointArn"
+            case endpointConfigName = "EndpointConfigName"
+            case endpointName = "EndpointName"
+            case endpointStatus = "EndpointStatus"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case monitoringSchedules = "MonitoringSchedules"
+            case productionVariants = "ProductionVariants"
+            case tags = "Tags"
+        }
+    }
+
     public struct EndpointConfigSummary: AWSDecodableShape {
         /// A timestamp that shows when the endpoint configuration was created.
         public let creationTime: Date
@@ -7531,7 +9824,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
-            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.localPath, name: "localPath", parent: name, max: 256)
             try self.validate(self.localPath, name: "localPath", parent: name, pattern: ".*")
         }
@@ -7636,13 +9929,13 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.experimentName, name: "experimentName", parent: name, max: 120)
             try self.validate(self.experimentName, name: "experimentName", parent: name, min: 1)
-            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.trialComponentDisplayName, name: "trialComponentDisplayName", parent: name, max: 120)
             try self.validate(self.trialComponentDisplayName, name: "trialComponentDisplayName", parent: name, min: 1)
-            try self.validate(self.trialComponentDisplayName, name: "trialComponentDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialComponentDisplayName, name: "trialComponentDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.trialName, name: "trialName", parent: name, max: 120)
             try self.validate(self.trialName, name: "trialName", parent: name, min: 1)
-            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7698,6 +9991,137 @@ extension SageMaker {
             case experimentName = "ExperimentName"
             case experimentSource = "ExperimentSource"
             case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct Explainability: AWSEncodableShape & AWSDecodableShape {
+        /// The explainability report for a model.
+        public let report: MetricsSource?
+
+        public init(report: MetricsSource? = nil) {
+            self.report = report
+        }
+
+        public func validate(name: String) throws {
+            try self.report?.validate(name: "\(name).report")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case report = "Report"
+        }
+    }
+
+    public struct FeatureDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The name of a feature. The type must be a string. FeatureName cannot be any of the following: is_deleted, write_time, api_invocation_time.
+        public let featureName: String?
+        /// The value type of a feature. Valid values are Integral, Fractional, or String.
+        public let featureType: FeatureType?
+
+        public init(featureName: String? = nil, featureType: FeatureType? = nil) {
+            self.featureName = featureName
+            self.featureType = featureType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureName, name: "featureName", parent: name, max: 64)
+            try self.validate(self.featureName, name: "featureName", parent: name, min: 1)
+            try self.validate(self.featureName, name: "featureName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureName = "FeatureName"
+            case featureType = "FeatureType"
+        }
+    }
+
+    public struct FeatureGroup: AWSDecodableShape {
+        /// The time a FeatureGroup was created.
+        public let creationTime: Date?
+        /// A free form description of a FeatureGroup.
+        public let description: String?
+        /// The name of the feature that stores the EventTime of a Record in a FeatureGroup. A EventTime is point in time when a new event occurs that corresponds to the creation or update of a Record in FeatureGroup. All Records in the FeatureGroup must have a corresponding EventTime.
+        public let eventTimeFeatureName: String?
+        /// The reason that the FeatureGroup failed to be replicated in the OfflineStore. This is failure may be due to a failure to create a FeatureGroup in or delete a FeatureGroup from the OfflineStore.
+        public let failureReason: String?
+        /// A list of Features. Each Feature must include a FeatureName and a FeatureType.  Valid FeatureTypes are Integral, Fractional and String.   FeatureNames cannot be any of the following: is_deleted, write_time, api_invocation_time. You can create up to 2,500 FeatureDefinitions per FeatureGroup.
+        public let featureDefinitions: [FeatureDefinition]?
+        /// The Amazon Resource Name (ARN) of a FeatureGroup.
+        public let featureGroupArn: String?
+        /// The name of the FeatureGroup.
+        public let featureGroupName: String?
+        /// A FeatureGroup status.
+        public let featureGroupStatus: FeatureGroupStatus?
+        public let offlineStoreConfig: OfflineStoreConfig?
+        public let offlineStoreStatus: OfflineStoreStatus?
+        public let onlineStoreConfig: OnlineStoreConfig?
+        /// The name of the Feature whose value uniquely identifies a Record defined in the FeatureGroup FeatureDefinitions.
+        public let recordIdentifierFeatureName: String?
+        /// The Amazon Resource Name (ARN) of the IAM execution role used to create the feature group.
+        public let roleArn: String?
+        /// Tags used to define a FeatureGroup.
+        public let tags: [Tag]?
+
+        public init(creationTime: Date? = nil, description: String? = nil, eventTimeFeatureName: String? = nil, failureReason: String? = nil, featureDefinitions: [FeatureDefinition]? = nil, featureGroupArn: String? = nil, featureGroupName: String? = nil, featureGroupStatus: FeatureGroupStatus? = nil, offlineStoreConfig: OfflineStoreConfig? = nil, offlineStoreStatus: OfflineStoreStatus? = nil, onlineStoreConfig: OnlineStoreConfig? = nil, recordIdentifierFeatureName: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
+            self.creationTime = creationTime
+            self.description = description
+            self.eventTimeFeatureName = eventTimeFeatureName
+            self.failureReason = failureReason
+            self.featureDefinitions = featureDefinitions
+            self.featureGroupArn = featureGroupArn
+            self.featureGroupName = featureGroupName
+            self.featureGroupStatus = featureGroupStatus
+            self.offlineStoreConfig = offlineStoreConfig
+            self.offlineStoreStatus = offlineStoreStatus
+            self.onlineStoreConfig = onlineStoreConfig
+            self.recordIdentifierFeatureName = recordIdentifierFeatureName
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case eventTimeFeatureName = "EventTimeFeatureName"
+            case failureReason = "FailureReason"
+            case featureDefinitions = "FeatureDefinitions"
+            case featureGroupArn = "FeatureGroupArn"
+            case featureGroupName = "FeatureGroupName"
+            case featureGroupStatus = "FeatureGroupStatus"
+            case offlineStoreConfig = "OfflineStoreConfig"
+            case offlineStoreStatus = "OfflineStoreStatus"
+            case onlineStoreConfig = "OnlineStoreConfig"
+            case recordIdentifierFeatureName = "RecordIdentifierFeatureName"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct FeatureGroupSummary: AWSDecodableShape {
+        /// A timestamp indicating the time of creation time of the FeatureGroup.
+        public let creationTime: Date
+        /// Unique identifier for the FeatureGroup.
+        public let featureGroupArn: String
+        /// The name of FeatureGroup.
+        public let featureGroupName: String
+        /// The status of a FeatureGroup. The status can be any of the following: Creating, Created, CreateFail, Deleting or DetailFail.
+        public let featureGroupStatus: FeatureGroupStatus?
+        /// Notifies you if replicating data into the OfflineStore has failed. Returns either: Active or Blocked.
+        public let offlineStoreStatus: OfflineStoreStatus?
+
+        public init(creationTime: Date, featureGroupArn: String, featureGroupName: String, featureGroupStatus: FeatureGroupStatus? = nil, offlineStoreStatus: OfflineStoreStatus? = nil) {
+            self.creationTime = creationTime
+            self.featureGroupArn = featureGroupArn
+            self.featureGroupName = featureGroupName
+            self.featureGroupStatus = featureGroupStatus
+            self.offlineStoreStatus = offlineStoreStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case featureGroupArn = "FeatureGroupArn"
+            case featureGroupName = "FeatureGroupName"
+            case featureGroupStatus = "FeatureGroupStatus"
+            case offlineStoreStatus = "OfflineStoreStatus"
         }
     }
 
@@ -7885,6 +10309,55 @@ extension SageMaker {
             case flowDefinitionArn = "FlowDefinitionArn"
             case flowDefinitionName = "FlowDefinitionName"
             case flowDefinitionStatus = "FlowDefinitionStatus"
+        }
+    }
+
+    public struct GetModelPackageGroupPolicyInput: AWSEncodableShape {
+        /// The name of the model group for which to get the resource policy.
+        public let modelPackageGroupName: String
+
+        public init(modelPackageGroupName: String) {
+            self.modelPackageGroupName = modelPackageGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 63)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupName = "ModelPackageGroupName"
+        }
+    }
+
+    public struct GetModelPackageGroupPolicyOutput: AWSDecodableShape {
+        /// The resource policy for the model group.
+        public let resourcePolicy: String
+
+        public init(resourcePolicy: String) {
+            self.resourcePolicy = resourcePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePolicy = "ResourcePolicy"
+        }
+    }
+
+    public struct GetSagemakerServicecatalogPortfolioStatusInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetSagemakerServicecatalogPortfolioStatusOutput: AWSDecodableShape {
+        /// Whether Service Catalog is enabled or disabled in SageMaker.
+        public let status: SagemakerServicecatalogStatus?
+
+        public init(status: SagemakerServicecatalogStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
@@ -8138,7 +10611,7 @@ extension SageMaker {
             try self.validate(self.numberOfHumanWorkersPerDataObject, name: "numberOfHumanWorkersPerDataObject", parent: name, max: 9)
             try self.validate(self.numberOfHumanWorkersPerDataObject, name: "numberOfHumanWorkersPerDataObject", parent: name, min: 1)
             try self.validate(self.preHumanTaskLambdaArn, name: "preHumanTaskLambdaArn", parent: name, max: 2048)
-            try self.validate(self.preHumanTaskLambdaArn, name: "preHumanTaskLambdaArn", parent: name, pattern: "arn:aws[a-z\\-]*:lambda:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.validate(self.preHumanTaskLambdaArn, name: "preHumanTaskLambdaArn", parent: name, pattern: "arn:aws[a-z\\-]*:lambda:[a-z0-9\\-]*:[0-9]{12}:function:.*")
             try self.publicWorkforceTaskPrice?.validate(name: "\(name).publicWorkforceTaskPrice")
             try self.validate(self.taskAvailabilityLifetimeInSeconds, name: "taskAvailabilityLifetimeInSeconds", parent: name, max: 864_000)
             try self.validate(self.taskAvailabilityLifetimeInSeconds, name: "taskAvailabilityLifetimeInSeconds", parent: name, min: 60)
@@ -8336,7 +10809,7 @@ extension SageMaker {
             try self.checkpointConfig?.validate(name: "\(name).checkpointConfig")
             try self.validate(self.definitionName, name: "definitionName", parent: name, max: 64)
             try self.validate(self.definitionName, name: "definitionName", parent: name, min: 1)
-            try self.validate(self.definitionName, name: "definitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.definitionName, name: "definitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}")
             try self.hyperParameterRanges?.validate(name: "\(name).hyperParameterRanges")
             try self.inputDataConfig?.forEach {
                 try $0.validate(name: "\(name).inputDataConfig[]")
@@ -8667,14 +11140,14 @@ extension SageMaker {
         public let containers: [ModelPackageContainerDefinition]
         /// The supported MIME types for the input data.
         public let supportedContentTypes: [String]
-        /// A list of the instance types that are used to generate inferences in real-time.
-        public let supportedRealtimeInferenceInstanceTypes: [ProductionVariantInstanceType]
+        /// A list of the instance types that are used to generate inferences in real-time. This parameter is required for unversioned models, and optional for versioned models.
+        public let supportedRealtimeInferenceInstanceTypes: [ProductionVariantInstanceType]?
         /// The supported MIME types for the output data.
         public let supportedResponseMIMETypes: [String]
-        /// A list of the instance types on which a transformation job can be run or on which an endpoint can be deployed.
-        public let supportedTransformInstanceTypes: [TransformInstanceType]
+        /// A list of the instance types on which a transformation job can be run or on which an endpoint can be deployed. This parameter is required for unversioned models, and optional for versioned models.
+        public let supportedTransformInstanceTypes: [TransformInstanceType]?
 
-        public init(containers: [ModelPackageContainerDefinition], supportedContentTypes: [String], supportedRealtimeInferenceInstanceTypes: [ProductionVariantInstanceType], supportedResponseMIMETypes: [String], supportedTransformInstanceTypes: [TransformInstanceType]) {
+        public init(containers: [ModelPackageContainerDefinition], supportedContentTypes: [String], supportedRealtimeInferenceInstanceTypes: [ProductionVariantInstanceType]? = nil, supportedResponseMIMETypes: [String], supportedTransformInstanceTypes: [TransformInstanceType]? = nil) {
             self.containers = containers
             self.supportedContentTypes = supportedContentTypes
             self.supportedRealtimeInferenceInstanceTypes = supportedRealtimeInferenceInstanceTypes
@@ -9239,6 +11712,74 @@ extension SageMaker {
         }
     }
 
+    public struct ListActionsRequest: AWSEncodableShape {
+        /// A filter that returns only actions of the specified type.
+        public let actionType: String?
+        /// A filter that returns only actions created on or after the specified time.
+        public let createdAfter: Date?
+        /// A filter that returns only actions created on or before the specified time.
+        public let createdBefore: Date?
+        /// The maximum number of actions to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// If the previous call to ListActions didn't return the full set of actions, the call returns a token for getting the next set of actions.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CreationTime.
+        public let sortBy: SortActionsBy?
+        /// The sort order. The default value is Descending.
+        public let sortOrder: SortOrder?
+        /// A filter that returns only actions with the specified source URI.
+        public let sourceUri: String?
+
+        public init(actionType: String? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortActionsBy? = nil, sortOrder: SortOrder? = nil, sourceUri: String? = nil) {
+            self.actionType = actionType
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.sourceUri = sourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionType, name: "actionType", parent: name, max: 256)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.sourceUri, name: "sourceUri", parent: name, max: 2048)
+            try self.validate(self.sourceUri, name: "sourceUri", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case sourceUri = "SourceUri"
+        }
+    }
+
+    public struct ListActionsResponse: AWSDecodableShape {
+        /// A list of actions and their properties.
+        public let actionSummaries: [ActionSummary]?
+        /// A token for getting the next set of actions, if there are any.
+        public let nextToken: String?
+
+        public init(actionSummaries: [ActionSummary]? = nil, nextToken: String? = nil) {
+            self.actionSummaries = actionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionSummaries = "ActionSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListAlgorithmsInput: AWSEncodableShape {
         /// A filter that returns only algorithms created after the specified time (timestamp).
         public let creationTimeAfter: Date?
@@ -9338,7 +11879,7 @@ extension SageMaker {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
-            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -9403,7 +11944,7 @@ extension SageMaker {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.validate(self.userProfileNameEquals, name: "userProfileNameEquals", parent: name, max: 63)
-            try self.validate(self.userProfileNameEquals, name: "userProfileNameEquals", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileNameEquals, name: "userProfileNameEquals", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9429,6 +11970,157 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case apps = "Apps"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListArtifactsRequest: AWSEncodableShape {
+        /// A filter that returns only artifacts of the specified type.
+        public let artifactType: String?
+        /// A filter that returns only artifacts created on or after the specified time.
+        public let createdAfter: Date?
+        /// A filter that returns only artifacts created on or before the specified time.
+        public let createdBefore: Date?
+        /// The maximum number of artifacts to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// If the previous call to ListArtifacts didn't return the full set of artifacts, the call returns a token for getting the next set of artifacts.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CreationTime.
+        public let sortBy: SortArtifactsBy?
+        /// The sort order. The default value is Descending.
+        public let sortOrder: SortOrder?
+        /// A filter that returns only artifacts with the specified source URI.
+        public let sourceUri: String?
+
+        public init(artifactType: String? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortArtifactsBy? = nil, sortOrder: SortOrder? = nil, sourceUri: String? = nil) {
+            self.artifactType = artifactType
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.sourceUri = sourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.artifactType, name: "artifactType", parent: name, max: 256)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.sourceUri, name: "sourceUri", parent: name, max: 2048)
+            try self.validate(self.sourceUri, name: "sourceUri", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactType = "ArtifactType"
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case sourceUri = "SourceUri"
+        }
+    }
+
+    public struct ListArtifactsResponse: AWSDecodableShape {
+        /// A list of artifacts and their properties.
+        public let artifactSummaries: [ArtifactSummary]?
+        /// A token for getting the next set of artifacts, if there are any.
+        public let nextToken: String?
+
+        public init(artifactSummaries: [ArtifactSummary]? = nil, nextToken: String? = nil) {
+            self.artifactSummaries = artifactSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactSummaries = "ArtifactSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAssociationsRequest: AWSEncodableShape {
+        /// A filter that returns only associations of the specified type.
+        public let associationType: AssociationEdgeType?
+        /// A filter that returns only associations created on or after the specified time.
+        public let createdAfter: Date?
+        /// A filter that returns only associations created on or before the specified time.
+        public let createdBefore: Date?
+        /// A filter that returns only associations with the specified destination Amazon Resource Name (ARN).
+        public let destinationArn: String?
+        /// A filter that returns only associations with the specified destination type.
+        public let destinationType: String?
+        /// The maximum number of associations to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// If the previous call to ListAssociations didn't return the full set of associations, the call returns a token for getting the next set of associations.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CreationTime.
+        public let sortBy: SortAssociationsBy?
+        /// The sort order. The default value is Descending.
+        public let sortOrder: SortOrder?
+        /// A filter that returns only associations with the specified source ARN.
+        public let sourceArn: String?
+        /// A filter that returns only associations with the specified source type.
+        public let sourceType: String?
+
+        public init(associationType: AssociationEdgeType? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, destinationArn: String? = nil, destinationType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortAssociationsBy? = nil, sortOrder: SortOrder? = nil, sourceArn: String? = nil, sourceType: String? = nil) {
+            self.associationType = associationType
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.destinationArn = destinationArn
+            self.destinationType = destinationType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.sourceArn = sourceArn
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 256)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*")
+            try self.validate(self.destinationType, name: "destinationType", parent: name, max: 256)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 256)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:(experiment|experiment-trial-component|artifact|action|context)/.*")
+            try self.validate(self.sourceType, name: "sourceType", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationType = "AssociationType"
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case destinationArn = "DestinationArn"
+            case destinationType = "DestinationType"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case sourceArn = "SourceArn"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct ListAssociationsResponse: AWSDecodableShape {
+        /// A list of associations and their properties.
+        public let associationSummaries: [AssociationSummary]?
+        /// A token for getting the next set of associations, if there are any.
+        public let nextToken: String?
+
+        public init(associationSummaries: [AssociationSummary]? = nil, nextToken: String? = nil) {
+            self.associationSummaries = associationSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationSummaries = "AssociationSummaries"
             case nextToken = "NextToken"
         }
     }
@@ -9537,7 +12229,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, max: 32)
             try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, min: 1)
-            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
             try self.validate(self.candidateNameEquals, name: "candidateNameEquals", parent: name, max: 64)
             try self.validate(self.candidateNameEquals, name: "candidateNameEquals", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
@@ -9716,6 +12408,74 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case compilationJobSummaries = "CompilationJobSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContextsRequest: AWSEncodableShape {
+        /// A filter that returns only contexts of the specified type.
+        public let contextType: String?
+        /// A filter that returns only contexts created on or after the specified time.
+        public let createdAfter: Date?
+        /// A filter that returns only contexts created on or before the specified time.
+        public let createdBefore: Date?
+        /// The maximum number of contexts to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// If the previous call to ListContexts didn't return the full set of contexts, the call returns a token for getting the next set of contexts.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CreationTime.
+        public let sortBy: SortContextsBy?
+        /// The sort order. The default value is Descending.
+        public let sortOrder: SortOrder?
+        /// A filter that returns only contexts with the specified source URI.
+        public let sourceUri: String?
+
+        public init(contextType: String? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortContextsBy? = nil, sortOrder: SortOrder? = nil, sourceUri: String? = nil) {
+            self.contextType = contextType
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.sourceUri = sourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contextType, name: "contextType", parent: name, max: 256)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.sourceUri, name: "sourceUri", parent: name, max: 2048)
+            try self.validate(self.sourceUri, name: "sourceUri", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextType = "ContextType"
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case sourceUri = "SourceUri"
+        }
+    }
+
+    public struct ListContextsResponse: AWSDecodableShape {
+        /// A list of contexts and their properties.
+        public let contextSummaries: [ContextSummary]?
+        /// A token for getting the next set of contexts, if there are any.
+        public let nextToken: String?
+
+        public init(contextSummaries: [ContextSummary]? = nil, nextToken: String? = nil) {
+            self.contextSummaries = contextSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextSummaries = "ContextSummaries"
             case nextToken = "NextToken"
         }
     }
@@ -9956,6 +12716,77 @@ extension SageMaker {
         }
     }
 
+    public struct ListFeatureGroupsRequest: AWSEncodableShape {
+        /// Use this parameter to search for FeatureGroupss created after a specific date and time.
+        public let creationTimeAfter: Date?
+        /// Use this parameter to search for FeatureGroupss created before a specific date and time.
+        public let creationTimeBefore: Date?
+        /// A FeatureGroup status. Filters by FeatureGroup status.
+        public let featureGroupStatusEquals: FeatureGroupStatus?
+        /// The maximum number of results returned by ListFeatureGroups.
+        public let maxResults: Int?
+        /// A string that partially matches one or more FeatureGroups names. Filters FeatureGroups by name.
+        public let nameContains: String?
+        /// A token to resume pagination of ListFeatureGroups results.
+        public let nextToken: String?
+        /// An OfflineStore status. Filters by OfflineStore status.
+        public let offlineStoreStatusEquals: OfflineStoreStatusValue?
+        /// The value on which the feature group list is sorted.
+        public let sortBy: FeatureGroupSortBy?
+        /// The order in which feature groups are listed.
+        public let sortOrder: FeatureGroupSortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, featureGroupStatusEquals: FeatureGroupStatus? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, offlineStoreStatusEquals: OfflineStoreStatusValue? = nil, sortBy: FeatureGroupSortBy? = nil, sortOrder: FeatureGroupSortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.featureGroupStatusEquals = featureGroupStatusEquals
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.offlineStoreStatusEquals = offlineStoreStatusEquals
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 64)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case featureGroupStatusEquals = "FeatureGroupStatusEquals"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case offlineStoreStatusEquals = "OfflineStoreStatusEquals"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListFeatureGroupsResponse: AWSDecodableShape {
+        /// A summary of feature groups.
+        public let featureGroupSummaries: [FeatureGroupSummary]
+        /// A token to resume pagination of ListFeatureGroups results.
+        public let nextToken: String?
+
+        public init(featureGroupSummaries: [FeatureGroupSummary], nextToken: String? = nil) {
+            self.featureGroupSummaries = featureGroupSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureGroupSummaries = "FeatureGroupSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListFlowDefinitionsRequest: AWSEncodableShape {
         /// A filter that returns only flow definitions with a creation time greater than or equal to the specified timestamp.
         public let creationTimeAfter: Date?
@@ -10172,7 +13003,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -10425,23 +13256,23 @@ extension SageMaker {
         }
     }
 
-    public struct ListModelPackagesInput: AWSEncodableShape {
-        /// A filter that returns only model packages created after the specified time (timestamp).
+    public struct ListModelPackageGroupsInput: AWSEncodableShape {
+        /// A filter that returns only model groups created after the specified time.
         public let creationTimeAfter: Date?
-        /// A filter that returns only model packages created before the specified time (timestamp).
+        /// A filter that returns only model groups created before the specified time.
         public let creationTimeBefore: Date?
-        /// The maximum number of model packages to return in the response.
+        /// The maximum number of results to return in the response.
         public let maxResults: Int?
-        /// A string in the model package name. This filter returns only model packages whose name contains the specified string.
+        /// A string in the model group name. This filter returns only model groups whose name contains the specified string.
         public let nameContains: String?
-        /// If the response to a previous ListModelPackages request was truncated, the response includes a NextToken. To retrieve the next set of model packages, use the token in the next request.
+        /// If the result of the previous ListModelPackageGroups request was truncated, the response includes a NextToken. To retrieve the next set of model groups, use the token in the next request.
         public let nextToken: String?
-        /// The parameter by which to sort the results. The default is CreationTime.
-        public let sortBy: ModelPackageSortBy?
-        /// The sort order for the results. The default is Ascending.
+        /// The field to sort results by. The default is CreationTime.
+        public let sortBy: ModelPackageGroupSortBy?
+        /// The sort order for results. The default is Ascending.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageGroupSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -10464,6 +13295,84 @@ extension SageMaker {
             case creationTimeAfter = "CreationTimeAfter"
             case creationTimeBefore = "CreationTimeBefore"
             case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListModelPackageGroupsOutput: AWSDecodableShape {
+        /// A list of summaries of the model groups in your AWS account.
+        public let modelPackageGroupSummaryList: [ModelPackageGroupSummary]
+        /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model groups, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(modelPackageGroupSummaryList: [ModelPackageGroupSummary], nextToken: String? = nil) {
+            self.modelPackageGroupSummaryList = modelPackageGroupSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupSummaryList = "ModelPackageGroupSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListModelPackagesInput: AWSEncodableShape {
+        /// A filter that returns only model packages created after the specified time (timestamp).
+        public let creationTimeAfter: Date?
+        /// A filter that returns only model packages created before the specified time (timestamp).
+        public let creationTimeBefore: Date?
+        /// The maximum number of model packages to return in the response.
+        public let maxResults: Int?
+        /// A filter that returns only the model packages with the specified approval status.
+        public let modelApprovalStatus: ModelApprovalStatus?
+        /// A filter that returns only model versions that belong to the specified model group.
+        public let modelPackageGroupName: String?
+        /// A filter that returns onlyl the model packages of the specified type. This can be one of the following values.    VERSIONED - List only versioned models.    UNVERSIONED - List only unversioined models.    BOTH - List both versioned and unversioned models.
+        public let modelPackageType: ModelPackageType?
+        /// A string in the model package name. This filter returns only model packages whose name contains the specified string.
+        public let nameContains: String?
+        /// If the response to a previous ListModelPackages request was truncated, the response includes a NextToken. To retrieve the next set of model packages, use the token in the next request.
+        public let nextToken: String?
+        /// The parameter by which to sort the results. The default is CreationTime.
+        public let sortBy: ModelPackageSortBy?
+        /// The sort order for the results. The default is Ascending.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageGroupName: String? = nil, modelPackageType: ModelPackageType? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.modelApprovalStatus = modelApprovalStatus
+            self.modelPackageGroupName = modelPackageGroupName
+            self.modelPackageType = modelPackageType
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 170)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case modelApprovalStatus = "ModelApprovalStatus"
+            case modelPackageGroupName = "ModelPackageGroupName"
+            case modelPackageType = "ModelPackageType"
             case nameContains = "NameContains"
             case nextToken = "NextToken"
             case sortBy = "SortBy"
@@ -10597,12 +13506,12 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
-            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
-            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -10681,7 +13590,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
-            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
@@ -10887,6 +13796,232 @@ extension SageMaker {
         }
     }
 
+    public struct ListPipelineExecutionStepsRequest: AWSEncodableShape {
+        /// The maximum number of pipeline execution steps to return in the response.
+        public let maxResults: Int?
+        /// If the result of the previous ListPipelineExecutionSteps request was truncated, the response includes a NextToken. To retrieve the next set of pipeline execution steps, use the token in the next request.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String?
+        /// The field by which to sort results. The default is CreatedTime.
+        public let sortOrder: SortOrder?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, pipelineExecutionArn: String? = nil, sortOrder: SortOrder? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pipelineExecutionArn = pipelineExecutionArn
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, max: 256)
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline\\/.*\\/execution\\/.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case pipelineExecutionArn = "PipelineExecutionArn"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListPipelineExecutionStepsResponse: AWSDecodableShape {
+        /// If the result of the previous ListPipelineExecutionSteps request was truncated, the response includes a NextToken. To retrieve the next set of pipeline execution steps, use the token in the next request.
+        public let nextToken: String?
+        /// A list of PipeLineExecutionStep objects. Each PipeLineExecutionStep consists of StepName, StartTime, EndTime, StepStatus, and Metadata. Metadata is an object with properties for each job that contains relevant information about the job created by the step.
+        public let pipelineExecutionSteps: [PipelineExecutionStep]?
+
+        public init(nextToken: String? = nil, pipelineExecutionSteps: [PipelineExecutionStep]? = nil) {
+            self.nextToken = nextToken
+            self.pipelineExecutionSteps = pipelineExecutionSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pipelineExecutionSteps = "PipelineExecutionSteps"
+        }
+    }
+
+    public struct ListPipelineExecutionsRequest: AWSEncodableShape {
+        /// A filter that returns the pipeline executions that were created after a specified time.
+        public let createdAfter: Date?
+        /// A filter that returns the pipeline executions that were created before a specified time.
+        public let createdBefore: Date?
+        /// The maximum number of pipeline executions to return in the response.
+        public let maxResults: Int?
+        /// If the result of the previous ListPipelineExecutions request was truncated, the response includes a NextToken. To retrieve the next set of pipeline executions, use the token in the next request.
+        public let nextToken: String?
+        /// The name of the pipeline.
+        public let pipelineName: String
+        /// The field by which to sort results. The default is CreatedTime.
+        public let sortBy: SortPipelineExecutionsBy?
+        /// The sort order for results.
+        public let sortOrder: SortOrder?
+
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String, sortBy: SortPipelineExecutionsBy? = nil, sortOrder: SortOrder? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pipelineName = pipelineName
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 256)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case pipelineName = "PipelineName"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListPipelineExecutionsResponse: AWSDecodableShape {
+        /// If the result of the previous ListPipelineExecutions request was truncated, the response includes a NextToken. To retrieve the next set of pipeline executions, use the token in the next request.
+        public let nextToken: String?
+        /// Contains a sorted list of pipeline execution summary objects matching the specified filters. Each run summary includes the Amazon Resource Name (ARN) of the pipeline execution, the run date, and the status. This list can be empty.
+        public let pipelineExecutionSummaries: [PipelineExecutionSummary]?
+
+        public init(nextToken: String? = nil, pipelineExecutionSummaries: [PipelineExecutionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.pipelineExecutionSummaries = pipelineExecutionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pipelineExecutionSummaries = "PipelineExecutionSummaries"
+        }
+    }
+
+    public struct ListPipelineParametersForExecutionRequest: AWSEncodableShape {
+        /// The maximum number of parameters to return in the response.
+        public let maxResults: Int?
+        /// If the result of the previous ListPipelineParametersForExecution request was truncated, the response includes a NextToken. To retrieve the next set of parameters, use the token in the next request.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, pipelineExecutionArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, max: 256)
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline\\/.*\\/execution\\/.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
+    public struct ListPipelineParametersForExecutionResponse: AWSDecodableShape {
+        /// If the result of the previous ListPipelineParametersForExecution request was truncated, the response includes a NextToken. To retrieve the next set of parameters, use the token in the next request.
+        public let nextToken: String?
+        /// Contains a list of pipeline parameters. This list can be empty.
+        public let pipelineParameters: [Parameter]?
+
+        public init(nextToken: String? = nil, pipelineParameters: [Parameter]? = nil) {
+            self.nextToken = nextToken
+            self.pipelineParameters = pipelineParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pipelineParameters = "PipelineParameters"
+        }
+    }
+
+    public struct ListPipelinesRequest: AWSEncodableShape {
+        /// A filter that returns the pipelines that were created after a specified time.
+        public let createdAfter: Date?
+        /// A filter that returns the pipelines that were created before a specified time.
+        public let createdBefore: Date?
+        /// The maximum number of pipelines to return in the response.
+        public let maxResults: Int?
+        /// If the result of the previous ListPipelines request was truncated, the response includes a NextToken. To retrieve the next set of pipelines, use the token in the next request.
+        public let nextToken: String?
+        /// The prefix of the pipeline name.
+        public let pipelineNamePrefix: String?
+        /// The field by which to sort results. The default is CreatedTime.
+        public let sortBy: SortPipelinesBy?
+        /// The sort order for results.
+        public let sortOrder: SortOrder?
+
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineNamePrefix: String? = nil, sortBy: SortPipelinesBy? = nil, sortOrder: SortOrder? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pipelineNamePrefix = pipelineNamePrefix
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.pipelineNamePrefix, name: "pipelineNamePrefix", parent: name, max: 256)
+            try self.validate(self.pipelineNamePrefix, name: "pipelineNamePrefix", parent: name, min: 1)
+            try self.validate(self.pipelineNamePrefix, name: "pipelineNamePrefix", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case pipelineNamePrefix = "PipelineNamePrefix"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListPipelinesResponse: AWSDecodableShape {
+        /// If the result of the previous ListPipelines request was truncated, the response includes a NextToken. To retrieve the next set of pipelines, use the token in the next request.
+        public let nextToken: String?
+        /// Contains a sorted list of PipelineSummary objects matching the specified filters. Each PipelineSummary consists of PipelineArn, PipelineName, ExperimentName, PipelineDescription, CreationTime, LastModifiedTime, LastRunTime, and RoleArn. This list can be empty.
+        public let pipelineSummaries: [PipelineSummary]?
+
+        public init(nextToken: String? = nil, pipelineSummaries: [PipelineSummary]? = nil) {
+            self.nextToken = nextToken
+            self.pipelineSummaries = pipelineSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pipelineSummaries = "PipelineSummaries"
+        }
+    }
+
     public struct ListProcessingJobsRequest: AWSEncodableShape {
         /// A filter that returns only processing jobs created after the specified time.
         public let creationTimeAfter: Date?
@@ -10960,6 +14095,70 @@ extension SageMaker {
         }
     }
 
+    public struct ListProjectsInput: AWSEncodableShape {
+        /// A filter that returns the projects that were created after a specified time.
+        public let creationTimeAfter: Date?
+        /// A filter that returns the projects that were created before a specified time.
+        public let creationTimeBefore: Date?
+        /// The maximum number of projects to return in the response.
+        public let maxResults: Int?
+        /// A filter that returns the projects whose name contains a specified string.
+        public let nameContains: String?
+        /// If the result of the previous ListProjects request was truncated, the response includes a NextToken. To retrieve the next set of projects, use the token in the next request.
+        public let nextToken: String?
+        /// The field by which to sort results. The default is CreationTime.
+        public let sortBy: ProjectSortBy?
+        /// The sort order for results. The default is Ascending.
+        public let sortOrder: ProjectSortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ProjectSortBy? = nil, sortOrder: ProjectSortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 32)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListProjectsOutput: AWSDecodableShape {
+        /// If the result of the previous ListCompilationJobs request was truncated, the response includes a NextToken. To retrieve the next set of model compilation jobs, use the token in the next request.
+        public let nextToken: String?
+        /// A list of summaries of projects.
+        public let projectSummaryList: [ProjectSummary]
+
+        public init(nextToken: String? = nil, projectSummaryList: [ProjectSummary]) {
+            self.nextToken = nextToken
+            self.projectSummaryList = projectSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case projectSummaryList = "ProjectSummaryList"
+        }
+    }
+
     public struct ListSubscribedWorkteamsRequest: AWSEncodableShape {
         /// The maximum number of work teams to return in each page of the response.
         public let maxResults: Int?
@@ -10979,7 +14178,7 @@ extension SageMaker {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
-            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -11027,7 +14226,7 @@ extension SageMaker {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:.*")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws[a-z-]*:sagemaker:[a-z0-9-]*:[0-9]{12}:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11080,7 +14279,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, max: 32)
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, min: 1)
-            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -11299,7 +14498,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.experimentName, name: "experimentName", parent: name, max: 120)
             try self.validate(self.experimentName, name: "experimentName", parent: name, min: 1)
-            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -11307,7 +14506,7 @@ extension SageMaker {
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 256)
             try self.validate(self.trialName, name: "trialName", parent: name, max: 120)
             try self.validate(self.trialName, name: "trialName", parent: name, min: 1)
-            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11372,14 +14571,14 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.experimentName, name: "experimentName", parent: name, max: 120)
             try self.validate(self.experimentName, name: "experimentName", parent: name, min: 1)
-            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, max: 120)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, min: 1)
-            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11441,7 +14640,7 @@ extension SageMaker {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.validate(self.userProfileNameContains, name: "userProfileNameContains", parent: name, max: 63)
-            try self.validate(self.userProfileNameContains, name: "userProfileNameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileNameContains, name: "userProfileNameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11496,7 +14695,7 @@ extension SageMaker {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
-            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-]){0,62}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -11552,7 +14751,7 @@ extension SageMaker {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
-            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -11605,6 +14804,42 @@ extension SageMaker {
         }
     }
 
+    public struct MetadataProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The commit ID.
+        public let commitId: String?
+        /// The entity this entity was generated by.
+        public let generatedBy: String?
+        /// The project ID.
+        public let projectId: String?
+        /// The repository.
+        public let repository: String?
+
+        public init(commitId: String? = nil, generatedBy: String? = nil, projectId: String? = nil, repository: String? = nil) {
+            self.commitId = commitId
+            self.generatedBy = generatedBy
+            self.projectId = projectId
+            self.repository = repository
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.commitId, name: "commitId", parent: name, max: 1024)
+            try self.validate(self.commitId, name: "commitId", parent: name, pattern: ".*")
+            try self.validate(self.generatedBy, name: "generatedBy", parent: name, max: 1024)
+            try self.validate(self.generatedBy, name: "generatedBy", parent: name, pattern: ".*")
+            try self.validate(self.projectId, name: "projectId", parent: name, max: 1024)
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: ".*")
+            try self.validate(self.repository, name: "repository", parent: name, max: 1024)
+            try self.validate(self.repository, name: "repository", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "CommitId"
+            case generatedBy = "GeneratedBy"
+            case projectId = "ProjectId"
+            case repository = "Repository"
+        }
+    }
+
     public struct MetricData: AWSDecodableShape {
         /// The name of the metric.
         public let metricName: String?
@@ -11652,6 +14887,33 @@ extension SageMaker {
         }
     }
 
+    public struct MetricsSource: AWSEncodableShape & AWSDecodableShape {
+        public let contentDigest: String?
+        public let contentType: String
+        public let s3Uri: String
+
+        public init(contentDigest: String? = nil, contentType: String, s3Uri: String) {
+            self.contentDigest = contentDigest
+            self.contentType = contentType
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contentDigest, name: "contentDigest", parent: name, max: 72)
+            try self.validate(self.contentDigest, name: "contentDigest", parent: name, pattern: "^[Ss][Hh][Aa]256:[0-9a-fA-F]{64}$")
+            try self.validate(self.contentType, name: "contentType", parent: name, max: 256)
+            try self.validate(self.contentType, name: "contentType", parent: name, pattern: ".*")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentDigest = "ContentDigest"
+            case contentType = "ContentType"
+            case s3Uri = "S3Uri"
+        }
+    }
+
     public struct ModelArtifacts: AWSDecodableShape {
         /// The path of the S3 object that contains the model artifacts. For example, s3://bucket-name/keynameprefix/model.tar.gz.
         public let s3ModelArtifacts: String
@@ -11689,6 +14951,155 @@ extension SageMaker {
         }
     }
 
+    public struct ModelDataQuality: AWSEncodableShape & AWSDecodableShape {
+        /// Data quality constraints for a model.
+        public let constraints: MetricsSource?
+        /// Data quality statistics for a model.
+        public let statistics: MetricsSource?
+
+        public init(constraints: MetricsSource? = nil, statistics: MetricsSource? = nil) {
+            self.constraints = constraints
+            self.statistics = statistics
+        }
+
+        public func validate(name: String) throws {
+            try self.constraints?.validate(name: "\(name).constraints")
+            try self.statistics?.validate(name: "\(name).statistics")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints = "Constraints"
+            case statistics = "Statistics"
+        }
+    }
+
+    public struct ModelDigests: AWSDecodableShape {
+        /// Provides a hash value that uniquely identifies the stored model artifacts.
+        public let artifactDigest: String?
+
+        public init(artifactDigest: String? = nil) {
+            self.artifactDigest = artifactDigest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactDigest = "ArtifactDigest"
+        }
+    }
+
+    public struct ModelMetrics: AWSEncodableShape & AWSDecodableShape {
+        /// Metrics that measure bais in a model.
+        public let bias: Bias?
+        /// Metrics that help explain a model.
+        public let explainability: Explainability?
+        /// Metrics that measure the quality of the input data for a model.
+        public let modelDataQuality: ModelDataQuality?
+        /// Metrics that measure the quality of a model.
+        public let modelQuality: ModelQuality?
+
+        public init(bias: Bias? = nil, explainability: Explainability? = nil, modelDataQuality: ModelDataQuality? = nil, modelQuality: ModelQuality? = nil) {
+            self.bias = bias
+            self.explainability = explainability
+            self.modelDataQuality = modelDataQuality
+            self.modelQuality = modelQuality
+        }
+
+        public func validate(name: String) throws {
+            try self.bias?.validate(name: "\(name).bias")
+            try self.explainability?.validate(name: "\(name).explainability")
+            try self.modelDataQuality?.validate(name: "\(name).modelDataQuality")
+            try self.modelQuality?.validate(name: "\(name).modelQuality")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bias = "Bias"
+            case explainability = "Explainability"
+            case modelDataQuality = "ModelDataQuality"
+            case modelQuality = "ModelQuality"
+        }
+    }
+
+    public struct ModelPackage: AWSDecodableShape {
+        /// A description provided when the model approval is set.
+        public let approvalDescription: String?
+        /// Whether the model package is to be certified to be listed on AWS Marketplace. For information about listing model packages on AWS Marketplace, see List Your Algorithm or Model Package on AWS Marketplace.
+        public let certifyForMarketplace: Bool?
+        public let createdBy: UserContext?
+        /// The time that the model package was created.
+        public let creationTime: Date?
+        public let inferenceSpecification: InferenceSpecification?
+        public let lastModifiedBy: UserContext?
+        /// The last time the model package was modified.
+        public let lastModifiedTime: Date?
+        public let metadataProperties: MetadataProperties?
+        /// The approval status of the model. This can be one of the following values.    APPROVED - The model is approved    REJECTED - The model is rejected.    PENDING_MANUAL_APPROVAL - The model is waiting for manual approval.
+        public let modelApprovalStatus: ModelApprovalStatus?
+        /// Metrics for the model.
+        public let modelMetrics: ModelMetrics?
+        /// The Amazon Resource Name (ARN) of the model package.
+        public let modelPackageArn: String?
+        /// The description of the model package.
+        public let modelPackageDescription: String?
+        /// The model group to which the model belongs.
+        public let modelPackageGroupName: String?
+        /// The name of the model.
+        public let modelPackageName: String?
+        /// The status of the model package. This can be one of the following values.    PENDING - The model package is pending being created.    IN_PROGRESS - The model package is in the process of being created.    COMPLETED - The model package was successfully created.    FAILED - The model package failed.    DELETING - The model package is in the process of being deleted.
+        public let modelPackageStatus: ModelPackageStatus?
+        public let modelPackageStatusDetails: ModelPackageStatusDetails?
+        /// The version number of a versioned model.
+        public let modelPackageVersion: Int?
+        public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
+        /// A list of the tags associated with the model package. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        public let tags: [Tag]?
+        public let validationSpecification: ModelPackageValidationSpecification?
+
+        public init(approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageStatusDetails: ModelPackageStatusDetails? = nil, modelPackageVersion: Int? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, tags: [Tag]? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+            self.approvalDescription = approvalDescription
+            self.certifyForMarketplace = certifyForMarketplace
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.inferenceSpecification = inferenceSpecification
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.metadataProperties = metadataProperties
+            self.modelApprovalStatus = modelApprovalStatus
+            self.modelMetrics = modelMetrics
+            self.modelPackageArn = modelPackageArn
+            self.modelPackageDescription = modelPackageDescription
+            self.modelPackageGroupName = modelPackageGroupName
+            self.modelPackageName = modelPackageName
+            self.modelPackageStatus = modelPackageStatus
+            self.modelPackageStatusDetails = modelPackageStatusDetails
+            self.modelPackageVersion = modelPackageVersion
+            self.sourceAlgorithmSpecification = sourceAlgorithmSpecification
+            self.tags = tags
+            self.validationSpecification = validationSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approvalDescription = "ApprovalDescription"
+            case certifyForMarketplace = "CertifyForMarketplace"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case inferenceSpecification = "InferenceSpecification"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case metadataProperties = "MetadataProperties"
+            case modelApprovalStatus = "ModelApprovalStatus"
+            case modelMetrics = "ModelMetrics"
+            case modelPackageArn = "ModelPackageArn"
+            case modelPackageDescription = "ModelPackageDescription"
+            case modelPackageGroupName = "ModelPackageGroupName"
+            case modelPackageName = "ModelPackageName"
+            case modelPackageStatus = "ModelPackageStatus"
+            case modelPackageStatusDetails = "ModelPackageStatusDetails"
+            case modelPackageVersion = "ModelPackageVersion"
+            case sourceAlgorithmSpecification = "SourceAlgorithmSpecification"
+            case tags = "Tags"
+            case validationSpecification = "ValidationSpecification"
+        }
+    }
+
     public struct ModelPackageContainerDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The DNS host name for the Docker container.
         public let containerHostname: String?
@@ -11711,7 +15122,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.containerHostname, name: "containerHostname", parent: name, max: 63)
-            try self.validate(self.containerHostname, name: "containerHostname", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.containerHostname, name: "containerHostname", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.image, name: "image", parent: name, max: 255)
             try self.validate(self.image, name: "image", parent: name, pattern: "[\\S]+")
             try self.validate(self.imageDigest, name: "imageDigest", parent: name, max: 72)
@@ -11728,6 +15139,71 @@ extension SageMaker {
             case imageDigest = "ImageDigest"
             case modelDataUrl = "ModelDataUrl"
             case productId = "ProductId"
+        }
+    }
+
+    public struct ModelPackageGroup: AWSDecodableShape {
+        public let createdBy: UserContext?
+        /// The time that the model group was created.
+        public let creationTime: Date?
+        /// The Amazon Resource Name (ARN) of the model group.
+        public let modelPackageGroupArn: String?
+        /// The description for the model group.
+        public let modelPackageGroupDescription: String?
+        /// The name of the model group.
+        public let modelPackageGroupName: String?
+        /// The status of the model group. This can be one of the following values.    PENDING - The model group is pending being created.    IN_PROGRESS - The model group is in the process of being created.    COMPLETED - The model group was successfully created.    FAILED - The model group failed.    DELETING - The model group is in the process of being deleted.    DELETE_FAILED - SageMaker failed to delete the model group.
+        public let modelPackageGroupStatus: ModelPackageGroupStatus?
+        /// A list of the tags associated with the model group. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        public let tags: [Tag]?
+
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, modelPackageGroupArn: String? = nil, modelPackageGroupDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageGroupStatus: ModelPackageGroupStatus? = nil, tags: [Tag]? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.modelPackageGroupArn = modelPackageGroupArn
+            self.modelPackageGroupDescription = modelPackageGroupDescription
+            self.modelPackageGroupName = modelPackageGroupName
+            self.modelPackageGroupStatus = modelPackageGroupStatus
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case modelPackageGroupArn = "ModelPackageGroupArn"
+            case modelPackageGroupDescription = "ModelPackageGroupDescription"
+            case modelPackageGroupName = "ModelPackageGroupName"
+            case modelPackageGroupStatus = "ModelPackageGroupStatus"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ModelPackageGroupSummary: AWSDecodableShape {
+        /// The time that the model group was created.
+        public let creationTime: Date
+        /// The Amazon Resource Name (ARN) of the model group.
+        public let modelPackageGroupArn: String
+        /// A description of the model group.
+        public let modelPackageGroupDescription: String?
+        /// The name of the model group.
+        public let modelPackageGroupName: String
+        /// The status of the model group.
+        public let modelPackageGroupStatus: ModelPackageGroupStatus
+
+        public init(creationTime: Date, modelPackageGroupArn: String, modelPackageGroupDescription: String? = nil, modelPackageGroupName: String, modelPackageGroupStatus: ModelPackageGroupStatus) {
+            self.creationTime = creationTime
+            self.modelPackageGroupArn = modelPackageGroupArn
+            self.modelPackageGroupDescription = modelPackageGroupDescription
+            self.modelPackageGroupName = modelPackageGroupName
+            self.modelPackageGroupStatus = modelPackageGroupStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case modelPackageGroupArn = "ModelPackageGroupArn"
+            case modelPackageGroupDescription = "ModelPackageGroupDescription"
+            case modelPackageGroupName = "ModelPackageGroupName"
+            case modelPackageGroupStatus = "ModelPackageGroupStatus"
         }
     }
 
@@ -11772,29 +15248,41 @@ extension SageMaker {
     public struct ModelPackageSummary: AWSDecodableShape {
         /// A timestamp that shows when the model package was created.
         public let creationTime: Date
+        /// The approval status of the model. This can be one of the following values.    APPROVED - The model is approved    REJECTED - The model is rejected.    PENDING_MANUAL_APPROVAL - The model is waiting for manual approval.
+        public let modelApprovalStatus: ModelApprovalStatus?
         /// The Amazon Resource Name (ARN) of the model package.
         public let modelPackageArn: String
         /// A brief description of the model package.
         public let modelPackageDescription: String?
+        /// If the model package is a versioned model, the model group that the versioned model belongs to.
+        public let modelPackageGroupName: String?
         /// The name of the model package.
         public let modelPackageName: String
         /// The overall status of the model package.
         public let modelPackageStatus: ModelPackageStatus
+        /// If the model package is a versioned model, the version of the model.
+        public let modelPackageVersion: Int?
 
-        public init(creationTime: Date, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus) {
+        public init(creationTime: Date, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageArn: String, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String, modelPackageStatus: ModelPackageStatus, modelPackageVersion: Int? = nil) {
             self.creationTime = creationTime
+            self.modelApprovalStatus = modelApprovalStatus
             self.modelPackageArn = modelPackageArn
             self.modelPackageDescription = modelPackageDescription
+            self.modelPackageGroupName = modelPackageGroupName
             self.modelPackageName = modelPackageName
             self.modelPackageStatus = modelPackageStatus
+            self.modelPackageVersion = modelPackageVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
+            case modelApprovalStatus = "ModelApprovalStatus"
             case modelPackageArn = "ModelPackageArn"
             case modelPackageDescription = "ModelPackageDescription"
+            case modelPackageGroupName = "ModelPackageGroupName"
             case modelPackageName = "ModelPackageName"
             case modelPackageStatus = "ModelPackageStatus"
+            case modelPackageVersion = "ModelPackageVersion"
         }
     }
 
@@ -11812,7 +15300,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 63)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 1)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.transformJobDefinition.validate(name: "\(name).transformJobDefinition")
         }
 
@@ -11847,6 +15335,41 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case validationProfiles = "ValidationProfiles"
             case validationRole = "ValidationRole"
+        }
+    }
+
+    public struct ModelQuality: AWSEncodableShape & AWSDecodableShape {
+        /// Model quality constraints.
+        public let constraints: MetricsSource?
+        /// Model quality statistics.
+        public let statistics: MetricsSource?
+
+        public init(constraints: MetricsSource? = nil, statistics: MetricsSource? = nil) {
+            self.constraints = constraints
+            self.statistics = statistics
+        }
+
+        public func validate(name: String) throws {
+            try self.constraints?.validate(name: "\(name).constraints")
+            try self.statistics?.validate(name: "\(name).statistics")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints = "Constraints"
+            case statistics = "Statistics"
+        }
+    }
+
+    public struct ModelStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created model.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -12210,19 +15733,66 @@ extension SageMaker {
         }
     }
 
+    public struct MonitoringSchedule: AWSDecodableShape {
+        /// The time that the monitoring schedule was created.
+        public let creationTime: Date?
+        /// The endpoint that hosts the model being monitored.
+        public let endpointName: String?
+        /// If the monitoring schedule failed, the reason it failed.
+        public let failureReason: String?
+        /// The last time the monitoring schedule was changed.
+        public let lastModifiedTime: Date?
+        public let lastMonitoringExecutionSummary: MonitoringExecutionSummary?
+        /// The Amazon Resource Name (ARN) of the monitoring schedule.
+        public let monitoringScheduleArn: String?
+        public let monitoringScheduleConfig: MonitoringScheduleConfig?
+        /// The name of the monitoring schedule.
+        public let monitoringScheduleName: String?
+        /// The status of the monitoring schedule. This can be one of the following values.    PENDING - The schedule is pending being created.    FAILED - The schedule failed.    SCHEDULED - The schedule was successfully created.    STOPPED - The schedule was stopped.
+        public let monitoringScheduleStatus: ScheduleStatus?
+        /// A list of the tags associated with the monitoring schedlue. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        public let tags: [Tag]?
+
+        public init(creationTime: Date? = nil, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String? = nil, monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil, monitoringScheduleStatus: ScheduleStatus? = nil, tags: [Tag]? = nil) {
+            self.creationTime = creationTime
+            self.endpointName = endpointName
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.lastMonitoringExecutionSummary = lastMonitoringExecutionSummary
+            self.monitoringScheduleArn = monitoringScheduleArn
+            self.monitoringScheduleConfig = monitoringScheduleConfig
+            self.monitoringScheduleName = monitoringScheduleName
+            self.monitoringScheduleStatus = monitoringScheduleStatus
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case endpointName = "EndpointName"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case lastMonitoringExecutionSummary = "LastMonitoringExecutionSummary"
+            case monitoringScheduleArn = "MonitoringScheduleArn"
+            case monitoringScheduleConfig = "MonitoringScheduleConfig"
+            case monitoringScheduleName = "MonitoringScheduleName"
+            case monitoringScheduleStatus = "MonitoringScheduleStatus"
+            case tags = "Tags"
+        }
+    }
+
     public struct MonitoringScheduleConfig: AWSEncodableShape & AWSDecodableShape {
         /// Defines the monitoring job.
-        public let monitoringJobDefinition: MonitoringJobDefinition
+        public let monitoringJobDefinition: MonitoringJobDefinition?
         /// Configures the monitoring schedule.
         public let scheduleConfig: ScheduleConfig?
 
-        public init(monitoringJobDefinition: MonitoringJobDefinition, scheduleConfig: ScheduleConfig? = nil) {
+        public init(monitoringJobDefinition: MonitoringJobDefinition? = nil, scheduleConfig: ScheduleConfig? = nil) {
             self.monitoringJobDefinition = monitoringJobDefinition
             self.scheduleConfig = scheduleConfig
         }
 
         public func validate(name: String) throws {
-            try self.monitoringJobDefinition.validate(name: "\(name).monitoringJobDefinition")
+            try self.monitoringJobDefinition?.validate(name: "\(name).monitoringJobDefinition")
             try self.scheduleConfig?.validate(name: "\(name).scheduleConfig")
         }
 
@@ -12484,6 +16054,49 @@ extension SageMaker {
         }
     }
 
+    public struct OfflineStoreConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The meta data of the Glue table that is autogenerated when an OfflineStore is created.
+        public let dataCatalogConfig: DataCatalogConfig?
+        /// Set to True to disable the automatic creation of an AWS Glue table when configuring an OfflineStore.
+        public let disableGlueTableCreation: Bool?
+        /// The Amazon Simple Storage (Amazon S3) location of OfflineStore.
+        public let s3StorageConfig: S3StorageConfig
+
+        public init(dataCatalogConfig: DataCatalogConfig? = nil, disableGlueTableCreation: Bool? = nil, s3StorageConfig: S3StorageConfig) {
+            self.dataCatalogConfig = dataCatalogConfig
+            self.disableGlueTableCreation = disableGlueTableCreation
+            self.s3StorageConfig = s3StorageConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.dataCatalogConfig?.validate(name: "\(name).dataCatalogConfig")
+            try self.s3StorageConfig.validate(name: "\(name).s3StorageConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCatalogConfig = "DataCatalogConfig"
+            case disableGlueTableCreation = "DisableGlueTableCreation"
+            case s3StorageConfig = "S3StorageConfig"
+        }
+    }
+
+    public struct OfflineStoreStatus: AWSDecodableShape {
+        /// The justification for why the OfflineStoreStatus is Blocked (if applicable).
+        public let blockedReason: String?
+        /// An OfflineStore status.
+        public let status: OfflineStoreStatusValue
+
+        public init(blockedReason: String? = nil, status: OfflineStoreStatusValue) {
+            self.blockedReason = blockedReason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockedReason = "BlockedReason"
+            case status = "Status"
+        }
+    }
+
     public struct OidcConfig: AWSEncodableShape {
         /// The OIDC IdP authorization endpoint used to configure your private workforce.
         public let authorizationEndpoint: String
@@ -12606,9 +16219,50 @@ extension SageMaker {
         }
     }
 
+    public struct OnlineStoreConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Turn OnlineStore off by specifying False for the EnableOnlineStore flag. Turn OnlineStore on by specifying True for the EnableOnlineStore flag.  The default value is False.
+        public let enableOnlineStore: Bool?
+        /// Use to specify KMS Key ID (KMSKeyId) for at-rest encryption of your OnlineStore.
+        public let securityConfig: OnlineStoreSecurityConfig?
+
+        public init(enableOnlineStore: Bool? = nil, securityConfig: OnlineStoreSecurityConfig? = nil) {
+            self.enableOnlineStore = enableOnlineStore
+            self.securityConfig = securityConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.securityConfig?.validate(name: "\(name).securityConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableOnlineStore = "EnableOnlineStore"
+            case securityConfig = "SecurityConfig"
+        }
+    }
+
+    public struct OnlineStoreSecurityConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the AWS Key Management Service (AWS KMS) key that SageMaker Feature Store uses to encrypt the Amazon S3 objects at rest using Amazon S3 server-side encryption. The caller (either IAM user or IAM role) of CreateFeatureGroup must have below permissions to the OnlineStore KmsKeyId:    "kms:Encrypt"     "kms:Decrypt"     "kms:DescribeKey"     "kms:CreateGrant"     "kms:RetireGrant"     "kms:ReEncryptFrom"     "kms:ReEncryptTo"     "kms:GenerateDataKey"     "kms:ListAliases"     "kms:ListGrants"     "kms:RevokeGrant"    The caller (either IAM user or IAM role) to all DataPlane operations (PutRecord, GetRecord, DeleteRecord) must have the following permissions to the KmsKeyId:    "kms:Decrypt"
+        public let kmsKeyId: String?
+
+        public init(kmsKeyId: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
     public struct OutputConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional parameters for compiler options in JSON format. The compiler options are TargetPlatform specific. It is required for NVIDIA accelerators and highly recommended for CPU compilations. For any other cases, it is optional to specify CompilerOptions.     CPU: Compilation for CPU supports the following compiler options.    mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}       ARM: Details of ARM CPU compilations.    NEON: NEON is an implementation of the Advanced SIMD extension used in ARMv7 processors. For example, add {'mattr': ['+neon']} to the compiler options if compiling for ARM 32-bit platform with the NEON support.      NVIDIA: Compilation for NVIDIA GPU supports the following compiler options.    gpu_code: Specifies the targeted architecture.    trt-ver: Specifies the TensorRT versions in x.y.z. format.    cuda-ver: Specifies the CUDA version in x.y format.   For example, {'gpu-code': 'sm_72', 'trt-ver': '6.0.1', 'cuda-ver': '10.1'}     ANDROID: Compilation for the Android OS supports the following compiler options:    ANDROID_PLATFORM: Specifies the Android API levels. Available levels range from 21 to 29. For example, {'ANDROID_PLATFORM': 28}.    mattr: Add {'mattr': ['+neon']} to compiler options if compiling for ARM 32-bit platform with NEON support.      INFERENTIA: Compilation for target ml_inf1 uses compiler options passed in as a JSON string. For example, "CompilerOptions": "\"--verbose 1 --num-neuroncores 2 -O2\"".  For information about supported compiler options, see  Neuron Compiler CLI.     CoreML: Compilation for the CoreML OutputConfig$TargetDevice supports the following compiler options:    class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.
         public let compilerOptions: String?
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
+        public let kmsKeyId: String?
         /// Identifies the S3 bucket where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputLocation: String
         /// Identifies the target device or the machine learning instance that you want to run your model on after the compilation has completed. Alternatively, you can specify OS, architecture, and accelerator using TargetPlatform fields. It can be used instead of TargetPlatform.
@@ -12616,8 +16270,9 @@ extension SageMaker {
         /// Contains information about a target platform that you want your model to run on, such as OS, architecture, and accelerators. It is an alternative of TargetDevice. The following examples show how to configure the TargetPlatform and CompilerOptions JSON strings for popular target platforms:    Raspberry Pi 3 Model B+  "TargetPlatform": {"Os": "LINUX", "Arch": "ARM_EABIHF"},    "CompilerOptions": {'mattr': ['+neon']}    Jetson TX2  "TargetPlatform": {"Os": "LINUX", "Arch": "ARM64", "Accelerator": "NVIDIA"},    "CompilerOptions": {'gpu-code': 'sm_62', 'trt-ver': '6.0.1', 'cuda-ver': '10.0'}    EC2 m5.2xlarge instance OS  "TargetPlatform": {"Os": "LINUX", "Arch": "X86_64", "Accelerator": "NVIDIA"},    "CompilerOptions": {'mcpu': 'skylake-avx512'}    RK3399  "TargetPlatform": {"Os": "LINUX", "Arch": "ARM64", "Accelerator": "MALI"}    ARMv7 phone (CPU)  "TargetPlatform": {"Os": "ANDROID", "Arch": "ARM_EABI"},    "CompilerOptions": {'ANDROID_PLATFORM': 25, 'mattr': ['+neon']}    ARMv8 phone (CPU)  "TargetPlatform": {"Os": "ANDROID", "Arch": "ARM64"},    "CompilerOptions": {'ANDROID_PLATFORM': 29}
         public let targetPlatform: TargetPlatform?
 
-        public init(compilerOptions: String? = nil, s3OutputLocation: String, targetDevice: TargetDevice? = nil, targetPlatform: TargetPlatform? = nil) {
+        public init(compilerOptions: String? = nil, kmsKeyId: String? = nil, s3OutputLocation: String, targetDevice: TargetDevice? = nil, targetPlatform: TargetPlatform? = nil) {
             self.compilerOptions = compilerOptions
+            self.kmsKeyId = kmsKeyId
             self.s3OutputLocation = s3OutputLocation
             self.targetDevice = targetDevice
             self.targetPlatform = targetPlatform
@@ -12627,12 +16282,15 @@ extension SageMaker {
             try self.validate(self.compilerOptions, name: "compilerOptions", parent: name, max: 1024)
             try self.validate(self.compilerOptions, name: "compilerOptions", parent: name, min: 3)
             try self.validate(self.compilerOptions, name: "compilerOptions", parent: name, pattern: ".*")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
             try self.validate(self.s3OutputLocation, name: "s3OutputLocation", parent: name, max: 1024)
             try self.validate(self.s3OutputLocation, name: "s3OutputLocation", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case compilerOptions = "CompilerOptions"
+            case kmsKeyId = "KmsKeyId"
             case s3OutputLocation = "S3OutputLocation"
             case targetDevice = "TargetDevice"
             case targetPlatform = "TargetPlatform"
@@ -12660,6 +16318,30 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public struct Parameter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the parameter to assign a value to. This parameter name must match a named parameter in the pipeline definition.
+        public let name: String
+        /// The literal value for the parameter.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}$")
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
         }
     }
 
@@ -12757,11 +16439,253 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, max: 32)
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, min: 1)
-            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
         }
 
         private enum CodingKeys: String, CodingKey {
             case hyperParameterTuningJobName = "HyperParameterTuningJobName"
+        }
+    }
+
+    public struct Pipeline: AWSDecodableShape {
+        public let createdBy: UserContext?
+        /// The creation time of the pipeline.
+        public let creationTime: Date?
+        public let lastModifiedBy: UserContext?
+        /// The time that the pipeline was last modified.
+        public let lastModifiedTime: Date?
+        /// The time when the pipeline was last run.
+        public let lastRunTime: Date?
+        /// The Amazon Resource Name (ARN) of the pipeline.
+        public let pipelineArn: String?
+        /// The description of the pipeline.
+        public let pipelineDescription: String?
+        /// The display name of the pipeline.
+        public let pipelineDisplayName: String?
+        /// The name of the pipeline.
+        public let pipelineName: String?
+        /// The status of the pipeline.
+        public let pipelineStatus: PipelineStatus?
+        /// The Amazon Resource Name (ARN) of the role that created the pipeline.
+        public let roleArn: String?
+        /// A list of tags that apply to the pipeline.
+        public let tags: [Tag]?
+
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lastRunTime: Date? = nil, pipelineArn: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, pipelineStatus: PipelineStatus? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.lastRunTime = lastRunTime
+            self.pipelineArn = pipelineArn
+            self.pipelineDescription = pipelineDescription
+            self.pipelineDisplayName = pipelineDisplayName
+            self.pipelineName = pipelineName
+            self.pipelineStatus = pipelineStatus
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case lastRunTime = "LastRunTime"
+            case pipelineArn = "PipelineArn"
+            case pipelineDescription = "PipelineDescription"
+            case pipelineDisplayName = "PipelineDisplayName"
+            case pipelineName = "PipelineName"
+            case pipelineStatus = "PipelineStatus"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PipelineExecution: AWSDecodableShape {
+        public let createdBy: UserContext?
+        /// The creation time of the pipeline execution.
+        public let creationTime: Date?
+        public let lastModifiedBy: UserContext?
+        /// The time that the pipeline execution was last modified.
+        public let lastModifiedTime: Date?
+        /// The Amazon Resource Name (ARN) of the pipeline that was executed.
+        public let pipelineArn: String?
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String?
+        /// The description of the pipeline execution.
+        public let pipelineExecutionDescription: String?
+        /// The display name of the pipeline execution.
+        public let pipelineExecutionDisplayName: String?
+        /// The status of the pipeline status.
+        public let pipelineExecutionStatus: PipelineExecutionStatus?
+        /// Contains a list of pipeline parameters. This list can be empty.
+        public let pipelineParameters: [Parameter]?
+
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineParameters: [Parameter]? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.pipelineArn = pipelineArn
+            self.pipelineExecutionArn = pipelineExecutionArn
+            self.pipelineExecutionDescription = pipelineExecutionDescription
+            self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
+            self.pipelineExecutionStatus = pipelineExecutionStatus
+            self.pipelineParameters = pipelineParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case pipelineArn = "PipelineArn"
+            case pipelineExecutionArn = "PipelineExecutionArn"
+            case pipelineExecutionDescription = "PipelineExecutionDescription"
+            case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
+            case pipelineExecutionStatus = "PipelineExecutionStatus"
+            case pipelineParameters = "PipelineParameters"
+        }
+    }
+
+    public struct PipelineExecutionStep: AWSDecodableShape {
+        /// If this pipeline execution step was cached, details on the cache hit.
+        public let cacheHitResult: CacheHitResult?
+        /// The time that the step stopped executing.
+        public let endTime: Date?
+        /// The reason why the step failed execution. This is only returned if the step failed its execution.
+        public let failureReason: String?
+        /// The metadata for the step execution.
+        public let metadata: PipelineExecutionStepMetadata?
+        /// The time that the step started executing.
+        public let startTime: Date?
+        /// The name of the step that is executed.
+        public let stepName: String?
+        /// The status of the step execution.
+        public let stepStatus: StepStatus?
+
+        public init(cacheHitResult: CacheHitResult? = nil, endTime: Date? = nil, failureReason: String? = nil, metadata: PipelineExecutionStepMetadata? = nil, startTime: Date? = nil, stepName: String? = nil, stepStatus: StepStatus? = nil) {
+            self.cacheHitResult = cacheHitResult
+            self.endTime = endTime
+            self.failureReason = failureReason
+            self.metadata = metadata
+            self.startTime = startTime
+            self.stepName = stepName
+            self.stepStatus = stepStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheHitResult = "CacheHitResult"
+            case endTime = "EndTime"
+            case failureReason = "FailureReason"
+            case metadata = "Metadata"
+            case startTime = "StartTime"
+            case stepName = "StepName"
+            case stepStatus = "StepStatus"
+        }
+    }
+
+    public struct PipelineExecutionStepMetadata: AWSDecodableShape {
+        /// If this is a Condition step metadata object, details on the condition.
+        public let condition: ConditionStepMetadata?
+        /// Metadata for the Model step.
+        public let model: ModelStepMetadata?
+        /// The Amazon Resource Name (ARN) of the processing job that was run by this step execution.
+        public let processingJob: ProcessingJobStepMetadata?
+        /// Metadata for the RegisterModel step.
+        public let registerModel: RegisterModelStepMetadata?
+        /// The Amazon Resource Name (ARN) of the training job that was run by this step execution.
+        public let trainingJob: TrainingJobStepMetadata?
+        /// The Amazon Resource Name (ARN) of the transform job that was run by this step execution.
+        public let transformJob: TransformJobStepMetadata?
+
+        public init(condition: ConditionStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil) {
+            self.condition = condition
+            self.model = model
+            self.processingJob = processingJob
+            self.registerModel = registerModel
+            self.trainingJob = trainingJob
+            self.transformJob = transformJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case model = "Model"
+            case processingJob = "ProcessingJob"
+            case registerModel = "RegisterModel"
+            case trainingJob = "TrainingJob"
+            case transformJob = "TransformJob"
+        }
+    }
+
+    public struct PipelineExecutionSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String?
+        /// The description of the pipeline execution.
+        public let pipelineExecutionDescription: String?
+        /// The display name of the pipeline execution.
+        public let pipelineExecutionDisplayName: String?
+        /// The status of the pipeline execution.
+        public let pipelineExecutionStatus: PipelineExecutionStatus?
+        /// The start time of the pipeline execution.
+        public let startTime: Date?
+
+        public init(pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, startTime: Date? = nil) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+            self.pipelineExecutionDescription = pipelineExecutionDescription
+            self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
+            self.pipelineExecutionStatus = pipelineExecutionStatus
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
+            case pipelineExecutionDescription = "PipelineExecutionDescription"
+            case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
+            case pipelineExecutionStatus = "PipelineExecutionStatus"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct PipelineSummary: AWSDecodableShape {
+        /// The creation time of the pipeline.
+        public let creationTime: Date?
+        /// The last time that a pipeline execution began.
+        public let lastExecutionTime: Date?
+        /// The time that the pipeline was last modified.
+        public let lastModifiedTime: Date?
+        ///  The Amazon Resource Name (ARN) of the pipeline.
+        public let pipelineArn: String?
+        /// The description of the pipeline.
+        public let pipelineDescription: String?
+        /// The display name of the pipeline.
+        public let pipelineDisplayName: String?
+        /// The name of the pipeline.
+        public let pipelineName: String?
+        /// The Amazon Resource Name (ARN) that the pipeline used to execute.
+        public let roleArn: String?
+
+        public init(creationTime: Date? = nil, lastExecutionTime: Date? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, roleArn: String? = nil) {
+            self.creationTime = creationTime
+            self.lastExecutionTime = lastExecutionTime
+            self.lastModifiedTime = lastModifiedTime
+            self.pipelineArn = pipelineArn
+            self.pipelineDescription = pipelineDescription
+            self.pipelineDisplayName = pipelineDisplayName
+            self.pipelineName = pipelineName
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastExecutionTime = "LastExecutionTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case pipelineArn = "PipelineArn"
+            case pipelineDescription = "PipelineDescription"
+            case pipelineDisplayName = "PipelineDisplayName"
+            case pipelineName = "PipelineName"
+            case roleArn = "RoleArn"
         }
     }
 
@@ -12799,22 +16723,50 @@ extension SageMaker {
         }
     }
 
+    public struct ProcessingFeatureStoreOutput: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon SageMaker FeatureGroup to use as the destination for processing job output.
+        public let featureGroupName: String
+
+        public init(featureGroupName: String) {
+            self.featureGroupName = featureGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureGroupName = "FeatureGroupName"
+        }
+    }
+
     public struct ProcessingInput: AWSEncodableShape & AWSDecodableShape {
+        /// When True, input operations such as data download are managed natively by the processing job application. When False (default), input operations are managed by Amazon SageMaker.
+        public let appManaged: Bool?
+        /// Configuration for a Dataset Definition input.
+        public let datasetDefinition: DatasetDefinition?
         /// The name of the inputs for the processing job.
         public let inputName: String
-        /// The S3 inputs for the processing job.
-        public let s3Input: ProcessingS3Input
+        /// Configuration for processing job inputs in Amazon S3.
+        public let s3Input: ProcessingS3Input?
 
-        public init(inputName: String, s3Input: ProcessingS3Input) {
+        public init(appManaged: Bool? = nil, datasetDefinition: DatasetDefinition? = nil, inputName: String, s3Input: ProcessingS3Input? = nil) {
+            self.appManaged = appManaged
+            self.datasetDefinition = datasetDefinition
             self.inputName = inputName
             self.s3Input = s3Input
         }
 
         public func validate(name: String) throws {
-            try self.s3Input.validate(name: "\(name).s3Input")
+            try self.datasetDefinition?.validate(name: "\(name).datasetDefinition")
+            try self.s3Input?.validate(name: "\(name).s3Input")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appManaged = "AppManaged"
+            case datasetDefinition = "DatasetDefinition"
             case inputName = "InputName"
             case s3Input = "S3Input"
         }
@@ -12840,7 +16792,7 @@ extension SageMaker {
         public let networkConfig: NetworkConfig?
         /// The time that the processing job ended.
         public let processingEndTime: Date?
-        /// For each input, data is downloaded from S3 into the processing container before the processing job begins running if "S3InputMode" is set to File.
+        /// List of input configurations for the processing job.
         public let processingInputs: [ProcessingInput]?
         /// The ARN of the processing job.
         public let processingJobArn: String?
@@ -12911,6 +16863,19 @@ extension SageMaker {
         }
     }
 
+    public struct ProcessingJobStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the processing job.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct ProcessingJobSummary: AWSDecodableShape {
         /// The time at which the processing job was created.
         public let creationTime: Date
@@ -12953,21 +16918,30 @@ extension SageMaker {
     }
 
     public struct ProcessingOutput: AWSEncodableShape & AWSDecodableShape {
+        /// When True, output operations such as data upload are managed natively by the processing job application. When False (default), output operations are managed by Amazon SageMaker.
+        public let appManaged: Bool?
+        /// Configuration for processing job outputs in Amazon SageMaker Feature Store. This processing output type is only supported when AppManaged is specified.
+        public let featureStoreOutput: ProcessingFeatureStoreOutput?
         /// The name for the processing job output.
         public let outputName: String
         /// Configuration for processing job outputs in Amazon S3.
-        public let s3Output: ProcessingS3Output
+        public let s3Output: ProcessingS3Output?
 
-        public init(outputName: String, s3Output: ProcessingS3Output) {
+        public init(appManaged: Bool? = nil, featureStoreOutput: ProcessingFeatureStoreOutput? = nil, outputName: String, s3Output: ProcessingS3Output? = nil) {
+            self.appManaged = appManaged
+            self.featureStoreOutput = featureStoreOutput
             self.outputName = outputName
             self.s3Output = s3Output
         }
 
         public func validate(name: String) throws {
-            try self.s3Output.validate(name: "\(name).s3Output")
+            try self.featureStoreOutput?.validate(name: "\(name).featureStoreOutput")
+            try self.s3Output?.validate(name: "\(name).s3Output")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appManaged = "AppManaged"
+            case featureStoreOutput = "FeatureStoreOutput"
             case outputName = "OutputName"
             case s3Output = "S3Output"
         }
@@ -12976,7 +16950,7 @@ extension SageMaker {
     public struct ProcessingOutputConfig: AWSEncodableShape & AWSDecodableShape {
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, alias of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
         public let kmsKeyId: String?
-        /// Output configuration information for a processing job.
+        /// List of output configurations for the processing job.
         public let outputs: [ProcessingOutput]
 
         public init(kmsKeyId: String? = nil, outputs: [ProcessingOutput]) {
@@ -13018,20 +16992,20 @@ extension SageMaker {
     }
 
     public struct ProcessingS3Input: AWSEncodableShape & AWSDecodableShape {
-        /// The local path to the Amazon S3 bucket where you want Amazon SageMaker to download the inputs to run a processing job. LocalPath is an absolute path to the input data.
-        public let localPath: String
+        /// The local path to the Amazon S3 bucket where you want Amazon SageMaker to download the inputs to run a processing job. LocalPath is an absolute path to the input data. This is a required parameter when AppManaged is False (default).
+        public let localPath: String?
         /// Whether to use Gzip compression for Amazon S3 storage.
         public let s3CompressionType: ProcessingS3CompressionType?
         /// Whether the data stored in Amazon S3 is FullyReplicated or ShardedByS3Key.
         public let s3DataDistributionType: ProcessingS3DataDistributionType?
         /// Whether you use an S3Prefix or a ManifestFile for the data type. If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for the processing job. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for the processing job.
         public let s3DataType: ProcessingS3DataType
-        /// Whether to use File or Pipe input mode. In File mode, Amazon SageMaker copies the data from the input source onto the local Amazon Elastic Block Store (Amazon EBS) volumes before starting your training algorithm. This is the most commonly used input mode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your algorithm without using the EBS volume.
-        public let s3InputMode: ProcessingS3InputMode
+        /// Whether to use File or Pipe input mode. In File mode, Amazon SageMaker copies the data from the input source onto the local Amazon Elastic Block Store (Amazon EBS) volumes before starting your training algorithm. This is the most commonly used input mode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your algorithm without using the EBS volume.This is a required parameter when AppManaged is False (default).
+        public let s3InputMode: ProcessingS3InputMode?
         /// The URI for the Amazon S3 storage where you want Amazon SageMaker to download the artifacts needed to run a processing job.
         public let s3Uri: String
 
-        public init(localPath: String, s3CompressionType: ProcessingS3CompressionType? = nil, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3DataType: ProcessingS3DataType, s3InputMode: ProcessingS3InputMode, s3Uri: String) {
+        public init(localPath: String? = nil, s3CompressionType: ProcessingS3CompressionType? = nil, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3DataType: ProcessingS3DataType, s3InputMode: ProcessingS3InputMode? = nil, s3Uri: String) {
             self.localPath = localPath
             self.s3CompressionType = s3CompressionType
             self.s3DataDistributionType = s3DataDistributionType
@@ -13132,7 +17106,7 @@ extension SageMaker {
             try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try self.validate(self.variantName, name: "variantName", parent: name, max: 63)
-            try self.validate(self.variantName, name: "variantName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.variantName, name: "variantName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13178,6 +17152,39 @@ extension SageMaker {
         }
     }
 
+    public struct ProjectSummary: AWSDecodableShape {
+        /// The time that the project was created.
+        public let creationTime: Date
+        /// The Amazon Resource Name (ARN) of the project.
+        public let projectArn: String
+        /// The description of the project.
+        public let projectDescription: String?
+        /// The ID of the project.
+        public let projectId: String
+        /// The name of the project.
+        public let projectName: String
+        /// The status of the project.
+        public let projectStatus: ProjectStatus
+
+        public init(creationTime: Date, projectArn: String, projectDescription: String? = nil, projectId: String, projectName: String, projectStatus: ProjectStatus) {
+            self.creationTime = creationTime
+            self.projectArn = projectArn
+            self.projectDescription = projectDescription
+            self.projectId = projectId
+            self.projectName = projectName
+            self.projectStatus = projectStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case projectArn = "ProjectArn"
+            case projectDescription = "ProjectDescription"
+            case projectId = "ProjectId"
+            case projectName = "ProjectName"
+            case projectStatus = "ProjectStatus"
+        }
+    }
+
     public struct PropertyNameQuery: AWSEncodableShape {
         /// Text that begins a property's name.
         public let propertyNameHint: String
@@ -13210,6 +17217,31 @@ extension SageMaker {
         }
     }
 
+    public struct ProvisioningParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The key that identifies a provisioning parameter.
+        public let key: String?
+        /// The value of the provisioning parameter.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: ".*")
+            try self.validate(self.value, name: "value", parent: name, max: 4096)
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
     public struct PublicWorkforceTaskPrice: AWSEncodableShape & AWSDecodableShape {
         /// Defines the amount of money paid to an Amazon Mechanical Turk worker in United States dollars.
         public let amountInUsd: USD?
@@ -13224,6 +17256,119 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case amountInUsd = "AmountInUsd"
+        }
+    }
+
+    public struct PutModelPackageGroupPolicyInput: AWSEncodableShape {
+        /// The name of the model group to add a resource policy to.
+        public let modelPackageGroupName: String
+        /// The resource policy for the model group.
+        public let resourcePolicy: String
+
+        public init(modelPackageGroupName: String, resourcePolicy: String) {
+            self.modelPackageGroupName = modelPackageGroupName
+            self.resourcePolicy = resourcePolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, max: 63)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupName, name: "modelPackageGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 20480)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupName = "ModelPackageGroupName"
+            case resourcePolicy = "ResourcePolicy"
+        }
+    }
+
+    public struct PutModelPackageGroupPolicyOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model package group.
+        public let modelPackageGroupArn: String
+
+        public init(modelPackageGroupArn: String) {
+            self.modelPackageGroupArn = modelPackageGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupArn = "ModelPackageGroupArn"
+        }
+    }
+
+    public struct RedshiftDatasetDefinition: AWSEncodableShape & AWSDecodableShape {
+        public let clusterId: String
+        /// The IAM role attached to your Redshift cluster that Amazon SageMaker uses to generate datasets.
+        public let clusterRoleArn: String
+        public let database: String
+        public let dbUser: String
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data from a Redshift execution.
+        public let kmsKeyId: String?
+        public let outputCompression: RedshiftResultCompressionType?
+        public let outputFormat: RedshiftResultFormat
+        /// The location in Amazon S3 where the Redshift query results are stored.
+        public let outputS3Uri: String
+        public let queryString: String
+
+        public init(clusterId: String, clusterRoleArn: String, database: String, dbUser: String, kmsKeyId: String? = nil, outputCompression: RedshiftResultCompressionType? = nil, outputFormat: RedshiftResultFormat, outputS3Uri: String, queryString: String) {
+            self.clusterId = clusterId
+            self.clusterRoleArn = clusterRoleArn
+            self.database = database
+            self.dbUser = dbUser
+            self.kmsKeyId = kmsKeyId
+            self.outputCompression = outputCompression
+            self.outputFormat = outputFormat
+            self.outputS3Uri = outputS3Uri
+            self.queryString = queryString
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 63)
+            try self.validate(self.clusterId, name: "clusterId", parent: name, min: 1)
+            try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: ".*")
+            try self.validate(self.clusterRoleArn, name: "clusterRoleArn", parent: name, max: 2048)
+            try self.validate(self.clusterRoleArn, name: "clusterRoleArn", parent: name, min: 20)
+            try self.validate(self.clusterRoleArn, name: "clusterRoleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.database, name: "database", parent: name, max: 64)
+            try self.validate(self.database, name: "database", parent: name, min: 1)
+            try self.validate(self.database, name: "database", parent: name, pattern: ".*")
+            try self.validate(self.dbUser, name: "dbUser", parent: name, max: 128)
+            try self.validate(self.dbUser, name: "dbUser", parent: name, min: 1)
+            try self.validate(self.dbUser, name: "dbUser", parent: name, pattern: ".*")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.outputS3Uri, name: "outputS3Uri", parent: name, max: 1024)
+            try self.validate(self.outputS3Uri, name: "outputS3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 4096)
+            try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.validate(self.queryString, name: "queryString", parent: name, pattern: "[\\s\\S]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case clusterRoleArn = "ClusterRoleArn"
+            case database = "Database"
+            case dbUser = "DbUser"
+            case kmsKeyId = "KmsKeyId"
+            case outputCompression = "OutputCompression"
+            case outputFormat = "OutputFormat"
+            case outputS3Uri = "OutputS3Uri"
+            case queryString = "QueryString"
+        }
+    }
+
+    public struct RegisterModelStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model package.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -13465,6 +17610,30 @@ extension SageMaker {
         }
     }
 
+    public struct S3StorageConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS Key Management Service (KMS) key ID of the key used to encrypt any objects written into the OfflineStore S3 location. The IAM roleARN that is passed as a parameter to CreateFeatureGroup must have below permissions to the KmsKeyId:    "kms:GenerateDataKey"
+        public let kmsKeyId: String?
+        /// The S3 URI, or location in Amazon S3, of OfflineStore. S3 URIs have a format similar to the following: s3://example-bucket/prefix/.
+        public let s3Uri: String
+
+        public init(kmsKeyId: String? = nil, s3Uri: String) {
+            self.kmsKeyId = kmsKeyId
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case s3Uri = "S3Uri"
+        }
+    }
+
     public struct ScheduleConfig: AWSEncodableShape & AWSDecodableShape {
         /// A cron expression that describes details about the monitoring schedule. Currently the only supported cron expressions are:   If you want to set the job to start every hour, please use the following:  Hourly: cron(0 * ? * * *)    If you want to start the job daily:  cron(0 [00-23] ? * * *)    For example, the following are valid cron expressions:   Daily at noon UTC: cron(0 12 ? * * *)    Daily at midnight UTC: cron(0 0 ? * * *)    To support running every 6, 12 hours, the following are also supported:  cron(0 [00-23]/[01-24] ? * * *)  For example, the following are valid cron expressions:   Every 12 hours, starting at 5pm UTC: cron(0 17/12 ? * * *)    Every two hours starting at midnight: cron(0 0/2 ? * * *)       Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.    We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker will pick a time for running every day.
         public let scheduleExpression: String
@@ -13527,8 +17696,14 @@ extension SageMaker {
     }
 
     public struct SearchRecord: AWSDecodableShape {
+        public let endpoint: Endpoint?
         /// The properties of an experiment.
         public let experiment: Experiment?
+        public let featureGroup: FeatureGroup?
+        public let modelPackage: ModelPackage?
+        public let modelPackageGroup: ModelPackageGroup?
+        public let pipeline: Pipeline?
+        public let pipelineExecution: PipelineExecution?
         /// The properties of a training job.
         public let trainingJob: TrainingJob?
         /// The properties of a trial.
@@ -13536,15 +17711,27 @@ extension SageMaker {
         /// The properties of a trial component.
         public let trialComponent: TrialComponent?
 
-        public init(experiment: Experiment? = nil, trainingJob: TrainingJob? = nil, trial: Trial? = nil, trialComponent: TrialComponent? = nil) {
+        public init(endpoint: Endpoint? = nil, experiment: Experiment? = nil, featureGroup: FeatureGroup? = nil, modelPackage: ModelPackage? = nil, modelPackageGroup: ModelPackageGroup? = nil, pipeline: Pipeline? = nil, pipelineExecution: PipelineExecution? = nil, trainingJob: TrainingJob? = nil, trial: Trial? = nil, trialComponent: TrialComponent? = nil) {
+            self.endpoint = endpoint
             self.experiment = experiment
+            self.featureGroup = featureGroup
+            self.modelPackage = modelPackage
+            self.modelPackageGroup = modelPackageGroup
+            self.pipeline = pipeline
+            self.pipelineExecution = pipelineExecution
             self.trainingJob = trainingJob
             self.trial = trial
             self.trialComponent = trialComponent
         }
 
         private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
             case experiment = "Experiment"
+            case featureGroup = "FeatureGroup"
+            case modelPackage = "ModelPackage"
+            case modelPackageGroup = "ModelPackageGroup"
+            case pipeline = "Pipeline"
+            case pipelineExecution = "PipelineExecution"
             case trainingJob = "TrainingJob"
             case trial = "Trial"
             case trialComponent = "TrialComponent"
@@ -13634,6 +17821,63 @@ extension SageMaker {
             case startTime = "StartTime"
             case status = "Status"
             case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ServiceCatalogProvisionedProductDetails: AWSDecodableShape {
+        /// The ID of the provisioned product.
+        public let provisionedProductId: String?
+        /// The current status of the product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.
+        public let provisionedProductStatusMessage: String?
+
+        public init(provisionedProductId: String? = nil, provisionedProductStatusMessage: String? = nil) {
+            self.provisionedProductId = provisionedProductId
+            self.provisionedProductStatusMessage = provisionedProductStatusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProductId = "ProvisionedProductId"
+            case provisionedProductStatusMessage = "ProvisionedProductStatusMessage"
+        }
+    }
+
+    public struct ServiceCatalogProvisioningDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path.
+        public let pathId: String?
+        /// The ID of the product to provision.
+        public let productId: String
+        /// The ID of the provisioning artifact.
+        public let provisioningArtifactId: String
+        /// A list of key value pairs that you specify when you provision a product.
+        public let provisioningParameters: [ProvisioningParameter]?
+
+        public init(pathId: String? = nil, productId: String, provisioningArtifactId: String, provisioningParameters: [ProvisioningParameter]? = nil) {
+            self.pathId = pathId
+            self.productId = productId
+            self.provisioningArtifactId = provisioningArtifactId
+            self.provisioningParameters = provisioningParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pathId, name: "pathId", parent: name, max: 100)
+            try self.validate(self.pathId, name: "pathId", parent: name, min: 1)
+            try self.validate(self.pathId, name: "pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.validate(self.productId, name: "productId", parent: name, max: 100)
+            try self.validate(self.productId, name: "productId", parent: name, min: 1)
+            try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
+            try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
+            try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningParameters?.forEach {
+                try $0.validate(name: "\(name).provisioningParameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pathId = "PathId"
+            case productId = "ProductId"
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case provisioningParameters = "ProvisioningParameters"
         }
     }
 
@@ -13756,7 +18000,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
-            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13782,6 +18026,67 @@ extension SageMaker {
         }
     }
 
+    public struct StartPipelineExecutionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
+        public let clientRequestToken: String
+        /// The description of the pipeline execution.
+        public let pipelineExecutionDescription: String?
+        /// The display name of the pipeline execution.
+        public let pipelineExecutionDisplayName: String?
+        /// The name of the pipeline.
+        public let pipelineName: String
+        /// Contains a list of pipeline parameters. This list can be empty.
+        public let pipelineParameters: [Parameter]?
+
+        public init(clientRequestToken: String = StartPipelineExecutionRequest.idempotencyToken(), pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineName: String, pipelineParameters: [Parameter]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.pipelineExecutionDescription = pipelineExecutionDescription
+            self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
+            self.pipelineName = pipelineName
+            self.pipelineParameters = pipelineParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, max: 3072)
+            try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, min: 0)
+            try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, pattern: ".*")
+            try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, max: 82)
+            try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, min: 1)
+            try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 256)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}")
+            try self.pipelineParameters?.forEach {
+                try $0.validate(name: "\(name).pipelineParameters[]")
+            }
+            try self.validate(self.pipelineParameters, name: "pipelineParameters", parent: name, max: 50)
+            try self.validate(self.pipelineParameters, name: "pipelineParameters", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case pipelineExecutionDescription = "PipelineExecutionDescription"
+            case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
+            case pipelineName = "PipelineName"
+            case pipelineParameters = "PipelineParameters"
+        }
+    }
+
+    public struct StartPipelineExecutionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String?
+
+        public init(pipelineExecutionArn: String? = nil) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
     public struct StopAutoMLJobRequest: AWSEncodableShape {
         /// The name of the object you are requesting.
         public let autoMLJobName: String
@@ -13793,7 +18098,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, max: 32)
             try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, min: 1)
-            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13812,7 +18117,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, max: 63)
             try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, min: 1)
-            try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13831,7 +18136,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, max: 32)
             try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, min: 1)
-            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.hyperParameterTuningJobName, name: "hyperParameterTuningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13850,7 +18155,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, max: 63)
             try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, min: 1)
-            try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.labelingJobName, name: "labelingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13869,7 +18174,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
-            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13895,6 +18200,43 @@ extension SageMaker {
         }
     }
 
+    public struct StopPipelineExecutionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
+        public let clientRequestToken: String
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String
+
+        public init(clientRequestToken: String = StopPipelineExecutionRequest.idempotencyToken(), pipelineExecutionArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, max: 256)
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline\\/.*\\/execution\\/.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
+    public struct StopPipelineExecutionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String?
+
+        public init(pipelineExecutionArn: String? = nil) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
     public struct StopProcessingJobRequest: AWSEncodableShape {
         /// The name of the processing job to stop.
         public let processingJobName: String
@@ -13906,7 +18248,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.processingJobName, name: "processingJobName", parent: name, max: 63)
             try self.validate(self.processingJobName, name: "processingJobName", parent: name, min: 1)
-            try self.validate(self.processingJobName, name: "processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.processingJobName, name: "processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13925,7 +18267,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, max: 63)
             try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, min: 1)
-            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13944,7 +18286,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.transformJobName, name: "transformJobName", parent: name, max: 63)
             try self.validate(self.transformJobName, name: "transformJobName", parent: name, min: 1)
-            try self.validate(self.transformJobName, name: "transformJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.transformJobName, name: "transformJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14108,6 +18450,30 @@ extension SageMaker {
         }
     }
 
+    public struct TrafficRoutingConfig: AWSEncodableShape & AWSDecodableShape {
+        public let canarySize: CapacitySize?
+        public let type: TrafficRoutingConfigType
+        public let waitIntervalInSeconds: Int
+
+        public init(canarySize: CapacitySize? = nil, type: TrafficRoutingConfigType, waitIntervalInSeconds: Int) {
+            self.canarySize = canarySize
+            self.type = type
+            self.waitIntervalInSeconds = waitIntervalInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.canarySize?.validate(name: "\(name).canarySize")
+            try self.validate(self.waitIntervalInSeconds, name: "waitIntervalInSeconds", parent: name, max: 3600)
+            try self.validate(self.waitIntervalInSeconds, name: "waitIntervalInSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canarySize = "CanarySize"
+            case type = "Type"
+            case waitIntervalInSeconds = "WaitIntervalInSeconds"
+        }
+    }
+
     public struct TrainingJob: AWSDecodableShape {
         /// Information about the algorithm used for training, and algorithm metadata.
         public let algorithmSpecification: AlgorithmSpecification?
@@ -14156,7 +18522,7 @@ extension SageMaker {
         public let secondaryStatusTransitions: [SecondaryStatusTransition]?
         /// Specifies a limit to how long a model training job can run. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition?
-        /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
         public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
@@ -14329,6 +18695,19 @@ extension SageMaker {
             case nonRetryableError = "NonRetryableError"
             case retryableError = "RetryableError"
             case stopped = "Stopped"
+        }
+    }
+
+    public struct TrainingJobStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the training job that was run by this step execution.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -14595,7 +18974,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.environment?.forEach {
                 try validate($0.key, name: "environment.key", parent: name, max: 1024)
-                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]{0,1023}")
                 try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, max: 10240)
                 try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
             }
@@ -14614,6 +18993,19 @@ extension SageMaker {
             case transformInput = "TransformInput"
             case transformOutput = "TransformOutput"
             case transformResources = "TransformResources"
+        }
+    }
+
+    public struct TransformJobStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the transform job that was run by this step execution.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -14748,6 +19140,7 @@ extension SageMaker {
         public let lastModifiedBy: UserContext?
         /// Who last modified the trial.
         public let lastModifiedTime: Date?
+        public let metadataProperties: MetadataProperties?
         public let source: TrialSource?
         /// The list of tags that are associated with the trial. You can use Search API to search on the tags.
         public let tags: [Tag]?
@@ -14758,13 +19151,14 @@ extension SageMaker {
         /// The name of the trial.
         public let trialName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, source: TrialSource? = nil, tags: [Tag]? = nil, trialArn: String? = nil, trialComponentSummaries: [TrialComponentSimpleSummary]? = nil, trialName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, source: TrialSource? = nil, tags: [Tag]? = nil, trialArn: String? = nil, trialComponentSummaries: [TrialComponentSimpleSummary]? = nil, trialName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
             self.experimentName = experimentName
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.metadataProperties = metadataProperties
             self.source = source
             self.tags = tags
             self.trialArn = trialArn
@@ -14779,6 +19173,7 @@ extension SageMaker {
             case experimentName = "ExperimentName"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
+            case metadataProperties = "MetadataProperties"
             case source = "Source"
             case tags = "Tags"
             case trialArn = "TrialArn"
@@ -14800,6 +19195,7 @@ extension SageMaker {
         public let lastModifiedBy: UserContext?
         /// When the component was last modified.
         public let lastModifiedTime: Date?
+        public let metadataProperties: MetadataProperties?
         /// The metrics for the component.
         public let metrics: [TrialComponentMetricSummary]?
         /// The output artifacts of the component.
@@ -14822,7 +19218,7 @@ extension SageMaker {
         /// The name of the trial component.
         public let trialComponentName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parents: [Parent]? = nil, source: TrialComponentSource? = nil, sourceDetail: TrialComponentSourceDetail? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parents: [Parent]? = nil, source: TrialComponentSource? = nil, sourceDetail: TrialComponentSourceDetail? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -14830,6 +19226,7 @@ extension SageMaker {
             self.inputArtifacts = inputArtifacts
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.metadataProperties = metadataProperties
             self.metrics = metrics
             self.outputArtifacts = outputArtifacts
             self.parameters = parameters
@@ -14851,6 +19248,7 @@ extension SageMaker {
             case inputArtifacts = "InputArtifacts"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
+            case metadataProperties = "MetadataProperties"
             case metrics = "Metrics"
             case outputArtifacts = "OutputArtifacts"
             case parameters = "Parameters"
@@ -15251,6 +19649,66 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateActionRequest: AWSEncodableShape {
+        /// The name of the action to update.
+        public let actionName: String
+        /// The new description for the action.
+        public let description: String?
+        /// The new list of properties. Overwrites the current property list.
+        public let properties: [String: String]?
+        /// A list of properties to remove.
+        public let propertiesToRemove: [String]?
+        /// The new status for the action.
+        public let status: ActionStatus?
+
+        public init(actionName: String, description: String? = nil, properties: [String: String]? = nil, propertiesToRemove: [String]? = nil, status: ActionStatus? = nil) {
+            self.actionName = actionName
+            self.description = description
+            self.properties = properties
+            self.propertiesToRemove = propertiesToRemove
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionName, name: "actionName", parent: name, max: 120)
+            try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+            try self.validate(self.description, name: "description", parent: name, max: 3072)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 256)
+                try validate($0.key, name: "properties.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.propertiesToRemove?.forEach {
+                try validate($0, name: "propertiesToRemove[]", parent: name, max: 256)
+                try validate($0, name: "propertiesToRemove[]", parent: name, pattern: ".*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "ActionName"
+            case description = "Description"
+            case properties = "Properties"
+            case propertiesToRemove = "PropertiesToRemove"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateActionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the action.
+        public let actionArn: String?
+
+        public init(actionArn: String? = nil) {
+            self.actionArn = actionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArn = "ActionArn"
+        }
+    }
+
     public struct UpdateAppImageConfigRequest: AWSEncodableShape {
         /// The name of the AppImageConfig to update.
         public let appImageConfigName: String
@@ -15264,7 +19722,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, max: 63)
-            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.appImageConfigName, name: "appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.kernelGatewayImageConfig?.validate(name: "\(name).kernelGatewayImageConfig")
         }
 
@@ -15287,6 +19745,62 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateArtifactRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the artifact to update.
+        public let artifactArn: String
+        /// The new name for the artifact.
+        public let artifactName: String?
+        /// The new list of properties. Overwrites the current property list.
+        public let properties: [String: String]?
+        /// A list of properties to remove.
+        public let propertiesToRemove: [String]?
+
+        public init(artifactArn: String, artifactName: String? = nil, properties: [String: String]? = nil, propertiesToRemove: [String]? = nil) {
+            self.artifactArn = artifactArn
+            self.artifactName = artifactName
+            self.properties = properties
+            self.propertiesToRemove = propertiesToRemove
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.artifactArn, name: "artifactArn", parent: name, max: 256)
+            try self.validate(self.artifactArn, name: "artifactArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:artifact/.*")
+            try self.validate(self.artifactName, name: "artifactName", parent: name, max: 120)
+            try self.validate(self.artifactName, name: "artifactName", parent: name, min: 1)
+            try self.validate(self.artifactName, name: "artifactName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 256)
+                try validate($0.key, name: "properties.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.propertiesToRemove?.forEach {
+                try validate($0, name: "propertiesToRemove[]", parent: name, max: 256)
+                try validate($0, name: "propertiesToRemove[]", parent: name, pattern: ".*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactArn = "ArtifactArn"
+            case artifactName = "ArtifactName"
+            case properties = "Properties"
+            case propertiesToRemove = "PropertiesToRemove"
+        }
+    }
+
+    public struct UpdateArtifactResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the artifact.
+        public let artifactArn: String?
+
+        public init(artifactArn: String? = nil) {
+            self.artifactArn = artifactArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactArn = "ArtifactArn"
+        }
+    }
+
     public struct UpdateCodeRepositoryInput: AWSEncodableShape {
         /// The name of the Git repository to update.
         public let codeRepositoryName: String
@@ -15301,7 +19815,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, max: 63)
             try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, min: 1)
-            try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.codeRepositoryName, name: "codeRepositoryName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.gitConfig?.validate(name: "\(name).gitConfig")
         }
 
@@ -15321,6 +19835,62 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case codeRepositoryArn = "CodeRepositoryArn"
+        }
+    }
+
+    public struct UpdateContextRequest: AWSEncodableShape {
+        /// The name of the context to update.
+        public let contextName: String
+        /// The new description for the context.
+        public let description: String?
+        /// The new list of properties. Overwrites the current property list.
+        public let properties: [String: String]?
+        /// A list of properties to remove.
+        public let propertiesToRemove: [String]?
+
+        public init(contextName: String, description: String? = nil, properties: [String: String]? = nil, propertiesToRemove: [String]? = nil) {
+            self.contextName = contextName
+            self.description = description
+            self.properties = properties
+            self.propertiesToRemove = propertiesToRemove
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contextName, name: "contextName", parent: name, max: 120)
+            try self.validate(self.contextName, name: "contextName", parent: name, min: 1)
+            try self.validate(self.contextName, name: "contextName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
+            try self.validate(self.description, name: "description", parent: name, max: 3072)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 256)
+                try validate($0.key, name: "properties.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.propertiesToRemove?.forEach {
+                try validate($0, name: "propertiesToRemove[]", parent: name, max: 256)
+                try validate($0, name: "propertiesToRemove[]", parent: name, pattern: ".*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextName = "ContextName"
+            case description = "Description"
+            case properties = "Properties"
+            case propertiesToRemove = "PropertiesToRemove"
+        }
+    }
+
+    public struct UpdateContextResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the context.
+        public let contextArn: String?
+
+        public init(contextArn: String? = nil) {
+            self.contextArn = contextArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextArn = "ContextArn"
         }
     }
 
@@ -15360,16 +19930,19 @@ extension SageMaker {
     }
 
     public struct UpdateEndpointInput: AWSEncodableShape {
+        /// The deployment configuration for the endpoint to be updated.
+        public let deploymentConfig: DeploymentConfig?
         /// The name of the new endpoint configuration.
         public let endpointConfigName: String
         /// The name of the endpoint whose configuration you want to update.
         public let endpointName: String
         /// When you are updating endpoint resources with UpdateEndpointInput$RetainAllVariantProperties, whose value is set to true, ExcludeRetainedVariantProperties specifies the list of type VariantProperty to override with the values provided by EndpointConfig. If you don't specify a value for ExcludeAllVariantProperties, no variant properties are overridden.
         public let excludeRetainedVariantProperties: [VariantProperty]?
-        /// When updating endpoint resources, enables or disables the retention of variant properties, such as the instance count or the variant weight. To retain the variant properties of an endpoint when updating it, set RetainAllVariantProperties to true. To use the variant properties specified in a new EndpointConfig call when updating an endpoint, set RetainAllVariantProperties to false.
+        /// When updating endpoint resources, enables or disables the retention of variant properties, such as the instance count or the variant weight. To retain the variant properties of an endpoint when updating it, set RetainAllVariantProperties to true. To use the variant properties specified in a new EndpointConfig call when updating an endpoint, set RetainAllVariantProperties to false. The default is false.
         public let retainAllVariantProperties: Bool?
 
-        public init(endpointConfigName: String, endpointName: String, excludeRetainedVariantProperties: [VariantProperty]? = nil, retainAllVariantProperties: Bool? = nil) {
+        public init(deploymentConfig: DeploymentConfig? = nil, endpointConfigName: String, endpointName: String, excludeRetainedVariantProperties: [VariantProperty]? = nil, retainAllVariantProperties: Bool? = nil) {
+            self.deploymentConfig = deploymentConfig
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
             self.excludeRetainedVariantProperties = excludeRetainedVariantProperties
@@ -15377,15 +19950,17 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.deploymentConfig?.validate(name: "\(name).deploymentConfig")
             try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, max: 63)
-            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointConfigName, name: "endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
-            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.excludeRetainedVariantProperties, name: "excludeRetainedVariantProperties", parent: name, max: 3)
             try self.validate(self.excludeRetainedVariantProperties, name: "excludeRetainedVariantProperties", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deploymentConfig = "DeploymentConfig"
             case endpointConfigName = "EndpointConfigName"
             case endpointName = "EndpointName"
             case excludeRetainedVariantProperties = "ExcludeRetainedVariantProperties"
@@ -15423,7 +19998,7 @@ extension SageMaker {
             }
             try self.validate(self.desiredWeightsAndCapacities, name: "desiredWeightsAndCapacities", parent: name, min: 1)
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
-            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15464,10 +20039,10 @@ extension SageMaker {
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 120)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.experimentName, name: "experimentName", parent: name, max: 120)
             try self.validate(self.experimentName, name: "experimentName", parent: name, min: 1)
-            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15519,13 +20094,13 @@ extension SageMaker {
             try self.validate(self.deleteProperties, name: "deleteProperties", parent: name, max: 2)
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\S(.*\\S)?$")
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 128)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^\\S(.*\\S)?$")
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -15553,6 +20128,48 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateModelPackageInput: AWSEncodableShape {
+        /// A description for the approval status of the model.
+        public let approvalDescription: String?
+        /// The approval status of the model.
+        public let modelApprovalStatus: ModelApprovalStatus
+        /// The Amazon Resource Name (ARN) of the model.
+        public let modelPackageArn: String
+
+        public init(approvalDescription: String? = nil, modelApprovalStatus: ModelApprovalStatus, modelPackageArn: String) {
+            self.approvalDescription = approvalDescription
+            self.modelApprovalStatus = modelApprovalStatus
+            self.modelPackageArn = modelPackageArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.approvalDescription, name: "approvalDescription", parent: name, max: 1024)
+            try self.validate(self.approvalDescription, name: "approvalDescription", parent: name, pattern: ".*")
+            try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, max: 2048)
+            try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, min: 1)
+            try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model-package/.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approvalDescription = "ApprovalDescription"
+            case modelApprovalStatus = "ModelApprovalStatus"
+            case modelPackageArn = "ModelPackageArn"
+        }
+    }
+
+    public struct UpdateModelPackageOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model.
+        public let modelPackageArn: String
+
+        public init(modelPackageArn: String) {
+            self.modelPackageArn = modelPackageArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageArn = "ModelPackageArn"
+        }
+    }
+
     public struct UpdateMonitoringScheduleRequest: AWSEncodableShape {
         /// The configuration object that specifies the monitoring schedule and defines the monitoring job.
         public let monitoringScheduleConfig: MonitoringScheduleConfig
@@ -15568,7 +20185,7 @@ extension SageMaker {
             try self.monitoringScheduleConfig.validate(name: "\(name).monitoringScheduleConfig")
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
-            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15714,6 +20331,111 @@ extension SageMaker {
         public init() {}
     }
 
+    public struct UpdatePipelineExecutionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String
+        /// The description of the pipeline execution.
+        public let pipelineExecutionDescription: String?
+        /// The display name of the pipeline execution.
+        public let pipelineExecutionDisplayName: String?
+
+        public init(pipelineExecutionArn: String, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+            self.pipelineExecutionDescription = pipelineExecutionDescription
+            self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, max: 256)
+            try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline\\/.*\\/execution\\/.*$")
+            try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, max: 3072)
+            try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, min: 0)
+            try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, pattern: ".*")
+            try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, max: 82)
+            try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, min: 1)
+            try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
+            case pipelineExecutionDescription = "PipelineExecutionDescription"
+            case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
+        }
+    }
+
+    public struct UpdatePipelineExecutionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated pipeline execution.
+        public let pipelineExecutionArn: String?
+
+        public init(pipelineExecutionArn: String? = nil) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
+    public struct UpdatePipelineRequest: AWSEncodableShape {
+        /// The JSON pipeline definition.
+        public let pipelineDefinition: String?
+        /// The description of the pipeline.
+        public let pipelineDescription: String?
+        /// The display name of the pipeline.
+        public let pipelineDisplayName: String?
+        /// The name of the pipeline to update.
+        public let pipelineName: String
+        /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
+        public let roleArn: String?
+
+        public init(pipelineDefinition: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String, roleArn: String? = nil) {
+            self.pipelineDefinition = pipelineDefinition
+            self.pipelineDescription = pipelineDescription
+            self.pipelineDisplayName = pipelineDisplayName
+            self.pipelineName = pipelineName
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, max: 1_048_576)
+            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, min: 1)
+            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, pattern: ".*(?:[ \\r\\n\\t].*)*")
+            try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, max: 3072)
+            try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, min: 0)
+            try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, pattern: ".*")
+            try self.validate(self.pipelineDisplayName, name: "pipelineDisplayName", parent: name, max: 256)
+            try self.validate(self.pipelineDisplayName, name: "pipelineDisplayName", parent: name, min: 1)
+            try self.validate(self.pipelineDisplayName, name: "pipelineDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 256)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineDefinition = "PipelineDefinition"
+            case pipelineDescription = "PipelineDescription"
+            case pipelineDisplayName = "PipelineDisplayName"
+            case pipelineName = "PipelineName"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct UpdatePipelineResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated pipeline.
+        public let pipelineArn: String?
+
+        public init(pipelineArn: String? = nil) {
+            self.pipelineArn = pipelineArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineArn = "PipelineArn"
+        }
+    }
+
     public struct UpdateTrialComponentRequest: AWSEncodableShape {
         /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed.
         public let displayName: String?
@@ -15755,7 +20477,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 120)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.inputArtifacts?.forEach {
                 try validate($0.key, name: "inputArtifacts.key", parent: name, max: 64)
                 try validate($0.key, name: "inputArtifacts.key", parent: name, pattern: ".*")
@@ -15786,7 +20508,7 @@ extension SageMaker {
             try self.status?.validate(name: "\(name).status")
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, max: 120)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, min: 1)
-            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15831,10 +20553,10 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 120)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
             try self.validate(self.trialName, name: "trialName", parent: name, max: 120)
             try self.validate(self.trialName, name: "trialName", parent: name, min: 1)
-            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.trialName, name: "trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15873,7 +20595,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
-            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.userSettings?.validate(name: "\(name).userSettings")
         }
 
@@ -15916,7 +20638,7 @@ extension SageMaker {
             try self.sourceIpConfig?.validate(name: "\(name).sourceIpConfig")
             try self.validate(self.workforceName, name: "workforceName", parent: name, max: 63)
             try self.validate(self.workforceName, name: "workforceName", parent: name, min: 1)
-            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-])*$")
+            try self.validate(self.workforceName, name: "workforceName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-]){0,62}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15968,7 +20690,7 @@ extension SageMaker {
             try self.notificationConfiguration?.validate(name: "\(name).notificationConfiguration")
             try self.validate(self.workteamName, name: "workteamName", parent: name, max: 63)
             try self.validate(self.workteamName, name: "workteamName", parent: name, min: 1)
-            try self.validate(self.workteamName, name: "workteamName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.workteamName, name: "workteamName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
         }
 
         private enum CodingKeys: String, CodingKey {

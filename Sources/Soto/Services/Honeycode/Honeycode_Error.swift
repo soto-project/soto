@@ -25,6 +25,7 @@ public struct HoneycodeErrorType: AWSErrorType {
         case internalServerException = "InternalServerException"
         case requestTimeoutException = "RequestTimeoutException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
@@ -48,7 +49,7 @@ public struct HoneycodeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    ///  You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the screen/automation in the request.
+    ///  You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The automation execution did not end successfully.
     public static var automationExecutionException: Self { .init(.automationExecutionException) }
@@ -58,8 +59,10 @@ public struct HoneycodeErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The request timed out.
     public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
-    /// A Workbook, App, Screen or Screen Automation was not found with the given ID.
+    /// A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///  The request caused service quota to be breached.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Remote service is unreachable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// Tps(transactions per second) rate reached.

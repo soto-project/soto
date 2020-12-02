@@ -70,7 +70,7 @@ extension Lambda {
         )
     }
 
-    ///  Returns a list of code signing configurations for the specified function. A request returns up to 10,000 configurations per call. You can use the MaxItems parameter to return fewer configurations per call.
+    ///  Returns a list of code signing configurations. A request returns up to 10,000 configurations per call. You can use the MaxItems parameter to return fewer configurations per call.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

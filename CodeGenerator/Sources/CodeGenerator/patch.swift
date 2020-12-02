@@ -44,6 +44,7 @@ extension API {
         "EC2": [
             ReplacePatch(PatchKeyPath3(\.shapes["PlatformValues"], \.type.enum, \.cases[0]), value: "windows", originalValue: "Windows"),
             ReplacePatch(PatchKeyPath3(\.shapes["InstanceType"], \.type.enum, \.isExtensible), value: true, originalValue: false),
+            ReplacePatch(PatchKeyPath3(\.shapes["ArchitectureType"], \.type.enum, \.isExtensible), value: true, originalValue: false),
         ],
         "ECS": [
             AddPatch(PatchKeyPath3(\.shapes["PropagateTags"], \.type.enum, \.cases), value: "NONE"),
@@ -74,6 +75,9 @@ extension API {
         "S3Control": [
             ReplacePatch(PatchKeyPath3(\.shapes["BucketLocationConstraint"], \.type.enum, \.isExtensible), value: true, originalValue: false),
         ],
+        "SageMaker": [
+            RemovePatch(PatchKeyPath3(\.shapes["ListFeatureGroupsResponse"], \.type.structure, \.required), value: "NextToken"),
+        ]
     ]
 
     struct ReplacePatch<Value: Equatable, P: PatchKeyPath>: Patch where P.Base == API, P.Value == Value {

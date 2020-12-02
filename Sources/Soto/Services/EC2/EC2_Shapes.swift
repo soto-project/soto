@@ -69,11 +69,16 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ArchitectureType: String, CustomStringConvertible, Codable {
-        case arm64
-        case i386
-        case x8664 = "x86_64"
-        public var description: String { return self.rawValue }
+    public struct ArchitectureType: RawRepresentable, Equatable, Codable {
+        public var rawValue: String
+
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+
+        public static var arm64: Self { .init(rawValue: "arm64") }
+        public static var i386: Self { .init(rawValue: "i386") }
+        public static var x8664: Self { .init(rawValue: "x86_64") }
     }
 
     public enum ArchitectureValues: String, CustomStringConvertible, Codable {
@@ -789,6 +794,16 @@ extension EC2 {
         public static var d24Xlarge: Self { .init(rawValue: "d2.4xlarge") }
         public static var d28Xlarge: Self { .init(rawValue: "d2.8xlarge") }
         public static var d2Xlarge: Self { .init(rawValue: "d2.xlarge") }
+        public static var d32Xlarge: Self { .init(rawValue: "d3.2xlarge") }
+        public static var d34Xlarge: Self { .init(rawValue: "d3.4xlarge") }
+        public static var d38Xlarge: Self { .init(rawValue: "d3.8xlarge") }
+        public static var d3Xlarge: Self { .init(rawValue: "d3.xlarge") }
+        public static var d3en12Xlarge: Self { .init(rawValue: "d3en.12xlarge") }
+        public static var d3en2Xlarge: Self { .init(rawValue: "d3en.2xlarge") }
+        public static var d3en4Xlarge: Self { .init(rawValue: "d3en.4xlarge") }
+        public static var d3en6Xlarge: Self { .init(rawValue: "d3en.6xlarge") }
+        public static var d3en8Xlarge: Self { .init(rawValue: "d3en.8xlarge") }
+        public static var d3enXlarge: Self { .init(rawValue: "d3en.xlarge") }
         public static var f116Xlarge: Self { .init(rawValue: "f1.16xlarge") }
         public static var f12Xlarge: Self { .init(rawValue: "f1.2xlarge") }
         public static var f14Xlarge: Self { .init(rawValue: "f1.4xlarge") }
@@ -901,6 +916,13 @@ extension EC2 {
         public static var m5n8Xlarge: Self { .init(rawValue: "m5n.8xlarge") }
         public static var m5nLarge: Self { .init(rawValue: "m5n.large") }
         public static var m5nXlarge: Self { .init(rawValue: "m5n.xlarge") }
+        public static var m5zn12Xlarge: Self { .init(rawValue: "m5zn.12xlarge") }
+        public static var m5zn2Xlarge: Self { .init(rawValue: "m5zn.2xlarge") }
+        public static var m5zn3Xlarge: Self { .init(rawValue: "m5zn.3xlarge") }
+        public static var m5zn6Xlarge: Self { .init(rawValue: "m5zn.6xlarge") }
+        public static var m5znLarge: Self { .init(rawValue: "m5zn.large") }
+        public static var m5znMetal: Self { .init(rawValue: "m5zn.metal") }
+        public static var m5znXlarge: Self { .init(rawValue: "m5zn.xlarge") }
         public static var m6g12Xlarge: Self { .init(rawValue: "m6g.12xlarge") }
         public static var m6g16Xlarge: Self { .init(rawValue: "m6g.16xlarge") }
         public static var m6g2Xlarge: Self { .init(rawValue: "m6g.2xlarge") }
@@ -919,6 +941,7 @@ extension EC2 {
         public static var m6gdMedium: Self { .init(rawValue: "m6gd.medium") }
         public static var m6gdMetal: Self { .init(rawValue: "m6gd.metal") }
         public static var m6gdXlarge: Self { .init(rawValue: "m6gd.xlarge") }
+        public static var mac1Metal: Self { .init(rawValue: "mac1.metal") }
         public static var p216Xlarge: Self { .init(rawValue: "p2.16xlarge") }
         public static var p28Xlarge: Self { .init(rawValue: "p2.8xlarge") }
         public static var p2Xlarge: Self { .init(rawValue: "p2.xlarge") }
@@ -963,6 +986,15 @@ extension EC2 {
         public static var r5ad8Xlarge: Self { .init(rawValue: "r5ad.8xlarge") }
         public static var r5adLarge: Self { .init(rawValue: "r5ad.large") }
         public static var r5adXlarge: Self { .init(rawValue: "r5ad.xlarge") }
+        public static var r5b12Xlarge: Self { .init(rawValue: "r5b.12xlarge") }
+        public static var r5b16Xlarge: Self { .init(rawValue: "r5b.16xlarge") }
+        public static var r5b24Xlarge: Self { .init(rawValue: "r5b.24xlarge") }
+        public static var r5b2Xlarge: Self { .init(rawValue: "r5b.2xlarge") }
+        public static var r5b4Xlarge: Self { .init(rawValue: "r5b.4xlarge") }
+        public static var r5b8Xlarge: Self { .init(rawValue: "r5b.8xlarge") }
+        public static var r5bLarge: Self { .init(rawValue: "r5b.large") }
+        public static var r5bMetal: Self { .init(rawValue: "r5b.metal") }
+        public static var r5bXlarge: Self { .init(rawValue: "r5b.xlarge") }
         public static var r5d12Xlarge: Self { .init(rawValue: "r5d.12xlarge") }
         public static var r5d16Xlarge: Self { .init(rawValue: "r5d.16xlarge") }
         public static var r5d24Xlarge: Self { .init(rawValue: "r5d.24xlarge") }
@@ -1847,6 +1879,7 @@ extension EC2 {
 
     public enum VolumeType: String, CustomStringConvertible, Codable {
         case gp2
+        case gp3
         case io1
         case io2
         case sc1
@@ -5063,11 +5096,11 @@ extension EC2 {
         public let destinationRegion: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// To encrypt a copy of an unencrypted snapshot if encryption by default is not enabled, enable encryption using this parameter. Otherwise, omit this parameter. Encrypted snapshots are encrypted, even if you omit this parameter and encryption by default is not enabled. You cannot set this parameter to false. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+        /// To encrypt a copy of an unencrypted snapshot if encryption by default is not enabled, enable encryption using this parameter. Otherwise, omit this parameter. Encrypted snapshots are encrypted, even if you omit this parameter and encryption by default is not enabled. You cannot set this parameter to false. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
         public let encrypted: Bool?
         /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
         public let kmsKeyId: String?
-        /// When you copy an encrypted source snapshot using the Amazon EC2 Query API, you must supply a pre-signed URL. This parameter is optional for unencrypted snapshots. For more information, see Query Requests. The PresignedUrl should use the snapshot source endpoint, the CopySnapshot action, and include the SourceRegion, SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using AWS Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same logic that is described in Authenticating Requests by Using Query Parameters (AWS Signature Version 4) in the Amazon Simple Storage Service API Reference. An invalid or improperly signed PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will move to an error state.
+        /// When you copy an encrypted source snapshot using the Amazon EC2 Query API, you must supply a pre-signed URL. This parameter is optional for unencrypted snapshots. For more information, see Query requests. The PresignedUrl should use the snapshot source endpoint, the CopySnapshot action, and include the SourceRegion, SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using AWS Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same logic that is described in Authenticating Requests: Using Query Parameters (AWS Signature Version 4) in the Amazon Simple Storage Service API Reference. An invalid or improperly signed PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will move to an error state.
         public let presignedUrl: String?
         /// The ID of the Region that contains the snapshot to be copied.
         public let sourceRegion: String
@@ -5730,6 +5763,7 @@ extension EC2 {
                 try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
             try self.validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, max: 50)
+            try self.validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6103,6 +6137,7 @@ extension EC2 {
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 255)
+            try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6164,6 +6199,7 @@ extension EC2 {
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 255)
+            try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7642,27 +7678,29 @@ extension EC2 {
         public let availabilityZone: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Specifies whether the volume should be encrypted. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Encryption by default in the Amazon Elastic Compute Cloud User Guide. Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types.
+        /// Indicates whether the volume should be encrypted. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Encryption by default in the Amazon Elastic Compute Cloud User Guide. Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types.
         public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) to provision for an io1 or io2 volume, with a maximum ratio of 50 IOPS/GiB for io1, and 500 IOPS/GiB for io2. Range is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. This parameter is valid only for Provisioned IOPS SSD (io1 and io2) volumes.
+        /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type:    gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   For io1 and io2 volumes, we guarantee 64,000 IOPS only for Instances built on the Nitro System. Other instance families guarantee performance up to 32,000 IOPS. This parameter is required for io1 and io2 volumes. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for gp2, st1, sc1, or standard volumes.
         public let iops: Int?
         /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
         public let kmsKeyId: String?
-        /// Specifies whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Nitro-based instances in the same Availability Zone. For more information, see  Amazon EBS Multi-Attach in the Amazon Elastic Compute Cloud User Guide.
+        /// Indicates whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Instances built on the Nitro System in the same Availability Zone. This parameter is supported with io1 volumes only. For more information, see  Amazon EBS Multi-Attach in the Amazon Elastic Compute Cloud User Guide.
         public let multiAttachEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
-        /// The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. Constraints: 1-16,384 for gp2, 4-16,384 for io1 and io2, 500-16,384 for st1, 500-16,384 for sc1, and 1-1,024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
+        /// The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. If you specify a snapshot, the default is the snapshot size. You can specify a volume size that is equal to or larger than the snapshot size. The following are the supported volumes sizes for each volume type:    gp2 and gp3: 1-16,384    io1 and io2: 4-16,384    st1 and sc1: 125-16,384    standard: 1-1,024
         public let size: Int?
         /// The snapshot from which to create the volume. You must specify either a snapshot ID or a volume size.
         public let snapshotId: String?
         /// The tags to apply to the volume during creation.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
-        /// The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: gp2
+        /// The throughput to provision for a volume, with a maximum of 1,000 MiB/s. This parameter is valid only for gp3 volumes. Valid Range: Minimum value of 125. Maximum value of 1000.
+        public let throughput: Int?
+        /// The volume type. This parameter can be one of the following values:   General Purpose SSD: gp2 | gp3    Provisioned IOPS SSD: io1 | io2    Throughput Optimized HDD: st1    Cold HDD: sc1    Magnetic: standard    For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: gp2
         public let volumeType: VolumeType?
 
-        public init(availabilityZone: String, dryRun: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil, volumeType: VolumeType? = nil) {
+        public init(availabilityZone: String, dryRun: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil, throughput: Int? = nil, volumeType: VolumeType? = nil) {
             self.availabilityZone = availabilityZone
             self.dryRun = dryRun
             self.encrypted = encrypted
@@ -7673,6 +7711,7 @@ extension EC2 {
             self.size = size
             self.snapshotId = snapshotId
             self.tagSpecifications = tagSpecifications
+            self.throughput = throughput
             self.volumeType = volumeType
         }
 
@@ -7687,6 +7726,7 @@ extension EC2 {
             case size = "Size"
             case snapshotId = "SnapshotId"
             case tagSpecifications = "TagSpecification"
+            case throughput = "Throughput"
             case volumeType = "VolumeType"
         }
     }
@@ -12198,6 +12238,7 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.validate(self.instanceTypes, name: "instanceTypes", parent: name, max: 100)
+            try self.validate(self.instanceTypes, name: "instanceTypes", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -14181,7 +14222,7 @@ extension EC2 {
         /// The filters.    description - A description of the snapshot.    encrypted - Indicates whether the snapshot is encrypted (true | false)    owner-alias - The owner alias, from an Amazon-maintained list (amazon). This is not the user-configured AWS account alias set using the IAM console. We recommend that you use the related parameter instead of this filter.    owner-id - The AWS account ID of the owner. We recommend that you use the related parameter instead of this filter.    progress - The progress of the snapshot, as a percentage (for example, 80%).    snapshot-id - The snapshot ID.    start-time - The time stamp when the snapshot was initiated.    status - The status of the snapshot (pending | completed | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The ID of the volume the snapshot is for.    volume-size - The size of the volume, in GiB.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of snapshot results returned by DescribeSnapshots in paginated output. When this parameter is used, DescribeSnapshots only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeSnapshots request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned. If this parameter is not used, then DescribeSnapshots returns all results. You cannot specify this parameter and the snapshot IDs parameter in the same request.
+        /// The maximum number of snapshot results returned by DescribeSnapshots in paginated output. When this parameter is used, DescribeSnapshots only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeSnapshots request with the returned NextToken value. This value can be between 5 and 1,000; if MaxResults is given a value larger than 1,000, only 1,000 results are returned. If this parameter is not used, then DescribeSnapshots returns all results. You cannot specify this parameter and the snapshot IDs parameter in the same request.
         public let maxResults: Int?
         /// The NextToken value returned from a previous paginated DescribeSnapshots request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -15299,7 +15340,7 @@ extension EC2 {
         /// The filters.    action.code - The action code for the event (for example, enable-volume-io).    action.description - A description of the action.    action.event-id - The event ID associated with the action.    availability-zone - The Availability Zone of the instance.    event.description - A description of the event.    event.event-id - The event ID.    event.event-type - The event type (for io-enabled: passed | failed; for io-performance: io-performance:degraded | io-performance:severely-degraded | io-performance:stalled).    event.not-after - The latest end time for the event.    event.not-before - The earliest start time for the event.    volume-status.details-name - The cause for volume-status.status (io-enabled | io-performance).    volume-status.details-status - The status of volume-status.details-name (for io-enabled: passed | failed; for io-performance: normal | degraded | severely-degraded | stalled).    volume-status.status - The status of the volume (ok | impaired | warning | insufficient-data).
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of volume results returned by DescribeVolumeStatus in paginated output. When this parameter is used, the request only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned. If this parameter is not used, then DescribeVolumeStatus returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
+        /// The maximum number of volume results returned by DescribeVolumeStatus in paginated output. When this parameter is used, the request only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1,000; if MaxResults is given a value larger than 1,000, only 1,000 results are returned. If this parameter is not used, then DescribeVolumeStatus returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
         public let maxResults: Int?
         /// The NextToken value to include in a future DescribeVolumeStatus request. When the results of the request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -15404,7 +15445,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true | false)    fast-restored - Indicates whether the volume was created from a snapshot that is enabled for fast snapshot restore (true | false).    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
+        /// The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true | false)    fast-restored - Indicates whether the volume was created from a snapshot that is enabled for fast snapshot restore (true | false).    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type (gp2 | gp3 | io1 | io2 | st1 | sc1| standard)
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of volume results returned by DescribeVolumes in paginated output. When this parameter is used, DescribeVolumes only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeVolumes request with the returned NextToken value. This value can be between 5 and 500; if MaxResults is given a value larger than 500, only 500 results are returned. If this parameter is not used, then DescribeVolumes returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
@@ -17032,23 +17073,26 @@ extension EC2 {
         public let deleteOnTermination: Bool?
         /// Indicates whether the encryption state of an EBS volume is changed while being restored from a backing snapshot. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. In no case can you remove encryption from an encrypted volume. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types. This parameter is not returned by .
         public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) that the volume supports. For io1 and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Constraints: Range is 100-16,000 IOPS for gp2 volumes and 100 to 64,000 IOPS for io1 and io2 volumes in most Regions. Maximum io1 and io2 IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Condition: This parameter is required for requests to create io1 and io2 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
+        /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type:    gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   For io1 and io2 volumes, we guarantee 64,000 IOPS only for Instances built on the Nitro System. Other instance families guarantee performance up to 32,000 IOPS. This parameter is required for io1 and io2 volumes. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for gp2, st1, sc1, or standard volumes.
         public let iops: Int?
         /// Identifier (key ID, key alias, ID ARN, or alias ARN) for a customer managed CMK under which the EBS volume is encrypted. This parameter is only supported on BlockDeviceMapping objects called by RunInstances, RequestSpotFleet, and RequestSpotInstances.
         public let kmsKeyId: String?
         /// The ID of the snapshot.
         public let snapshotId: String?
-        /// The size of the volume, in GiB. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size. Constraints: 1-16384 for General Purpose SSD (gp2), 4-16384 for Provisioned IOPS SSD (io1 and io2), 500-16384 for Throughput Optimized HDD (st1), 500-16384 for Cold HDD (sc1), and 1-1024 for Magnetic (standard) volumes. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size.
+        /// The throughput that the volume supports, in MiB/s. This parameter is valid only for gp3 volumes. Valid Range: Minimum value of 125. Maximum value of 1000.
+        public let throughput: Int?
+        /// The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. If you specify a snapshot, the default is the snapshot size. You can specify a volume size that is equal to or larger than the snapshot size. The following are the supported volumes sizes for each volume type:    gp2 and gp3:1-16,384    io1 and io2: 4-16,384    st1: 500-16,384    sc1: 500-16,384    standard: 1-1,024
         public let volumeSize: Int?
-        /// The volume type. If you set the type to io1 or io2, you must also specify the Iops parameter. If you set the type to gp2, st1, sc1, or standard, you must omit the Iops parameter. Default: gp2
+        /// The volume type. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. If the volume type is io1 or io2, you must specify the IOPS that the volume supports.
         public let volumeType: VolumeType?
 
-        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
+        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
             self.iops = iops
             self.kmsKeyId = kmsKeyId
             self.snapshotId = snapshotId
+            self.throughput = throughput
             self.volumeSize = volumeSize
             self.volumeType = volumeType
         }
@@ -17059,6 +17103,7 @@ extension EC2 {
             case iops
             case kmsKeyId = "KmsKeyId"
             case snapshotId
+            case throughput
             case volumeSize
             case volumeType
         }
@@ -18271,6 +18316,7 @@ extension EC2 {
         public func validate(name: String) throws {
             try self.launchTemplateSpecification?.validate(name: "\(name).launchTemplateSpecification")
             try self.validate(self.overrides, name: "overrides", parent: name, max: 50)
+            try self.validate(self.overrides, name: "overrides", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -22886,17 +22932,20 @@ extension EC2 {
         public let kmsKeyId: String?
         /// The ID of the snapshot.
         public let snapshotId: String?
+        /// The throughput that the volume supports, in MiB/s.
+        public let throughput: Int?
         /// The size of the volume, in GiB.
         public let volumeSize: Int?
         /// The volume type.
         public let volumeType: VolumeType?
 
-        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
+        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
             self.iops = iops
             self.kmsKeyId = kmsKeyId
             self.snapshotId = snapshotId
+            self.throughput = throughput
             self.volumeSize = volumeSize
             self.volumeType = volumeType
         }
@@ -22907,6 +22956,7 @@ extension EC2 {
             case iops
             case kmsKeyId
             case snapshotId
+            case throughput
             case volumeSize
             case volumeType
         }
@@ -22917,23 +22967,26 @@ extension EC2 {
         public let deleteOnTermination: Bool?
         /// Indicates whether the EBS volume is encrypted. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. If you are creating a volume from a snapshot, you can't specify an encryption value.
         public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) to provision for an io1 or io2 volume, with a maximum ratio of 50 IOPS/GiB for io1, and 500 IOPS/GiB for io2. Range is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. This parameter is valid only for Provisioned IOPS SSD (io1 and io2) volumes.
+        /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type:    gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   For io1 and io2 volumes, we guarantee 64,000 IOPS only for Instances built on the Nitro System. Other instance families guarantee performance up to 32,000 IOPS. This parameter is required for io1 and io2 volumes. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for gp2, st1, sc1, or standard volumes.
         public let iops: Int?
         /// The ARN of the symmetric AWS Key Management Service (AWS KMS) CMK used for encryption.
         public let kmsKeyId: String?
         /// The ID of the snapshot.
         public let snapshotId: String?
-        /// The size of the volume, in GiB. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
+        /// The throughput to provision for a gp3 volume, with a maximum of 1,000 MiB/s. Valid Range: Minimum value of 125. Maximum value of 1000.
+        public let throughput: Int?
+        /// The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. If you specify a snapshot, the default is the snapshot size. You can specify a volume size that is equal to or larger than the snapshot size. The following are the supported volumes sizes for each volume type:    gp2 and gp3: 1-16,384    io1 and io2: 4-16,384    st1 and sc1: 125-16,384    standard: 1-1,024
         public let volumeSize: Int?
-        /// The volume type.
+        /// The volume type. The default is gp2. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide.
         public let volumeType: VolumeType?
 
-        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
+        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
             self.iops = iops
             self.kmsKeyId = kmsKeyId
             self.snapshotId = snapshotId
+            self.throughput = throughput
             self.volumeSize = volumeSize
             self.volumeType = volumeType
         }
@@ -22944,6 +22997,7 @@ extension EC2 {
             case iops = "Iops"
             case kmsKeyId = "KmsKeyId"
             case snapshotId = "SnapshotId"
+            case throughput = "Throughput"
             case volumeSize = "VolumeSize"
             case volumeType = "VolumeType"
         }
@@ -24321,6 +24375,7 @@ extension EC2 {
                 try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
             try self.validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, max: 50)
+            try self.validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25534,19 +25589,22 @@ extension EC2 {
     public struct ModifyVolumeRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The target IOPS rate of the volume. This is only valid for Provisioned IOPS SSD (io1 and io2) volumes. For moreinformation, see  Provisioned IOPS SSD (io1 and io2) volumes. Default: If no IOPS value is specified, the existing value is retained.
+        /// The target IOPS rate of the volume. This parameter is valid only for gp3, io1, and io2 volumes. The following are the supported values for each volume type:    gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   Default: If no IOPS value is specified, the existing value is retained.
         public let iops: Int?
-        /// The target size of the volume, in GiB. The target volume size must be greater than or equal to than the existing size of the volume. For information about available EBS volume sizes, see Amazon EBS Volume Types. Default: If no size is specified, the existing size is retained.
+        /// The target size of the volume, in GiB. The target volume size must be greater than or equal to the existing size of the volume. The following are the supported volumes sizes for each volume type:    gp2 and gp3: 1-16,384    io1 and io2: 4-16,384    st1 and sc1: 125-16,384    standard: 1-1,024   Default: If no size is specified, the existing size is retained.
         public let size: Int?
+        /// The target throughput of the volume, in MiB/s. This parameter is valid only for gp3 volumes. The maximum value is 1,000. Default: If no throughput value is specified, the existing value is retained. Valid Range: Minimum value of 125. Maximum value of 1000.
+        public let throughput: Int?
         /// The ID of the volume.
         public let volumeId: String
-        /// The target EBS volume type of the volume. Default: If no type is specified, the existing type is retained.
+        /// The target EBS volume type of the volume. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: If no type is specified, the existing type is retained.
         public let volumeType: VolumeType?
 
-        public init(dryRun: Bool? = nil, iops: Int? = nil, size: Int? = nil, volumeId: String, volumeType: VolumeType? = nil) {
+        public init(dryRun: Bool? = nil, iops: Int? = nil, size: Int? = nil, throughput: Int? = nil, volumeId: String, volumeType: VolumeType? = nil) {
             self.dryRun = dryRun
             self.iops = iops
             self.size = size
+            self.throughput = throughput
             self.volumeId = volumeId
             self.volumeType = volumeType
         }
@@ -25555,6 +25613,7 @@ extension EC2 {
             case dryRun = "DryRun"
             case iops = "Iops"
             case size = "Size"
+            case throughput = "Throughput"
             case volumeId = "VolumeId"
             case volumeType = "VolumeType"
         }
@@ -34530,7 +34589,7 @@ extension EC2 {
         public let encrypted: Bool?
         /// Indicates whether the volume was created using fast snapshot restore.
         public let fastRestored: Bool?
-        /// The number of I/O operations per second (IOPS) that the volume supports. For Provisioned IOPS SSD volumes, this represents the number of IOPS that are provisioned for the volume. For General Purpose SSD volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Constraints: Range is 100-16,000 IOPS for gp2 volumes and 100 to 64,000 IOPS for io1 and io2 volumes, in most Regions. The maximum IOPS for io1 and io2 of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. Condition: This parameter is required for requests to create io1 and io2 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
+        /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting.
         public let iops: Int?
         /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the volume.
         public let kmsKeyId: String?
@@ -34547,12 +34606,14 @@ extension EC2 {
         /// Any tags assigned to the volume.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
+        /// The throughput that the volume supports, in MiB/s.
+        public let throughput: Int?
         /// The ID of the volume.
         public let volumeId: String?
-        /// The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
+        /// The volume type.
         public let volumeType: VolumeType?
 
-        public init(attachments: [VolumeAttachment]? = nil, availabilityZone: String? = nil, createTime: Date? = nil, encrypted: Bool? = nil, fastRestored: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, state: VolumeState? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
+        public init(attachments: [VolumeAttachment]? = nil, availabilityZone: String? = nil, createTime: Date? = nil, encrypted: Bool? = nil, fastRestored: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, state: VolumeState? = nil, tags: [Tag]? = nil, throughput: Int? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
             self.attachments = attachments
             self.availabilityZone = availabilityZone
             self.createTime = createTime
@@ -34566,6 +34627,7 @@ extension EC2 {
             self.snapshotId = snapshotId
             self.state = state
             self.tags = tags
+            self.throughput = throughput
             self.volumeId = volumeId
             self.volumeType = volumeType
         }
@@ -34584,6 +34646,7 @@ extension EC2 {
             case snapshotId
             case state = "status"
             case tags = "tagSet"
+            case throughput
             case volumeId
             case volumeType
         }
@@ -34644,6 +34707,8 @@ extension EC2 {
         public let originalIops: Int?
         /// The original size of the volume, in GiB.
         public let originalSize: Int?
+        /// The original throughput of the volume, in MiB/s.
+        public let originalThroughput: Int?
         /// The original EBS volume type of the volume.
         public let originalVolumeType: VolumeType?
         /// The modification progress, from 0 to 100 percent complete.
@@ -34656,22 +34721,26 @@ extension EC2 {
         public let targetIops: Int?
         /// The target size of the volume, in GiB.
         public let targetSize: Int?
+        /// The target throughput of the volume, in MiB/s.
+        public let targetThroughput: Int?
         /// The target EBS volume type of the volume.
         public let targetVolumeType: VolumeType?
         /// The ID of the volume.
         public let volumeId: String?
 
-        public init(endTime: Date? = nil, modificationState: VolumeModificationState? = nil, originalIops: Int? = nil, originalSize: Int? = nil, originalVolumeType: VolumeType? = nil, progress: Int64? = nil, startTime: Date? = nil, statusMessage: String? = nil, targetIops: Int? = nil, targetSize: Int? = nil, targetVolumeType: VolumeType? = nil, volumeId: String? = nil) {
+        public init(endTime: Date? = nil, modificationState: VolumeModificationState? = nil, originalIops: Int? = nil, originalSize: Int? = nil, originalThroughput: Int? = nil, originalVolumeType: VolumeType? = nil, progress: Int64? = nil, startTime: Date? = nil, statusMessage: String? = nil, targetIops: Int? = nil, targetSize: Int? = nil, targetThroughput: Int? = nil, targetVolumeType: VolumeType? = nil, volumeId: String? = nil) {
             self.endTime = endTime
             self.modificationState = modificationState
             self.originalIops = originalIops
             self.originalSize = originalSize
+            self.originalThroughput = originalThroughput
             self.originalVolumeType = originalVolumeType
             self.progress = progress
             self.startTime = startTime
             self.statusMessage = statusMessage
             self.targetIops = targetIops
             self.targetSize = targetSize
+            self.targetThroughput = targetThroughput
             self.targetVolumeType = targetVolumeType
             self.volumeId = volumeId
         }
@@ -34681,12 +34750,14 @@ extension EC2 {
             case modificationState
             case originalIops
             case originalSize
+            case originalThroughput
             case originalVolumeType
             case progress
             case startTime
             case statusMessage
             case targetIops
             case targetSize
+            case targetThroughput
             case targetVolumeType
             case volumeId
         }

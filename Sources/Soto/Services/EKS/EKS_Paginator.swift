@@ -19,6 +19,108 @@ import SotoCore
 // MARK: Paginators
 
 extension EKS {
+    ///  Describes the Kubernetes versions that the add-on can be used with.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeAddonVersionsPaginator<Result>(
+        _ input: DescribeAddonVersionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeAddonVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeAddonVersions,
+            tokenKey: \DescribeAddonVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeAddonVersionsPaginator(
+        _ input: DescribeAddonVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeAddonVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeAddonVersions,
+            tokenKey: \DescribeAddonVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the available add-ons.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAddonsPaginator<Result>(
+        _ input: ListAddonsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAddonsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAddons,
+            tokenKey: \ListAddonsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAddonsPaginator(
+        _ input: ListAddonsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAddonsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAddons,
+            tokenKey: \ListAddonsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -224,6 +326,27 @@ extension EKS {
     }
 }
 
+extension EKS.DescribeAddonVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EKS.DescribeAddonVersionsRequest {
+        return .init(
+            addonName: self.addonName,
+            kubernetesVersion: self.kubernetesVersion,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EKS.ListAddonsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EKS.ListAddonsRequest {
+        return .init(
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension EKS.ListClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListClustersRequest {
         return .init(
@@ -256,6 +379,7 @@ extension EKS.ListNodegroupsRequest: AWSPaginateToken {
 extension EKS.ListUpdatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListUpdatesRequest {
         return .init(
+            addonName: self.addonName,
             maxResults: self.maxResults,
             name: self.name,
             nextToken: token,
