@@ -29,7 +29,12 @@ class APIGatewayTests: XCTestCase {
     static var restApiId: String!
 
     override class func setUp() {
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(
+            credentialProvider: TestEnvironment.credentialProvider,
+            middlewares: TestEnvironment.middlewares,
+            httpClientProvider: .createNew,
+            logger: TestEnvironment.logger
+        )
         Self.apiGateway = APIGateway(
             client: APIGatewayTests.client,
             region: .euwest1,
@@ -62,7 +67,7 @@ class APIGatewayTests: XCTestCase {
 
     static func createRestApi(name: String, on eventLoop: EventLoop) -> EventLoopFuture<APIGateway.RestApi> {
         let request = APIGateway.GetRestApisRequest()
-        return self.apiGateway.getRestApis(request)
+        return self.apiGateway.getRestApis(request, logger: TestEnvironment.logger)
             .flatMap { response in
                 if let restApi = response.items?.first(where: { $0.name == name }) {
                     return eventLoop.makeSucceededFuture(restApi)
@@ -72,14 +77,14 @@ class APIGatewayTests: XCTestCase {
                         endpointConfiguration: APIGateway.EndpointConfiguration(types: [.regional]),
                         name: name
                     )
-                    return Self.apiGateway.createRestApi(request)
+                    return Self.apiGateway.createRestApi(request, logger: TestEnvironment.logger)
                 }
             }
     }
 
     static func deleteRestApi(id: String) -> EventLoopFuture<Void> {
         let request = APIGateway.DeleteRestApiRequest(restApiId: id)
-        return self.apiGateway.deleteRestApi(request).map {}
+        return self.apiGateway.deleteRestApi(request, logger: TestEnvironment.logger).map {}
     }
 
     /// create Rest api with supplied name and run supplied closure with rest api id
@@ -92,7 +97,7 @@ class APIGatewayTests: XCTestCase {
     func testGetRestApis() {
         let response = self.testRestApi { id in
             let request = APIGateway.GetRestApisRequest()
-            return Self.apiGateway.getRestApis(request)
+            return Self.apiGateway.getRestApis(request, logger: TestEnvironment.logger)
                 .map { response in
                     let restApi = response.items?.first(where: { $0.id == id })
                     XCTAssertNotNil(restApi)
@@ -105,7 +110,7 @@ class APIGatewayTests: XCTestCase {
     func testGetRestApi() {
         let response = self.testRestApi { id in
             let request = APIGateway.GetRestApiRequest(restApiId: id)
-            return Self.apiGateway.getRestApi(request)
+            return Self.apiGateway.getRestApi(request, logger: TestEnvironment.logger)
                 .map { response in
                     XCTAssertEqual(response.name, Self.restApiName)
                 }
@@ -117,7 +122,7 @@ class APIGatewayTests: XCTestCase {
         let response = self.testRestApi { id in
             // get parent resource
             let request = APIGateway.GetResourcesRequest(restApiId: id)
-            return Self.apiGateway.getResources(request)
+            return Self.apiGateway.getResources(request, logger: TestEnvironment.logger)
                 .flatMapThrowing { response throws -> String in
                     let items = try XCTUnwrap(response.items)
                     XCTAssertEqual(items.count, 1)
@@ -127,7 +132,7 @@ class APIGatewayTests: XCTestCase {
                 // create new resource
                 .flatMap { parentId -> EventLoopFuture<APIGateway.Resource> in
                     let request = APIGateway.CreateResourceRequest(parentId: parentId, pathPart: "test", restApiId: id)
-                    return Self.apiGateway.createResource(request)
+                    return Self.apiGateway.createResource(request, logger: TestEnvironment.logger)
                 }
                 // extract resource id
                 .flatMapThrowing { (response) throws -> String in
@@ -137,7 +142,7 @@ class APIGatewayTests: XCTestCase {
                 // get resource
                 .flatMap { resourceId -> EventLoopFuture<APIGateway.Resource> in
                     let request = APIGateway.GetResourceRequest(resourceId: resourceId, restApiId: id)
-                    return Self.apiGateway.getResource(request)
+                    return Self.apiGateway.getResource(request, logger: TestEnvironment.logger)
                 }
                 // verify resource is correct
                 .map { response in
@@ -148,7 +153,7 @@ class APIGatewayTests: XCTestCase {
     }
 
     func testError() {
-        let response = Self.apiGateway.getModels(.init(restApiId: "invalid-rest-api-id"))
+        let response = Self.apiGateway.getModels(.init(restApiId: "invalid-rest-api-id"), logger: TestEnvironment.logger)
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
             case let error as APIGatewayErrorType where error == .notFoundException:

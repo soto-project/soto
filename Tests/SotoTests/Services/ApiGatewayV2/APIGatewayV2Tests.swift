@@ -28,7 +28,12 @@ class APIGatewayV2Tests: XCTestCase {
 
     override class func setUp() {
         guard !TestEnvironment.isUsingLocalstack else { return }
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(
+            credentialProvider: TestEnvironment.credentialProvider,
+            middlewares: TestEnvironment.middlewares,
+            httpClientProvider: .createNew,
+            logger: TestEnvironment.logger
+        )
         Self.apiGatewayV2 = ApiGatewayV2(
             client: Self.client,
             region: .euwest1,
@@ -58,7 +63,7 @@ class APIGatewayV2Tests: XCTestCase {
     }
 
     static func createRestApi(name: String, on eventLoop: EventLoop) -> EventLoopFuture<String> {
-        return self.apiGatewayV2.getApis(.init())
+        return self.apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
             .flatMap { response in
                 if let restApi = response.items?.first(where: { $0.name == name }) {
                     guard let apiId = restApi.apiId else { return eventLoop.makeFailedFuture(APIGatewayV2TestsError.noApi) }
@@ -69,7 +74,7 @@ class APIGatewayV2Tests: XCTestCase {
                         name: name,
                         protocolType: .http
                     )
-                    return Self.apiGatewayV2.createApi(request).flatMapThrowing { response -> String in
+                    return Self.apiGatewayV2.createApi(request, logger: TestEnvironment.logger).flatMapThrowing { response -> String in
                         let apiId = try XCTUnwrap(response.apiId)
                         return apiId
                     }
@@ -78,7 +83,7 @@ class APIGatewayV2Tests: XCTestCase {
     }
 
     static func deleteRestApi(id: String) -> EventLoopFuture<Void> {
-        return self.apiGatewayV2.deleteApi(.init(apiId: id)).map {}
+        return self.apiGatewayV2.deleteApi(.init(apiId: id), logger: TestEnvironment.logger).map {}
     }
 
     /// create Rest api with supplied name and run supplied closure with rest api id
@@ -94,7 +99,7 @@ class APIGatewayV2Tests: XCTestCase {
         // get date from 1 minute before now.
         let date = Date(timeIntervalSinceNow: -60.0)
         let response = self.testRestApi { id in
-            return Self.apiGatewayV2.getApis(.init())
+            return Self.apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
                 .flatMapThrowing { response in
                     let restApi = response.items?.first(where: { $0.apiId == id })
                     XCTAssertNotNil(restApi)
