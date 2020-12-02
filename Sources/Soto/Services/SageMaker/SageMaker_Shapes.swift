@@ -12774,9 +12774,9 @@ extension SageMaker {
         /// A summary of feature groups.
         public let featureGroupSummaries: [FeatureGroupSummary]
         /// A token to resume pagination of ListFeatureGroups results.
-        public let nextToken: String
+        public let nextToken: String?
 
-        public init(featureGroupSummaries: [FeatureGroupSummary], nextToken: String) {
+        public init(featureGroupSummaries: [FeatureGroupSummary], nextToken: String? = nil) {
             self.featureGroupSummaries = featureGroupSummaries
             self.nextToken = nextToken
         }
