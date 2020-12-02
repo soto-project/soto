@@ -218,6 +218,11 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "DescribeTrusts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disable client authentication for smart cards.
+    public func disableClientAuthentication(_ input: DisableClientAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableClientAuthenticationResult> {
+        return self.client.execute(operation: "DisableClientAuthentication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deactivates LDAP secure calls for the specified directory.
     public func disableLDAPS(_ input: DisableLDAPSRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableLDAPSResult> {
         return self.client.execute(operation: "DisableLDAPS", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -231,6 +236,11 @@ public struct DirectoryService: AWSService {
     /// Disables single-sign on for a directory.
     public func disableSso(_ input: DisableSsoRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableSsoResult> {
         return self.client.execute(operation: "DisableSso", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Enable client authentication for smardtcards.
+    public func enableClientAuthentication(_ input: EnableClientAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableClientAuthenticationResult> {
+        return self.client.execute(operation: "EnableClientAuthentication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Activates the switch for the specific directory to always use LDAP secure calls.

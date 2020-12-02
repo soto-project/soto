@@ -19,6 +19,57 @@ import SotoCore
 // MARK: Paginators
 
 extension SageMaker {
+    ///  Lists the actions in your account and their properties.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listActionsPaginator<Result>(
+        _ input: ListActionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListActionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listActions,
+            tokenKey: \ListActionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listActionsPaginator(
+        _ input: ListActionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListActionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listActions,
+            tokenKey: \ListActionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the machine learning algorithms that have been created.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -70,6 +121,57 @@ extension SageMaker {
         )
     }
 
+    ///  Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAppImageConfigsPaginator<Result>(
+        _ input: ListAppImageConfigsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAppImageConfigsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAppImageConfigs,
+            tokenKey: \ListAppImageConfigsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAppImageConfigsPaginator(
+        _ input: ListAppImageConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAppImageConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAppImageConfigs,
+            tokenKey: \ListAppImageConfigsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists apps.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -116,6 +218,108 @@ extension SageMaker {
             input: input,
             command: listApps,
             tokenKey: \ListAppsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the artifacts in your account and their properties.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listArtifactsPaginator<Result>(
+        _ input: ListArtifactsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListArtifactsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listArtifacts,
+            tokenKey: \ListArtifactsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listArtifactsPaginator(
+        _ input: ListArtifactsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListArtifactsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listArtifacts,
+            tokenKey: \ListArtifactsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the associations in your account and their properties.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAssociationsPaginator<Result>(
+        _ input: ListAssociationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAssociationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAssociations,
+            tokenKey: \ListAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAssociationsPaginator(
+        _ input: ListAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAssociations,
+            tokenKey: \ListAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -325,6 +529,57 @@ extension SageMaker {
         )
     }
 
+    ///  Lists the contexts in your account and their properties.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listContextsPaginator<Result>(
+        _ input: ListContextsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListContextsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listContexts,
+            tokenKey: \ListContextsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listContextsPaginator(
+        _ input: ListContextsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListContextsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listContexts,
+            tokenKey: \ListContextsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the domains.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -524,6 +779,57 @@ extension SageMaker {
             input: input,
             command: listExperiments,
             tokenKey: \ListExperimentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List FeatureGroups based on given filter and order.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFeatureGroupsPaginator<Result>(
+        _ input: ListFeatureGroupsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListFeatureGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFeatureGroups,
+            tokenKey: \ListFeatureGroupsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listFeatureGroupsPaginator(
+        _ input: ListFeatureGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFeatureGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listFeatureGroups,
+            tokenKey: \ListFeatureGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -886,6 +1192,57 @@ extension SageMaker {
         )
     }
 
+    ///  Gets a list of the model groups in your AWS account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listModelPackageGroupsPaginator<Result>(
+        _ input: ListModelPackageGroupsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListModelPackageGroupsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listModelPackageGroups,
+            tokenKey: \ListModelPackageGroupsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listModelPackageGroupsPaginator(
+        _ input: ListModelPackageGroupsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListModelPackageGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listModelPackageGroups,
+            tokenKey: \ListModelPackageGroupsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the model packages that have been created.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1192,6 +1549,210 @@ extension SageMaker {
         )
     }
 
+    ///  Gets a list of PipeLineExecutionStep objects.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPipelineExecutionStepsPaginator<Result>(
+        _ input: ListPipelineExecutionStepsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPipelineExecutionStepsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPipelineExecutionSteps,
+            tokenKey: \ListPipelineExecutionStepsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPipelineExecutionStepsPaginator(
+        _ input: ListPipelineExecutionStepsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPipelineExecutionStepsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPipelineExecutionSteps,
+            tokenKey: \ListPipelineExecutionStepsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets a list of the pipeline executions.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPipelineExecutionsPaginator<Result>(
+        _ input: ListPipelineExecutionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPipelineExecutionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPipelineExecutions,
+            tokenKey: \ListPipelineExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPipelineExecutionsPaginator(
+        _ input: ListPipelineExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPipelineExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPipelineExecutions,
+            tokenKey: \ListPipelineExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets a list of parameters for a pipeline execution.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPipelineParametersForExecutionPaginator<Result>(
+        _ input: ListPipelineParametersForExecutionRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPipelineParametersForExecutionResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPipelineParametersForExecution,
+            tokenKey: \ListPipelineParametersForExecutionResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPipelineParametersForExecutionPaginator(
+        _ input: ListPipelineParametersForExecutionRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPipelineParametersForExecutionResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPipelineParametersForExecution,
+            tokenKey: \ListPipelineParametersForExecutionResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets a list of pipelines.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPipelinesPaginator<Result>(
+        _ input: ListPipelinesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPipelinesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPipelines,
+            tokenKey: \ListPipelinesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPipelinesPaginator(
+        _ input: ListPipelinesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPipelines,
+            tokenKey: \ListPipelinesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists processing jobs that satisfy various filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1238,6 +1799,57 @@ extension SageMaker {
             input: input,
             command: listProcessingJobs,
             tokenKey: \ListProcessingJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets a list of the projects in an AWS account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listProjectsPaginator<Result>(
+        _ input: ListProjectsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListProjectsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listProjects,
+            tokenKey: \ListProjectsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listProjectsPaginator(
+        _ input: ListProjectsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListProjectsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listProjects,
+            tokenKey: \ListProjectsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1805,12 +2417,43 @@ extension SageMaker {
     }
 }
 
+extension SageMaker.ListActionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListActionsRequest {
+        return .init(
+            actionType: self.actionType,
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            sourceUri: self.sourceUri
+        )
+    }
+}
+
 extension SageMaker.ListAlgorithmsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListAlgorithmsInput {
         return .init(
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
             maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListAppImageConfigsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListAppImageConfigsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            modifiedTimeAfter: self.modifiedTimeAfter,
+            modifiedTimeBefore: self.modifiedTimeBefore,
             nameContains: self.nameContains,
             nextToken: token,
             sortBy: self.sortBy,
@@ -1828,6 +2471,39 @@ extension SageMaker.ListAppsRequest: AWSPaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             userProfileNameEquals: self.userProfileNameEquals
+        )
+    }
+}
+
+extension SageMaker.ListArtifactsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListArtifactsRequest {
+        return .init(
+            artifactType: self.artifactType,
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            sourceUri: self.sourceUri
+        )
+    }
+}
+
+extension SageMaker.ListAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListAssociationsRequest {
+        return .init(
+            associationType: self.associationType,
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            destinationArn: self.destinationArn,
+            destinationType: self.destinationType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            sourceArn: self.sourceArn,
+            sourceType: self.sourceType
         )
     }
 }
@@ -1896,6 +2572,21 @@ extension SageMaker.ListCompilationJobsRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListContextsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListContextsRequest {
+        return .init(
+            contextType: self.contextType,
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            sourceUri: self.sourceUri
+        )
+    }
+}
+
 extension SageMaker.ListDomainsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListDomainsRequest {
         return .init(
@@ -1943,6 +2634,22 @@ extension SageMaker.ListExperimentsRequest: AWSPaginateToken {
             createdBefore: self.createdBefore,
             maxResults: self.maxResults,
             nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListFeatureGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListFeatureGroupsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            featureGroupStatusEquals: self.featureGroupStatusEquals,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            offlineStoreStatusEquals: self.offlineStoreStatusEquals,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )
@@ -2054,12 +2761,29 @@ extension SageMaker.ListLabelingJobsForWorkteamRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListModelPackageGroupsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListModelPackageGroupsInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension SageMaker.ListModelPackagesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListModelPackagesInput {
         return .init(
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
             maxResults: self.maxResults,
+            modelApprovalStatus: self.modelApprovalStatus,
+            modelPackageGroupName: self.modelPackageGroupName,
+            modelPackageType: self.modelPackageType,
             nameContains: self.nameContains,
             nextToken: token,
             sortBy: self.sortBy,
@@ -2156,6 +2880,55 @@ extension SageMaker.ListNotebookInstancesInput: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListPipelineExecutionStepsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListPipelineExecutionStepsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineExecutionArn: self.pipelineExecutionArn,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListPipelineExecutionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListPipelineExecutionsRequest {
+        return .init(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineName: self.pipelineName,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListPipelineParametersForExecutionRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListPipelineParametersForExecutionRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineExecutionArn: self.pipelineExecutionArn
+        )
+    }
+}
+
+extension SageMaker.ListPipelinesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListPipelinesRequest {
+        return .init(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineNamePrefix: self.pipelineNamePrefix,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension SageMaker.ListProcessingJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListProcessingJobsRequest {
         return .init(
@@ -2169,6 +2942,20 @@ extension SageMaker.ListProcessingJobsRequest: AWSPaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension SageMaker.ListProjectsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListProjectsInput {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
         )
     }
 }

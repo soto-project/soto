@@ -54,6 +54,8 @@ extension Lambda {
 
     public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable {
         case enilimitexceeded = "EniLimitExceeded"
+        case imageaccessdenied = "ImageAccessDenied"
+        case imagedeleted = "ImageDeleted"
         case insufficientrolepermissions = "InsufficientRolePermissions"
         case internalerror = "InternalError"
         case invalidconfiguration = "InvalidConfiguration"
@@ -66,6 +68,12 @@ extension Lambda {
     public enum LogType: String, CustomStringConvertible, Codable {
         case none = "None"
         case tail = "Tail"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PackageType: String, CustomStringConvertible, Codable {
+        case image = "Image"
+        case zip = "Zip"
         public var description: String { return self.rawValue }
     }
 
@@ -120,6 +128,8 @@ extension Lambda {
         case creating = "Creating"
         case enilimitexceeded = "EniLimitExceeded"
         case idle = "Idle"
+        case imageaccessdenied = "ImageAccessDenied"
+        case imagedeleted = "ImageDeleted"
         case insufficientrolepermissions = "InsufficientRolePermissions"
         case internalerror = "InternalError"
         case invalidconfiguration = "InvalidConfiguration"
@@ -444,7 +454,7 @@ extension Lambda {
     }
 
     public struct CodeSigningPolicies: AWSEncodableShape & AWSDecodableShape {
-        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if code-signing validation checks fail. If you set the policy to Warn, Lambda allows the deployment and creates a CloudWatch log.  Default value: Warn
+        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and creates a CloudWatch log.  Default value: Warn
         public let untrustedArtifactOnDeployment: CodeSigningPolicy?
 
         public init(untrustedArtifactOnDeployment: CodeSigningPolicy? = nil) {
@@ -665,7 +675,7 @@ extension Lambda {
     public struct CreateFunctionRequest: AWSEncodableShape {
         /// The code for the function.
         public let code: FunctionCode
-        /// To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes set set of signing profiles, which define the trusted publishers for this function.
+        /// To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes a set of signing profiles, which define the trusted publishers for this function.
         public let codeSigningConfigArn: String?
         /// A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.
         public let deadLetterConfig: DeadLetterConfig?
@@ -678,19 +688,23 @@ extension Lambda {
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
-        public let handler: String
+        public let handler: String?
+        /// Configuration values that override the container image Dockerfile.
+        public let imageConfig: ImageConfig?
         /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.
         public let kMSKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
         /// The amount of memory that your function has access to. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value must be a multiple of 64 MB.
         public let memorySize: Int?
+        /// The type of deployment package. Set to Image for container image and set Zip for ZIP archive.
+        public let packageType: PackageType?
         /// Set to true to publish the first version of the function during creation.
         public let publish: Bool?
         /// The Amazon Resource Name (ARN) of the function's execution role.
         public let role: String
         /// The identifier of the function's runtime.
-        public let runtime: Runtime
+        public let runtime: Runtime?
         /// A list of tags to apply to the function.
         public let tags: [String: String]?
         /// The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.
@@ -700,7 +714,7 @@ extension Lambda {
         /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, publish: Bool? = nil, role: String, runtime: Runtime, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.code = code
             self.codeSigningConfigArn = codeSigningConfigArn
             self.deadLetterConfig = deadLetterConfig
@@ -709,9 +723,11 @@ extension Lambda {
             self.fileSystemConfigs = fileSystemConfigs
             self.functionName = functionName
             self.handler = handler
+            self.imageConfig = imageConfig
             self.kMSKeyArn = kMSKeyArn
             self.layers = layers
             self.memorySize = memorySize
+            self.packageType = packageType
             self.publish = publish
             self.role = role
             self.runtime = runtime
@@ -738,13 +754,14 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, pattern: "[^\\s]+")
+            try self.imageConfig?.validate(name: "\(name).imageConfig")
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
             try self.layers?.forEach {
                 try validate($0, name: "layers[]", parent: name, max: 140)
                 try validate($0, name: "layers[]", parent: name, min: 1)
                 try validate($0, name: "layers[]", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
             }
-            try self.validate(self.memorySize, name: "memorySize", parent: name, max: 3008)
+            try self.validate(self.memorySize, name: "memorySize", parent: name, max: 10240)
             try self.validate(self.memorySize, name: "memorySize", parent: name, min: 128)
             try self.validate(self.role, name: "role", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
@@ -760,9 +777,11 @@ extension Lambda {
             case fileSystemConfigs = "FileSystemConfigs"
             case functionName = "FunctionName"
             case handler = "Handler"
+            case imageConfig = "ImageConfig"
             case kMSKeyArn = "KMSKeyArn"
             case layers = "Layers"
             case memorySize = "MemorySize"
+            case packageType = "PackageType"
             case publish = "Publish"
             case role = "Role"
             case runtime = "Runtime"
@@ -1193,6 +1212,8 @@ extension Lambda {
     }
 
     public struct FunctionCode: AWSEncodableShape {
+        /// URI of a container image in the Amazon ECR registry.
+        public let imageUri: String?
         /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.
         public let s3Bucket: String?
         /// The Amazon S3 key of the deployment package.
@@ -1202,7 +1223,8 @@ extension Lambda {
         /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI clients handle the encoding for you.
         public let zipFile: Data?
 
-        public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
+        public init(imageUri: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
+            self.imageUri = imageUri
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
             self.s3ObjectVersion = s3ObjectVersion
@@ -1220,6 +1242,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageUri = "ImageUri"
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
             case s3ObjectVersion = "S3ObjectVersion"
@@ -1228,19 +1251,27 @@ extension Lambda {
     }
 
     public struct FunctionCodeLocation: AWSDecodableShape {
+        /// URI of a container image in the Amazon ECR registry.
+        public let imageUri: String?
         /// A presigned URL that you can use to download the deployment package.
         public let location: String?
         /// The service that's hosting the file.
         public let repositoryType: String?
+        /// The resolved URI for the image.
+        public let resolvedImageUri: String?
 
-        public init(location: String? = nil, repositoryType: String? = nil) {
+        public init(imageUri: String? = nil, location: String? = nil, repositoryType: String? = nil, resolvedImageUri: String? = nil) {
+            self.imageUri = imageUri
             self.location = location
             self.repositoryType = repositoryType
+            self.resolvedImageUri = resolvedImageUri
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageUri = "ImageUri"
             case location = "Location"
             case repositoryType = "RepositoryType"
+            case resolvedImageUri = "ResolvedImageUri"
         }
     }
 
@@ -1263,6 +1294,8 @@ extension Lambda {
         public let functionName: String?
         /// The function that Lambda calls to begin executing your function.
         public let handler: String?
+        /// The function's image configuration values.
+        public let imageConfigResponse: ImageConfigResponse?
         /// The KMS key that's used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed CMK.
         public let kMSKeyArn: String?
         /// The date and time that the function was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
@@ -1279,6 +1312,8 @@ extension Lambda {
         public let masterArn: String?
         /// The memory that's allocated to the function.
         public let memorySize: Int?
+        /// The type of deployment package. Set to Image for container image and set Zip for ZIP archive.
+        public let packageType: PackageType?
         /// The latest updated revision of the function or alias.
         public let revisionId: String?
         /// The function's execution role.
@@ -1304,7 +1339,7 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kMSKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.deadLetterConfig = deadLetterConfig
@@ -1314,6 +1349,7 @@ extension Lambda {
             self.functionArn = functionArn
             self.functionName = functionName
             self.handler = handler
+            self.imageConfigResponse = imageConfigResponse
             self.kMSKeyArn = kMSKeyArn
             self.lastModified = lastModified
             self.lastUpdateStatus = lastUpdateStatus
@@ -1322,6 +1358,7 @@ extension Lambda {
             self.layers = layers
             self.masterArn = masterArn
             self.memorySize = memorySize
+            self.packageType = packageType
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
@@ -1346,6 +1383,7 @@ extension Lambda {
             case functionArn = "FunctionArn"
             case functionName = "FunctionName"
             case handler = "Handler"
+            case imageConfigResponse = "ImageConfigResponse"
             case kMSKeyArn = "KMSKeyArn"
             case lastModified = "LastModified"
             case lastUpdateStatus = "LastUpdateStatus"
@@ -1354,6 +1392,7 @@ extension Lambda {
             case layers = "Layers"
             case masterArn = "MasterArn"
             case memorySize = "MemorySize"
+            case packageType = "PackageType"
             case revisionId = "RevisionId"
             case role = "Role"
             case runtime = "Runtime"
@@ -1908,6 +1947,67 @@ extension Lambda {
             case requestedProvisionedConcurrentExecutions = "RequestedProvisionedConcurrentExecutions"
             case status = "Status"
             case statusReason = "StatusReason"
+        }
+    }
+
+    public struct ImageConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies parameters that you want to pass in with ENTRYPOINT.
+        public let command: [String]?
+        /// Specifies the entry point to their application, which is typically the location of the runtime executable.
+        public let entryPoint: [String]?
+        /// Specifies the working directory.
+        public let workingDirectory: String?
+
+        public init(command: [String]? = nil, entryPoint: [String]? = nil, workingDirectory: String? = nil) {
+            self.command = command
+            self.entryPoint = entryPoint
+            self.workingDirectory = workingDirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.command, name: "command", parent: name, max: 1500)
+            try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 1500)
+            try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, max: 1000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "Command"
+            case entryPoint = "EntryPoint"
+            case workingDirectory = "WorkingDirectory"
+        }
+    }
+
+    public struct ImageConfigError: AWSDecodableShape {
+        /// Error code.
+        public let errorCode: String?
+        /// Error message.
+        public let message: String?
+
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
+    }
+
+    public struct ImageConfigResponse: AWSDecodableShape {
+        /// Error response to GetFunctionConfiguration.
+        public let error: ImageConfigError?
+        /// Configuration values that override the container image Dockerfile.
+        public let imageConfig: ImageConfig?
+
+        public init(error: ImageConfigError? = nil, imageConfig: ImageConfig? = nil) {
+            self.error = error
+            self.imageConfig = imageConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case imageConfig = "ImageConfig"
         }
     }
 
@@ -3440,6 +3540,8 @@ extension Lambda {
         public let dryRun: Bool?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
+        /// URI of a container image in the Amazon ECR registry.
+        public let imageUri: String?
         /// Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion separately.
         public let publish: Bool?
         /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
@@ -3453,9 +3555,10 @@ extension Lambda {
         /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI clients handle the encoding for you.
         public let zipFile: Data?
 
-        public init(dryRun: Bool? = nil, functionName: String, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
+        public init(dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
             self.dryRun = dryRun
             self.functionName = functionName
+            self.imageUri = imageUri
             self.publish = publish
             self.revisionId = revisionId
             self.s3Bucket = s3Bucket
@@ -3479,6 +3582,7 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
+            case imageUri = "ImageUri"
             case publish = "Publish"
             case revisionId = "RevisionId"
             case s3Bucket = "S3Bucket"
@@ -3505,6 +3609,8 @@ extension Lambda {
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
         public let handler: String?
+        /// Configuration values that override the container image Dockerfile.
+        public let imageConfig: ImageConfig?
         /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.
         public let kMSKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
@@ -3524,13 +3630,14 @@ extension Lambda {
         /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
             self.fileSystemConfigs = fileSystemConfigs
             self.functionName = functionName
             self.handler = handler
+            self.imageConfig = imageConfig
             self.kMSKeyArn = kMSKeyArn
             self.layers = layers
             self.memorySize = memorySize
@@ -3556,13 +3663,14 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, pattern: "[^\\s]+")
+            try self.imageConfig?.validate(name: "\(name).imageConfig")
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
             try self.layers?.forEach {
                 try validate($0, name: "layers[]", parent: name, max: 140)
                 try validate($0, name: "layers[]", parent: name, min: 1)
                 try validate($0, name: "layers[]", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
             }
-            try self.validate(self.memorySize, name: "memorySize", parent: name, max: 3008)
+            try self.validate(self.memorySize, name: "memorySize", parent: name, max: 10240)
             try self.validate(self.memorySize, name: "memorySize", parent: name, min: 128)
             try self.validate(self.role, name: "role", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
@@ -3575,6 +3683,7 @@ extension Lambda {
             case environment = "Environment"
             case fileSystemConfigs = "FileSystemConfigs"
             case handler = "Handler"
+            case imageConfig = "ImageConfig"
             case kMSKeyArn = "KMSKeyArn"
             case layers = "Layers"
             case memorySize = "MemorySize"

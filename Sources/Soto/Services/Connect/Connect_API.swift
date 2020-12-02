@@ -97,14 +97,24 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateContactFlow", path: "/contact-flows/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage (such as Amazon S3, or Kinesis) or allow for any configurations on features such as Contact Lens for Amazon Connect.
+    /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage (such as Amazon S3, or Kinesis) or allow for any configurations on features such as Contact Lens for Amazon Connect.
     public func createInstance(_ input: CreateInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInstanceResponse> {
         return self.client.execute(operation: "CreateInstance", path: "/instance", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Create an AppIntegration association with anAmazon Connect instance.
+    public func createIntegrationAssociation(_ input: CreateIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIntegrationAssociationResponse> {
+        return self.client.execute(operation: "CreateIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new routing profile.
     public func createRoutingProfile(_ input: CreateRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRoutingProfileResponse> {
         return self.client.execute(operation: "CreateRoutingProfile", path: "/routing-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Creates a use case for an AppIntegration association.
+    public func createUseCase(_ input: CreateUseCaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUseCaseResponse> {
+        return self.client.execute(operation: "CreateUseCase", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a user account for the specified Amazon Connect instance. For information about how to create user accounts using the Amazon Connect console, see Add Users in the Amazon Connect Administrator Guide.
@@ -117,9 +127,19 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the Amazon Connect instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance.
     @discardableResult public func deleteInstance(_ input: DeleteInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteInstance", path: "/instance/{InstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Deletes an AppIntegration association from an Amazon Connect instance. The association must not have any use cases associated with it.
+    @discardableResult public func deleteIntegrationAssociation(_ input: DeleteIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Deletes a use case from an AppIntegration association.
+    @discardableResult public func deleteUseCase(_ input: DeleteUseCaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteUseCase", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases/{UseCaseId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.
@@ -237,19 +257,24 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListHoursOfOperations", path: "/hours-of-operations-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a paginated list of all attribute types for the given instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
     public func listInstanceAttributes(_ input: ListInstanceAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInstanceAttributesResponse> {
         return self.client.execute(operation: "ListInstanceAttributes", path: "/instance/{InstanceId}/attributes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a paginated list of storage configs for the identified instance and resource type.
+    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
     public func listInstanceStorageConfigs(_ input: ListInstanceStorageConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInstanceStorageConfigsResponse> {
         return self.client.execute(operation: "ListInstanceStorageConfigs", path: "/instance/{InstanceId}/storage-configs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
+    /// This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
     public func listInstances(_ input: ListInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInstancesResponse> {
         return self.client.execute(operation: "ListInstances", path: "/instance", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Provides summary information about the AppIntegration associations for the specified Amazon Connect instance.
+    public func listIntegrationAssociations(_ input: ListIntegrationAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIntegrationAssociationsResponse> {
+        return self.client.execute(operation: "ListIntegrationAssociations", path: "/instance/{InstanceId}/integration-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a paginated list of all the Lambda functions that show up in the drop-down options in the relevant contact flow blocks.
@@ -302,6 +327,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. List the use cases.
+    public func listUseCases(_ input: ListUseCasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUseCasesResponse> {
+        return self.client.execute(operation: "ListUseCases", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
     public func listUserHierarchyGroups(_ input: ListUserHierarchyGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUserHierarchyGroupsResponse> {
         return self.client.execute(operation: "ListUserHierarchyGroups", path: "/user-hierarchy-groups-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -330,6 +360,11 @@ public struct Connect: AWSService {
     /// This API places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in ContactFlowId). Agents are not involved in initiating the outbound API (that is, dialing the contact). If the contact flow places an outbound call to a contact, and then puts the contact in queue, that's when the call is routed to the agent, like any other inbound case. There is a 60 second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.
     public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOutboundVoiceContactResponse> {
         return self.client.execute(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Initiates a contact flow to start a new task.
+    public func startTaskContact(_ input: StartTaskContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTaskContactResponse> {
+        return self.client.execute(operation: "StartTaskContact", path: "/contact/task", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Ends the specified contact.
@@ -372,12 +407,12 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UpdateContactFlowName", path: "/contact-flows/{InstanceId}/{ContactFlowId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the value for the specified attribute type.
+    /// This API is in preview release for Amazon Connect and is subject to change. Updates the value for the specified attribute type.
     @discardableResult public func updateInstanceAttribute(_ input: UpdateInstanceAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateInstanceAttribute", path: "/instance/{InstanceId}/attribute/{AttributeType}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing configuration for a resource type. This API is idempotent.
+    /// This API is in preview release for Amazon Connect and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
     @discardableResult public func updateInstanceStorageConfig(_ input: UpdateInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateInstanceStorageConfig", path: "/instance/{InstanceId}/storage-config/{AssociationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

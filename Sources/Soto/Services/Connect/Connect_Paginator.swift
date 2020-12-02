@@ -274,7 +274,7 @@ extension Connect {
         )
     }
 
-    ///  Returns a paginated list of all attribute types for the given instance.
+    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -325,7 +325,7 @@ extension Connect {
         )
     }
 
-    ///  Returns a paginated list of storage configs for the identified instance and resource type.
+    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -376,7 +376,7 @@ extension Connect {
         )
     }
 
-    ///  Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
+    ///  This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -422,6 +422,57 @@ extension Connect {
             input: input,
             command: listInstances,
             tokenKey: \ListInstancesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  This API is in preview release for Amazon Connect and is subject to change. Provides summary information about the AppIntegration associations for the specified Amazon Connect instance.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listIntegrationAssociationsPaginator<Result>(
+        _ input: ListIntegrationAssociationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListIntegrationAssociationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listIntegrationAssociations,
+            tokenKey: \ListIntegrationAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listIntegrationAssociationsPaginator(
+        _ input: ListIntegrationAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListIntegrationAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listIntegrationAssociations,
+            tokenKey: \ListIntegrationAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -886,6 +937,57 @@ extension Connect {
         )
     }
 
+    ///  This API is in preview release for Amazon Connect and is subject to change. List the use cases.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listUseCasesPaginator<Result>(
+        _ input: ListUseCasesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListUseCasesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listUseCases,
+            tokenKey: \ListUseCasesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listUseCasesPaginator(
+        _ input: ListUseCasesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListUseCasesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listUseCases,
+            tokenKey: \ListUseCasesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1078,6 +1180,16 @@ extension Connect.ListInstancesRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListIntegrationAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListIntegrationAssociationsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Connect.ListLambdaFunctionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListLambdaFunctionsRequest {
         return .init(
@@ -1166,6 +1278,17 @@ extension Connect.ListSecurityProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfilesRequest {
         return .init(
             instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Connect.ListUseCasesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListUseCasesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            integrationAssociationId: self.integrationAssociationId,
             maxResults: self.maxResults,
             nextToken: token
         )

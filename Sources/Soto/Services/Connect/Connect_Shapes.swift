@@ -22,6 +22,7 @@ extension Connect {
 
     public enum Channel: String, CustomStringConvertible, Codable {
         case chat = "CHAT"
+        case task = "TASK"
         case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
@@ -133,6 +134,11 @@ extension Connect {
         case contactTraceRecords = "CONTACT_TRACE_RECORDS"
         case mediaStreams = "MEDIA_STREAMS"
         case scheduledReports = "SCHEDULED_REPORTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationType: String, CustomStringConvertible, Codable {
+        case event = "EVENT"
         public var description: String { return self.rawValue }
     }
 
@@ -395,6 +401,17 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReferenceType: String, CustomStringConvertible, Codable {
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case salesforce = "SALESFORCE"
+        case zendesk = "ZENDESK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Statistic: String, CustomStringConvertible, Codable {
         case avg = "AVG"
         case max = "MAX"
@@ -414,6 +431,11 @@ extension Connect {
         case count = "COUNT"
         case percent = "PERCENT"
         case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UseCaseType: String, CustomStringConvertible, Codable {
+        case rulesEvaluation = "RULES_EVALUATION"
         public var description: String { return self.rawValue }
     }
 
@@ -850,6 +872,69 @@ extension Connect {
         }
     }
 
+    public struct CreateIntegrationAssociationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The Amazon Resource Name (ARN) of the integration.
+        public let integrationArn: String
+        /// The type of information to be ingested.
+        public let integrationType: IntegrationType
+        /// The name of the external application.
+        public let sourceApplicationName: String
+        /// The URL for the external application.
+        public let sourceApplicationUrl: String
+        /// The type of the data source.
+        public let sourceType: SourceType
+
+        public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String, sourceApplicationUrl: String, sourceType: SourceType) {
+            self.instanceId = instanceId
+            self.integrationArn = integrationArn
+            self.integrationType = integrationType
+            self.sourceApplicationName = sourceApplicationName
+            self.sourceApplicationUrl = sourceApplicationUrl
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, max: 100)
+            try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, min: 1)
+            try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, pattern: "^[a-zA-Z0-9_ -]+$")
+            try self.validate(self.sourceApplicationUrl, name: "sourceApplicationUrl", parent: name, max: 2000)
+            try self.validate(self.sourceApplicationUrl, name: "sourceApplicationUrl", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationArn = "IntegrationArn"
+            case integrationType = "IntegrationType"
+            case sourceApplicationName = "SourceApplicationName"
+            case sourceApplicationUrl = "SourceApplicationUrl"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct CreateIntegrationAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the association.
+        public let integrationAssociationArn: String?
+        /// The identifier for the association.
+        public let integrationAssociationId: String?
+
+        public init(integrationAssociationArn: String? = nil, integrationAssociationId: String? = nil) {
+            self.integrationAssociationArn = integrationAssociationArn
+            self.integrationAssociationId = integrationAssociationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationAssociationArn = "IntegrationAssociationArn"
+            case integrationAssociationId = "IntegrationAssociationId"
+        }
+    }
+
     public struct CreateRoutingProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
@@ -927,6 +1012,54 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case routingProfileArn = "RoutingProfileArn"
             case routingProfileId = "RoutingProfileId"
+        }
+    }
+
+    public struct CreateUseCaseRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the AppIntegration association.
+        public let integrationAssociationId: String
+        /// The type of use case to associate to the AppIntegration association. Each AppIntegration association can have only one of each use case type.
+        public let useCaseType: UseCaseType
+
+        public init(instanceId: String, integrationAssociationId: String, useCaseType: UseCaseType) {
+            self.instanceId = instanceId
+            self.integrationAssociationId = integrationAssociationId
+            self.useCaseType = useCaseType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
+            try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case useCaseType = "UseCaseType"
+        }
+    }
+
+    public struct CreateUseCaseResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the use case.
+        public let useCaseArn: String?
+        /// The identifier of the use case.
+        public let useCaseId: String?
+
+        public init(useCaseArn: String? = nil, useCaseId: String? = nil) {
+            self.useCaseArn = useCaseArn
+            self.useCaseId = useCaseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case useCaseArn = "UseCaseArn"
+            case useCaseId = "UseCaseId"
         }
     }
 
@@ -1154,6 +1287,64 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteIntegrationAssociationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the AppIntegration association.
+        public let integrationAssociationId: String
+
+        public init(instanceId: String, integrationAssociationId: String) {
+            self.instanceId = instanceId
+            self.integrationAssociationId = integrationAssociationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
+            try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteUseCaseRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId")),
+            AWSMemberEncoding(label: "useCaseId", location: .uri(locationName: "UseCaseId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the AppIntegration association.
+        public let integrationAssociationId: String
+        /// The identifier for the use case.
+        public let useCaseId: String
+
+        public init(instanceId: String, integrationAssociationId: String, useCaseId: String) {
+            self.instanceId = instanceId
+            self.integrationAssociationId = integrationAssociationId
+            self.useCaseId = useCaseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
+            try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
+            try self.validate(self.useCaseId, name: "useCaseId", parent: name, max: 200)
+            try self.validate(self.useCaseId, name: "useCaseId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1719,7 +1910,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.channels, name: "channels", parent: name, max: 1)
+            try self.validate(self.channels, name: "channels", parent: name, max: 3)
             try self.validate(self.queues, name: "queues", parent: name, max: 100)
             try self.validate(self.queues, name: "queues", parent: name, min: 1)
         }
@@ -1776,9 +1967,9 @@ extension Connect {
 
         /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
         public let currentMetrics: [CurrentMetric]
-        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. Both VOICE and CHAT channels are supported.
+        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.
         public let filters: Filters
-        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If you group by CHANNEL, you should include a Channels filter. Both VOICE and CHAT channels are supported. If no Grouping is included in the request, a summary of metrics is returned.
+        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported. If no Grouping is included in the request, a summary of metrics is returned.
         public let groupings: [Grouping]?
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
@@ -1875,7 +2066,7 @@ extension Connect {
 
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
         public let endTime: Date
-        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. Both VOICE and CHAT channels are supported.
+        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.
         public let filters: Filters
         /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. The only supported grouping is QUEUE. If no grouping is specified, a summary of metrics for all queues is returned.
         public let groupings: [Grouping]?
@@ -2336,6 +2527,47 @@ extension Connect {
         }
     }
 
+    public struct IntegrationAssociationSummary: AWSDecodableShape {
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String?
+        /// The Amazon Resource Name (ARN) for the AppIntegration.
+        public let integrationArn: String?
+        /// The Amazon Resource Name (ARN) for the AppIntegration association.
+        public let integrationAssociationArn: String?
+        /// The identifier for the AppIntegration association.
+        public let integrationAssociationId: String?
+        /// The integration type.
+        public let integrationType: IntegrationType?
+        /// The user-provided, friendly name for the external application.
+        public let sourceApplicationName: String?
+        /// The URL for the external application.
+        public let sourceApplicationUrl: String?
+        /// The name of the source.
+        public let sourceType: SourceType?
+
+        public init(instanceId: String? = nil, integrationArn: String? = nil, integrationAssociationArn: String? = nil, integrationAssociationId: String? = nil, integrationType: IntegrationType? = nil, sourceApplicationName: String? = nil, sourceApplicationUrl: String? = nil, sourceType: SourceType? = nil) {
+            self.instanceId = instanceId
+            self.integrationArn = integrationArn
+            self.integrationAssociationArn = integrationAssociationArn
+            self.integrationAssociationId = integrationAssociationId
+            self.integrationType = integrationType
+            self.sourceApplicationName = sourceApplicationName
+            self.sourceApplicationUrl = sourceApplicationUrl
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case integrationArn = "IntegrationArn"
+            case integrationAssociationArn = "IntegrationAssociationArn"
+            case integrationAssociationId = "IntegrationAssociationId"
+            case integrationType = "IntegrationType"
+            case sourceApplicationName = "SourceApplicationName"
+            case sourceApplicationUrl = "SourceApplicationUrl"
+            case sourceType = "SourceType"
+        }
+    }
+
     public struct KinesisFirehoseConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let firehoseArn: String
@@ -2694,6 +2926,53 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case instanceSummaryList = "InstanceSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListIntegrationAssociationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListIntegrationAssociationsResponse: AWSDecodableShape {
+        /// The AppIntegration associations.
+        public let integrationAssociationSummaryList: [IntegrationAssociationSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(integrationAssociationSummaryList: [IntegrationAssociationSummary]? = nil, nextToken: String? = nil) {
+            self.integrationAssociationSummaryList = integrationAssociationSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationAssociationSummaryList = "IntegrationAssociationSummaryList"
             case nextToken = "NextToken"
         }
     }
@@ -3168,6 +3447,59 @@ extension Connect {
         }
     }
 
+    public struct ListUseCasesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the integration association.
+        public let integrationAssociationId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, integrationAssociationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.integrationAssociationId = integrationAssociationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
+            try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListUseCasesResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// The use cases.
+        public let useCaseSummaryList: [UseCase]?
+
+        public init(nextToken: String? = nil, useCaseSummaryList: [UseCase]? = nil) {
+            self.nextToken = nextToken
+            self.useCaseSummaryList = useCaseSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case useCaseSummaryList = "UseCaseSummaryList"
+        }
+    }
+
     public struct ListUserHierarchyGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -3391,6 +3723,28 @@ extension Connect {
             case id = "Id"
             case name = "Name"
             case queueType = "QueueType"
+        }
+    }
+
+    public struct Reference: AWSEncodableShape {
+        /// A valid URL.
+        public let type: ReferenceType
+        /// A formatted URL that will be shown to an agent in the Contact Control Panel (CCP)
+        public let value: String
+
+        public init(type: ReferenceType, value: String) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 4096)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
         }
     }
 
@@ -3797,6 +4151,84 @@ extension Connect {
     }
 
     public struct StartOutboundVoiceContactResponse: AWSDecodableShape {
+        /// The identifier of this contact within the Amazon Connect instance.
+        public let contactId: String?
+
+        public init(contactId: String? = nil) {
+            self.contactId = contactId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+        }
+    }
+
+    public struct StartTaskContactRequest: AWSEncodableShape {
+        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        public let attributes: [String: String]?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The identifier of the contact flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+        public let contactFlowId: String
+        /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
+        public let description: String?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
+        public let name: String
+        /// The identifier of the previous chat, voice, or task contact.
+        public let previousContactId: String?
+        /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP).
+        public let references: [String: Reference]?
+
+        public init(attributes: [String: String]? = nil, clientToken: String? = StartTaskContactRequest.idempotencyToken(), contactFlowId: String, description: String? = nil, instanceId: String, name: String, previousContactId: String? = nil, references: [String: Reference]? = nil) {
+            self.attributes = attributes
+            self.clientToken = clientToken
+            self.contactFlowId = contactFlowId
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.previousContactId = previousContactId
+            self.references = references
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, max: 32767)
+                try validate($0.key, name: "attributes.key", parent: name, min: 1)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32767)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 0)
+            }
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, max: 4096)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 512)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.validate(self.previousContactId, name: "previousContactId", parent: name, max: 256)
+            try self.validate(self.previousContactId, name: "previousContactId", parent: name, min: 1)
+            try self.references?.forEach {
+                try validate($0.key, name: "references.key", parent: name, max: 4096)
+                try validate($0.key, name: "references.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).references[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case clientToken = "ClientToken"
+            case contactFlowId = "ContactFlowId"
+            case description = "Description"
+            case instanceId = "InstanceId"
+            case name = "Name"
+            case previousContactId = "PreviousContactId"
+            case references = "References"
+        }
+    }
+
+    public struct StartTaskContactResponse: AWSDecodableShape {
         /// The identifier of this contact within the Amazon Connect instance.
         public let contactId: String?
 
@@ -4255,7 +4687,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The queues to be updated for this routing profile.
+        /// The queues to be updated for this routing profile. Queues must first be associated to the routing profile. You can do this using AssociateRoutingProfileQueues.
         public let queueConfigs: [RoutingProfileQueueConfig]
         /// The identifier of the routing profile.
         public let routingProfileId: String
@@ -4481,6 +4913,27 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case securityProfileIds = "SecurityProfileIds"
+        }
+    }
+
+    public struct UseCase: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the use case.
+        public let useCaseArn: String?
+        /// The identifier for the use case.
+        public let useCaseId: String?
+        /// The type of use case to associate to the AppIntegration association. Each AppIntegration association can have only one of each use case type.
+        public let useCaseType: UseCaseType?
+
+        public init(useCaseArn: String? = nil, useCaseId: String? = nil, useCaseType: UseCaseType? = nil) {
+            self.useCaseArn = useCaseArn
+            self.useCaseId = useCaseId
+            self.useCaseType = useCaseType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case useCaseArn = "UseCaseArn"
+            case useCaseId = "UseCaseId"
+            case useCaseType = "UseCaseType"
         }
     }
 

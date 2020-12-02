@@ -30,6 +30,17 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
+    public enum CertificateType: String, CustomStringConvertible, Codable {
+        case clientcertauth = "ClientCertAuth"
+        case clientldaps = "ClientLDAPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientAuthenticationType: String, CustomStringConvertible, Codable {
+        case smartcard = "SmartCard"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DirectoryEdition: String, CustomStringConvertible, Codable {
         case enterprise = "Enterprise"
         case standard = "Standard"
@@ -390,6 +401,8 @@ extension DirectoryService {
     public struct Certificate: AWSDecodableShape {
         /// The identifier of the certificate.
         public let certificateId: String?
+        /// Provides information about the client certificate authentication settings. The default value is ClientLDAPS.
+        public let clientCertAuthSettings: ClientCertAuthSettings?
         /// The common name for the certificate.
         public let commonName: String?
         /// The date and time when the certificate will expire.
@@ -400,23 +413,29 @@ extension DirectoryService {
         public let state: CertificateState?
         /// Describes a state change for the certificate.
         public let stateReason: String?
+        /// Select ClientCertAuth for smart card integration.
+        public let type: CertificateType?
 
-        public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, registeredDateTime: Date? = nil, state: CertificateState? = nil, stateReason: String? = nil) {
+        public init(certificateId: String? = nil, clientCertAuthSettings: ClientCertAuthSettings? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, registeredDateTime: Date? = nil, state: CertificateState? = nil, stateReason: String? = nil, type: CertificateType? = nil) {
             self.certificateId = certificateId
+            self.clientCertAuthSettings = clientCertAuthSettings
             self.commonName = commonName
             self.expiryDateTime = expiryDateTime
             self.registeredDateTime = registeredDateTime
             self.state = state
             self.stateReason = stateReason
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateId = "CertificateId"
+            case clientCertAuthSettings = "ClientCertAuthSettings"
             case commonName = "CommonName"
             case expiryDateTime = "ExpiryDateTime"
             case registeredDateTime = "RegisteredDateTime"
             case state = "State"
             case stateReason = "StateReason"
+            case type = "Type"
         }
     }
 
@@ -429,12 +448,15 @@ extension DirectoryService {
         public let expiryDateTime: Date?
         /// The state of the certificate.
         public let state: CertificateState?
+        /// Displays the type of certificate.
+        public let type: CertificateType?
 
-        public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, state: CertificateState? = nil) {
+        public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, state: CertificateState? = nil, type: CertificateType? = nil) {
             self.certificateId = certificateId
             self.commonName = commonName
             self.expiryDateTime = expiryDateTime
             self.state = state
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -442,6 +464,26 @@ extension DirectoryService {
             case commonName = "CommonName"
             case expiryDateTime = "ExpiryDateTime"
             case state = "State"
+            case type = "Type"
+        }
+    }
+
+    public struct ClientCertAuthSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the URL of the default OCSP server used to check for revocation status.
+        public let oCSPUrl: String?
+
+        public init(oCSPUrl: String? = nil) {
+            self.oCSPUrl = oCSPUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.oCSPUrl, name: "oCSPUrl", parent: name, max: 1024)
+            try self.validate(self.oCSPUrl, name: "oCSPUrl", parent: name, min: 1)
+            try self.validate(self.oCSPUrl, name: "oCSPUrl", parent: name, pattern: "^(https?|ftp|file|ldaps?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;()]*[-a-zA-Z0-9+&@#/%=~_|()]")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oCSPUrl = "OCSPUrl"
         }
     }
 
@@ -1412,7 +1454,7 @@ extension DirectoryService {
     public struct DescribeRegionsResult: AWSDecodableShape {
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeRegions to retrieve the next set of items.
         public let nextToken: String?
-        /// List of regional information related to the directory per replicated Region.
+        /// List of Region information related to the directory for each replicated Region.
         public let regionsDescription: [RegionDescription]?
 
         public init(nextToken: String? = nil, regionsDescription: [RegionDescription]? = nil) {
@@ -1849,6 +1891,31 @@ extension DirectoryService {
         }
     }
 
+    public struct DisableClientAuthenticationRequest: AWSEncodableShape {
+        /// Disable client authentication in a specified directory for smart cards.
+        public let directoryId: String
+        /// Disable the type of client authentication request.
+        public let type: ClientAuthenticationType
+
+        public init(directoryId: String, type: ClientAuthenticationType) {
+            self.directoryId = directoryId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case type = "Type"
+        }
+    }
+
+    public struct DisableClientAuthenticationResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisableLDAPSRequest: AWSEncodableShape {
         /// The identifier of the directory.
         public let directoryId: String
@@ -1975,6 +2042,31 @@ extension DirectoryService {
             case subnetId = "SubnetId"
             case vpcId = "VpcId"
         }
+    }
+
+    public struct EnableClientAuthenticationRequest: AWSEncodableShape {
+        /// Enable client authentication in a specified directory for smart cards.
+        public let directoryId: String
+        /// Enable the type of client authentication request.
+        public let type: ClientAuthenticationType
+
+        public init(directoryId: String, type: ClientAuthenticationType) {
+            self.directoryId = directoryId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case type = "Type"
+        }
+    }
+
+    public struct EnableClientAuthenticationResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct EnableLDAPSRequest: AWSEncodableShape {
@@ -2554,7 +2646,7 @@ extension DirectoryService {
         public let launchTime: Date?
         /// The name of the Region. For example, us-east-1.
         public let regionName: String?
-        /// Specifies if the Region is the primary Region or an additional Region.
+        /// Specifies whether the Region is the primary Region or an additional Region.
         public let regionType: RegionType?
         /// The status of the replication process for the specified Region.
         public let status: DirectoryStage?
@@ -2590,7 +2682,7 @@ extension DirectoryService {
     public struct RegionsInfo: AWSDecodableShape {
         /// Lists the Regions where the directory has been replicated, excluding the primary Region.
         public let additionalRegions: [String]?
-        /// The Region from where the AWS Managed Microsoft AD directory was originally created.
+        /// The Region where the AWS Managed Microsoft AD directory was originally created.
         public let primaryRegion: String?
 
         public init(additionalRegions: [String]? = nil, primaryRegion: String? = nil) {
@@ -2607,23 +2699,31 @@ extension DirectoryService {
     public struct RegisterCertificateRequest: AWSEncodableShape {
         /// The certificate PEM string that needs to be registered.
         public let certificateData: String
+        public let clientCertAuthSettings: ClientCertAuthSettings?
         /// The identifier of the directory.
         public let directoryId: String
+        /// The certificate type to register for the request.
+        public let type: CertificateType?
 
-        public init(certificateData: String, directoryId: String) {
+        public init(certificateData: String, clientCertAuthSettings: ClientCertAuthSettings? = nil, directoryId: String, type: CertificateType? = nil) {
             self.certificateData = certificateData
+            self.clientCertAuthSettings = clientCertAuthSettings
             self.directoryId = directoryId
+            self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.certificateData, name: "certificateData", parent: name, max: 8192)
             try self.validate(self.certificateData, name: "certificateData", parent: name, min: 1)
+            try self.clientCertAuthSettings?.validate(name: "\(name).clientCertAuthSettings")
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateData = "CertificateData"
+            case clientCertAuthSettings = "ClientCertAuthSettings"
             case directoryId = "DirectoryId"
+            case type = "Type"
         }
     }
 

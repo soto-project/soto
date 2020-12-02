@@ -64,6 +64,11 @@ public struct SageMaker: AWSService {
 
     // MARK: API Calls
 
+    /// Creates an association between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see Amazon SageMaker ML Lineage Tracking.
+    public func addAssociation(_ input: AddAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddAssociationResponse> {
+        return self.client.execute(operation: "AddAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds or overwrites one or more tags for the specified Amazon SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more information, see AWS Tagging Strategies.  Tags that you add to a hyperparameter tuning job by calling this API are also added to any training jobs that the hyperparameter tuning job launches after you call this API, but not to training jobs that the hyperparameter tuning job launched before you called this API. To make sure that the tags associated with a hyperparameter tuning job are also added to all training jobs that the hyperparameter tuning job launches, add the tags when you first create the tuning job by specifying them in the Tags parameter of CreateHyperParameterTuningJob
     public func addTags(_ input: AddTagsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddTagsOutput> {
         return self.client.execute(operation: "AddTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -72,6 +77,11 @@ public struct SageMaker: AWSService {
     /// Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the DisassociateTrialComponent API.
     public func associateTrialComponent(_ input: AssociateTrialComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTrialComponentResponse> {
         return self.client.execute(operation: "AssociateTrialComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an action. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking.
+    public func createAction(_ input: CreateActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateActionResponse> {
+        return self.client.execute(operation: "CreateAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Create a machine learning algorithm that you can use in Amazon SageMaker and list in the AWS Marketplace.
@@ -89,6 +99,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "CreateAppImageConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an artifact. An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more information, see Amazon SageMaker ML Lineage Tracking.
+    public func createArtifact(_ input: CreateArtifactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateArtifactResponse> {
+        return self.client.execute(operation: "CreateArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an Autopilot job. Find the best performing model after you run an Autopilot job by calling . Deploy that model by following the steps described in Step 6.1: Deploy the Model to Amazon SageMaker Hosting Services. For information about how to use Autopilot, see  Automate Model Development with Amazon SageMaker Autopilot.
     public func createAutoMLJob(_ input: CreateAutoMLJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAutoMLJobResponse> {
         return self.client.execute(operation: "CreateAutoMLJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -104,7 +119,12 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "CreateCompilationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon Elastic File System (EFS) volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An AWS account is limited to one domain per region. Users within a domain can share notebook files and other artifacts with each other. When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files.  VPC configuration  All SageMaker Studio traffic between the domain and the EFS volume is through the specified VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.    VpcOnly - All Studio traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to run a Studio notebook or to train or host models unless your VPC has an interface endpoint to the SageMaker API and runtime or a NAT gateway and your security groups allow outbound connections.   For more information, see Connect SageMaker Studio Notebooks to Resources in a VPC.
+    /// Creates a context. A context is a lineage tracking entity that represents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see Amazon SageMaker ML Lineage Tracking.
+    public func createContext(_ input: CreateContextRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContextResponse> {
+        return self.client.execute(operation: "CreateContext", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon Elastic File System (EFS) volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An AWS account is limited to one domain per region. Users within a domain can share notebook files and other artifacts with each other.  EFS storage  When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker uses the AWS Key Management Service (AWS KMS) to encrypt the EFS volume attached to the domain with an AWS managed customer master key (CMK) by default. For more control, you can specify a customer managed CMK. For more information, see Protect Data at Rest Using Encryption.  VPC configuration  All SageMaker Studio traffic between the domain and the EFS volume is through the specified VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.    VpcOnly - All Studio traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to run a Studio notebook or to train or host models unless your VPC has an interface endpoint to the SageMaker API and runtime or a NAT gateway and your security groups allow outbound connections.   For more information, see Connect SageMaker Studio Notebooks to Resources in a VPC.
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainResponse> {
         return self.client.execute(operation: "CreateDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -122,6 +142,11 @@ public struct SageMaker: AWSService {
     /// Creates an SageMaker experiment. An experiment is a collection of trials that are observed, compared and evaluated as a group. A trial is a set of steps, called trial components, that produce a machine learning model. The goal of an experiment is to determine the components that produce the best model. Multiple trials are performed, each one isolating and measuring the impact of a change to one or more inputs, while keeping the remaining inputs constant. When you use Amazon SageMaker Studio or the Amazon SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to experiments, trials, trial components and then use the Search API to search for the tags. To add a description to an experiment, specify the optional Description parameter. To add a description later, or to change the description, call the UpdateExperiment API. To get a list of all your experiments, call the ListExperiments API. To view an experiment's properties, call the DescribeExperiment API. To get a list of all the trials associated with an experiment, call the ListTrials API. To create a trial call the CreateTrial API.
     public func createExperiment(_ input: CreateExperimentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateExperimentResponse> {
         return self.client.execute(operation: "CreateExperiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create a new FeatureGroup. A FeatureGroup is a group of Features defined in the FeatureStore to describe a Record.  The FeatureGroup defines the schema and features contained in the FeatureGroup. A FeatureGroup definition is composed of a list of Features, a RecordIdentifierFeatureName, an EventTimeFeatureName and configurations for its OnlineStore and OfflineStore. Check AWS service quotas to see the FeatureGroups quota for your AWS account.  You must include at least one of OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
+    public func createFeatureGroup(_ input: CreateFeatureGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFeatureGroupResponse> {
+        return self.client.execute(operation: "CreateFeatureGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a flow definition.
@@ -159,9 +184,14 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "CreateModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a model package that you can use to create Amazon SageMaker models or list on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketplace to create models in Amazon SageMaker. To create a model package by specifying a Docker container that contains your inference code and the Amazon S3 location of your model artifacts, provide values for InferenceSpecification. To create a model from an algorithm resource that you created or subscribed to in AWS Marketplace, provide a value for SourceAlgorithmSpecification.
+    /// Creates a model package that you can use to create Amazon SageMaker models or list on AWS Marketplace, or a versioned model that is part of a model group. Buyers can subscribe to model packages listed on AWS Marketplace to create models in Amazon SageMaker. To create a model package by specifying a Docker container that contains your inference code and the Amazon S3 location of your model artifacts, provide values for InferenceSpecification. To create a model from an algorithm resource that you created or subscribed to in AWS Marketplace, provide a value for SourceAlgorithmSpecification.  There are two types of model packages:   Versioned - a model that is part of a model group in the model registry.   Unversioned - a model package that is not part of a model group.
     public func createModelPackage(_ input: CreateModelPackageInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateModelPackageOutput> {
         return self.client.execute(operation: "CreateModelPackage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a model group. A model group contains a group of model versions.
+    public func createModelPackageGroup(_ input: CreateModelPackageGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateModelPackageGroupOutput> {
+        return self.client.execute(operation: "CreateModelPackageGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a schedule that regularly starts Amazon SageMaker Processing Jobs to monitor the data captured for an Amazon SageMaker Endoint.
@@ -179,6 +209,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "CreateNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a pipeline using a JSON pipeline definition.
+    public func createPipeline(_ input: CreatePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePipelineResponse> {
+        return self.client.execute(operation: "CreatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM.   The URL that you get from a call to CreatePresignedDomainUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the AWS console sign-in page.
     public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePresignedDomainUrlResponse> {
         return self.client.execute(operation: "CreatePresignedDomainUrl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -194,7 +229,12 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "CreateProcessingJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a model training job. After training completes, Amazon SageMaker saves the resulting model artifacts to an Amazon S3 location that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a machine learning service other than Amazon SageMaker, provided that you know how to use them for inferences.  In the request body, you provide the following:     AlgorithmSpecification - Identifies the training algorithm to use.     HyperParameters - Specify these algorithm-specific parameters to enable the estimation of model parameters during training. Hyperparameters can be tuned to optimize this learning process. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.     InputDataConfig - Describes the training dataset and the Amazon S3, EFS, or FSx location where it is stored.    OutputDataConfig - Identifies the Amazon S3 bucket where you want Amazon SageMaker to save the results of model training.      ResourceConfig - Identifies the resources, ML compute instances, and ML storage volumes to deploy for model training. In distributed training, you specify more than one instance.     EnableManagedSpotTraining - Optimize the cost of training machine learning models by up to 80% by using Amazon EC2 Spot instances. For more information, see Managed Spot Training.     RoleARN - The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform tasks on your behalf during model training. You must grant this role the necessary permissions so that Amazon SageMaker can successfully complete model training.     StoppingCondition - To help cap training costs, use MaxRuntimeInSeconds to set a time limit for training. Use MaxWaitTimeInSeconds to specify how long you are willing to wait for a managed spot training job to complete.     For more information about Amazon SageMaker, see How It Works.
+    /// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model.
+    public func createProject(_ input: CreateProjectInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProjectOutput> {
+        return self.client.execute(operation: "CreateProject", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a model training job. After training completes, Amazon SageMaker saves the resulting model artifacts to an Amazon S3 location that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a machine learning service other than Amazon SageMaker, provided that you know how to use them for inference.  In the request body, you provide the following:     AlgorithmSpecification - Identifies the training algorithm to use.     HyperParameters - Specify these algorithm-specific parameters to enable the estimation of model parameters during training. Hyperparameters can be tuned to optimize this learning process. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.     InputDataConfig - Describes the training dataset and the Amazon S3, EFS, or FSx location where it is stored.    OutputDataConfig - Identifies the Amazon S3 bucket where you want Amazon SageMaker to save the results of model training.      ResourceConfig - Identifies the resources, ML compute instances, and ML storage volumes to deploy for model training. In distributed training, you specify more than one instance.     EnableManagedSpotTraining - Optimize the cost of training machine learning models by up to 80% by using Amazon EC2 Spot instances. For more information, see Managed Spot Training.     RoleArn - The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform tasks on your behalf during model training. You must grant this role the necessary permissions so that Amazon SageMaker can successfully complete model training.     StoppingCondition - To help cap training costs, use MaxRuntimeInSeconds to set a time limit for training. Use MaxWaitTimeInSeconds to specify how long you are willing to wait for a managed spot training job to complete.     For more information about Amazon SageMaker, see How It Works.
     public func createTrainingJob(_ input: CreateTrainingJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrainingJobResponse> {
         return self.client.execute(operation: "CreateTrainingJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -229,6 +269,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "CreateWorkteam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes an action.
+    public func deleteAction(_ input: DeleteActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteActionResponse> {
+        return self.client.execute(operation: "DeleteAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Removes the specified algorithm from your account.
     @discardableResult public func deleteAlgorithm(_ input: DeleteAlgorithmInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAlgorithm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -244,9 +289,24 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "DeleteAppImageConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes an artifact. Either ArtifactArn or Source must be specified.
+    public func deleteArtifact(_ input: DeleteArtifactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteArtifactResponse> {
+        return self.client.execute(operation: "DeleteArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an association.
+    public func deleteAssociation(_ input: DeleteAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAssociationResponse> {
+        return self.client.execute(operation: "DeleteAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the specified Git repository from your account.
     @discardableResult public func deleteCodeRepository(_ input: DeleteCodeRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteCodeRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an context.
+    public func deleteContext(_ input: DeleteContextRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContextResponse> {
+        return self.client.execute(operation: "DeleteContext", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using SSO. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts.
@@ -267,6 +327,11 @@ public struct SageMaker: AWSService {
     /// Deletes an Amazon SageMaker experiment. All trials associated with the experiment must be deleted first. Use the ListTrials API to get a list of the trials associated with the experiment.
     public func deleteExperiment(_ input: DeleteExperimentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteExperimentResponse> {
         return self.client.execute(operation: "DeleteExperiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete the FeatureGroup and any data that was written to the OnlineStore of the FeatureGroup. Data cannot be accessed from the OnlineStore immediately after DeleteFeatureGroup is called.  Data written into the OfflineStore will not be deleted. The AWS Glue database and tables that are automatically created for your OfflineStore are not deleted.
+    @discardableResult public func deleteFeatureGroup(_ input: DeleteFeatureGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteFeatureGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified flow definition.
@@ -299,6 +364,16 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "DeleteModelPackage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the specified model group.
+    @discardableResult public func deleteModelPackageGroup(_ input: DeleteModelPackageGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteModelPackageGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a model group resource policy.
+    @discardableResult public func deleteModelPackageGroupPolicy(_ input: DeleteModelPackageGroupPolicyInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteModelPackageGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule.
     @discardableResult public func deleteMonitoringSchedule(_ input: DeleteMonitoringScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteMonitoringSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -312,6 +387,16 @@ public struct SageMaker: AWSService {
     /// Deletes a notebook instance lifecycle configuration.
     @discardableResult public func deleteNotebookInstanceLifecycleConfig(_ input: DeleteNotebookInstanceLifecycleConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a pipeline.
+    public func deletePipeline(_ input: DeletePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePipelineResponse> {
+        return self.client.execute(operation: "DeletePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete the specified project.
+    @discardableResult public func deleteProject(_ input: DeleteProjectInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteProject", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified tags from an Amazon SageMaker resource. To list a resource's tags, use the ListTags API.   When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API.
@@ -344,6 +429,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "DeleteWorkteam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes an action.
+    public func describeAction(_ input: DescribeActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeActionResponse> {
+        return self.client.execute(operation: "DescribeAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a description of the specified algorithm that is in your account.
     public func describeAlgorithm(_ input: DescribeAlgorithmInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlgorithmOutput> {
         return self.client.execute(operation: "DescribeAlgorithm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -359,6 +449,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "DescribeAppImageConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes an artifact.
+    public func describeArtifact(_ input: DescribeArtifactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeArtifactResponse> {
+        return self.client.execute(operation: "DescribeArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about an Amazon SageMaker job.
     public func describeAutoMLJob(_ input: DescribeAutoMLJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAutoMLJobResponse> {
         return self.client.execute(operation: "DescribeAutoMLJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -372,6 +467,11 @@ public struct SageMaker: AWSService {
     /// Returns information about a model compilation job. To create a model compilation job, use CreateCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
     public func describeCompilationJob(_ input: DescribeCompilationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCompilationJobResponse> {
         return self.client.execute(operation: "DescribeCompilationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes a context.
+    public func describeContext(_ input: DescribeContextRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeContextResponse> {
+        return self.client.execute(operation: "DescribeContext", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// The description of the domain.
@@ -392,6 +492,11 @@ public struct SageMaker: AWSService {
     /// Provides a list of an experiment's properties.
     public func describeExperiment(_ input: DescribeExperimentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeExperimentResponse> {
         return self.client.execute(operation: "DescribeExperiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Use this operation to describe a FeatureGroup. The response includes information on the creation time, FeatureGroup name, the unique identifier for each FeatureGroup, and more.
+    public func describeFeatureGroup(_ input: DescribeFeatureGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFeatureGroupResponse> {
+        return self.client.execute(operation: "DescribeFeatureGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about the specified flow definition.
@@ -434,6 +539,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "DescribeModelPackage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a description for the specified model group.
+    public func describeModelPackageGroup(_ input: DescribeModelPackageGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeModelPackageGroupOutput> {
+        return self.client.execute(operation: "DescribeModelPackageGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes the schedule for a monitoring job.
     public func describeMonitoringSchedule(_ input: DescribeMonitoringScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMonitoringScheduleResponse> {
         return self.client.execute(operation: "DescribeMonitoringSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -449,9 +559,29 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "DescribeNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes the details of a pipeline.
+    public func describePipeline(_ input: DescribePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePipelineResponse> {
+        return self.client.execute(operation: "DescribePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the details of an execution's pipeline definition.
+    public func describePipelineDefinitionForExecution(_ input: DescribePipelineDefinitionForExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePipelineDefinitionForExecutionResponse> {
+        return self.client.execute(operation: "DescribePipelineDefinitionForExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the details of a pipeline execution.
+    public func describePipelineExecution(_ input: DescribePipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePipelineExecutionResponse> {
+        return self.client.execute(operation: "DescribePipelineExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a description of a processing job.
     public func describeProcessingJob(_ input: DescribeProcessingJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProcessingJobResponse> {
         return self.client.execute(operation: "DescribeProcessingJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the details of a project.
+    public func describeProject(_ input: DescribeProjectInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProjectOutput> {
+        return self.client.execute(operation: "DescribeProject", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the AWS Marketplace.
@@ -494,14 +624,39 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "DescribeWorkteam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
+    public func disableSagemakerServicecatalogPortfolio(_ input: DisableSagemakerServicecatalogPortfolioInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableSagemakerServicecatalogPortfolioOutput> {
+        return self.client.execute(operation: "DisableSagemakerServicecatalogPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disassociates a trial component from a trial. This doesn't effect other trials the component is associated with. Before you can delete a component, you must disassociate the component from all trials it is associated with. To associate a trial component with a trial, call the AssociateTrialComponent API. To get a list of the trials a component is associated with, use the Search API. Specify ExperimentTrialComponent for the Resource parameter. The list appears in the response under Results.TrialComponent.Parents.
     public func disassociateTrialComponent(_ input: DisassociateTrialComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateTrialComponentResponse> {
         return self.client.execute(operation: "DisassociateTrialComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Enables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
+    public func enableSagemakerServicecatalogPortfolio(_ input: EnableSagemakerServicecatalogPortfolioInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableSagemakerServicecatalogPortfolioOutput> {
+        return self.client.execute(operation: "EnableSagemakerServicecatalogPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a resource policy that manages access for a model group. For information about resource policies, see Identity-based policies and resource-based policies in the AWS Identity and Access Management User Guide..
+    public func getModelPackageGroupPolicy(_ input: GetModelPackageGroupPolicyInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetModelPackageGroupPolicyOutput> {
+        return self.client.execute(operation: "GetModelPackageGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
+    public func getSagemakerServicecatalogPortfolioStatus(_ input: GetSagemakerServicecatalogPortfolioStatusInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSagemakerServicecatalogPortfolioStatusOutput> {
+        return self.client.execute(operation: "GetSagemakerServicecatalogPortfolioStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// An auto-complete API for the search functionality in the Amazon SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
     public func getSearchSuggestions(_ input: GetSearchSuggestionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSearchSuggestionsResponse> {
         return self.client.execute(operation: "GetSearchSuggestions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the actions in your account and their properties.
+    public func listActions(_ input: ListActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListActionsResponse> {
+        return self.client.execute(operation: "ListActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the machine learning algorithms that have been created.
@@ -517,6 +672,16 @@ public struct SageMaker: AWSService {
     /// Lists apps.
     public func listApps(_ input: ListAppsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppsResponse> {
         return self.client.execute(operation: "ListApps", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the artifacts in your account and their properties.
+    public func listArtifacts(_ input: ListArtifactsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListArtifactsResponse> {
+        return self.client.execute(operation: "ListArtifacts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the associations in your account and their properties.
+    public func listAssociations(_ input: ListAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociationsResponse> {
+        return self.client.execute(operation: "ListAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Request a list of jobs.
@@ -539,6 +704,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "ListCompilationJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the contexts in your account and their properties.
+    public func listContexts(_ input: ListContextsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContextsResponse> {
+        return self.client.execute(operation: "ListContexts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the domains.
     public func listDomains(_ input: ListDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainsResponse> {
         return self.client.execute(operation: "ListDomains", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -557,6 +727,11 @@ public struct SageMaker: AWSService {
     /// Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
     public func listExperiments(_ input: ListExperimentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExperimentsResponse> {
         return self.client.execute(operation: "ListExperiments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List FeatureGroups based on given filter and order.
+    public func listFeatureGroups(_ input: ListFeatureGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFeatureGroupsResponse> {
+        return self.client.execute(operation: "ListFeatureGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about the flow definitions in your account.
@@ -594,6 +769,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "ListLabelingJobsForWorkteam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a list of the model groups in your AWS account.
+    public func listModelPackageGroups(_ input: ListModelPackageGroupsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListModelPackageGroupsOutput> {
+        return self.client.execute(operation: "ListModelPackageGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the model packages that have been created.
     public func listModelPackages(_ input: ListModelPackagesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListModelPackagesOutput> {
         return self.client.execute(operation: "ListModelPackages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -624,9 +804,34 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "ListNotebookInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a list of PipeLineExecutionStep objects.
+    public func listPipelineExecutionSteps(_ input: ListPipelineExecutionStepsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPipelineExecutionStepsResponse> {
+        return self.client.execute(operation: "ListPipelineExecutionSteps", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a list of the pipeline executions.
+    public func listPipelineExecutions(_ input: ListPipelineExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPipelineExecutionsResponse> {
+        return self.client.execute(operation: "ListPipelineExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a list of parameters for a pipeline execution.
+    public func listPipelineParametersForExecution(_ input: ListPipelineParametersForExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPipelineParametersForExecutionResponse> {
+        return self.client.execute(operation: "ListPipelineParametersForExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a list of pipelines.
+    public func listPipelines(_ input: ListPipelinesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPipelinesResponse> {
+        return self.client.execute(operation: "ListPipelines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists processing jobs that satisfy various filters.
     public func listProcessingJobs(_ input: ListProcessingJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProcessingJobsResponse> {
         return self.client.execute(operation: "ListProcessingJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a list of the projects in an AWS account.
+    public func listProjects(_ input: ListProjectsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProjectsOutput> {
+        return self.client.execute(operation: "ListProjects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets a list of the work teams that you are subscribed to in the AWS Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
@@ -679,6 +884,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "ListWorkteams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Adds a resouce policy to control access to a model group. For information about resoure policies, see Identity-based policies and resource-based policies in the AWS Identity and Access Management User Guide..
+    public func putModelPackageGroupPolicy(_ input: PutModelPackageGroupPolicyInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutModelPackageGroupPolicyOutput> {
+        return self.client.execute(operation: "PutModelPackageGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Renders the UI template so that you can preview the worker's experience.
     public func renderUiTemplate(_ input: RenderUiTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RenderUiTemplateResponse> {
         return self.client.execute(operation: "RenderUiTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -697,6 +907,11 @@ public struct SageMaker: AWSService {
     /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, Amazon SageMaker sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook.
     @discardableResult public func startNotebookInstance(_ input: StartNotebookInstanceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "StartNotebookInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a pipeline execution.
+    public func startPipelineExecution(_ input: StartPipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartPipelineExecutionResponse> {
+        return self.client.execute(operation: "StartPipelineExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// A method for forcing the termination of a running job.
@@ -729,6 +944,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "StopNotebookInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Stops a pipeline execution.
+    public func stopPipelineExecution(_ input: StopPipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopPipelineExecutionResponse> {
+        return self.client.execute(operation: "StopPipelineExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Stops a processing job.
     @discardableResult public func stopProcessingJob(_ input: StopProcessingJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "StopProcessingJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -744,14 +964,29 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "StopTransformJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates an action.
+    public func updateAction(_ input: UpdateActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateActionResponse> {
+        return self.client.execute(operation: "UpdateAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the properties of an AppImageConfig.
     public func updateAppImageConfig(_ input: UpdateAppImageConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppImageConfigResponse> {
         return self.client.execute(operation: "UpdateAppImageConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates an artifact.
+    public func updateArtifact(_ input: UpdateArtifactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateArtifactResponse> {
+        return self.client.execute(operation: "UpdateArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the specified Git repository with the specified values.
     public func updateCodeRepository(_ input: UpdateCodeRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCodeRepositoryOutput> {
         return self.client.execute(operation: "UpdateCodeRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a context.
+    public func updateContext(_ input: UpdateContextRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContextResponse> {
+        return self.client.execute(operation: "UpdateContext", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the default settings for new user profiles in the domain.
@@ -779,6 +1014,11 @@ public struct SageMaker: AWSService {
         return self.client.execute(operation: "UpdateImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates a versioned model.
+    public func updateModelPackage(_ input: UpdateModelPackageInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateModelPackageOutput> {
+        return self.client.execute(operation: "UpdateModelPackage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates a previously created schedule.
     public func updateMonitoringSchedule(_ input: UpdateMonitoringScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMonitoringScheduleResponse> {
         return self.client.execute(operation: "UpdateMonitoringSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -792,6 +1032,16 @@ public struct SageMaker: AWSService {
     /// Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.
     public func updateNotebookInstanceLifecycleConfig(_ input: UpdateNotebookInstanceLifecycleConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNotebookInstanceLifecycleConfigOutput> {
         return self.client.execute(operation: "UpdateNotebookInstanceLifecycleConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a pipeline.
+    public func updatePipeline(_ input: UpdatePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePipelineResponse> {
+        return self.client.execute(operation: "UpdatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a pipeline execution.
+    public func updatePipelineExecution(_ input: UpdatePipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePipelineExecutionResponse> {
+        return self.client.execute(operation: "UpdatePipelineExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the display name of a trial.
