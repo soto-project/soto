@@ -118,6 +118,8 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 
 ## Documentation
 
+### API Reference
+
 Visit the Soto [documentation](https://soto.codes) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
 
 ### User guides
