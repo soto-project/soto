@@ -55,8 +55,8 @@ Soto works on Linux, macOS and iOS. Version 4 and later is dependent on version 
 | Version | Swift | MacOS | iOS    | Linux              | Vapor  |
 |---------|-------|-------|--------|--------------------|--------|
 | 3.x     | 4.2 - | ✓     |        | Ubuntu 14.04-18.04 | 3.0    |
-| 4.x     | 5.0 - | ✓     | 12.0 - | Ubuntu 14.04-18.04 | 4.0    |
-| 5.x     | 5.1 - | ✓     | 12.0 - | Ubuntu 14.04-18.04 | 4.0    |
+| 4.x     | 5.0 - | ✓     | 12.0 - | Ubuntu 14.04-20.04 | 4.0    |
+| 5.x     | 5.1 - | ✓     | 12.0 - | Ubuntu 14.04-20.04 | 4.0    |
 
 ## Configuring Credentials
 
@@ -67,11 +67,11 @@ Before using the SDK, you will need AWS credentials to sign all your requests. C
 - Shared credentials file in your home directory
 - Static credentials provided at runtime
 
-You can find out more about credential providers [here](documentation/Credential%20Providers.md)
+You can find out more about credential providers [here](https://soto.codes/user-guides/credential-providers.html)
 
 ## Using Soto
 
-Soto modules can be imported into any swift project. Each module provides a service struct that can be initialized with a `AWSClient`, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services. More can be found out about `AWSClient` and the service objects [here](documentation/AWSClient%20and%20Services.md).
+Soto modules can be imported into any swift project. Each module provides a service struct that can be initialized with a `AWSClient`, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services. More can be found out about `AWSClient` [here](https://soto.codes/user-guides/awsclient.html) and the AWS service objects [here](https://soto.codes/user-guides/service-objects.html).
 
 Each Soto command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of Soto.
 
@@ -118,20 +118,21 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 
 ## Documentation
 
-Visit the Soto [documentation](https://soto-project.github.io/soto/index.html) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
+Visit the Soto [documentation](https://soto.codes) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
 
 ### User guides
 
 Additional user guides for specific elements of Soto are available
 
-- [Upgrading to Soto v5](documentation/Upgrading%20to%20v5.md)
-- [AWSClient and Service Objects](documentation/AWSClient%20and%20Services.md)
-- [Credential Providers](documentation/Credential%20Providers.md)
-- [Error Handling](documentation/Error%20Handling.md)
-- [Streaming Payloads](documentation/Streaming%20Payloads.md)
-- [DynamoDB and Codable](documentation/DynamoDB%20and%20Codable.md)
-- [S3 Multipart Upload](documentation/S3%20Multipart%20Upload.md)
-- [Using Soto with Vapor 4](documentation/Using%20Soto%20with%20Vapor.md)
+- [Upgrading to Soto v5](https://soto.codes/2020/12/upgrading-to-v5.html)
+- [AWSClient](https://soto.codes/user-guides/awsclient.html)
+- [AWS Service Objects](https://soto.codes/user-guides/service-objects.html)
+- [Credential Providers](https://soto.codes/user-guides/credential-providers.html)
+- [Error Handling](https://soto.codes/user-guides/error-handling.html)
+- [Streaming Payloads](https://soto.codes/user-guides/streaming-payloads.html)
+- [DynamoDB and Codable](https://soto.codes/user-guides/dynamodb-and-codable.html)
+- [S3 Multipart Upload](https://soto.codes/user-guides/s3-multipart-upload.html)
+- [Using Soto with Vapor 4](https://soto.codes/user-guides/using-soto-with-vapor.html)
 
 ## Contributing
 
