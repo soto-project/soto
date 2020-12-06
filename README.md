@@ -50,13 +50,13 @@ Alternatively if you are using Xcode 11 or later you can use the Swift Package M
 
 ## Compatibility
 
-Soto works on Linux, macOS and iOS. Version 4 and later is dependent on version 2 of [swift-nio](https://github.com/apple/swift-nio). Libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 or later of Soto. In this case Version 3 can be used. For example Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of Soto with Vapor 3. Below is a compatibility table for versions 3 and 4 of Soto.
+Soto works on Linux, macOS and iOS. It requires v2.0 of [Swift NIO](https://github.com/apple/swift-nio). If you use v1.0 of Swift NIO then you will need to use v3.5 of Soto. Below is a compatibility table for different Soto versions.
 
 | Version | Swift | MacOS | iOS    | Linux              | Vapor  |
 |---------|-------|-------|--------|--------------------|--------|
-| 3.x     | 4.2 - | ✓     |        | Ubuntu 14.04-18.04 | 3.0    |
-| 4.x     | 5.0 - | ✓     | 12.0 - | Ubuntu 14.04-20.04 | 4.0    |
 | 5.x     | 5.1 - | ✓     | 12.0 - | Ubuntu 14.04-20.04 | 4.0    |
+| 4.x     | 5.0 - | ✓     | 12.0 - | Ubuntu 14.04-20.04 | 4.0    |
+| 3.x     | 4.2 - | ✓     |        | Ubuntu 14.04-18.04 | 3.0    |
 
 ## Configuring Credentials
 
@@ -71,9 +71,9 @@ You can find out more about credential providers [here](https://soto.codes/user-
 
 ## Using Soto
 
-Soto modules can be imported into any swift project. Each module provides a service struct that can be initialized with a `AWSClient`, AWS region, and some configuration options. This struct contains the instance methods that correspond to the AWS service REST apis. See [documentation](#documentation) for details on specific services. More can be found out about `AWSClient` [here](https://soto.codes/user-guides/awsclient.html) and the AWS service objects [here](https://soto.codes/user-guides/service-objects.html).
+To use Soto you need to create an `AWSClient` and a service object for the AWS service you want to work with. The `AWSClient` provides all the communication with AWS and the service object provides the configuration and APIs for communicating with a specific AWS service. More can be found out about `AWSClient` [here](https://soto.codes/user-guides/awsclient.html) and the AWS service objects [here](https://soto.codes/user-guides/service-objects.html).
 
-Each Soto command returns a [swift-nio](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the swift-nio [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of Soto.
+Each Soto command returns a [Swift NIO](https://github.com/apple/swift-nio) `EventLoopFuture`. An `EventLoopFuture` _is not_ the response of the command, but rather a container object that will be populated with the response at a later point. In this manner calls to AWS do not block the main thread. It is recommended you familiarise yourself with the Swift NIO [documentation](https://apple.github.io/swift-nio/docs/current/NIO/), specifically [EventLoopFuture](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html) if you want to take full advantage of Soto.
 
 The recommended manner to interact with `EventLoopFutures` is chaining. The following function returns an `EventLoopFuture` that creates an S3 bucket, puts a file in the bucket, reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next.
 
@@ -120,7 +120,7 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 
 ### API Reference
 
-Visit the Soto [documentation](https://soto.codes) to browse the api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
+Visit [soto.codes](https://soto.codes) to browse the user guides and api reference. As there is a one-to-one correspondence with AWS REST api calls and the Soto api calls, you can also use the official AWS [documentation](https://docs.aws.amazon.com/) for more detailed information about AWS commands.
 
 ### User guides
 
