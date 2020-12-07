@@ -27,18 +27,17 @@ custom_categories:
   - name: SotoCore
     children:
       - AWSClient
-      - AWSShape
-      - AWSDecodableShape
-      - AWSEncodableShape
-      - AWSShapeWithPayload
       - AWSPayload
       - AWSRequest
       - AWSResponse
       - AWSErrorType
       - AWSServiceMiddleware
       - AWSLoggingMiddleware
-      - Region
-      - XML
+      - CredentialProvider
+      - CredentialProviderFactory
+      - DeferredCredentialProvider
+      - RotatingCredentialProvider
+      - RetryPolicy
 {% for service in services %}
   - name: {{service}}
     children:
