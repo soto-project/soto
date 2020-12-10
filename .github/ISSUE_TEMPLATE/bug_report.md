@@ -19,8 +19,8 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Setup (please complete the following information):**
- - OS: [e.g. iOS]
- - Version of aws-sdk-swift [e.g. 3.0]
+ - OS:
+ - Version of soto:
  - Authentication mechanism [hard-coded credentials, IAM Instance Profile on EC2, etc]
 
 **Additional context**
