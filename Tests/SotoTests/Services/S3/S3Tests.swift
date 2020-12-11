@@ -144,7 +144,7 @@ class S3Tests: XCTestCase {
 
     func testPutGetObjectWithSpecialName() {
         let name = TestEnvironment.generateResourceName()
-        let filename = "test $filé+!@£$%^&*()_=-[]{}\\|';:\",./?><~`.txt"
+        let filename = "test $filé+!@£$%2F%^&*()_=-[]{}\\|';:\",./?><~`.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
         let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
@@ -497,6 +497,38 @@ class S3Tests: XCTestCase {
             }
             .flatAlways { _ in
                 return Self.deleteBucket(name: name, s3: s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testSignedURL() {
+        let name = TestEnvironment.generateResourceName()
+        let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        defer { XCTAssertNoThrow(try httpClient.syncShutdown()) }
+        let s3Url = URL(string: "https://\(name).s3.us-east-1.amazonaws.com/\(name).txt")!
+
+        let response = Self.createBucket(name: name, s3: Self.s3)
+            .flatMap { _ -> EventLoopFuture<URL> in
+                Self.s3.signURL(url: s3Url, httpMethod: .PUT, expires: .minutes(5))
+            }
+            .flatMap { url -> EventLoopFuture<HTTPClient.Response> in
+                let buffer = ByteBufferAllocator().buffer(string: "Testing upload via signed URL")
+                return httpClient.put(url: url.absoluteString, body: .byteBuffer(buffer), deadline: .now() + .minutes(5))
+            }
+            .map { response -> Void in
+                XCTAssertEqual(response.status, .ok)
+            }
+            .flatMap { _ -> EventLoopFuture<URL> in
+                Self.s3.signURL(url: s3Url, httpMethod: .GET, expires: .minutes(5))
+            }
+            .flatMap { url -> EventLoopFuture<HTTPClient.Response> in
+                httpClient.get(url: url.absoluteString)
+            }
+            .flatMapThrowing { response -> Void in
+                XCTAssertEqual(response.status, .ok)
+                var buffer = try XCTUnwrap(response.body)
+                let bufferString = buffer.readString(length: buffer.readableBytes)
+                XCTAssertEqual(bufferString, "Testing upload via signed URL")
             }
         XCTAssertNoThrow(try response.wait())
     }
