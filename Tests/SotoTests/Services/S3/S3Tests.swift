@@ -530,6 +530,9 @@ class S3Tests: XCTestCase {
                 let bufferString = buffer.readString(length: buffer.readableBytes)
                 XCTAssertEqual(bufferString, "Testing upload via signed URL")
             }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
         XCTAssertNoThrow(try response.wait())
     }
 
