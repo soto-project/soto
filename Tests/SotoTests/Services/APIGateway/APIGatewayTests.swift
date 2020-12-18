@@ -141,7 +141,7 @@ class APIGatewayTests: XCTestCase {
                 }
                 // get resource
                 .flatMap { resourceId -> EventLoopFuture<APIGateway.Resource> in
-                    let request = APIGateway.GetResourceRequest(resourceId: resourceId, restApiId: id)
+                    let request = APIGateway.GetResourceRequest(embed: ["orange", "apple", "star*"], resourceId: resourceId, restApiId: id)
                     return Self.apiGateway.getResource(request, logger: TestEnvironment.logger)
                 }
                 // verify resource is correct
@@ -150,6 +150,22 @@ class APIGatewayTests: XCTestCase {
                 }
         }
         XCTAssertNoThrow(try response.wait())
+    }
+
+    func testPathWithSpecialCharacters() {
+        let request = APIGateway.GetResourcesRequest(restApiId: "Test+%/*%25")
+        let response = Self.apiGateway.getResources(request, logger: TestEnvironment.logger).map { _ in }
+
+        XCTAssertThrowsError(try response.wait()) { error in
+            switch error {
+            case let error as AWSClientError where error == .invalidSignature:
+                XCTFail()
+            case let error as APIGatewayErrorType where error == .notFoundException:
+                XCTAssertEqual(error.message, "Invalid API identifier specified 931875313149:Test+%/*%25")
+            default:
+                break
+            }
+        }
     }
 
     func testError() {

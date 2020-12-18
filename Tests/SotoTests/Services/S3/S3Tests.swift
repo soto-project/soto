@@ -505,7 +505,7 @@ class S3Tests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
         defer { XCTAssertNoThrow(try httpClient.syncShutdown()) }
-        let s3Url = URL(string: "https://\(name).s3.us-east-1.amazonaws.com/\(name).txt")!
+        let s3Url = URL(string: "https://\(name).s3.us-east-1.amazonaws.com/\(name)!=%25+/*()_.txt")!
 
         let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { _ -> EventLoopFuture<URL> in
@@ -515,11 +515,13 @@ class S3Tests: XCTestCase {
                 let buffer = ByteBufferAllocator().buffer(string: "Testing upload via signed URL")
                 return httpClient.put(url: url.absoluteString, body: .byteBuffer(buffer), deadline: .now() + .minutes(5))
             }
-            .map { response -> Void in
+            .flatMap { response -> EventLoopFuture<S3.ListObjectsV2Output> in
                 XCTAssertEqual(response.status, .ok)
+                return Self.s3.listObjectsV2(.init(bucket: name))
             }
-            .flatMap { _ -> EventLoopFuture<URL> in
-                Self.s3.signURL(url: s3Url, httpMethod: .GET, expires: .minutes(5))
+            .flatMap { response -> EventLoopFuture<URL> in
+                XCTAssertEqual(response.contents?.first?.key, "\(name)!=%+/*()_.txt")
+                return Self.s3.signURL(url: s3Url, httpMethod: .GET, expires: .minutes(5))
             }
             .flatMap { url -> EventLoopFuture<HTTPClient.Response> in
                 httpClient.get(url: url.absoluteString)
