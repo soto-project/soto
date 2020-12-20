@@ -14,6 +14,8 @@
 
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
+import struct Foundation.UUID
+import NIO
 import SotoCore
 
 /// Credential Provider that holds an AWSClient
@@ -38,6 +40,7 @@ extension CredentialProviderWithClient {
 }
 
 extension STS {
+    /// Enumeration for provided a Request structure to a credential provider
     enum RequestProvider<Request> {
         case `static`(Request)
         case dynamic((EventLoop) -> EventLoopFuture<Request>)
@@ -52,6 +55,7 @@ extension STS {
         }
     }
 
+    /// Credential Provider using `AssumeRole` to provide credentials
     struct AssumeRoleCredentialProvider: CredentialProviderWithClient {
         let requestProvider: RequestProvider<STS.AssumeRoleRequest>
         let client: AWSClient
@@ -83,6 +87,7 @@ extension STS {
         }
     }
 
+    /// Credential Provider using `AssumeRoleWithSAML` to provide credentials
     struct AssumeRoleWithSAMLCredentialProvider: CredentialProviderWithClient {
         let requestProvider: RequestProvider<STS.AssumeRoleWithSAMLRequest>
         let client: AWSClient
@@ -109,6 +114,7 @@ extension STS {
         }
     }
 
+    /// Credential Provider using `AssumeRoleWebIdentity` to provide credentials
     struct AssumeRoleWithWebIdentityCredentialProvider: CredentialProviderWithClient {
         let requestProvider: RequestProvider<STS.AssumeRoleWithWebIdentityRequest>
         let client: AWSClient
@@ -132,6 +138,79 @@ extension STS {
                     expiration: credentials.expiration
                 )
             }
+        }
+    }
+
+    /// Credential Provider using `AssumeRoleWebIdentity` to provide credentials. Uses environment variables to setup request structure. Used
+    /// by Amazon EKS Clusters.
+    struct AssumeRoleWithWebIdentityTokenFileCredentialProvider: CredentialProvider {
+        let tokenPromise: EventLoopPromise<STS.AssumeRoleWithWebIdentityRequest>
+        let webIdentityProvider: AssumeRoleWithWebIdentityCredentialProvider
+
+        init?(region: Region, context: CredentialProviderFactory.Context) {
+            guard let tokenFile = Environment["AWS_WEB_IDENTITY_TOKEN_FILE"] else { return nil }
+            guard let roleArn = Environment["AWS_ROLE_ARN"] else { return nil }
+            let sessionName = Environment["AWS_ROLE_SESSION_NAME"]
+
+            let tokenPromise = context.eventLoop.makePromise(of: STS.AssumeRoleWithWebIdentityRequest.self)
+            _ = Self.loadTokenFile(tokenFile, on: context.eventLoop).map { token in
+                let request = STS.AssumeRoleWithWebIdentityRequest(
+                    roleArn: roleArn,
+                    roleSessionName: sessionName ?? UUID().uuidString,
+                    webIdentityToken: token
+                )
+                tokenPromise.succeed(request)
+            }
+            self.tokenPromise = tokenPromise
+            self.webIdentityProvider = AssumeRoleWithWebIdentityCredentialProvider(
+                requestProvider: .dynamic { eventLoop in
+                    return tokenPromise.futureResult.hop(to: eventLoop)
+                },
+                region: region,
+                httpClient: context.httpClient
+            )
+        }
+
+        func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
+            return tokenPromise.futureResult.flatMap { _ in
+                webIdentityProvider.shutdown(on: eventLoop)
+            }
+        }
+
+        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
+            return webIdentityProvider.getCredential(on: eventLoop, logger: logger)
+        }
+
+        static func loadTokenFile(_ tokenFile: String, on eventLoop: EventLoop) -> EventLoopFuture<String> {
+            let threadPool = NIOThreadPool(numberOfThreads: 1)
+            threadPool.start()
+            let fileIO = NonBlockingFileIO(threadPool: threadPool)
+
+            return loadFile(path: tokenFile, on: eventLoop, using: fileIO).map { byteBuffer in
+                var byteBuffer = byteBuffer
+                return byteBuffer.readString(length: byteBuffer.readableBytes) ?? ""
+            }
+            .always { _ in
+                // shutdown the threadpool async
+                threadPool.shutdownGracefully { _ in }
+            }
+        }
+
+        /// Load a file from disk without blocking the current thread
+        /// - Returns: Event loop future with file contents in a byte-buffer
+        static func loadFile(path: String, on eventLoop: EventLoop, using fileIO: NonBlockingFileIO) -> EventLoopFuture<ByteBuffer> {
+            return fileIO.openFile(path: path, eventLoop: eventLoop)
+                .flatMap { handle, region in
+                    fileIO.read(fileRegion: region, allocator: ByteBufferAllocator(), eventLoop: eventLoop)
+                        .flatMapErrorThrowing { error in
+                            try? handle.close()
+                            throw error
+                        }
+                        .flatMapThrowing { byteBuffer in
+                            try handle.close()
+                            return byteBuffer
+                        }
+                }
         }
     }
 
@@ -277,6 +356,23 @@ extension CredentialProviderFactory {
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(requestProvider: .dynamic(requestProvider), region: region, httpClient: context.httpClient)
+            return RotatingCredentialProvider(context: context, provider: provider)
+        }
+    }
+
+    /// Use AssumeRoleWithWebIdentity to provide credentials for EKS clusters. Uses environment variables `AWS_WEB_IDENTITY_TOKEN_FILE`,
+    /// `AWS_ROLE_ARN`, and `AWS_ROLE_SESSION_NAME`. The web identity token can be found in the file pointed to by `AWS_WEB_IDENTITY_TOKEN_FILE`.
+    /// See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts-technical-overview.html#pod-configuration
+    ///
+    /// - Parameters:
+    ///   - region: Region to run request in
+    public static func stsWebIdentityTokenFile(
+        region: Region
+    ) -> CredentialProviderFactory {
+        .custom { context in
+            guard let provider = STS.AssumeRoleWithWebIdentityTokenFileCredentialProvider(region: region, context: context) else {
+                return NullCredentialProvider()
+            }
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
