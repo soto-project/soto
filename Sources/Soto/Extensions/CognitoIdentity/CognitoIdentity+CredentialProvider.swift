@@ -111,7 +111,8 @@ extension CredentialProviderFactory {
     /// Use CognitoIdentity GetId and GetCredentialsForIdentity to provide credentials
     /// - Parameters:
     ///   - identityPoolId: Identity pool to get identity from
-    ///   - logins: Optional tokens for authenticating login
+    ///   - userPoolId: User pool used as identity provider
+    ///   - idToken: Cognito Id Token
     ///   - region: Region where we can find the identity pool
     public static func cognitoUserPoolIdentity(
         identityPoolId: String,
