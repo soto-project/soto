@@ -107,4 +107,29 @@ extension CredentialProviderFactory {
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
-}
+
+    /// Use CognitoIdentity GetId and GetCredentialsForIdentity to provide credentials
+    /// - Parameters:
+    ///   - identityPoolId: Identity pool to get identity from
+    ///   - logins: Optional tokens for authenticating login
+    ///   - region: Region where we can find the identity pool
+    public static func cognitoUserPoolIdentity(
+        identityPoolId: String,
+        userPoolId: String,
+        idToken: String,
+        region: Region,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> CredentialProviderFactory {
+        .custom { context in
+            let identityProvider = "cognito-idp.\(region.rawValue).amazonaws.com/\(userPoolId)"
+            let provider = CognitoIdentity.IdentityCredentialProvider(
+                identityPoolId: identityPoolId,
+                logins: [identityProvider: idToken],
+                region: region,
+                httpClient: context.httpClient,
+                logger: logger,
+                eventLoop: context.eventLoop
+            )
+            return RotatingCredentialProvider(context: context, provider: provider)
+        }
+    }}
