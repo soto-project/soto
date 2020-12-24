@@ -19,14 +19,14 @@ import SotoCore
 
 extension CognitoIdentity {
     struct IdentityCredentialProvider: CredentialProvider {
-        let logins: [String: String]?
         let client: AWSClient
         let cognitoIdentity: CognitoIdentity
-        let idPromise: EventLoopPromise<String>
+        let identityProvider: IdentityProvider
+        let identityPoolId: String
 
         init(
             identityPoolId: String,
-            logins: [String: String]?,
+            identityProvider: IdentityProviderFactory,
             region: Region,
             httpClient: AWSHTTPClient,
             logger: Logger = AWSClient.loggingDisabled,
@@ -34,20 +34,13 @@ extension CognitoIdentity {
         ) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient), logger: logger)
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
-            self.logins = logins
-            self.idPromise = eventLoop.makePromise(of: String.self)
-
-            // only getId once and store in promise
-            let request = CognitoIdentity.GetIdInput(identityPoolId: identityPoolId, logins: logins)
-            cognitoIdentity.getId(request, logger: logger, on: eventLoop).flatMapThrowing { response -> String in
-                guard let identityId = response.identityId else { throw CredentialProviderError.noProvider }
-                return identityId
-            }.cascade(to: idPromise)
+            self.identityPoolId = identityPoolId
+            self.identityProvider = identityProvider.createProvider(context: .init(cognitoIdentity: cognitoIdentity, identityPoolId: identityPoolId))
         }
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
-            return self.idPromise.futureResult.flatMap { identityId -> EventLoopFuture<GetCredentialsForIdentityResponse> in
-                let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identityId, logins: self.logins)
+            return self.identityProvider.getIdentity(on: eventLoop, logger: logger).flatMap { identity -> EventLoopFuture<GetCredentialsForIdentityResponse> in
+                let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identity.id, logins: identity.logins)
                 return self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest, logger: logger, on: eventLoop)
             }
             .flatMapThrowing { response in
@@ -98,7 +91,7 @@ extension CredentialProviderFactory {
         .custom { context in
             let provider = CognitoIdentity.IdentityCredentialProvider(
                 identityPoolId: identityPoolId,
-                logins: logins,
+                identityProvider: .default(logins: logins),
                 region: region,
                 httpClient: context.httpClient,
                 logger: logger,
@@ -111,21 +104,18 @@ extension CredentialProviderFactory {
     /// Use CognitoIdentity GetId and GetCredentialsForIdentity to provide credentials
     /// - Parameters:
     ///   - identityPoolId: Identity pool to get identity from
-    ///   - userPoolId: User pool used as identity provider
-    ///   - idToken: Cognito Id Token
+    ///   - logins: Optional tokens for authenticating login
     ///   - region: Region where we can find the identity pool
-    public static func cognitoUserPoolIdentity(
+    public static func cognitoIdentity(
         identityPoolId: String,
-        userPoolId: String,
-        idToken: String,
+        identityProvider: IdentityProviderFactory,
         region: Region,
         logger: Logger = AWSClient.loggingDisabled
     ) -> CredentialProviderFactory {
         .custom { context in
-            let identityProvider = "cognito-idp.\(region.rawValue).amazonaws.com/\(userPoolId)"
             let provider = CognitoIdentity.IdentityCredentialProvider(
                 identityPoolId: identityPoolId,
-                logins: [identityProvider: idToken],
+                identityProvider: identityProvider,
                 region: region,
                 httpClient: context.httpClient,
                 logger: logger,
@@ -133,4 +123,5 @@ extension CredentialProviderFactory {
             )
             return RotatingCredentialProvider(context: context, provider: provider)
         }
-    }}
+    }
+}
