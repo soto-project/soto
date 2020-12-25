@@ -62,7 +62,12 @@ extension CognitoIdentity {
         }
 
         func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            // shutdown AWSClient
+            identityProvider.shutdown(on: eventLoop)
+                .flatMapError { _ in eventLoop.makeSucceededFuture(()) }
+                .flatMap { _ in self.shutdownAWSClient(on: eventLoop) }
+        }
+
+        func shutdownAWSClient(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
             let promise = eventLoop.makePromise(of: Void.self)
             client.shutdown { error in
                 if let error = error {
@@ -91,7 +96,7 @@ extension CredentialProviderFactory {
         .custom { context in
             let provider = CognitoIdentity.IdentityCredentialProvider(
                 identityPoolId: identityPoolId,
-                identityProvider: .default(logins: logins),
+                identityProvider: .static(logins: logins),
                 region: region,
                 httpClient: context.httpClient,
                 logger: logger,

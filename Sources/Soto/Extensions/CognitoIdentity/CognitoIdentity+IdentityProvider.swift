@@ -17,6 +17,13 @@ import NIO
 
 public protocol IdentityProvider {
     func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<CognitoIdentity.IdentityParams>
+    func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void>
+}
+
+extension IdentityProvider {
+    public func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
+        return eventLoop.makeSucceededFuture(())
+    }
 }
 
 extension CognitoIdentity {
@@ -25,7 +32,7 @@ extension CognitoIdentity {
         let logins: [String: String]?
     }
 
-    struct DefaultIdentityProvider: IdentityProvider {
+    struct StaticIdentityProvider: IdentityProvider {
         let identityPoolId: String
         let logins: [String: String]?
         let cognitoIdentity: CognitoIdentity
@@ -60,14 +67,15 @@ public struct IdentityProviderFactory {
 }
 
 extension IdentityProviderFactory {
-    /// Use this method to initialize your custom `IdentityProvider`
+    /// Create your owncustom `IdentityProvider` given the IdentityProvider Context
     public static func custom(_ factory: @escaping (Context) -> IdentityProvider) -> Self {
         Self(cb: factory)
     }
 
-    static func `default`(logins: [String: String]?) -> Self {
+    /// Create `StaticIdentityProvider` which attempts to use the same `logins` map on each call to `getIdentity`.
+    public static func `static`(logins: [String: String]?) -> Self {
         return Self { context in
-            return CognitoIdentity.DefaultIdentityProvider(identityPoolId: context.identityPoolId, logins: logins, cognitoIdentity: context.cognitoIdentity)
+            return CognitoIdentity.StaticIdentityProvider(identityPoolId: context.identityPoolId, logins: logins, cognitoIdentity: context.cognitoIdentity)
         }
     }
 }
