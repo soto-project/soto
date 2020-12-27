@@ -35,7 +35,8 @@ extension CognitoIdentity {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient), logger: logger)
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
             self.identityPoolId = identityPoolId
-            self.identityProvider = identityProvider.createProvider(context: .init(cognitoIdentity: cognitoIdentity, identityPoolId: identityPoolId))
+            let context = IdentityProviderFactory.Context(cognitoIdentity: cognitoIdentity, identityPoolId: identityPoolId, logger: logger)
+            self.identityProvider = identityProvider.createProvider(context: context)
         }
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
@@ -87,6 +88,7 @@ extension CredentialProviderFactory {
     ///   - identityPoolId: Identity pool to get identity from
     ///   - logins: Optional tokens for authenticating login
     ///   - region: Region where we can find the identity pool
+    ///   - logger: Logger
     public static func cognitoIdentity(
         identityPoolId: String,
         logins: [String: String]?,
@@ -106,11 +108,31 @@ extension CredentialProviderFactory {
         }
     }
 
-    /// Use CognitoIdentity GetId and GetCredentialsForIdentity to provide credentials
+    /// Uses `GetCredentialsForIdentity` to provide credentials. `identityProvider` object is used to supply the `login` and `IdentityId`
+    /// parameters required by `GetCredentialsForIdentity`.
+    ///
+    /// For the `identityProvider` parameter construct a struct conforming to `IdentityProvider` as follows
+    /// ```
+    /// struct MyIdentityProvider: IdentityProvider {
+    ///     func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<CognitoIdentity.IdentityParams> {
+    ///         // code to call backend to return the identity id and token. When backend call completes fill out a
+    ///         // `CognitoIdentity.IdentityParams` struct with the details.
+    ///     }
+    /// }
+    /// ```
+    /// The `identityProvider` parameter should be as follows
+    /// ```
+    /// identityProvider: .custom { context in MyIdentityProvider(context: context) }
+    /// ```
+    /// The context struct is a `IdentityProviderFactory.Context`which includes a `CognitoIdentity` service object holding an `AWSClient` which
+    /// has a reference to an `HTTPClient` if you need one for communicating with your backend.
+    ///
+    ///
     /// - Parameters:
     ///   - identityPoolId: Identity pool to get identity from
-    ///   - logins: Optional tokens for authenticating login
+    ///   - identityProvider: Identiy Provider object
     ///   - region: Region where we can find the identity pool
+    ///   - logger: Logger
     public static func cognitoIdentity(
         identityPoolId: String,
         identityProvider: IdentityProviderFactory,

@@ -15,6 +15,7 @@
 import Logging
 import NIO
 
+/// Protocol providing a Cognito Identity id and token
 public protocol IdentityProvider {
     func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<CognitoIdentity.IdentityParams>
     func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void>
@@ -26,33 +27,13 @@ extension IdentityProvider {
     }
 }
 
-extension CognitoIdentity {
-    public struct IdentityParams {
-        let id: String
-        let logins: [String: String]?
-    }
-
-    struct StaticIdentityProvider: IdentityProvider {
-        let identityPoolId: String
-        let logins: [String: String]?
-        let cognitoIdentity: CognitoIdentity
-
-        func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<IdentityParams> {
-            let request = CognitoIdentity.GetIdInput(identityPoolId: identityPoolId, logins: logins)
-            return cognitoIdentity.getId(request, logger: logger, on: eventLoop).flatMapThrowing { response -> IdentityParams in
-                guard let identityId = response.identityId else { throw CredentialProviderError.noProvider }
-                return .init(id: identityId, logins: logins)
-            }
-        }
-    }
-}
-
 /// A helper struct to defer the creation of an `IdentityProvider` until after the `IdentityCredentialProvider` has been created.
 public struct IdentityProviderFactory {
     /// The initialization context for a `IdentityProvider`
     public struct Context {
         public let cognitoIdentity: CognitoIdentity
         public let identityPoolId: String
+        public let logger: Logger
     }
 
     private let cb: (Context) -> IdentityProvider
@@ -66,6 +47,50 @@ public struct IdentityProviderFactory {
     }
 }
 
+extension CognitoIdentity {
+    public struct IdentityParams {
+        let id: String
+        let logins: [String: String]?
+    }
+
+    struct StaticIdentityProvider: IdentityProvider {
+        let logins: [String: String]?
+        let identityIdPromise: EventLoopPromise<String>
+
+        init(logins: [String: String]?, context: IdentityProviderFactory.Context) {
+            self.logins = logins
+            // create identity id promise
+            let eventLoop = context.cognitoIdentity.client.eventLoopGroup.next()
+            let identityIdPromise = eventLoop.makePromise(of: String.self)
+            self.identityIdPromise = identityIdPromise
+            // request identity id and fulfill promise on completion
+            let request = CognitoIdentity.GetIdInput(identityPoolId: context.identityPoolId, logins: logins)
+            context.cognitoIdentity.getId(request, logger: context.logger, on: eventLoop).whenComplete { result in
+                switch result {
+                case .failure:
+                    identityIdPromise.fail(CredentialProviderError.noProvider)
+                case .success(let response):
+                    guard let identityId = response.identityId else {
+                        identityIdPromise.fail(CredentialProviderError.noProvider);
+                        return
+                    }
+                    identityIdPromise.succeed(identityId)
+                }
+            }
+        }
+        
+        func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
+            return identityIdPromise.futureResult.map { _ in }.hop(to: eventLoop)
+        }
+        
+        func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<IdentityParams> {
+            return identityIdPromise.futureResult.map { identityId in
+                return .init(id: identityId, logins: self.logins)
+            }.hop(to: eventLoop)
+        }
+    }
+}
+
 extension IdentityProviderFactory {
     /// Create your owncustom `IdentityProvider` given the IdentityProvider Context
     public static func custom(_ factory: @escaping (Context) -> IdentityProvider) -> Self {
@@ -75,7 +100,7 @@ extension IdentityProviderFactory {
     /// Create `StaticIdentityProvider` which attempts to use the same `logins` map on each call to `getIdentity`.
     public static func `static`(logins: [String: String]?) -> Self {
         return Self { context in
-            return CognitoIdentity.StaticIdentityProvider(identityPoolId: context.identityPoolId, logins: logins, cognitoIdentity: context.cognitoIdentity)
+            return CognitoIdentity.StaticIdentityProvider(logins: logins, context: context)
         }
     }
 }
