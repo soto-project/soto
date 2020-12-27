@@ -71,20 +71,20 @@ extension CognitoIdentity {
                     identityIdPromise.fail(CredentialProviderError.noProvider)
                 case .success(let response):
                     guard let identityId = response.identityId else {
-                        identityIdPromise.fail(CredentialProviderError.noProvider);
+                        identityIdPromise.fail(CredentialProviderError.noProvider)
                         return
                     }
                     identityIdPromise.succeed(identityId)
                 }
             }
         }
-        
+
         func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            return identityIdPromise.futureResult.map { _ in }.hop(to: eventLoop)
+            return self.identityIdPromise.futureResult.map { _ in }.hop(to: eventLoop)
         }
-        
+
         func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<IdentityParams> {
-            return identityIdPromise.futureResult.map { identityId in
+            return self.identityIdPromise.futureResult.map { identityId in
                 return .init(id: identityId, logins: self.logins)
             }.hop(to: eventLoop)
         }
