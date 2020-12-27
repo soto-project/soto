@@ -51,6 +51,11 @@ extension CognitoIdentity {
     public struct IdentityParams {
         let id: String
         let logins: [String: String]?
+
+        public init(id: String, logins: [String: String]?) {
+            self.id = id
+            self.logins = logins
+        }
     }
 
     struct StaticIdentityProvider: IdentityProvider {
