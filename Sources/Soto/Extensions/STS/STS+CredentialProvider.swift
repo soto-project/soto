@@ -152,7 +152,7 @@ extension STS {
             let sessionName = Environment["AWS_ROLE_SESSION_NAME"]
 
             self.webIdentityProvider = AssumeRoleWithWebIdentityCredentialProvider(
-                requestProvider: .dynamic { eventLoop in
+                requestProvider: .dynamic { _ in
                     return Self.loadTokenFile(tokenFile, on: context.eventLoop).map { token in
                         STS.AssumeRoleWithWebIdentityRequest(
                             roleArn: roleArn,
@@ -169,7 +169,7 @@ extension STS {
         func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
             return webIdentityProvider.shutdown(on: eventLoop)
         }
-        
+
         /// get credentials
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return webIdentityProvider.getCredential(on: eventLoop, logger: logger)
