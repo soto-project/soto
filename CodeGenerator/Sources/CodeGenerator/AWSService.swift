@@ -834,7 +834,7 @@ extension AWSService {
                 member.value,
                 name: member.key,
                 shape: shape,
-                isPropertyWrapper: (memberContext.propertyWrapper != nil && shape.usedInInput)
+                isPropertyWrapper: memberContext.propertyWrapper != nil && shape.usedInInput
             ) {
                 awsShapeMemberContexts.append(awsShapeMemberContext)
             }
