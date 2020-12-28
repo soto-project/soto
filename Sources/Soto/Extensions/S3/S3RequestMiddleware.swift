@@ -56,7 +56,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             let isAmazonUrl = host.hasSuffix("amazonaws.com")
 
             var hostComponents = host.split(separator: ".")
-            if isAmazonUrl && !context.options.intersection([.s3UseDualStackEndpoint, .s3UseTransferAcceleratedEndpoint]).isEmpty {
+            if isAmazonUrl, !context.options.intersection([.s3UseDualStackEndpoint, .s3UseTransferAcceleratedEndpoint]).isEmpty {
                 if let s3Index = hostComponents.firstIndex(where: { $0 == "s3" }) {
                     var s3 = "s3"
                     if context.options.contains(.s3UseTransferAcceleratedEndpoint) {
@@ -74,7 +74,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             }
 
             // if host name contains amazonaws.com and bucket name doesn't contain a period do virtual address look up
-            if (isAmazonUrl || context.options.contains(.s3ForceVirtualHost)), !bucket.contains(".") {
+            if isAmazonUrl || context.options.contains(.s3ForceVirtualHost), !bucket.contains(".") {
                 let pathsWithoutBucket = paths.dropFirst() // bucket
                 urlPath = pathsWithoutBucket.joined(separator: "/")
 

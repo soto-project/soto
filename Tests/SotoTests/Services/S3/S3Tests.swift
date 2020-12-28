@@ -591,7 +591,6 @@ class S3Tests: XCTestCase {
                 return Self.deleteBucket(name: name, s3: s3)
             }
         XCTAssertNoThrow(try response.wait())
-
     }
 
     func testTransferAccelerated() {
@@ -626,7 +625,6 @@ class S3Tests: XCTestCase {
                 return Self.deleteBucket(name: name, s3: Self.s3)
             }
         XCTAssertNoThrow(try response.wait())
-
     }
 
     func testError() {
