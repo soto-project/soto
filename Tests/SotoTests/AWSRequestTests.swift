@@ -97,19 +97,20 @@ class AWSRequestTests: XCTestCase {
     func testS3PutBucketLifecycleConfigurationRequest() {
         let s3 = S3(client: Self.client)
         let expectedResult =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><LifecycleConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Rule><AbortIncompleteMultipartUpload><DaysAfterInitiation>7</DaysAfterInitiation></AbortIncompleteMultipartUpload><Status>Enabled</Status></Rule><Rule><Expiration><Days>30</Days><ExpiredObjectDeleteMarker>true</ExpiredObjectDeleteMarker></Expiration><Filter><Prefix>temp</Prefix></Filter><Status>Enabled</Status></Rule><Rule><Status>Enabled</Status><Transition><Days>20</Days><StorageClass>GLACIER</StorageClass></Transition><Transition><Days>180</Days><StorageClass>DEEP_ARCHIVE</StorageClass></Transition></Rule><Rule><NoncurrentVersionExpiration><NoncurrentDays>90</NoncurrentDays></NoncurrentVersionExpiration><Status>Disabled</Status></Rule></LifecycleConfiguration>"
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><LifecycleConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Rule><AbortIncompleteMultipartUpload><DaysAfterInitiation>7</DaysAfterInitiation></AbortIncompleteMultipartUpload><Filter><Prefix></Prefix></Filter><Status>Enabled</Status></Rule><Rule><Expiration><Days>30</Days><ExpiredObjectDeleteMarker>true</ExpiredObjectDeleteMarker></Expiration><Filter><Prefix>temp</Prefix></Filter><Status>Enabled</Status></Rule><Rule><Filter><Prefix></Prefix></Filter><Status>Enabled</Status><Transition><Days>20</Days><StorageClass>GLACIER</StorageClass></Transition><Transition><Days>180</Days><StorageClass>DEEP_ARCHIVE</StorageClass></Transition></Rule><Rule><Filter><Prefix></Prefix></Filter><NoncurrentVersionExpiration><NoncurrentDays>90</NoncurrentDays></NoncurrentVersionExpiration><Status>Disabled</Status></Rule></LifecycleConfiguration>"
 
-        let abortRule = S3.LifecycleRule(abortIncompleteMultipartUpload: S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7), status: .enabled)
+        let abortRule = S3.LifecycleRule(abortIncompleteMultipartUpload: S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7), filter: .init(prefix: ""), status: .enabled)
         let tempFileRule = S3.LifecycleRule(
             expiration: S3.LifecycleExpiration(days: 30, expiredObjectDeleteMarker: true),
             filter: S3.LifecycleRuleFilter(prefix: "temp"),
             status: .enabled
         )
         let glacierRule = S3.LifecycleRule(
+            filter: .init(prefix: ""),
             status: .enabled,
             transitions: [S3.Transition(days: 20, storageClass: .glacier), S3.Transition(days: 180, storageClass: .deepArchive)]
         )
-        let versionsRule = S3.LifecycleRule(noncurrentVersionExpiration: S3.NoncurrentVersionExpiration(noncurrentDays: 90), status: .disabled)
+        let versionsRule = S3.LifecycleRule(filter: .init(prefix: ""), noncurrentVersionExpiration: S3.NoncurrentVersionExpiration(noncurrentDays: 90), status: .disabled)
         let rules = [abortRule, tempFileRule, glacierRule, versionsRule]
         let lifecycleConfiguration = S3.BucketLifecycleConfiguration(rules: rules)
         let request = S3.PutBucketLifecycleConfigurationRequest(bucket: "bucket", lifecycleConfiguration: lifecycleConfiguration)

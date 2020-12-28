@@ -501,6 +501,31 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    /// testing Date format in response headers
+    func testMultipartAbortDate() {
+        let name = TestEnvironment.generateResourceName()
+        let response = Self.createBucket(name: name, s3: Self.s3)
+            .flatMap { _ -> EventLoopFuture<Void> in
+                let rule = S3.LifecycleRule(abortIncompleteMultipartUpload: .init(daysAfterInitiation: 7), filter: .init(prefix: ""), id: "multipart-upload", status: .enabled)
+                let request = S3.PutBucketLifecycleConfigurationRequest(
+                    bucket: name,
+                    lifecycleConfiguration: .init(rules: [rule])
+                )
+                return Self.s3.putBucketLifecycleConfiguration(request)
+            }
+            .flatMap { _ -> EventLoopFuture<S3.CreateMultipartUploadOutput> in
+                Self.s3.createMultipartUpload(.init(bucket: name, key: "test"))
+            }
+            .flatMap { response -> EventLoopFuture<S3.AbortMultipartUploadOutput> in
+                guard let uploadId = response.uploadId else { return Self.s3.eventLoopGroup.next().makeFailedFuture(AWSClientError.missingParameter) }
+                return Self.s3.abortMultipartUpload(.init(bucket: name, key: "test", uploadId: uploadId))
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
     func testSignedURL() {
         let name = TestEnvironment.generateResourceName()
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)

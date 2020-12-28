@@ -3698,7 +3698,8 @@ extension MediaLive {
         public let contentLength: Int64?
         public let contentType: ContentType?
         public let eTag: String?
-        public let lastModified: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var lastModified: Date?
 
         public init(body: AWSPayload? = nil, contentLength: Int64? = nil, contentType: ContentType? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.body = body

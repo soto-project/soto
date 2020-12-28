@@ -307,10 +307,12 @@ extension IoT1ClickDevicesService {
         ]
 
         public let deviceId: String
-        public let fromTimeStamp: Date
+        @CustomCoding<ISO8601DateCoder>
+        public var fromTimeStamp: Date
         public let maxResults: Int?
         public let nextToken: String?
-        public let toTimeStamp: Date
+        @CustomCoding<ISO8601DateCoder>
+        public var toTimeStamp: Date
 
         public init(deviceId: String, fromTimeStamp: Date, maxResults: Int? = nil, nextToken: String? = nil, toTimeStamp: Date) {
             self.deviceId = deviceId

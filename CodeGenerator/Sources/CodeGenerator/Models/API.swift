@@ -376,6 +376,7 @@ class Shape: Decodable {
         enum TimeStampFormat: String, Decodable {
             case iso8601
             case unixTimestamp
+            case rfc822
             case unspecified
         }
 

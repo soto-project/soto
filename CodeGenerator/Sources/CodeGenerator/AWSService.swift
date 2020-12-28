@@ -505,13 +505,13 @@ extension AWSService {
             codingWrapper = "@OptionalCustomCoding"
         }
 
-        // if not located in body don't generate collection encoding property wrapper
-        if let location = member.location {
-            guard case .body = location else { return nil }
-        }
-
         switch member.shape.type {
         case .list(let list):
+            // if not located in body don't generate collection encoding property wrapper
+            // nil location assumes located in body
+            if let location = member.location {
+                guard case .body = location else { return nil }
+            }
             guard self.api.metadata.protocol != .json, self.api.metadata.protocol != .restjson else { return nil }
             guard list.flattened != true, member.flattened != true else { return nil }
             let entryName = self.getArrayEntryName(list)
@@ -521,6 +521,11 @@ extension AWSService {
                 return "\(codingWrapper)<ArrayCoder<\(self.encodingName(name)), \(list.member.shape.swiftTypeName)>>"
             }
         case .map(let map):
+            // if not located in body don't generate collection encoding property wrapper
+            // nil location assumes located in body
+            if let location = member.location {
+                guard case .body = location else { return nil }
+            }
             guard self.api.metadata.protocol != .json, self.api.metadata.protocol != .restjson else { return nil }
             let names = self.getDictionaryEntryNames(map, member: member)
             if names.entry == "entry", names.key == "key", names.value == "value" {
@@ -534,7 +539,12 @@ extension AWSService {
                 return "\(codingWrapper)<ISO8601DateCoder>"
             case .unixTimestamp:
                 return "\(codingWrapper)<UnixEpochDateCoder>"
+            case .rfc822:
+                return "\(codingWrapper)<HTTPHeaderDateCoder>"
             case .unspecified:
+                if member.location == .header {
+                    return "\(codingWrapper)<HTTPHeaderDateCoder>"
+                }
                 return nil
             }
         default:
@@ -605,9 +615,7 @@ extension AWSService {
         }
         let memberDocs = self.stripHTMLTags(self.docs.shapes[shape.name]?.refs[name])?.split(separator: "\n")
         let propertyWrapper = self.generatePropertyWrapper(member, name: name)
-        guard propertyWrapper == nil || member.location == .body || member.location == nil else {
-            preconditionFailure("Cannot have a non-body variable with a property wrapper")
-        }
+
         return MemberContext(
             variable: name.toSwiftVariableCase(),
             locationPath: member.getLocationName() ?? name,

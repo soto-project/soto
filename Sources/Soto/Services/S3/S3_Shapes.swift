@@ -1138,11 +1138,13 @@ extension S3 {
         /// Copies the object if its entity tag (ETag) matches the specified tag.
         public let copySourceIfMatch: String?
         /// Copies the object if it has been modified since the specified time.
-        public let copySourceIfModifiedSince: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var copySourceIfModifiedSince: Date?
         /// Copies the object if its entity tag (ETag) is different than the specified ETag.
         public let copySourceIfNoneMatch: String?
         /// Copies the object if it hasn't been modified since the specified time.
-        public let copySourceIfUnmodifiedSince: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var copySourceIfUnmodifiedSince: Date?
         /// Specifies the algorithm to use when decrypting the source object (for example, AES256).
         public let copySourceSSECustomerAlgorithm: String?
         /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
@@ -1154,7 +1156,8 @@ extension S3 {
         /// The account id of the expected source bucket owner. If the source bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedSourceBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
-        public let expires: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var expires: Date?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
         public let grantFullControl: String?
         /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
@@ -1174,7 +1177,8 @@ extension S3 {
         /// The Object Lock mode that you want to apply to the copied object.
         public let objectLockMode: ObjectLockMode?
         /// The date and time when you want the copied object's Object Lock to expire.
-        public let objectLockRetainUntilDate: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
         /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
@@ -1379,7 +1383,8 @@ extension S3 {
         ]
 
         /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, the response includes this header. The header indicates when the initiated multipart upload becomes eligible for an abort operation. For more information, see  Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy. The response also includes the x-amz-abort-rule-id header that provides the ID of the lifecycle configuration rule that defines this action.
-        public let abortDate: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var abortDate: Date?
         /// This header is returned along with the x-amz-abort-date header. It identifies the applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
         public let abortRuleId: String?
         /// The name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using Access Points in the Amazon Simple Storage Service Developer Guide. When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on Outposts in the Amazon Simple Storage Service Developer Guide.
@@ -1485,7 +1490,8 @@ extension S3 {
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable.
-        public let expires: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var expires: Date?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
         public let grantFullControl: String?
         /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
@@ -1503,7 +1509,8 @@ extension S3 {
         /// Specifies the Object Lock mode that you want to apply to the uploaded object.
         public let objectLockMode: ObjectLockMode?
         /// Specifies the date and time when you want the Object Lock to expire.
-        public let objectLockRetainUntilDate: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
         /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
@@ -3250,9 +3257,11 @@ extension S3 {
         /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL encoded.
         public let expiration: String?
         /// The date and time at which the object is no longer cacheable.
-        public let expires: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var expires: Date?
         /// Last modified date of the object
-        public let lastModified: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var lastModified: Date?
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
@@ -3262,7 +3271,8 @@ extension S3 {
         /// The Object Lock mode currently in place for this object.
         public let objectLockMode: ObjectLockMode?
         /// The date and time when this object's Object Lock will expire.
-        public let objectLockRetainUntilDate: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var objectLockRetainUntilDate: Date?
         /// The count of parts this object has.
         public let partsCount: Int?
         /// Amazon S3 can return this if your request involves a bucket that is either a source or destination in a replication rule.
@@ -3389,11 +3399,13 @@ extension S3 {
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        public let ifModifiedSince: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var ifModifiedSince: Date?
         /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
         public let ifNoneMatch: String?
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        public let ifUnmodifiedSince: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var ifUnmodifiedSince: Date?
         /// Key of the object to get.
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
@@ -3790,9 +3802,11 @@ extension S3 {
         /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key-value pairs providing object expiration information. The value of the rule-id is URL encoded.
         public let expiration: String?
         /// The date and time at which the object is no longer cacheable.
-        public let expires: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var expires: Date?
         /// Last modified date of the object
-        public let lastModified: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var lastModified: Date?
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
@@ -3802,7 +3816,8 @@ extension S3 {
         /// The Object Lock mode, if any, that's in effect for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. For more information about S3 Object Lock, see Object Lock.
         public let objectLockMode: ObjectLockMode?
         /// The date and time when the Object Lock retention period expires. This header is only returned if the requester has the s3:GetObjectRetention permission.
-        public let objectLockRetainUntilDate: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var objectLockRetainUntilDate: Date?
         /// The count of parts this object has.
         public let partsCount: Int?
         /// Amazon S3 can return this header if your request involves a bucket that is either a source or a destination in a replication rule. In replication, you have a source bucket on which you configure replication and destination bucket or buckets where Amazon S3 stores object replicas. When you request an object (GetObject) or object metadata (HeadObject) from these buckets, Amazon S3 will return the x-amz-replication-status header in the response as follows:   If requesting an object from the source bucket — Amazon S3 will return the x-amz-replication-status header if the object in your request is eligible for replication.  For example, suppose that in your replication configuration, you specify object prefix TaxDocs requesting Amazon S3 to replicate objects with key prefix TaxDocs. Any objects you upload with this key name prefix, for example TaxDocs/document1.pdf, are eligible for replication. For any object request with this key name prefix, Amazon S3 will return the x-amz-replication-status header with value PENDING, COMPLETED or FAILED indicating object replication status.   If requesting an object from a destination bucket — Amazon S3 will return the x-amz-replication-status header with value REPLICA if the object in your request is a replica that Amazon S3 created and there is no replica modification replication in progress.   When replicating objects to multiple destination buckets the x-amz-replication-status header acts differently. The header of the source object will only return a value of COMPLETED when replication is successful to all destinations. The header will remain at value PENDING until replication has completed for all destinations. If one or more destinations fails replication the header will return FAILED.    For more information, see Replication.
@@ -3917,11 +3932,13 @@ extension S3 {
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        public let ifModifiedSince: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var ifModifiedSince: Date?
         /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
         public let ifNoneMatch: String?
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        public let ifUnmodifiedSince: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var ifUnmodifiedSince: Date?
         /// The object key.
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
@@ -4312,7 +4329,7 @@ extension S3 {
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public let expiration: LifecycleExpiration?
-        public let filter: LifecycleRuleFilter?
+        public let filter: LifecycleRuleFilter
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
@@ -4323,7 +4340,7 @@ extension S3 {
         /// Specifies when an Amazon S3 object transitions to a specified storage class.
         public let transitions: [Transition]?
 
-        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
+        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
             self.filter = filter
@@ -4335,7 +4352,7 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.filter?.validate(name: "\(name).filter")
+            try self.filter.validate(name: "\(name).filter")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5015,7 +5032,8 @@ extension S3 {
         ]
 
         /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, then the response includes this header indicating when the initiated multipart upload will become eligible for abort operation. For more information, see Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy. The response will also include the x-amz-abort-rule-id header that will provide the ID of the lifecycle configuration rule that defines this action.
-        public let abortDate: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var abortDate: Date?
         /// This header is returned along with the x-amz-abort-date header. It identifies applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
         public let abortRuleId: String?
         /// The name of the bucket to which the multipart upload was initiated.
@@ -6703,7 +6721,8 @@ extension S3 {
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
         /// The date and time at which the object is no longer cacheable. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21.
-        public let expires: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var expires: Date?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
         public let grantFullControl: String?
         /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
@@ -6721,7 +6740,8 @@ extension S3 {
         /// The Object Lock mode that you want to apply to this object.
         public let objectLockMode: ObjectLockMode?
         /// The date and time when you want this object's Object Lock to expire.
-        public let objectLockRetainUntilDate: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
         /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
@@ -7994,11 +8014,13 @@ extension S3 {
         /// Copies the object if its entity tag (ETag) matches the specified tag.
         public let copySourceIfMatch: String?
         /// Copies the object if it has been modified since the specified time.
-        public let copySourceIfModifiedSince: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var copySourceIfModifiedSince: Date?
         /// Copies the object if its entity tag (ETag) is different than the specified ETag.
         public let copySourceIfNoneMatch: String?
         /// Copies the object if it hasn't been modified since the specified time.
-        public let copySourceIfUnmodifiedSince: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var copySourceIfUnmodifiedSince: Date?
         /// The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first 10 bytes of the source. You can copy a range only if the source object is greater than 5 MB.
         public let copySourceRange: String?
         /// Specifies the algorithm to use when decrypting the source object (for example, AES256).
