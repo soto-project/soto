@@ -4522,11 +4522,11 @@ extension Pinpoint {
     public struct GetApplicationDateRangeKpiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "end-time")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")),
             AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "kpi-name")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "start-time"))
+            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "start-time"))
         ]
 
         public let applicationId: String
@@ -4712,11 +4712,11 @@ extension Pinpoint {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
             AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "end-time")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")),
             AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "kpi-name")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "start-time"))
+            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "start-time"))
         ]
 
         public let applicationId: String
@@ -5259,12 +5259,12 @@ extension Pinpoint {
     public struct GetJourneyDateRangeKpiRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "end-time")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")),
             AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")),
             AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "kpi-name")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "start-time"))
+            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "start-time"))
         ]
 
         public let applicationId: String

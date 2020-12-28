@@ -651,7 +651,7 @@ extension AWSService {
     }
 
     /// Generate the context information for outputting a member variable
-    func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape) -> AWSShapeMemberContext? {
+    func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape, isPropertyWrapper: Bool) -> AWSShapeMemberContext? {
         let isPayload = (shape.payload == name)
         var locationName: String? = member.locationName
         let location = member.location ?? .body
@@ -664,8 +664,10 @@ extension AWSService {
             locationName = nil
         }
         guard locationName != nil else { return nil }
+        // prefix property wrapped shapes with "_" so they can be found by Mirror
+        let name = isPropertyWrapper ? "_\(name.toSwiftLabelCase())" : name.toSwiftLabelCase()
         return AWSShapeMemberContext(
-            name: name.toSwiftLabelCase(),
+            name: name,
             location: locationName.map { location.enumStringValue(named: $0) },
             locationName: locationName
         )
@@ -831,7 +833,8 @@ extension AWSService {
             if let awsShapeMemberContext = generateAWSShapeMemberContext(
                 member.value,
                 name: member.key,
-                shape: shape
+                shape: shape,
+                isPropertyWrapper: memberContext.propertyWrapper != nil && shape.usedInInput
             ) {
                 awsShapeMemberContexts.append(awsShapeMemberContext)
             }
