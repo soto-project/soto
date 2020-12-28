@@ -4530,11 +4530,13 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        public let endTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         public let kpiName: String
         public let nextToken: String?
         public let pageSize: String?
-        public let startTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
 
         public init(applicationId: String, endTime: Date? = nil, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: Date? = nil) {
             self.applicationId = applicationId
@@ -4719,11 +4721,13 @@ extension Pinpoint {
 
         public let applicationId: String
         public let campaignId: String
-        public let endTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         public let kpiName: String
         public let nextToken: String?
         public let pageSize: String?
-        public let startTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
 
         public init(applicationId: String, campaignId: String, endTime: Date? = nil, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: Date? = nil) {
             self.applicationId = applicationId
@@ -5264,12 +5268,14 @@ extension Pinpoint {
         ]
 
         public let applicationId: String
-        public let endTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         public let journeyId: String
         public let kpiName: String
         public let nextToken: String?
         public let pageSize: String?
-        public let startTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
 
         public init(applicationId: String, endTime: Date? = nil, journeyId: String, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: Date? = nil) {
             self.applicationId = applicationId

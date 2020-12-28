@@ -238,7 +238,8 @@ extension CodeGuruProfiler {
         ]
 
         ///  The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public let endTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         ///  The details of the metrics that are used to request a time series of values. The metric includes the name of the frame, the aggregation type to calculate the metric value for the frame, and the thread states to use to get the count for the metric value of the frame.
         public let frameMetrics: [FrameMetric]?
         ///  The duration of the frame metrics used to return the time series values. Specify using the ISO 8601 format. The maximum period duration is one day (PT24H or P1D).
@@ -246,7 +247,8 @@ extension CodeGuruProfiler {
         ///  The name of the profiling group associated with the the frame metrics used to return the time series values.
         public let profilingGroupName: String
         ///  The start time of the time period for the frame metrics used to return the time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public let startTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
         /// The requested resolution of time steps for the returned time series of values. If the requested target resolution is not available due to data not being retained we provide a best effort result by falling back to the most granular available resolution after the target resolution. There are 3 valid values.     P1D — 1 day     PT1H — 1 hour     PT5M — 5 minutes
         public let targetResolution: AggregationPeriod?
 
@@ -702,7 +704,8 @@ extension CodeGuruProfiler {
         ///  The format of the returned profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default .   &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; — standard JSON format &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; — the Amazon Ion data format. For more information, see &lt;a href=&quot;http://amzn.github.io/ion-docs/&quot;&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
         public let accept: String?
         ///  The end time of the requested profile. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.   If you specify endTime, then you must also specify period or startTime, but not both.
-        public let endTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
         ///  The maximum depth of the stacks in the code that is represented in the aggregated profile. For example, if CodeGuru Profiler finds a method A, which calls method B, which calls method C, which calls method D, then the depth is 4. If the maxDepth is set to 2, then the aggregated profile contains representations of methods A and B.
         public let maxDepth: Int?
         ///  Used with startTime or endTime to specify the time range for the returned aggregated profile. Specify using the ISO 8601 format. For example, P1DT1H1M1S.   &lt;p&gt; To get the latest aggregated profile, specify only &lt;code&gt;period&lt;/code&gt;. &lt;/p&gt;
@@ -710,7 +713,8 @@ extension CodeGuruProfiler {
         /// The name of the profiling group to get.
         public let profilingGroupName: String
         /// The start time of the profile to get. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.  &lt;p&gt; If you specify &lt;code&gt;startTime&lt;/code&gt;, then you must also specify &lt;code&gt;period&lt;/code&gt; or &lt;code&gt;endTime&lt;/code&gt;, but not both. &lt;/p&gt;
-        public let startTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
 
         public init(accept: String? = nil, endTime: Date? = nil, maxDepth: Int? = nil, period: String? = nil, profilingGroupName: String, startTime: Date? = nil) {
             self.accept = accept
@@ -772,13 +776,15 @@ extension CodeGuruProfiler {
         ]
 
         ///  The start time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public let endTime: Date
+        @CustomCoding<ISO8601DateCoder>
+        public var endTime: Date
         ///  The language used to provide analysis. Specify using a string that is one of the following BCP 47 language codes.     de-DE - German, Germany     en-GB - English, United Kingdom     en-US - English, United States     es-ES - Spanish, Spain     fr-FR - French, France     it-IT - Italian, Italy     ja-JP - Japanese, Japan     ko-KR - Korean, Republic of Korea     pt-BR - Portugese, Brazil     zh-CN - Chinese, China     zh-TW - Chinese, Taiwan
         public let locale: String?
         ///  The name of the profiling group to get analysis data about.
         public let profilingGroupName: String
         ///  The end time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public let startTime: Date
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
 
         public init(endTime: Date, locale: String? = nil, profilingGroupName: String, startTime: Date) {
             self.endTime = endTime
@@ -840,7 +846,8 @@ extension CodeGuruProfiler {
         /// A Boolean value indicating whether to only return reports from daily profiles. If set to True, only analysis data from daily profiles is returned. If set to False, analysis data is returned from smaller time windows (for example, one hour).
         public let dailyReportsOnly: Bool?
         ///  The end time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public let endTime: Date
+        @CustomCoding<ISO8601DateCoder>
+        public var endTime: Date
         /// The maximum number of report results returned by ListFindingsReports in paginated output. When this parameter is used, ListFindingsReports only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFindingsReports request with the returned nextToken value.
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListFindingsReportsRequest request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
@@ -848,7 +855,8 @@ extension CodeGuruProfiler {
         /// The name of the profiling group from which to search for analysis data.
         public let profilingGroupName: String
         ///  The start time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public let startTime: Date
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
 
         public init(dailyReportsOnly: Bool? = nil, endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, profilingGroupName: String, startTime: Date) {
             self.dailyReportsOnly = dailyReportsOnly
@@ -902,7 +910,8 @@ extension CodeGuruProfiler {
         ]
 
         /// The end time of the time range from which to list the profiles.
-        public let endTime: Date
+        @CustomCoding<ISO8601DateCoder>
+        public var endTime: Date
         /// The maximum number of profile time results returned by ListProfileTimes in paginated output. When this parameter is used, ListProfileTimes only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfileTimes request with the returned nextToken value.
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListProfileTimes request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
@@ -914,7 +923,8 @@ extension CodeGuruProfiler {
         /// The name of the profiling group.
         public let profilingGroupName: String
         /// The start time of the time range from which to list the profiles.
-        public let startTime: Date
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
 
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil, period: AggregationPeriod, profilingGroupName: String, startTime: Date) {
             self.endTime = endTime

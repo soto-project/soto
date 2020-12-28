@@ -103,7 +103,8 @@ extension MediaStoreData {
         /// The ETag that represents a unique instance of the object.
         public let eTag: String?
         /// The date and time that the object was last modified.
-        public let lastModified: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var lastModified: Date?
 
         public init(cacheControl: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.cacheControl = cacheControl
@@ -176,7 +177,8 @@ extension MediaStoreData {
         /// The ETag that represents a unique instance of the object.
         public let eTag: String?
         /// The date and time that the object was last modified.
-        public let lastModified: Date?
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var lastModified: Date?
         /// The HTML status code of the request. Status codes ranging from 200 to 299 indicate success. All other status codes indicate the type of error that occurred.
         public let statusCode: Int
 
