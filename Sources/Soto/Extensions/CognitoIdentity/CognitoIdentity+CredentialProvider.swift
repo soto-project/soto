@@ -19,14 +19,14 @@ import SotoCore
 
 extension CognitoIdentity {
     struct IdentityCredentialProvider: CredentialProvider {
-        let logins: [String: String]?
         let client: AWSClient
         let cognitoIdentity: CognitoIdentity
-        let idPromise: EventLoopPromise<String>
+        let identityProvider: IdentityProvider
+        let identityPoolId: String
 
         init(
             identityPoolId: String,
-            logins: [String: String]?,
+            identityProvider: IdentityProviderFactory,
             region: Region,
             httpClient: AWSHTTPClient,
             logger: Logger = AWSClient.loggingDisabled,
@@ -34,20 +34,14 @@ extension CognitoIdentity {
         ) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient), logger: logger)
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
-            self.logins = logins
-            self.idPromise = eventLoop.makePromise(of: String.self)
-
-            // only getId once and store in promise
-            let request = CognitoIdentity.GetIdInput(identityPoolId: identityPoolId, logins: logins)
-            cognitoIdentity.getId(request, logger: logger, on: eventLoop).flatMapThrowing { response -> String in
-                guard let identityId = response.identityId else { throw CredentialProviderError.noProvider }
-                return identityId
-            }.cascade(to: idPromise)
+            self.identityPoolId = identityPoolId
+            let context = IdentityProviderFactory.Context(cognitoIdentity: cognitoIdentity, identityPoolId: identityPoolId, logger: logger)
+            self.identityProvider = identityProvider.createProvider(context: context)
         }
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
-            return self.idPromise.futureResult.flatMap { identityId -> EventLoopFuture<GetCredentialsForIdentityResponse> in
-                let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identityId, logins: self.logins)
+            return self.identityProvider.getIdentity(on: eventLoop, logger: logger).flatMap { identity -> EventLoopFuture<GetCredentialsForIdentityResponse> in
+                let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identity.id, logins: identity.logins)
                 return self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest, logger: logger, on: eventLoop)
             }
             .flatMapThrowing { response in
@@ -69,7 +63,12 @@ extension CognitoIdentity {
         }
 
         func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            // shutdown AWSClient
+            identityProvider.shutdown(on: eventLoop)
+                .flatMapError { _ in eventLoop.makeSucceededFuture(()) }
+                .flatMap { _ in self.shutdownAWSClient(on: eventLoop) }
+        }
+
+        func shutdownAWSClient(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
             let promise = eventLoop.makePromise(of: Void.self)
             client.shutdown { error in
                 if let error = error {
@@ -89,6 +88,7 @@ extension CredentialProviderFactory {
     ///   - identityPoolId: Identity pool to get identity from
     ///   - logins: Optional tokens for authenticating login
     ///   - region: Region where we can find the identity pool
+    ///   - logger: Logger
     public static func cognitoIdentity(
         identityPoolId: String,
         logins: [String: String]?,
@@ -98,7 +98,51 @@ extension CredentialProviderFactory {
         .custom { context in
             let provider = CognitoIdentity.IdentityCredentialProvider(
                 identityPoolId: identityPoolId,
-                logins: logins,
+                identityProvider: .static(logins: logins),
+                region: region,
+                httpClient: context.httpClient,
+                logger: logger,
+                eventLoop: context.eventLoop
+            )
+            return RotatingCredentialProvider(context: context, provider: provider)
+        }
+    }
+
+    /// Uses `GetCredentialsForIdentity` to provide credentials. `identityProvider` object is used to supply the `login` and `IdentityId`
+    /// parameters required by `GetCredentialsForIdentity`.
+    ///
+    /// For the `identityProvider` parameter construct a struct conforming to `IdentityProvider` as follows
+    /// ```
+    /// struct MyIdentityProvider: IdentityProvider {
+    ///     func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<CognitoIdentity.IdentityParams> {
+    ///         // code to call backend to return the identity id and token. When backend call completes fill out a
+    ///         // `CognitoIdentity.IdentityParams` struct with the details.
+    ///     }
+    /// }
+    /// ```
+    /// The `identityProvider` parameter should be as follows
+    /// ```
+    /// identityProvider: .custom { context in MyIdentityProvider(context: context) }
+    /// ```
+    /// The context struct is a `IdentityProviderFactory.Context`which includes a `CognitoIdentity` service object holding an `AWSClient` which
+    /// has a reference to an `HTTPClient` if you need one for communicating with your backend.
+    ///
+    ///
+    /// - Parameters:
+    ///   - identityPoolId: Identity pool to get identity from
+    ///   - identityProvider: Identiy Provider object
+    ///   - region: Region where we can find the identity pool
+    ///   - logger: Logger
+    public static func cognitoIdentity(
+        identityPoolId: String,
+        identityProvider: IdentityProviderFactory,
+        region: Region,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> CredentialProviderFactory {
+        .custom { context in
+            let provider = CognitoIdentity.IdentityCredentialProvider(
+                identityPoolId: identityPoolId,
+                identityProvider: identityProvider,
                 region: region,
                 httpClient: context.httpClient,
                 logger: logger,
