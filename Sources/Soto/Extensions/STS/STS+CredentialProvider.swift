@@ -144,7 +144,6 @@ extension STS {
     /// Credential Provider using `AssumeRoleWebIdentity` to provide credentials. Uses environment variables to setup request structure. Used
     /// by Amazon EKS Clusters.
     struct AssumeRoleWithWebIdentityTokenFileCredentialProvider: CredentialProvider {
-        let tokenPromise: EventLoopPromise<STS.AssumeRoleWithWebIdentityRequest>
         let webIdentityProvider: AssumeRoleWithWebIdentityCredentialProvider
 
         init?(region: Region, context: CredentialProviderFactory.Context) {
@@ -152,32 +151,25 @@ extension STS {
             guard let roleArn = Environment["AWS_ROLE_ARN"] else { return nil }
             let sessionName = Environment["AWS_ROLE_SESSION_NAME"]
 
-            let tokenPromise = context.eventLoop.makePromise(of: STS.AssumeRoleWithWebIdentityRequest.self)
-            _ = Self.loadTokenFile(tokenFile, on: context.eventLoop).map { token in
-                let request = STS.AssumeRoleWithWebIdentityRequest(
-                    roleArn: roleArn,
-                    roleSessionName: sessionName ?? UUID().uuidString,
-                    webIdentityToken: token
-                )
-                tokenPromise.succeed(request)
-            }
-            self.tokenPromise = tokenPromise
             self.webIdentityProvider = AssumeRoleWithWebIdentityCredentialProvider(
                 requestProvider: .dynamic { eventLoop in
-                    return tokenPromise.futureResult.hop(to: eventLoop)
+                    return Self.loadTokenFile(tokenFile, on: context.eventLoop).map { token in
+                        STS.AssumeRoleWithWebIdentityRequest(
+                            roleArn: roleArn,
+                            roleSessionName: sessionName ?? UUID().uuidString,
+                            webIdentityToken: token
+                        )
+                    }
                 },
                 region: region,
                 httpClient: context.httpClient
             )
         }
 
-        /// Shutdown credential provider. Need to shutdown webIdentity credential provider
         func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            return tokenPromise.futureResult.flatMap { _ in
-                self.webIdentityProvider.shutdown(on: eventLoop)
-            }
+            return webIdentityProvider.shutdown(on: eventLoop)
         }
-
+        
         /// get credentials
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return webIdentityProvider.getCredential(on: eventLoop, logger: logger)
