@@ -130,7 +130,7 @@ class S3Tests: XCTestCase {
                 XCTAssertNotNil(response.eTag)
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-                return Self.s3.getObject(.init(bucket: name, key: filename))
+                return Self.s3.getObject(.init(bucket: name, key: filename, responseExpires: Date()))
             }
             .map { response -> Void in
                 XCTAssertEqual(response.body?.asString(), contents)

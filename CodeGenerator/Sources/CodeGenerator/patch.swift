@@ -69,6 +69,7 @@ extension API {
             ReplacePatch(PatchKeyPath2(\.shapes["Size"], \.type), value: .long(), originalValue: .integer()),
             ReplacePatch(PatchKeyPath3(\.shapes["CopySource"], \.type.string, \.pattern), value: ".+\\/.+", originalValue: "\\/.+\\/.+"),
             AddPatch(PatchKeyPath3(\.shapes["LifecycleRule"], \.type.structure, \.required), value: "Filter"),
+            ReplacePatch(PatchKeyPath2(\.shapes["ResponseExpires"], \.type), value: .timestamp(.rfc822), originalValue: .timestamp(.unspecified)),
             // Add additional location constraints
             ReplacePatch(PatchKeyPath3(\.shapes["BucketLocationConstraint"], \.type.enum, \.isExtensible), value: true, originalValue: false),
             AddPatch(PatchKeyPath3(\.shapes["BucketLocationConstraint"], \.type.enum, \.cases), value: "us-east-1"),

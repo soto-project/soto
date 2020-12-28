@@ -300,10 +300,10 @@ extension IoT1ClickDevicesService {
     public struct ListDeviceEventsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")),
-            AWSMemberEncoding(label: "fromTimeStamp", location: .querystring(locationName: "fromTimeStamp")),
+            AWSMemberEncoding(label: "_fromTimeStamp", location: .querystring(locationName: "fromTimeStamp")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "toTimeStamp", location: .querystring(locationName: "toTimeStamp"))
+            AWSMemberEncoding(label: "_toTimeStamp", location: .querystring(locationName: "toTimeStamp"))
         ]
 
         public let deviceId: String

@@ -230,10 +230,10 @@ extension CodeGuruProfiler {
 
     public struct BatchGetFrameMetricDataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
             AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")),
+            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime")),
             AWSMemberEncoding(label: "targetResolution", location: .querystring(locationName: "targetResolution"))
         ]
 
@@ -694,11 +694,11 @@ extension CodeGuruProfiler {
     public struct GetProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
             AWSMemberEncoding(label: "maxDepth", location: .querystring(locationName: "maxDepth")),
             AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
         ]
 
         ///  The format of the returned profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default .   &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/json&lt;/code&gt; — standard JSON format &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;application/x-amzn-ion&lt;/code&gt; — the Amazon Ion data format. For more information, see &lt;a href=&quot;http://amzn.github.io/ion-docs/&quot;&gt;Amazon Ion&lt;/a&gt;. &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
@@ -769,10 +769,10 @@ extension CodeGuruProfiler {
 
     public struct GetRecommendationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
             AWSMemberEncoding(label: "locale", location: .querystring(locationName: "locale")),
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
         ]
 
         ///  The start time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -836,11 +836,11 @@ extension CodeGuruProfiler {
     public struct ListFindingsReportsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring(locationName: "dailyReportsOnly")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
         ]
 
         /// A Boolean value indicating whether to only return reports from daily profiles. If set to True, only analysis data from daily profiles is returned. If set to False, analysis data is returned from smaller time windows (for example, one hour).
@@ -900,13 +900,13 @@ extension CodeGuruProfiler {
 
     public struct ListProfileTimesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "orderBy", location: .querystring(locationName: "orderBy")),
             AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
+            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
         ]
 
         /// The end time of the time range from which to list the profiles.
