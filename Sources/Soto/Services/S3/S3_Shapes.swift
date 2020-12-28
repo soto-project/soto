@@ -4312,7 +4312,7 @@ extension S3 {
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public let expiration: LifecycleExpiration?
-        public let filter: LifecycleRuleFilter?
+        public let filter: LifecycleRuleFilter
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
@@ -4323,7 +4323,7 @@ extension S3 {
         /// Specifies when an Amazon S3 object transitions to a specified storage class.
         public let transitions: [Transition]?
 
-        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
+        public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
             self.filter = filter
@@ -4335,7 +4335,7 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.filter?.validate(name: "\(name).filter")
+            try self.filter.validate(name: "\(name).filter")
         }
 
         private enum CodingKeys: String, CodingKey {
