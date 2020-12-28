@@ -563,6 +563,72 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testDualStack() {
+        // doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
+
+        let s3 = Self.s3.with(options: .s3UseDualStackEndpoint)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "testfile.txt"
+        let contents = "testing S3.PutObject and S3.GetObject"
+        let response = Self.createBucket(name: name, s3: s3)
+            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(
+                    acl: .publicRead,
+                    body: .string(contents),
+                    bucket: name,
+                    contentLength: Int64(contents.utf8.count),
+                    key: filename
+                )
+                return s3.putObject(putRequest)
+            }
+            .map { response -> Void in
+                XCTAssertNotNil(response.eTag)
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return s3.getObject(.init(bucket: name, key: filename))
+            }.flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+
+    }
+
+    func testTransferAccelerated() {
+        // doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
+
+        let s3Accelerated = Self.s3.with(options: .s3UseTransferAcceleratedEndpoint)
+        let name = TestEnvironment.generateResourceName()
+        let filename = "testfile.txt"
+        let contents = "testing S3.PutObject and S3.GetObject"
+        let response = Self.createBucket(name: name, s3: Self.s3)
+            .flatMap { _ -> EventLoopFuture<Void> in
+                let request = S3.PutBucketAccelerateConfigurationRequest(accelerateConfiguration: .init(status: .enabled), bucket: name)
+                return Self.s3.putBucketAccelerateConfiguration(request)
+            }
+            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(
+                    acl: .publicRead,
+                    body: .string(contents),
+                    bucket: name,
+                    contentLength: Int64(contents.utf8.count),
+                    key: filename
+                )
+                return s3Accelerated.putObject(putRequest)
+            }
+            .map { response -> Void in
+                XCTAssertNotNil(response.eTag)
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return Self.s3.getObject(.init(bucket: name, key: filename))
+            }.flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+
+    }
+
     func testError() {
         // get wrong error with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
