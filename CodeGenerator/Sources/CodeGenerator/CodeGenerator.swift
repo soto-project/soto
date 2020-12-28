@@ -95,14 +95,16 @@ struct CodeGenerator {
         try FileManager.default.createDirectory(atPath: basePath, withIntermediateDirectories: true)
 
         let apiContext = service.generateServiceContext()
-        if try self.format(self.environment.renderTemplate(name: "api.stencil", context: apiContext)).writeIfChanged(
+        let api = try self.environment.renderTemplate(name: "api.stencil", context: apiContext)
+        if self.command.output, try self.format(api).writeIfChanged(
             toFile: "\(basePath)/\(service.api.serviceName)_API.swift"
         ) {
             print("Wrote: \(service.api.serviceName)_API.swift")
         }
 
         let shapesContext = service.generateShapesContext()
-        if try self.format(self.environment.renderTemplate(name: "shapes.stencil", context: shapesContext)).writeIfChanged(
+        let shapes = try self.environment.renderTemplate(name: "shapes.stencil", context: shapesContext)
+        if self.command.output, try self.format(shapes).writeIfChanged(
             toFile: "\(basePath)/\(service.api.serviceName)_Shapes.swift"
         ) {
             print("Wrote: \(service.api.serviceName)_Shapes.swift")
@@ -110,7 +112,8 @@ struct CodeGenerator {
 
         let errorContext = service.generateErrorContext()
         if errorContext["errors"] != nil {
-            if try self.format(self.environment.renderTemplate(name: "error.stencil", context: errorContext)).writeIfChanged(
+            let errors = try self.environment.renderTemplate(name: "error.stencil", context: errorContext)
+            if self.command.output, try self.format(errors).writeIfChanged(
                 toFile: "\(basePath)/\(service.api.serviceName)_Error.swift"
             ) {
                 print("Wrote: \(service.api.serviceName)_Error.swift")
@@ -119,7 +122,8 @@ struct CodeGenerator {
 
         let paginatorContext = try service.generatePaginatorContext()
         if paginatorContext["paginators"] != nil {
-            if try self.format(self.environment.renderTemplate(name: "paginator.stencil", context: paginatorContext)).writeIfChanged(
+            let paginators = try self.environment.renderTemplate(name: "paginator.stencil", context: paginatorContext)
+            if self.command.output, try self.format(paginators).writeIfChanged(
                 toFile: "\(basePath)/\(service.api.serviceName)_Paginator.swift"
             ) {
                 print("Wrote: \(service.api.serviceName)_Paginator.swift")
@@ -151,9 +155,7 @@ struct CodeGenerator {
                         endpoints: endpoints,
                         stripHTMLTags: !command.htmlComments
                     )
-                    if self.command.output {
-                        try self.generateFiles(with: service)
-                    }
+                    try self.generateFiles(with: service)
                 } catch {
                     print("\(error)")
                     exit(1)
