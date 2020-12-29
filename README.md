@@ -1,12 +1,12 @@
-Soto is the new name for AWS SDK Swift. Amazon have asked that we don't use the name AWS SDK Swift. They are protecting their trademark and want to avoid confusing their customers who might think we are affiliated or are being sponsored by them, which we aren't.
-
 # Soto for AWS
-
-Soto is a Swift language SDK for AWS services working on Linux, macOS and iOS.
 
 [<img src="http://img.shields.io/badge/swift-5.0-brightgreen.svg" alt="Swift 5.0" />](https://swift.org)
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
 [<img src="https://github.com/soto-project/soto/workflows/Swift/badge.svg" />](https://github.com/soto-project/soto/actions)
+
+Soto is a Swift language SDK for Amazon Web Services (AWS), working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services. 
+
+Soto is a community supported project and is in no way affiliated with AWS.
 
 ## Compatibility
 
