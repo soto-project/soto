@@ -14,6 +14,8 @@
 
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
+import struct Foundation.UUID
+import NIO
 import SotoCore
 
 /// Credential Provider that holds an AWSClient
@@ -38,6 +40,7 @@ extension CredentialProviderWithClient {
 }
 
 extension STS {
+    /// Enumeration for provided a Request structure to a credential provider
     enum RequestProvider<Request> {
         case `static`(Request)
         case dynamic((EventLoop) -> EventLoopFuture<Request>)
@@ -52,6 +55,7 @@ extension STS {
         }
     }
 
+    /// Credential Provider using `AssumeRole` to provide credentials
     struct AssumeRoleCredentialProvider: CredentialProviderWithClient {
         let requestProvider: RequestProvider<STS.AssumeRoleRequest>
         let client: AWSClient
@@ -83,6 +87,7 @@ extension STS {
         }
     }
 
+    /// Credential Provider using `AssumeRoleWithSAML` to provide credentials
     struct AssumeRoleWithSAMLCredentialProvider: CredentialProviderWithClient {
         let requestProvider: RequestProvider<STS.AssumeRoleWithSAMLRequest>
         let client: AWSClient
@@ -109,6 +114,7 @@ extension STS {
         }
     }
 
+    /// Credential Provider using `AssumeRoleWebIdentity` to provide credentials
     struct AssumeRoleWithWebIdentityCredentialProvider: CredentialProviderWithClient {
         let requestProvider: RequestProvider<STS.AssumeRoleWithWebIdentityRequest>
         let client: AWSClient
@@ -135,6 +141,75 @@ extension STS {
         }
     }
 
+    /// Credential Provider using `AssumeRoleWebIdentity` to provide credentials. Uses environment variables to setup request structure. Used
+    /// by Amazon EKS Clusters.
+    struct AssumeRoleWithWebIdentityTokenFileCredentialProvider: CredentialProvider {
+        let webIdentityProvider: AssumeRoleWithWebIdentityCredentialProvider
+
+        init?(region: Region, context: CredentialProviderFactory.Context) {
+            guard let tokenFile = Environment["AWS_WEB_IDENTITY_TOKEN_FILE"] else { return nil }
+            guard let roleArn = Environment["AWS_ROLE_ARN"] else { return nil }
+            let sessionName = Environment["AWS_ROLE_SESSION_NAME"]
+
+            self.webIdentityProvider = AssumeRoleWithWebIdentityCredentialProvider(
+                requestProvider: .dynamic { _ in
+                    return Self.loadTokenFile(tokenFile, on: context.eventLoop).map { token in
+                        STS.AssumeRoleWithWebIdentityRequest(
+                            roleArn: roleArn,
+                            roleSessionName: sessionName ?? UUID().uuidString,
+                            webIdentityToken: token
+                        )
+                    }
+                },
+                region: region,
+                httpClient: context.httpClient
+            )
+        }
+
+        func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
+            return webIdentityProvider.shutdown(on: eventLoop)
+        }
+
+        /// get credentials
+        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
+            return webIdentityProvider.getCredential(on: eventLoop, logger: logger)
+        }
+
+        /// Load web identity token file
+        static func loadTokenFile(_ tokenFile: String, on eventLoop: EventLoop) -> EventLoopFuture<String> {
+            let threadPool = NIOThreadPool(numberOfThreads: 1)
+            threadPool.start()
+            let fileIO = NonBlockingFileIO(threadPool: threadPool)
+
+            return loadFile(path: tokenFile, on: eventLoop, using: fileIO).map { byteBuffer in
+                var byteBuffer = byteBuffer
+                return byteBuffer.readString(length: byteBuffer.readableBytes) ?? ""
+            }
+            .always { _ in
+                // shutdown the threadpool async
+                threadPool.shutdownGracefully { _ in }
+            }
+        }
+
+        /// Load a file from disk without blocking the current thread
+        /// - Returns: Event loop future with file contents in a byte-buffer
+        static func loadFile(path: String, on eventLoop: EventLoop, using fileIO: NonBlockingFileIO) -> EventLoopFuture<ByteBuffer> {
+            return fileIO.openFile(path: path, eventLoop: eventLoop)
+                .flatMap { handle, region in
+                    fileIO.read(fileRegion: region, allocator: ByteBufferAllocator(), eventLoop: eventLoop)
+                        .flatMapErrorThrowing { error in
+                            try? handle.close()
+                            throw error
+                        }
+                        .flatMapThrowing { byteBuffer in
+                            try handle.close()
+                            return byteBuffer
+                        }
+                }
+        }
+    }
+
+    /// Credential provider using Federation Tokens
     struct FederatedTokenCredentialProvider: CredentialProviderWithClient {
         let requestProvider: RequestProvider<STS.GetFederationTokenRequest>
         let client: AWSClient
@@ -161,6 +236,7 @@ extension STS {
         }
     }
 
+    /// Credential provider using session tokens
     struct SessionTokenCredentialProvider: CredentialProviderWithClient {
         let requestProvider: RequestProvider<STS.GetSessionTokenRequest>
         let client: AWSClient
@@ -190,6 +266,9 @@ extension STS {
 
 extension CredentialProviderFactory {
     /// Use AssumeRole to provide credentials
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_assumerole)
+    ///
     /// - Parameters:
     ///   - request: AssumeRole request structure
     ///   - credentialProvider: Credential provider used in client that runs the AssumeRole operation
@@ -211,10 +290,13 @@ extension CredentialProviderFactory {
     }
 
     /// Use AssumeRole to provide credentials
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_assumerole)
+    ///
     /// - Parameters:
-    ///   - request: Function that returns a EventLoopFuture to be fulfillled with an AssumeRole request structure
     ///   - credentialProvider: Credential provider used in client that runs the AssumeRole operation
     ///   - region: Region to run request in
+    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRole request struct
     public static func stsAssumeRole(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
@@ -232,6 +314,9 @@ extension CredentialProviderFactory {
     }
 
     /// Use AssumeRoleWithSAML to provide credentials
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_assumerolewithsaml)
+    ///
     /// - Parameters:
     ///   - request: AssumeRoleWithSAML request struct
     ///   - region: Region to run request in
@@ -243,9 +328,12 @@ extension CredentialProviderFactory {
     }
 
     /// Use AssumeRoleWithSAML to provide credentials
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_assumerolewithsaml)
+    ///
     /// - Parameters:
-    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithSAML request struct
     ///   - region: Region to run request in
+    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithSAML request struct
     public static func stsSAML(
         region: Region,
         requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleWithSAMLRequest>
@@ -257,6 +345,9 @@ extension CredentialProviderFactory {
     }
 
     /// Use AssumeRoleWithWebIdentity to provide credentials
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_assumerolewithwebidentity)
+    ///
     /// - Parameters:
     ///   - request: AssumeRoleWithWebIdentity request struct
     ///   - region: Region to run request in
@@ -268,9 +359,12 @@ extension CredentialProviderFactory {
     }
 
     /// Use AssumeRoleWithWebIdentity to provide credentials
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_assumerolewithwebidentity)
+    ///
     /// - Parameters:
-    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithWebIdentity request struct
     ///   - region: Region to run request in
+    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithWebIdentity request struct
     public static func stsWebIdentity(
         region: Region,
         requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleWithWebIdentityRequest>
@@ -281,7 +375,28 @@ extension CredentialProviderFactory {
         }
     }
 
+    /// Use AssumeRoleWithWebIdentity to provide credentials for EKS clusters. Uses environment variables `AWS_WEB_IDENTITY_TOKEN_FILE`,
+    /// `AWS_ROLE_ARN`, and `AWS_ROLE_SESSION_NAME`. The web identity token can be found in the file pointed to by `AWS_WEB_IDENTITY_TOKEN_FILE`.
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts-technical-overview.html#pod-configuration)
+    ///
+    /// - Parameters:
+    ///   - region: Region to run request in
+    public static func stsWebIdentityTokenFile(
+        region: Region
+    ) -> CredentialProviderFactory {
+        .custom { context in
+            guard let provider = STS.AssumeRoleWithWebIdentityTokenFileCredentialProvider(region: region, context: context) else {
+                return NullCredentialProvider()
+            }
+            return RotatingCredentialProvider(context: context, provider: provider)
+        }
+    }
+
     /// Use GetFederationToken to provide credentials
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getfederationtoken)
+    ///
     /// - Parameters:
     ///   - request: AssumeRole request structure
     ///   - credentialProvider: Credential provider used in client that runs the GetFederationToken operation
@@ -303,6 +418,9 @@ extension CredentialProviderFactory {
     }
 
     /// Use GetSessionToken to provide credentials
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getsessiontoken)
+    ///
     /// - Parameters:
     ///   - request: SessionToken request structure
     ///   - credentialProvider: Credential provider used in client that runs the GetSessionToken operation
@@ -324,10 +442,13 @@ extension CredentialProviderFactory {
     }
 
     /// Use GetSessionToken to provide credentials
+    ///
+    /// See [AWS Documention](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getsessiontoken)
+    ///
     /// - Parameters:
-    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with a SessionToken request structure
     ///   - credentialProvider: Credential provider used in client that runs the GetSessionToken operation
     ///   - region: Region to run request in
+    ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with a SessionToken request structure
     public static func stsSessionToken(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
