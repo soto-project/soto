@@ -22,6 +22,7 @@ let swiftReservedWords: Set<String> = [
     "class",
     "continue",
     "default",
+    "defer",
     "do",
     "else",
     "enum",
