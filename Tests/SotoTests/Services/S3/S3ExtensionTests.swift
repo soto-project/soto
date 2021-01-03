@@ -379,8 +379,8 @@ class S3ExtensionTests: XCTestCase {
                 )
                 return s3.selectObjectContentEventStream(request, logger: TestEnvironment.logger, on: runOnEventLoop) { eventStream, eventLoop in
                     XCTAssertTrue(eventLoop === runOnEventLoop)
-                    if let records = eventStream.records?.payload {
-                        print("Record size: \(records.count)")
+                    if case .records(let records) = eventStream, let payload = records.payload {
+                        print("Record size: \(payload.count)")
                     }
                     return eventLoop.makeSucceededFuture(())
                 }
