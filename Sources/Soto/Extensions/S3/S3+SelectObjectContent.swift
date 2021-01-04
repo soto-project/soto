@@ -48,76 +48,79 @@ extension S3.SelectObjectContentEventStream {
 
         let rootElement = XML.Element(name: "Payload")
 
-        while byteBuffer.readableBytes > 0 {
-            // get prelude buffer and crc. Return nil if we don't have enough data
-            guard var preludeBuffer = byteBuffer.getSlice(at: byteBuffer.readerIndex, length: 8) else { return nil }
-            guard let preludeCRC: UInt32 = byteBuffer.getInteger(at: byteBuffer.readerIndex + 8) else { return nil }
-            // verify crc
-            let preludeBufferView = ByteBufferView(preludeBuffer)
-            let calculatedPreludeCRC = preludeBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }
-            guard UInt(preludeCRC) == calculatedPreludeCRC else { throw S3SelectError.corruptPayload }
-            // get lengths
-            guard let totalLength: Int32 = preludeBuffer.readInteger(),
-                  let headerLength: Int32 = preludeBuffer.readInteger() else { return nil }
+        guard byteBuffer.readableBytes > 0 else { return nil }
 
-            // get message and message CRC. Return nil if we don't have enough data
-            guard var messageBuffer = byteBuffer.readSlice(length: Int(totalLength - 4)),
-                  let messageCRC: UInt32 = byteBuffer.readInteger() else { return nil }
-            // verify message CRC
-            let messageBufferView = ByteBufferView(messageBuffer)
-            let calculatedCRC = messageBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }
-            guard UInt(messageCRC) == calculatedCRC else { throw S3SelectError.corruptPayload }
+        // get prelude buffer and crc. Return nil if we don't have enough data
+        guard var preludeBuffer = byteBuffer.getSlice(at: byteBuffer.readerIndex, length: 8) else { return nil }
+        guard let preludeCRC: UInt32 = byteBuffer.getInteger(at: byteBuffer.readerIndex + 8) else { return nil }
+        // verify crc
+        let preludeBufferView = ByteBufferView(preludeBuffer)
+        let calculatedPreludeCRC = preludeBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }
+        guard UInt(preludeCRC) == calculatedPreludeCRC else { throw S3SelectError.corruptPayload }
+        // get lengths
+        guard let totalLength: Int32 = preludeBuffer.readInteger(),
+              let headerLength: Int32 = preludeBuffer.readInteger() else { return nil }
 
-            // skip past prelude
-            messageBuffer.moveReaderIndex(forwardBy: 12)
+        // get message and message CRC. Return nil if we don't have enough data
+        guard var messageBuffer = byteBuffer.readSlice(length: Int(totalLength - 4)),
+              let messageCRC: UInt32 = byteBuffer.readInteger() else { return nil }
+        // verify message CRC
+        let messageBufferView = ByteBufferView(messageBuffer)
+        let calculatedCRC = messageBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }
+        guard UInt(messageCRC) == calculatedCRC else { throw S3SelectError.corruptPayload }
 
-            // get headers
-            guard let headerBuffer: ByteBuffer = messageBuffer.readSlice(length: Int(headerLength)) else {
-                throw S3SelectError.corruptHeader
-            }
-            let headers = try readHeaderValues(headerBuffer)
-            if headers[":message-type"] == "error" {
-                throw S3SelectError.selectContentError(headers[":error-code"] ?? "Unknown")
-            }
+        // skip past prelude
+        messageBuffer.moveReaderIndex(forwardBy: 12)
 
-            let payloadSize = Int(totalLength - headerLength - 16)
-
-            switch headers[":event-type"] {
-            case "Records":
-                guard let data = messageBuffer.readData(length: payloadSize) else { throw S3SelectError.corruptPayload }
-                let payloadElement = XML.Element(name: "Payload", stringValue: data.base64EncodedString())
-                let recordsElement = XML.Element(name: "Records")
-                recordsElement.addChild(payloadElement)
-                rootElement.addChild(recordsElement)
-
-            case "Cont":
-                guard payloadSize == 0 else { throw S3SelectError.corruptPayload }
-
-            case "Progress":
-                guard let data = messageBuffer.readData(length: payloadSize) else { throw S3SelectError.corruptPayload }
-                let xmlElement = try XML.Element(xmlData: data)
-                xmlElement.name = "Details"
-                let progressElement = XML.Element(name: "Progress")
-                progressElement.addChild(xmlElement)
-                rootElement.addChild(progressElement)
-
-            case "Stats":
-                guard let data = messageBuffer.readData(length: payloadSize) else { throw S3SelectError.corruptPayload }
-                let xmlElement = try XML.Element(xmlData: data)
-                xmlElement.name = "Details"
-                let progressElement = XML.Element(name: "Stats")
-                progressElement.addChild(xmlElement)
-                rootElement.addChild(progressElement)
-
-            case "End":
-                break
-
-            default:
-                throw S3SelectError.corruptPayload
-            }
+        // get headers
+        guard let headerBuffer: ByteBuffer = messageBuffer.readSlice(length: Int(headerLength)) else {
+            throw S3SelectError.corruptHeader
+        }
+        let headers = try readHeaderValues(headerBuffer)
+        if headers[":message-type"] == "error" {
+            throw S3SelectError.selectContentError(headers[":error-code"] ?? "Unknown")
         }
 
-        return try XMLDecoder().decode(Self.self, from: rootElement)
+        let payloadSize = Int(totalLength - headerLength - 16)
+
+        switch headers[":event-type"] {
+        case "Records":
+            guard let data = messageBuffer.readData(length: payloadSize) else { throw S3SelectError.corruptPayload }
+            let payloadElement = XML.Element(name: "Payload", stringValue: data.base64EncodedString())
+            let recordsElement = XML.Element(name: "Records")
+            recordsElement.addChild(payloadElement)
+            rootElement.addChild(recordsElement)
+
+        case "Cont":
+            guard payloadSize == 0 else { throw S3SelectError.corruptPayload }
+            let contElement = XML.Element(name: "Cont")
+            rootElement.addChild(contElement)
+
+        case "Progress":
+            guard let data = messageBuffer.readData(length: payloadSize) else { throw S3SelectError.corruptPayload }
+            let xmlElement = try XML.Element(xmlData: data)
+            xmlElement.name = "Details"
+            let progressElement = XML.Element(name: "Progress")
+            progressElement.addChild(xmlElement)
+            rootElement.addChild(progressElement)
+
+        case "Stats":
+            guard let data = messageBuffer.readData(length: payloadSize) else { throw S3SelectError.corruptPayload }
+            let xmlElement = try XML.Element(xmlData: data)
+            xmlElement.name = "Details"
+            let statsElement = XML.Element(name: "Stats")
+            statsElement.addChild(xmlElement)
+            rootElement.addChild(statsElement)
+
+        case "End":
+            let endElement = XML.Element(name: "End")
+            rootElement.addChild(endElement)
+
+        default:
+            throw S3SelectError.corruptPayload
+        }
+
+        return try XMLDecoder().decode(S3.SelectObjectContentEventStream.self, from: rootElement)
     }
 }
 
@@ -172,17 +175,18 @@ extension S3 {
                 selectByteBuffer = nil
             }
             do {
-                if let event = try SelectObjectContentEventStream.consume(byteBuffer: &byteBuffer) {
-                    if byteBuffer.readableBytes > 0 {
-                        selectByteBuffer = byteBuffer
-                    }
-                    return stream(event, eventLoop)
+                var events: [SelectObjectContentEventStream] = []
+                while let event = try SelectObjectContentEventStream.consume(byteBuffer: &byteBuffer) {
+                    events.append(event)
                 }
+                if byteBuffer.readableBytes > 0 {
+                    selectByteBuffer = byteBuffer
+                }
+                let streamFutures = events.map { stream($0, eventLoop) }
+                return EventLoopFuture.andAllSucceed(streamFutures, on: eventLoop)
             } catch {
                 return eventLoop.makeFailedFuture(error)
             }
-            selectByteBuffer = byteBuffer
-            return eventLoop.makeSucceededFuture(())
         }
     }
 }
