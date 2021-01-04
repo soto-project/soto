@@ -22,6 +22,7 @@ needs to be listed here.
 ### Contributors - SotoCore
 
 - Adam Fowler <adamfowler71@gmail.com>
+- Eneko Alonso <eneko.alonso@gmail.com>
 - Fabian Fett <fabianfett@mac.com>
 - Joe Smith <yasumoto7@gmail.com>
 - Jonathan McAllister <jonny.mcallister@leagueheads.com>
