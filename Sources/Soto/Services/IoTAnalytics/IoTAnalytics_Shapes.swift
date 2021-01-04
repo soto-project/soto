@@ -60,6 +60,12 @@ extension IoTAnalytics {
         public var description: String { return self.rawValue }
     }
 
+    public enum FileFormatType: String, CustomStringConvertible, Codable {
+        case json = "JSON"
+        case parquet = "PARQUET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LoggingLevel: String, CustomStringConvertible, Codable {
         case error = "ERROR"
         public var description: String { return self.rawValue }
@@ -270,6 +276,29 @@ extension IoTAnalytics {
         }
     }
 
+    public struct ChannelMessages: AWSEncodableShape {
+        /// Specifies one or more keys that identify the Amazon Simple Storage Service (Amazon S3) objects that save your channel messages.
+        public let s3Paths: [String]?
+
+        public init(s3Paths: [String]? = nil) {
+            self.s3Paths = s3Paths
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Paths?.forEach {
+                try validate($0, name: "s3Paths[]", parent: name, max: 1024)
+                try validate($0, name: "s3Paths[]", parent: name, min: 1)
+                try validate($0, name: "s3Paths[]", parent: name, pattern: "^[a-zA-Z0-9/_!'(){}\\*\\s\\.\\-\\=\\:]+$")
+            }
+            try self.validate(self.s3Paths, name: "s3Paths", parent: name, max: 100)
+            try self.validate(self.s3Paths, name: "s3Paths", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Paths
+        }
+    }
+
     public struct ChannelStatistics: AWSDecodableShape {
         /// The estimated size of the channel.
         public let size: EstimatedResourceSize?
@@ -351,6 +380,32 @@ extension IoTAnalytics {
             case lastMessageArrivalTime
             case lastUpdateTime
             case status
+        }
+    }
+
+    public struct Column: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let name: String
+        /// The type of data. For more information about the supported data types, see Common data types in the AWS Glue Developer Guide.
+        public let type: String
+
+        public init(name: String, type: String) {
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)$")
+            try self.validate(self.type, name: "type", parent: name, max: 131_072)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case type
         }
     }
 
@@ -591,14 +646,17 @@ extension IoTAnalytics {
         public let datastoreName: String
         /// Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the data store is created.
         public let datastoreStorage: DatastoreStorage?
+        /// Contains the configuration information of file formats. AWS IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
+        public let fileFormatConfiguration: FileFormatConfiguration?
         /// How long, in days, message data is kept for the data store. When customerManagedS3 storage is selected, this parameter is ignored.
         public let retentionPeriod: RetentionPeriod?
         /// Metadata which can be used to manage the data store.
         public let tags: [Tag]?
 
-        public init(datastoreName: String, datastoreStorage: DatastoreStorage? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
+        public init(datastoreName: String, datastoreStorage: DatastoreStorage? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
             self.datastoreName = datastoreName
             self.datastoreStorage = datastoreStorage
+            self.fileFormatConfiguration = fileFormatConfiguration
             self.retentionPeriod = retentionPeriod
             self.tags = tags
         }
@@ -608,6 +666,7 @@ extension IoTAnalytics {
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, min: 1)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.datastoreStorage?.validate(name: "\(name).datastoreStorage")
+            try self.fileFormatConfiguration?.validate(name: "\(name).fileFormatConfiguration")
             try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -619,6 +678,7 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case datastoreName
             case datastoreStorage
+            case fileFormatConfiguration
             case retentionPeriod
             case tags
         }
@@ -1088,6 +1148,8 @@ extension IoTAnalytics {
         public let arn: String?
         /// When the data store was created.
         public let creationTime: Date?
+        /// Contains the configuration information of file formats. AWS IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
+        public let fileFormatConfiguration: FileFormatConfiguration?
         /// The last time when a new message arrived in the data store. AWS IoT Analytics updates this value at most once per minute for one data store. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
         public let lastMessageArrivalTime: Date?
         /// The last time the data store was updated.
@@ -1101,9 +1163,10 @@ extension IoTAnalytics {
         /// Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the data store is created.
         public let storage: DatastoreStorage?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
+            self.fileFormatConfiguration = fileFormatConfiguration
             self.lastMessageArrivalTime = lastMessageArrivalTime
             self.lastUpdateTime = lastUpdateTime
             self.name = name
@@ -1115,6 +1178,7 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case arn
             case creationTime
+            case fileFormatConfiguration
             case lastMessageArrivalTime
             case lastUpdateTime
             case name
@@ -1207,6 +1271,8 @@ extension IoTAnalytics {
         public let datastoreName: String?
         /// Where data store data is stored.
         public let datastoreStorage: DatastoreStorageSummary?
+        /// The file format of the data in the data store.
+        public let fileFormatType: FileFormatType?
         /// The last time when a new message arrived in the data store. AWS IoT Analytics updates this value at most once per minute for one data store. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
         public let lastMessageArrivalTime: Date?
         /// The last time the data store was updated.
@@ -1214,10 +1280,11 @@ extension IoTAnalytics {
         /// The status of the data store.
         public let status: DatastoreStatus?
 
-        public init(creationTime: Date? = nil, datastoreName: String? = nil, datastoreStorage: DatastoreStorageSummary? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, status: DatastoreStatus? = nil) {
+        public init(creationTime: Date? = nil, datastoreName: String? = nil, datastoreStorage: DatastoreStorageSummary? = nil, fileFormatType: FileFormatType? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, status: DatastoreStatus? = nil) {
             self.creationTime = creationTime
             self.datastoreName = datastoreName
             self.datastoreStorage = datastoreStorage
+            self.fileFormatType = fileFormatType
             self.lastMessageArrivalTime = lastMessageArrivalTime
             self.lastUpdateTime = lastUpdateTime
             self.status = status
@@ -1227,6 +1294,7 @@ extension IoTAnalytics {
             case creationTime
             case datastoreName
             case datastoreStorage
+            case fileFormatType
             case lastMessageArrivalTime
             case lastUpdateTime
             case status
@@ -1649,6 +1717,27 @@ extension IoTAnalytics {
         }
     }
 
+    public struct FileFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the configuration information of the JSON format.
+        public let jsonConfiguration: JsonConfiguration?
+        /// Contains the configuration information of the Parquet format.
+        public let parquetConfiguration: ParquetConfiguration?
+
+        public init(jsonConfiguration: JsonConfiguration? = nil, parquetConfiguration: ParquetConfiguration? = nil) {
+            self.jsonConfiguration = jsonConfiguration
+            self.parquetConfiguration = parquetConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.parquetConfiguration?.validate(name: "\(name).parquetConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jsonConfiguration
+            case parquetConfiguration
+        }
+    }
+
     public struct FilterActivity: AWSEncodableShape & AWSDecodableShape {
         /// An expression that looks like a SQL WHERE clause that must return a Boolean value. Messages that satisfy the condition are passed to the next activity.
         public let filter: String
@@ -1776,6 +1865,10 @@ extension IoTAnalytics {
             case inputName
             case roleArn
         }
+    }
+
+    public struct JsonConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct LambdaActivity: AWSEncodableShape & AWSDecodableShape {
@@ -2210,6 +2303,23 @@ extension IoTAnalytics {
         }
     }
 
+    public struct ParquetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Information needed to define a schema.
+        public let schemaDefinition: SchemaDefinition?
+
+        public init(schemaDefinition: SchemaDefinition? = nil) {
+            self.schemaDefinition = schemaDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.schemaDefinition?.validate(name: "\(name).schemaDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaDefinition
+        }
+    }
+
     public struct Pipeline: AWSDecodableShape {
         /// The activities that perform transformations on the messages.
         public let activities: [PipelineActivity]?
@@ -2596,6 +2706,25 @@ extension IoTAnalytics {
         }
     }
 
+    public struct SchemaDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies one or more columns that store your data. Each schema can have up to 100 columns. Each column can have up to 100 nested types
+        public let columns: [Column]?
+
+        public init(columns: [Column]? = nil) {
+            self.columns = columns
+        }
+
+        public func validate(name: String) throws {
+            try self.columns?.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns
+        }
+    }
+
     public struct SelectAttributesActivity: AWSEncodableShape & AWSDecodableShape {
         /// A list of the attributes to select from the message.
         public let attributes: [String]
@@ -2673,26 +2802,31 @@ extension IoTAnalytics {
             AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName"))
         ]
 
-        /// The end time (exclusive) of raw message data that is reprocessed.
+        /// Specifies one or more sets of channel messages that you want to reprocess. If you use the channelMessages object, you must not specify a value for startTime and endTime.
+        public let channelMessages: ChannelMessages?
+        /// The end time (exclusive) of raw message data that is reprocessed. If you specify a value for the endTime parameter, you must not use the channelMessages object.
         public let endTime: Date?
         /// The name of the pipeline on which to start reprocessing.
         public let pipelineName: String
-        /// The start time (inclusive) of raw message data that is reprocessed.
+        /// The start time (inclusive) of raw message data that is reprocessed. If you specify a value for the startTime parameter, you must not use the channelMessages object.
         public let startTime: Date?
 
-        public init(endTime: Date? = nil, pipelineName: String, startTime: Date? = nil) {
+        public init(channelMessages: ChannelMessages? = nil, endTime: Date? = nil, pipelineName: String, startTime: Date? = nil) {
+            self.channelMessages = channelMessages
             self.endTime = endTime
             self.pipelineName = pipelineName
             self.startTime = startTime
         }
 
         public func validate(name: String) throws {
+            try self.channelMessages?.validate(name: "\(name).channelMessages")
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 128)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case channelMessages
             case endTime
             case startTime
         }
@@ -2931,12 +3065,15 @@ extension IoTAnalytics {
         public let datastoreName: String
         /// Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default isserviceManagedS3. You cannot change this storage option after the data store is created.
         public let datastoreStorage: DatastoreStorage?
+        /// Contains the configuration information of file formats. AWS IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
+        public let fileFormatConfiguration: FileFormatConfiguration?
         /// How long, in days, message data is kept for the data store. The retention period cannot be updated if the data store's S3 storage is customer-managed.
         public let retentionPeriod: RetentionPeriod?
 
-        public init(datastoreName: String, datastoreStorage: DatastoreStorage? = nil, retentionPeriod: RetentionPeriod? = nil) {
+        public init(datastoreName: String, datastoreStorage: DatastoreStorage? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.datastoreName = datastoreName
             self.datastoreStorage = datastoreStorage
+            self.fileFormatConfiguration = fileFormatConfiguration
             self.retentionPeriod = retentionPeriod
         }
 
@@ -2945,11 +3082,13 @@ extension IoTAnalytics {
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, min: 1)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.datastoreStorage?.validate(name: "\(name).datastoreStorage")
+            try self.fileFormatConfiguration?.validate(name: "\(name).fileFormatConfiguration")
             try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
             case datastoreStorage
+            case fileFormatConfiguration
             case retentionPeriod
         }
     }

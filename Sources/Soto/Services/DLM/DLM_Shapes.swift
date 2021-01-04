@@ -20,6 +20,16 @@ import SotoCore
 extension DLM {
     // MARK: Enums
 
+    public enum EventSourceValues: String, CustomStringConvertible, Codable {
+        case managedCwe = "MANAGED_CWE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventTypeValues: String, CustomStringConvertible, Codable {
+        case sharesnapshot = "shareSnapshot"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -34,6 +44,7 @@ extension DLM {
 
     public enum PolicyTypeValues: String, CustomStringConvertible, Codable {
         case ebsSnapshotManagement = "EBS_SNAPSHOT_MANAGEMENT"
+        case eventBasedPolicy = "EVENT_BASED_POLICY"
         case imageManagement = "IMAGE_MANAGEMENT"
         public var description: String { return self.rawValue }
     }
@@ -59,6 +70,34 @@ extension DLM {
     }
 
     // MARK: Shapes
+
+    public struct Action: AWSEncodableShape & AWSDecodableShape {
+        /// The rule for copying shared snapshots across Regions.
+        public let crossRegionCopy: [CrossRegionCopyAction]
+        /// A descriptive name for the action.
+        public let name: String
+
+        public init(crossRegionCopy: [CrossRegionCopyAction], name: String) {
+            self.crossRegionCopy = crossRegionCopy
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.crossRegionCopy.forEach {
+                try $0.validate(name: "\(name).crossRegionCopy[]")
+            }
+            try self.validate(self.crossRegionCopy, name: "crossRegionCopy", parent: name, max: 3)
+            try self.validate(self.crossRegionCopy, name: "crossRegionCopy", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, max: 120)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z _-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossRegionCopy = "CrossRegionCopy"
+            case name = "Name"
+        }
+    }
 
     public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
         /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are supported.
@@ -157,6 +196,34 @@ extension DLM {
         }
     }
 
+    public struct CrossRegionCopyAction: AWSEncodableShape & AWSDecodableShape {
+        /// The encryption settings for the copied snapshot.
+        public let encryptionConfiguration: EncryptionConfiguration
+        public let retainRule: CrossRegionCopyRetainRule?
+        /// The target Region.
+        public let target: String
+
+        public init(encryptionConfiguration: EncryptionConfiguration, retainRule: CrossRegionCopyRetainRule? = nil, target: String) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.retainRule = retainRule
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionConfiguration.validate(name: "\(name).encryptionConfiguration")
+            try self.retainRule?.validate(name: "\(name).retainRule")
+            try self.validate(self.target, name: "target", parent: name, max: 16)
+            try self.validate(self.target, name: "target", parent: name, min: 0)
+            try self.validate(self.target, name: "target", parent: name, pattern: "^[\\\\w:\\\\-\\\\/\\\\*]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case retainRule = "RetainRule"
+            case target = "Target"
+        }
+    }
+
     public struct CrossRegionCopyRetainRule: AWSEncodableShape & AWSDecodableShape {
         /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
         public let interval: Int?
@@ -240,6 +307,84 @@ extension DLM {
 
     public struct DeleteLifecyclePolicyResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to use for EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used.
+        public let cmkArn: String?
+        /// To encrypt a copy of an unencrypted snapshot when encryption by default is not enabled, enable encryption using this parameter. Copies of encrypted snapshots are encrypted, even if this parameter is false or when encryption by default is not enabled.
+        public let encrypted: Bool
+
+        public init(cmkArn: String? = nil, encrypted: Bool) {
+            self.cmkArn = cmkArn
+            self.encrypted = encrypted
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cmkArn, name: "cmkArn", parent: name, max: 2048)
+            try self.validate(self.cmkArn, name: "cmkArn", parent: name, min: 0)
+            try self.validate(self.cmkArn, name: "cmkArn", parent: name, pattern: "arn:aws(-[a-z]{1,3}){0,2}:kms:([a-z]+-){2,3}\\d:\\d+:key/.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cmkArn = "CmkArn"
+            case encrypted = "Encrypted"
+        }
+    }
+
+    public struct EventParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The snapshot description that can trigger the policy. The description pattern is specified using a regular expression. The policy runs only if a snapshot with a description that matches the specified pattern is shared with your account. For example, specifying ^.*Created for policy: policy-1234567890abcdef0.*$ configures the policy to run only if snapshots created by policy policy-1234567890abcdef0 are shared with your account.
+        public let descriptionRegex: String
+        /// The type of event. Currently, only snapshot sharing events are supported.
+        public let eventType: EventTypeValues
+        /// The IDs of the AWS accounts that can trigger policy by sharing snapshots with your account. The policy only runs if one of the specified AWS accounts shares a snapshot with your account.
+        public let snapshotOwner: [String]
+
+        public init(descriptionRegex: String, eventType: EventTypeValues, snapshotOwner: [String]) {
+            self.descriptionRegex = descriptionRegex
+            self.eventType = eventType
+            self.snapshotOwner = snapshotOwner
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.descriptionRegex, name: "descriptionRegex", parent: name, max: 1000)
+            try self.validate(self.descriptionRegex, name: "descriptionRegex", parent: name, min: 0)
+            try self.validate(self.descriptionRegex, name: "descriptionRegex", parent: name, pattern: "[\\p{all}]*")
+            try self.snapshotOwner.forEach {
+                try validate($0, name: "snapshotOwner[]", parent: name, max: 12)
+                try validate($0, name: "snapshotOwner[]", parent: name, min: 12)
+                try validate($0, name: "snapshotOwner[]", parent: name, pattern: "^[0-9]{12}$")
+            }
+            try self.validate(self.snapshotOwner, name: "snapshotOwner", parent: name, max: 50)
+            try self.validate(self.snapshotOwner, name: "snapshotOwner", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case descriptionRegex = "DescriptionRegex"
+            case eventType = "EventType"
+            case snapshotOwner = "SnapshotOwner"
+        }
+    }
+
+    public struct EventSource: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the event.
+        public let parameters: EventParameters?
+        /// The source of the event. Currently only managed AWS CloudWatch Events rules are supported.
+        public let type: EventSourceValues
+
+        public init(parameters: EventParameters? = nil, type: EventSourceValues) {
+            self.parameters = parameters
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.validate(name: "\(name).parameters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case type = "Type"
+        }
     }
 
     public struct FastRestoreRule: AWSEncodableShape & AWSDecodableShape {
@@ -499,7 +644,7 @@ extension DLM {
     public struct Parameters: AWSEncodableShape & AWSDecodableShape {
         /// [EBS Snapshot Management – Instance policies only] Indicates whether to exclude the root volume from snapshots created using CreateSnapshots. The default is false.
         public let excludeBootVolume: Bool?
-        /// Applies to AMI lifecycle policies only. Indicates whether targeted instances are rebooted when the lifecycle policy runs. true indicates that targeted instances are not rebooted when the policy runs. false indicates that target instances are rebooted when the policy runs. The default is true (instance are not rebooted).
+        /// Applies to AMI lifecycle policies only. Indicates whether targeted instances are rebooted when the lifecycle policy runs. true indicates that targeted instances are not rebooted when the policy runs. false indicates that target instances are rebooted when the policy runs. The default is true (instances are not rebooted).
         public let noReboot: Bool?
 
         public init(excludeBootVolume: Bool? = nil, noReboot: Bool? = nil) {
@@ -514,18 +659,24 @@ extension DLM {
     }
 
     public struct PolicyDetails: AWSEncodableShape & AWSDecodableShape {
-        /// A set of optional parameters for the policy.
+        /// The actions to be performed when the event-based policy is triggered. You can specify only one action per policy. This parameter is required for event-based policies only. If you are creating a snapshot or AMI policy, omit this parameter.
+        public let actions: [Action]?
+        /// The event that triggers the event-based policy.  This parameter is required for event-based policies only. If you are creating a snapshot or AMI policy, omit this parameter.
+        public let eventSource: EventSource?
+        /// A set of optional parameters for snapshot and AMI lifecycle policies.  This parameter is required for snapshot and AMI policies only. If you are creating an event-based policy, omit this parameter.
         public let parameters: Parameters?
-        /// The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. The default is EBS_SNAPSHOT_MANAGEMENT.
+        /// The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. Specify EVENT_BASED_POLICY  to create an event-based policy that performs specific actions when a defined event occurs in your AWS account. The default is EBS_SNAPSHOT_MANAGEMENT.
         public let policyType: PolicyTypeValues?
-        /// The resource type. Use VOLUME to create snapshots of individual volumes or use INSTANCE to create multi-volume snapshots from the volumes for an instance.
+        /// The target resource type for snapshot and AMI lifecycle policies. Use VOLUME to create snapshots of individual volumes or use INSTANCE to create multi-volume snapshots from the volumes for an instance. This parameter is required for snapshot and AMI policies only. If you are creating an event-based policy, omit this parameter.
         public let resourceTypes: [ResourceTypeValues]?
-        /// The schedules of policy-defined actions. A policy can have up to four schedules - one mandatory schedule and up to three optional schedules.
+        /// The schedules of policy-defined actions for snapshot and AMI lifecycle policies. A policy can have up to four schedules—one mandatory schedule and up to three optional schedules. This parameter is required for snapshot and AMI policies only. If you are creating an event-based policy, omit this parameter.
         public let schedules: [Schedule]?
-        /// The single tag that identifies targeted resources for this policy.
+        /// The single tag that identifies targeted resources for this policy. This parameter is required for snapshot and AMI policies only. If you are creating an event-based policy, omit this parameter.
         public let targetTags: [Tag]?
 
-        public init(parameters: Parameters? = nil, policyType: PolicyTypeValues? = nil, resourceTypes: [ResourceTypeValues]? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
+        public init(actions: [Action]? = nil, eventSource: EventSource? = nil, parameters: Parameters? = nil, policyType: PolicyTypeValues? = nil, resourceTypes: [ResourceTypeValues]? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
+            self.actions = actions
+            self.eventSource = eventSource
             self.parameters = parameters
             self.policyType = policyType
             self.resourceTypes = resourceTypes
@@ -534,6 +685,12 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 1)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.eventSource?.validate(name: "\(name).eventSource")
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 1)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
             try self.schedules?.forEach {
@@ -549,6 +706,8 @@ extension DLM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case eventSource = "EventSource"
             case parameters = "Parameters"
             case policyType = "PolicyType"
             case resourceTypes = "ResourceTypes"
@@ -597,18 +756,21 @@ extension DLM {
         public let name: String?
         /// The retention rule.
         public let retainRule: RetainRule?
+        /// The rule for sharing snapshots with other AWS accounts.
+        public let shareRules: [ShareRule]?
         /// The tags to apply to policy-created resources. These user-defined tags are in addition to the AWS-added lifecycle tags.
         public let tagsToAdd: [Tag]?
         /// A collection of key/value pairs with values determined dynamically when the policy is executed. Keys may be any valid Amazon EC2 tag key. Values must be in one of the two following formats: $(instance-id) or $(timestamp). Variable tags are only valid for EBS Snapshot Management – Instance policies.
         public let variableTags: [Tag]?
 
-        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, crossRegionCopyRules: [CrossRegionCopyRule]? = nil, fastRestoreRule: FastRestoreRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
+        public init(copyTags: Bool? = nil, createRule: CreateRule? = nil, crossRegionCopyRules: [CrossRegionCopyRule]? = nil, fastRestoreRule: FastRestoreRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, shareRules: [ShareRule]? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
             self.copyTags = copyTags
             self.createRule = createRule
             self.crossRegionCopyRules = crossRegionCopyRules
             self.fastRestoreRule = fastRestoreRule
             self.name = name
             self.retainRule = retainRule
+            self.shareRules = shareRules
             self.tagsToAdd = tagsToAdd
             self.variableTags = variableTags
         }
@@ -623,8 +785,13 @@ extension DLM {
             try self.fastRestoreRule?.validate(name: "\(name).fastRestoreRule")
             try self.validate(self.name, name: "name", parent: name, max: 120)
             try self.validate(self.name, name: "name", parent: name, min: 0)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\p{all}]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z _-]+")
             try self.retainRule?.validate(name: "\(name).retainRule")
+            try self.shareRules?.forEach {
+                try $0.validate(name: "\(name).shareRules[]")
+            }
+            try self.validate(self.shareRules, name: "shareRules", parent: name, max: 1)
+            try self.validate(self.shareRules, name: "shareRules", parent: name, min: 0)
             try self.tagsToAdd?.forEach {
                 try $0.validate(name: "\(name).tagsToAdd[]")
             }
@@ -644,8 +811,40 @@ extension DLM {
             case fastRestoreRule = "FastRestoreRule"
             case name = "Name"
             case retainRule = "RetainRule"
+            case shareRules = "ShareRules"
             case tagsToAdd = "TagsToAdd"
             case variableTags = "VariableTags"
+        }
+    }
+
+    public struct ShareRule: AWSEncodableShape & AWSDecodableShape {
+        /// The IDs of the AWS accounts with which to share the snapshots.
+        public let targetAccounts: [String]
+        /// The period after which snapshots that are shared with other AWS accounts are automatically unshared.
+        public let unshareInterval: Int?
+        /// The unit of time for the automatic unsharing interval.
+        public let unshareIntervalUnit: RetentionIntervalUnitValues?
+
+        public init(targetAccounts: [String], unshareInterval: Int? = nil, unshareIntervalUnit: RetentionIntervalUnitValues? = nil) {
+            self.targetAccounts = targetAccounts
+            self.unshareInterval = unshareInterval
+            self.unshareIntervalUnit = unshareIntervalUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.targetAccounts.forEach {
+                try validate($0, name: "targetAccounts[]", parent: name, max: 12)
+                try validate($0, name: "targetAccounts[]", parent: name, min: 12)
+                try validate($0, name: "targetAccounts[]", parent: name, pattern: "^[0-9]{12}$")
+            }
+            try self.validate(self.targetAccounts, name: "targetAccounts", parent: name, min: 1)
+            try self.validate(self.unshareInterval, name: "unshareInterval", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetAccounts = "TargetAccounts"
+            case unshareInterval = "UnshareInterval"
+            case unshareIntervalUnit = "UnshareIntervalUnit"
         }
     }
 

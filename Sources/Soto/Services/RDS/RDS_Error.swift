@@ -261,8 +261,11 @@ public struct RDSErrorType: AWSErrorType {
     public static var exportTaskAlreadyExistsFault: Self { .init(.exportTaskAlreadyExistsFault) }
     /// The export task doesn't exist.
     public static var exportTaskNotFoundFault: Self { .init(.exportTaskNotFoundFault) }
+    /// The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
     public static var globalClusterAlreadyExistsFault: Self { .init(.globalClusterAlreadyExistsFault) }
+    /// The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     public static var globalClusterNotFoundFault: Self { .init(.globalClusterNotFoundFault) }
+    /// The number of global database clusters for this account is already at the maximum allowed.
     public static var globalClusterQuotaExceededFault: Self { .init(.globalClusterQuotaExceededFault) }
     /// The IAM role requires additional permissions to export to an Amazon S3 bucket.
     public static var iamRoleMissingPermissionsFault: Self { .init(.iamRoleMissingPermissionsFault) }
@@ -316,6 +319,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidExportSourceStateFault: Self { .init(.invalidExportSourceStateFault) }
     /// You can't cancel an export task that has completed.
     public static var invalidExportTaskStateFault: Self { .init(.invalidExportTaskStateFault) }
+    /// The global cluster is in an invalid state and can't perform the requested operation.
     public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
     ///  The option group isn't in the available state.
     public static var invalidOptionGroupStateFault: Self { .init(.invalidOptionGroupStateFault) }

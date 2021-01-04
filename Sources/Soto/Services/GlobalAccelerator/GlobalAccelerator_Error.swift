@@ -25,8 +25,11 @@ public struct GlobalAcceleratorErrorType: AWSErrorType {
         case associatedEndpointGroupFoundException = "AssociatedEndpointGroupFoundException"
         case associatedListenerFoundException = "AssociatedListenerFoundException"
         case byoipCidrNotFoundException = "ByoipCidrNotFoundException"
+        case conflictException = "ConflictException"
+        case endpointAlreadyExistsException = "EndpointAlreadyExistsException"
         case endpointGroupAlreadyExistsException = "EndpointGroupAlreadyExistsException"
         case endpointGroupNotFoundException = "EndpointGroupNotFoundException"
+        case endpointNotFoundException = "EndpointNotFoundException"
         case incorrectCidrStateException = "IncorrectCidrStateException"
         case internalServiceErrorException = "InternalServiceErrorException"
         case invalidArgumentException = "InvalidArgumentException"
@@ -66,10 +69,16 @@ public struct GlobalAcceleratorErrorType: AWSErrorType {
     public static var associatedListenerFoundException: Self { .init(.associatedListenerFoundException) }
     /// The CIDR that you specified was not found or is incorrect.
     public static var byoipCidrNotFoundException: Self { .init(.byoipCidrNotFoundException) }
+    /// You can't use both of those options.
+    public static var conflictException: Self { .init(.conflictException) }
+    /// The endpoint that you specified doesn't exist.
+    public static var endpointAlreadyExistsException: Self { .init(.endpointAlreadyExistsException) }
     /// The endpoint group that you specified already exists.
     public static var endpointGroupAlreadyExistsException: Self { .init(.endpointGroupAlreadyExistsException) }
     /// The endpoint group that you specified doesn't exist.
     public static var endpointGroupNotFoundException: Self { .init(.endpointGroupNotFoundException) }
+    /// The endpoint that you specified doesn't exist.
+    public static var endpointNotFoundException: Self { .init(.endpointNotFoundException) }
     /// The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be incorrect for this action.
     public static var incorrectCidrStateException: Self { .init(.incorrectCidrStateException) }
     /// There was an internal error for AWS Global Accelerator.

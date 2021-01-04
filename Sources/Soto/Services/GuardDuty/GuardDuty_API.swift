@@ -62,12 +62,12 @@ public struct GuardDuty: AWSService {
 
     // MARK: API Calls
 
-    /// Accepts the invitation to be monitored by a master GuardDuty account.
+    /// Accepts the invitation to be monitored by a GuardDuty administrator account.
     public func acceptInvitation(_ input: AcceptInvitationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptInvitationResponse> {
         return self.client.execute(operation: "AcceptInvitation", path: "/detector/{detectorId}/master", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Archives GuardDuty findings that are specified by the list of finding IDs.  Only the master account can archive findings. Member accounts don't have permission to archive findings from their accounts.
+    /// Archives GuardDuty findings that are specified by the list of finding IDs.  Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
     public func archiveFindings(_ input: ArchiveFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ArchiveFindingsResponse> {
         return self.client.execute(operation: "ArchiveFindings", path: "/detector/{detectorId}/findings/archive", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -82,12 +82,12 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "CreateFilter", path: "/detector/{detectorId}/filter", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with AWS infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the master account can use this operation.
+    /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with AWS infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
     public func createIPSet(_ input: CreateIPSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIPSetResponse> {
         return self.client.execute(operation: "CreateIPSet", path: "/detector/{detectorId}/ipset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates member accounts of the current AWS account by specifying a list of AWS account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization master account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation use this action after GuardDuty has been enabled in potential member accounts and before using  Invite Members .
+    /// Creates member accounts of the current AWS account by specifying a list of AWS account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation use this action after GuardDuty has been enabled in potential member accounts and before using  Invite Members .
     public func createMembers(_ input: CreateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMembersResponse> {
         return self.client.execute(operation: "CreateMembers", path: "/detector/{detectorId}/member", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -102,7 +102,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "CreateSampleFindings", path: "/detector/{detectorId}/findings/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the master account can use this operation.
+    /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
     public func createThreatIntelSet(_ input: CreateThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateThreatIntelSetResponse> {
         return self.client.execute(operation: "CreateThreatIntelSet", path: "/detector/{detectorId}/threatintelset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -132,7 +132,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "DeleteInvitations", path: "/invitation/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes GuardDuty member accounts (to the current GuardDuty master account) specified by the account IDs.
+    /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
     public func deleteMembers(_ input: DeleteMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMembersResponse> {
         return self.client.execute(operation: "DeleteMembers", path: "/detector/{detectorId}/member/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -162,12 +162,12 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "DisableOrganizationAdminAccount", path: "/admin/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates the current GuardDuty member account from its master account.
+    /// Disassociates the current GuardDuty member account from its administrator account.
     public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFromMasterAccountResponse> {
         return self.client.execute(operation: "DisassociateFromMasterAccount", path: "/detector/{detectorId}/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates GuardDuty member accounts (to the current GuardDuty master account) specified by the account IDs.
+    /// Disassociates GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
     public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMembersResponse> {
         return self.client.execute(operation: "DisassociateMembers", path: "/detector/{detectorId}/member/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -207,7 +207,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "GetInvitationsCount", path: "/invitation/count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides the details for the GuardDuty master account associated with the current GuardDuty member account.
+    /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     public func getMasterAccount(_ input: GetMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMasterAccountResponse> {
         return self.client.execute(operation: "GetMasterAccount", path: "/detector/{detectorId}/master", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -217,7 +217,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "GetMemberDetectors", path: "/detector/{detectorId}/member/detector/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves GuardDuty member accounts (to the current GuardDuty master account) specified by the account IDs.
+    /// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
     public func getMembers(_ input: GetMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMembersResponse> {
         return self.client.execute(operation: "GetMembers", path: "/detector/{detectorId}/member/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -232,7 +232,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "GetUsageStatistics", path: "/detector/{detectorId}/usage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Invites other AWS accounts (created as members of the current AWS account by CreateMembers) to enable GuardDuty, and allow the current AWS account to view and manage these accounts' GuardDuty findings on their behalf as the master account.
+    /// Invites other AWS accounts (created as members of the current AWS account by CreateMembers) to enable GuardDuty, and allow the current AWS account to view and manage these accounts' findings on their behalf as the GuardDuty administrator account.
     public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InviteMembersResponse> {
         return self.client.execute(operation: "InviteMembers", path: "/detector/{detectorId}/member/invite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -252,7 +252,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "ListFindings", path: "/detector/{detectorId}/findings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated master account.
+    /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
     public func listIPSets(_ input: ListIPSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIPSetsResponse> {
         return self.client.execute(operation: "ListIPSets", path: "/detector/{detectorId}/ipset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -262,7 +262,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "ListInvitations", path: "/invitation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists details about all member accounts for the current GuardDuty master account.
+    /// Lists details about all member accounts for the current GuardDuty administrator account.
     public func listMembers(_ input: ListMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMembersResponse> {
         return self.client.execute(operation: "ListMembers", path: "/detector/{detectorId}/member", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -282,7 +282,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the master account are returned.
+    /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
     public func listThreatIntelSets(_ input: ListThreatIntelSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThreatIntelSetsResponse> {
         return self.client.execute(operation: "ListThreatIntelSets", path: "/detector/{detectorId}/threatintelset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

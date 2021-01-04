@@ -152,6 +152,7 @@ extension WorkSpaces {
         case byolGraphics = "BYOL_GRAPHICS"
         case byolGraphicspro = "BYOL_GRAPHICSPRO"
         case byolRegular = "BYOL_REGULAR"
+        case byolRegularWsp = "BYOL_REGULAR_WSP"
         public var description: String { return self.rawValue }
     }
 
@@ -1534,7 +1535,7 @@ extension WorkSpaces {
         public let imageDescription: String
         /// The name of the WorkSpace image.
         public let imageName: String
-        /// The ingestion process to be used when importing the image. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR.
+        /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP or WorkSpaces Streaming Protocol (WSP). To use WSP, specify a value that ends in _WSP. To use PCoIP, specify a value that does not end in _WSP.  For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR or BYOL_REGULAR_WSP, depending on the protocol.
         public let ingestionProcess: WorkspaceImageIngestionProcess
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]?

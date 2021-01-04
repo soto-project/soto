@@ -63,6 +63,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnalysisStatus: String, CustomStringConvertible, Codable {
+        case failed
+        case running
+        case succeeded
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplianceModeSupportValue: String, CustomStringConvertible, Codable {
         case disable
         case enable
@@ -105,6 +112,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoAcceptSharedAssociationsValue: String, CustomStringConvertible, Codable {
+        case disable
+        case enable
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoAcceptSharedAttachmentsValue: String, CustomStringConvertible, Codable {
         case disable
         case enable
@@ -140,6 +153,12 @@ extension EC2 {
         case failed
         case modifying
         case submitted
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BgpStatus: String, CustomStringConvertible, Codable {
+        case down
+        case up
         public var description: String { return self.rawValue }
     }
 
@@ -602,6 +621,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum Igmpv2SupportValue: String, CustomStringConvertible, Codable {
+        case disable
+        case enable
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageAttributeName: String, CustomStringConvertible, Codable {
         case blockdevicemapping = "blockDeviceMapping"
         case description
@@ -767,6 +792,7 @@ extension EC2 {
         public static var c5n4Xlarge: Self { .init(rawValue: "c5n.4xlarge") }
         public static var c5n9Xlarge: Self { .init(rawValue: "c5n.9xlarge") }
         public static var c5nLarge: Self { .init(rawValue: "c5n.large") }
+        public static var c5nMetal: Self { .init(rawValue: "c5n.metal") }
         public static var c5nXlarge: Self { .init(rawValue: "c5n.xlarge") }
         public static var c6g12Xlarge: Self { .init(rawValue: "c6g.12xlarge") }
         public static var c6g16Xlarge: Self { .init(rawValue: "c6g.16xlarge") }
@@ -786,6 +812,14 @@ extension EC2 {
         public static var c6gdMedium: Self { .init(rawValue: "c6gd.medium") }
         public static var c6gdMetal: Self { .init(rawValue: "c6gd.metal") }
         public static var c6gdXlarge: Self { .init(rawValue: "c6gd.xlarge") }
+        public static var c6gn12Xlarge: Self { .init(rawValue: "c6gn.12xlarge") }
+        public static var c6gn16Xlarge: Self { .init(rawValue: "c6gn.16xlarge") }
+        public static var c6gn2Xlarge: Self { .init(rawValue: "c6gn.2xlarge") }
+        public static var c6gn4Xlarge: Self { .init(rawValue: "c6gn.4xlarge") }
+        public static var c6gn8Xlarge: Self { .init(rawValue: "c6gn.8xlarge") }
+        public static var c6gnLarge: Self { .init(rawValue: "c6gn.large") }
+        public static var c6gnMedium: Self { .init(rawValue: "c6gn.medium") }
+        public static var c6gnXlarge: Self { .init(rawValue: "c6gn.xlarge") }
         public static var cc14Xlarge: Self { .init(rawValue: "cc1.4xlarge") }
         public static var cc28Xlarge: Self { .init(rawValue: "cc2.8xlarge") }
         public static var cg14Xlarge: Self { .init(rawValue: "cg1.4xlarge") }
@@ -813,6 +847,9 @@ extension EC2 {
         public static var g34Xlarge: Self { .init(rawValue: "g3.4xlarge") }
         public static var g38Xlarge: Self { .init(rawValue: "g3.8xlarge") }
         public static var g3sXlarge: Self { .init(rawValue: "g3s.xlarge") }
+        public static var g4ad16Xlarge: Self { .init(rawValue: "g4ad.16xlarge") }
+        public static var g4ad4Xlarge: Self { .init(rawValue: "g4ad.4xlarge") }
+        public static var g4ad8Xlarge: Self { .init(rawValue: "g4ad.8xlarge") }
         public static var g4dn12Xlarge: Self { .init(rawValue: "g4dn.12xlarge") }
         public static var g4dn16Xlarge: Self { .init(rawValue: "g4dn.16xlarge") }
         public static var g4dn2Xlarge: Self { .init(rawValue: "g4dn.2xlarge") }
@@ -1361,6 +1398,17 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case tcp
+        case udp
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtocolValue: String, CustomStringConvertible, Codable {
+        case gre
+        public var description: String { return self.rawValue }
+    }
+
     public enum RIProductDescription: String, CustomStringConvertible, Codable {
         case linuxUnix = "Linux/UNIX"
         case linuxUnixAmazonVpc = "Linux/UNIX (Amazon VPC)"
@@ -1449,6 +1497,8 @@ extension EC2 {
         case localGatewayRouteTableVpcAssociation = "local-gateway-route-table-vpc-association"
         case natgateway
         case networkAcl = "network-acl"
+        case networkInsightsAnalysis = "network-insights-analysis"
+        case networkInsightsPath = "network-insights-path"
         case networkInterface = "network-interface"
         case placementGroup = "placement-group"
         case reservedInstances = "reserved-instances"
@@ -1463,6 +1513,7 @@ extension EC2 {
         case trafficMirrorTarget = "traffic-mirror-target"
         case transitGateway = "transit-gateway"
         case transitGatewayAttachment = "transit-gateway-attachment"
+        case transitGatewayConnectPeer = "transit-gateway-connect-peer"
         case transitGatewayMulticastDomain = "transit-gateway-multicast-domain"
         case transitGatewayRouteTable = "transit-gateway-route-table"
         case volume
@@ -1590,6 +1641,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum StaticSourcesSupportValue: String, CustomStringConvertible, Codable {
+        case disable
+        case enable
+        public var description: String { return self.rawValue }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable {
         case inclassic = "InClassic"
         case invpc = "InVpc"
@@ -1702,6 +1759,7 @@ extension EC2 {
     }
 
     public enum TransitGatewayAttachmentResourceType: String, CustomStringConvertible, Codable {
+        case connect
         case directConnectGateway = "direct-connect-gateway"
         case peering
         case tgwPeering = "tgw-peering"
@@ -1727,11 +1785,22 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransitGatewayConnectPeerState: String, CustomStringConvertible, Codable {
+        case available
+        case deleted
+        case deleting
+        case pending
+        public var description: String { return self.rawValue }
+    }
+
     public enum TransitGatewayMulitcastDomainAssociationState: String, CustomStringConvertible, Codable {
         case associated
         case associating
         case disassociated
         case disassociating
+        case failed
+        case pendingacceptance = "pendingAcceptance"
+        case rejected
         public var description: String { return self.rawValue }
     }
 
@@ -2003,6 +2072,46 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case exchangeId
+        }
+    }
+
+    public struct AcceptTransitGatewayMulticastDomainAssociationsRequest: AWSEncodableShape {
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the subnets to associate with the transit gateway multicast domain.
+        @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]?
+        /// The ID of the transit gateway attachment.
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway multicast domain.
+        public let transitGatewayMulticastDomainId: String?
+
+        public init(dryRun: Bool? = nil, subnetIds: [String]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
+            self.dryRun = dryRun
+            self.subnetIds = subnetIds
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case subnetIds = "SubnetIds"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayMulticastDomainId = "TransitGatewayMulticastDomainId"
+        }
+    }
+
+    public struct AcceptTransitGatewayMulticastDomainAssociationsResult: AWSDecodableShape {
+        public let associations: TransitGatewayMulticastDomainAssociations?
+
+        public init(associations: TransitGatewayMulticastDomainAssociations? = nil) {
+            self.associations = associations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations
         }
     }
 
@@ -2310,6 +2419,8 @@ extension EC2 {
     }
 
     public struct AllocateAddressRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
         /// [EC2-VPC] The Elastic IP address to recover or an IPv4 address from an address pool.
         public let address: String?
         /// The ID of a customer-owned address pool. Use this parameter to let Amazon EC2 select an address from the address pool. Alternatively, specify a specific address from the address pool.
@@ -2322,14 +2433,18 @@ extension EC2 {
         public let networkBorderGroup: String?
         /// The ID of an address pool that you own. Use this parameter to let Amazon EC2 select an address from the address pool. To specify a specific address from the address pool, use the Address parameter instead.
         public let publicIpv4Pool: String?
+        /// The tags to assign to the Elastic IP address.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
 
-        public init(address: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, dryRun: Bool? = nil, networkBorderGroup: String? = nil, publicIpv4Pool: String? = nil) {
+        public init(address: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, dryRun: Bool? = nil, networkBorderGroup: String? = nil, publicIpv4Pool: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.address = address
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.domain = domain
             self.dryRun = dryRun
             self.networkBorderGroup = networkBorderGroup
             self.publicIpv4Pool = publicIpv4Pool
+            self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2339,6 +2454,7 @@ extension EC2 {
             case dryRun
             case networkBorderGroup = "NetworkBorderGroup"
             case publicIpv4Pool = "PublicIpv4Pool"
+            case tagSpecifications = "TagSpecification"
         }
     }
 
@@ -2457,6 +2573,235 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case principal
             case principalType
+        }
+    }
+
+    public struct AlternatePathHint: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the component.
+        public let componentArn: String?
+        /// The ID of the component.
+        public let componentId: String?
+
+        public init(componentArn: String? = nil, componentId: String? = nil) {
+            self.componentArn = componentArn
+            self.componentId = componentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentArn
+            case componentId
+        }
+    }
+
+    public struct AnalysisAclRule: AWSDecodableShape {
+        /// The IPv4 address range, in CIDR notation.
+        public let cidr: String?
+        /// Indicates whether the rule is an outbound rule.
+        public let egress: Bool?
+        /// The range of ports.
+        public let portRange: PortRange?
+        /// The protocol.
+        public let `protocol`: String?
+        /// Indicates whether to allow or deny traffic that matches the rule.
+        public let ruleAction: String?
+        /// The rule number.
+        public let ruleNumber: Int?
+
+        public init(cidr: String? = nil, egress: Bool? = nil, portRange: PortRange? = nil, protocol: String? = nil, ruleAction: String? = nil, ruleNumber: Int? = nil) {
+            self.cidr = cidr
+            self.egress = egress
+            self.portRange = portRange
+            self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
+            self.ruleNumber = ruleNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr
+            case egress
+            case portRange
+            case `protocol`
+            case ruleAction
+            case ruleNumber
+        }
+    }
+
+    public struct AnalysisComponent: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the component.
+        public let arn: String?
+        /// The ID of the component.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case id
+        }
+    }
+
+    public struct AnalysisLoadBalancerListener: AWSDecodableShape {
+        /// [Classic Load Balancers] The back-end port for the listener.
+        public let instancePort: Int?
+        /// The port on which the load balancer is listening.
+        public let loadBalancerPort: Int?
+
+        public init(instancePort: Int? = nil, loadBalancerPort: Int? = nil) {
+            self.instancePort = instancePort
+            self.loadBalancerPort = loadBalancerPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instancePort
+            case loadBalancerPort
+        }
+    }
+
+    public struct AnalysisLoadBalancerTarget: AWSDecodableShape {
+        /// The IP address.
+        public let address: String?
+        /// The Availability Zone.
+        public let availabilityZone: String?
+        /// Information about the instance.
+        public let instance: AnalysisComponent?
+        /// The port on which the target is listening.
+        public let port: Int?
+
+        public init(address: String? = nil, availabilityZone: String? = nil, instance: AnalysisComponent? = nil, port: Int? = nil) {
+            self.address = address
+            self.availabilityZone = availabilityZone
+            self.instance = instance
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address
+            case availabilityZone
+            case instance
+            case port
+        }
+    }
+
+    public struct AnalysisPacketHeader: AWSDecodableShape {
+        public struct _DestinationAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _DestinationPortRangesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SourceAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SourcePortRangesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The destination addresses.
+        @OptionalCustomCoding<ArrayCoder<_DestinationAddressesEncoding, String>>
+        public var destinationAddresses: [String]?
+        /// The destination port ranges.
+        @OptionalCustomCoding<ArrayCoder<_DestinationPortRangesEncoding, PortRange>>
+        public var destinationPortRanges: [PortRange]?
+        /// The protocol.
+        public let `protocol`: String?
+        /// The source addresses.
+        @OptionalCustomCoding<ArrayCoder<_SourceAddressesEncoding, String>>
+        public var sourceAddresses: [String]?
+        /// The source port ranges.
+        @OptionalCustomCoding<ArrayCoder<_SourcePortRangesEncoding, PortRange>>
+        public var sourcePortRanges: [PortRange]?
+
+        public init(destinationAddresses: [String]? = nil, destinationPortRanges: [PortRange]? = nil, protocol: String? = nil, sourceAddresses: [String]? = nil, sourcePortRanges: [PortRange]? = nil) {
+            self.destinationAddresses = destinationAddresses
+            self.destinationPortRanges = destinationPortRanges
+            self.`protocol` = `protocol`
+            self.sourceAddresses = sourceAddresses
+            self.sourcePortRanges = sourcePortRanges
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAddresses = "destinationAddressSet"
+            case destinationPortRanges = "destinationPortRangeSet"
+            case `protocol`
+            case sourceAddresses = "sourceAddressSet"
+            case sourcePortRanges = "sourcePortRangeSet"
+        }
+    }
+
+    public struct AnalysisRouteTableRoute: AWSDecodableShape {
+        /// The destination IPv4 address, in CIDR notation.
+        public let destinationCidr: String?
+        /// The prefix of the AWS service.
+        public let destinationPrefixListId: String?
+        /// The ID of an egress-only internet gateway.
+        public let egressOnlyInternetGatewayId: String?
+        /// The ID of the gateway, such as an internet gateway or virtual private gateway.
+        public let gatewayId: String?
+        /// The ID of the instance, such as a NAT instance.
+        public let instanceId: String?
+        /// The ID of a NAT gateway.
+        public let natGatewayId: String?
+        /// The ID of a network interface.
+        public let networkInterfaceId: String?
+        /// Describes how the route was created. The following are possible values:    CreateRouteTable - The route was automatically created when the route table was created.    CreateRoute - The route was manually added to the route table.    EnableVgwRoutePropagation - The route was propagated by route propagation.
+        public let origin: String?
+        /// The ID of a transit gateway.
+        public let transitGatewayId: String?
+        /// The ID of a VPC peering connection.
+        public let vpcPeeringConnectionId: String?
+
+        public init(destinationCidr: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: String? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+            self.destinationCidr = destinationCidr
+            self.destinationPrefixListId = destinationPrefixListId
+            self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
+            self.gatewayId = gatewayId
+            self.instanceId = instanceId
+            self.natGatewayId = natGatewayId
+            self.networkInterfaceId = networkInterfaceId
+            self.origin = origin
+            self.transitGatewayId = transitGatewayId
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCidr
+            case destinationPrefixListId
+            case egressOnlyInternetGatewayId
+            case gatewayId
+            case instanceId
+            case natGatewayId
+            case networkInterfaceId
+            case origin
+            case transitGatewayId
+            case vpcPeeringConnectionId
+        }
+    }
+
+    public struct AnalysisSecurityGroupRule: AWSDecodableShape {
+        /// The IPv4 address range, in CIDR notation.
+        public let cidr: String?
+        /// The direction. The following are possible values:   egress   ingress
+        public let direction: String?
+        /// The port range.
+        public let portRange: PortRange?
+        /// The prefix list ID.
+        public let prefixListId: String?
+        /// The protocol name.
+        public let `protocol`: String?
+        /// The security group ID.
+        public let securityGroupId: String?
+
+        public init(cidr: String? = nil, direction: String? = nil, portRange: PortRange? = nil, prefixListId: String? = nil, protocol: String? = nil, securityGroupId: String? = nil) {
+            self.cidr = cidr
+            self.direction = direction
+            self.portRange = portRange
+            self.prefixListId = prefixListId
+            self.`protocol` = `protocol`
+            self.securityGroupId = securityGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr
+            case direction
+            case portRange
+            case prefixListId
+            case `protocol`
+            case securityGroupId
         }
     }
 
@@ -5956,6 +6301,7 @@ extension EC2 {
 
     public struct CreateImageRequest: AWSEncodableShape {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { public static let member = "BlockDeviceMapping" }
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// The block device mappings. This parameter cannot be used to modify the encryption status of existing volumes or snapshots. To create an AMI with encrypted snapshots, use the CopyImage action.
         @OptionalCustomCoding<ArrayCoder<_BlockDeviceMappingsEncoding, BlockDeviceMapping>>
@@ -5968,16 +6314,20 @@ extension EC2 {
         public let instanceId: String
         /// A name for the new image. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
         public let name: String
-        /// By default, Amazon EC2 attempts to shut down and reboot the instance before creating the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance before creating the image. When this option is used, file system integrity on the created image can't be guaranteed.
+        /// By default, Amazon EC2 attempts to shut down and reboot the instance before creating the image. If the No Reboot option is set, Amazon EC2 doesn't shut down the instance before creating the image. When this option is used, file system integrity on the created image can't be guaranteed.
         public let noReboot: Bool?
+        /// The tags to apply to the AMI and snapshots on creation. You can tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be image.   To tag the snapshots that are created of the root volume and of other EBS volumes that are attached to the instance, the value for ResourceType must be snapshot. The same tag is applied to all of the snapshots that are created.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
 
-        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, description: String? = nil, dryRun: Bool? = nil, instanceId: String, name: String, noReboot: Bool? = nil) {
+        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, description: String? = nil, dryRun: Bool? = nil, instanceId: String, name: String, noReboot: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.description = description
             self.dryRun = dryRun
             self.instanceId = instanceId
             self.name = name
             self.noReboot = noReboot
+            self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5987,6 +6337,7 @@ extension EC2 {
             case instanceId
             case name
             case noReboot
+            case tagSpecifications = "TagSpecification"
         }
     }
 
@@ -6500,6 +6851,78 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case networkAcl
+        }
+    }
+
+    public struct CreateNetworkInsightsPathRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String
+        /// The AWS resource that is the destination of the path.
+        public let destination: String
+        /// The IP address of the AWS resource that is the destination of the path.
+        public let destinationIp: String?
+        /// The destination port.
+        public let destinationPort: Int?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The protocol.
+        public let `protocol`: Protocol
+        /// The AWS resource that is the source of the path.
+        public let source: String
+        /// The IP address of the AWS resource that is the source of the path.
+        public let sourceIp: String?
+        /// The tags to add to the path.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        public init(clientToken: String = CreateNetworkInsightsPathRequest.idempotencyToken(), destination: String, destinationIp: String? = nil, destinationPort: Int? = nil, dryRun: Bool? = nil, protocol: Protocol, source: String, sourceIp: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.clientToken = clientToken
+            self.destination = destination
+            self.destinationIp = destinationIp
+            self.destinationPort = destinationPort
+            self.dryRun = dryRun
+            self.`protocol` = `protocol`
+            self.source = source
+            self.sourceIp = sourceIp
+            self.tagSpecifications = tagSpecifications
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationIp, name: "destinationIp", parent: name, max: 15)
+            try self.validate(self.destinationIp, name: "destinationIp", parent: name, min: 0)
+            try self.validate(self.destinationIp, name: "destinationIp", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
+            try self.validate(self.destinationPort, name: "destinationPort", parent: name, max: 65535)
+            try self.validate(self.destinationPort, name: "destinationPort", parent: name, min: 1)
+            try self.validate(self.sourceIp, name: "sourceIp", parent: name, max: 15)
+            try self.validate(self.sourceIp, name: "sourceIp", parent: name, min: 0)
+            try self.validate(self.sourceIp, name: "sourceIp", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case destination = "Destination"
+            case destinationIp = "DestinationIp"
+            case destinationPort = "DestinationPort"
+            case dryRun = "DryRun"
+            case `protocol` = "Protocol"
+            case source = "Source"
+            case sourceIp = "SourceIp"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateNetworkInsightsPathResult: AWSDecodableShape {
+        /// Information about the path.
+        public let networkInsightsPath: NetworkInsightsPath?
+
+        public init(networkInsightsPath: NetworkInsightsPath? = nil) {
+            self.networkInsightsPath = networkInsightsPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInsightsPath
         }
     }
 
@@ -7312,27 +7735,161 @@ extension EC2 {
         }
     }
 
+    public struct CreateTransitGatewayConnectPeerRequest: AWSEncodableShape {
+        public struct _InsideCidrBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The BGP options for the Connect peer.
+        public let bgpOptions: TransitGatewayConnectRequestBgpOptions?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The range of inside IP addresses that are used for BGP peering. You must specify a size /29 IPv4 CIDR block from the 169.254.0.0/16 range. The first address from the range must be configured on the appliance as the BGP IP address. You can also optionally specify a size /125 IPv6 CIDR block from the fd00::/8 range.
+        @CustomCoding<ArrayCoder<_InsideCidrBlocksEncoding, String>>
+        public var insideCidrBlocks: [String]
+        /// The peer IP address (GRE outer IP address) on the appliance side of the Connect peer.
+        public let peerAddress: String
+        /// The tags to apply to the Connect peer.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// The peer IP address (GRE outer IP address) on the transit gateway side of the Connect peer, which must be specified from a transit gateway CIDR block. If not specified, Amazon automatically assigns the first available IP address from the transit gateway CIDR block.
+        public let transitGatewayAddress: String?
+        /// The ID of the Connect attachment.
+        public let transitGatewayAttachmentId: String
+
+        public init(bgpOptions: TransitGatewayConnectRequestBgpOptions? = nil, dryRun: Bool? = nil, insideCidrBlocks: [String], peerAddress: String, tagSpecifications: [TagSpecification]? = nil, transitGatewayAddress: String? = nil, transitGatewayAttachmentId: String) {
+            self.bgpOptions = bgpOptions
+            self.dryRun = dryRun
+            self.insideCidrBlocks = insideCidrBlocks
+            self.peerAddress = peerAddress
+            self.tagSpecifications = tagSpecifications
+            self.transitGatewayAddress = transitGatewayAddress
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bgpOptions = "BgpOptions"
+            case dryRun = "DryRun"
+            case insideCidrBlocks = "InsideCidrBlocks"
+            case peerAddress = "PeerAddress"
+            case tagSpecifications = "TagSpecification"
+            case transitGatewayAddress = "TransitGatewayAddress"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+        }
+    }
+
+    public struct CreateTransitGatewayConnectPeerResult: AWSDecodableShape {
+        /// Information about the Connect peer.
+        public let transitGatewayConnectPeer: TransitGatewayConnectPeer?
+
+        public init(transitGatewayConnectPeer: TransitGatewayConnectPeer? = nil) {
+            self.transitGatewayConnectPeer = transitGatewayConnectPeer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayConnectPeer
+        }
+    }
+
+    public struct CreateTransitGatewayConnectRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The Connect attachment options.
+        public let options: CreateTransitGatewayConnectRequestOptions
+        /// The tags to apply to the Connect attachment.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// The ID of the transit gateway attachment. You can specify a VPC attachment or a AWS Direct Connect attachment.
+        public let transportTransitGatewayAttachmentId: String
+
+        public init(dryRun: Bool? = nil, options: CreateTransitGatewayConnectRequestOptions, tagSpecifications: [TagSpecification]? = nil, transportTransitGatewayAttachmentId: String) {
+            self.dryRun = dryRun
+            self.options = options
+            self.tagSpecifications = tagSpecifications
+            self.transportTransitGatewayAttachmentId = transportTransitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case options = "Options"
+            case tagSpecifications = "TagSpecification"
+            case transportTransitGatewayAttachmentId = "TransportTransitGatewayAttachmentId"
+        }
+    }
+
+    public struct CreateTransitGatewayConnectRequestOptions: AWSEncodableShape {
+        /// The tunnel protocol.
+        public let `protocol`: ProtocolValue
+
+        public init(protocol: ProtocolValue) {
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct CreateTransitGatewayConnectResult: AWSDecodableShape {
+        /// Information about the Connect attachment.
+        public let transitGatewayConnect: TransitGatewayConnect?
+
+        public init(transitGatewayConnect: TransitGatewayConnect? = nil) {
+            self.transitGatewayConnect = transitGatewayConnect
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayConnect
+        }
+    }
+
     public struct CreateTransitGatewayMulticastDomainRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The options for the transit gateway multicast domain.
+        public let options: CreateTransitGatewayMulticastDomainRequestOptions?
         /// The tags for the transit gateway multicast domain.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The ID of the transit gateway.
         public let transitGatewayId: String
 
-        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String) {
+        public init(dryRun: Bool? = nil, options: CreateTransitGatewayMulticastDomainRequestOptions? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String) {
             self.dryRun = dryRun
+            self.options = options
             self.tagSpecifications = tagSpecifications
             self.transitGatewayId = transitGatewayId
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
+            case options = "Options"
             case tagSpecifications = "TagSpecification"
             case transitGatewayId = "TransitGatewayId"
+        }
+    }
+
+    public struct CreateTransitGatewayMulticastDomainRequestOptions: AWSEncodableShape {
+        /// Indicates whether to automatically accept cross-account subnet associations that are associated with the transit gateway multicast domain.
+        public let autoAcceptSharedAssociations: AutoAcceptSharedAssociationsValue?
+        /// Specify whether to enable Internet Group Management Protocol (IGMP) version 2 for the transit gateway multicast domain.
+        public let igmpv2Support: Igmpv2SupportValue?
+        /// Specify whether to enable support for statically configuring multicast group sources for a domain.
+        public let staticSourcesSupport: StaticSourcesSupportValue?
+
+        public init(autoAcceptSharedAssociations: AutoAcceptSharedAssociationsValue? = nil, igmpv2Support: Igmpv2SupportValue? = nil, staticSourcesSupport: StaticSourcesSupportValue? = nil) {
+            self.autoAcceptSharedAssociations = autoAcceptSharedAssociations
+            self.igmpv2Support = igmpv2Support
+            self.staticSourcesSupport = staticSourcesSupport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoAcceptSharedAssociations = "AutoAcceptSharedAssociations"
+            case igmpv2Support = "Igmpv2Support"
+            case staticSourcesSupport = "StaticSourcesSupport"
         }
     }
 
@@ -7603,7 +8160,7 @@ extension EC2 {
         public let applianceModeSupport: ApplianceModeSupportValue?
         /// Enable or disable DNS support. The default is enable.
         public let dnsSupport: DnsSupportValue?
-        /// Enable or disable IPv6 support.
+        /// Enable or disable IPv6 support. The default is disable.
         public let ipv6Support: Ipv6SupportValue?
 
         public init(applianceModeSupport: ApplianceModeSupportValue? = nil, dnsSupport: DnsSupportValue? = nil, ipv6Support: Ipv6SupportValue? = nil) {
@@ -7684,7 +8241,7 @@ extension EC2 {
         public let iops: Int?
         /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
         public let kmsKeyId: String?
-        /// Indicates whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Instances built on the Nitro System in the same Availability Zone. This parameter is supported with io1 volumes only. For more information, see  Amazon EBS Multi-Attach in the Amazon Elastic Compute Cloud User Guide.
+        /// Indicates whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Instances built on the Nitro System in the same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more information, see  Amazon EBS Multi-Attach in the Amazon Elastic Compute Cloud User Guide.
         public let multiAttachEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
@@ -8888,6 +9445,66 @@ extension EC2 {
         }
     }
 
+    public struct DeleteNetworkInsightsAnalysisRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the network insights analysis.
+        public let networkInsightsAnalysisId: String
+
+        public init(dryRun: Bool? = nil, networkInsightsAnalysisId: String) {
+            self.dryRun = dryRun
+            self.networkInsightsAnalysisId = networkInsightsAnalysisId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case networkInsightsAnalysisId = "NetworkInsightsAnalysisId"
+        }
+    }
+
+    public struct DeleteNetworkInsightsAnalysisResult: AWSDecodableShape {
+        /// The ID of the network insights analysis.
+        public let networkInsightsAnalysisId: String?
+
+        public init(networkInsightsAnalysisId: String? = nil) {
+            self.networkInsightsAnalysisId = networkInsightsAnalysisId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInsightsAnalysisId
+        }
+    }
+
+    public struct DeleteNetworkInsightsPathRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the path.
+        public let networkInsightsPathId: String
+
+        public init(dryRun: Bool? = nil, networkInsightsPathId: String) {
+            self.dryRun = dryRun
+            self.networkInsightsPathId = networkInsightsPathId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case networkInsightsPathId = "NetworkInsightsPathId"
+        }
+    }
+
+    public struct DeleteNetworkInsightsPathResult: AWSDecodableShape {
+        /// The ID of the path.
+        public let networkInsightsPathId: String?
+
+        public init(networkInsightsPathId: String? = nil) {
+            self.networkInsightsPathId = networkInsightsPathId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInsightsPathId
+        }
+    }
+
     public struct DeleteNetworkInterfacePermissionRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -9276,6 +9893,66 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case trafficMirrorTargetId
+        }
+    }
+
+    public struct DeleteTransitGatewayConnectPeerRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the Connect peer.
+        public let transitGatewayConnectPeerId: String
+
+        public init(dryRun: Bool? = nil, transitGatewayConnectPeerId: String) {
+            self.dryRun = dryRun
+            self.transitGatewayConnectPeerId = transitGatewayConnectPeerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case transitGatewayConnectPeerId = "TransitGatewayConnectPeerId"
+        }
+    }
+
+    public struct DeleteTransitGatewayConnectPeerResult: AWSDecodableShape {
+        /// Information about the deleted Connect peer.
+        public let transitGatewayConnectPeer: TransitGatewayConnectPeer?
+
+        public init(transitGatewayConnectPeer: TransitGatewayConnectPeer? = nil) {
+            self.transitGatewayConnectPeer = transitGatewayConnectPeer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayConnectPeer
+        }
+    }
+
+    public struct DeleteTransitGatewayConnectRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the Connect attachment.
+        public let transitGatewayAttachmentId: String
+
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String) {
+            self.dryRun = dryRun
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+        }
+    }
+
+    public struct DeleteTransitGatewayConnectResult: AWSDecodableShape {
+        /// Information about the deleted Connect attachment.
+        public let transitGatewayConnect: TransitGatewayConnect?
+
+        public init(transitGatewayConnect: TransitGatewayConnect? = nil) {
+            self.transitGatewayConnect = transitGatewayConnect
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayConnect
         }
     }
 
@@ -13228,6 +13905,136 @@ extension EC2 {
         }
     }
 
+    public struct DescribeNetworkInsightsAnalysesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _NetworkInsightsAnalysisIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The time when the network insights analyses ended.
+        public let analysisEndTime: Date?
+        /// The time when the network insights analyses started.
+        public let analysisStartTime: Date?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters. The following are possible values:   PathFound - A Boolean value that indicates whether a feasible path is found.   Status - The status of the analysis (running | succeeded | failed).
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The ID of the network insights analyses. You must specify either analysis IDs or a path ID.
+        @OptionalCustomCoding<ArrayCoder<_NetworkInsightsAnalysisIdsEncoding, String>>
+        public var networkInsightsAnalysisIds: [String]?
+        /// The ID of the path. You must specify either a path ID or analysis IDs.
+        public let networkInsightsPathId: String?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(analysisEndTime: Date? = nil, analysisStartTime: Date? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkInsightsAnalysisIds: [String]? = nil, networkInsightsPathId: String? = nil, nextToken: String? = nil) {
+            self.analysisEndTime = analysisEndTime
+            self.analysisStartTime = analysisStartTime
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkInsightsAnalysisIds = networkInsightsAnalysisIds
+            self.networkInsightsPathId = networkInsightsPathId
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisEndTime = "AnalysisEndTime"
+            case analysisStartTime = "AnalysisStartTime"
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case networkInsightsAnalysisIds = "NetworkInsightsAnalysisId"
+            case networkInsightsPathId = "NetworkInsightsPathId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeNetworkInsightsAnalysesResult: AWSDecodableShape {
+        public struct _NetworkInsightsAnalysesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the network insights analyses.
+        @OptionalCustomCoding<ArrayCoder<_NetworkInsightsAnalysesEncoding, NetworkInsightsAnalysis>>
+        public var networkInsightsAnalyses: [NetworkInsightsAnalysis]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(networkInsightsAnalyses: [NetworkInsightsAnalysis]? = nil, nextToken: String? = nil) {
+            self.networkInsightsAnalyses = networkInsightsAnalyses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInsightsAnalyses = "networkInsightsAnalysisSet"
+            case nextToken
+        }
+    }
+
+    public struct DescribeNetworkInsightsPathsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _NetworkInsightsPathIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters. The following are possible values:   Destination - The ID of the resource.   DestinationPort - The destination port.   Name - The path name.   Protocol - The protocol.   Source - The ID of the resource.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The IDs of the paths.
+        @OptionalCustomCoding<ArrayCoder<_NetworkInsightsPathIdsEncoding, String>>
+        public var networkInsightsPathIds: [String]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkInsightsPathIds: [String]? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkInsightsPathIds = networkInsightsPathIds
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case networkInsightsPathIds = "NetworkInsightsPathId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeNetworkInsightsPathsResult: AWSDecodableShape {
+        public struct _NetworkInsightsPathsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the paths.
+        @OptionalCustomCoding<ArrayCoder<_NetworkInsightsPathsEncoding, NetworkInsightsPath>>
+        public var networkInsightsPaths: [NetworkInsightsPath]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(networkInsightsPaths: [NetworkInsightsPath]? = nil, nextToken: String? = nil) {
+            self.networkInsightsPaths = networkInsightsPaths
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInsightsPaths = "networkInsightsPathSet"
+            case nextToken
+        }
+    }
+
     public struct DescribeNetworkInterfaceAttributeRequest: AWSEncodableShape {
         /// The attribute of the network interface. This parameter is required.
         public let attribute: NetworkInterfaceAttribute?
@@ -14940,7 +15747,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    state - The state of the attachment. Valid values are available | deleted | deleting | failed | failing | initiatingRequest | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting.    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.
+        /// One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    state - The state of the attachment. Valid values are available | deleted | deleting | failed | failing | initiatingRequest | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting.    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -14990,6 +15797,123 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case transitGatewayAttachments
+        }
+    }
+
+    public struct DescribeTransitGatewayConnectPeersRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _TransitGatewayConnectPeerIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters. The possible values are:    state - The state of the Connect peer (pending | available | deleting | deleted).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-connect-peer-id - The ID of the Connect peer.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The IDs of the Connect peers.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayConnectPeerIdsEncoding, String>>
+        public var transitGatewayConnectPeerIds: [String]?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayConnectPeerIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayConnectPeerIds = transitGatewayConnectPeerIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transitGatewayConnectPeerIds = "TransitGatewayConnectPeerIds"
+        }
+    }
+
+    public struct DescribeTransitGatewayConnectPeersResult: AWSDecodableShape {
+        public struct _TransitGatewayConnectPeersEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the Connect peers.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayConnectPeersEncoding, TransitGatewayConnectPeer>>
+        public var transitGatewayConnectPeers: [TransitGatewayConnectPeer]?
+
+        public init(nextToken: String? = nil, transitGatewayConnectPeers: [TransitGatewayConnectPeer]? = nil) {
+            self.nextToken = nextToken
+            self.transitGatewayConnectPeers = transitGatewayConnectPeers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case transitGatewayConnectPeers = "transitGatewayConnectPeerSet"
+        }
+    }
+
+    public struct DescribeTransitGatewayConnectsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters. The possible values are:    options.protocol - The tunnel protocol (gre).    state - The state of the attachment (initiating | initiatingRequest | pendingAcceptance | rollingBack | pending | available | modifying | deleting | deleted | failed | rejected | rejecting | failing).    transit-gateway-attachment-id - The ID of the Connect attachment.    transit-gateway-id - The ID of the transit gateway.    transport-transit-gateway-attachment-id - The ID of the transit gateway attachment from which the Connect attachment was created.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The IDs of the attachments.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var transitGatewayAttachmentIds: [String]?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayAttachmentIds = transitGatewayAttachmentIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transitGatewayAttachmentIds = "TransitGatewayAttachmentIds"
+        }
+    }
+
+    public struct DescribeTransitGatewayConnectsResult: AWSDecodableShape {
+        public struct _TransitGatewayConnectsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the Connect attachments.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayConnectsEncoding, TransitGatewayConnect>>
+        public var transitGatewayConnects: [TransitGatewayConnect]?
+
+        public init(nextToken: String? = nil, transitGatewayConnects: [TransitGatewayConnect]? = nil) {
+            self.nextToken = nextToken
+            self.transitGatewayConnects = transitGatewayConnects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case transitGatewayConnects = "transitGatewayConnectSet"
         }
     }
 
@@ -17741,6 +18665,210 @@ extension EC2 {
         }
     }
 
+    public struct Explanation: AWSDecodableShape {
+        public struct _AddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _CidrsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _LoadBalancerTargetGroupsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _PortRangesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _ProtocolsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SecurityGroupsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The network ACL.
+        public let acl: AnalysisComponent?
+        /// The network ACL rule.
+        public let aclRule: AnalysisAclRule?
+        /// The IPv4 address, in CIDR notation.
+        public let address: String?
+        /// The IPv4 addresses, in CIDR notation.
+        @OptionalCustomCoding<ArrayCoder<_AddressesEncoding, String>>
+        public var addresses: [String]?
+        /// The resource to which the component is attached.
+        public let attachedTo: AnalysisComponent?
+        /// The Availability Zones.
+        @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
+        public var availabilityZones: [String]?
+        /// The CIDR ranges.
+        @OptionalCustomCoding<ArrayCoder<_CidrsEncoding, String>>
+        public var cidrs: [String]?
+        /// The listener for a Classic Load Balancer.
+        public let classicLoadBalancerListener: AnalysisLoadBalancerListener?
+        /// The component.
+        public let component: AnalysisComponent?
+        /// The customer gateway.
+        public let customerGateway: AnalysisComponent?
+        /// The destination.
+        public let destination: AnalysisComponent?
+        /// The destination VPC.
+        public let destinationVpc: AnalysisComponent?
+        /// The direction. The following are possible values:   egress   ingress
+        public let direction: String?
+        /// The load balancer listener.
+        public let elasticLoadBalancerListener: AnalysisComponent?
+        /// The explanation code.
+        public let explanationCode: String?
+        /// The route table.
+        public let ingressRouteTable: AnalysisComponent?
+        /// The internet gateway.
+        public let internetGateway: AnalysisComponent?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+        /// The listener port of the load balancer.
+        public let loadBalancerListenerPort: Int?
+        /// The target.
+        public let loadBalancerTarget: AnalysisLoadBalancerTarget?
+        /// The target group.
+        public let loadBalancerTargetGroup: AnalysisComponent?
+        /// The target groups.
+        @OptionalCustomCoding<ArrayCoder<_LoadBalancerTargetGroupsEncoding, AnalysisComponent>>
+        public var loadBalancerTargetGroups: [AnalysisComponent]?
+        /// The target port.
+        public let loadBalancerTargetPort: Int?
+        /// The missing component.
+        public let missingComponent: String?
+        /// The NAT gateway.
+        public let natGateway: AnalysisComponent?
+        /// The network interface.
+        public let networkInterface: AnalysisComponent?
+        /// The packet field.
+        public let packetField: String?
+        /// The port.
+        public let port: Int?
+        /// The port ranges.
+        @OptionalCustomCoding<ArrayCoder<_PortRangesEncoding, PortRange>>
+        public var portRanges: [PortRange]?
+        /// The prefix list.
+        public let prefixList: AnalysisComponent?
+        /// The protocols.
+        @OptionalCustomCoding<ArrayCoder<_ProtocolsEncoding, String>>
+        public var protocols: [String]?
+        /// The route table.
+        public let routeTable: AnalysisComponent?
+        /// The route table route.
+        public let routeTableRoute: AnalysisRouteTableRoute?
+        /// The security group.
+        public let securityGroup: AnalysisComponent?
+        /// The security group rule.
+        public let securityGroupRule: AnalysisSecurityGroupRule?
+        /// The security groups.
+        @OptionalCustomCoding<ArrayCoder<_SecurityGroupsEncoding, AnalysisComponent>>
+        public var securityGroups: [AnalysisComponent]?
+        /// The source VPC.
+        public let sourceVpc: AnalysisComponent?
+        /// The state.
+        public let state: String?
+        /// The subnet.
+        public let subnet: AnalysisComponent?
+        /// The route table for the subnet.
+        public let subnetRouteTable: AnalysisComponent?
+        /// The component VPC.
+        public let vpc: AnalysisComponent?
+        /// The VPC endpoint.
+        public let vpcEndpoint: AnalysisComponent?
+        /// The VPC peering connection.
+        public let vpcPeeringConnection: AnalysisComponent?
+        /// The VPN connection.
+        public let vpnConnection: AnalysisComponent?
+        /// The VPN gateway.
+        public let vpnGateway: AnalysisComponent?
+
+        public init(acl: AnalysisComponent? = nil, aclRule: AnalysisAclRule? = nil, address: String? = nil, addresses: [String]? = nil, attachedTo: AnalysisComponent? = nil, availabilityZones: [String]? = nil, cidrs: [String]? = nil, classicLoadBalancerListener: AnalysisLoadBalancerListener? = nil, component: AnalysisComponent? = nil, customerGateway: AnalysisComponent? = nil, destination: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, direction: String? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanationCode: String? = nil, ingressRouteTable: AnalysisComponent? = nil, internetGateway: AnalysisComponent? = nil, loadBalancerArn: String? = nil, loadBalancerListenerPort: Int? = nil, loadBalancerTarget: AnalysisLoadBalancerTarget? = nil, loadBalancerTargetGroup: AnalysisComponent? = nil, loadBalancerTargetGroups: [AnalysisComponent]? = nil, loadBalancerTargetPort: Int? = nil, missingComponent: String? = nil, natGateway: AnalysisComponent? = nil, networkInterface: AnalysisComponent? = nil, packetField: String? = nil, port: Int? = nil, portRanges: [PortRange]? = nil, prefixList: AnalysisComponent? = nil, protocols: [String]? = nil, routeTable: AnalysisComponent? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroup: AnalysisComponent? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, securityGroups: [AnalysisComponent]? = nil, sourceVpc: AnalysisComponent? = nil, state: String? = nil, subnet: AnalysisComponent? = nil, subnetRouteTable: AnalysisComponent? = nil, vpc: AnalysisComponent? = nil, vpcEndpoint: AnalysisComponent? = nil, vpcPeeringConnection: AnalysisComponent? = nil, vpnConnection: AnalysisComponent? = nil, vpnGateway: AnalysisComponent? = nil) {
+            self.acl = acl
+            self.aclRule = aclRule
+            self.address = address
+            self.addresses = addresses
+            self.attachedTo = attachedTo
+            self.availabilityZones = availabilityZones
+            self.cidrs = cidrs
+            self.classicLoadBalancerListener = classicLoadBalancerListener
+            self.component = component
+            self.customerGateway = customerGateway
+            self.destination = destination
+            self.destinationVpc = destinationVpc
+            self.direction = direction
+            self.elasticLoadBalancerListener = elasticLoadBalancerListener
+            self.explanationCode = explanationCode
+            self.ingressRouteTable = ingressRouteTable
+            self.internetGateway = internetGateway
+            self.loadBalancerArn = loadBalancerArn
+            self.loadBalancerListenerPort = loadBalancerListenerPort
+            self.loadBalancerTarget = loadBalancerTarget
+            self.loadBalancerTargetGroup = loadBalancerTargetGroup
+            self.loadBalancerTargetGroups = loadBalancerTargetGroups
+            self.loadBalancerTargetPort = loadBalancerTargetPort
+            self.missingComponent = missingComponent
+            self.natGateway = natGateway
+            self.networkInterface = networkInterface
+            self.packetField = packetField
+            self.port = port
+            self.portRanges = portRanges
+            self.prefixList = prefixList
+            self.protocols = protocols
+            self.routeTable = routeTable
+            self.routeTableRoute = routeTableRoute
+            self.securityGroup = securityGroup
+            self.securityGroupRule = securityGroupRule
+            self.securityGroups = securityGroups
+            self.sourceVpc = sourceVpc
+            self.state = state
+            self.subnet = subnet
+            self.subnetRouteTable = subnetRouteTable
+            self.vpc = vpc
+            self.vpcEndpoint = vpcEndpoint
+            self.vpcPeeringConnection = vpcPeeringConnection
+            self.vpnConnection = vpnConnection
+            self.vpnGateway = vpnGateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acl
+            case aclRule
+            case address
+            case addresses = "addressSet"
+            case attachedTo
+            case availabilityZones = "availabilityZoneSet"
+            case cidrs = "cidrSet"
+            case classicLoadBalancerListener
+            case component
+            case customerGateway
+            case destination
+            case destinationVpc
+            case direction
+            case elasticLoadBalancerListener
+            case explanationCode
+            case ingressRouteTable
+            case internetGateway
+            case loadBalancerArn
+            case loadBalancerListenerPort
+            case loadBalancerTarget
+            case loadBalancerTargetGroup
+            case loadBalancerTargetGroups = "loadBalancerTargetGroupSet"
+            case loadBalancerTargetPort
+            case missingComponent
+            case natGateway
+            case networkInterface
+            case packetField
+            case port
+            case portRanges = "portRangeSet"
+            case prefixList
+            case protocols = "protocolSet"
+            case routeTable
+            case routeTableRoute
+            case securityGroup
+            case securityGroupRule
+            case securityGroups = "securityGroupSet"
+            case sourceVpc
+            case state
+            case subnet
+            case subnetRouteTable
+            case vpc
+            case vpcEndpoint
+            case vpcPeeringConnection
+            case vpnConnection
+            case vpnGateway
+        }
+    }
+
     public struct ExportClientVpnClientCertificateRevocationListRequest: AWSEncodableShape {
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String
@@ -19659,7 +20787,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    transit-gateway-attachment-id - The ID of the attachment.
+        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    transit-gateway-attachment-id - The ID of the attachment.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -19716,7 +20844,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    transit-gateway-attachment-id - The ID of the attachment.
+        /// One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    transit-gateway-attachment-id - The ID of the attachment.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -25382,6 +26510,12 @@ extension EC2 {
     }
 
     public struct ModifyTransitGatewayOptions: AWSEncodableShape {
+        public struct _AddTransitGatewayCidrBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _RemoveTransitGatewayCidrBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Adds IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6.
+        @OptionalCustomCoding<ArrayCoder<_AddTransitGatewayCidrBlocksEncoding, String>>
+        public var addTransitGatewayCidrBlocks: [String]?
         /// The ID of the default association route table.
         public let associationDefaultRouteTableId: String?
         /// Enable or disable automatic acceptance of attachment requests.
@@ -25394,26 +26528,33 @@ extension EC2 {
         public let dnsSupport: DnsSupportValue?
         /// The ID of the default propagation route table.
         public let propagationDefaultRouteTableId: String?
+        /// Removes CIDR blocks for the transit gateway.
+        @OptionalCustomCoding<ArrayCoder<_RemoveTransitGatewayCidrBlocksEncoding, String>>
+        public var removeTransitGatewayCidrBlocks: [String]?
         /// Enable or disable Equal Cost Multipath Protocol support.
         public let vpnEcmpSupport: VpnEcmpSupportValue?
 
-        public init(associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
+        public init(addTransitGatewayCidrBlocks: [String]? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, removeTransitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
+            self.addTransitGatewayCidrBlocks = addTransitGatewayCidrBlocks
             self.associationDefaultRouteTableId = associationDefaultRouteTableId
             self.autoAcceptSharedAttachments = autoAcceptSharedAttachments
             self.defaultRouteTableAssociation = defaultRouteTableAssociation
             self.defaultRouteTablePropagation = defaultRouteTablePropagation
             self.dnsSupport = dnsSupport
             self.propagationDefaultRouteTableId = propagationDefaultRouteTableId
+            self.removeTransitGatewayCidrBlocks = removeTransitGatewayCidrBlocks
             self.vpnEcmpSupport = vpnEcmpSupport
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addTransitGatewayCidrBlocks = "AddTransitGatewayCidrBlocks"
             case associationDefaultRouteTableId = "AssociationDefaultRouteTableId"
             case autoAcceptSharedAttachments = "AutoAcceptSharedAttachments"
             case defaultRouteTableAssociation = "DefaultRouteTableAssociation"
             case defaultRouteTablePropagation = "DefaultRouteTablePropagation"
             case dnsSupport = "DnsSupport"
             case propagationDefaultRouteTableId = "PropagationDefaultRouteTableId"
+            case removeTransitGatewayCidrBlocks = "RemoveTransitGatewayCidrBlocks"
             case vpnEcmpSupport = "VpnEcmpSupport"
         }
     }
@@ -25591,6 +26732,8 @@ extension EC2 {
         public let dryRun: Bool?
         /// The target IOPS rate of the volume. This parameter is valid only for gp3, io1, and io2 volumes. The following are the supported values for each volume type:    gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   Default: If no IOPS value is specified, the existing value is retained.
         public let iops: Int?
+        /// Specifies whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16  Nitro-based instances in the same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more information, see  Amazon EBS Multi-Attach in the Amazon Elastic Compute Cloud User Guide.
+        public let multiAttachEnabled: Bool?
         /// The target size of the volume, in GiB. The target volume size must be greater than or equal to the existing size of the volume. The following are the supported volumes sizes for each volume type:    gp2 and gp3: 1-16,384    io1 and io2: 4-16,384    st1 and sc1: 125-16,384    standard: 1-1,024   Default: If no size is specified, the existing size is retained.
         public let size: Int?
         /// The target throughput of the volume, in MiB/s. This parameter is valid only for gp3 volumes. The maximum value is 1,000. Default: If no throughput value is specified, the existing value is retained. Valid Range: Minimum value of 125. Maximum value of 1000.
@@ -25600,9 +26743,10 @@ extension EC2 {
         /// The target EBS volume type of the volume. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: If no type is specified, the existing type is retained.
         public let volumeType: VolumeType?
 
-        public init(dryRun: Bool? = nil, iops: Int? = nil, size: Int? = nil, throughput: Int? = nil, volumeId: String, volumeType: VolumeType? = nil) {
+        public init(dryRun: Bool? = nil, iops: Int? = nil, multiAttachEnabled: Bool? = nil, size: Int? = nil, throughput: Int? = nil, volumeId: String, volumeType: VolumeType? = nil) {
             self.dryRun = dryRun
             self.iops = iops
+            self.multiAttachEnabled = multiAttachEnabled
             self.size = size
             self.throughput = throughput
             self.volumeId = volumeId
@@ -25612,6 +26756,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
             case iops = "Iops"
+            case multiAttachEnabled = "MultiAttachEnabled"
             case size = "Size"
             case throughput = "Throughput"
             case volumeId = "VolumeId"
@@ -26573,6 +27718,132 @@ extension EC2 {
         }
     }
 
+    public struct NetworkInsightsAnalysis: AWSDecodableShape {
+        public struct _AlternatePathHintsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _ExplanationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _FilterInArnsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _ForwardPathComponentsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _ReturnPathComponentsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Potential intermediate components.
+        @OptionalCustomCoding<ArrayCoder<_AlternatePathHintsEncoding, AlternatePathHint>>
+        public var alternatePathHints: [AlternatePathHint]?
+        /// The explanations. For more information, see Reachability Analyzer explanation codes.
+        @OptionalCustomCoding<ArrayCoder<_ExplanationsEncoding, Explanation>>
+        public var explanations: [Explanation]?
+        /// The Amazon Resource Names (ARN) of the AWS resources that the path must traverse.
+        @OptionalCustomCoding<ArrayCoder<_FilterInArnsEncoding, String>>
+        public var filterInArns: [String]?
+        /// The components in the path from source to destination.
+        @OptionalCustomCoding<ArrayCoder<_ForwardPathComponentsEncoding, PathComponent>>
+        public var forwardPathComponents: [PathComponent]?
+        /// The Amazon Resource Name (ARN) of the network insights analysis.
+        public let networkInsightsAnalysisArn: String?
+        /// The ID of the network insights analysis.
+        public let networkInsightsAnalysisId: String?
+        /// The ID of the path.
+        public let networkInsightsPathId: String?
+        /// Indicates whether the destination is reachable from the source.
+        public let networkPathFound: Bool?
+        /// The components in the path from destination to source.
+        @OptionalCustomCoding<ArrayCoder<_ReturnPathComponentsEncoding, PathComponent>>
+        public var returnPathComponents: [PathComponent]?
+        /// The time the analysis started.
+        public let startDate: Date?
+        /// The status of the network insights analysis.
+        public let status: AnalysisStatus?
+        /// The status message, if the status is failed.
+        public let statusMessage: String?
+        /// The tags.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        public init(alternatePathHints: [AlternatePathHint]? = nil, explanations: [Explanation]? = nil, filterInArns: [String]? = nil, forwardPathComponents: [PathComponent]? = nil, networkInsightsAnalysisArn: String? = nil, networkInsightsAnalysisId: String? = nil, networkInsightsPathId: String? = nil, networkPathFound: Bool? = nil, returnPathComponents: [PathComponent]? = nil, startDate: Date? = nil, status: AnalysisStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
+            self.alternatePathHints = alternatePathHints
+            self.explanations = explanations
+            self.filterInArns = filterInArns
+            self.forwardPathComponents = forwardPathComponents
+            self.networkInsightsAnalysisArn = networkInsightsAnalysisArn
+            self.networkInsightsAnalysisId = networkInsightsAnalysisId
+            self.networkInsightsPathId = networkInsightsPathId
+            self.networkPathFound = networkPathFound
+            self.returnPathComponents = returnPathComponents
+            self.startDate = startDate
+            self.status = status
+            self.statusMessage = statusMessage
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alternatePathHints = "alternatePathHintSet"
+            case explanations = "explanationSet"
+            case filterInArns = "filterInArnSet"
+            case forwardPathComponents = "forwardPathComponentSet"
+            case networkInsightsAnalysisArn
+            case networkInsightsAnalysisId
+            case networkInsightsPathId
+            case networkPathFound
+            case returnPathComponents = "returnPathComponentSet"
+            case startDate
+            case status
+            case statusMessage
+            case tags = "tagSet"
+        }
+    }
+
+    public struct NetworkInsightsPath: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The time stamp when the path was created.
+        public let createdDate: Date?
+        /// The AWS resource that is the destination of the path.
+        public let destination: String?
+        /// The IP address of the AWS resource that is the destination of the path.
+        public let destinationIp: String?
+        /// The destination port.
+        public let destinationPort: Int?
+        /// The Amazon Resource Name (ARN) of the path.
+        public let networkInsightsPathArn: String?
+        /// The ID of the path.
+        public let networkInsightsPathId: String?
+        /// The protocol.
+        public let `protocol`: Protocol?
+        /// The AWS resource that is the source of the path.
+        public let source: String?
+        /// The IP address of the AWS resource that is the source of the path.
+        public let sourceIp: String?
+        /// The tags associated with the path.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        public init(createdDate: Date? = nil, destination: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, networkInsightsPathArn: String? = nil, networkInsightsPathId: String? = nil, protocol: Protocol? = nil, source: String? = nil, sourceIp: String? = nil, tags: [Tag]? = nil) {
+            self.createdDate = createdDate
+            self.destination = destination
+            self.destinationIp = destinationIp
+            self.destinationPort = destinationPort
+            self.networkInsightsPathArn = networkInsightsPathArn
+            self.networkInsightsPathId = networkInsightsPathId
+            self.`protocol` = `protocol`
+            self.source = source
+            self.sourceIp = sourceIp
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate
+            case destination
+            case destinationIp
+            case destinationPort
+            case networkInsightsPathArn
+            case networkInsightsPathId
+            case `protocol`
+            case source
+            case sourceIp
+            case tags = "tagSet"
+        }
+    }
+
     public struct NetworkInterface: AWSDecodableShape {
         public struct _GroupsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _Ipv6AddressesEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -26939,6 +28210,59 @@ extension EC2 {
             case minTargetCapacity = "MinTargetCapacity"
             case singleAvailabilityZone = "SingleAvailabilityZone"
             case singleInstanceType = "SingleInstanceType"
+        }
+    }
+
+    public struct PathComponent: AWSDecodableShape {
+        /// The network ACL rule.
+        public let aclRule: AnalysisAclRule?
+        /// The component.
+        public let component: AnalysisComponent?
+        /// The destination VPC.
+        public let destinationVpc: AnalysisComponent?
+        /// The inbound header.
+        public let inboundHeader: AnalysisPacketHeader?
+        /// The outbound header.
+        public let outboundHeader: AnalysisPacketHeader?
+        /// The route table route.
+        public let routeTableRoute: AnalysisRouteTableRoute?
+        /// The security group rule.
+        public let securityGroupRule: AnalysisSecurityGroupRule?
+        /// The sequence number.
+        public let sequenceNumber: Int?
+        /// The source VPC.
+        public let sourceVpc: AnalysisComponent?
+        /// The subnet.
+        public let subnet: AnalysisComponent?
+        /// The component VPC.
+        public let vpc: AnalysisComponent?
+
+        public init(aclRule: AnalysisAclRule? = nil, component: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, inboundHeader: AnalysisPacketHeader? = nil, outboundHeader: AnalysisPacketHeader? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, sequenceNumber: Int? = nil, sourceVpc: AnalysisComponent? = nil, subnet: AnalysisComponent? = nil, vpc: AnalysisComponent? = nil) {
+            self.aclRule = aclRule
+            self.component = component
+            self.destinationVpc = destinationVpc
+            self.inboundHeader = inboundHeader
+            self.outboundHeader = outboundHeader
+            self.routeTableRoute = routeTableRoute
+            self.securityGroupRule = securityGroupRule
+            self.sequenceNumber = sequenceNumber
+            self.sourceVpc = sourceVpc
+            self.subnet = subnet
+            self.vpc = vpc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aclRule
+            case component
+            case destinationVpc
+            case inboundHeader
+            case outboundHeader
+            case routeTableRoute
+            case securityGroupRule
+            case sequenceNumber
+            case sourceVpc
+            case subnet
+            case vpc
         }
     }
 
@@ -28230,6 +29554,46 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case registeredMulticastGroupSources
+        }
+    }
+
+    public struct RejectTransitGatewayMulticastDomainAssociationsRequest: AWSEncodableShape {
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the subnets to associate with the transit gateway multicast domain.
+        @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
+        public var subnetIds: [String]?
+        /// The ID of the transit gateway attachment.
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway multicast domain.
+        public let transitGatewayMulticastDomainId: String?
+
+        public init(dryRun: Bool? = nil, subnetIds: [String]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
+            self.dryRun = dryRun
+            self.subnetIds = subnetIds
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case subnetIds = "SubnetIds"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+            case transitGatewayMulticastDomainId = "TransitGatewayMulticastDomainId"
+        }
+    }
+
+    public struct RejectTransitGatewayMulticastDomainAssociationsResult: AWSDecodableShape {
+        public let associations: TransitGatewayMulticastDomainAssociations?
+
+        public init(associations: TransitGatewayMulticastDomainAssociations? = nil) {
+            self.associations = associations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations
         }
     }
 
@@ -31059,7 +32423,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    prefix-list-id - The ID of the prefix list.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).
+        /// One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    prefix-list-id - The ID of the prefix list.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).
         @CustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]
         /// The maximum number of routes to return.
@@ -32388,6 +33752,60 @@ extension EC2 {
         }
     }
 
+    public struct StartNetworkInsightsAnalysisRequest: AWSEncodableShape {
+        public struct _FilterInArnsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The Amazon Resource Names (ARN) of the resources that the path must traverse.
+        @OptionalCustomCoding<ArrayCoder<_FilterInArnsEncoding, String>>
+        public var filterInArns: [String]?
+        /// The ID of the path.
+        public let networkInsightsPathId: String
+        /// The tags to apply.
+        @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        public init(clientToken: String = StartNetworkInsightsAnalysisRequest.idempotencyToken(), dryRun: Bool? = nil, filterInArns: [String]? = nil, networkInsightsPathId: String, tagSpecifications: [TagSpecification]? = nil) {
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.filterInArns = filterInArns
+            self.networkInsightsPathId = networkInsightsPathId
+            self.tagSpecifications = tagSpecifications
+        }
+
+        public func validate(name: String) throws {
+            try self.filterInArns?.forEach {
+                try validate($0, name: "filterInArns[]", parent: name, max: 1283)
+                try validate($0, name: "filterInArns[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case filterInArns = "FilterInArn"
+            case networkInsightsPathId = "NetworkInsightsPathId"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct StartNetworkInsightsAnalysisResult: AWSDecodableShape {
+        /// Information about the network insights analysis.
+        public let networkInsightsAnalysis: NetworkInsightsAnalysis?
+
+        public init(networkInsightsAnalysis: NetworkInsightsAnalysis? = nil) {
+            self.networkInsightsAnalysis = networkInsightsAnalysis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInsightsAnalysis
+        }
+    }
+
     public struct StartVpcEndpointServicePrivateDnsVerificationRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -32717,7 +34135,7 @@ extension EC2 {
     public struct TagSpecification: AWSEncodableShape & AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The type of resource to tag. Currently, the resource types that support tagging on creation are: capacity-reservation | carrier-gateway | client-vpn-endpoint | customer-gateway | dedicated-host | dhcp-options | export-image-task | export-instance-task | fleet | fpga-image | host-reservation | import-image-task | import-snapshot-task | instance | internet-gateway | ipv4pool-ec2 | ipv6pool-ec2 | key-pair | launch-template | placement-group | prefix-list | natgateway | network-acl | route-table | security-group | spot-fleet-request | spot-instances-request | snapshot | subnet | traffic-mirror-filter | traffic-mirror-session | traffic-mirror-target | transit-gateway | transit-gateway-attachment | transit-gateway-route-table | volume |vpc |  vpc-peering-connection | vpc-endpoint (for interface and gateway endpoints) | vpc-endpoint-service (for AWS PrivateLink) | vpc-flow-log | vpn-connection | vpn-gateway. To tag a resource after it has been created, see CreateTags.
+        /// The type of resource to tag. Currently, the resource types that support tagging on creation are: capacity-reservation | carrier-gateway | client-vpn-endpoint | customer-gateway | dedicated-host | dhcp-options | egress-only-internet-gateway | elastic-ip | elastic-gpu | export-image-task | export-instance-task | fleet | fpga-image | host-reservation | image| import-image-task | import-snapshot-task | instance | internet-gateway | ipv4pool-ec2 | ipv6pool-ec2 | key-pair | launch-template | local-gateway-route-table-vpc-association | placement-group | prefix-list | natgateway | network-acl | network-interface | reserved-instances |route-table | security-group| snapshot | spot-fleet-request | spot-instances-request | snapshot | subnet | traffic-mirror-filter | traffic-mirror-session | traffic-mirror-target | transit-gateway | transit-gateway-attachment | transit-gateway-multicast-domain | transit-gateway-route-table | volume |vpc |  vpc-peering-connection | vpc-endpoint (for interface and gateway endpoints) | vpc-endpoint-service (for AWS PrivateLink) | vpc-flow-log | vpn-connection | vpn-gateway. To tag a resource after it has been created, see CreateTags.
         public let resourceType: ResourceType?
         /// The tags to apply to the resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -33374,6 +34792,35 @@ extension EC2 {
         }
     }
 
+    public struct TransitGatewayAttachmentBgpConfiguration: AWSDecodableShape {
+        /// The BGP status.
+        public let bgpStatus: BgpStatus?
+        /// The interior BGP peer IP address for the appliance.
+        public let peerAddress: String?
+        /// The peer Autonomous System Number (ASN).
+        public let peerAsn: Int64?
+        /// The interior BGP peer IP address for the transit gateway.
+        public let transitGatewayAddress: String?
+        /// The transit gateway Autonomous System Number (ASN).
+        public let transitGatewayAsn: Int64?
+
+        public init(bgpStatus: BgpStatus? = nil, peerAddress: String? = nil, peerAsn: Int64? = nil, transitGatewayAddress: String? = nil, transitGatewayAsn: Int64? = nil) {
+            self.bgpStatus = bgpStatus
+            self.peerAddress = peerAddress
+            self.peerAsn = peerAsn
+            self.transitGatewayAddress = transitGatewayAddress
+            self.transitGatewayAsn = transitGatewayAsn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bgpStatus
+            case peerAddress
+            case peerAsn
+            case transitGatewayAddress
+            case transitGatewayAsn
+        }
+    }
+
     public struct TransitGatewayAttachmentPropagation: AWSDecodableShape {
         /// The state of the propagation route table.
         public let state: TransitGatewayPropagationState?
@@ -33388,6 +34835,142 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case state
             case transitGatewayRouteTableId
+        }
+    }
+
+    public struct TransitGatewayConnect: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The creation time.
+        public let creationTime: Date?
+        /// The Connect attachment options.
+        public let options: TransitGatewayConnectOptions?
+        /// The state of the attachment.
+        public let state: TransitGatewayAttachmentState?
+        /// The tags for the attachment.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The ID of the Connect attachment.
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway.
+        public let transitGatewayId: String?
+        /// The ID of the attachment from which the Connect attachment was created.
+        public let transportTransitGatewayAttachmentId: String?
+
+        public init(creationTime: Date? = nil, options: TransitGatewayConnectOptions? = nil, state: TransitGatewayAttachmentState? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, transportTransitGatewayAttachmentId: String? = nil) {
+            self.creationTime = creationTime
+            self.options = options
+            self.state = state
+            self.tags = tags
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayId = transitGatewayId
+            self.transportTransitGatewayAttachmentId = transportTransitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime
+            case options
+            case state
+            case tags = "tagSet"
+            case transitGatewayAttachmentId
+            case transitGatewayId
+            case transportTransitGatewayAttachmentId
+        }
+    }
+
+    public struct TransitGatewayConnectOptions: AWSDecodableShape {
+        /// The tunnel protocol.
+        public let `protocol`: ProtocolValue?
+
+        public init(protocol: ProtocolValue? = nil) {
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol`
+        }
+    }
+
+    public struct TransitGatewayConnectPeer: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Connect peer details.
+        public let connectPeerConfiguration: TransitGatewayConnectPeerConfiguration?
+        /// The creation time.
+        public let creationTime: Date?
+        /// The state of the Connect peer.
+        public let state: TransitGatewayConnectPeerState?
+        /// The tags for the Connect peer.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The ID of the Connect attachment.
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the Connect peer.
+        public let transitGatewayConnectPeerId: String?
+
+        public init(connectPeerConfiguration: TransitGatewayConnectPeerConfiguration? = nil, creationTime: Date? = nil, state: TransitGatewayConnectPeerState? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayConnectPeerId: String? = nil) {
+            self.connectPeerConfiguration = connectPeerConfiguration
+            self.creationTime = creationTime
+            self.state = state
+            self.tags = tags
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayConnectPeerId = transitGatewayConnectPeerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeerConfiguration
+            case creationTime
+            case state
+            case tags = "tagSet"
+            case transitGatewayAttachmentId
+            case transitGatewayConnectPeerId
+        }
+    }
+
+    public struct TransitGatewayConnectPeerConfiguration: AWSDecodableShape {
+        public struct _BgpConfigurationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _InsideCidrBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The BGP configuration details.
+        @OptionalCustomCoding<ArrayCoder<_BgpConfigurationsEncoding, TransitGatewayAttachmentBgpConfiguration>>
+        public var bgpConfigurations: [TransitGatewayAttachmentBgpConfiguration]?
+        /// The range of interior BGP peer IP addresses.
+        @OptionalCustomCoding<ArrayCoder<_InsideCidrBlocksEncoding, String>>
+        public var insideCidrBlocks: [String]?
+        /// The Connect peer IP address on the appliance side of the tunnel.
+        public let peerAddress: String?
+        /// The tunnel protocol.
+        public let `protocol`: ProtocolValue?
+        /// The Connect peer IP address on the transit gateway side of the tunnel.
+        public let transitGatewayAddress: String?
+
+        public init(bgpConfigurations: [TransitGatewayAttachmentBgpConfiguration]? = nil, insideCidrBlocks: [String]? = nil, peerAddress: String? = nil, protocol: ProtocolValue? = nil, transitGatewayAddress: String? = nil) {
+            self.bgpConfigurations = bgpConfigurations
+            self.insideCidrBlocks = insideCidrBlocks
+            self.peerAddress = peerAddress
+            self.`protocol` = `protocol`
+            self.transitGatewayAddress = transitGatewayAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bgpConfigurations
+            case insideCidrBlocks
+            case peerAddress
+            case `protocol`
+            case transitGatewayAddress
+        }
+    }
+
+    public struct TransitGatewayConnectRequestBgpOptions: AWSEncodableShape {
+        /// The peer Autonomous System Number (ASN).
+        public let peerAsn: Int64?
+
+        public init(peerAsn: Int64? = nil) {
+            self.peerAsn = peerAsn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case peerAsn = "PeerAsn"
         }
     }
 
@@ -33444,6 +35027,10 @@ extension EC2 {
 
         /// The time the transit gateway multicast domain was created.
         public let creationTime: Date?
+        /// The options for the transit gateway multicast domain.
+        public let options: TransitGatewayMulticastDomainOptions?
+        ///  The ID of the AWS account that owns the transit gateway multiicast domain.
+        public let ownerId: String?
         /// The state of the transit gateway multicast domain.
         public let state: TransitGatewayMulticastDomainState?
         /// The tags for the transit gateway multicast domain.
@@ -33451,22 +35038,30 @@ extension EC2 {
         public var tags: [Tag]?
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
+        /// The Amazon Resource Name (ARN) of the transit gateway multicast domain.
+        public let transitGatewayMulticastDomainArn: String?
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
-        public init(creationTime: Date? = nil, state: TransitGatewayMulticastDomainState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
+        public init(creationTime: Date? = nil, options: TransitGatewayMulticastDomainOptions? = nil, ownerId: String? = nil, state: TransitGatewayMulticastDomainState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayMulticastDomainArn: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.creationTime = creationTime
+            self.options = options
+            self.ownerId = ownerId
             self.state = state
             self.tags = tags
             self.transitGatewayId = transitGatewayId
+            self.transitGatewayMulticastDomainArn = transitGatewayMulticastDomainArn
             self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationTime
+            case options
+            case ownerId
             case state
             case tags = "tagSet"
             case transitGatewayId
+            case transitGatewayMulticastDomainArn
             case transitGatewayMulticastDomainId
         }
     }
@@ -33474,6 +35069,8 @@ extension EC2 {
     public struct TransitGatewayMulticastDomainAssociation: AWSDecodableShape {
         /// The ID of the resource.
         public let resourceId: String?
+        ///  The ID of the AWS account that owns the transit gateway multicast domain association resource.
+        public let resourceOwnerId: String?
         /// The type of resource, for example a VPC attachment.
         public let resourceType: TransitGatewayAttachmentResourceType?
         /// The subnet associated with the transit gateway multicast domain.
@@ -33481,8 +35078,9 @@ extension EC2 {
         /// The ID of the transit gateway attachment.
         public let transitGatewayAttachmentId: String?
 
-        public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, subnet: SubnetAssociation? = nil, transitGatewayAttachmentId: String? = nil) {
+        public init(resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, subnet: SubnetAssociation? = nil, transitGatewayAttachmentId: String? = nil) {
             self.resourceId = resourceId
+            self.resourceOwnerId = resourceOwnerId
             self.resourceType = resourceType
             self.subnet = subnet
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -33490,6 +35088,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case resourceId
+            case resourceOwnerId
             case resourceType
             case subnet
             case transitGatewayAttachmentId
@@ -33501,6 +35100,8 @@ extension EC2 {
 
         /// The ID of the resource.
         public let resourceId: String?
+        ///  The ID of the AWS account that owns the resource.
+        public let resourceOwnerId: String?
         /// The type of resource, for example a VPC attachment.
         public let resourceType: TransitGatewayAttachmentResourceType?
         /// The subnets associated with the multicast domain.
@@ -33511,8 +35112,9 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
-        public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, subnets: [SubnetAssociation]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
+        public init(resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, subnets: [SubnetAssociation]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.resourceId = resourceId
+            self.resourceOwnerId = resourceOwnerId
             self.resourceType = resourceType
             self.subnets = subnets
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -33521,10 +35123,32 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case resourceId
+            case resourceOwnerId
             case resourceType
             case subnets
             case transitGatewayAttachmentId
             case transitGatewayMulticastDomainId
+        }
+    }
+
+    public struct TransitGatewayMulticastDomainOptions: AWSDecodableShape {
+        /// Indicates whether to automatically cross-account subnet associations that are associated with the transit gateway multicast domain.
+        public let autoAcceptSharedAssociations: AutoAcceptSharedAssociationsValue?
+        /// Indicates whether Internet Group Management Protocol (IGMP) version 2 is turned on for the transit gateway multicast domain.
+        public let igmpv2Support: Igmpv2SupportValue?
+        /// Indicates whether support for statically configuring transit gateway multicast group sources is turned on.
+        public let staticSourcesSupport: StaticSourcesSupportValue?
+
+        public init(autoAcceptSharedAssociations: AutoAcceptSharedAssociationsValue? = nil, igmpv2Support: Igmpv2SupportValue? = nil, staticSourcesSupport: StaticSourcesSupportValue? = nil) {
+            self.autoAcceptSharedAssociations = autoAcceptSharedAssociations
+            self.igmpv2Support = igmpv2Support
+            self.staticSourcesSupport = staticSourcesSupport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoAcceptSharedAssociations
+            case igmpv2Support
+            case staticSourcesSupport
         }
     }
 
@@ -33541,6 +35165,8 @@ extension EC2 {
         public let networkInterfaceId: String?
         /// The ID of the resource.
         public let resourceId: String?
+        ///  The ID of the AWS account that owns the transit gateway multicast domain group resource.
+        public let resourceOwnerId: String?
         /// The type of resource, for example a VPC attachment.
         public let resourceType: TransitGatewayAttachmentResourceType?
         /// The source type.
@@ -33550,13 +35176,14 @@ extension EC2 {
         /// The ID of the transit gateway attachment.
         public let transitGatewayAttachmentId: String?
 
-        public init(groupIpAddress: String? = nil, groupMember: Bool? = nil, groupSource: Bool? = nil, memberType: MembershipType? = nil, networkInterfaceId: String? = nil, resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, sourceType: MembershipType? = nil, subnetId: String? = nil, transitGatewayAttachmentId: String? = nil) {
+        public init(groupIpAddress: String? = nil, groupMember: Bool? = nil, groupSource: Bool? = nil, memberType: MembershipType? = nil, networkInterfaceId: String? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, sourceType: MembershipType? = nil, subnetId: String? = nil, transitGatewayAttachmentId: String? = nil) {
             self.groupIpAddress = groupIpAddress
             self.groupMember = groupMember
             self.groupSource = groupSource
             self.memberType = memberType
             self.networkInterfaceId = networkInterfaceId
             self.resourceId = resourceId
+            self.resourceOwnerId = resourceOwnerId
             self.resourceType = resourceType
             self.sourceType = sourceType
             self.subnetId = subnetId
@@ -33570,6 +35197,7 @@ extension EC2 {
             case memberType
             case networkInterfaceId
             case resourceId
+            case resourceOwnerId
             case resourceType
             case sourceType
             case subnetId
@@ -33626,6 +35254,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayOptions: AWSDecodableShape {
+        public struct _TransitGatewayCidrBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
+
         /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session. The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs.
         public let amazonSideAsn: Int64?
         /// The ID of the default association route table.
@@ -33642,10 +35272,13 @@ extension EC2 {
         public let multicastSupport: MulticastSupportValue?
         /// The ID of the default propagation route table.
         public let propagationDefaultRouteTableId: String?
+        /// The transit gateway CIDR blocks.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayCidrBlocksEncoding, String>>
+        public var transitGatewayCidrBlocks: [String]?
         /// Indicates whether Equal Cost Multipath Protocol support is enabled.
         public let vpnEcmpSupport: VpnEcmpSupportValue?
 
-        public init(amazonSideAsn: Int64? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, multicastSupport: MulticastSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
+        public init(amazonSideAsn: Int64? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, multicastSupport: MulticastSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, transitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.associationDefaultRouteTableId = associationDefaultRouteTableId
             self.autoAcceptSharedAttachments = autoAcceptSharedAttachments
@@ -33654,6 +35287,7 @@ extension EC2 {
             self.dnsSupport = dnsSupport
             self.multicastSupport = multicastSupport
             self.propagationDefaultRouteTableId = propagationDefaultRouteTableId
+            self.transitGatewayCidrBlocks = transitGatewayCidrBlocks
             self.vpnEcmpSupport = vpnEcmpSupport
         }
 
@@ -33666,6 +35300,7 @@ extension EC2 {
             case dnsSupport
             case multicastSupport
             case propagationDefaultRouteTableId
+            case transitGatewayCidrBlocks
             case vpnEcmpSupport
         }
     }
@@ -33794,6 +35429,8 @@ extension EC2 {
     }
 
     public struct TransitGatewayRequestOptions: AWSEncodableShape {
+        public struct _TransitGatewayCidrBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
+
         /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session. The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to 4294967294 for 32-bit ASNs. The default is 64512.
         public let amazonSideAsn: Int64?
         /// Enable or disable automatic acceptance of attachment requests. Disabled by default.
@@ -33806,16 +35443,20 @@ extension EC2 {
         public let dnsSupport: DnsSupportValue?
         /// Indicates whether multicast is enabled on the transit gateway
         public let multicastSupport: MulticastSupportValue?
+        /// One or more IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6.
+        @OptionalCustomCoding<ArrayCoder<_TransitGatewayCidrBlocksEncoding, String>>
+        public var transitGatewayCidrBlocks: [String]?
         /// Enable or disable Equal Cost Multipath Protocol support. Enabled by default.
         public let vpnEcmpSupport: VpnEcmpSupportValue?
 
-        public init(amazonSideAsn: Int64? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, multicastSupport: MulticastSupportValue? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
+        public init(amazonSideAsn: Int64? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, multicastSupport: MulticastSupportValue? = nil, transitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.autoAcceptSharedAttachments = autoAcceptSharedAttachments
             self.defaultRouteTableAssociation = defaultRouteTableAssociation
             self.defaultRouteTablePropagation = defaultRouteTablePropagation
             self.dnsSupport = dnsSupport
             self.multicastSupport = multicastSupport
+            self.transitGatewayCidrBlocks = transitGatewayCidrBlocks
             self.vpnEcmpSupport = vpnEcmpSupport
         }
 
@@ -33826,6 +35467,7 @@ extension EC2 {
             case defaultRouteTablePropagation = "DefaultRouteTablePropagation"
             case dnsSupport = "DnsSupport"
             case multicastSupport = "MulticastSupport"
+            case transitGatewayCidrBlocks = "TransitGatewayCidrBlocks"
             case vpnEcmpSupport = "VpnEcmpSupport"
         }
     }
@@ -34705,6 +36347,8 @@ extension EC2 {
         public let modificationState: VolumeModificationState?
         /// The original IOPS rate of the volume.
         public let originalIops: Int?
+        /// The original setting for Amazon EBS Multi-Attach.
+        public let originalMultiAttachEnabled: Bool?
         /// The original size of the volume, in GiB.
         public let originalSize: Int?
         /// The original throughput of the volume, in MiB/s.
@@ -34719,6 +36363,8 @@ extension EC2 {
         public let statusMessage: String?
         /// The target IOPS rate of the volume.
         public let targetIops: Int?
+        /// The target setting for Amazon EBS Multi-Attach.
+        public let targetMultiAttachEnabled: Bool?
         /// The target size of the volume, in GiB.
         public let targetSize: Int?
         /// The target throughput of the volume, in MiB/s.
@@ -34728,10 +36374,11 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
-        public init(endTime: Date? = nil, modificationState: VolumeModificationState? = nil, originalIops: Int? = nil, originalSize: Int? = nil, originalThroughput: Int? = nil, originalVolumeType: VolumeType? = nil, progress: Int64? = nil, startTime: Date? = nil, statusMessage: String? = nil, targetIops: Int? = nil, targetSize: Int? = nil, targetThroughput: Int? = nil, targetVolumeType: VolumeType? = nil, volumeId: String? = nil) {
+        public init(endTime: Date? = nil, modificationState: VolumeModificationState? = nil, originalIops: Int? = nil, originalMultiAttachEnabled: Bool? = nil, originalSize: Int? = nil, originalThroughput: Int? = nil, originalVolumeType: VolumeType? = nil, progress: Int64? = nil, startTime: Date? = nil, statusMessage: String? = nil, targetIops: Int? = nil, targetMultiAttachEnabled: Bool? = nil, targetSize: Int? = nil, targetThroughput: Int? = nil, targetVolumeType: VolumeType? = nil, volumeId: String? = nil) {
             self.endTime = endTime
             self.modificationState = modificationState
             self.originalIops = originalIops
+            self.originalMultiAttachEnabled = originalMultiAttachEnabled
             self.originalSize = originalSize
             self.originalThroughput = originalThroughput
             self.originalVolumeType = originalVolumeType
@@ -34739,6 +36386,7 @@ extension EC2 {
             self.startTime = startTime
             self.statusMessage = statusMessage
             self.targetIops = targetIops
+            self.targetMultiAttachEnabled = targetMultiAttachEnabled
             self.targetSize = targetSize
             self.targetThroughput = targetThroughput
             self.targetVolumeType = targetVolumeType
@@ -34749,6 +36397,7 @@ extension EC2 {
             case endTime
             case modificationState
             case originalIops
+            case originalMultiAttachEnabled
             case originalSize
             case originalThroughput
             case originalVolumeType
@@ -34756,6 +36405,7 @@ extension EC2 {
             case startTime
             case statusMessage
             case targetIops
+            case targetMultiAttachEnabled
             case targetSize
             case targetThroughput
             case targetVolumeType

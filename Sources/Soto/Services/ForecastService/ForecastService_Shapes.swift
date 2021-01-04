@@ -22,6 +22,7 @@ extension ForecastService {
 
     public enum AttributeType: String, CustomStringConvertible, Codable {
         case float
+        case geolocation
         case integer
         case string
         case timestamp
@@ -193,17 +194,26 @@ extension ForecastService {
         public let datasetImportJobName: String
         /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an AWS Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the CreateDataset operation.
         public let dataSource: DataSource
+        /// The format of the geolocation attribute. The geolocation attribute can be formatted in one of two ways:    LAT_LONG - the latitude and longitude in decimal format (Example: 47.61_-122.33).    CC_POSTALCODE (US Only) - the country code (US), followed by the 5-digit ZIP code (Example: US_98121).
+        public let geolocationFormat: String?
         /// The optional metadata that you apply to the dataset import job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
         /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D   If the format isn't specified, Amazon Forecast expects the format to be "yyyy-MM-dd HH:mm:ss".
         public let timestampFormat: String?
+        /// A single time zone for every item in your dataset. This option is ideal for datasets with all timestamps within a single time zone, or if all timestamps are normalized to a single time zone.  Refer to the Joda-Time API for a complete list of valid time zone names.
+        public let timeZone: String?
+        /// Automatically derive time zone information from the geolocation attribute. This option is ideal for datasets that contain timestamps in multiple time zones and those timestamps are expressed in local time.
+        public let useGeolocationForTimeZone: Bool?
 
-        public init(datasetArn: String, datasetImportJobName: String, dataSource: DataSource, tags: [Tag]? = nil, timestampFormat: String? = nil) {
+        public init(datasetArn: String, datasetImportJobName: String, dataSource: DataSource, geolocationFormat: String? = nil, tags: [Tag]? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
             self.datasetArn = datasetArn
             self.datasetImportJobName = datasetImportJobName
             self.dataSource = dataSource
+            self.geolocationFormat = geolocationFormat
             self.tags = tags
             self.timestampFormat = timestampFormat
+            self.timeZone = timeZone
+            self.useGeolocationForTimeZone = useGeolocationForTimeZone
         }
 
         public func validate(name: String) throws {
@@ -213,6 +223,8 @@ extension ForecastService {
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, min: 1)
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.dataSource.validate(name: "\(name).dataSource")
+            try self.validate(self.geolocationFormat, name: "geolocationFormat", parent: name, max: 256)
+            try self.validate(self.geolocationFormat, name: "geolocationFormat", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -220,14 +232,19 @@ extension ForecastService {
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, max: 256)
             try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\.\\,\\'\\s]+$")
+            try self.validate(self.timeZone, name: "timeZone", parent: name, max: 256)
+            try self.validate(self.timeZone, name: "timeZone", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\-\\_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "DatasetArn"
             case datasetImportJobName = "DatasetImportJobName"
             case dataSource = "DataSource"
+            case geolocationFormat = "GeolocationFormat"
             case tags = "Tags"
             case timestampFormat = "TimestampFormat"
+            case timeZone = "TimeZone"
+            case useGeolocationForTimeZone = "UseGeolocationForTimeZone"
         }
     }
 
@@ -912,6 +929,8 @@ extension ForecastService {
         public let dataSource: DataSource?
         /// Statistical information about each field in the input data.
         public let fieldStatistics: [String: Statistics]?
+        /// The format of the geolocation attribute. Valid Values:"LAT_LONG" and "CC_POSTALCODE".
+        public let geolocationFormat: String?
         /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
@@ -920,8 +939,12 @@ extension ForecastService {
         public let status: String?
         /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D
         public let timestampFormat: String?
+        /// The single time zone applied to every item in the dataset
+        public let timeZone: String?
+        /// Whether TimeZone is automatically derived from the geolocation attribute.
+        public let useGeolocationForTimeZone: Bool?
 
-        public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, fieldStatistics: [String: Statistics]? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil) {
+        public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, fieldStatistics: [String: Statistics]? = nil, geolocationFormat: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
             self.datasetImportJobArn = datasetImportJobArn
@@ -929,10 +952,13 @@ extension ForecastService {
             self.dataSize = dataSize
             self.dataSource = dataSource
             self.fieldStatistics = fieldStatistics
+            self.geolocationFormat = geolocationFormat
             self.lastModificationTime = lastModificationTime
             self.message = message
             self.status = status
             self.timestampFormat = timestampFormat
+            self.timeZone = timeZone
+            self.useGeolocationForTimeZone = useGeolocationForTimeZone
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -943,10 +969,13 @@ extension ForecastService {
             case dataSize = "DataSize"
             case dataSource = "DataSource"
             case fieldStatistics = "FieldStatistics"
+            case geolocationFormat = "GeolocationFormat"
             case lastModificationTime = "LastModificationTime"
             case message = "Message"
             case status = "Status"
             case timestampFormat = "TimestampFormat"
+            case timeZone = "TimeZone"
+            case useGeolocationForTimeZone = "UseGeolocationForTimeZone"
         }
     }
 
@@ -1645,7 +1674,7 @@ extension ForecastService {
             try self.supplementaryFeatures?.forEach {
                 try $0.validate(name: "\(name).supplementaryFeatures[]")
             }
-            try self.validate(self.supplementaryFeatures, name: "supplementaryFeatures", parent: name, max: 1)
+            try self.validate(self.supplementaryFeatures, name: "supplementaryFeatures", parent: name, max: 2)
             try self.validate(self.supplementaryFeatures, name: "supplementaryFeatures", parent: name, min: 1)
         }
 
@@ -2313,9 +2342,9 @@ extension ForecastService {
     }
 
     public struct SupplementaryFeature: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the feature. This must be "holiday".
+        /// The name of the feature. Valid values: "holiday" and "weather".
         public let name: String
-        /// One of the following 2 letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
+        ///  Weather Index  To enable the Weather Index, set the value to "true"   Holidays  To enable Holidays, specify a country with one of the following two-letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
         public let value: String
 
         public init(name: String, value: String) {

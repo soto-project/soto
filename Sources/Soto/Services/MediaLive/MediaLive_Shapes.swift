@@ -2127,6 +2127,27 @@ extension MediaLive {
         }
     }
 
+    public struct AudioSilenceFailoverSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the audio selector in the input that MediaLive should monitor to detect silence. Select your most important rendition. If you didn't create an audio selector in this input, leave blank.
+        public let audioSelectorName: String
+        /// The amount of time (in milliseconds) that the active input must be silent before automatic input failover occurs. Silence is defined as audio loss or audio quieter than -50 dBFS.
+        public let audioSilenceThresholdMsec: Int?
+
+        public init(audioSelectorName: String, audioSilenceThresholdMsec: Int? = nil) {
+            self.audioSelectorName = audioSelectorName
+            self.audioSilenceThresholdMsec = audioSilenceThresholdMsec
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.audioSilenceThresholdMsec, name: "audioSilenceThresholdMsec", parent: name, min: 1000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioSelectorName
+            case audioSilenceThresholdMsec
+        }
+    }
+
     public struct AudioTrack: AWSEncodableShape & AWSDecodableShape {
         /// 1-based integer value that maps to a specific audio track
         public let track: Int
@@ -3636,8 +3657,9 @@ extension MediaLive {
         public let networkSettings: InputDeviceNetworkSettings?
         public let serialNumber: String?
         public let type: InputDeviceType?
+        public let uhdDeviceSettings: InputDeviceUhdSettings?
 
-        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil, uhdDeviceSettings: InputDeviceUhdSettings? = nil) {
             self.arn = arn
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
@@ -3649,6 +3671,7 @@ extension MediaLive {
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
             self.type = type
+            self.uhdDeviceSettings = uhdDeviceSettings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3663,6 +3686,7 @@ extension MediaLive {
             case networkSettings
             case serialNumber
             case type
+            case uhdDeviceSettings
         }
     }
 
@@ -4534,19 +4558,29 @@ extension MediaLive {
     }
 
     public struct FailoverConditionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// MediaLive will perform a failover if the specified audio selector is silent for the specified period.
+        public let audioSilenceSettings: AudioSilenceFailoverSettings?
         /// MediaLive will perform a failover if content is not detected in this input for the specified period.
         public let inputLossSettings: InputLossFailoverSettings?
+        /// MediaLive will perform a failover if content is considered black for the specified period.
+        public let videoBlackSettings: VideoBlackFailoverSettings?
 
-        public init(inputLossSettings: InputLossFailoverSettings? = nil) {
+        public init(audioSilenceSettings: AudioSilenceFailoverSettings? = nil, inputLossSettings: InputLossFailoverSettings? = nil, videoBlackSettings: VideoBlackFailoverSettings? = nil) {
+            self.audioSilenceSettings = audioSilenceSettings
             self.inputLossSettings = inputLossSettings
+            self.videoBlackSettings = videoBlackSettings
         }
 
         public func validate(name: String) throws {
+            try self.audioSilenceSettings?.validate(name: "\(name).audioSilenceSettings")
             try self.inputLossSettings?.validate(name: "\(name).inputLossSettings")
+            try self.videoBlackSettings?.validate(name: "\(name).videoBlackSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioSilenceSettings
             case inputLossSettings
+            case videoBlackSettings
         }
     }
 
@@ -6062,8 +6096,10 @@ extension MediaLive {
         public let serialNumber: String?
         /// The type of the input device.
         public let type: InputDeviceType?
+        /// Settings that describe an input device that is type UHD.
+        public let uhdDeviceSettings: InputDeviceUhdSettings?
 
-        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil, uhdDeviceSettings: InputDeviceUhdSettings? = nil) {
             self.arn = arn
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
@@ -6075,6 +6111,7 @@ extension MediaLive {
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
             self.type = type
+            self.uhdDeviceSettings = uhdDeviceSettings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6089,6 +6126,48 @@ extension MediaLive {
             case networkSettings
             case serialNumber
             case type
+            case uhdDeviceSettings
+        }
+    }
+
+    public struct InputDeviceUhdSettings: AWSDecodableShape {
+        /// If you specified Auto as the configured input, specifies which of the sources is currently active (SDI or HDMI).
+        public let activeInput: InputDeviceActiveInput?
+        /// The source at the input device that is currently active. You can specify this source.
+        public let configuredInput: InputDeviceConfiguredInput?
+        /// The state of the input device.
+        public let deviceState: InputDeviceState?
+        /// The frame rate of the video source.
+        public let framerate: Double?
+        /// The height of the video source, in pixels.
+        public let height: Int?
+        /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
+        public let maxBitrate: Int?
+        /// The scan type of the video source.
+        public let scanType: InputDeviceScanType?
+        /// The width of the video source, in pixels.
+        public let width: Int?
+
+        public init(activeInput: InputDeviceActiveInput? = nil, configuredInput: InputDeviceConfiguredInput? = nil, deviceState: InputDeviceState? = nil, framerate: Double? = nil, height: Int? = nil, maxBitrate: Int? = nil, scanType: InputDeviceScanType? = nil, width: Int? = nil) {
+            self.activeInput = activeInput
+            self.configuredInput = configuredInput
+            self.deviceState = deviceState
+            self.framerate = framerate
+            self.height = height
+            self.maxBitrate = maxBitrate
+            self.scanType = scanType
+            self.width = width
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeInput
+            case configuredInput
+            case deviceState
+            case framerate
+            case height
+            case maxBitrate
+            case scanType
+            case width
         }
     }
 
@@ -9678,16 +9757,19 @@ extension MediaLive {
         public let hdDeviceSettings: InputDeviceConfigurableSettings?
         public let inputDeviceId: String
         public let name: String?
+        public let uhdDeviceSettings: InputDeviceConfigurableSettings?
 
-        public init(hdDeviceSettings: InputDeviceConfigurableSettings? = nil, inputDeviceId: String, name: String? = nil) {
+        public init(hdDeviceSettings: InputDeviceConfigurableSettings? = nil, inputDeviceId: String, name: String? = nil, uhdDeviceSettings: InputDeviceConfigurableSettings? = nil) {
             self.hdDeviceSettings = hdDeviceSettings
             self.inputDeviceId = inputDeviceId
             self.name = name
+            self.uhdDeviceSettings = uhdDeviceSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case hdDeviceSettings
             case name
+            case uhdDeviceSettings
         }
     }
 
@@ -9703,8 +9785,9 @@ extension MediaLive {
         public let networkSettings: InputDeviceNetworkSettings?
         public let serialNumber: String?
         public let type: InputDeviceType?
+        public let uhdDeviceSettings: InputDeviceUhdSettings?
 
-        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil, uhdDeviceSettings: InputDeviceUhdSettings? = nil) {
             self.arn = arn
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
@@ -9716,6 +9799,7 @@ extension MediaLive {
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
             self.type = type
+            self.uhdDeviceSettings = uhdDeviceSettings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9730,6 +9814,7 @@ extension MediaLive {
             case networkSettings
             case serialNumber
             case type
+            case uhdDeviceSettings
         }
     }
 
@@ -9915,6 +10000,27 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case reservation
+        }
+    }
+
+    public struct VideoBlackFailoverSettings: AWSEncodableShape & AWSDecodableShape {
+        /// A value used in calculating the threshold below which MediaLive considers a pixel to be 'black'. For the input to be considered black, every pixel in a frame must be below this threshold. The threshold is calculated as a percentage (expressed as a decimal) of white. Therefore .1 means 10% white (or 90% black). Note how the formula works for any color depth. For example, if you set this field to 0.1 in 10-bit color depth: (1023*0.1=102.3), which means a pixel value of 102 or less is 'black'. If you set this field to .1 in an 8-bit color depth: (255*0.1=25.5), which means a pixel value of 25 or less is 'black'. The range is 0.0 to 1.0, with any number of decimal places.
+        public let blackDetectThreshold: Double?
+        /// The amount of time (in milliseconds) that the active input must be black before automatic input failover occurs.
+        public let videoBlackThresholdMsec: Int?
+
+        public init(blackDetectThreshold: Double? = nil, videoBlackThresholdMsec: Int? = nil) {
+            self.blackDetectThreshold = blackDetectThreshold
+            self.videoBlackThresholdMsec = videoBlackThresholdMsec
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.videoBlackThresholdMsec, name: "videoBlackThresholdMsec", parent: name, min: 1000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blackDetectThreshold
+            case videoBlackThresholdMsec
         }
     }
 

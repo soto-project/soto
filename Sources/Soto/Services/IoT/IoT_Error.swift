@@ -112,7 +112,7 @@ public struct IoTErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The Rule-SQL expression can't be parsed correctly.
     public static var sqlParseException: Self { .init(.sqlParseException) }
-    /// This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
+    ///  This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
     public static var taskAlreadyExistsException: Self { .init(.taskAlreadyExistsException) }
     /// The rate exceeds the limit.
     public static var throttlingException: Self { .init(.throttlingException) }

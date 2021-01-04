@@ -73,7 +73,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have sufficient access to perform this action.
+    /// Client authentication is not available in this region at this time.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// An authentication error occurred.
     public static var authenticationFailedException: Self { .init(.authenticationFailedException) }
@@ -109,7 +109,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }
     /// The certificate PEM that was provided has incorrect encoding.
     public static var invalidCertificateException: Self { .init(.invalidCertificateException) }
-    /// The client authorization was invalid.
+    /// Client authentication is already enabled.
     public static var invalidClientAuthStatusException: Self { .init(.invalidClientAuthStatusException) }
     /// The LDAP activities could not be performed because they are limited by the LDAPS status.
     public static var invalidLDAPSStatusException: Self { .init(.invalidLDAPSStatusException) }
@@ -123,7 +123,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var invalidTargetException: Self { .init(.invalidTargetException) }
     /// The maximum allowed number of IP addresses was exceeded. The default limit is 100 IP address blocks.
     public static var ipRouteLimitExceededException: Self { .init(.ipRouteLimitExceededException) }
-    /// The LDAP activities could not be performed because at least one valid certificate must be registered with the system.
+    /// Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
     public static var noAvailableCertificateException: Self { .init(.noAvailableCertificateException) }
     /// Exception encountered while trying to access your AWS organization.
     public static var organizationsException: Self { .init(.organizationsException) }

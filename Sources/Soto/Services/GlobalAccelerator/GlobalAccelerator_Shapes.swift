@@ -47,6 +47,24 @@ extension GlobalAccelerator {
         public var description: String { return self.rawValue }
     }
 
+    public enum CustomRoutingAcceleratorStatus: String, CustomStringConvertible, Codable {
+        case deployed = "DEPLOYED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomRoutingDestinationTrafficState: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomRoutingProtocol: String, CustomStringConvertible, Codable {
+        case tcp = "TCP"
+        case udp = "UDP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HealthCheckProtocol: String, CustomStringConvertible, Codable {
         case http = "HTTP"
         case https = "HTTPS"
@@ -140,6 +158,49 @@ extension GlobalAccelerator {
         }
     }
 
+    public struct AddCustomRoutingEndpointsRequest: AWSEncodableShape {
+        /// The list of endpoint objects to add to a custom routing accelerator.
+        public let endpointConfigurations: [CustomRoutingEndpointConfiguration]
+        /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint.
+        public let endpointGroupArn: String
+
+        public init(endpointConfigurations: [CustomRoutingEndpointConfiguration], endpointGroupArn: String) {
+            self.endpointConfigurations = endpointConfigurations
+            self.endpointGroupArn = endpointGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.endpointConfigurations.forEach {
+                try $0.validate(name: "\(name).endpointConfigurations[]")
+            }
+            try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, max: 20)
+            try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, min: 1)
+            try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointConfigurations = "EndpointConfigurations"
+            case endpointGroupArn = "EndpointGroupArn"
+        }
+    }
+
+    public struct AddCustomRoutingEndpointsResponse: AWSDecodableShape {
+        /// The endpoint objects added to the custom routing accelerator.
+        public let endpointDescriptions: [CustomRoutingEndpointDescription]?
+        /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint.
+        public let endpointGroupArn: String?
+
+        public init(endpointDescriptions: [CustomRoutingEndpointDescription]? = nil, endpointGroupArn: String? = nil) {
+            self.endpointDescriptions = endpointDescriptions
+            self.endpointGroupArn = endpointGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointDescriptions = "EndpointDescriptions"
+            case endpointGroupArn = "EndpointGroupArn"
+        }
+    }
+
     public struct AdvertiseByoipCidrRequest: AWSEncodableShape {
         /// The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range.
         public let cidr: String
@@ -167,6 +228,49 @@ extension GlobalAccelerator {
 
         private enum CodingKeys: String, CodingKey {
             case byoipCidr = "ByoipCidr"
+        }
+    }
+
+    public struct AllowCustomRoutingTrafficRequest: AWSEncodableShape {
+        /// Indicates whether all destination IP addresses and ports for a specified VPC subnet endpoint can receive traffic from a custom routing accelerator. The value is TRUE or FALSE.  When set to TRUE, all destinations in the custom routing VPC subnet can receive traffic. Note that you cannot specify destination IP addresses and ports when the value is set to TRUE. When set to FALSE (or not specified), you must specify a list of destination IP addresses that are allowed to receive traffic. A list of ports is optional. If you don't specify a list of ports, the ports that can accept traffic is the same as the ports configured for the endpoint group. The default value is FALSE.
+        public let allowAllTrafficToEndpoint: Bool?
+        /// A list of specific Amazon EC2 instance IP addresses (destination addresses) in a subnet that you want to allow to receive traffic. The IP addresses must be a subset of the IP addresses that you specified for the endpoint group.  DestinationAddresses is required if AllowAllTrafficToEndpoint is FALSE or is not specified.
+        public let destinationAddresses: [String]?
+        /// A list of specific Amazon EC2 instance ports (destination ports) that you want to allow to receive traffic.
+        public let destinationPorts: [Int]?
+        /// The Amazon Resource Name (ARN) of the endpoint group.
+        public let endpointGroupArn: String
+        /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
+        public let endpointId: String
+
+        public init(allowAllTrafficToEndpoint: Bool? = nil, destinationAddresses: [String]? = nil, destinationPorts: [Int]? = nil, endpointGroupArn: String, endpointId: String) {
+            self.allowAllTrafficToEndpoint = allowAllTrafficToEndpoint
+            self.destinationAddresses = destinationAddresses
+            self.destinationPorts = destinationPorts
+            self.endpointGroupArn = endpointGroupArn
+            self.endpointId = endpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationAddresses?.forEach {
+                try validate($0, name: "destinationAddresses[]", parent: name, max: 45)
+            }
+            try self.validate(self.destinationAddresses, name: "destinationAddresses", parent: name, max: 100)
+            try self.destinationPorts?.forEach {
+                try validate($0, name: "destinationPorts[]", parent: name, max: 65535)
+                try validate($0, name: "destinationPorts[]", parent: name, min: 1)
+            }
+            try self.validate(self.destinationPorts, name: "destinationPorts", parent: name, max: 100)
+            try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAllTrafficToEndpoint = "AllowAllTrafficToEndpoint"
+            case destinationAddresses = "DestinationAddresses"
+            case destinationPorts = "DestinationPorts"
+            case endpointGroupArn = "EndpointGroupArn"
+            case endpointId = "EndpointId"
         }
     }
 
@@ -255,6 +359,9 @@ extension GlobalAccelerator {
 
         public func validate(name: String) throws {
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
+            try self.ipAddresses?.forEach {
+                try validate($0, name: "ipAddresses[]", parent: name, max: 45)
+            }
             try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, max: 2)
             try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 255)
@@ -283,6 +390,149 @@ extension GlobalAccelerator {
 
         private enum CodingKeys: String, CodingKey {
             case accelerator = "Accelerator"
+        }
+    }
+
+    public struct CreateCustomRoutingAcceleratorRequest: AWSEncodableShape {
+        /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, an accelerator cannot be deleted. If set to false, the accelerator can be deleted.
+        public let enabled: Bool?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
+        public let idempotencyToken: String
+        /// The value for the address type must be IPv4.
+        public let ipAddressType: IpAddressType?
+        /// The name of a custom routing accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
+        public let name: String
+        /// Create tags for an accelerator. For more information, see Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
+        public let tags: [Tag]?
+
+        public init(enabled: Bool? = nil, idempotencyToken: String = CreateCustomRoutingAcceleratorRequest.idempotencyToken(), ipAddressType: IpAddressType? = nil, name: String, tags: [Tag]? = nil) {
+            self.enabled = enabled
+            self.idempotencyToken = idempotencyToken
+            self.ipAddressType = ipAddressType
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case idempotencyToken = "IdempotencyToken"
+            case ipAddressType = "IpAddressType"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateCustomRoutingAcceleratorResponse: AWSDecodableShape {
+        /// The accelerator that is created.
+        public let accelerator: CustomRoutingAccelerator?
+
+        public init(accelerator: CustomRoutingAccelerator? = nil) {
+            self.accelerator = accelerator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accelerator = "Accelerator"
+        }
+    }
+
+    public struct CreateCustomRoutingEndpointGroupRequest: AWSEncodableShape {
+        /// Sets the port range and protocol for all endpoints (virtual private cloud subnets) in a custom routing endpoint group to accept client traffic on.
+        public let destinationConfigurations: [CustomRoutingDestinationConfiguration]
+        /// The AWS Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region.
+        public let endpointGroupRegion: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
+        public let idempotencyToken: String
+        /// The Amazon Resource Name (ARN) of the listener for a custom routing endpoint.
+        public let listenerArn: String
+
+        public init(destinationConfigurations: [CustomRoutingDestinationConfiguration], endpointGroupRegion: String, idempotencyToken: String = CreateCustomRoutingEndpointGroupRequest.idempotencyToken(), listenerArn: String) {
+            self.destinationConfigurations = destinationConfigurations
+            self.endpointGroupRegion = endpointGroupRegion
+            self.idempotencyToken = idempotencyToken
+            self.listenerArn = listenerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfigurations.forEach {
+                try $0.validate(name: "\(name).destinationConfigurations[]")
+            }
+            try self.validate(self.destinationConfigurations, name: "destinationConfigurations", parent: name, max: 100)
+            try self.validate(self.destinationConfigurations, name: "destinationConfigurations", parent: name, min: 1)
+            try self.validate(self.endpointGroupRegion, name: "endpointGroupRegion", parent: name, max: 255)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
+            try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfigurations = "DestinationConfigurations"
+            case endpointGroupRegion = "EndpointGroupRegion"
+            case idempotencyToken = "IdempotencyToken"
+            case listenerArn = "ListenerArn"
+        }
+    }
+
+    public struct CreateCustomRoutingEndpointGroupResponse: AWSDecodableShape {
+        /// The information about the endpoint group created for a custom routing accelerator.
+        public let endpointGroup: CustomRoutingEndpointGroup?
+
+        public init(endpointGroup: CustomRoutingEndpointGroup? = nil) {
+            self.endpointGroup = endpointGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointGroup = "EndpointGroup"
+        }
+    }
+
+    public struct CreateCustomRoutingListenerRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the accelerator for a custom routing listener.
+        public let acceleratorArn: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
+        public let idempotencyToken: String
+        /// The port range to support for connections from clients to your accelerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators.
+        public let portRanges: [PortRange]
+
+        public init(acceleratorArn: String, idempotencyToken: String = CreateCustomRoutingListenerRequest.idempotencyToken(), portRanges: [PortRange]) {
+            self.acceleratorArn = acceleratorArn
+            self.idempotencyToken = idempotencyToken
+            self.portRanges = portRanges
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
+            try self.portRanges.forEach {
+                try $0.validate(name: "\(name).portRanges[]")
+            }
+            try self.validate(self.portRanges, name: "portRanges", parent: name, max: 10)
+            try self.validate(self.portRanges, name: "portRanges", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+            case idempotencyToken = "IdempotencyToken"
+            case portRanges = "PortRanges"
+        }
+    }
+
+    public struct CreateCustomRoutingListenerResponse: AWSDecodableShape {
+        /// The listener that you've created for a custom routing accelerator.
+        public let listener: CustomRoutingListener?
+
+        public init(listener: CustomRoutingListener? = nil) {
+            self.listener = listener
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listener = "Listener"
         }
     }
 
@@ -334,6 +584,7 @@ extension GlobalAccelerator {
             try self.validate(self.healthCheckIntervalSeconds, name: "healthCheckIntervalSeconds", parent: name, max: 30)
             try self.validate(self.healthCheckIntervalSeconds, name: "healthCheckIntervalSeconds", parent: name, min: 10)
             try self.validate(self.healthCheckPath, name: "healthCheckPath", parent: name, max: 255)
+            try self.validate(self.healthCheckPath, name: "healthCheckPath", parent: name, pattern: "^/[-a-zA-Z0-9@:%_\\\\+.~#?&/=]*$")
             try self.validate(self.healthCheckPort, name: "healthCheckPort", parent: name, max: 65535)
             try self.validate(self.healthCheckPort, name: "healthCheckPort", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
@@ -429,6 +680,195 @@ extension GlobalAccelerator {
         }
     }
 
+    public struct CustomRoutingAccelerator: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom routing accelerator.
+        public let acceleratorArn: String?
+        /// The date and time that the accelerator was created.
+        public let createdTime: Date?
+        /// The Domain Name System (DNS) name that Global Accelerator creates that points to your accelerator's static IP addresses.  The naming convention for the DNS name is the following: A lowercase letter a, followed by a 16-bit random hex string, followed by .awsglobalaccelerator.com. For example: a1234567890abcdef.awsglobalaccelerator.com. For more information about the default DNS name, see  Support for DNS Addressing in Global Accelerator in the AWS Global Accelerator Developer Guide.
+        public let dnsName: String?
+        /// Indicates whether the accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, accelerator can be deleted.
+        public let enabled: Bool?
+        /// The value for the address type must be IPv4.
+        public let ipAddressType: IpAddressType?
+        /// The static IP addresses that Global Accelerator associates with the accelerator.
+        public let ipSets: [IpSet]?
+        /// The date and time that the accelerator was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the accelerator. The name must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
+        public let name: String?
+        /// Describes the deployment status of the accelerator.
+        public let status: CustomRoutingAcceleratorStatus?
+
+        public init(acceleratorArn: String? = nil, createdTime: Date? = nil, dnsName: String? = nil, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, ipSets: [IpSet]? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: CustomRoutingAcceleratorStatus? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.createdTime = createdTime
+            self.dnsName = dnsName
+            self.enabled = enabled
+            self.ipAddressType = ipAddressType
+            self.ipSets = ipSets
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+            case createdTime = "CreatedTime"
+            case dnsName = "DnsName"
+            case enabled = "Enabled"
+            case ipAddressType = "IpAddressType"
+            case ipSets = "IpSets"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct CustomRoutingAcceleratorAttributes: AWSDecodableShape {
+        /// Indicates whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the AWS Global Accelerator Developer Guide.
+        public let flowLogsEnabled: Bool?
+        /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
+        public let flowLogsS3Bucket: String?
+        /// The prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. If you don’t specify a prefix, the flow logs are stored in the root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
+        public let flowLogsS3Prefix: String?
+
+        public init(flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
+            self.flowLogsEnabled = flowLogsEnabled
+            self.flowLogsS3Bucket = flowLogsS3Bucket
+            self.flowLogsS3Prefix = flowLogsS3Prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowLogsEnabled = "FlowLogsEnabled"
+            case flowLogsS3Bucket = "FlowLogsS3Bucket"
+            case flowLogsS3Prefix = "FlowLogsS3Prefix"
+        }
+    }
+
+    public struct CustomRoutingDestinationConfiguration: AWSEncodableShape {
+        /// The first port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
+        public let fromPort: Int
+        /// The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP.
+        public let protocols: [CustomRoutingProtocol]
+        /// The last port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
+        public let toPort: Int
+
+        public init(fromPort: Int, protocols: [CustomRoutingProtocol], toPort: Int) {
+            self.fromPort = fromPort
+            self.protocols = protocols
+            self.toPort = toPort
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fromPort, name: "fromPort", parent: name, max: 65535)
+            try self.validate(self.fromPort, name: "fromPort", parent: name, min: 1)
+            try self.validate(self.protocols, name: "protocols", parent: name, max: 2)
+            try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
+            try self.validate(self.toPort, name: "toPort", parent: name, max: 65535)
+            try self.validate(self.toPort, name: "toPort", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case protocols = "Protocols"
+            case toPort = "ToPort"
+        }
+    }
+
+    public struct CustomRoutingDestinationDescription: AWSDecodableShape {
+        /// The first port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
+        public let fromPort: Int?
+        /// The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP.
+        public let protocols: [Protocol]?
+        /// The last port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
+        public let toPort: Int?
+
+        public init(fromPort: Int? = nil, protocols: [Protocol]? = nil, toPort: Int? = nil) {
+            self.fromPort = fromPort
+            self.protocols = protocols
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case protocols = "Protocols"
+            case toPort = "ToPort"
+        }
+    }
+
+    public struct CustomRoutingEndpointConfiguration: AWSEncodableShape {
+        /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
+        public let endpointId: String?
+
+        public init(endpointId: String? = nil) {
+            self.endpointId = endpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "EndpointId"
+        }
+    }
+
+    public struct CustomRoutingEndpointDescription: AWSDecodableShape {
+        /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
+        public let endpointId: String?
+
+        public init(endpointId: String? = nil) {
+            self.endpointId = endpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "EndpointId"
+        }
+    }
+
+    public struct CustomRoutingEndpointGroup: AWSDecodableShape {
+        /// For a custom routing accelerator, describes the port range and protocol for all endpoints (virtual private cloud subnets) in an endpoint group to accept client traffic on.
+        public let destinationDescriptions: [CustomRoutingDestinationDescription]?
+        /// For a custom routing accelerator, describes the endpoints (virtual private cloud subnets) in an endpoint group to accept client traffic on.
+        public let endpointDescriptions: [CustomRoutingEndpointDescription]?
+        /// The Amazon Resource Name (ARN) of the endpoint group.
+        public let endpointGroupArn: String?
+        /// The AWS Region where the endpoint group is located.
+        public let endpointGroupRegion: String?
+
+        public init(destinationDescriptions: [CustomRoutingDestinationDescription]? = nil, endpointDescriptions: [CustomRoutingEndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil) {
+            self.destinationDescriptions = destinationDescriptions
+            self.endpointDescriptions = endpointDescriptions
+            self.endpointGroupArn = endpointGroupArn
+            self.endpointGroupRegion = endpointGroupRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationDescriptions = "DestinationDescriptions"
+            case endpointDescriptions = "EndpointDescriptions"
+            case endpointGroupArn = "EndpointGroupArn"
+            case endpointGroupRegion = "EndpointGroupRegion"
+        }
+    }
+
+    public struct CustomRoutingListener: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String?
+        /// The port range to support for connections from clients to your accelerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators.
+        public let portRanges: [PortRange]?
+
+        public init(listenerArn: String? = nil, portRanges: [PortRange]? = nil) {
+            self.listenerArn = listenerArn
+            self.portRanges = portRanges
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+            case portRanges = "PortRanges"
+        }
+    }
+
     public struct DeleteAcceleratorRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of an accelerator.
         public let acceleratorArn: String
@@ -443,6 +883,57 @@ extension GlobalAccelerator {
 
         private enum CodingKeys: String, CodingKey {
             case acceleratorArn = "AcceleratorArn"
+        }
+    }
+
+    public struct DeleteCustomRoutingAcceleratorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the custom routing accelerator to delete.
+        public let acceleratorArn: String
+
+        public init(acceleratorArn: String) {
+            self.acceleratorArn = acceleratorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+        }
+    }
+
+    public struct DeleteCustomRoutingEndpointGroupRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the endpoint group to delete.
+        public let endpointGroupArn: String
+
+        public init(endpointGroupArn: String) {
+            self.endpointGroupArn = endpointGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointGroupArn = "EndpointGroupArn"
+        }
+    }
+
+    public struct DeleteCustomRoutingListenerRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the listener to delete.
+        public let listenerArn: String
+
+        public init(listenerArn: String) {
+            self.listenerArn = listenerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
         }
     }
 
@@ -477,6 +968,49 @@ extension GlobalAccelerator {
 
         private enum CodingKeys: String, CodingKey {
             case listenerArn = "ListenerArn"
+        }
+    }
+
+    public struct DenyCustomRoutingTrafficRequest: AWSEncodableShape {
+        /// Indicates whether all destination IP addresses and ports for a specified VPC subnet endpoint cannot receive traffic from a custom routing accelerator. The value is TRUE or FALSE.  When set to TRUE, no destinations in the custom routing VPC subnet can receive traffic. Note that you cannot specify destination IP addresses and ports when the value is set to TRUE. When set to FALSE (or not specified), you must specify a list of destination IP addresses that cannot receive traffic. A list of ports is optional. If you don't specify a list of ports, the ports that can accept traffic is the same as the ports configured for the endpoint group. The default value is FALSE.
+        public let denyAllTrafficToEndpoint: Bool?
+        /// A list of specific Amazon EC2 instance IP addresses (destination addresses) in a subnet that you want to prevent from receiving traffic. The IP addresses must be a subset of the IP addresses allowed for the VPC subnet associated with the endpoint group.
+        public let destinationAddresses: [String]?
+        /// A list of specific Amazon EC2 instance ports (destination ports) in a subnet endpoint that you want to prevent from receiving traffic.
+        public let destinationPorts: [Int]?
+        /// The Amazon Resource Name (ARN) of the endpoint group.
+        public let endpointGroupArn: String
+        /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
+        public let endpointId: String
+
+        public init(denyAllTrafficToEndpoint: Bool? = nil, destinationAddresses: [String]? = nil, destinationPorts: [Int]? = nil, endpointGroupArn: String, endpointId: String) {
+            self.denyAllTrafficToEndpoint = denyAllTrafficToEndpoint
+            self.destinationAddresses = destinationAddresses
+            self.destinationPorts = destinationPorts
+            self.endpointGroupArn = endpointGroupArn
+            self.endpointId = endpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationAddresses?.forEach {
+                try validate($0, name: "destinationAddresses[]", parent: name, max: 45)
+            }
+            try self.validate(self.destinationAddresses, name: "destinationAddresses", parent: name, max: 100)
+            try self.destinationPorts?.forEach {
+                try validate($0, name: "destinationPorts[]", parent: name, max: 65535)
+                try validate($0, name: "destinationPorts[]", parent: name, min: 1)
+            }
+            try self.validate(self.destinationPorts, name: "destinationPorts", parent: name, max: 100)
+            try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case denyAllTrafficToEndpoint = "DenyAllTrafficToEndpoint"
+            case destinationAddresses = "DestinationAddresses"
+            case destinationPorts = "DestinationPorts"
+            case endpointGroupArn = "EndpointGroupArn"
+            case endpointId = "EndpointId"
         }
     }
 
@@ -570,6 +1104,126 @@ extension GlobalAccelerator {
         }
     }
 
+    public struct DescribeCustomRoutingAcceleratorAttributesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the custom routing accelerator to describe the attributes for.
+        public let acceleratorArn: String
+
+        public init(acceleratorArn: String) {
+            self.acceleratorArn = acceleratorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+        }
+    }
+
+    public struct DescribeCustomRoutingAcceleratorAttributesResponse: AWSDecodableShape {
+        /// The attributes of the custom routing accelerator.
+        public let acceleratorAttributes: CustomRoutingAcceleratorAttributes?
+
+        public init(acceleratorAttributes: CustomRoutingAcceleratorAttributes? = nil) {
+            self.acceleratorAttributes = acceleratorAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorAttributes = "AcceleratorAttributes"
+        }
+    }
+
+    public struct DescribeCustomRoutingAcceleratorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the accelerator to describe.
+        public let acceleratorArn: String
+
+        public init(acceleratorArn: String) {
+            self.acceleratorArn = acceleratorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+        }
+    }
+
+    public struct DescribeCustomRoutingAcceleratorResponse: AWSDecodableShape {
+        /// The description of the custom routing accelerator.
+        public let accelerator: CustomRoutingAccelerator?
+
+        public init(accelerator: CustomRoutingAccelerator? = nil) {
+            self.accelerator = accelerator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accelerator = "Accelerator"
+        }
+    }
+
+    public struct DescribeCustomRoutingEndpointGroupRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the endpoint group to describe.
+        public let endpointGroupArn: String
+
+        public init(endpointGroupArn: String) {
+            self.endpointGroupArn = endpointGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointGroupArn = "EndpointGroupArn"
+        }
+    }
+
+    public struct DescribeCustomRoutingEndpointGroupResponse: AWSDecodableShape {
+        /// The description of an endpoint group for a custom routing accelerator.
+        public let endpointGroup: CustomRoutingEndpointGroup?
+
+        public init(endpointGroup: CustomRoutingEndpointGroup? = nil) {
+            self.endpointGroup = endpointGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointGroup = "EndpointGroup"
+        }
+    }
+
+    public struct DescribeCustomRoutingListenerRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the listener to describe.
+        public let listenerArn: String
+
+        public init(listenerArn: String) {
+            self.listenerArn = listenerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+        }
+    }
+
+    public struct DescribeCustomRoutingListenerResponse: AWSDecodableShape {
+        /// The description of a listener for a custom routing accelerator.
+        public let listener: CustomRoutingListener?
+
+        public init(listener: CustomRoutingListener? = nil) {
+            self.listener = listener
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listener = "Listener"
+        }
+    }
+
     public struct DescribeEndpointGroupRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the endpoint group to describe.
         public let endpointGroupArn: String
@@ -630,6 +1284,47 @@ extension GlobalAccelerator {
         }
     }
 
+    public struct DestinationPortMapping: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom routing accelerator that you have port mappings for.
+        public let acceleratorArn: String?
+        /// The IP address/port combinations (sockets) that map to a given destination socket address.
+        public let acceleratorSocketAddresses: [SocketAddress]?
+        /// The endpoint IP address/port combination for traffic received on the accelerator socket address.
+        public let destinationSocketAddress: SocketAddress?
+        /// Indicates whether or not a port mapping destination can receive traffic. The value is either ALLOW, if traffic is allowed to the destination, or DENY, if traffic is not allowed to the destination.
+        public let destinationTrafficState: CustomRoutingDestinationTrafficState?
+        /// The Amazon Resource Name (ARN) of the endpoint group.
+        public let endpointGroupArn: String?
+        /// The AWS Region for the endpoint group.
+        public let endpointGroupRegion: String?
+        /// The ID for the virtual private cloud (VPC) subnet.
+        public let endpointId: String?
+        /// The IP address type, which must be IPv4.
+        public let ipAddressType: IpAddressType?
+
+        public init(acceleratorArn: String? = nil, acceleratorSocketAddresses: [SocketAddress]? = nil, destinationSocketAddress: SocketAddress? = nil, destinationTrafficState: CustomRoutingDestinationTrafficState? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, endpointId: String? = nil, ipAddressType: IpAddressType? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.acceleratorSocketAddresses = acceleratorSocketAddresses
+            self.destinationSocketAddress = destinationSocketAddress
+            self.destinationTrafficState = destinationTrafficState
+            self.endpointGroupArn = endpointGroupArn
+            self.endpointGroupRegion = endpointGroupRegion
+            self.endpointId = endpointId
+            self.ipAddressType = ipAddressType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+            case acceleratorSocketAddresses = "AcceleratorSocketAddresses"
+            case destinationSocketAddress = "DestinationSocketAddress"
+            case destinationTrafficState = "DestinationTrafficState"
+            case endpointGroupArn = "EndpointGroupArn"
+            case endpointGroupRegion = "EndpointGroupRegion"
+            case endpointId = "EndpointId"
+            case ipAddressType = "IpAddressType"
+        }
+    }
+
     public struct EndpointConfiguration: AWSEncodableShape {
         /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Preserve Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
@@ -660,9 +1355,9 @@ extension GlobalAccelerator {
     public struct EndpointDescription: AWSDecodableShape {
         /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Viewing Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
-        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For EC2 instances, this is the EC2 instance ID.  An Application Load Balancer can be either internal or internet-facing.
+        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID.  An Application Load Balancer can be either internal or internet-facing.
         public let endpointId: String?
-        /// The reason code associated with why the endpoint is not healthy. If the endpoint state is healthy, a reason code is not provided. If the endpoint state is unhealthy, the reason code can be one of the following values:    Timeout: The health check requests to the endpoint are timing out before returning a status.    Failed: The health check failed, for example because the endpoint response was invalid (malformed).   If the endpoint state is initial, the reason code can be one of the following values:    ProvisioningInProgress: The endpoint is in the process of being provisioned.    InitialHealthChecking: Global Accelerator is still setting up the minimum number of health checks for the endpoint that are required to determine its health status.
+        /// Returns a null result.
         public let healthReason: String?
         /// The health status of the endpoint.
         public let healthState: HealthState?
@@ -832,6 +1527,236 @@ extension GlobalAccelerator {
         }
     }
 
+    public struct ListCustomRoutingAcceleratorsRequest: AWSEncodableShape {
+        /// The number of custom routing Global Accelerator objects that you want to return with this call. The default value is 10.
+        public let maxResults: Int?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomRoutingAcceleratorsResponse: AWSDecodableShape {
+        /// The list of custom routing accelerators for a customer account.
+        public let accelerators: [CustomRoutingAccelerator]?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(accelerators: [CustomRoutingAccelerator]? = nil, nextToken: String? = nil) {
+            self.accelerators = accelerators
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accelerators = "Accelerators"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomRoutingEndpointGroupsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the listener to list endpoint groups for.
+        public let listenerArn: String
+        /// The number of endpoint group objects that you want to return with this call. The default value is 10.
+        public let maxResults: Int?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(listenerArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.listenerArn = listenerArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomRoutingEndpointGroupsResponse: AWSDecodableShape {
+        /// The list of the endpoint groups associated with a listener for a custom routing accelerator.
+        public let endpointGroups: [CustomRoutingEndpointGroup]?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(endpointGroups: [CustomRoutingEndpointGroup]? = nil, nextToken: String? = nil) {
+            self.endpointGroups = endpointGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointGroups = "EndpointGroups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomRoutingListenersRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the accelerator to list listeners for.
+        public let acceleratorArn: String
+        /// The number of listener objects that you want to return with this call. The default value is 10.
+        public let maxResults: Int?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(acceleratorArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomRoutingListenersResponse: AWSDecodableShape {
+        /// The list of listeners for a custom routing accelerator.
+        public let listeners: [CustomRoutingListener]?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(listeners: [CustomRoutingListener]? = nil, nextToken: String? = nil) {
+            self.listeners = listeners
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listeners = "Listeners"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomRoutingPortMappingsByDestinationRequest: AWSEncodableShape {
+        /// The endpoint IP address in a virtual private cloud (VPC) subnet for which you want to receive back port mappings.
+        public let destinationAddress: String
+        /// The ID for the virtual private cloud (VPC) subnet.
+        public let endpointId: String
+        /// The number of destination port mappings that you want to return with this call. The default value is 10.
+        public let maxResults: Int?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(destinationAddress: String, endpointId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.destinationAddress = destinationAddress
+            self.endpointId = endpointId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationAddress, name: "destinationAddress", parent: name, max: 255)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAddress = "DestinationAddress"
+            case endpointId = "EndpointId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomRoutingPortMappingsByDestinationResponse: AWSDecodableShape {
+        /// The port mappings for the endpoint IP address that you specified in the request.
+        public let destinationPortMappings: [DestinationPortMapping]?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(destinationPortMappings: [DestinationPortMapping]? = nil, nextToken: String? = nil) {
+            self.destinationPortMappings = destinationPortMappings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPortMappings = "DestinationPortMappings"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomRoutingPortMappingsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the accelerator to list the custom routing port mappings for.
+        public let acceleratorArn: String
+        /// The Amazon Resource Name (ARN) of the endpoint group to list the custom routing port mappings for.
+        public let endpointGroupArn: String?
+        /// The number of destination port mappings that you want to return with this call. The default value is 10.
+        public let maxResults: Int?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(acceleratorArn: String, endpointGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.endpointGroupArn = endpointGroupArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+            case endpointGroupArn = "EndpointGroupArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomRoutingPortMappingsResponse: AWSDecodableShape {
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+        /// The port mappings for a custom routing accelerator.
+        public let portMappings: [PortMapping]?
+
+        public init(nextToken: String? = nil, portMappings: [PortMapping]? = nil) {
+            self.nextToken = nextToken
+            self.portMappings = portMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case portMappings = "PortMappings"
+        }
+    }
+
     public struct ListEndpointGroupsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -978,6 +1903,39 @@ extension GlobalAccelerator {
         }
     }
 
+    public struct PortMapping: AWSDecodableShape {
+        /// The accelerator port.
+        public let acceleratorPort: Int?
+        /// The EC2 instance IP address and port number in the virtual private cloud (VPC) subnet.
+        public let destinationSocketAddress: SocketAddress?
+        /// Indicates whether or not a port mapping destination can receive traffic. The value is either ALLOW, if traffic is allowed to the destination, or DENY, if traffic is not allowed to the destination.
+        public let destinationTrafficState: CustomRoutingDestinationTrafficState?
+        /// The Amazon Resource Name (ARN) of the endpoint group.
+        public let endpointGroupArn: String?
+        /// The IP address of the VPC subnet (the subnet ID).
+        public let endpointId: String?
+        /// The protocols supported by the endpoint group.
+        public let protocols: [CustomRoutingProtocol]?
+
+        public init(acceleratorPort: Int? = nil, destinationSocketAddress: SocketAddress? = nil, destinationTrafficState: CustomRoutingDestinationTrafficState? = nil, endpointGroupArn: String? = nil, endpointId: String? = nil, protocols: [CustomRoutingProtocol]? = nil) {
+            self.acceleratorPort = acceleratorPort
+            self.destinationSocketAddress = destinationSocketAddress
+            self.destinationTrafficState = destinationTrafficState
+            self.endpointGroupArn = endpointGroupArn
+            self.endpointId = endpointId
+            self.protocols = protocols
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorPort = "AcceleratorPort"
+            case destinationSocketAddress = "DestinationSocketAddress"
+            case destinationTrafficState = "DestinationTrafficState"
+            case endpointGroupArn = "EndpointGroupArn"
+            case endpointId = "EndpointId"
+            case protocols = "Protocols"
+        }
+    }
+
     public struct PortOverride: AWSEncodableShape & AWSDecodableShape {
         /// The endpoint port that you want a listener port to be mapped to. This is the port on the endpoint, such as the Application Load Balancer or Amazon EC2 instance.
         public let endpointPort: Int?
@@ -1058,6 +2016,47 @@ extension GlobalAccelerator {
 
         private enum CodingKeys: String, CodingKey {
             case byoipCidr = "ByoipCidr"
+        }
+    }
+
+    public struct RemoveCustomRoutingEndpointsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the endpoint group to remove endpoints from.
+        public let endpointGroupArn: String
+        /// The IDs for the endpoints. For custom routing accelerators, endpoint IDs are the virtual private cloud (VPC) subnet IDs.
+        public let endpointIds: [String]
+
+        public init(endpointGroupArn: String, endpointIds: [String]) {
+            self.endpointGroupArn = endpointGroupArn
+            self.endpointIds = endpointIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+            try self.endpointIds.forEach {
+                try validate($0, name: "endpointIds[]", parent: name, max: 255)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointGroupArn = "EndpointGroupArn"
+            case endpointIds = "EndpointIds"
+        }
+    }
+
+    public struct SocketAddress: AWSDecodableShape {
+        /// The IP address for the socket address.
+        public let ipAddress: String?
+        /// The port for the socket address.
+        public let port: Int?
+
+        public init(ipAddress: String? = nil, port: Int? = nil) {
+            self.ipAddress = ipAddress
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "IpAddress"
+            case port = "Port"
         }
     }
 
@@ -1195,7 +2194,7 @@ extension GlobalAccelerator {
         public let acceleratorArn: String
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
-        /// The value for the address type must be IPv4.
+        /// The IP address type, which must be IPv4.
         public let ipAddressType: IpAddressType?
         /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
         public let name: String?
@@ -1230,6 +2229,132 @@ extension GlobalAccelerator {
 
         private enum CodingKeys: String, CodingKey {
             case accelerator = "Accelerator"
+        }
+    }
+
+    public struct UpdateCustomRoutingAcceleratorAttributesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the custom routing accelerator to update attributes for.
+        public let acceleratorArn: String
+        /// Update whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the AWS Global Accelerator Developer Guide.
+        public let flowLogsEnabled: Bool?
+        /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
+        public let flowLogsS3Bucket: String?
+        /// Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true.  If you don’t specify a prefix, the flow logs are stored in the root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
+        public let flowLogsS3Prefix: String?
+
+        public init(acceleratorArn: String, flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.flowLogsEnabled = flowLogsEnabled
+            self.flowLogsS3Bucket = flowLogsS3Bucket
+            self.flowLogsS3Prefix = flowLogsS3Prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.validate(self.flowLogsS3Bucket, name: "flowLogsS3Bucket", parent: name, max: 255)
+            try self.validate(self.flowLogsS3Prefix, name: "flowLogsS3Prefix", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+            case flowLogsEnabled = "FlowLogsEnabled"
+            case flowLogsS3Bucket = "FlowLogsS3Bucket"
+            case flowLogsS3Prefix = "FlowLogsS3Prefix"
+        }
+    }
+
+    public struct UpdateCustomRoutingAcceleratorAttributesResponse: AWSDecodableShape {
+        /// Updated custom routing accelerator.
+        public let acceleratorAttributes: CustomRoutingAcceleratorAttributes?
+
+        public init(acceleratorAttributes: CustomRoutingAcceleratorAttributes? = nil) {
+            self.acceleratorAttributes = acceleratorAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorAttributes = "AcceleratorAttributes"
+        }
+    }
+
+    public struct UpdateCustomRoutingAcceleratorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the accelerator to update.
+        public let acceleratorArn: String
+        /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
+        public let enabled: Bool?
+        /// The value for the address type must be IPv4.
+        public let ipAddressType: IpAddressType?
+        /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
+        public let name: String?
+
+        public init(acceleratorArn: String, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
+            self.acceleratorArn = acceleratorArn
+            self.enabled = enabled
+            self.ipAddressType = ipAddressType
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorArn = "AcceleratorArn"
+            case enabled = "Enabled"
+            case ipAddressType = "IpAddressType"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateCustomRoutingAcceleratorResponse: AWSDecodableShape {
+        /// Information about the updated custom routing accelerator.
+        public let accelerator: CustomRoutingAccelerator?
+
+        public init(accelerator: CustomRoutingAccelerator? = nil) {
+            self.accelerator = accelerator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accelerator = "Accelerator"
+        }
+    }
+
+    public struct UpdateCustomRoutingListenerRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the listener to update.
+        public let listenerArn: String
+        /// The updated port range to support for connections from clients to your accelerator. If you remove ports that are currently being used by a subnet endpoint, the call fails. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators.
+        public let portRanges: [PortRange]
+
+        public init(listenerArn: String, portRanges: [PortRange]) {
+            self.listenerArn = listenerArn
+            self.portRanges = portRanges
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
+            try self.portRanges.forEach {
+                try $0.validate(name: "\(name).portRanges[]")
+            }
+            try self.validate(self.portRanges, name: "portRanges", parent: name, max: 10)
+            try self.validate(self.portRanges, name: "portRanges", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+            case portRanges = "PortRanges"
+        }
+    }
+
+    public struct UpdateCustomRoutingListenerResponse: AWSDecodableShape {
+        /// Information for the updated listener for a custom routing accelerator.
+        public let listener: CustomRoutingListener?
+
+        public init(listener: CustomRoutingListener? = nil) {
+            self.listener = listener
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listener = "Listener"
         }
     }
 
@@ -1275,6 +2400,7 @@ extension GlobalAccelerator {
             try self.validate(self.healthCheckIntervalSeconds, name: "healthCheckIntervalSeconds", parent: name, max: 30)
             try self.validate(self.healthCheckIntervalSeconds, name: "healthCheckIntervalSeconds", parent: name, min: 10)
             try self.validate(self.healthCheckPath, name: "healthCheckPath", parent: name, max: 255)
+            try self.validate(self.healthCheckPath, name: "healthCheckPath", parent: name, pattern: "^/[-a-zA-Z0-9@:%_\\\\+.~#?&/=]*$")
             try self.validate(self.healthCheckPort, name: "healthCheckPort", parent: name, max: 65535)
             try self.validate(self.healthCheckPort, name: "healthCheckPort", parent: name, min: 1)
             try self.portOverrides?.forEach {

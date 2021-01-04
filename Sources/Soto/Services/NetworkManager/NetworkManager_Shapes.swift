@@ -20,6 +20,14 @@ import SotoCore
 extension NetworkManager {
     // MARK: Enums
 
+    public enum ConnectionState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case deleting = "DELETING"
+        case pending = "PENDING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
@@ -68,6 +76,14 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransitGatewayConnectPeerAssociationState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TransitGatewayRegistrationState: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
@@ -78,6 +94,23 @@ extension NetworkManager {
     }
 
     // MARK: Shapes
+
+    public struct AWSLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the subnet the device is located in.
+        public let subnetArn: String?
+        /// The Zone the device is located in. This can be the ID of an Availability Zone, Local Zone, Wavelength Zone, or an Outpost.
+        public let zone: String?
+
+        public init(subnetArn: String? = nil, zone: String? = nil) {
+            self.subnetArn = subnetArn
+            self.zone = zone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetArn = "SubnetArn"
+            case zone = "Zone"
+        }
+    }
 
     public struct AssociateCustomerGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
@@ -157,6 +190,47 @@ extension NetworkManager {
         }
     }
 
+    public struct AssociateTransitGatewayConnectPeerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
+        ]
+
+        /// The ID of the device.
+        public let deviceId: String
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The ID of the link.
+        public let linkId: String?
+        /// The Amazon Resource Name (ARN) of the Connect peer.
+        public let transitGatewayConnectPeerArn: String
+
+        public init(deviceId: String, globalNetworkId: String, linkId: String? = nil, transitGatewayConnectPeerArn: String) {
+            self.deviceId = deviceId
+            self.globalNetworkId = globalNetworkId
+            self.linkId = linkId
+            self.transitGatewayConnectPeerArn = transitGatewayConnectPeerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceId = "DeviceId"
+            case linkId = "LinkId"
+            case transitGatewayConnectPeerArn = "TransitGatewayConnectPeerArn"
+        }
+    }
+
+    public struct AssociateTransitGatewayConnectPeerResponse: AWSDecodableShape {
+        /// The transit gateway Connect peer association.
+        public let transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation?
+
+        public init(transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation? = nil) {
+            self.transitGatewayConnectPeerAssociation = transitGatewayConnectPeerAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayConnectPeerAssociation = "TransitGatewayConnectPeerAssociation"
+        }
+    }
+
     public struct Bandwidth: AWSEncodableShape & AWSDecodableShape {
         /// Download speed in Mbps.
         public let downloadSpeed: Int?
@@ -174,11 +248,119 @@ extension NetworkManager {
         }
     }
 
+    public struct Connection: AWSDecodableShape {
+        /// The ID of the second device in the connection.
+        public let connectedDeviceId: String?
+        /// The ID of the link for the second device in the connection.
+        public let connectedLinkId: String?
+        /// The Amazon Resource Name (ARN) of the connection.
+        public let connectionArn: String?
+        /// The ID of the connection.
+        public let connectionId: String?
+        /// The date and time that the connection was created.
+        public let createdAt: Date?
+        /// The description of the connection.
+        public let description: String?
+        /// The ID of the first device in the connection.
+        public let deviceId: String?
+        /// The ID of the global network.
+        public let globalNetworkId: String?
+        /// The ID of the link for the first device in the connection.
+        public let linkId: String?
+        /// The state of the connection.
+        public let state: ConnectionState?
+        /// The tags for the connection.
+        public let tags: [Tag]?
+
+        public init(connectedDeviceId: String? = nil, connectedLinkId: String? = nil, connectionArn: String? = nil, connectionId: String? = nil, createdAt: Date? = nil, description: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, linkId: String? = nil, state: ConnectionState? = nil, tags: [Tag]? = nil) {
+            self.connectedDeviceId = connectedDeviceId
+            self.connectedLinkId = connectedLinkId
+            self.connectionArn = connectionArn
+            self.connectionId = connectionId
+            self.createdAt = createdAt
+            self.description = description
+            self.deviceId = deviceId
+            self.globalNetworkId = globalNetworkId
+            self.linkId = linkId
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectedDeviceId = "ConnectedDeviceId"
+            case connectedLinkId = "ConnectedLinkId"
+            case connectionArn = "ConnectionArn"
+            case connectionId = "ConnectionId"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case deviceId = "DeviceId"
+            case globalNetworkId = "GlobalNetworkId"
+            case linkId = "LinkId"
+            case state = "State"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
+        ]
+
+        /// The ID of the second device in the connection.
+        public let connectedDeviceId: String
+        /// The ID of the link for the second device.
+        public let connectedLinkId: String?
+        /// A description of the connection. Length Constraints: Maximum length of 256 characters.
+        public let description: String?
+        /// The ID of the first device in the connection.
+        public let deviceId: String
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The ID of the link for the first device.
+        public let linkId: String?
+        /// The tags to apply to the resource during creation.
+        public let tags: [Tag]?
+
+        public init(connectedDeviceId: String, connectedLinkId: String? = nil, description: String? = nil, deviceId: String, globalNetworkId: String, linkId: String? = nil, tags: [Tag]? = nil) {
+            self.connectedDeviceId = connectedDeviceId
+            self.connectedLinkId = connectedLinkId
+            self.description = description
+            self.deviceId = deviceId
+            self.globalNetworkId = globalNetworkId
+            self.linkId = linkId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectedDeviceId = "ConnectedDeviceId"
+            case connectedLinkId = "ConnectedLinkId"
+            case description = "Description"
+            case deviceId = "DeviceId"
+            case linkId = "LinkId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectionResponse: AWSDecodableShape {
+        /// Information about the connection.
+        public let connection: Connection?
+
+        public init(connection: Connection? = nil) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "Connection"
+        }
+    }
+
     public struct CreateDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
+        /// The AWS location of the device.
+        public let aWSLocation: AWSLocation?
         /// A description of the device. Length Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the global network.
@@ -198,7 +380,8 @@ extension NetworkManager {
         /// The vendor of the device. Length Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
-        public init(description: String? = nil, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
+        public init(aWSLocation: AWSLocation? = nil, description: String? = nil, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
+            self.aWSLocation = aWSLocation
             self.description = description
             self.globalNetworkId = globalNetworkId
             self.location = location
@@ -211,6 +394,7 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aWSLocation = "AWSLocation"
             case description = "Description"
             case location = "Location"
             case model = "Model"
@@ -385,6 +569,38 @@ extension NetworkManager {
             case globalNetworkId = "GlobalNetworkId"
             case linkId = "LinkId"
             case state = "State"
+        }
+    }
+
+    public struct DeleteConnectionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
+        ]
+
+        /// The ID of the connection.
+        public let connectionId: String
+        /// The ID of the global network.
+        public let globalNetworkId: String
+
+        public init(connectionId: String, globalNetworkId: String) {
+            self.connectionId = connectionId
+            self.globalNetworkId = globalNetworkId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConnectionResponse: AWSDecodableShape {
+        /// Information about the connection.
+        public let connection: Connection?
+
+        public init(connection: Connection? = nil) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "Connection"
         }
     }
 
@@ -590,6 +806,8 @@ extension NetworkManager {
     }
 
     public struct Device: AWSDecodableShape {
+        /// The AWS location of the device.
+        public let aWSLocation: AWSLocation?
         /// The date and time that the site was created.
         public let createdAt: Date?
         /// The description of the device.
@@ -617,7 +835,8 @@ extension NetworkManager {
         /// The device vendor.
         public let vendor: String?
 
-        public init(createdAt: Date? = nil, description: String? = nil, deviceArn: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, state: DeviceState? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
+        public init(aWSLocation: AWSLocation? = nil, createdAt: Date? = nil, description: String? = nil, deviceArn: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, state: DeviceState? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
+            self.aWSLocation = aWSLocation
             self.createdAt = createdAt
             self.description = description
             self.deviceArn = deviceArn
@@ -634,6 +853,7 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aWSLocation = "AWSLocation"
             case createdAt = "CreatedAt"
             case description = "Description"
             case deviceArn = "DeviceArn"
@@ -715,6 +935,91 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case linkAssociation = "LinkAssociation"
+        }
+    }
+
+    public struct DisassociateTransitGatewayConnectPeerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "transitGatewayConnectPeerArn", location: .uri(locationName: "transitGatewayConnectPeerArn"))
+        ]
+
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The Amazon Resource Name (ARN) of the transit gateway Connect peer.
+        public let transitGatewayConnectPeerArn: String
+
+        public init(globalNetworkId: String, transitGatewayConnectPeerArn: String) {
+            self.globalNetworkId = globalNetworkId
+            self.transitGatewayConnectPeerArn = transitGatewayConnectPeerArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateTransitGatewayConnectPeerResponse: AWSDecodableShape {
+        /// The transit gateway Connect peer association.
+        public let transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation?
+
+        public init(transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation? = nil) {
+            self.transitGatewayConnectPeerAssociation = transitGatewayConnectPeerAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayConnectPeerAssociation = "TransitGatewayConnectPeerAssociation"
+        }
+    }
+
+    public struct GetConnectionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionIds", location: .querystring(locationName: "connectionIds")),
+            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// One or more connection IDs.
+        public let connectionIds: [String]?
+        /// The ID of the device.
+        public let deviceId: String?
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(connectionIds: [String]? = nil, deviceId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.connectionIds = connectionIds
+            self.deviceId = deviceId
+            self.globalNetworkId = globalNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionsResponse: AWSDecodableShape {
+        /// Information about the connections.
+        public let connections: [Connection]?
+        /// The token to use for the next page of results.
+        public let nextToken: String?
+
+        public init(connections: [Connection]? = nil, nextToken: String? = nil) {
+            self.connections = connections
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connections = "Connections"
+            case nextToken = "NextToken"
         }
     }
 
@@ -980,6 +1285,55 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case sites = "Sites"
+        }
+    }
+
+    public struct GetTransitGatewayConnectPeerAssociationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "transitGatewayConnectPeerArns", location: .querystring(locationName: "transitGatewayConnectPeerArns"))
+        ]
+
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// One or more transit gateway Connect peer Amazon Resource Names (ARNs).
+        public let transitGatewayConnectPeerArns: [String]?
+
+        public init(globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayConnectPeerArns: [String]? = nil) {
+            self.globalNetworkId = globalNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayConnectPeerArns = transitGatewayConnectPeerArns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTransitGatewayConnectPeerAssociationsResponse: AWSDecodableShape {
+        /// The token to use for the next page of results.
+        public let nextToken: String?
+        /// Information about the transit gateway Connect peer associations.
+        public let transitGatewayConnectPeerAssociations: [TransitGatewayConnectPeerAssociation]?
+
+        public init(nextToken: String? = nil, transitGatewayConnectPeerAssociations: [TransitGatewayConnectPeerAssociation]? = nil) {
+            self.nextToken = nextToken
+            self.transitGatewayConnectPeerAssociations = transitGatewayConnectPeerAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case transitGatewayConnectPeerAssociations = "TransitGatewayConnectPeerAssociations"
         }
     }
 
@@ -1307,6 +1661,35 @@ extension NetworkManager {
         public init() {}
     }
 
+    public struct TransitGatewayConnectPeerAssociation: AWSDecodableShape {
+        /// The ID of the device.
+        public let deviceId: String?
+        /// The ID of the global network.
+        public let globalNetworkId: String?
+        /// The ID of the link.
+        public let linkId: String?
+        /// The state of the association.
+        public let state: TransitGatewayConnectPeerAssociationState?
+        /// The Amazon Resource Name (ARN) of the transit gateway Connect peer.
+        public let transitGatewayConnectPeerArn: String?
+
+        public init(deviceId: String? = nil, globalNetworkId: String? = nil, linkId: String? = nil, state: TransitGatewayConnectPeerAssociationState? = nil, transitGatewayConnectPeerArn: String? = nil) {
+            self.deviceId = deviceId
+            self.globalNetworkId = globalNetworkId
+            self.linkId = linkId
+            self.state = state
+            self.transitGatewayConnectPeerArn = transitGatewayConnectPeerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceId = "DeviceId"
+            case globalNetworkId = "GlobalNetworkId"
+            case linkId = "LinkId"
+            case state = "State"
+            case transitGatewayConnectPeerArn = "TransitGatewayConnectPeerArn"
+        }
+    }
+
     public struct TransitGatewayRegistration: AWSDecodableShape {
         /// The ID of the global network.
         public let globalNetworkId: String?
@@ -1368,12 +1751,59 @@ extension NetworkManager {
         public init() {}
     }
 
+    public struct UpdateConnectionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
+        ]
+
+        /// The ID of the link for the second device in the connection.
+        public let connectedLinkId: String?
+        /// The ID of the connection.
+        public let connectionId: String
+        /// A description of the connection. Length Constraints: Maximum length of 256 characters.
+        public let description: String?
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The ID of the link for the first device in the connection.
+        public let linkId: String?
+
+        public init(connectedLinkId: String? = nil, connectionId: String, description: String? = nil, globalNetworkId: String, linkId: String? = nil) {
+            self.connectedLinkId = connectedLinkId
+            self.connectionId = connectionId
+            self.description = description
+            self.globalNetworkId = globalNetworkId
+            self.linkId = linkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectedLinkId = "ConnectedLinkId"
+            case description = "Description"
+            case linkId = "LinkId"
+        }
+    }
+
+    public struct UpdateConnectionResponse: AWSDecodableShape {
+        /// Information about the connection.
+        public let connection: Connection?
+
+        public init(connection: Connection? = nil) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "Connection"
+        }
+    }
+
     public struct UpdateDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")),
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
+        /// The AWS location of the device.
+        public let aWSLocation: AWSLocation?
         /// A description of the device. Length Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the device.
@@ -1392,7 +1822,8 @@ extension NetworkManager {
         /// The vendor of the device. Length Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
-        public init(description: String? = nil, deviceId: String, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, type: String? = nil, vendor: String? = nil) {
+        public init(aWSLocation: AWSLocation? = nil, description: String? = nil, deviceId: String, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, type: String? = nil, vendor: String? = nil) {
+            self.aWSLocation = aWSLocation
             self.description = description
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -1405,6 +1836,7 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aWSLocation = "AWSLocation"
             case description = "Description"
             case location = "Location"
             case model = "Model"

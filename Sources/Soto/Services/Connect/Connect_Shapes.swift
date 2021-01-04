@@ -401,6 +401,13 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum QuickConnectType: String, CustomStringConvertible, Codable {
+        case phoneNumber = "PHONE_NUMBER"
+        case queue = "QUEUE"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReferenceType: String, CustomStringConvertible, Codable {
         case url = "URL"
         public var description: String { return self.rawValue }
@@ -935,6 +942,71 @@ extension Connect {
         }
     }
 
+    public struct CreateQuickConnectRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The description of the quick connect.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the quick connect.
+        public let name: String
+        /// Configuration settings for the quick connect.
+        public let quickConnectConfig: QuickConnectConfig
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, instanceId: String, name: String, quickConnectConfig: QuickConnectConfig, tags: [String: String]? = nil) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.quickConnectConfig = quickConnectConfig
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.quickConnectConfig.validate(name: "\(name).quickConnectConfig")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case quickConnectConfig = "QuickConnectConfig"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateQuickConnectResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the quick connect.
+        public let quickConnectARN: String?
+        /// The identifier for the quick connect.
+        public let quickConnectId: String?
+
+        public init(quickConnectARN: String? = nil, quickConnectId: String? = nil) {
+            self.quickConnectARN = quickConnectARN
+            self.quickConnectId = quickConnectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quickConnectARN = "QuickConnectARN"
+            case quickConnectId = "QuickConnectId"
+        }
+    }
+
     public struct CreateRoutingProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
@@ -1318,6 +1390,30 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteQuickConnectRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the quick connect.
+        public let quickConnectId: String
+
+        public init(instanceId: String, quickConnectId: String) {
+            self.instanceId = instanceId
+            self.quickConnectId = quickConnectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteUseCaseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -1546,6 +1642,43 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case storageConfig = "StorageConfig"
+        }
+    }
+
+    public struct DescribeQuickConnectRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the quick connect.
+        public let quickConnectId: String
+
+        public init(instanceId: String, quickConnectId: String) {
+            self.instanceId = instanceId
+            self.quickConnectId = quickConnectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeQuickConnectResponse: AWSDecodableShape {
+        /// Information about the quick connect.
+        public let quickConnect: QuickConnect?
+
+        public init(quickConnect: QuickConnect? = nil) {
+            self.quickConnect = quickConnect
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quickConnect = "QuickConnect"
         }
     }
 
@@ -3227,6 +3360,58 @@ extension Connect {
         }
     }
 
+    public struct ListQuickConnectsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "quickConnectTypes", location: .querystring(locationName: "QuickConnectTypes"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The type of quick connect. In the Amazon Connect console, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+        public let quickConnectTypes: [QuickConnectType]?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, quickConnectTypes: [QuickConnectType]? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.quickConnectTypes = quickConnectTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.quickConnectTypes, name: "quickConnectTypes", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListQuickConnectsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the quick connects.
+        public let quickConnectSummaryList: [QuickConnectSummary]?
+
+        public init(nextToken: String? = nil, quickConnectSummaryList: [QuickConnectSummary]? = nil) {
+            self.nextToken = nextToken
+            self.quickConnectSummaryList = quickConnectSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case quickConnectSummaryList = "QuickConnectSummaryList"
+        }
+    }
+
     public struct ListRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -3634,6 +3819,19 @@ extension Connect {
         }
     }
 
+    public struct PhoneNumberQuickConnectConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The phone number in E.164 format.
+        public let phoneNumber: String
+
+        public init(phoneNumber: String) {
+            self.phoneNumber = phoneNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
     public struct PhoneNumberSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the phone number.
         public let arn: String?
@@ -3684,6 +3882,27 @@ extension Connect {
         }
     }
 
+    public struct QueueQuickConnectConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the contact flow.
+        public let contactFlowId: String
+        /// The identifier of the queue.
+        public let queueId: String
+
+        public init(contactFlowId: String, queueId: String) {
+            self.contactFlowId = contactFlowId
+            self.queueId = queueId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowId = "ContactFlowId"
+            case queueId = "QueueId"
+        }
+    }
+
     public struct QueueReference: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the queue.
         public let arn: String?
@@ -3723,6 +3942,94 @@ extension Connect {
             case id = "Id"
             case name = "Name"
             case queueType = "QueueType"
+        }
+    }
+
+    public struct QuickConnect: AWSDecodableShape {
+        /// The description.
+        public let description: String?
+        /// The name of the quick connect.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the quick connect.
+        public let quickConnectARN: String?
+        /// Contains information about the quick connect.
+        public let quickConnectConfig: QuickConnectConfig?
+        /// The identifier for the quick connect.
+        public let quickConnectId: String?
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, name: String? = nil, quickConnectARN: String? = nil, quickConnectConfig: QuickConnectConfig? = nil, quickConnectId: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.name = name
+            self.quickConnectARN = quickConnectARN
+            self.quickConnectConfig = quickConnectConfig
+            self.quickConnectId = quickConnectId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case quickConnectARN = "QuickConnectARN"
+            case quickConnectConfig = "QuickConnectConfig"
+            case quickConnectId = "QuickConnectId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct QuickConnectConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The phone configuration. This is required only if QuickConnectType is PHONE_NUMBER.
+        public let phoneConfig: PhoneNumberQuickConnectConfig?
+        /// The queue configuration. This is required only if QuickConnectType is QUEUE.
+        public let queueConfig: QueueQuickConnectConfig?
+        /// The type of quick connect. In the Amazon Connect console, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+        public let quickConnectType: QuickConnectType
+        /// The user configuration. This is required only if QuickConnectType is USER.
+        public let userConfig: UserQuickConnectConfig?
+
+        public init(phoneConfig: PhoneNumberQuickConnectConfig? = nil, queueConfig: QueueQuickConnectConfig? = nil, quickConnectType: QuickConnectType, userConfig: UserQuickConnectConfig? = nil) {
+            self.phoneConfig = phoneConfig
+            self.queueConfig = queueConfig
+            self.quickConnectType = quickConnectType
+            self.userConfig = userConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.queueConfig?.validate(name: "\(name).queueConfig")
+            try self.userConfig?.validate(name: "\(name).userConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneConfig = "PhoneConfig"
+            case queueConfig = "QueueConfig"
+            case quickConnectType = "QuickConnectType"
+            case userConfig = "UserConfig"
+        }
+    }
+
+    public struct QuickConnectSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN).
+        public let arn: String?
+        /// The identifier for the quick connect.
+        public let id: String?
+        /// The name.
+        public let name: String?
+        /// The type of quick connect. In the Amazon Connect console, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+        public let quickConnectType: QuickConnectType?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil, quickConnectType: QuickConnectType? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+            self.quickConnectType = quickConnectType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+            case quickConnectType = "QuickConnectType"
         }
     }
 
@@ -4581,6 +4888,73 @@ extension Connect {
         }
     }
 
+    public struct UpdateQuickConnectConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// Information about the configuration settings for the quick connect.
+        public let quickConnectConfig: QuickConnectConfig
+        /// The identifier for the quick connect.
+        public let quickConnectId: String
+
+        public init(instanceId: String, quickConnectConfig: QuickConnectConfig, quickConnectId: String) {
+            self.instanceId = instanceId
+            self.quickConnectConfig = quickConnectConfig
+            self.quickConnectId = quickConnectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.quickConnectConfig.validate(name: "\(name).quickConnectConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quickConnectConfig = "QuickConnectConfig"
+        }
+    }
+
+    public struct UpdateQuickConnectNameRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
+        ]
+
+        /// The description of the quick connect.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the quick connect.
+        public let name: String?
+        /// The identifier for the quick connect.
+        public let quickConnectId: String
+
+        public init(description: String? = nil, instanceId: String, name: String? = nil, quickConnectId: String) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.quickConnectId = quickConnectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
     public struct UpdateRoutingProfileConcurrencyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -5040,6 +5414,27 @@ extension Connect {
             case autoAccept = "AutoAccept"
             case deskPhoneNumber = "DeskPhoneNumber"
             case phoneType = "PhoneType"
+        }
+    }
+
+    public struct UserQuickConnectConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the contact flow.
+        public let contactFlowId: String
+        /// The identifier of the user.
+        public let userId: String
+
+        public init(contactFlowId: String, userId: String) {
+            self.contactFlowId = contactFlowId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowId = "ContactFlowId"
+            case userId = "UserId"
         }
     }
 

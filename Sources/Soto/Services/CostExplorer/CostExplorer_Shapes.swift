@@ -396,9 +396,9 @@ extension CostExplorer {
             try self.validate(self.accountId, name: "accountId", parent: name, min: 0)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "[\\S\\s]*")
             try self.monitorArnList.forEach {
-                try validate($0, name: "monitorArnList[]", parent: name, max: 1024)
-                try validate($0, name: "monitorArnList[]", parent: name, min: 0)
-                try validate($0, name: "monitorArnList[]", parent: name, pattern: "[\\S\\s]*")
+                try validate($0, name: "monitorArnList[]", parent: name, max: 2048)
+                try validate($0, name: "monitorArnList[]", parent: name, min: 20)
+                try validate($0, name: "monitorArnList[]", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
             }
             try self.subscribers.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
@@ -3002,6 +3002,8 @@ extension CostExplorer {
     }
 
     public struct RightsizingRecommendationMetadata: AWSDecodableShape {
+        /// Additional metadata that may be applicable to the recommendation.
+        public let additionalMetadata: String?
         ///  The timestamp for when AWS made this recommendation.
         public let generationTimestamp: String?
         ///  How many days of previous usage that AWS considers when making this recommendation.
@@ -3009,13 +3011,15 @@ extension CostExplorer {
         ///  The ID for this specific recommendation.
         public let recommendationId: String?
 
-        public init(generationTimestamp: String? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, recommendationId: String? = nil) {
+        public init(additionalMetadata: String? = nil, generationTimestamp: String? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, recommendationId: String? = nil) {
+            self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
             self.lookbackPeriodInDays = lookbackPeriodInDays
             self.recommendationId = recommendationId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalMetadata = "AdditionalMetadata"
             case generationTimestamp = "GenerationTimestamp"
             case lookbackPeriodInDays = "LookbackPeriodInDays"
             case recommendationId = "RecommendationId"
@@ -3644,7 +3648,7 @@ extension CostExplorer {
     public struct UpdateAnomalySubscriptionRequest: AWSEncodableShape {
         ///  The update to the frequency value at which subscribers will receive notifications.
         public let frequency: AnomalySubscriptionFrequency?
-        ///  A list of cost anomaly subscription ARNs.
+        ///  A list of cost anomaly monitor ARNs.
         public let monitorArnList: [String]?
         ///  The update to the subscriber list.
         public let subscribers: [Subscriber]?
@@ -3666,9 +3670,9 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.monitorArnList?.forEach {
-                try validate($0, name: "monitorArnList[]", parent: name, max: 1024)
-                try validate($0, name: "monitorArnList[]", parent: name, min: 0)
-                try validate($0, name: "monitorArnList[]", parent: name, pattern: "[\\S\\s]*")
+                try validate($0, name: "monitorArnList[]", parent: name, max: 2048)
+                try validate($0, name: "monitorArnList[]", parent: name, min: 20)
+                try validate($0, name: "monitorArnList[]", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
             }
             try self.subscribers?.forEach {
                 try $0.validate(name: "\(name).subscribers[]")

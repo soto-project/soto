@@ -27,11 +27,20 @@ extension QLDBSession {
     }
 
     public struct AbortTransactionResult: AWSDecodableShape {
-        public init() {}
+        /// Contains server-side performance information for the command.
+        public let timingInformation: TimingInformation?
+
+        public init(timingInformation: TimingInformation? = nil) {
+            self.timingInformation = timingInformation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timingInformation = "TimingInformation"
+        }
     }
 
     public struct CommitTransactionRequest: AWSEncodableShape {
-        /// Specifies the commit digest for the transaction to commit. For every active transaction, the commit digest must be passed. QLDB validates CommitDigest and rejects the commit with an error if the digest computed on the client does not match the digest computed by QLDB.
+        /// Specifies the commit digest for the transaction to commit. For every active transaction, the commit digest must be passed. QLDB validates CommitDigest and rejects the commit with an error if the digest computed on the client does not match the digest computed by QLDB. The purpose of the CommitDigest parameter is to ensure that QLDB commits a transaction if and only if the server has processed the exact set of statements sent by the client, in the same order that client sent them, and with no duplicates.
         public let commitDigest: Data
         /// Specifies the transaction ID of the transaction to commit.
         public let transactionId: String
@@ -56,16 +65,24 @@ extension QLDBSession {
     public struct CommitTransactionResult: AWSDecodableShape {
         /// The commit digest of the committed transaction.
         public let commitDigest: Data?
+        /// Contains metrics about the number of I/O requests that were consumed.
+        public let consumedIOs: IOUsage?
+        /// Contains server-side performance information for the command.
+        public let timingInformation: TimingInformation?
         /// The transaction ID of the committed transaction.
         public let transactionId: String?
 
-        public init(commitDigest: Data? = nil, transactionId: String? = nil) {
+        public init(commitDigest: Data? = nil, consumedIOs: IOUsage? = nil, timingInformation: TimingInformation? = nil, transactionId: String? = nil) {
             self.commitDigest = commitDigest
+            self.consumedIOs = consumedIOs
+            self.timingInformation = timingInformation
             self.transactionId = transactionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case commitDigest = "CommitDigest"
+            case consumedIOs = "ConsumedIOs"
+            case timingInformation = "TimingInformation"
             case transactionId = "TransactionId"
         }
     }
@@ -75,7 +92,16 @@ extension QLDBSession {
     }
 
     public struct EndSessionResult: AWSDecodableShape {
-        public init() {}
+        /// Contains server-side performance information for the command.
+        public let timingInformation: TimingInformation?
+
+        public init(timingInformation: TimingInformation? = nil) {
+            self.timingInformation = timingInformation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timingInformation = "TimingInformation"
+        }
     }
 
     public struct ExecuteStatementRequest: AWSEncodableShape {
@@ -111,15 +137,23 @@ extension QLDBSession {
     }
 
     public struct ExecuteStatementResult: AWSDecodableShape {
+        /// Contains metrics about the number of I/O requests that were consumed.
+        public let consumedIOs: IOUsage?
         /// Contains the details of the first fetched page.
         public let firstPage: Page?
+        /// Contains server-side performance information for the command.
+        public let timingInformation: TimingInformation?
 
-        public init(firstPage: Page? = nil) {
+        public init(consumedIOs: IOUsage? = nil, firstPage: Page? = nil, timingInformation: TimingInformation? = nil) {
+            self.consumedIOs = consumedIOs
             self.firstPage = firstPage
+            self.timingInformation = timingInformation
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumedIOs = "ConsumedIOs"
             case firstPage = "FirstPage"
+            case timingInformation = "TimingInformation"
         }
     }
 
@@ -150,15 +184,40 @@ extension QLDBSession {
     }
 
     public struct FetchPageResult: AWSDecodableShape {
+        /// Contains metrics about the number of I/O requests that were consumed.
+        public let consumedIOs: IOUsage?
         /// Contains details of the fetched page.
         public let page: Page?
+        /// Contains server-side performance information for the command.
+        public let timingInformation: TimingInformation?
 
-        public init(page: Page? = nil) {
+        public init(consumedIOs: IOUsage? = nil, page: Page? = nil, timingInformation: TimingInformation? = nil) {
+            self.consumedIOs = consumedIOs
             self.page = page
+            self.timingInformation = timingInformation
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumedIOs = "ConsumedIOs"
             case page = "Page"
+            case timingInformation = "TimingInformation"
+        }
+    }
+
+    public struct IOUsage: AWSDecodableShape {
+        /// The number of read I/O requests that the command performed.
+        public let readIOs: Int64?
+        /// The number of write I/O requests that the command performed.
+        public let writeIOs: Int64?
+
+        public init(readIOs: Int64? = nil, writeIOs: Int64? = nil) {
+            self.readIOs = readIOs
+            self.writeIOs = writeIOs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readIOs = "ReadIOs"
+            case writeIOs = "WriteIOs"
         }
     }
 
@@ -289,13 +348,17 @@ extension QLDBSession {
     public struct StartSessionResult: AWSDecodableShape {
         /// Session token of the started session. This SessionToken is required for every subsequent command that is issued during the current session.
         public let sessionToken: String?
+        /// Contains server-side performance information for the command.
+        public let timingInformation: TimingInformation?
 
-        public init(sessionToken: String? = nil) {
+        public init(sessionToken: String? = nil, timingInformation: TimingInformation? = nil) {
             self.sessionToken = sessionToken
+            self.timingInformation = timingInformation
         }
 
         private enum CodingKeys: String, CodingKey {
             case sessionToken = "SessionToken"
+            case timingInformation = "TimingInformation"
         }
     }
 
@@ -304,15 +367,32 @@ extension QLDBSession {
     }
 
     public struct StartTransactionResult: AWSDecodableShape {
+        /// Contains server-side performance information for the command.
+        public let timingInformation: TimingInformation?
         /// The transaction ID of the started transaction.
         public let transactionId: String?
 
-        public init(transactionId: String? = nil) {
+        public init(timingInformation: TimingInformation? = nil, transactionId: String? = nil) {
+            self.timingInformation = timingInformation
             self.transactionId = transactionId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case timingInformation = "TimingInformation"
             case transactionId = "TransactionId"
+        }
+    }
+
+    public struct TimingInformation: AWSDecodableShape {
+        /// The amount of time that was taken for the command to finish processing, measured in milliseconds.
+        public let processingTimeMilliseconds: Int64?
+
+        public init(processingTimeMilliseconds: Int64? = nil) {
+            self.processingTimeMilliseconds = processingTimeMilliseconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processingTimeMilliseconds = "ProcessingTimeMilliseconds"
         }
     }
 

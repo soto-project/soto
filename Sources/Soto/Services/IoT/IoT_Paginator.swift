@@ -19,6 +19,57 @@ import SotoCore
 // MARK: Paginators
 
 extension IoT {
+    ///   Returns a Device Defender's ML Detect Security Profile training model's status.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getBehaviorModelTrainingSummariesPaginator<Result>(
+        _ input: GetBehaviorModelTrainingSummariesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetBehaviorModelTrainingSummariesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getBehaviorModelTrainingSummaries,
+            tokenKey: \GetBehaviorModelTrainingSummariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getBehaviorModelTrainingSummariesPaginator(
+        _ input: GetBehaviorModelTrainingSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetBehaviorModelTrainingSummariesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getBehaviorModelTrainingSummaries,
+            tokenKey: \GetBehaviorModelTrainingSummariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the active violations for a given Device Defender security profile.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -626,6 +677,159 @@ extension IoT {
             input: input,
             command: listCertificatesByCA,
             tokenKey: \ListCertificatesByCAResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Lists your Device Defender detect custom metrics.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCustomMetricsPaginator<Result>(
+        _ input: ListCustomMetricsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCustomMetricsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCustomMetrics,
+            tokenKey: \ListCustomMetricsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCustomMetricsPaginator(
+        _ input: ListCustomMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCustomMetricsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCustomMetrics,
+            tokenKey: \ListCustomMetricsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDetectMitigationActionsExecutionsPaginator<Result>(
+        _ input: ListDetectMitigationActionsExecutionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDetectMitigationActionsExecutionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDetectMitigationActionsExecutions,
+            tokenKey: \ListDetectMitigationActionsExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDetectMitigationActionsExecutionsPaginator(
+        _ input: ListDetectMitigationActionsExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDetectMitigationActionsExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDetectMitigationActionsExecutions,
+            tokenKey: \ListDetectMitigationActionsExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   List of Device Defender ML Detect mitigation actions tasks.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDetectMitigationActionsTasksPaginator<Result>(
+        _ input: ListDetectMitigationActionsTasksRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDetectMitigationActionsTasksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDetectMitigationActionsTasks,
+            tokenKey: \ListDetectMitigationActionsTasksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDetectMitigationActionsTasksPaginator(
+        _ input: ListDetectMitigationActionsTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDetectMitigationActionsTasksResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDetectMitigationActionsTasks,
+            tokenKey: \ListDetectMitigationActionsTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1502,7 +1706,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the Device Defender security profiles you have created. You can use filters to list only those security profiles associated with a thing group or only those associated with your account.
+    ///  Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric.   dimensionName and metricName cannot be used in the same request.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2472,9 +2676,21 @@ extension IoT {
     }
 }
 
+extension IoT.GetBehaviorModelTrainingSummariesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.GetBehaviorModelTrainingSummariesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            securityProfileName: self.securityProfileName
+        )
+    }
+}
+
 extension IoT.ListActiveViolationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListActiveViolationsRequest {
         return .init(
+            behaviorCriteriaType: self.behaviorCriteriaType,
+            listSuppressedAlerts: self.listSuppressedAlerts,
             maxResults: self.maxResults,
             nextToken: token,
             securityProfileName: self.securityProfileName,
@@ -2608,6 +2824,40 @@ extension IoT.ListCertificatesByCARequest: AWSPaginateToken {
             caCertificateId: self.caCertificateId,
             marker: token,
             pageSize: self.pageSize
+        )
+    }
+}
+
+extension IoT.ListCustomMetricsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListCustomMetricsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoT.ListDetectMitigationActionsExecutionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListDetectMitigationActionsExecutionsRequest {
+        return .init(
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime,
+            taskId: self.taskId,
+            thingName: self.thingName,
+            violationId: self.violationId
+        )
+    }
+}
+
+extension IoT.ListDetectMitigationActionsTasksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListDetectMitigationActionsTasksRequest {
+        return .init(
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
         )
     }
 }
@@ -2792,6 +3042,7 @@ extension IoT.ListSecurityProfilesRequest: AWSPaginateToken {
         return .init(
             dimensionName: self.dimensionName,
             maxResults: self.maxResults,
+            metricName: self.metricName,
             nextToken: token
         )
     }
@@ -2976,7 +3227,9 @@ extension IoT.ListV2LoggingLevelsRequest: AWSPaginateToken {
 extension IoT.ListViolationEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListViolationEventsRequest {
         return .init(
+            behaviorCriteriaType: self.behaviorCriteriaType,
             endTime: self.endTime,
+            listSuppressedAlerts: self.listSuppressedAlerts,
             maxResults: self.maxResults,
             nextToken: token,
             securityProfileName: self.securityProfileName,

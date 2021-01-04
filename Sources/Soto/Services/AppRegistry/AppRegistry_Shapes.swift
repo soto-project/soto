@@ -25,6 +25,12 @@ extension AppRegistry {
         public var description: String { return self.rawValue }
     }
 
+    public enum SyncAction: String, CustomStringConvertible, Codable {
+        case noAction = "NO_ACTION"
+        case startSync = "START_SYNC"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct Application: AWSDecodableShape {
@@ -866,6 +872,40 @@ extension AppRegistry {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon resource name (ARN) that specifies the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags on the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
     public struct ResourceInfo: AWSDecodableShape {
         /// The Amazon resource name (ARN) that specifies the resource across services.
         public let arn: String?
@@ -881,6 +921,125 @@ extension AppRegistry {
             case arn
             case name
         }
+    }
+
+    public struct SyncResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resource", location: .uri(locationName: "resource")),
+            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "resourceType"))
+        ]
+
+        /// An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an AWS CloudFormation stack, or an Amazon S3 bucket.
+        public let resource: String
+        /// The type of resource of which the application will be associated.
+        public let resourceType: ResourceType
+
+        public init(resource: String, resourceType: ResourceType) {
+            self.resource = resource
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resource, name: "resource", parent: name, max: 256)
+            try self.validate(self.resource, name: "resource", parent: name, min: 1)
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct SyncResourceResponse: AWSDecodableShape {
+        /// The results of the output if an application is associated with an ARN value, which could be syncStarted or None.
+        public let actionTaken: SyncAction?
+        /// The Amazon resource name (ARN) that specifies the application.
+        public let applicationArn: String?
+        /// The Amazon resource name (ARN) that specifies the resource.
+        public let resourceArn: String?
+
+        public init(actionTaken: SyncAction? = nil, applicationArn: String? = nil, resourceArn: String? = nil) {
+            self.actionTaken = actionTaken
+            self.applicationArn = applicationArn
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionTaken
+            case applicationArn
+            case resourceArn
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon resource name (ARN) that specifies the resource.
+        public let resourceArn: String
+        /// The new or modified tags for the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "(?!aws:)[a-zA-Z+-=._:/]+")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        /// The Amazon resource name (ARN) that specifies the resource.
+        public let resourceArn: String
+        /// A list of the tag keys to remove from the specified resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "(?!aws:)[a-zA-Z+-=._:/]+")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {

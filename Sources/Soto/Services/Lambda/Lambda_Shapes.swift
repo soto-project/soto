@@ -26,10 +26,20 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndPointType: String, CustomStringConvertible, Codable {
+        case kafkaBootstrapServers = "KAFKA_BOOTSTRAP_SERVERS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventSourcePosition: String, CustomStringConvertible, Codable {
         case atTimestamp = "AT_TIMESTAMP"
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FunctionResponseType: String, CustomStringConvertible, Codable {
+        case reportbatchitemfailures = "ReportBatchItemFailures"
         public var description: String { return self.rawValue }
     }
 
@@ -59,6 +69,7 @@ extension Lambda {
         case insufficientrolepermissions = "InsufficientRolePermissions"
         case internalerror = "InternalError"
         case invalidconfiguration = "InvalidConfiguration"
+        case invalidimage = "InvalidImage"
         case invalidsecuritygroup = "InvalidSecurityGroup"
         case invalidsubnet = "InvalidSubnet"
         case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
@@ -113,6 +124,10 @@ extension Lambda {
 
     public enum SourceAccessType: String, CustomStringConvertible, Codable {
         case basicAuth = "BASIC_AUTH"
+        case saslScram256Auth = "SASL_SCRAM_256_AUTH"
+        case saslScram512Auth = "SASL_SCRAM_512_AUTH"
+        case vpcSecurityGroup = "VPC_SECURITY_GROUP"
+        case vpcSubnet = "VPC_SUBNET"
         public var description: String { return self.rawValue }
     }
 
@@ -133,6 +148,7 @@ extension Lambda {
         case insufficientrolepermissions = "InsufficientRolePermissions"
         case internalerror = "InternalError"
         case invalidconfiguration = "InvalidConfiguration"
+        case invalidimage = "InvalidImage"
         case invalidsecuritygroup = "InvalidSecurityGroup"
         case invalidsubnet = "InvalidSubnet"
         case restoring = "Restoring"
@@ -567,7 +583,7 @@ extension Lambda {
     }
 
     public struct CreateEventSourceMappingRequest: AWSEncodableShape {
-        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.
+        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Streams) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
@@ -576,10 +592,12 @@ extension Lambda {
         /// If true, the event source mapping is active. Set to false to pause polling and invocation.
         public let enabled: Bool?
         /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.
-        public let eventSourceArn: String
+        public let eventSourceArn: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
-        /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
+        /// (Streams) A list of current response type enums applied to the event source mapping.
+        public let functionResponseTypes: [FunctionResponseType]?
+        /// (Streams and SQS standard queues) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
@@ -589,31 +607,38 @@ extension Lambda {
         public let parallelizationFactor: Int?
         ///  (MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
-        ///  (MQ) The Secrets Manager secret that stores your broker credentials. To store your secret, use the following format:  { "username": "your username", "password": "your password" }  To reference the secret, use the following format: [ { "Type": "BASIC_AUTH", "URI": "secretARN" } ]  The value of Type is always BASIC_AUTH. To encrypt the secret, you can use customer or service managed keys. When using a customer managed KMS key, the Lambda execution role requires kms:Decrypt permissions.
+        /// The Self-Managed Apache Kafka cluster to send records.
+        public let selfManagedEventSource: SelfManagedEventSource?
+        /// An array of the authentication protocol, or the VPC components to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
         /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is only supported for Amazon Kinesis streams.
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
         public let startingPositionTimestamp: Date?
-        ///  (MSK) The name of the Kafka topic.
+        /// The name of the Kafka topic.
         public let topics: [String]?
+        /// (Streams) The duration of a processing window in seconds. The range is between 1 second up to 15 minutes.
+        public let tumblingWindowInSeconds: Int?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
             self.enabled = enabled
             self.eventSourceArn = eventSourceArn
             self.functionName = functionName
+            self.functionResponseTypes = functionResponseTypes
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
             self.parallelizationFactor = parallelizationFactor
             self.queues = queues
+            self.selfManagedEventSource = selfManagedEventSource
             self.sourceAccessConfigurations = sourceAccessConfigurations
             self.startingPosition = startingPosition
             self.startingPositionTimestamp = startingPositionTimestamp
             self.topics = topics
+            self.tumblingWindowInSeconds = tumblingWindowInSeconds
         }
 
         public func validate(name: String) throws {
@@ -624,6 +649,8 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
+            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 1)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)
@@ -639,10 +666,11 @@ extension Lambda {
             }
             try self.validate(self.queues, name: "queues", parent: name, max: 1)
             try self.validate(self.queues, name: "queues", parent: name, min: 1)
+            try self.selfManagedEventSource?.validate(name: "\(name).selfManagedEventSource")
             try self.sourceAccessConfigurations?.forEach {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
-            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 1)
+            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 22)
             try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, min: 1)
             try self.topics?.forEach {
                 try validate($0, name: "topics[]", parent: name, max: 249)
@@ -651,6 +679,8 @@ extension Lambda {
             }
             try self.validate(self.topics, name: "topics", parent: name, max: 1)
             try self.validate(self.topics, name: "topics", parent: name, min: 1)
+            try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, max: 900)
+            try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -660,15 +690,18 @@ extension Lambda {
             case enabled = "Enabled"
             case eventSourceArn = "EventSourceArn"
             case functionName = "FunctionName"
+            case functionResponseTypes = "FunctionResponseTypes"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
             case parallelizationFactor = "ParallelizationFactor"
             case queues = "Queues"
+            case selfManagedEventSource = "SelfManagedEventSource"
             case sourceAccessConfigurations = "SourceAccessConfigurations"
             case startingPosition = "StartingPosition"
             case startingPositionTimestamp = "StartingPositionTimestamp"
             case topics = "Topics"
+            case tumblingWindowInSeconds = "TumblingWindowInSeconds"
         }
     }
 
@@ -695,7 +728,7 @@ extension Lambda {
         public let kMSKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
-        /// The amount of memory that your function has access to. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value must be a multiple of 64 MB.
+        /// The amount of memory available to the function at runtime. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
         public let memorySize: Int?
         /// The type of deployment package. Set to Image for container image and set Zip for ZIP archive.
         public let packageType: PackageType?
@@ -1113,11 +1146,13 @@ extension Lambda {
         public let eventSourceArn: String?
         /// The ARN of the Lambda function.
         public let functionArn: String?
+        /// (Streams) A list of current response type enums applied to the event source mapping.
+        public let functionResponseTypes: [FunctionResponseType]?
         /// The date that the event source mapping was last updated, or its state changed.
         public let lastModified: Date?
         /// The result of the last AWS Lambda invocation of your Lambda function.
         public let lastProcessingResult: String?
-        /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds. The default value is zero.
+        /// (Streams and SQS standard queues) The maximum amount of time to gather records before invoking the function, in seconds. The default value is zero.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams) Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
         public let maximumRecordAgeInSeconds: Int?
@@ -1127,7 +1162,9 @@ extension Lambda {
         public let parallelizationFactor: Int?
         ///  (MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
-        ///  (MQ) The Secrets Manager secret that stores your broker credentials. To store your secret, use the following format:  { "username": "your username", "password": "your password" }  To reference the secret, use the following format: [ { "Type": "BASIC_AUTH", "URI": "secretARN" } ]  The value of Type is always BASIC_AUTH. To encrypt the secret, you can use customer or service managed keys. When using a customer managed KMS key, the Lambda execution role requires kms:Decrypt permissions.
+        /// The Self-Managed Apache Kafka cluster for your event source.
+        public let selfManagedEventSource: SelfManagedEventSource?
+        /// An array of the authentication protocol, or the VPC components to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
         /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is only supported for Amazon Kinesis streams.
         public let startingPosition: EventSourcePosition?
@@ -1137,17 +1174,20 @@ extension Lambda {
         public let state: String?
         /// Indicates whether the last change to the event source mapping was made by a user, or by the Lambda service.
         public let stateTransitionReason: String?
-        ///  (MSK) The name of the Kafka topic to consume.
+        /// The name of the Kafka topic.
         public let topics: [String]?
+        /// (Streams) The duration of a processing window in seconds. The range is between 1 second up to 15 minutes.
+        public let tumblingWindowInSeconds: Int?
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, uuid: String? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
             self.eventSourceArn = eventSourceArn
             self.functionArn = functionArn
+            self.functionResponseTypes = functionResponseTypes
             self.lastModified = lastModified
             self.lastProcessingResult = lastProcessingResult
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -1155,12 +1195,14 @@ extension Lambda {
             self.maximumRetryAttempts = maximumRetryAttempts
             self.parallelizationFactor = parallelizationFactor
             self.queues = queues
+            self.selfManagedEventSource = selfManagedEventSource
             self.sourceAccessConfigurations = sourceAccessConfigurations
             self.startingPosition = startingPosition
             self.startingPositionTimestamp = startingPositionTimestamp
             self.state = state
             self.stateTransitionReason = stateTransitionReason
             self.topics = topics
+            self.tumblingWindowInSeconds = tumblingWindowInSeconds
             self.uuid = uuid
         }
 
@@ -1170,6 +1212,7 @@ extension Lambda {
             case destinationConfig = "DestinationConfig"
             case eventSourceArn = "EventSourceArn"
             case functionArn = "FunctionArn"
+            case functionResponseTypes = "FunctionResponseTypes"
             case lastModified = "LastModified"
             case lastProcessingResult = "LastProcessingResult"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
@@ -1177,12 +1220,14 @@ extension Lambda {
             case maximumRetryAttempts = "MaximumRetryAttempts"
             case parallelizationFactor = "ParallelizationFactor"
             case queues = "Queues"
+            case selfManagedEventSource = "SelfManagedEventSource"
             case sourceAccessConfigurations = "SourceAccessConfigurations"
             case startingPosition = "StartingPosition"
             case startingPositionTimestamp = "StartingPositionTimestamp"
             case state = "State"
             case stateTransitionReason = "StateTransitionReason"
             case topics = "Topics"
+            case tumblingWindowInSeconds = "TumblingWindowInSeconds"
             case uuid = "UUID"
         }
     }
@@ -1310,9 +1355,9 @@ extension Lambda {
         public let layers: [Layer]?
         /// For Lambda@Edge functions, the ARN of the master function.
         public let masterArn: String?
-        /// The memory that's allocated to the function.
+        /// The amount of memory available to the function at runtime.
         public let memorySize: Int?
-        /// The type of deployment package. Set to Image for container image and set Zip for ZIP archive.
+        /// The type of deployment package. Set to Image for container image and set Zip for .zip file archive.
         public let packageType: PackageType?
         /// The latest updated revision of the function or alias.
         public let revisionId: String?
@@ -3259,10 +3304,30 @@ extension Lambda {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct SelfManagedEventSource: AWSEncodableShape & AWSDecodableShape {
+        /// The list of bootstrap servers for your Kafka brokers in the following format: "KAFKA_BOOTSTRAP_SERVERS": ["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"].
+        public let endpoints: [EndPointType: [String]]?
+
+        public init(endpoints: [EndPointType: [String]]? = nil) {
+            self.endpoints = endpoints
+        }
+
+        public func validate(name: String) throws {
+            try self.endpoints?.forEach {
+                try validate($0.value, name: "endpoints[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "endpoints[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoints = "Endpoints"
+        }
+    }
+
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// To reference the secret, use the following format: [ { "Type": "BASIC_AUTH", "URI": "secretARN" } ]  The value of Type is always BASIC_AUTH. To encrypt the secret, you can use customer or service managed keys. When using a customer managed KMS key, the Lambda execution role requires kms:Decrypt permissions.
+        /// The type of authentication protocol or the VPC components for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (MQ) The Secrets Manager secret that stores your broker credentials.    VPC_SUBNET - The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your Kafka cluster.    VPC_SECURITY_GROUP - The VPC security group used to manage access to your Kafka brokers.    SASL_SCRAM_256_AUTH - The ARN of your secret key used for SASL SCRAM-256 authentication of your Kafka brokers.    SASL_SCRAM_512_AUTH - The ARN of your secret key used for SASL SCRAM-512 authentication of your Kafka brokers.
         public let type: SourceAccessType?
-        /// To reference the secret, use the following format: [ { "Type": "BASIC_AUTH", "URI": "secretARN" } ]  The value of Type is always BASIC_AUTH. To encrypt the secret, you can use customer or service managed keys. When using a customer managed KMS key, the Lambda execution role requires kms:Decrypt permissions.
+        /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?
 
         public init(type: SourceAccessType? = nil, uri: String? = nil) {
@@ -3271,7 +3336,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.uri, name: "uri", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try self.validate(self.uri, name: "uri", parent: name, max: 200)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "[a-zA-Z0-9-\\/*:_+=.@-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3458,7 +3525,7 @@ extension Lambda {
             AWSMemberEncoding(label: "uuid", location: .uri(locationName: "UUID"))
         ]
 
-        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. Max 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.
+        /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Streams) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
@@ -3468,7 +3535,9 @@ extension Lambda {
         public let enabled: Bool?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
-        /// (Streams) The maximum amount of time to gather records before invoking the function, in seconds.
+        /// (Streams) A list of current response type enums applied to the event source mapping.
+        public let functionResponseTypes: [FunctionResponseType]?
+        /// (Streams and SQS standard queues) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Streams) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
@@ -3476,22 +3545,26 @@ extension Lambda {
         public let maximumRetryAttempts: Int?
         /// (Streams) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
-        ///  (MQ) The Secrets Manager secret that stores your broker credentials. To store your secret, use the following format:  { "username": "your username", "password": "your password" }  To reference the secret, use the following format: [ { "Type": "BASIC_AUTH", "URI": "secretARN" } ]  The value of Type is always BASIC_AUTH. To encrypt the secret, you can use customer or service managed keys. When using a customer managed KMS key, the Lambda execution role requires kms:Decrypt permissions.
+        /// An array of the authentication protocol, or the VPC components to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
+        /// (Streams) The duration of a processing window in seconds. The range is between 1 second up to 15 minutes.
+        public let tumblingWindowInSeconds: Int?
         /// The identifier of the event source mapping.
         public let uuid: String
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, functionName: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, uuid: String) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
             self.enabled = enabled
             self.functionName = functionName
+            self.functionResponseTypes = functionResponseTypes
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
             self.parallelizationFactor = parallelizationFactor
             self.sourceAccessConfigurations = sourceAccessConfigurations
+            self.tumblingWindowInSeconds = tumblingWindowInSeconds
             self.uuid = uuid
         }
 
@@ -3502,6 +3575,8 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
+            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 1)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)
@@ -3513,8 +3588,10 @@ extension Lambda {
             try self.sourceAccessConfigurations?.forEach {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
-            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 1)
+            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 22)
             try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, min: 1)
+            try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, max: 900)
+            try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3523,11 +3600,13 @@ extension Lambda {
             case destinationConfig = "DestinationConfig"
             case enabled = "Enabled"
             case functionName = "FunctionName"
+            case functionResponseTypes = "FunctionResponseTypes"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
             case parallelizationFactor = "ParallelizationFactor"
             case sourceAccessConfigurations = "SourceAccessConfigurations"
+            case tumblingWindowInSeconds = "TumblingWindowInSeconds"
         }
     }
 
@@ -3615,7 +3694,7 @@ extension Lambda {
         public let kMSKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
-        /// The amount of memory that your function has access to. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value must be a multiple of 64 MB.
+        /// The amount of memory available to the function at runtime. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
         public let memorySize: Int?
         /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
         public let revisionId: String?

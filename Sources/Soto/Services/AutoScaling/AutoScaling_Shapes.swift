@@ -222,7 +222,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.instanceIds?.forEach {
@@ -255,7 +255,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.targetGroupARNs.forEach {
@@ -288,7 +288,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.loadBalancerNames.forEach {
@@ -446,7 +446,7 @@ extension AutoScaling {
 
         public func validate(name: String) throws {
             try self.autoScalingGroupNames?.forEach {
-                try validate($0, name: "autoScalingGroupNames[]", parent: name, max: 1600)
+                try validate($0, name: "autoScalingGroupNames[]", parent: name, max: 255)
                 try validate($0, name: "autoScalingGroupNames[]", parent: name, min: 1)
                 try validate($0, name: "autoScalingGroupNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
@@ -572,11 +572,11 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.scheduledActionNames.forEach {
-                try validate($0, name: "scheduledActionNames[]", parent: name, max: 1600)
+                try validate($0, name: "scheduledActionNames[]", parent: name, max: 255)
                 try validate($0, name: "scheduledActionNames[]", parent: name, min: 1)
                 try validate($0, name: "scheduledActionNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
@@ -615,7 +615,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.scheduledUpdateGroupActions.forEach {
@@ -832,14 +832,13 @@ extension AutoScaling {
                 try validate($0, name: "availabilityZones[]", parent: name, min: 1)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try self.validate(self.availabilityZones, name: "availabilityZones", parent: name, min: 1)
             try self.validate(self.healthCheckType, name: "healthCheckType", parent: name, max: 32)
             try self.validate(self.healthCheckType, name: "healthCheckType", parent: name, min: 1)
             try self.validate(self.healthCheckType, name: "healthCheckType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 19)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, max: 1600)
+            try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, max: 255)
             try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, min: 1)
             try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.launchTemplate?.validate(name: "\(name).launchTemplate")
@@ -1102,7 +1101,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
@@ -1129,7 +1128,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.lifecycleHookName, name: "lifecycleHookName", parent: name, max: 255)
@@ -1155,10 +1154,10 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.validate(self.topicARN, name: "topicARN", parent: name, max: 1600)
+            try self.validate(self.topicARN, name: "topicARN", parent: name, max: 255)
             try self.validate(self.topicARN, name: "topicARN", parent: name, min: 1)
             try self.validate(self.topicARN, name: "topicARN", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
@@ -1181,7 +1180,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 1600)
@@ -1207,10 +1206,10 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, max: 1600)
+            try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, max: 255)
             try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, min: 1)
             try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
@@ -1422,7 +1421,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.lifecycleHookNames?.forEach {
@@ -1454,7 +1453,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1500,7 +1499,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1585,7 +1584,7 @@ extension AutoScaling {
 
         public func validate(name: String) throws {
             try self.autoScalingGroupNames?.forEach {
-                try validate($0, name: "autoScalingGroupNames[]", parent: name, max: 1600)
+                try validate($0, name: "autoScalingGroupNames[]", parent: name, max: 255)
                 try validate($0, name: "autoScalingGroupNames[]", parent: name, min: 1)
                 try validate($0, name: "autoScalingGroupNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
@@ -1622,7 +1621,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1669,7 +1668,7 @@ extension AutoScaling {
             try self.activityIds?.forEach {
                 try validate($0, name: "activityIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1708,12 +1707,12 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.scheduledActionNames?.forEach {
-                try validate($0, name: "scheduledActionNames[]", parent: name, max: 1600)
+                try validate($0, name: "scheduledActionNames[]", parent: name, max: 255)
                 try validate($0, name: "scheduledActionNames[]", parent: name, min: 1)
                 try validate($0, name: "scheduledActionNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
@@ -1802,7 +1801,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.instanceIds?.forEach {
@@ -1836,7 +1835,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.targetGroupARNs.forEach {
@@ -1869,7 +1868,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.loadBalancerNames.forEach {
@@ -1898,7 +1897,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.metrics?.forEach {
@@ -1975,7 +1974,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.granularity, name: "granularity", parent: name, max: 255)
@@ -2042,7 +2041,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.instanceIds?.forEach {
@@ -2080,7 +2079,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 1600)
@@ -2124,7 +2123,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.instanceIds?.forEach {
@@ -2452,7 +2451,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, max: 1600)
+            try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, max: 255)
             try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, min: 1)
             try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
@@ -2479,7 +2478,7 @@ extension AutoScaling {
 
         public func validate(name: String) throws {
             try self.launchConfigurationNames?.forEach {
-                try validate($0, name: "launchConfigurationNames[]", parent: name, max: 1600)
+                try validate($0, name: "launchConfigurationNames[]", parent: name, max: 255)
                 try validate($0, name: "launchConfigurationNames[]", parent: name, min: 1)
                 try validate($0, name: "launchConfigurationNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
@@ -2678,10 +2677,10 @@ extension AutoScaling {
             try self.validate(self.notificationMetadata, name: "notificationMetadata", parent: name, max: 1023)
             try self.validate(self.notificationMetadata, name: "notificationMetadata", parent: name, min: 1)
             try self.validate(self.notificationMetadata, name: "notificationMetadata", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.validate(self.notificationTargetARN, name: "notificationTargetARN", parent: name, max: 1600)
+            try self.validate(self.notificationTargetARN, name: "notificationTargetARN", parent: name, max: 255)
             try self.validate(self.notificationTargetARN, name: "notificationTargetARN", parent: name, min: 0)
             try self.validate(self.notificationTargetARN, name: "notificationTargetARN", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 1600)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 255)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
@@ -2937,7 +2936,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.lifecycleHookName, name: "lifecycleHookName", parent: name, max: 255)
@@ -2946,10 +2945,10 @@ extension AutoScaling {
             try self.validate(self.notificationMetadata, name: "notificationMetadata", parent: name, max: 1023)
             try self.validate(self.notificationMetadata, name: "notificationMetadata", parent: name, min: 1)
             try self.validate(self.notificationMetadata, name: "notificationMetadata", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.validate(self.notificationTargetARN, name: "notificationTargetARN", parent: name, max: 1600)
+            try self.validate(self.notificationTargetARN, name: "notificationTargetARN", parent: name, max: 255)
             try self.validate(self.notificationTargetARN, name: "notificationTargetARN", parent: name, min: 0)
             try self.validate(self.notificationTargetARN, name: "notificationTargetARN", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 1600)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 255)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
@@ -2982,7 +2981,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.notificationTypes.forEach {
@@ -2990,7 +2989,7 @@ extension AutoScaling {
                 try validate($0, name: "notificationTypes[]", parent: name, min: 1)
                 try validate($0, name: "notificationTypes[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try self.validate(self.topicARN, name: "topicARN", parent: name, max: 1600)
+            try self.validate(self.topicARN, name: "topicARN", parent: name, max: 255)
             try self.validate(self.topicARN, name: "topicARN", parent: name, min: 1)
             try self.validate(self.topicARN, name: "topicARN", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
@@ -3051,7 +3050,7 @@ extension AutoScaling {
             try self.validate(self.adjustmentType, name: "adjustmentType", parent: name, max: 255)
             try self.validate(self.adjustmentType, name: "adjustmentType", parent: name, min: 1)
             try self.validate(self.adjustmentType, name: "adjustmentType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.metricAggregationType, name: "metricAggregationType", parent: name, max: 32)
@@ -3116,7 +3115,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.recurrence, name: "recurrence", parent: name, max: 255)
@@ -3290,7 +3289,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.scalingProcesses?.forEach {
@@ -3434,7 +3433,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
@@ -3496,7 +3495,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.instanceIds.forEach {
@@ -3793,7 +3792,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 1600)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.availabilityZones?.forEach {
@@ -3801,11 +3800,10 @@ extension AutoScaling {
                 try validate($0, name: "availabilityZones[]", parent: name, min: 1)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try self.validate(self.availabilityZones, name: "availabilityZones", parent: name, min: 1)
             try self.validate(self.healthCheckType, name: "healthCheckType", parent: name, max: 32)
             try self.validate(self.healthCheckType, name: "healthCheckType", parent: name, min: 1)
             try self.validate(self.healthCheckType, name: "healthCheckType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, max: 1600)
+            try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, max: 255)
             try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, min: 1)
             try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.launchTemplate?.validate(name: "\(name).launchTemplate")

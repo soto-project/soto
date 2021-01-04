@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS Imagebuilder service.
 ///
-/// EC2 Image Builder is a fully managed AWS service that makes it easier to automate the creation, management, and deployment of customized, secure, and up-to-date “golden” server images that are pre-installed and pre-configured with software and settings to meet specific IT standards.
+/// EC2 Image Builder is a fully managed AWS service that makes it easier to automate the creation, management, and deployment of customized, secure, and up-to-date "golden" server images that are pre-installed and pre-configured with software and settings to meet specific IT standards.
 public struct Imagebuilder: AWSService {
     // MARK: Member variables
 
@@ -72,6 +72,11 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "CreateComponent", path: "/CreateComponent", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new container recipe. Container recipes define how images are configured, tested, and assessed.
+    public func createContainerRecipe(_ input: CreateContainerRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContainerRecipeResponse> {
+        return self.client.execute(operation: "CreateContainerRecipe", path: "/CreateContainerRecipe", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
     public func createDistributionConfiguration(_ input: CreateDistributionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDistributionConfigurationResponse> {
         return self.client.execute(operation: "CreateDistributionConfiguration", path: "/CreateDistributionConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -100,6 +105,11 @@ public struct Imagebuilder: AWSService {
     ///  Deletes a component build version.
     public func deleteComponent(_ input: DeleteComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteComponentResponse> {
         return self.client.execute(operation: "DeleteComponent", path: "/DeleteComponent", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a container recipe.
+    public func deleteContainerRecipe(_ input: DeleteContainerRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContainerRecipeResponse> {
+        return self.client.execute(operation: "DeleteContainerRecipe", path: "/DeleteContainerRecipe", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a distribution configuration.
@@ -135,6 +145,16 @@ public struct Imagebuilder: AWSService {
     ///  Gets a component policy.
     public func getComponentPolicy(_ input: GetComponentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComponentPolicyResponse> {
         return self.client.execute(operation: "GetComponentPolicy", path: "/GetComponentPolicy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a container recipe.
+    public func getContainerRecipe(_ input: GetContainerRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContainerRecipeResponse> {
+        return self.client.execute(operation: "GetContainerRecipe", path: "/GetContainerRecipe", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the policy for a container recipe.
+    public func getContainerRecipePolicy(_ input: GetContainerRecipePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContainerRecipePolicyResponse> {
+        return self.client.execute(operation: "GetContainerRecipePolicy", path: "/GetContainerRecipePolicy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets a distribution configuration.
@@ -187,7 +207,12 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "ListComponents", path: "/ListComponents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of distribution configurations.
+    /// Returns a list of container recipes.
+    public func listContainerRecipes(_ input: ListContainerRecipesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContainerRecipesResponse> {
+        return self.client.execute(operation: "ListContainerRecipes", path: "/ListContainerRecipes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of distribution configurations.
     public func listDistributionConfigurations(_ input: ListDistributionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionConfigurationsResponse> {
         return self.client.execute(operation: "ListDistributionConfigurations", path: "/ListDistributionConfigurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -230,6 +255,11 @@ public struct Imagebuilder: AWSService {
     ///  Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared.
     public func putComponentPolicy(_ input: PutComponentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutComponentPolicyResponse> {
         return self.client.execute(operation: "PutComponentPolicy", path: "/PutComponentPolicy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+    public func putContainerRecipePolicy(_ input: PutContainerRecipePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutContainerRecipePolicyResponse> {
+        return self.client.execute(operation: "PutContainerRecipePolicy", path: "/PutContainerRecipePolicy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared.

@@ -53,6 +53,14 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum DescribePortfolioShareType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        case organizationMemberAccount = "ORGANIZATION_MEMBER_ACCOUNT"
+        case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EvaluationType: String, CustomStringConvertible, Codable {
         case dynamic = "DYNAMIC"
         case `static` = "STATIC"
@@ -843,12 +851,15 @@ extension ServiceCatalog {
         public let organizationNode: OrganizationNode?
         /// The portfolio identifier.
         public let portfolioId: String
+        /// Enables or disables TagOptions  sharing when creating the portfolio share. If this flag is not provided, TagOptions sharing is disabled.
+        public let shareTagOptions: Bool?
 
-        public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String) {
+        public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, shareTagOptions: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accountId = accountId
             self.organizationNode = organizationNode
             self.portfolioId = portfolioId
+            self.shareTagOptions = shareTagOptions
         }
 
         public func validate(name: String) throws {
@@ -865,6 +876,7 @@ extension ServiceCatalog {
             case accountId = "AccountId"
             case organizationNode = "OrganizationNode"
             case portfolioId = "PortfolioId"
+            case shareTagOptions = "ShareTagOptions"
         }
     }
 
@@ -896,13 +908,13 @@ extension ServiceCatalog {
         public let owner: String
         /// The type of product.
         public let productType: ProductType
-        /// The configuration of the provisioning artifact. The info field accepts ImportFromPhysicalID.
+        /// The configuration of the provisioning artifact.
         public let provisioningArtifactParameters: ProvisioningArtifactProperties
         /// The support information about the product.
         public let supportDescription: String?
         /// The contact email for product support.
         public let supportEmail: String?
-        /// The contact URL for product support.
+        /// The contact URL for product support.  ^https?:\/\// / is the pattern used to validate SupportUrl.
         public let supportUrl: String?
         /// One or more tags.
         public let tags: [Tag]?
@@ -1097,7 +1109,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
-        /// The configuration for the provisioning artifact. The info field accepts ImportFromPhysicalID.
+        /// The configuration for the provisioning artifact.
         public let parameters: ProvisioningArtifactProperties
         /// The product identifier.
         public let productId: String
@@ -1129,7 +1141,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateProvisioningArtifactOutput: AWSDecodableShape {
-        /// The URL of the CloudFormation template in Amazon S3, in JSON format.
+        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ]. The URL of the CloudFormation template in Amazon S3, in JSON format.   LoadTemplateFromURL  Use the URL of the CloudFormation template in Amazon S3 in JSON format.  ImportFromPhysicalId  Use the physical id of the resource that contains the template; currently supports CloudFormation stack ARN.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
@@ -1684,6 +1696,58 @@ extension ServiceCatalog {
         }
     }
 
+    public struct DescribePortfolioSharesInput: AWSEncodableShape {
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The unique identifier of the portfolio for which shares will be retrieved.
+        public let portfolioId: String
+        /// The type of portfolio share to summarize. This field acts as a filter on the type of portfolio share, which can be one of the following: 1. ACCOUNT - Represents an external account to account share. 2. ORGANIZATION - Represents a share to an organization. This share is available to every account in the organization. 3. ORGANIZATIONAL_UNIT - Represents a share to an organizational unit. 4. ORGANIZATION_MEMBER_ACCOUNT - Represents a share to an account in the organization.
+        public let type: DescribePortfolioShareType
+
+        public init(pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String, type: DescribePortfolioShareType) {
+            self.pageSize = pageSize
+            self.pageToken = pageToken
+            self.portfolioId = portfolioId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 100)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
+            try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
+            try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
+            try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case pageToken = "PageToken"
+            case portfolioId = "PortfolioId"
+            case type = "Type"
+        }
+    }
+
+    public struct DescribePortfolioSharesOutput: AWSDecodableShape {
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// Summaries about each of the portfolio shares.
+        public let portfolioShareDetails: [PortfolioShareDetail]?
+
+        public init(nextPageToken: String? = nil, portfolioShareDetails: [PortfolioShareDetail]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.portfolioShareDetails = portfolioShareDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case portfolioShareDetails = "PortfolioShareDetails"
+        }
+    }
+
     public struct DescribeProductAsAdminInput: AWSEncodableShape {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
@@ -1691,11 +1755,14 @@ extension ServiceCatalog {
         public let id: String?
         /// The product name.
         public let name: String?
+        /// The unique identifier of the shared portfolio that the specified product is associated with. You can provide this parameter to retrieve the shared TagOptions associated with the product. If this parameter is provided and if TagOptions sharing is enabled in the portfolio share, the API returns both local and shared TagOptions associated with the product. Otherwise only local TagOptions will be returned.
+        public let sourcePortfolioId: String?
 
-        public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil) {
+        public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil, sourcePortfolioId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
             self.name = name
+            self.sourcePortfolioId = sourcePortfolioId
         }
 
         public func validate(name: String) throws {
@@ -1704,12 +1771,16 @@ extension ServiceCatalog {
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
             try self.validate(self.name, name: "name", parent: name, max: 8191)
+            try self.validate(self.sourcePortfolioId, name: "sourcePortfolioId", parent: name, max: 100)
+            try self.validate(self.sourcePortfolioId, name: "sourcePortfolioId", parent: name, min: 1)
+            try self.validate(self.sourcePortfolioId, name: "sourcePortfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
             case name = "Name"
+            case sourcePortfolioId = "SourcePortfolioId"
         }
     }
 
@@ -3801,15 +3872,39 @@ extension ServiceCatalog {
     }
 
     public struct ParameterConstraints: AWSDecodableShape {
+        /// A regular expression that represents the patterns that allow for String types. The pattern must match the entire parameter value provided.
+        public let allowedPattern: String?
         /// The values that the administrator has allowed for the parameter.
         public let allowedValues: [String]?
+        /// A string that explains a constraint when the constraint is violated. For example, without a constraint description, a parameter that has an allowed pattern of [A-Za-z0-9]+ displays the following error message when the user specifies an invalid value:  Malformed input-Parameter MyParameter must match pattern [A-Za-z0-9]+  By adding a constraint description, such as must only contain letters (uppercase and lowercase) and numbers, you can display the following customized error message:  Malformed input-Parameter MyParameter must only contain uppercase and lowercase letters and numbers.
+        public let constraintDescription: String?
+        /// An integer value that determines the largest number of characters you want to allow for String types.
+        public let maxLength: String?
+        /// A numeric value that determines the largest numeric value you want to allow for Number types.
+        public let maxValue: String?
+        /// An integer value that determines the smallest number of characters you want to allow for String types.
+        public let minLength: String?
+        /// A numeric value that determines the smallest numeric value you want to allow for Number types.
+        public let minValue: String?
 
-        public init(allowedValues: [String]? = nil) {
+        public init(allowedPattern: String? = nil, allowedValues: [String]? = nil, constraintDescription: String? = nil, maxLength: String? = nil, maxValue: String? = nil, minLength: String? = nil, minValue: String? = nil) {
+            self.allowedPattern = allowedPattern
             self.allowedValues = allowedValues
+            self.constraintDescription = constraintDescription
+            self.maxLength = maxLength
+            self.maxValue = maxValue
+            self.minLength = minLength
+            self.minValue = minValue
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowedPattern = "AllowedPattern"
             case allowedValues = "AllowedValues"
+            case constraintDescription = "ConstraintDescription"
+            case maxLength = "MaxLength"
+            case maxValue = "MaxValue"
+            case minLength = "MinLength"
+            case minValue = "MinValue"
         }
     }
 
@@ -3843,6 +3938,31 @@ extension ServiceCatalog {
             case displayName = "DisplayName"
             case id = "Id"
             case providerName = "ProviderName"
+        }
+    }
+
+    public struct PortfolioShareDetail: AWSDecodableShape {
+        /// Indicates whether the shared portfolio is imported by the recipient account. If the recipient is in an organization node, the share is automatically imported, and the field is always set to true.
+        public let accepted: Bool?
+        /// The identifier of the recipient entity that received the portfolio share. The recipient entities can be one of the following:  1. An external account. 2. An organziation member account. 3. An organzational unit (OU). 4. The organization itself. (This shares with every account in the organization).
+        public let principalId: String?
+        /// Indicates whether TagOptions sharing is enabled or disabled for the portfolio share.
+        public let shareTagOptions: Bool?
+        /// The type of the portfolio share.
+        public let type: DescribePortfolioShareType?
+
+        public init(accepted: Bool? = nil, principalId: String? = nil, shareTagOptions: Bool? = nil, type: DescribePortfolioShareType? = nil) {
+            self.accepted = accepted
+            self.principalId = principalId
+            self.shareTagOptions = shareTagOptions
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accepted = "Accepted"
+            case principalId = "PrincipalId"
+            case shareTagOptions = "ShareTagOptions"
+            case type = "Type"
         }
     }
 
@@ -4459,7 +4579,7 @@ extension ServiceCatalog {
         public let description: String?
         /// If set to true, AWS Service Catalog stops validating the specified provisioning artifact even if it is invalid.
         public let disableTemplateValidation: Bool?
-        /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."
+        /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."   ImportFromPhysicalId: The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]
         public let info: [String: String]
         /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
         public let name: String?
@@ -4558,7 +4678,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningPreferences: AWSEncodableShape {
-        /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
+        /// One or more AWS accounts where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified accounts should be within the list of accounts from the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all acounts from the STACKSET constraint.
         public let stackSetAccounts: [String]?
         /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
         public let stackSetFailureToleranceCount: Int?
@@ -5276,13 +5396,16 @@ extension ServiceCatalog {
         public let id: String?
         /// The TagOption key.
         public let key: String?
+        /// The AWS account Id of the owner account that created the TagOption.
+        public let owner: String?
         /// The TagOption value.
         public let value: String?
 
-        public init(active: Bool? = nil, id: String? = nil, key: String? = nil, value: String? = nil) {
+        public init(active: Bool? = nil, id: String? = nil, key: String? = nil, owner: String? = nil, value: String? = nil) {
             self.active = active
             self.id = id
             self.key = key
+            self.owner = owner
             self.value = value
         }
 
@@ -5290,6 +5413,7 @@ extension ServiceCatalog {
             case active = "Active"
             case id = "Id"
             case key = "Key"
+            case owner = "Owner"
             case value = "Value"
         }
     }
@@ -5496,6 +5620,60 @@ extension ServiceCatalog {
         private enum CodingKeys: String, CodingKey {
             case portfolioDetail = "PortfolioDetail"
             case tags = "Tags"
+        }
+    }
+
+    public struct UpdatePortfolioShareInput: AWSEncodableShape {
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        public let acceptLanguage: String?
+        /// The AWS Account Id of the recipient account. This field is required when updating an external account to account type share.
+        public let accountId: String?
+        public let organizationNode: OrganizationNode?
+        /// The unique identifier of the portfolio for which the share will be updated.
+        public let portfolioId: String
+        /// A flag to enable or disable TagOptions sharing for the portfolio share. If this field is not provided, the current state of TagOptions sharing on the portfolio share will not be modified.
+        public let shareTagOptions: Bool?
+
+        public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, shareTagOptions: Bool? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.accountId = accountId
+            self.organizationNode = organizationNode
+            self.portfolioId = portfolioId
+            self.shareTagOptions = shareTagOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.organizationNode?.validate(name: "\(name).organizationNode")
+            try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
+            try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
+            try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case accountId = "AccountId"
+            case organizationNode = "OrganizationNode"
+            case portfolioId = "PortfolioId"
+            case shareTagOptions = "ShareTagOptions"
+        }
+    }
+
+    public struct UpdatePortfolioShareOutput: AWSDecodableShape {
+        /// The token that tracks the status of the UpdatePortfolioShare operation for external account to account or organizational type sharing.
+        public let portfolioShareToken: String?
+        /// The status of UpdatePortfolioShare operation. You can also obtain the operation status using DescribePortfolioShareStatus API.
+        public let status: ShareStatus?
+
+        public init(portfolioShareToken: String? = nil, status: ShareStatus? = nil) {
+            self.portfolioShareToken = portfolioShareToken
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portfolioShareToken = "PortfolioShareToken"
+            case status = "Status"
         }
     }
 

@@ -45,27 +45,27 @@ extension PI {
     }
 
     public struct DescribeDimensionKeysRequest: AWSEncodableShape {
-        /// The date and time specifying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
+        /// The date and time specifying the end of the requested time series data. The value specified is exclusive, which means that data points less than (but not equal to) EndTime are returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: Date
         /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy or Partition parameters.   A single filter for any other dimension in this dimension group.
         public let filter: [String: String]?
-        /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights will return all of the dimensions within that group, unless you provide the names of specific dimensions within that group. You can also request that Performance Insights return a limited number of values for a dimension.
+        /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights returns all dimensions within this group, unless you provide the names of specific dimensions within this group. You can also request that Performance Insights return a limited number of values for a dimension.
         public let groupBy: DimensionGroup
-        /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A
+        /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-FAIHNTYBKTGAUSUZQYPDS2GW4A
         public let identifier: String
         /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
-        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.
+        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.   If the number of active sessions is less than an internal Performance Insights threshold, db.load.avg and db.sampledload.avg are the same value. If the number of active sessions is greater than the internal threshold, Performance Insights samples the active sessions, with db.load.avg showing the scaled values, db.sampledload.avg showing the raw values, and db.sampledload.avg less than db.load.avg. For most use cases, you can query db.load.avg only.
         public let metric: String
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
         public let nextToken: String?
         /// For each dimension specified in GroupBy, specify a secondary dimension to further subdivide the partition keys in the response.
         public let partitionBy: DimensionGroup?
-        /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights will choose a value for you, with a goal of returning roughly 100-200 data points in the response.
+        /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights chooses a value for you, with a goal of returning roughly 100-200 data points in the response.
         public let periodInSeconds: Int?
-        /// The AWS service for which Performance Insights will return metrics. The only valid value for ServiceType is: RDS
+        /// The AWS service for which Performance Insights will return metrics. The only valid value for ServiceType is RDS.
         public let serviceType: ServiceType
-        /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
+        /// The date and time specifying the beginning of the requested time series data. You must specify a StartTime within the past 7 days. The value specified is inclusive, which means that data points equal to or greater than StartTime are returned. The value for StartTime must be earlier than the value for EndTime.
         public let startTime: Date
 
         public init(endTime: Date, filter: [String: String]? = nil, groupBy: DimensionGroup, identifier: String, maxResults: Int? = nil, metric: String, nextToken: String? = nil, partitionBy: DimensionGroup? = nil, periodInSeconds: Int? = nil, serviceType: ServiceType, startTime: Date) {
@@ -134,9 +134,9 @@ extension PI {
     }
 
     public struct DimensionGroup: AWSEncodableShape {
-        /// A list of specific dimensions from a dimension group. If this parameter is not present, then it signifies that all of the dimensions in the group were requested, or are present in the response. Valid values for elements in the Dimensions array are:   db.user.id   db.user.name   db.host.id   db.host.name   db.sql.id   db.sql.db_id   db.sql.statement   db.sql.tokenized_id   db.sql_tokenized.id   db.sql_tokenized.db_id   db.sql_tokenized.statement   db.wait_event.name   db.wait_event.type   db.wait_event_type.name
+        /// A list of specific dimensions from a dimension group. If this parameter is not present, then it signifies that all of the dimensions in the group were requested, or are present in the response. Valid values for elements in the Dimensions array are:    db.application.name - The name of the application that is connected to the database (only Aurora PostgreSQL and RDS PostgreSQL)    db.host.id - The host ID of the connected client (all engines)    db.host.name - The host name of the connected client (all engines)    db.name - The name of the database to which the client is connected (only Aurora PostgreSQL, RDS PostgreSQL, Aurora MySQL, RDS MySQL, and MariaDB)    db.session_type.name - The type of the current session (only Aurora PostgreSQL and RDS PostgreSQL)    db.sql.id - The SQL ID generated by Performance Insights (all engines)    db.sql.db_id - The SQL ID generated by the database (all engines)    db.sql.statement - The SQL text that is being executed (all engines)    db.sql.tokenized_id     db.sql_tokenized.id - The SQL digest ID generated by Performance Insights (all engines)    db.sql_tokenized.db_id - SQL digest ID generated by the database (all engines)    db.sql_tokenized.statement - The SQL digest text (all engines)    db.user.id - The ID of the user logged in to the database (all engines)    db.user.name - The name of the user logged in to the database (all engines)    db.wait_event.name - The event for which the backend is waiting (all engines)    db.wait_event.type - The type of event for which the backend is waiting (all engines)    db.wait_event_type.name - The name of the event type for which the backend is waiting (all engines)
         public let dimensions: [String]?
-        /// The name of the dimension group. Valid values are:    db.user     db.host     db.sql     db.sql_tokenized     db.wait_event     db.wait_event_type
+        /// The name of the dimension group. Valid values are:    db - The name of the database to which the client is connected (only Aurora PostgreSQL, RDS PostgreSQL, Aurora MySQL, RDS MySQL, and MariaDB)    db.application - The name of the application that is connected to the database (only Aurora PostgreSQL and RDS PostgreSQL)    db.host - The host name of the connected client (all engines)    db.session_type - The type of the current session (only Aurora PostgreSQL and RDS PostgreSQL)    db.sql - The SQL that is currently executing (all engines)    db.sql_tokenized - The SQL digest (all engines)    db.wait_event - The event for which the database backend is waiting (all engines)    db.wait_event_type - The type of event for which the database backend is waiting (all engines)    db.user - The user logged in to the database (all engines)
         public let group: String
         /// The maximum number of items to fetch for this dimension group.
         public let limit: Int?
@@ -183,9 +183,9 @@ extension PI {
     }
 
     public struct GetResourceMetricsRequest: AWSEncodableShape {
-        /// The date and time specifiying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
+        /// The date and time specifying the end of the requested time series data. The value specified is exclusive - data points less than (but not equal to) EndTime will be returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: Date
-        /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A
+        /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-FAIHNTYBKTGAUSUZQYPDS2GW4A.
         public let identifier: String
         /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -195,7 +195,7 @@ extension PI {
         public let nextToken: String?
         /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights will choose a value for you, with a goal of returning roughly 100-200 data points in the response.
         public let periodInSeconds: Int?
-        /// The AWS service for which Performance Insights will return metrics. The only valid value for ServiceType is: RDS
+        /// The AWS service for which Performance Insights returns metrics. The only valid value for ServiceType is RDS.
         public let serviceType: ServiceType
         /// The date and time specifying the beginning of the requested time series data. You can't specify a StartTime that's earlier than 7 days ago. The value specified is inclusive - data points equal to or greater than StartTime will be returned. The value for StartTime must be earlier than the value for EndTime.
         public let startTime: Date
@@ -238,7 +238,7 @@ extension PI {
         public let alignedEndTime: Date?
         /// The start time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
         public let alignedStartTime: Date?
-        /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A
+        /// An immutable, AWS Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use a DB instance as a data source, you specify its DbiResourceId value - for example: db-FAIHNTYBKTGAUSUZQYPDS2GW4A
         public let identifier: String?
         /// An array of metric results,, where each array element contains all of the data points for a particular dimension.
         public let metricList: [MetricKeyDataPoints]?
@@ -284,7 +284,7 @@ extension PI {
         public let filter: [String: String]?
         /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights will return all of the dimensions within that group, unless you provide the names of specific dimensions within that group. You can also request that Performance Insights return a limited number of values for a dimension.
         public let groupBy: DimensionGroup?
-        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.
+        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.   If the number of active sessions is less than an internal Performance Insights threshold, db.load.avg and db.sampledload.avg are the same value. If the number of active sessions is greater than the internal threshold, Performance Insights samples the active sessions, with db.load.avg showing the scaled values, db.sampledload.avg showing the raw values, and db.sampledload.avg less than db.load.avg. For most use cases, you can query db.load.avg only.
         public let metric: String
 
         public init(filter: [String: String]? = nil, groupBy: DimensionGroup? = nil, metric: String) {
@@ -320,7 +320,7 @@ extension PI {
     public struct ResponseResourceMetricKey: AWSDecodableShape {
         /// The valid dimensions for the metric.
         public let dimensions: [String: String]?
-        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.
+        /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - the raw number of active sessions for the database engine.   If the number of active sessions is less than an internal Performance Insights threshold, db.load.avg and db.sampledload.avg are the same value. If the number of active sessions is greater than the internal threshold, Performance Insights samples the active sessions, with db.load.avg showing the scaled values, db.sampledload.avg showing the raw values, and db.sampledload.avg less than db.load.avg. For most use cases, you can query db.load.avg only.
         public let metric: String
 
         public init(dimensions: [String: String]? = nil, metric: String) {

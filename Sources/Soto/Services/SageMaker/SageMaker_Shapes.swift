@@ -361,6 +361,16 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum EdgePackagingJobStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inprogress = "INPROGRESS"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
         case name = "Name"
@@ -625,6 +635,22 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListDeviceFleetsSortBy: String, CustomStringConvertible, Codable {
+        case creationTime = "CREATION_TIME"
+        case lastModifiedTime = "LAST_MODIFIED_TIME"
+        case name = "NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListEdgePackagingJobsSortBy: String, CustomStringConvertible, Codable {
+        case creationTime = "CREATION_TIME"
+        case lastModifiedTime = "LAST_MODIFIED_TIME"
+        case modelName = "MODEL_NAME"
+        case name = "NAME"
+        case status = "STATUS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ListLabelingJobsForWorkteamSortByOptions: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
         public var description: String { return self.rawValue }
@@ -700,10 +726,31 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum MonitoringJobDefinitionSortKey: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitoringProblemType: String, CustomStringConvertible, Codable {
+        case binaryclassification = "BinaryClassification"
+        case multiclassclassification = "MulticlassClassification"
+        case regression = "Regression"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MonitoringScheduleSortKey: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
         case name = "Name"
         case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitoringType: String, CustomStringConvertible, Codable {
+        case dataquality = "DataQuality"
+        case modelbias = "ModelBias"
+        case modelexplainability = "ModelExplainability"
+        case modelquality = "ModelQuality"
         public var description: String { return self.rawValue }
     }
 
@@ -981,6 +1028,12 @@ extension SageMaker {
         case mlT2Large = "ml.t2.large"
         case mlT2Medium = "ml.t2.medium"
         case mlT2Xlarge = "ml.t2.xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProfilingStatus: String, CustomStringConvertible, Codable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -1561,6 +1614,23 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct AgentVersion: AWSDecodableShape {
+        /// The number of Edge Manager agents.
+        public let agentCount: Int64
+        /// Version of the agent.
+        public let version: String
+
+        public init(agentCount: Int64, version: String) {
+            self.agentCount = agentCount
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentCount = "AgentCount"
+            case version = "Version"
         }
     }
 
@@ -3640,6 +3710,133 @@ extension SageMaker {
         }
     }
 
+    public struct CreateDataQualityJobDefinitionRequest: AWSEncodableShape {
+        /// Specifies the container that runs the monitoring job.
+        public let dataQualityAppSpecification: DataQualityAppSpecification
+        /// Configures the constraints and baselines for the monitoring job.
+        public let dataQualityBaselineConfig: DataQualityBaselineConfig?
+        /// A list of inputs for the monitoring job. Currently endpoints are supported as monitoring inputs.
+        public let dataQualityJobInput: DataQualityJobInput
+        public let dataQualityJobOutputConfig: MonitoringOutputConfig
+        /// The name for the monitoring job definition.
+        public let jobDefinitionName: String
+        public let jobResources: MonitoringResources
+        /// Specifies networking configuration for the monitoring job.
+        public let networkConfig: MonitoringNetworkConfig?
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        public let roleArn: String
+        public let stoppingCondition: MonitoringStoppingCondition?
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        public let tags: [Tag]?
+
+        public init(dataQualityAppSpecification: DataQualityAppSpecification, dataQualityBaselineConfig: DataQualityBaselineConfig? = nil, dataQualityJobInput: DataQualityJobInput, dataQualityJobOutputConfig: MonitoringOutputConfig, jobDefinitionName: String, jobResources: MonitoringResources, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
+            self.dataQualityAppSpecification = dataQualityAppSpecification
+            self.dataQualityBaselineConfig = dataQualityBaselineConfig
+            self.dataQualityJobInput = dataQualityJobInput
+            self.dataQualityJobOutputConfig = dataQualityJobOutputConfig
+            self.jobDefinitionName = jobDefinitionName
+            self.jobResources = jobResources
+            self.networkConfig = networkConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.dataQualityAppSpecification.validate(name: "\(name).dataQualityAppSpecification")
+            try self.dataQualityBaselineConfig?.validate(name: "\(name).dataQualityBaselineConfig")
+            try self.dataQualityJobInput.validate(name: "\(name).dataQualityJobInput")
+            try self.dataQualityJobOutputConfig.validate(name: "\(name).dataQualityJobOutputConfig")
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.jobResources.validate(name: "\(name).jobResources")
+            try self.networkConfig?.validate(name: "\(name).networkConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.stoppingCondition?.validate(name: "\(name).stoppingCondition")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataQualityAppSpecification = "DataQualityAppSpecification"
+            case dataQualityBaselineConfig = "DataQualityBaselineConfig"
+            case dataQualityJobInput = "DataQualityJobInput"
+            case dataQualityJobOutputConfig = "DataQualityJobOutputConfig"
+            case jobDefinitionName = "JobDefinitionName"
+            case jobResources = "JobResources"
+            case networkConfig = "NetworkConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDataQualityJobDefinitionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the job definition.
+        public let jobDefinitionArn: String
+
+        public init(jobDefinitionArn: String) {
+            self.jobDefinitionArn = jobDefinitionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionArn = "JobDefinitionArn"
+        }
+    }
+
+    public struct CreateDeviceFleetRequest: AWSEncodableShape {
+        /// A description of the fleet.
+        public let description: String?
+        /// The name of the fleet that the device belongs to.
+        public let deviceFleetName: String
+        /// The output configuration for storing sample data collected by the fleet.
+        public let outputConfig: EdgeOutputConfig
+        /// The Amazon Resource Name (ARN) that has access to AWS Internet of Things (IoT).
+        public let roleArn: String?
+        /// Creates tags for the specified fleet.
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, deviceFleetName: String, outputConfig: EdgeOutputConfig, roleArn: String? = nil, tags: [Tag]? = nil) {
+            self.description = description
+            self.deviceFleetName = deviceFleetName
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 800)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\S\\s]+")
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case deviceFleetName = "DeviceFleetName"
+            case outputConfig = "OutputConfig"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
     public struct CreateDomainRequest: AWSEncodableShape {
         /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is through the specified VPC and subnets
         public let appNetworkAccessType: AppNetworkAccessType?
@@ -3716,6 +3913,73 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case domainArn = "DomainArn"
             case url = "Url"
+        }
+    }
+
+    public struct CreateEdgePackagingJobRequest: AWSEncodableShape {
+        /// The name of the SageMaker Neo compilation job that will be used to locate model artifacts for packaging.
+        public let compilationJobName: String
+        /// The name of the edge packaging job.
+        public let edgePackagingJobName: String
+        /// The name of the model.
+        public let modelName: String
+        /// The version of the model.
+        public let modelVersion: String
+        /// Provides information about the output location for the packaged model.
+        public let outputConfig: EdgeOutputConfig
+        /// The CMK to use when encrypting the EBS volume the edge packaging job runs on.
+        public let resourceKey: String?
+        /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to download and upload the model, and to contact SageMaker Neo.
+        public let roleArn: String
+        /// Creates tags for the packaging job.
+        public let tags: [Tag]?
+
+        public init(compilationJobName: String, edgePackagingJobName: String, modelName: String, modelVersion: String, outputConfig: EdgeOutputConfig, resourceKey: String? = nil, roleArn: String, tags: [Tag]? = nil) {
+            self.compilationJobName = compilationJobName
+            self.edgePackagingJobName = edgePackagingJobName
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+            self.outputConfig = outputConfig
+            self.resourceKey = resourceKey
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, max: 63)
+            try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, min: 1)
+            try self.validate(self.compilationJobName, name: "compilationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.edgePackagingJobName, name: "edgePackagingJobName", parent: name, max: 63)
+            try self.validate(self.edgePackagingJobName, name: "edgePackagingJobName", parent: name, min: 1)
+            try self.validate(self.edgePackagingJobName, name: "edgePackagingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.modelVersion, name: "modelVersion", parent: name, max: 30)
+            try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
+            try self.validate(self.modelVersion, name: "modelVersion", parent: name, pattern: "[a-zA-Z0-9\\ \\_\\.]+")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+            try self.validate(self.resourceKey, name: "resourceKey", parent: name, max: 2048)
+            try self.validate(self.resourceKey, name: "resourceKey", parent: name, pattern: ".*")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compilationJobName = "CompilationJobName"
+            case edgePackagingJobName = "EdgePackagingJobName"
+            case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+            case outputConfig = "OutputConfig"
+            case resourceKey = "ResourceKey"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
         }
     }
 
@@ -4335,6 +4599,166 @@ extension SageMaker {
         }
     }
 
+    public struct CreateModelBiasJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the bias job definition. The name must be unique within an AWS Region in the AWS account.
+        public let jobDefinitionName: String
+        public let jobResources: MonitoringResources
+        /// Configures the model bias job to run a specified Docker container image.
+        public let modelBiasAppSpecification: ModelBiasAppSpecification
+        /// The baseline configuration for a model bias job.
+        public let modelBiasBaselineConfig: ModelBiasBaselineConfig?
+        /// Inputs for the model bias job.
+        public let modelBiasJobInput: ModelBiasJobInput
+        public let modelBiasJobOutputConfig: MonitoringOutputConfig
+        /// Networking options for a model bias job.
+        public let networkConfig: MonitoringNetworkConfig?
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        public let roleArn: String
+        public let stoppingCondition: MonitoringStoppingCondition?
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        public let tags: [Tag]?
+
+        public init(jobDefinitionName: String, jobResources: MonitoringResources, modelBiasAppSpecification: ModelBiasAppSpecification, modelBiasBaselineConfig: ModelBiasBaselineConfig? = nil, modelBiasJobInput: ModelBiasJobInput, modelBiasJobOutputConfig: MonitoringOutputConfig, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
+            self.jobDefinitionName = jobDefinitionName
+            self.jobResources = jobResources
+            self.modelBiasAppSpecification = modelBiasAppSpecification
+            self.modelBiasBaselineConfig = modelBiasBaselineConfig
+            self.modelBiasJobInput = modelBiasJobInput
+            self.modelBiasJobOutputConfig = modelBiasJobOutputConfig
+            self.networkConfig = networkConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.jobResources.validate(name: "\(name).jobResources")
+            try self.modelBiasAppSpecification.validate(name: "\(name).modelBiasAppSpecification")
+            try self.modelBiasBaselineConfig?.validate(name: "\(name).modelBiasBaselineConfig")
+            try self.modelBiasJobInput.validate(name: "\(name).modelBiasJobInput")
+            try self.modelBiasJobOutputConfig.validate(name: "\(name).modelBiasJobOutputConfig")
+            try self.networkConfig?.validate(name: "\(name).networkConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.stoppingCondition?.validate(name: "\(name).stoppingCondition")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+            case jobResources = "JobResources"
+            case modelBiasAppSpecification = "ModelBiasAppSpecification"
+            case modelBiasBaselineConfig = "ModelBiasBaselineConfig"
+            case modelBiasJobInput = "ModelBiasJobInput"
+            case modelBiasJobOutputConfig = "ModelBiasJobOutputConfig"
+            case networkConfig = "NetworkConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateModelBiasJobDefinitionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model bias job.
+        public let jobDefinitionArn: String
+
+        public init(jobDefinitionArn: String) {
+            self.jobDefinitionArn = jobDefinitionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionArn = "JobDefinitionArn"
+        }
+    }
+
+    public struct CreateModelExplainabilityJobDefinitionRequest: AWSEncodableShape {
+        ///  The name of the model explainability job definition. The name must be unique within an AWS Region in the AWS account.
+        public let jobDefinitionName: String
+        public let jobResources: MonitoringResources
+        /// Configures the model explainability job to run a specified Docker container image.
+        public let modelExplainabilityAppSpecification: ModelExplainabilityAppSpecification
+        /// The baseline configuration for a model explainability job.
+        public let modelExplainabilityBaselineConfig: ModelExplainabilityBaselineConfig?
+        /// Inputs for the model explainability job.
+        public let modelExplainabilityJobInput: ModelExplainabilityJobInput
+        public let modelExplainabilityJobOutputConfig: MonitoringOutputConfig
+        /// Networking options for a model explainability job.
+        public let networkConfig: MonitoringNetworkConfig?
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        public let roleArn: String
+        public let stoppingCondition: MonitoringStoppingCondition?
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        public let tags: [Tag]?
+
+        public init(jobDefinitionName: String, jobResources: MonitoringResources, modelExplainabilityAppSpecification: ModelExplainabilityAppSpecification, modelExplainabilityBaselineConfig: ModelExplainabilityBaselineConfig? = nil, modelExplainabilityJobInput: ModelExplainabilityJobInput, modelExplainabilityJobOutputConfig: MonitoringOutputConfig, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
+            self.jobDefinitionName = jobDefinitionName
+            self.jobResources = jobResources
+            self.modelExplainabilityAppSpecification = modelExplainabilityAppSpecification
+            self.modelExplainabilityBaselineConfig = modelExplainabilityBaselineConfig
+            self.modelExplainabilityJobInput = modelExplainabilityJobInput
+            self.modelExplainabilityJobOutputConfig = modelExplainabilityJobOutputConfig
+            self.networkConfig = networkConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.jobResources.validate(name: "\(name).jobResources")
+            try self.modelExplainabilityAppSpecification.validate(name: "\(name).modelExplainabilityAppSpecification")
+            try self.modelExplainabilityBaselineConfig?.validate(name: "\(name).modelExplainabilityBaselineConfig")
+            try self.modelExplainabilityJobInput.validate(name: "\(name).modelExplainabilityJobInput")
+            try self.modelExplainabilityJobOutputConfig.validate(name: "\(name).modelExplainabilityJobOutputConfig")
+            try self.networkConfig?.validate(name: "\(name).networkConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.stoppingCondition?.validate(name: "\(name).stoppingCondition")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+            case jobResources = "JobResources"
+            case modelExplainabilityAppSpecification = "ModelExplainabilityAppSpecification"
+            case modelExplainabilityBaselineConfig = "ModelExplainabilityBaselineConfig"
+            case modelExplainabilityJobInput = "ModelExplainabilityJobInput"
+            case modelExplainabilityJobOutputConfig = "ModelExplainabilityJobOutputConfig"
+            case networkConfig = "NetworkConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateModelExplainabilityJobDefinitionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model explainability job.
+        public let jobDefinitionArn: String
+
+        public init(jobDefinitionArn: String) {
+            self.jobDefinitionArn = jobDefinitionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionArn = "JobDefinitionArn"
+        }
+    }
+
     public struct CreateModelInput: AWSEncodableShape {
         /// Specifies the containers in the inference pipeline.
         public let containers: [ContainerDefinition]?
@@ -4541,6 +4965,86 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case modelPackageArn = "ModelPackageArn"
+        }
+    }
+
+    public struct CreateModelQualityJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the monitoring job definition.
+        public let jobDefinitionName: String
+        public let jobResources: MonitoringResources
+        /// The container that runs the monitoring job.
+        public let modelQualityAppSpecification: ModelQualityAppSpecification
+        /// Specifies the constraints and baselines for the monitoring job.
+        public let modelQualityBaselineConfig: ModelQualityBaselineConfig?
+        /// A list of the inputs that are monitored. Currently endpoints are supported.
+        public let modelQualityJobInput: ModelQualityJobInput
+        public let modelQualityJobOutputConfig: MonitoringOutputConfig
+        /// Specifies the network configuration for the monitoring job.
+        public let networkConfig: MonitoringNetworkConfig?
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        public let roleArn: String
+        public let stoppingCondition: MonitoringStoppingCondition?
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        public let tags: [Tag]?
+
+        public init(jobDefinitionName: String, jobResources: MonitoringResources, modelQualityAppSpecification: ModelQualityAppSpecification, modelQualityBaselineConfig: ModelQualityBaselineConfig? = nil, modelQualityJobInput: ModelQualityJobInput, modelQualityJobOutputConfig: MonitoringOutputConfig, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
+            self.jobDefinitionName = jobDefinitionName
+            self.jobResources = jobResources
+            self.modelQualityAppSpecification = modelQualityAppSpecification
+            self.modelQualityBaselineConfig = modelQualityBaselineConfig
+            self.modelQualityJobInput = modelQualityJobInput
+            self.modelQualityJobOutputConfig = modelQualityJobOutputConfig
+            self.networkConfig = networkConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.jobResources.validate(name: "\(name).jobResources")
+            try self.modelQualityAppSpecification.validate(name: "\(name).modelQualityAppSpecification")
+            try self.modelQualityBaselineConfig?.validate(name: "\(name).modelQualityBaselineConfig")
+            try self.modelQualityJobInput.validate(name: "\(name).modelQualityJobInput")
+            try self.modelQualityJobOutputConfig.validate(name: "\(name).modelQualityJobOutputConfig")
+            try self.networkConfig?.validate(name: "\(name).networkConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.stoppingCondition?.validate(name: "\(name).stoppingCondition")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+            case jobResources = "JobResources"
+            case modelQualityAppSpecification = "ModelQualityAppSpecification"
+            case modelQualityBaselineConfig = "ModelQualityBaselineConfig"
+            case modelQualityJobInput = "ModelQualityJobInput"
+            case modelQualityJobOutputConfig = "ModelQualityJobOutputConfig"
+            case networkConfig = "NetworkConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateModelQualityJobDefinitionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model quality monitoring job.
+        public let jobDefinitionArn: String
+
+        public init(jobDefinitionArn: String) {
+            self.jobDefinitionArn = jobDefinitionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionArn = "JobDefinitionArn"
         }
     }
 
@@ -5062,7 +5566,7 @@ extension SageMaker {
         /// Contains information about the output location for managed spot training checkpoint data.
         public let checkpointConfig: CheckpointConfig?
         public let debugHookConfig: DebugHookConfig?
-        /// Configuration information for debugging rules.
+        /// Configuration information for Debugger rules for debugging output tensors.
         public let debugRuleConfigurations: [DebugRuleConfiguration]?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training. For more information, see Protect Communications Between ML Compute Instances in a Distributed Training Job.
         public let enableInterContainerTrafficEncryption: Bool?
@@ -5077,6 +5581,9 @@ extension SageMaker {
         public let inputDataConfig: [Channel]?
         /// Specifies the path to the S3 location where you want to store model artifacts. Amazon SageMaker creates subfolders for the artifacts.
         public let outputDataConfig: OutputDataConfig
+        public let profilerConfig: ProfilerConfig?
+        /// Configuration information for Debugger rules for profiling system and framework metrics.
+        public let profilerRuleConfigurations: [ProfilerRuleConfiguration]?
         /// The resources, including the ML compute instances and ML storage volumes, to use for model training.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use ML storage volumes for scratch space. If you want Amazon SageMaker to use the ML storage volume to store the training data, choose File as the TrainingInputMode in the algorithm specification. For distributed training algorithms, specify an instance count greater than 1.
         public let resourceConfig: ResourceConfig
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.  During model training, Amazon SageMaker needs your permission to read input data from an S3 bucket, download a Docker image that contains training code, write model artifacts to an S3 bucket, write logs to Amazon CloudWatch Logs, and publish metrics to Amazon CloudWatch. You grant permissions for all of these tasks to an IAM role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission.
@@ -5091,7 +5598,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.debugHookConfig = debugHookConfig
@@ -5103,6 +5610,8 @@ extension SageMaker {
             self.hyperParameters = hyperParameters
             self.inputDataConfig = inputDataConfig
             self.outputDataConfig = outputDataConfig
+            self.profilerConfig = profilerConfig
+            self.profilerRuleConfigurations = profilerRuleConfigurations
             self.resourceConfig = resourceConfig
             self.roleArn = roleArn
             self.stoppingCondition = stoppingCondition
@@ -5134,6 +5643,12 @@ extension SageMaker {
             try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, max: 20)
             try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, min: 1)
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.profilerConfig?.validate(name: "\(name).profilerConfig")
+            try self.profilerRuleConfigurations?.forEach {
+                try $0.validate(name: "\(name).profilerRuleConfigurations[]")
+            }
+            try self.validate(self.profilerRuleConfigurations, name: "profilerRuleConfigurations", parent: name, max: 20)
+            try self.validate(self.profilerRuleConfigurations, name: "profilerRuleConfigurations", parent: name, min: 0)
             try self.resourceConfig.validate(name: "\(name).resourceConfig")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
@@ -5163,6 +5678,8 @@ extension SageMaker {
             case hyperParameters = "HyperParameters"
             case inputDataConfig = "InputDataConfig"
             case outputDataConfig = "OutputDataConfig"
+            case profilerConfig = "ProfilerConfig"
+            case profilerRuleConfigurations = "ProfilerRuleConfigurations"
             case resourceConfig = "ResourceConfig"
             case roleArn = "RoleArn"
             case stoppingCondition = "StoppingCondition"
@@ -5775,6 +6292,109 @@ extension SageMaker {
         }
     }
 
+    public struct DataQualityAppSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The arguments to send to the container that the monitoring job runs.
+        public let containerArguments: [String]?
+        /// The entrypoint for a container used to run a monitoring job.
+        public let containerEntrypoint: [String]?
+        /// Sets the environment variables in the container that the monitoring job runs.
+        public let environment: [String: String]?
+        /// The container image that the data quality monitoring job runs.
+        public let imageUri: String
+        /// An Amazon S3 URI to a script that is called after analysis has been performed. Applicable only for the built-in (first party) containers.
+        public let postAnalyticsProcessorSourceUri: String?
+        /// An Amazon S3 URI to a script that is called per row prior to running analysis. It can base64 decode the payload and convert it into a flatted json so that the built-in container can use the converted data. Applicable only for the built-in (first party) containers.
+        public let recordPreprocessorSourceUri: String?
+
+        public init(containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, environment: [String: String]? = nil, imageUri: String, postAnalyticsProcessorSourceUri: String? = nil, recordPreprocessorSourceUri: String? = nil) {
+            self.containerArguments = containerArguments
+            self.containerEntrypoint = containerEntrypoint
+            self.environment = environment
+            self.imageUri = imageUri
+            self.postAnalyticsProcessorSourceUri = postAnalyticsProcessorSourceUri
+            self.recordPreprocessorSourceUri = recordPreprocessorSourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.containerArguments?.forEach {
+                try validate($0, name: "containerArguments[]", parent: name, max: 256)
+                try validate($0, name: "containerArguments[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.containerArguments, name: "containerArguments", parent: name, max: 50)
+            try self.validate(self.containerArguments, name: "containerArguments", parent: name, min: 1)
+            try self.containerEntrypoint?.forEach {
+                try validate($0, name: "containerEntrypoint[]", parent: name, max: 256)
+                try validate($0, name: "containerEntrypoint[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.containerEntrypoint, name: "containerEntrypoint", parent: name, max: 100)
+            try self.validate(self.containerEntrypoint, name: "containerEntrypoint", parent: name, min: 1)
+            try self.environment?.forEach {
+                try validate($0.key, name: "environment.key", parent: name, max: 256)
+                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 255)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: ".*")
+            try self.validate(self.postAnalyticsProcessorSourceUri, name: "postAnalyticsProcessorSourceUri", parent: name, max: 1024)
+            try self.validate(self.postAnalyticsProcessorSourceUri, name: "postAnalyticsProcessorSourceUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.recordPreprocessorSourceUri, name: "recordPreprocessorSourceUri", parent: name, max: 1024)
+            try self.validate(self.recordPreprocessorSourceUri, name: "recordPreprocessorSourceUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerArguments = "ContainerArguments"
+            case containerEntrypoint = "ContainerEntrypoint"
+            case environment = "Environment"
+            case imageUri = "ImageUri"
+            case postAnalyticsProcessorSourceUri = "PostAnalyticsProcessorSourceUri"
+            case recordPreprocessorSourceUri = "RecordPreprocessorSourceUri"
+        }
+    }
+
+    public struct DataQualityBaselineConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the job that performs baselining for the data quality monitoring job.
+        public let baseliningJobName: String?
+        public let constraintsResource: MonitoringConstraintsResource?
+        public let statisticsResource: MonitoringStatisticsResource?
+
+        public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil, statisticsResource: MonitoringStatisticsResource? = nil) {
+            self.baseliningJobName = baseliningJobName
+            self.constraintsResource = constraintsResource
+            self.statisticsResource = statisticsResource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, max: 63)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, min: 1)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.constraintsResource?.validate(name: "\(name).constraintsResource")
+            try self.statisticsResource?.validate(name: "\(name).statisticsResource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseliningJobName = "BaseliningJobName"
+            case constraintsResource = "ConstraintsResource"
+            case statisticsResource = "StatisticsResource"
+        }
+    }
+
+    public struct DataQualityJobInput: AWSEncodableShape & AWSDecodableShape {
+        public let endpointInput: EndpointInput
+
+        public init(endpointInput: EndpointInput) {
+            self.endpointInput = endpointInput
+        }
+
+        public func validate(name: String) throws {
+            try self.endpointInput.validate(name: "\(name).endpointInput")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointInput = "EndpointInput"
+        }
+    }
+
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
         /// The file system that is associated with a channel.
         public let fileSystemDataSource: FileSystemDataSource?
@@ -5832,13 +6452,13 @@ extension SageMaker {
     }
 
     public struct DebugHookConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Configuration information for tensor collections.
+        /// Configuration information for Debugger tensor collections. To learn more about how to configure the CollectionConfiguration parameter, see Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job.
         public let collectionConfigurations: [CollectionConfiguration]?
-        /// Configuration information for the debug hook parameters.
+        /// Configuration information for the Debugger hook parameters.
         public let hookParameters: [String: String]?
-        /// Path to local storage location for tensors. Defaults to /opt/ml/output/tensors/.
+        /// Path to local storage location for metrics and tensors. Defaults to /opt/ml/output/tensors/.
         public let localPath: String?
-        /// Path to Amazon S3 storage location for tensors.
+        /// Path to Amazon S3 storage location for metrics and tensors.
         public let s3OutputPath: String
 
         public init(collectionConfigurations: [CollectionConfiguration]? = nil, hookParameters: [String: String]? = nil, localPath: String? = nil, s3OutputPath: String) {
@@ -5876,7 +6496,7 @@ extension SageMaker {
     }
 
     public struct DebugRuleConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The instance type to deploy for a training job.
+        /// The instance type to deploy a Debugger custom rule for debugging a training job.
         public let instanceType: ProcessingInstanceType?
         /// Path to local storage location for output of rules. Defaults to /opt/ml/processing/output/rule/.
         public let localPath: String?
@@ -5884,7 +6504,7 @@ extension SageMaker {
         public let ruleConfigurationName: String
         /// The Amazon Elastic Container (ECR) Image for the managed rule evaluation.
         public let ruleEvaluatorImage: String
-        ///  Runtime configuration for rule container.
+        /// Runtime configuration for rule container.
         public let ruleParameters: [String: String]?
         /// Path to Amazon S3 storage location for rules.
         public let s3OutputPath: String?
@@ -5935,7 +6555,7 @@ extension SageMaker {
     public struct DebugRuleEvaluationStatus: AWSDecodableShape {
         /// Timestamp when the rule evaluation status was last modified.
         public let lastModifiedTime: Date?
-        /// The name of the rule configuration
+        /// The name of the rule configuration.
         public let ruleConfigurationName: String?
         /// The Amazon Resource Name (ARN) of the rule evaluation job.
         public let ruleEvaluationJobArn: String?
@@ -6191,6 +6811,44 @@ extension SageMaker {
         }
     }
 
+    public struct DeleteDataQualityJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the data quality monitoring job definition to delete.
+        public let jobDefinitionName: String
+
+        public init(jobDefinitionName: String) {
+            self.jobDefinitionName = jobDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+        }
+    }
+
+    public struct DeleteDeviceFleetRequest: AWSEncodableShape {
+        /// The name of the fleet to delete.
+        public let deviceFleetName: String
+
+        public init(deviceFleetName: String) {
+            self.deviceFleetName = deviceFleetName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceFleetName = "DeviceFleetName"
+        }
+    }
+
     public struct DeleteDomainRequest: AWSEncodableShape {
         /// The domain ID.
         public let domainId: String
@@ -6396,6 +7054,44 @@ extension SageMaker {
         public init() {}
     }
 
+    public struct DeleteModelBiasJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the model bias job definition to delete.
+        public let jobDefinitionName: String
+
+        public init(jobDefinitionName: String) {
+            self.jobDefinitionName = jobDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+        }
+    }
+
+    public struct DeleteModelExplainabilityJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the model explainability job definition to delete.
+        public let jobDefinitionName: String
+
+        public init(jobDefinitionName: String) {
+            self.jobDefinitionName = jobDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+        }
+    }
+
     public struct DeleteModelInput: AWSEncodableShape {
         /// The name of the model to delete.
         public let modelName: String
@@ -6468,6 +7164,25 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case modelPackageName = "ModelPackageName"
+        }
+    }
+
+    public struct DeleteModelQualityJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the model quality monitoring job definition to delete.
+        public let jobDefinitionName: String
+
+        public init(jobDefinitionName: String) {
+            self.jobDefinitionName = jobDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
         }
     }
 
@@ -6796,6 +7511,34 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case autoRollbackConfiguration = "AutoRollbackConfiguration"
             case blueGreenUpdatePolicy = "BlueGreenUpdatePolicy"
+        }
+    }
+
+    public struct DeregisterDevicesRequest: AWSEncodableShape {
+        /// The name of the fleet the devices belong to.
+        public let deviceFleetName: String
+        /// The unique IDs of the devices.
+        public let deviceNames: [String]
+
+        public init(deviceFleetName: String, deviceNames: [String]) {
+            self.deviceFleetName = deviceFleetName
+            self.deviceNames = deviceNames
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.deviceNames.forEach {
+                try validate($0, name: "deviceNames[]", parent: name, max: 63)
+                try validate($0, name: "deviceNames[]", parent: name, min: 1)
+                try validate($0, name: "deviceNames[]", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceFleetName = "DeviceFleetName"
+            case deviceNames = "DeviceNames"
         }
     }
 
@@ -7439,6 +8182,216 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeDataQualityJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the data quality monitoring job definition to describe.
+        public let jobDefinitionName: String
+
+        public init(jobDefinitionName: String) {
+            self.jobDefinitionName = jobDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+        }
+    }
+
+    public struct DescribeDataQualityJobDefinitionResponse: AWSDecodableShape {
+        /// The time that the data quality monitoring job definition was created.
+        public let creationTime: Date
+        /// Information about the container that runs the data quality monitoring job.
+        public let dataQualityAppSpecification: DataQualityAppSpecification
+        /// The constraints and baselines for the data quality monitoring job definition.
+        public let dataQualityBaselineConfig: DataQualityBaselineConfig?
+        /// The list of inputs for the data quality monitoring job. Currently endpoints are supported.
+        public let dataQualityJobInput: DataQualityJobInput
+        public let dataQualityJobOutputConfig: MonitoringOutputConfig
+        /// The Amazon Resource Name (ARN) of the data quality monitoring job definition.
+        public let jobDefinitionArn: String
+        /// The name of the data quality monitoring job definition.
+        public let jobDefinitionName: String
+        public let jobResources: MonitoringResources
+        /// The networking configuration for the data quality monitoring job.
+        public let networkConfig: MonitoringNetworkConfig?
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        public let roleArn: String
+        public let stoppingCondition: MonitoringStoppingCondition?
+
+        public init(creationTime: Date, dataQualityAppSpecification: DataQualityAppSpecification, dataQualityBaselineConfig: DataQualityBaselineConfig? = nil, dataQualityJobInput: DataQualityJobInput, dataQualityJobOutputConfig: MonitoringOutputConfig, jobDefinitionArn: String, jobDefinitionName: String, jobResources: MonitoringResources, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil) {
+            self.creationTime = creationTime
+            self.dataQualityAppSpecification = dataQualityAppSpecification
+            self.dataQualityBaselineConfig = dataQualityBaselineConfig
+            self.dataQualityJobInput = dataQualityJobInput
+            self.dataQualityJobOutputConfig = dataQualityJobOutputConfig
+            self.jobDefinitionArn = jobDefinitionArn
+            self.jobDefinitionName = jobDefinitionName
+            self.jobResources = jobResources
+            self.networkConfig = networkConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case dataQualityAppSpecification = "DataQualityAppSpecification"
+            case dataQualityBaselineConfig = "DataQualityBaselineConfig"
+            case dataQualityJobInput = "DataQualityJobInput"
+            case dataQualityJobOutputConfig = "DataQualityJobOutputConfig"
+            case jobDefinitionArn = "JobDefinitionArn"
+            case jobDefinitionName = "JobDefinitionName"
+            case jobResources = "JobResources"
+            case networkConfig = "NetworkConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+        }
+    }
+
+    public struct DescribeDeviceFleetRequest: AWSEncodableShape {
+        /// The name of the fleet.
+        public let deviceFleetName: String
+
+        public init(deviceFleetName: String) {
+            self.deviceFleetName = deviceFleetName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceFleetName = "DeviceFleetName"
+        }
+    }
+
+    public struct DescribeDeviceFleetResponse: AWSDecodableShape {
+        /// Timestamp of when the device fleet was created.
+        public let creationTime: Date
+        /// A description of the fleet.
+        public let description: String?
+        /// The The Amazon Resource Name (ARN) of the fleet.
+        public let deviceFleetArn: String
+        /// The name of the fleet.
+        public let deviceFleetName: String
+        /// The Amazon Resource Name (ARN) alias created in AWS Internet of Things (IoT).
+        public let iotRoleAlias: String?
+        /// Timestamp of when the device fleet was last updated.
+        public let lastModifiedTime: Date
+        /// The output configuration for storing sampled data.
+        public let outputConfig: EdgeOutputConfig
+        /// The Amazon Resource Name (ARN) that has access to AWS Internet of Things (IoT).
+        public let roleArn: String?
+
+        public init(creationTime: Date, description: String? = nil, deviceFleetArn: String, deviceFleetName: String, iotRoleAlias: String? = nil, lastModifiedTime: Date, outputConfig: EdgeOutputConfig, roleArn: String? = nil) {
+            self.creationTime = creationTime
+            self.description = description
+            self.deviceFleetArn = deviceFleetArn
+            self.deviceFleetName = deviceFleetName
+            self.iotRoleAlias = iotRoleAlias
+            self.lastModifiedTime = lastModifiedTime
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case deviceFleetArn = "DeviceFleetArn"
+            case deviceFleetName = "DeviceFleetName"
+            case iotRoleAlias = "IotRoleAlias"
+            case lastModifiedTime = "LastModifiedTime"
+            case outputConfig = "OutputConfig"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct DescribeDeviceRequest: AWSEncodableShape {
+        /// The name of the fleet the devices belong to.
+        public let deviceFleetName: String
+        /// The unique ID of the device.
+        public let deviceName: String
+        /// Next token of device description.
+        public let nextToken: String?
+
+        public init(deviceFleetName: String, deviceName: String, nextToken: String? = nil) {
+            self.deviceFleetName = deviceFleetName
+            self.deviceName = deviceName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.deviceName, name: "deviceName", parent: name, max: 63)
+            try self.validate(self.deviceName, name: "deviceName", parent: name, min: 1)
+            try self.validate(self.deviceName, name: "deviceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceFleetName = "DeviceFleetName"
+            case deviceName = "DeviceName"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeDeviceResponse: AWSDecodableShape {
+        /// A description of the device.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the device.
+        public let deviceArn: String?
+        /// The name of the fleet the device belongs to.
+        public let deviceFleetName: String
+        /// The unique identifier of the device.
+        public let deviceName: String
+        /// The AWS Internet of Things (IoT) object thing name associated with the device.
+        public let iotThingName: String?
+        /// The last heartbeat received from the device.
+        public let latestHeartbeat: Date?
+        /// The maximum number of models.
+        public let maxModels: Int?
+        /// Models on the device.
+        public let models: [EdgeModel]?
+        /// The response from the last list when returning a list large enough to need tokening.
+        public let nextToken: String?
+        /// The timestamp of the last registration or de-reregistration.
+        public let registrationTime: Date
+
+        public init(description: String? = nil, deviceArn: String? = nil, deviceFleetName: String, deviceName: String, iotThingName: String? = nil, latestHeartbeat: Date? = nil, maxModels: Int? = nil, models: [EdgeModel]? = nil, nextToken: String? = nil, registrationTime: Date) {
+            self.description = description
+            self.deviceArn = deviceArn
+            self.deviceFleetName = deviceFleetName
+            self.deviceName = deviceName
+            self.iotThingName = iotThingName
+            self.latestHeartbeat = latestHeartbeat
+            self.maxModels = maxModels
+            self.models = models
+            self.nextToken = nextToken
+            self.registrationTime = registrationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case deviceArn = "DeviceArn"
+            case deviceFleetName = "DeviceFleetName"
+            case deviceName = "DeviceName"
+            case iotThingName = "IotThingName"
+            case latestHeartbeat = "LatestHeartbeat"
+            case maxModels = "MaxModels"
+            case models = "Models"
+            case nextToken = "NextToken"
+            case registrationTime = "RegistrationTime"
+        }
+    }
+
     public struct DescribeDomainRequest: AWSEncodableShape {
         /// The domain ID.
         public let domainId: String
@@ -7526,6 +8479,90 @@ extension SageMaker {
             case subnetIds = "SubnetIds"
             case url = "Url"
             case vpcId = "VpcId"
+        }
+    }
+
+    public struct DescribeEdgePackagingJobRequest: AWSEncodableShape {
+        /// The name of the edge packaging job.
+        public let edgePackagingJobName: String
+
+        public init(edgePackagingJobName: String) {
+            self.edgePackagingJobName = edgePackagingJobName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.edgePackagingJobName, name: "edgePackagingJobName", parent: name, max: 63)
+            try self.validate(self.edgePackagingJobName, name: "edgePackagingJobName", parent: name, min: 1)
+            try self.validate(self.edgePackagingJobName, name: "edgePackagingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgePackagingJobName = "EdgePackagingJobName"
+        }
+    }
+
+    public struct DescribeEdgePackagingJobResponse: AWSDecodableShape {
+        /// The name of the SageMaker Neo compilation job that is used to locate model artifacts that are being packaged.
+        public let compilationJobName: String?
+        /// The timestamp of when the packaging job was created.
+        public let creationTime: Date?
+        /// The Amazon Resource Name (ARN) of the edge packaging job.
+        public let edgePackagingJobArn: String
+        /// The name of the edge packaging job.
+        public let edgePackagingJobName: String
+        /// The current status of the packaging job.
+        public let edgePackagingJobStatus: EdgePackagingJobStatus
+        /// Returns a message describing the job status and error messages.
+        public let edgePackagingJobStatusMessage: String?
+        /// The timestamp of when the job was last updated.
+        public let lastModifiedTime: Date?
+        /// The Amazon Simple Storage (S3) URI where model artifacts ares stored.
+        public let modelArtifact: String?
+        /// The name of the model.
+        public let modelName: String?
+        /// The signature document of files in the model artifact.
+        public let modelSignature: String?
+        /// The version of the model.
+        public let modelVersion: String?
+        /// The output configuration for the edge packaging job.
+        public let outputConfig: EdgeOutputConfig?
+        /// The CMK to use when encrypting the EBS volume the job run on.
+        public let resourceKey: String?
+        /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to download and upload the model, and to contact Neo.
+        public let roleArn: String?
+
+        public init(compilationJobName: String? = nil, creationTime: Date? = nil, edgePackagingJobArn: String, edgePackagingJobName: String, edgePackagingJobStatus: EdgePackagingJobStatus, edgePackagingJobStatusMessage: String? = nil, lastModifiedTime: Date? = nil, modelArtifact: String? = nil, modelName: String? = nil, modelSignature: String? = nil, modelVersion: String? = nil, outputConfig: EdgeOutputConfig? = nil, resourceKey: String? = nil, roleArn: String? = nil) {
+            self.compilationJobName = compilationJobName
+            self.creationTime = creationTime
+            self.edgePackagingJobArn = edgePackagingJobArn
+            self.edgePackagingJobName = edgePackagingJobName
+            self.edgePackagingJobStatus = edgePackagingJobStatus
+            self.edgePackagingJobStatusMessage = edgePackagingJobStatusMessage
+            self.lastModifiedTime = lastModifiedTime
+            self.modelArtifact = modelArtifact
+            self.modelName = modelName
+            self.modelSignature = modelSignature
+            self.modelVersion = modelVersion
+            self.outputConfig = outputConfig
+            self.resourceKey = resourceKey
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compilationJobName = "CompilationJobName"
+            case creationTime = "CreationTime"
+            case edgePackagingJobArn = "EdgePackagingJobArn"
+            case edgePackagingJobName = "EdgePackagingJobName"
+            case edgePackagingJobStatus = "EdgePackagingJobStatus"
+            case edgePackagingJobStatusMessage = "EdgePackagingJobStatusMessage"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelArtifact = "ModelArtifact"
+            case modelName = "ModelName"
+            case modelSignature = "ModelSignature"
+            case modelVersion = "ModelVersion"
+            case outputConfig = "OutputConfig"
+            case resourceKey = "ResourceKey"
+            case roleArn = "RoleArn"
         }
     }
 
@@ -8235,6 +9272,144 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeModelBiasJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the model bias job definition. The name must be unique within an AWS Region in the AWS account.
+        public let jobDefinitionName: String
+
+        public init(jobDefinitionName: String) {
+            self.jobDefinitionName = jobDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+        }
+    }
+
+    public struct DescribeModelBiasJobDefinitionResponse: AWSDecodableShape {
+        /// The time at which the model bias job was created.
+        public let creationTime: Date
+        /// The Amazon Resource Name (ARN) of the model bias job.
+        public let jobDefinitionArn: String
+        /// The name of the bias job definition. The name must be unique within an AWS Region in the AWS account.
+        public let jobDefinitionName: String
+        public let jobResources: MonitoringResources
+        /// Configures the model bias job to run a specified Docker container image.
+        public let modelBiasAppSpecification: ModelBiasAppSpecification
+        /// The baseline configuration for a model bias job.
+        public let modelBiasBaselineConfig: ModelBiasBaselineConfig?
+        /// Inputs for the model bias job.
+        public let modelBiasJobInput: ModelBiasJobInput
+        public let modelBiasJobOutputConfig: MonitoringOutputConfig
+        /// Networking options for a model bias job.
+        public let networkConfig: MonitoringNetworkConfig?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
+        public let roleArn: String
+        public let stoppingCondition: MonitoringStoppingCondition?
+
+        public init(creationTime: Date, jobDefinitionArn: String, jobDefinitionName: String, jobResources: MonitoringResources, modelBiasAppSpecification: ModelBiasAppSpecification, modelBiasBaselineConfig: ModelBiasBaselineConfig? = nil, modelBiasJobInput: ModelBiasJobInput, modelBiasJobOutputConfig: MonitoringOutputConfig, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil) {
+            self.creationTime = creationTime
+            self.jobDefinitionArn = jobDefinitionArn
+            self.jobDefinitionName = jobDefinitionName
+            self.jobResources = jobResources
+            self.modelBiasAppSpecification = modelBiasAppSpecification
+            self.modelBiasBaselineConfig = modelBiasBaselineConfig
+            self.modelBiasJobInput = modelBiasJobInput
+            self.modelBiasJobOutputConfig = modelBiasJobOutputConfig
+            self.networkConfig = networkConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case jobDefinitionArn = "JobDefinitionArn"
+            case jobDefinitionName = "JobDefinitionName"
+            case jobResources = "JobResources"
+            case modelBiasAppSpecification = "ModelBiasAppSpecification"
+            case modelBiasBaselineConfig = "ModelBiasBaselineConfig"
+            case modelBiasJobInput = "ModelBiasJobInput"
+            case modelBiasJobOutputConfig = "ModelBiasJobOutputConfig"
+            case networkConfig = "NetworkConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+        }
+    }
+
+    public struct DescribeModelExplainabilityJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the model explainability job definition. The name must be unique within an AWS Region in the AWS account.
+        public let jobDefinitionName: String
+
+        public init(jobDefinitionName: String) {
+            self.jobDefinitionName = jobDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+        }
+    }
+
+    public struct DescribeModelExplainabilityJobDefinitionResponse: AWSDecodableShape {
+        /// The time at which the model explainability job was created.
+        public let creationTime: Date
+        /// The Amazon Resource Name (ARN) of the model explainability job.
+        public let jobDefinitionArn: String
+        /// The name of the explainability job definition. The name must be unique within an AWS Region in the AWS account.
+        public let jobDefinitionName: String
+        public let jobResources: MonitoringResources
+        /// Configures the model explainability job to run a specified Docker container image.
+        public let modelExplainabilityAppSpecification: ModelExplainabilityAppSpecification
+        /// The baseline configuration for a model explainability job.
+        public let modelExplainabilityBaselineConfig: ModelExplainabilityBaselineConfig?
+        /// Inputs for the model explainability job.
+        public let modelExplainabilityJobInput: ModelExplainabilityJobInput
+        public let modelExplainabilityJobOutputConfig: MonitoringOutputConfig
+        /// Networking options for a model explainability job.
+        public let networkConfig: MonitoringNetworkConfig?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
+        public let roleArn: String
+        public let stoppingCondition: MonitoringStoppingCondition?
+
+        public init(creationTime: Date, jobDefinitionArn: String, jobDefinitionName: String, jobResources: MonitoringResources, modelExplainabilityAppSpecification: ModelExplainabilityAppSpecification, modelExplainabilityBaselineConfig: ModelExplainabilityBaselineConfig? = nil, modelExplainabilityJobInput: ModelExplainabilityJobInput, modelExplainabilityJobOutputConfig: MonitoringOutputConfig, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil) {
+            self.creationTime = creationTime
+            self.jobDefinitionArn = jobDefinitionArn
+            self.jobDefinitionName = jobDefinitionName
+            self.jobResources = jobResources
+            self.modelExplainabilityAppSpecification = modelExplainabilityAppSpecification
+            self.modelExplainabilityBaselineConfig = modelExplainabilityBaselineConfig
+            self.modelExplainabilityJobInput = modelExplainabilityJobInput
+            self.modelExplainabilityJobOutputConfig = modelExplainabilityJobOutputConfig
+            self.networkConfig = networkConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case jobDefinitionArn = "JobDefinitionArn"
+            case jobDefinitionName = "JobDefinitionName"
+            case jobResources = "JobResources"
+            case modelExplainabilityAppSpecification = "ModelExplainabilityAppSpecification"
+            case modelExplainabilityBaselineConfig = "ModelExplainabilityBaselineConfig"
+            case modelExplainabilityJobInput = "ModelExplainabilityJobInput"
+            case modelExplainabilityJobOutputConfig = "ModelExplainabilityJobOutputConfig"
+            case networkConfig = "NetworkConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+        }
+    }
+
     public struct DescribeModelInput: AWSEncodableShape {
         /// The name of the model.
         public let modelName: String
@@ -8446,6 +9621,75 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeModelQualityJobDefinitionRequest: AWSEncodableShape {
+        /// The name of the model quality job. The name must be unique within an AWS Region in the AWS account.
+        public let jobDefinitionName: String
+
+        public init(jobDefinitionName: String) {
+            self.jobDefinitionName = jobDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, max: 63)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, min: 1)
+            try self.validate(self.jobDefinitionName, name: "jobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "JobDefinitionName"
+        }
+    }
+
+    public struct DescribeModelQualityJobDefinitionResponse: AWSDecodableShape {
+        /// The time at which the model quality job was created.
+        public let creationTime: Date
+        /// The Amazon Resource Name (ARN) of the model quality job.
+        public let jobDefinitionArn: String
+        /// The name of the quality job definition. The name must be unique within an AWS Region in the AWS account.
+        public let jobDefinitionName: String
+        public let jobResources: MonitoringResources
+        /// Configures the model quality job to run a specified Docker container image.
+        public let modelQualityAppSpecification: ModelQualityAppSpecification
+        /// The baseline configuration for a model quality job.
+        public let modelQualityBaselineConfig: ModelQualityBaselineConfig?
+        /// Inputs for the model quality job.
+        public let modelQualityJobInput: ModelQualityJobInput
+        public let modelQualityJobOutputConfig: MonitoringOutputConfig
+        /// Networking options for a model quality job.
+        public let networkConfig: MonitoringNetworkConfig?
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        public let roleArn: String
+        public let stoppingCondition: MonitoringStoppingCondition?
+
+        public init(creationTime: Date, jobDefinitionArn: String, jobDefinitionName: String, jobResources: MonitoringResources, modelQualityAppSpecification: ModelQualityAppSpecification, modelQualityBaselineConfig: ModelQualityBaselineConfig? = nil, modelQualityJobInput: ModelQualityJobInput, modelQualityJobOutputConfig: MonitoringOutputConfig, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil) {
+            self.creationTime = creationTime
+            self.jobDefinitionArn = jobDefinitionArn
+            self.jobDefinitionName = jobDefinitionName
+            self.jobResources = jobResources
+            self.modelQualityAppSpecification = modelQualityAppSpecification
+            self.modelQualityBaselineConfig = modelQualityBaselineConfig
+            self.modelQualityJobInput = modelQualityJobInput
+            self.modelQualityJobOutputConfig = modelQualityJobOutputConfig
+            self.networkConfig = networkConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case jobDefinitionArn = "JobDefinitionArn"
+            case jobDefinitionName = "JobDefinitionName"
+            case jobResources = "JobResources"
+            case modelQualityAppSpecification = "ModelQualityAppSpecification"
+            case modelQualityBaselineConfig = "ModelQualityBaselineConfig"
+            case modelQualityJobInput = "ModelQualityJobInput"
+            case modelQualityJobOutputConfig = "ModelQualityJobOutputConfig"
+            case networkConfig = "NetworkConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+        }
+    }
+
     public struct DescribeMonitoringScheduleRequest: AWSEncodableShape {
         /// Name of a previously created monitoring schedule.
         public let monitoringScheduleName: String
@@ -8484,8 +9728,10 @@ extension SageMaker {
         public let monitoringScheduleName: String
         /// The status of an monitoring job.
         public let monitoringScheduleStatus: ScheduleStatus
+        /// The type of the monitoring job that this schedule runs. This is one of the following values.    DATA_QUALITY - The schedule is for a data quality monitoring job.    MODEL_QUALITY - The schedule is for a model quality monitoring job.    MODEL_BIAS - The schedule is for a bias monitoring job.    MODEL_EXPLAINABILITY - The schedule is for an explainability monitoring job.
+        public let monitoringType: MonitoringType?
 
-        public init(creationTime: Date, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String, monitoringScheduleConfig: MonitoringScheduleConfig, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus) {
+        public init(creationTime: Date, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String, monitoringScheduleConfig: MonitoringScheduleConfig, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus, monitoringType: MonitoringType? = nil) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.failureReason = failureReason
@@ -8495,6 +9741,7 @@ extension SageMaker {
             self.monitoringScheduleConfig = monitoringScheduleConfig
             self.monitoringScheduleName = monitoringScheduleName
             self.monitoringScheduleStatus = monitoringScheduleStatus
+            self.monitoringType = monitoringType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8507,6 +9754,7 @@ extension SageMaker {
             case monitoringScheduleConfig = "MonitoringScheduleConfig"
             case monitoringScheduleName = "MonitoringScheduleName"
             case monitoringScheduleStatus = "MonitoringScheduleStatus"
+            case monitoringType = "MonitoringType"
         }
     }
 
@@ -9074,9 +10322,9 @@ extension SageMaker {
         /// A timestamp that indicates when the training job was created.
         public let creationTime: Date
         public let debugHookConfig: DebugHookConfig?
-        /// Configuration information for debugging rules.
+        /// Configuration information for Debugger rules for debugging output tensors.
         public let debugRuleConfigurations: [DebugRuleConfiguration]?
-        /// Status about the debug rule evaluation.
+        /// Evaluation status of Debugger rules for debugging on a training job.
         public let debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithms in distributed training.
         public let enableInterContainerTrafficEncryption: Bool?
@@ -9101,6 +10349,13 @@ extension SageMaker {
         public let modelArtifacts: ModelArtifacts
         /// The S3 path where model artifacts that you configured when creating the job are stored. Amazon SageMaker creates subfolders for model artifacts.
         public let outputDataConfig: OutputDataConfig?
+        public let profilerConfig: ProfilerConfig?
+        /// Configuration information for Debugger rules for profiling system and framework metrics.
+        public let profilerRuleConfigurations: [ProfilerRuleConfiguration]?
+        /// Evaluation status of Debugger rules for profiling on a training job.
+        public let profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]?
+        /// Profiling status of a training job.
+        public let profilingStatus: ProfilingStatus?
         /// Resources, including ML compute instances and ML storage volumes, that are configured for model training.
         public let resourceConfig: ResourceConfig
         /// The AWS Identity and Access Management (IAM) role configured for the training job.
@@ -9129,7 +10384,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]? = nil, profilingStatus: ProfilingStatus? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -9150,6 +10405,10 @@ extension SageMaker {
             self.lastModifiedTime = lastModifiedTime
             self.modelArtifacts = modelArtifacts
             self.outputDataConfig = outputDataConfig
+            self.profilerConfig = profilerConfig
+            self.profilerRuleConfigurations = profilerRuleConfigurations
+            self.profilerRuleEvaluationStatuses = profilerRuleEvaluationStatuses
+            self.profilingStatus = profilingStatus
             self.resourceConfig = resourceConfig
             self.roleArn = roleArn
             self.secondaryStatus = secondaryStatus
@@ -9187,6 +10446,10 @@ extension SageMaker {
             case lastModifiedTime = "LastModifiedTime"
             case modelArtifacts = "ModelArtifacts"
             case outputDataConfig = "OutputDataConfig"
+            case profilerConfig = "ProfilerConfig"
+            case profilerRuleConfigurations = "ProfilerRuleConfigurations"
+            case profilerRuleEvaluationStatuses = "ProfilerRuleEvaluationStatuses"
+            case profilingStatus = "ProfilingStatus"
             case resourceConfig = "ResourceConfig"
             case roleArn = "RoleArn"
             case secondaryStatus = "SecondaryStatus"
@@ -9636,6 +10899,121 @@ extension SageMaker {
         }
     }
 
+    public struct Device: AWSEncodableShape {
+        /// Description of the device.
+        public let description: String?
+        /// The name of the device.
+        public let deviceName: String
+        /// AWS Internet of Things (IoT) object name.
+        public let iotThingName: String?
+
+        public init(description: String? = nil, deviceName: String, iotThingName: String? = nil) {
+            self.description = description
+            self.deviceName = deviceName
+            self.iotThingName = iotThingName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 40)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\S\\s]+")
+            try self.validate(self.deviceName, name: "deviceName", parent: name, max: 63)
+            try self.validate(self.deviceName, name: "deviceName", parent: name, min: 1)
+            try self.validate(self.deviceName, name: "deviceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.iotThingName, name: "iotThingName", parent: name, max: 128)
+            try self.validate(self.iotThingName, name: "iotThingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case deviceName = "DeviceName"
+            case iotThingName = "IotThingName"
+        }
+    }
+
+    public struct DeviceFleetSummary: AWSDecodableShape {
+        /// Timestamp of when the device fleet was created.
+        public let creationTime: Date?
+        /// Amazon Resource Name (ARN) of the device fleet.
+        public let deviceFleetArn: String
+        /// Name of the device fleet.
+        public let deviceFleetName: String
+        /// Timestamp of when the device fleet was last updated.
+        public let lastModifiedTime: Date?
+
+        public init(creationTime: Date? = nil, deviceFleetArn: String, deviceFleetName: String, lastModifiedTime: Date? = nil) {
+            self.creationTime = creationTime
+            self.deviceFleetArn = deviceFleetArn
+            self.deviceFleetName = deviceFleetName
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case deviceFleetArn = "DeviceFleetArn"
+            case deviceFleetName = "DeviceFleetName"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct DeviceStats: AWSDecodableShape {
+        /// The number of devices connected with a heartbeat.
+        public let connectedDeviceCount: Int64
+        /// The number of registered devices.
+        public let registeredDeviceCount: Int64
+
+        public init(connectedDeviceCount: Int64, registeredDeviceCount: Int64) {
+            self.connectedDeviceCount = connectedDeviceCount
+            self.registeredDeviceCount = registeredDeviceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectedDeviceCount = "ConnectedDeviceCount"
+            case registeredDeviceCount = "RegisteredDeviceCount"
+        }
+    }
+
+    public struct DeviceSummary: AWSDecodableShape {
+        /// A description of the device.
+        public let description: String?
+        /// Amazon Resource Name (ARN) of the device.
+        public let deviceArn: String
+        /// The name of the fleet the device belongs to.
+        public let deviceFleetName: String?
+        /// The unique identifier of the device.
+        public let deviceName: String
+        /// The AWS Internet of Things (IoT) object thing name associated with the device..
+        public let iotThingName: String?
+        /// The last heartbeat received from the device.
+        public let latestHeartbeat: Date?
+        /// Models on the device.
+        public let models: [EdgeModelSummary]?
+        /// The timestamp of the last registration or de-reregistration.
+        public let registrationTime: Date?
+
+        public init(description: String? = nil, deviceArn: String, deviceFleetName: String? = nil, deviceName: String, iotThingName: String? = nil, latestHeartbeat: Date? = nil, models: [EdgeModelSummary]? = nil, registrationTime: Date? = nil) {
+            self.description = description
+            self.deviceArn = deviceArn
+            self.deviceFleetName = deviceFleetName
+            self.deviceName = deviceName
+            self.iotThingName = iotThingName
+            self.latestHeartbeat = latestHeartbeat
+            self.models = models
+            self.registrationTime = registrationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case deviceArn = "DeviceArn"
+            case deviceFleetName = "DeviceFleetName"
+            case deviceName = "DeviceName"
+            case iotThingName = "IotThingName"
+            case latestHeartbeat = "LatestHeartbeat"
+            case models = "Models"
+            case registrationTime = "RegistrationTime"
+        }
+    }
+
     public struct DisableSagemakerServicecatalogPortfolioInput: AWSEncodableShape {
         public init() {}
     }
@@ -9724,6 +11102,146 @@ extension SageMaker {
         }
     }
 
+    public struct EdgeModel: AWSDecodableShape {
+        /// The timestamp of the last inference that was made.
+        public let latestInference: Date?
+        /// The timestamp of the last data sample taken.
+        public let latestSampleTime: Date?
+        /// The name of the model.
+        public let modelName: String
+        /// The model version.
+        public let modelVersion: String
+
+        public init(latestInference: Date? = nil, latestSampleTime: Date? = nil, modelName: String, modelVersion: String) {
+            self.latestInference = latestInference
+            self.latestSampleTime = latestSampleTime
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestInference = "LatestInference"
+            case latestSampleTime = "LatestSampleTime"
+            case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+        }
+    }
+
+    public struct EdgeModelStat: AWSDecodableShape {
+        /// The number of devices that have this model version, a heart beat, and are currently running.
+        public let activeDeviceCount: Int64
+        /// The number of devices that have this model version and have a heart beat.
+        public let connectedDeviceCount: Int64
+        /// The name of the model.
+        public let modelName: String
+        /// The model version.
+        public let modelVersion: String
+        /// The number of devices that have this model version and do not have a heart beat.
+        public let offlineDeviceCount: Int64
+        /// The number of devices with this model version and are producing sample data.
+        public let samplingDeviceCount: Int64
+
+        public init(activeDeviceCount: Int64, connectedDeviceCount: Int64, modelName: String, modelVersion: String, offlineDeviceCount: Int64, samplingDeviceCount: Int64) {
+            self.activeDeviceCount = activeDeviceCount
+            self.connectedDeviceCount = connectedDeviceCount
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+            self.offlineDeviceCount = offlineDeviceCount
+            self.samplingDeviceCount = samplingDeviceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeDeviceCount = "ActiveDeviceCount"
+            case connectedDeviceCount = "ConnectedDeviceCount"
+            case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+            case offlineDeviceCount = "OfflineDeviceCount"
+            case samplingDeviceCount = "SamplingDeviceCount"
+        }
+    }
+
+    public struct EdgeModelSummary: AWSDecodableShape {
+        /// The name of the model.
+        public let modelName: String
+        /// The version model.
+        public let modelVersion: String
+
+        public init(modelName: String, modelVersion: String) {
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+        }
+    }
+
+    public struct EdgeOutputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account.
+        public let kmsKeyId: String?
+        /// The Amazon Simple Storage (S3) bucker URI.
+        public let s3OutputLocation: String
+
+        public init(kmsKeyId: String? = nil, s3OutputLocation: String) {
+            self.kmsKeyId = kmsKeyId
+            self.s3OutputLocation = s3OutputLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.s3OutputLocation, name: "s3OutputLocation", parent: name, max: 1024)
+            try self.validate(self.s3OutputLocation, name: "s3OutputLocation", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case s3OutputLocation = "S3OutputLocation"
+        }
+    }
+
+    public struct EdgePackagingJobSummary: AWSDecodableShape {
+        /// The name of the SageMaker Neo compilation job.
+        public let compilationJobName: String?
+        /// The timestamp of when the job was created.
+        public let creationTime: Date?
+        /// The Amazon Resource Name (ARN) of the edge packaging job.
+        public let edgePackagingJobArn: String
+        /// The name of the edge packaging job.
+        public let edgePackagingJobName: String
+        /// The status of the edge packaging job.
+        public let edgePackagingJobStatus: EdgePackagingJobStatus
+        /// The timestamp of when the edge packaging job was last updated.
+        public let lastModifiedTime: Date?
+        /// The name of the model.
+        public let modelName: String?
+        /// The version of the model.
+        public let modelVersion: String?
+
+        public init(compilationJobName: String? = nil, creationTime: Date? = nil, edgePackagingJobArn: String, edgePackagingJobName: String, edgePackagingJobStatus: EdgePackagingJobStatus, lastModifiedTime: Date? = nil, modelName: String? = nil, modelVersion: String? = nil) {
+            self.compilationJobName = compilationJobName
+            self.creationTime = creationTime
+            self.edgePackagingJobArn = edgePackagingJobArn
+            self.edgePackagingJobName = edgePackagingJobName
+            self.edgePackagingJobStatus = edgePackagingJobStatus
+            self.lastModifiedTime = lastModifiedTime
+            self.modelName = modelName
+            self.modelVersion = modelVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compilationJobName = "CompilationJobName"
+            case creationTime = "CreationTime"
+            case edgePackagingJobArn = "EdgePackagingJobArn"
+            case edgePackagingJobName = "EdgePackagingJobName"
+            case edgePackagingJobStatus = "EdgePackagingJobStatus"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelName = "ModelName"
+            case modelVersion = "ModelVersion"
+        }
+    }
+
     public struct EnableSagemakerServicecatalogPortfolioInput: AWSEncodableShape {
         public init() {}
     }
@@ -9808,32 +11326,62 @@ extension SageMaker {
     public struct EndpointInput: AWSEncodableShape & AWSDecodableShape {
         /// An endpoint in customer's account which has enabled DataCaptureConfig enabled.
         public let endpointName: String
+        /// If specified, monitoring jobs substract this time from the end time. For information about using offsets for scheduling monitoring jobs, see Schedule Model Quality Monitoring Jobs.
+        public let endTimeOffset: String?
+        /// The attributes of the input data that are the input features.
+        public let featuresAttribute: String?
+        /// The attribute of the input data that represents the ground truth label.
+        public let inferenceAttribute: String?
         /// Path to the filesystem where the endpoint data is available to the container.
         public let localPath: String
+        /// In a classification problem, the attribute that represents the class probability.
+        public let probabilityAttribute: String?
+        /// The threshold for the class probability to be evaluated as a positive result.
+        public let probabilityThresholdAttribute: Double?
         /// Whether input data distributed in Amazon S3 is fully replicated or sharded by an S3 key. Defauts to FullyReplicated
         public let s3DataDistributionType: ProcessingS3DataDistributionType?
         /// Whether the Pipe or File is used as the input mode for transfering data for the monitoring job. Pipe mode is recommended for large datasets. File mode is useful for small files that fit in memory. Defaults to File.
         public let s3InputMode: ProcessingS3InputMode?
+        /// If specified, monitoring jobs substract this time from the start time. For information about using offsets for scheduling monitoring jobs, see Schedule Model Quality Monitoring Jobs.
+        public let startTimeOffset: String?
 
-        public init(endpointName: String, localPath: String, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3InputMode: ProcessingS3InputMode? = nil) {
+        public init(endpointName: String, endTimeOffset: String? = nil, featuresAttribute: String? = nil, inferenceAttribute: String? = nil, localPath: String, probabilityAttribute: String? = nil, probabilityThresholdAttribute: Double? = nil, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3InputMode: ProcessingS3InputMode? = nil, startTimeOffset: String? = nil) {
             self.endpointName = endpointName
+            self.endTimeOffset = endTimeOffset
+            self.featuresAttribute = featuresAttribute
+            self.inferenceAttribute = inferenceAttribute
             self.localPath = localPath
+            self.probabilityAttribute = probabilityAttribute
+            self.probabilityThresholdAttribute = probabilityThresholdAttribute
             self.s3DataDistributionType = s3DataDistributionType
             self.s3InputMode = s3InputMode
+            self.startTimeOffset = startTimeOffset
         }
 
         public func validate(name: String) throws {
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
             try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.validate(self.endTimeOffset, name: "endTimeOffset", parent: name, max: 15)
+            try self.validate(self.endTimeOffset, name: "endTimeOffset", parent: name, min: 1)
+            try self.validate(self.endTimeOffset, name: "endTimeOffset", parent: name, pattern: "^.?P.*")
             try self.validate(self.localPath, name: "localPath", parent: name, max: 256)
             try self.validate(self.localPath, name: "localPath", parent: name, pattern: ".*")
+            try self.validate(self.startTimeOffset, name: "startTimeOffset", parent: name, max: 15)
+            try self.validate(self.startTimeOffset, name: "startTimeOffset", parent: name, min: 1)
+            try self.validate(self.startTimeOffset, name: "startTimeOffset", parent: name, pattern: "^.?P.*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case endpointName = "EndpointName"
+            case endTimeOffset = "EndTimeOffset"
+            case featuresAttribute = "FeaturesAttribute"
+            case inferenceAttribute = "InferenceAttribute"
             case localPath = "LocalPath"
+            case probabilityAttribute = "ProbabilityAttribute"
+            case probabilityThresholdAttribute = "ProbabilityThresholdAttribute"
             case s3DataDistributionType = "S3DataDistributionType"
             case s3InputMode = "S3InputMode"
+            case startTimeOffset = "StartTimeOffset"
         }
     }
 
@@ -10309,6 +11857,66 @@ extension SageMaker {
             case flowDefinitionArn = "FlowDefinitionArn"
             case flowDefinitionName = "FlowDefinitionName"
             case flowDefinitionStatus = "FlowDefinitionStatus"
+        }
+    }
+
+    public struct GetDeviceFleetReportRequest: AWSEncodableShape {
+        /// The name of the fleet.
+        public let deviceFleetName: String
+
+        public init(deviceFleetName: String) {
+            self.deviceFleetName = deviceFleetName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceFleetName = "DeviceFleetName"
+        }
+    }
+
+    public struct GetDeviceFleetReportResponse: AWSDecodableShape {
+        /// The versions of Edge Manager agent deployed on the fleet.
+        public let agentVersions: [AgentVersion]?
+        /// Description of the fleet.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the device.
+        public let deviceFleetArn: String
+        /// The name of the fleet.
+        public let deviceFleetName: String
+        /// Status of devices.
+        public let deviceStats: DeviceStats?
+        /// Status of model on device.
+        public let modelStats: [EdgeModelStat]?
+        /// The output configuration for storing sample data collected by the fleet.
+        public let outputConfig: EdgeOutputConfig?
+        /// Timestamp of when the report was generated.
+        public let reportGenerated: Date?
+
+        public init(agentVersions: [AgentVersion]? = nil, description: String? = nil, deviceFleetArn: String, deviceFleetName: String, deviceStats: DeviceStats? = nil, modelStats: [EdgeModelStat]? = nil, outputConfig: EdgeOutputConfig? = nil, reportGenerated: Date? = nil) {
+            self.agentVersions = agentVersions
+            self.description = description
+            self.deviceFleetArn = deviceFleetArn
+            self.deviceFleetName = deviceFleetName
+            self.deviceStats = deviceStats
+            self.modelStats = modelStats
+            self.outputConfig = outputConfig
+            self.reportGenerated = reportGenerated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentVersions = "AgentVersions"
+            case description = "Description"
+            case deviceFleetArn = "DeviceFleetArn"
+            case deviceFleetName = "DeviceFleetName"
+            case deviceStats = "DeviceStats"
+            case modelStats = "ModelStats"
+            case outputConfig = "OutputConfig"
+            case reportGenerated = "ReportGenerated"
         }
     }
 
@@ -12480,6 +14088,203 @@ extension SageMaker {
         }
     }
 
+    public struct ListDataQualityJobDefinitionsRequest: AWSEncodableShape {
+        /// A filter that returns only data quality monitoring job definitions created after the specified time.
+        public let creationTimeAfter: Date?
+        /// A filter that returns only data quality monitoring job definitions created before the specified time.
+        public let creationTimeBefore: Date?
+        /// A filter that lists the data quality job definitions associated with the specified endpoint.
+        public let endpointName: String?
+        /// The maximum number of data quality monitoring job definitions to return in the response.
+        public let maxResults: Int?
+        /// A string in the data quality monitoring job definition name. This filter returns only data quality monitoring job definitions whose name contains the specified string.
+        public let nameContains: String?
+        /// If the result of the previous ListDataQualityJobDefinitions request was truncated, the response includes a NextToken. To retrieve the next set of transform jobs, use the token in the next request.&gt;
+        public let nextToken: String?
+        /// The field to sort results by. The default is CreationTime.
+        public let sortBy: MonitoringJobDefinitionSortKey?
+        /// The sort order for results. The default is Descending.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringJobDefinitionSortKey? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.endpointName = endpointName
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case endpointName = "EndpointName"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListDataQualityJobDefinitionsResponse: AWSDecodableShape {
+        /// A list of data quality monitoring job definitions.
+        public let jobDefinitionSummaries: [MonitoringJobDefinitionSummary]
+        /// If the result of the previous ListDataQualityJobDefinitions request was truncated, the response includes a NextToken. To retrieve the next set of data quality monitoring job definitions, use the token in the next request.
+        public let nextToken: String?
+
+        public init(jobDefinitionSummaries: [MonitoringJobDefinitionSummary], nextToken: String? = nil) {
+            self.jobDefinitionSummaries = jobDefinitionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionSummaries = "JobDefinitionSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDeviceFleetsRequest: AWSEncodableShape {
+        /// Filter fleets where packaging job was created after specified time.
+        public let creationTimeAfter: Date?
+        /// Filter fleets where the edge packaging job was created before specified time.
+        public let creationTimeBefore: Date?
+        /// Select fleets where the job was updated after X
+        public let lastModifiedTimeAfter: Date?
+        /// Select fleets where the job was updated before X
+        public let lastModifiedTimeBefore: Date?
+        /// The maximum number of results to select.
+        public let maxResults: Int?
+        /// Filter for fleets containing this name in their fleet device name.
+        public let nameContains: String?
+        /// The response from the last list when returning a list large enough to need tokening.
+        public let nextToken: String?
+        /// The column to sort by.
+        public let sortBy: ListDeviceFleetsSortBy?
+        /// What direction to sort in.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListDeviceFleetsSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListDeviceFleetsResponse: AWSDecodableShape {
+        /// Summary of the device fleet.
+        public let deviceFleetSummaries: [DeviceFleetSummary]
+        /// The response from the last list when returning a list large enough to need tokening.
+        public let nextToken: String?
+
+        public init(deviceFleetSummaries: [DeviceFleetSummary], nextToken: String? = nil) {
+            self.deviceFleetSummaries = deviceFleetSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceFleetSummaries = "DeviceFleetSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDevicesRequest: AWSEncodableShape {
+        /// Filter for fleets containing this name in their device fleet name.
+        public let deviceFleetName: String?
+        /// Select fleets where the job was updated after X
+        public let latestHeartbeatAfter: Date?
+        /// Maximum number of results to select.
+        public let maxResults: Int?
+        /// A filter that searches devices that contains this name in any of their models.
+        public let modelName: String?
+        /// The response from the last list when returning a list large enough to need tokening.
+        public let nextToken: String?
+
+        public init(deviceFleetName: String? = nil, latestHeartbeatAfter: Date? = nil, maxResults: Int? = nil, modelName: String? = nil, nextToken: String? = nil) {
+            self.deviceFleetName = deviceFleetName
+            self.latestHeartbeatAfter = latestHeartbeatAfter
+            self.maxResults = maxResults
+            self.modelName = modelName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceFleetName = "DeviceFleetName"
+            case latestHeartbeatAfter = "LatestHeartbeatAfter"
+            case maxResults = "MaxResults"
+            case modelName = "ModelName"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDevicesResponse: AWSDecodableShape {
+        /// Summary of devices.
+        public let deviceSummaries: [DeviceSummary]
+        /// The response from the last list when returning a list large enough to need tokening.
+        public let nextToken: String?
+
+        public init(deviceSummaries: [DeviceSummary], nextToken: String? = nil) {
+            self.deviceSummaries = deviceSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceSummaries = "DeviceSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListDomainsRequest: AWSEncodableShape {
         /// Returns a list up to a specified limit.
         public let maxResults: Int?
@@ -12517,6 +14322,86 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case domains = "Domains"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEdgePackagingJobsRequest: AWSEncodableShape {
+        /// Select jobs where the job was created after specified time.
+        public let creationTimeAfter: Date?
+        /// Select jobs where the job was created before specified time.
+        public let creationTimeBefore: Date?
+        /// Select jobs where the job was updated after specified time.
+        public let lastModifiedTimeAfter: Date?
+        /// Select jobs where the job was updated before specified time.
+        public let lastModifiedTimeBefore: Date?
+        /// Maximum number of results to select.
+        public let maxResults: Int?
+        /// Filter for jobs where the model name contains this string.
+        public let modelNameContains: String?
+        /// Filter for jobs containing this name in their packaging job name.
+        public let nameContains: String?
+        /// The response from the last list when returning a list large enough to need tokening.
+        public let nextToken: String?
+        /// Use to specify what column to sort by.
+        public let sortBy: ListEdgePackagingJobsSortBy?
+        /// What direction to sort by.
+        public let sortOrder: SortOrder?
+        /// The job status to filter for.
+        public let statusEquals: EdgePackagingJobStatus?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, modelNameContains: String? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListEdgePackagingJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: EdgePackagingJobStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.modelNameContains = modelNameContains
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.modelNameContains, name: "modelNameContains", parent: name, max: 63)
+            try self.validate(self.modelNameContains, name: "modelNameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case modelNameContains = "ModelNameContains"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListEdgePackagingJobsResponse: AWSDecodableShape {
+        /// Summaries of edge packaging jobs.
+        public let edgePackagingJobSummaries: [EdgePackagingJobSummary]
+        /// Token to use when calling the next page of results.
+        public let nextToken: String?
+
+        public init(edgePackagingJobSummaries: [EdgePackagingJobSummary], nextToken: String? = nil) {
+            self.edgePackagingJobSummaries = edgePackagingJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgePackagingJobSummaries = "EdgePackagingJobSummaries"
             case nextToken = "NextToken"
         }
     }
@@ -13256,6 +15141,144 @@ extension SageMaker {
         }
     }
 
+    public struct ListModelBiasJobDefinitionsRequest: AWSEncodableShape {
+        /// A filter that returns only model bias jobs created after a specified time.
+        public let creationTimeAfter: Date?
+        /// A filter that returns only model bias jobs created before a specified time.
+        public let creationTimeBefore: Date?
+        /// Name of the endpoint to monitor for model bias.
+        public let endpointName: String?
+        /// The maximum number of model bias jobs to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// Filter for model bias jobs whose name contains a specified string.
+        public let nameContains: String?
+        /// The token returned if the response is truncated. To retrieve the next set of job executions, use it in the next request.
+        public let nextToken: String?
+        /// Whether to sort results by the Name or CreationTime field. The default is CreationTime.
+        public let sortBy: MonitoringJobDefinitionSortKey?
+        /// Whether to sort the results in Ascending or Descending order. The default is Descending.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringJobDefinitionSortKey? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.endpointName = endpointName
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case endpointName = "EndpointName"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListModelBiasJobDefinitionsResponse: AWSDecodableShape {
+        /// A JSON array in which each element is a summary for a model bias jobs.
+        public let jobDefinitionSummaries: [MonitoringJobDefinitionSummary]
+        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of jobs, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(jobDefinitionSummaries: [MonitoringJobDefinitionSummary], nextToken: String? = nil) {
+            self.jobDefinitionSummaries = jobDefinitionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionSummaries = "JobDefinitionSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListModelExplainabilityJobDefinitionsRequest: AWSEncodableShape {
+        /// A filter that returns only model explainability jobs created after a specified time.
+        public let creationTimeAfter: Date?
+        /// A filter that returns only model explainability jobs created before a specified time.
+        public let creationTimeBefore: Date?
+        /// Name of the endpoint to monitor for model explainability.
+        public let endpointName: String?
+        /// The maximum number of jobs to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// Filter for model explainability jobs whose name contains a specified string.
+        public let nameContains: String?
+        /// The token returned if the response is truncated. To retrieve the next set of job executions, use it in the next request.
+        public let nextToken: String?
+        /// Whether to sort results by the Name or CreationTime field. The default is CreationTime.
+        public let sortBy: MonitoringJobDefinitionSortKey?
+        /// Whether to sort the results in Ascending or Descending order. The default is Descending.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringJobDefinitionSortKey? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.endpointName = endpointName
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case endpointName = "EndpointName"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListModelExplainabilityJobDefinitionsResponse: AWSDecodableShape {
+        /// A JSON array in which each element is a summary for a explainability bias jobs.
+        public let jobDefinitionSummaries: [MonitoringJobDefinitionSummary]
+        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of jobs, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(jobDefinitionSummaries: [MonitoringJobDefinitionSummary], nextToken: String? = nil) {
+            self.jobDefinitionSummaries = jobDefinitionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionSummaries = "JobDefinitionSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListModelPackageGroupsInput: AWSEncodableShape {
         /// A filter that returns only model groups created after the specified time.
         public let creationTimeAfter: Date?
@@ -13397,6 +15420,75 @@ extension SageMaker {
         }
     }
 
+    public struct ListModelQualityJobDefinitionsRequest: AWSEncodableShape {
+        /// A filter that returns only model quality monitoring job definitions created after the specified time.
+        public let creationTimeAfter: Date?
+        /// A filter that returns only model quality monitoring job definitions created before the specified time.
+        public let creationTimeBefore: Date?
+        /// A filter that returns only model quality monitoring job definitions that are associated with the specified endpoint.
+        public let endpointName: String?
+        /// The maximum number of results to return in a call to ListModelQualityJobDefinitions.
+        public let maxResults: Int?
+        /// A string in the transform job name. This filter returns only model quality monitoring job definitions whose name contains the specified string.
+        public let nameContains: String?
+        /// If the result of the previous ListModelQualityJobDefinitions request was truncated, the response includes a NextToken. To retrieve the next set of model quality monitoring job definitions, use the token in the next request.
+        public let nextToken: String?
+        /// The field to sort results by. The default is CreationTime.
+        public let sortBy: MonitoringJobDefinitionSortKey?
+        /// The sort order for results. The default is Descending.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringJobDefinitionSortKey? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.endpointName = endpointName
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case endpointName = "EndpointName"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListModelQualityJobDefinitionsResponse: AWSDecodableShape {
+        /// A list of summaries of model quality monitoring job definitions.
+        public let jobDefinitionSummaries: [MonitoringJobDefinitionSummary]
+        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of model quality monitoring job definitions, use it in the next request.
+        public let nextToken: String?
+
+        public init(jobDefinitionSummaries: [MonitoringJobDefinitionSummary], nextToken: String? = nil) {
+            self.jobDefinitionSummaries = jobDefinitionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionSummaries = "JobDefinitionSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListModelsInput: AWSEncodableShape {
         /// A filter that returns only models with a creation time greater than or equal to the specified time (timestamp).
         public let creationTimeAfter: Date?
@@ -13473,8 +15565,12 @@ extension SageMaker {
         public let lastModifiedTimeBefore: Date?
         /// The maximum number of jobs to return in the response. The default value is 10.
         public let maxResults: Int?
+        /// Gets a list of the monitoring job runs of the specified monitoring job definitions.
+        public let monitoringJobDefinitionName: String?
         /// Name of a specific schedule to fetch jobs for.
         public let monitoringScheduleName: String?
+        /// A filter that returns only the monitoring job runs of the specified monitoring type.
+        public let monitoringTypeEquals: MonitoringType?
         /// The token returned if the response is truncated. To retrieve the next set of job executions, use it in the next request.
         public let nextToken: String?
         /// Filter for jobs scheduled after a specified time.
@@ -13488,14 +15584,16 @@ extension SageMaker {
         /// A filter that retrieves only jobs with a specific status.
         public let statusEquals: ExecutionStatus?
 
-        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, monitoringScheduleName: String? = nil, nextToken: String? = nil, scheduledTimeAfter: Date? = nil, scheduledTimeBefore: Date? = nil, sortBy: MonitoringExecutionSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ExecutionStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, monitoringJobDefinitionName: String? = nil, monitoringScheduleName: String? = nil, monitoringTypeEquals: MonitoringType? = nil, nextToken: String? = nil, scheduledTimeAfter: Date? = nil, scheduledTimeBefore: Date? = nil, sortBy: MonitoringExecutionSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ExecutionStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.endpointName = endpointName
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
             self.lastModifiedTimeBefore = lastModifiedTimeBefore
             self.maxResults = maxResults
+            self.monitoringJobDefinitionName = monitoringJobDefinitionName
             self.monitoringScheduleName = monitoringScheduleName
+            self.monitoringTypeEquals = monitoringTypeEquals
             self.nextToken = nextToken
             self.scheduledTimeAfter = scheduledTimeAfter
             self.scheduledTimeBefore = scheduledTimeBefore
@@ -13509,6 +15607,9 @@ extension SageMaker {
             try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.monitoringJobDefinitionName, name: "monitoringJobDefinitionName", parent: name, max: 63)
+            try self.validate(self.monitoringJobDefinitionName, name: "monitoringJobDefinitionName", parent: name, min: 1)
+            try self.validate(self.monitoringJobDefinitionName, name: "monitoringJobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
             try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
@@ -13523,7 +15624,9 @@ extension SageMaker {
             case lastModifiedTimeAfter = "LastModifiedTimeAfter"
             case lastModifiedTimeBefore = "LastModifiedTimeBefore"
             case maxResults = "MaxResults"
+            case monitoringJobDefinitionName = "MonitoringJobDefinitionName"
             case monitoringScheduleName = "MonitoringScheduleName"
+            case monitoringTypeEquals = "MonitoringTypeEquals"
             case nextToken = "NextToken"
             case scheduledTimeAfter = "ScheduledTimeAfter"
             case scheduledTimeBefore = "ScheduledTimeBefore"
@@ -13563,6 +15666,10 @@ extension SageMaker {
         public let lastModifiedTimeBefore: Date?
         /// The maximum number of jobs to return in the response. The default value is 10.
         public let maxResults: Int?
+        /// Gets a list of the monitoring schedules for the specified monitoring job definition.
+        public let monitoringJobDefinitionName: String?
+        /// A filter that returns only the monitoring schedules for the specified monitoring type.
+        public let monitoringTypeEquals: MonitoringType?
         /// Filter for monitoring schedules whose name contains a specified string.
         public let nameContains: String?
         /// The token returned if the response is truncated. To retrieve the next set of job executions, use it in the next request.
@@ -13574,13 +15681,15 @@ extension SageMaker {
         /// A filter that returns only monitoring schedules modified before a specified time.
         public let statusEquals: ScheduleStatus?
 
-        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringScheduleSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ScheduleStatus? = nil) {
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, monitoringJobDefinitionName: String? = nil, monitoringTypeEquals: MonitoringType? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringScheduleSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ScheduleStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.endpointName = endpointName
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
             self.lastModifiedTimeBefore = lastModifiedTimeBefore
             self.maxResults = maxResults
+            self.monitoringJobDefinitionName = monitoringJobDefinitionName
+            self.monitoringTypeEquals = monitoringTypeEquals
             self.nameContains = nameContains
             self.nextToken = nextToken
             self.sortBy = sortBy
@@ -13593,6 +15702,9 @@ extension SageMaker {
             try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.monitoringJobDefinitionName, name: "monitoringJobDefinitionName", parent: name, max: 63)
+            try self.validate(self.monitoringJobDefinitionName, name: "monitoringJobDefinitionName", parent: name, min: 1)
+            try self.validate(self.monitoringJobDefinitionName, name: "monitoringJobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -13606,6 +15718,8 @@ extension SageMaker {
             case lastModifiedTimeAfter = "LastModifiedTimeAfter"
             case lastModifiedTimeBefore = "LastModifiedTimeBefore"
             case maxResults = "MaxResults"
+            case monitoringJobDefinitionName = "MonitoringJobDefinitionName"
+            case monitoringTypeEquals = "MonitoringTypeEquals"
             case nameContains = "NameContains"
             case nextToken = "NextToken"
             case sortBy = "SortBy"
@@ -13617,7 +15731,7 @@ extension SageMaker {
     public struct ListMonitoringSchedulesResponse: AWSDecodableShape {
         /// A JSON array in which each element is a summary for a monitoring schedule.
         public let monitoringScheduleSummaries: [MonitoringScheduleSummary]
-        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of jobs, use it in the subsequent reques
+        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of jobs, use it in the subsequent request.
         public let nextToken: String?
 
         public init(monitoringScheduleSummaries: [MonitoringScheduleSummary], nextToken: String? = nil) {
@@ -14927,6 +17041,84 @@ extension SageMaker {
         }
     }
 
+    public struct ModelBiasAppSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// JSON formatted S3 file that defines bias parameters. For more information on this JSON configuration file, see Configure bias parameters.
+        public let configUri: String
+        /// Sets the environment variables in the Docker container.
+        public let environment: [String: String]?
+        /// The container image to be run by the model bias job.
+        public let imageUri: String
+
+        public init(configUri: String, environment: [String: String]? = nil, imageUri: String) {
+            self.configUri = configUri
+            self.environment = environment
+            self.imageUri = imageUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configUri, name: "configUri", parent: name, max: 1024)
+            try self.validate(self.configUri, name: "configUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.environment?.forEach {
+                try validate($0.key, name: "environment.key", parent: name, max: 256)
+                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 255)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configUri = "ConfigUri"
+            case environment = "Environment"
+            case imageUri = "ImageUri"
+        }
+    }
+
+    public struct ModelBiasBaselineConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the baseline model bias job.
+        public let baseliningJobName: String?
+        public let constraintsResource: MonitoringConstraintsResource?
+
+        public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil) {
+            self.baseliningJobName = baseliningJobName
+            self.constraintsResource = constraintsResource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, max: 63)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, min: 1)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.constraintsResource?.validate(name: "\(name).constraintsResource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseliningJobName = "BaseliningJobName"
+            case constraintsResource = "ConstraintsResource"
+        }
+    }
+
+    public struct ModelBiasJobInput: AWSEncodableShape & AWSDecodableShape {
+        public let endpointInput: EndpointInput
+        /// Location of ground truth labels to use in model bias job.
+        public let groundTruthS3Input: MonitoringGroundTruthS3Input
+
+        public init(endpointInput: EndpointInput, groundTruthS3Input: MonitoringGroundTruthS3Input) {
+            self.endpointInput = endpointInput
+            self.groundTruthS3Input = groundTruthS3Input
+        }
+
+        public func validate(name: String) throws {
+            try self.endpointInput.validate(name: "\(name).endpointInput")
+            try self.groundTruthS3Input.validate(name: "\(name).groundTruthS3Input")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointInput = "EndpointInput"
+            case groundTruthS3Input = "GroundTruthS3Input"
+        }
+    }
+
     public struct ModelClientConfig: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of retries when invocation requests are failing.
         public let invocationsMaxRetries: Int?
@@ -14983,6 +17175,79 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case artifactDigest = "ArtifactDigest"
+        }
+    }
+
+    public struct ModelExplainabilityAppSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// JSON formatted S3 file that defines explainability parameters. For more information on this JSON configuration file, see Configure model explainability parameters.
+        public let configUri: String
+        /// Sets the environment variables in the Docker container.
+        public let environment: [String: String]?
+        /// The container image to be run by the model explainability job.
+        public let imageUri: String
+
+        public init(configUri: String, environment: [String: String]? = nil, imageUri: String) {
+            self.configUri = configUri
+            self.environment = environment
+            self.imageUri = imageUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configUri, name: "configUri", parent: name, max: 1024)
+            try self.validate(self.configUri, name: "configUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.environment?.forEach {
+                try validate($0.key, name: "environment.key", parent: name, max: 256)
+                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 255)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configUri = "ConfigUri"
+            case environment = "Environment"
+            case imageUri = "ImageUri"
+        }
+    }
+
+    public struct ModelExplainabilityBaselineConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the baseline model explainability job.
+        public let baseliningJobName: String?
+        public let constraintsResource: MonitoringConstraintsResource?
+
+        public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil) {
+            self.baseliningJobName = baseliningJobName
+            self.constraintsResource = constraintsResource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, max: 63)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, min: 1)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.constraintsResource?.validate(name: "\(name).constraintsResource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseliningJobName = "BaseliningJobName"
+            case constraintsResource = "ConstraintsResource"
+        }
+    }
+
+    public struct ModelExplainabilityJobInput: AWSEncodableShape & AWSDecodableShape {
+        public let endpointInput: EndpointInput
+
+        public init(endpointInput: EndpointInput) {
+            self.endpointInput = endpointInput
+        }
+
+        public func validate(name: String) throws {
+            try self.endpointInput.validate(name: "\(name).endpointInput")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointInput = "EndpointInput"
         }
     }
 
@@ -15360,6 +17625,114 @@ extension SageMaker {
         }
     }
 
+    public struct ModelQualityAppSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// An array of arguments for the container used to run the monitoring job.
+        public let containerArguments: [String]?
+        /// Specifies the entrypoint for a container that the monitoring job runs.
+        public let containerEntrypoint: [String]?
+        /// Sets the environment variables in the container that the monitoring job runs.
+        public let environment: [String: String]?
+        /// The address of the container image that the monitoring job runs.
+        public let imageUri: String
+        /// An Amazon S3 URI to a script that is called after analysis has been performed. Applicable only for the built-in (first party) containers.
+        public let postAnalyticsProcessorSourceUri: String?
+        /// The machine learning problem type of the model that the monitoring job monitors.
+        public let problemType: MonitoringProblemType?
+        /// An Amazon S3 URI to a script that is called per row prior to running analysis. It can base64 decode the payload and convert it into a flatted json so that the built-in container can use the converted data. Applicable only for the built-in (first party) containers.
+        public let recordPreprocessorSourceUri: String?
+
+        public init(containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, environment: [String: String]? = nil, imageUri: String, postAnalyticsProcessorSourceUri: String? = nil, problemType: MonitoringProblemType? = nil, recordPreprocessorSourceUri: String? = nil) {
+            self.containerArguments = containerArguments
+            self.containerEntrypoint = containerEntrypoint
+            self.environment = environment
+            self.imageUri = imageUri
+            self.postAnalyticsProcessorSourceUri = postAnalyticsProcessorSourceUri
+            self.problemType = problemType
+            self.recordPreprocessorSourceUri = recordPreprocessorSourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.containerArguments?.forEach {
+                try validate($0, name: "containerArguments[]", parent: name, max: 256)
+                try validate($0, name: "containerArguments[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.containerArguments, name: "containerArguments", parent: name, max: 50)
+            try self.validate(self.containerArguments, name: "containerArguments", parent: name, min: 1)
+            try self.containerEntrypoint?.forEach {
+                try validate($0, name: "containerEntrypoint[]", parent: name, max: 256)
+                try validate($0, name: "containerEntrypoint[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.containerEntrypoint, name: "containerEntrypoint", parent: name, max: 100)
+            try self.validate(self.containerEntrypoint, name: "containerEntrypoint", parent: name, min: 1)
+            try self.environment?.forEach {
+                try validate($0.key, name: "environment.key", parent: name, max: 256)
+                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 255)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: ".*")
+            try self.validate(self.postAnalyticsProcessorSourceUri, name: "postAnalyticsProcessorSourceUri", parent: name, max: 1024)
+            try self.validate(self.postAnalyticsProcessorSourceUri, name: "postAnalyticsProcessorSourceUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.recordPreprocessorSourceUri, name: "recordPreprocessorSourceUri", parent: name, max: 1024)
+            try self.validate(self.recordPreprocessorSourceUri, name: "recordPreprocessorSourceUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerArguments = "ContainerArguments"
+            case containerEntrypoint = "ContainerEntrypoint"
+            case environment = "Environment"
+            case imageUri = "ImageUri"
+            case postAnalyticsProcessorSourceUri = "PostAnalyticsProcessorSourceUri"
+            case problemType = "ProblemType"
+            case recordPreprocessorSourceUri = "RecordPreprocessorSourceUri"
+        }
+    }
+
+    public struct ModelQualityBaselineConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the job that performs baselining for the monitoring job.
+        public let baseliningJobName: String?
+        public let constraintsResource: MonitoringConstraintsResource?
+
+        public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil) {
+            self.baseliningJobName = baseliningJobName
+            self.constraintsResource = constraintsResource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, max: 63)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, min: 1)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.constraintsResource?.validate(name: "\(name).constraintsResource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseliningJobName = "BaseliningJobName"
+            case constraintsResource = "ConstraintsResource"
+        }
+    }
+
+    public struct ModelQualityJobInput: AWSEncodableShape & AWSDecodableShape {
+        public let endpointInput: EndpointInput
+        /// The ground truth label provided for the model.
+        public let groundTruthS3Input: MonitoringGroundTruthS3Input
+
+        public init(endpointInput: EndpointInput, groundTruthS3Input: MonitoringGroundTruthS3Input) {
+            self.endpointInput = endpointInput
+            self.groundTruthS3Input = groundTruthS3Input
+        }
+
+        public func validate(name: String) throws {
+            try self.endpointInput.validate(name: "\(name).endpointInput")
+            try self.groundTruthS3Input.validate(name: "\(name).groundTruthS3Input")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointInput = "EndpointInput"
+            case groundTruthS3Input = "GroundTruthS3Input"
+        }
+    }
+
     public struct ModelStepMetadata: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the created model.
         public let arn: String?
@@ -15445,22 +17818,29 @@ extension SageMaker {
     }
 
     public struct MonitoringBaselineConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the job that performs baselining for the monitoring job.
+        public let baseliningJobName: String?
         /// The baseline constraint file in Amazon S3 that the current monitoring job should validated against.
         public let constraintsResource: MonitoringConstraintsResource?
         /// The baseline statistics file in Amazon S3 that the current monitoring job should be validated against.
         public let statisticsResource: MonitoringStatisticsResource?
 
-        public init(constraintsResource: MonitoringConstraintsResource? = nil, statisticsResource: MonitoringStatisticsResource? = nil) {
+        public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil, statisticsResource: MonitoringStatisticsResource? = nil) {
+            self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
             self.statisticsResource = statisticsResource
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, max: 63)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, min: 1)
+            try self.validate(self.baseliningJobName, name: "baseliningJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
             try self.constraintsResource?.validate(name: "\(name).constraintsResource")
             try self.statisticsResource?.validate(name: "\(name).statisticsResource")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case baseliningJobName = "BaseliningJobName"
             case constraintsResource = "ConstraintsResource"
             case statisticsResource = "StatisticsResource"
         }
@@ -15521,7 +17901,7 @@ extension SageMaker {
     public struct MonitoringExecutionSummary: AWSDecodableShape {
         /// The time at which the monitoring job was created.
         public let creationTime: Date
-        /// The name of teh endpoint used to run the monitoring job.
+        /// The name of the endpoint used to run the monitoring job.
         public let endpointName: String?
         /// Contains the reason a monitoring job failed, if it failed.
         public let failureReason: String?
@@ -15529,20 +17909,26 @@ extension SageMaker {
         public let lastModifiedTime: Date
         /// The status of the monitoring job.
         public let monitoringExecutionStatus: ExecutionStatus
+        /// The name of the monitoring job.
+        public let monitoringJobDefinitionName: String?
         /// The name of the monitoring schedule.
         public let monitoringScheduleName: String
+        /// The type of the monitoring job.
+        public let monitoringType: MonitoringType?
         /// The Amazon Resource Name (ARN) of the monitoring job.
         public let processingJobArn: String?
         /// The time the monitoring job was scheduled.
         public let scheduledTime: Date
 
-        public init(creationTime: Date, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date, monitoringExecutionStatus: ExecutionStatus, monitoringScheduleName: String, processingJobArn: String? = nil, scheduledTime: Date) {
+        public init(creationTime: Date, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date, monitoringExecutionStatus: ExecutionStatus, monitoringJobDefinitionName: String? = nil, monitoringScheduleName: String, monitoringType: MonitoringType? = nil, processingJobArn: String? = nil, scheduledTime: Date) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.failureReason = failureReason
             self.lastModifiedTime = lastModifiedTime
             self.monitoringExecutionStatus = monitoringExecutionStatus
+            self.monitoringJobDefinitionName = monitoringJobDefinitionName
             self.monitoringScheduleName = monitoringScheduleName
+            self.monitoringType = monitoringType
             self.processingJobArn = processingJobArn
             self.scheduledTime = scheduledTime
         }
@@ -15553,9 +17939,29 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case lastModifiedTime = "LastModifiedTime"
             case monitoringExecutionStatus = "MonitoringExecutionStatus"
+            case monitoringJobDefinitionName = "MonitoringJobDefinitionName"
             case monitoringScheduleName = "MonitoringScheduleName"
+            case monitoringType = "MonitoringType"
             case processingJobArn = "ProcessingJobArn"
             case scheduledTime = "ScheduledTime"
+        }
+    }
+
+    public struct MonitoringGroundTruthS3Input: AWSEncodableShape & AWSDecodableShape {
+        /// The address of the Amazon S3 location of the ground truth labels.
+        public let s3Uri: String?
+
+        public init(s3Uri: String? = nil) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 512)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "S3Uri"
         }
     }
 
@@ -15641,6 +18047,55 @@ extension SageMaker {
             case networkConfig = "NetworkConfig"
             case roleArn = "RoleArn"
             case stoppingCondition = "StoppingCondition"
+        }
+    }
+
+    public struct MonitoringJobDefinitionSummary: AWSDecodableShape {
+        /// The time that the monitoring job was created.
+        public let creationTime: Date
+        /// The name of the endpoint that the job monitors.
+        public let endpointName: String
+        /// The Amazon Resource Name (ARN) of the monitoring job.
+        public let monitoringJobDefinitionArn: String
+        /// The name of the monitoring job.
+        public let monitoringJobDefinitionName: String
+
+        public init(creationTime: Date, endpointName: String, monitoringJobDefinitionArn: String, monitoringJobDefinitionName: String) {
+            self.creationTime = creationTime
+            self.endpointName = endpointName
+            self.monitoringJobDefinitionArn = monitoringJobDefinitionArn
+            self.monitoringJobDefinitionName = monitoringJobDefinitionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case endpointName = "EndpointName"
+            case monitoringJobDefinitionArn = "MonitoringJobDefinitionArn"
+            case monitoringJobDefinitionName = "MonitoringJobDefinitionName"
+        }
+    }
+
+    public struct MonitoringNetworkConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to encrypt all communications between the instances used for the monitoring jobs. Choose True to encrypt communications. Encryption provides greater security for distributed jobs, but the processing might take longer.
+        public let enableInterContainerTrafficEncryption: Bool?
+        /// Whether to allow inbound and outbound network calls to and from the containers used for the monitoring job.
+        public let enableNetworkIsolation: Bool?
+        public let vpcConfig: VpcConfig?
+
+        public init(enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, vpcConfig: VpcConfig? = nil) {
+            self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
+            self.enableNetworkIsolation = enableNetworkIsolation
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
+            case enableNetworkIsolation = "EnableNetworkIsolation"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -15750,10 +18205,12 @@ extension SageMaker {
         public let monitoringScheduleName: String?
         /// The status of the monitoring schedule. This can be one of the following values.    PENDING - The schedule is pending being created.    FAILED - The schedule failed.    SCHEDULED - The schedule was successfully created.    STOPPED - The schedule was stopped.
         public let monitoringScheduleStatus: ScheduleStatus?
+        /// The type of the monitoring job definition to schedule.
+        public let monitoringType: MonitoringType?
         /// A list of the tags associated with the monitoring schedlue. For more information, see Tagging AWS resources in the AWS General Reference Guide.
         public let tags: [Tag]?
 
-        public init(creationTime: Date? = nil, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String? = nil, monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil, monitoringScheduleStatus: ScheduleStatus? = nil, tags: [Tag]? = nil) {
+        public init(creationTime: Date? = nil, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String? = nil, monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil, monitoringScheduleStatus: ScheduleStatus? = nil, monitoringType: MonitoringType? = nil, tags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.failureReason = failureReason
@@ -15763,6 +18220,7 @@ extension SageMaker {
             self.monitoringScheduleConfig = monitoringScheduleConfig
             self.monitoringScheduleName = monitoringScheduleName
             self.monitoringScheduleStatus = monitoringScheduleStatus
+            self.monitoringType = monitoringType
             self.tags = tags
         }
 
@@ -15776,6 +18234,7 @@ extension SageMaker {
             case monitoringScheduleConfig = "MonitoringScheduleConfig"
             case monitoringScheduleName = "MonitoringScheduleName"
             case monitoringScheduleStatus = "MonitoringScheduleStatus"
+            case monitoringType = "MonitoringType"
             case tags = "Tags"
         }
     }
@@ -15783,21 +18242,32 @@ extension SageMaker {
     public struct MonitoringScheduleConfig: AWSEncodableShape & AWSDecodableShape {
         /// Defines the monitoring job.
         public let monitoringJobDefinition: MonitoringJobDefinition?
+        /// The name of the monitoring job definition to schedule.
+        public let monitoringJobDefinitionName: String?
+        /// The type of the monitoring job definition to schedule.
+        public let monitoringType: MonitoringType?
         /// Configures the monitoring schedule.
         public let scheduleConfig: ScheduleConfig?
 
-        public init(monitoringJobDefinition: MonitoringJobDefinition? = nil, scheduleConfig: ScheduleConfig? = nil) {
+        public init(monitoringJobDefinition: MonitoringJobDefinition? = nil, monitoringJobDefinitionName: String? = nil, monitoringType: MonitoringType? = nil, scheduleConfig: ScheduleConfig? = nil) {
             self.monitoringJobDefinition = monitoringJobDefinition
+            self.monitoringJobDefinitionName = monitoringJobDefinitionName
+            self.monitoringType = monitoringType
             self.scheduleConfig = scheduleConfig
         }
 
         public func validate(name: String) throws {
             try self.monitoringJobDefinition?.validate(name: "\(name).monitoringJobDefinition")
+            try self.validate(self.monitoringJobDefinitionName, name: "monitoringJobDefinitionName", parent: name, max: 63)
+            try self.validate(self.monitoringJobDefinitionName, name: "monitoringJobDefinitionName", parent: name, min: 1)
+            try self.validate(self.monitoringJobDefinitionName, name: "monitoringJobDefinitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.scheduleConfig?.validate(name: "\(name).scheduleConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case monitoringJobDefinition = "MonitoringJobDefinition"
+            case monitoringJobDefinitionName = "MonitoringJobDefinitionName"
+            case monitoringType = "MonitoringType"
             case scheduleConfig = "ScheduleConfig"
         }
     }
@@ -15809,29 +18279,37 @@ extension SageMaker {
         public let endpointName: String?
         /// The last time the monitoring schedule was modified.
         public let lastModifiedTime: Date
+        /// The name of the monitoring job definition that the schedule is for.
+        public let monitoringJobDefinitionName: String?
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
         public let monitoringScheduleArn: String
         /// The name of the monitoring schedule.
         public let monitoringScheduleName: String
         /// The status of the monitoring schedule.
         public let monitoringScheduleStatus: ScheduleStatus
+        /// The type of the monitoring job definition that the schedule is for.
+        public let monitoringType: MonitoringType?
 
-        public init(creationTime: Date, endpointName: String? = nil, lastModifiedTime: Date, monitoringScheduleArn: String, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus) {
+        public init(creationTime: Date, endpointName: String? = nil, lastModifiedTime: Date, monitoringJobDefinitionName: String? = nil, monitoringScheduleArn: String, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus, monitoringType: MonitoringType? = nil) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.lastModifiedTime = lastModifiedTime
+            self.monitoringJobDefinitionName = monitoringJobDefinitionName
             self.monitoringScheduleArn = monitoringScheduleArn
             self.monitoringScheduleName = monitoringScheduleName
             self.monitoringScheduleStatus = monitoringScheduleStatus
+            self.monitoringType = monitoringType
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case endpointName = "EndpointName"
             case lastModifiedTime = "LastModifiedTime"
+            case monitoringJobDefinitionName = "MonitoringJobDefinitionName"
             case monitoringScheduleArn = "MonitoringScheduleArn"
             case monitoringScheduleName = "MonitoringScheduleName"
             case monitoringScheduleStatus = "MonitoringScheduleStatus"
+            case monitoringType = "MonitoringType"
         }
     }
 
@@ -17152,6 +19630,162 @@ extension SageMaker {
         }
     }
 
+    public struct ProfilerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A time interval for capturing system metrics in milliseconds. Available values are 100, 200, 500, 1000 (1 second), 5000 (5 seconds), and 60000 (1 minute) milliseconds. The default value is 500 milliseconds.
+        public let profilingIntervalInMilliseconds: Int64?
+        /// Configuration information for capturing framework metrics. Available key strings for different profiling options are DetailedProfilingConfig, PythonProfilingConfig, and DataLoaderProfilingConfig. The following codes are configuration structures for the ProfilingParameters parameter. To learn more about how to configure the ProfilingParameters parameter, see Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job.
+        public let profilingParameters: [String: String]?
+        /// Path to Amazon S3 storage location for system and framework metrics.
+        public let s3OutputPath: String
+
+        public init(profilingIntervalInMilliseconds: Int64? = nil, profilingParameters: [String: String]? = nil, s3OutputPath: String) {
+            self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
+            self.profilingParameters = profilingParameters
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try self.profilingParameters?.forEach {
+                try validate($0.key, name: "profilingParameters.key", parent: name, max: 256)
+                try validate($0.key, name: "profilingParameters.key", parent: name, min: 1)
+                try validate($0.key, name: "profilingParameters.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "profilingParameters[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "profilingParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, max: 1024)
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profilingIntervalInMilliseconds = "ProfilingIntervalInMilliseconds"
+            case profilingParameters = "ProfilingParameters"
+            case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public struct ProfilerConfigForUpdate: AWSEncodableShape {
+        /// To disable Debugger monitoring and profiling, set to True.
+        public let disableProfiler: Bool?
+        /// A time interval for capturing system metrics in milliseconds. Available values are 100, 200, 500, 1000 (1 second), 5000 (5 seconds), and 60000 (1 minute) milliseconds. The default value is 500 milliseconds.
+        public let profilingIntervalInMilliseconds: Int64?
+        /// Configuration information for capturing framework metrics. Available key strings for different profiling options are DetailedProfilingConfig, PythonProfilingConfig, and DataLoaderProfilingConfig. The following codes are configuration structures for the ProfilingParameters parameter. To learn more about how to configure the ProfilingParameters parameter, see Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job.
+        public let profilingParameters: [String: String]?
+        /// Path to Amazon S3 storage location for system and framework metrics.
+        public let s3OutputPath: String?
+
+        public init(disableProfiler: Bool? = nil, profilingIntervalInMilliseconds: Int64? = nil, profilingParameters: [String: String]? = nil, s3OutputPath: String? = nil) {
+            self.disableProfiler = disableProfiler
+            self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
+            self.profilingParameters = profilingParameters
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try self.profilingParameters?.forEach {
+                try validate($0.key, name: "profilingParameters.key", parent: name, max: 256)
+                try validate($0.key, name: "profilingParameters.key", parent: name, min: 1)
+                try validate($0.key, name: "profilingParameters.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "profilingParameters[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "profilingParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, max: 1024)
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disableProfiler = "DisableProfiler"
+            case profilingIntervalInMilliseconds = "ProfilingIntervalInMilliseconds"
+            case profilingParameters = "ProfilingParameters"
+            case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public struct ProfilerRuleConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The instance type to deploy a Debugger custom rule for profiling a training job.
+        public let instanceType: ProcessingInstanceType?
+        /// Path to local storage location for output of rules. Defaults to /opt/ml/processing/output/rule/.
+        public let localPath: String?
+        /// The name of the rule configuration. It must be unique relative to other rule configuration names.
+        public let ruleConfigurationName: String
+        /// The Amazon Elastic Container (ECR) Image for the managed rule evaluation.
+        public let ruleEvaluatorImage: String
+        /// Runtime configuration for rule container.
+        public let ruleParameters: [String: String]?
+        /// Path to Amazon S3 storage location for rules.
+        public let s3OutputPath: String?
+        /// The size, in GB, of the ML storage volume attached to the processing instance.
+        public let volumeSizeInGB: Int?
+
+        public init(instanceType: ProcessingInstanceType? = nil, localPath: String? = nil, ruleConfigurationName: String, ruleEvaluatorImage: String, ruleParameters: [String: String]? = nil, s3OutputPath: String? = nil, volumeSizeInGB: Int? = nil) {
+            self.instanceType = instanceType
+            self.localPath = localPath
+            self.ruleConfigurationName = ruleConfigurationName
+            self.ruleEvaluatorImage = ruleEvaluatorImage
+            self.ruleParameters = ruleParameters
+            self.s3OutputPath = s3OutputPath
+            self.volumeSizeInGB = volumeSizeInGB
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.localPath, name: "localPath", parent: name, max: 4096)
+            try self.validate(self.localPath, name: "localPath", parent: name, pattern: ".*")
+            try self.validate(self.ruleConfigurationName, name: "ruleConfigurationName", parent: name, max: 256)
+            try self.validate(self.ruleConfigurationName, name: "ruleConfigurationName", parent: name, min: 1)
+            try self.validate(self.ruleConfigurationName, name: "ruleConfigurationName", parent: name, pattern: ".*")
+            try self.validate(self.ruleEvaluatorImage, name: "ruleEvaluatorImage", parent: name, max: 255)
+            try self.validate(self.ruleEvaluatorImage, name: "ruleEvaluatorImage", parent: name, pattern: ".*")
+            try self.ruleParameters?.forEach {
+                try validate($0.key, name: "ruleParameters.key", parent: name, max: 256)
+                try validate($0.key, name: "ruleParameters.key", parent: name, min: 1)
+                try validate($0.key, name: "ruleParameters.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "ruleParameters[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "ruleParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, max: 1024)
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.volumeSizeInGB, name: "volumeSizeInGB", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "InstanceType"
+            case localPath = "LocalPath"
+            case ruleConfigurationName = "RuleConfigurationName"
+            case ruleEvaluatorImage = "RuleEvaluatorImage"
+            case ruleParameters = "RuleParameters"
+            case s3OutputPath = "S3OutputPath"
+            case volumeSizeInGB = "VolumeSizeInGB"
+        }
+    }
+
+    public struct ProfilerRuleEvaluationStatus: AWSDecodableShape {
+        /// Timestamp when the rule evaluation status was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the rule configuration.
+        public let ruleConfigurationName: String?
+        /// The Amazon Resource Name (ARN) of the rule evaluation job.
+        public let ruleEvaluationJobArn: String?
+        /// Status of the rule evaluation.
+        public let ruleEvaluationStatus: RuleEvaluationStatus?
+        /// Details from the rule evaluation.
+        public let statusDetails: String?
+
+        public init(lastModifiedTime: Date? = nil, ruleConfigurationName: String? = nil, ruleEvaluationJobArn: String? = nil, ruleEvaluationStatus: RuleEvaluationStatus? = nil, statusDetails: String? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.ruleConfigurationName = ruleConfigurationName
+            self.ruleEvaluationJobArn = ruleEvaluationJobArn
+            self.ruleEvaluationStatus = ruleEvaluationStatus
+            self.statusDetails = statusDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case ruleConfigurationName = "RuleConfigurationName"
+            case ruleEvaluationJobArn = "RuleEvaluationJobArn"
+            case ruleEvaluationStatus = "RuleEvaluationStatus"
+            case statusDetails = "StatusDetails"
+        }
+    }
+
     public struct ProjectSummary: AWSDecodableShape {
         /// The time that the project was created.
         public let creationTime: Date
@@ -17356,6 +19990,41 @@ extension SageMaker {
             case outputFormat = "OutputFormat"
             case outputS3Uri = "OutputS3Uri"
             case queryString = "QueryString"
+        }
+    }
+
+    public struct RegisterDevicesRequest: AWSEncodableShape {
+        /// The name of the fleet.
+        public let deviceFleetName: String
+        /// A list of devices to register with SageMaker Edge Manager.
+        public let devices: [Device]
+        /// The tags associated with devices.
+        public let tags: [Tag]?
+
+        public init(deviceFleetName: String, devices: [Device], tags: [Tag]? = nil) {
+            self.deviceFleetName = deviceFleetName
+            self.devices = devices
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.devices.forEach {
+                try $0.validate(name: "\(name).devices[]")
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceFleetName = "DeviceFleetName"
+            case devices = "Devices"
+            case tags = "Tags"
         }
     }
 
@@ -18122,6 +20791,25 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case compilationJobName = "CompilationJobName"
+        }
+    }
+
+    public struct StopEdgePackagingJobRequest: AWSEncodableShape {
+        /// The name of the edge packaging job.
+        public let edgePackagingJobName: String
+
+        public init(edgePackagingJobName: String) {
+            self.edgePackagingJobName = edgePackagingJobName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.edgePackagingJobName, name: "edgePackagingJobName", parent: name, max: 63)
+            try self.validate(self.edgePackagingJobName, name: "edgePackagingJobName", parent: name, min: 1)
+            try self.validate(self.edgePackagingJobName, name: "edgePackagingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgePackagingJobName = "EdgePackagingJobName"
         }
     }
 
@@ -19894,6 +22582,70 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateDeviceFleetRequest: AWSEncodableShape {
+        /// Description of the fleet.
+        public let description: String?
+        /// The name of the fleet.
+        public let deviceFleetName: String
+        /// Output configuration for storing sample data collected by the fleet.
+        public let outputConfig: EdgeOutputConfig
+        /// The Amazon Resource Name (ARN) of the device.
+        public let roleArn: String?
+
+        public init(description: String? = nil, deviceFleetName: String, outputConfig: EdgeOutputConfig, roleArn: String? = nil) {
+            self.description = description
+            self.deviceFleetName = deviceFleetName
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 800)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\S\\s]+")
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case deviceFleetName = "DeviceFleetName"
+            case outputConfig = "OutputConfig"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct UpdateDevicesRequest: AWSEncodableShape {
+        /// The name of the fleet the devices belong to.
+        public let deviceFleetName: String
+        /// List of devices to register with Edge Manager agent.
+        public let devices: [Device]
+
+        public init(deviceFleetName: String, devices: [Device]) {
+            self.deviceFleetName = deviceFleetName
+            self.devices = devices
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
+            try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.devices.forEach {
+                try $0.validate(name: "\(name).devices[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceFleetName = "DeviceFleetName"
+            case devices = "Devices"
+        }
+    }
+
     public struct UpdateDomainRequest: AWSEncodableShape {
         /// A collection of settings.
         public let defaultUserSettings: UserSettings?
@@ -20433,6 +23185,52 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case pipelineArn = "PipelineArn"
+        }
+    }
+
+    public struct UpdateTrainingJobRequest: AWSEncodableShape {
+        /// Configuration information for Debugger system monitoring, framework profiling, and storage paths.
+        public let profilerConfig: ProfilerConfigForUpdate?
+        /// Configuration information for Debugger rules for profiling system and framework metrics.
+        public let profilerRuleConfigurations: [ProfilerRuleConfiguration]?
+        /// The name of a training job to update the Debugger profiling configuration.
+        public let trainingJobName: String
+
+        public init(profilerConfig: ProfilerConfigForUpdate? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, trainingJobName: String) {
+            self.profilerConfig = profilerConfig
+            self.profilerRuleConfigurations = profilerRuleConfigurations
+            self.trainingJobName = trainingJobName
+        }
+
+        public func validate(name: String) throws {
+            try self.profilerConfig?.validate(name: "\(name).profilerConfig")
+            try self.profilerRuleConfigurations?.forEach {
+                try $0.validate(name: "\(name).profilerRuleConfigurations[]")
+            }
+            try self.validate(self.profilerRuleConfigurations, name: "profilerRuleConfigurations", parent: name, max: 20)
+            try self.validate(self.profilerRuleConfigurations, name: "profilerRuleConfigurations", parent: name, min: 0)
+            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, max: 63)
+            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, min: 1)
+            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profilerConfig = "ProfilerConfig"
+            case profilerRuleConfigurations = "ProfilerRuleConfigurations"
+            case trainingJobName = "TrainingJobName"
+        }
+    }
+
+    public struct UpdateTrainingJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the training job.
+        public let trainingJobArn: String
+
+        public init(trainingJobArn: String) {
+            self.trainingJobArn = trainingJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingJobArn = "TrainingJobArn"
         }
     }
 

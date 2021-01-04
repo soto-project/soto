@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS NetworkManager service.
 ///
-/// Transit Gateway Network Manager (Network Manager) enables you to create a global network, in which you can monitor your AWS and on-premises networks that are built around transit gateways.
+/// Transit Gateway Network Manager (Network Manager) enables you to create a global network, in which you can monitor your AWS and on-premises networks that are built around transit gateways. The Network Manager APIs are supported in the US West (Oregon) Region only. You must specify the us-west-2 Region in all requests made to Network Manager.
 public struct NetworkManager: AWSService {
     // MARK: Member variables
 
@@ -72,6 +72,16 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "AssociateLink", path: "/global-networks/{globalNetworkId}/link-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Associates a transit gateway Connect peer with a device, and optionally, with a link. If you specify a link, it must be associated with the specified device.  You can only associate transit gateway Connect peers that have been created on a transit gateway that's registered in your global network. You cannot associate a transit gateway Connect peer with more than one device and link.
+    public func associateTransitGatewayConnectPeer(_ input: AssociateTransitGatewayConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTransitGatewayConnectPeerResponse> {
+        return self.client.execute(operation: "AssociateTransitGatewayConnectPeer", path: "/global-networks/{globalNetworkId}/transit-gateway-connect-peer-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
+    public func createConnection(_ input: CreateConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectionResponse> {
+        return self.client.execute(operation: "CreateConnection", path: "/global-networks/{globalNetworkId}/connections", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new device in a global network. If you specify both a site ID and a location, the location of the site is used for visualization in the Network Manager console.
     public func createDevice(_ input: CreateDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeviceResponse> {
         return self.client.execute(operation: "CreateDevice", path: "/global-networks/{globalNetworkId}/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -90,6 +100,11 @@ public struct NetworkManager: AWSService {
     /// Creates a new site in a global network.
     public func createSite(_ input: CreateSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSiteResponse> {
         return self.client.execute(operation: "CreateSite", path: "/global-networks/{globalNetworkId}/sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified connection in your global network.
+    public func deleteConnection(_ input: DeleteConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectionResponse> {
+        return self.client.execute(operation: "DeleteConnection", path: "/global-networks/{globalNetworkId}/connections/{connectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes an existing device. You must first disassociate the device from any links and customer gateways.
@@ -132,6 +147,16 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "DisassociateLink", path: "/global-networks/{globalNetworkId}/link-associations", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disassociates a transit gateway Connect peer from a device and link.
+    public func disassociateTransitGatewayConnectPeer(_ input: DisassociateTransitGatewayConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateTransitGatewayConnectPeerResponse> {
+        return self.client.execute(operation: "DisassociateTransitGatewayConnectPeer", path: "/global-networks/{globalNetworkId}/transit-gateway-connect-peer-associations/{transitGatewayConnectPeerArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about one or more of your connections in a global network.
+    public func getConnections(_ input: GetConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionsResponse> {
+        return self.client.execute(operation: "GetConnections", path: "/global-networks/{globalNetworkId}/connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the association information for customer gateways that are associated with devices and links in your global network.
     public func getCustomerGatewayAssociations(_ input: GetCustomerGatewayAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCustomerGatewayAssociationsResponse> {
         return self.client.execute(operation: "GetCustomerGatewayAssociations", path: "/global-networks/{globalNetworkId}/customer-gateway-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -157,6 +182,11 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "GetSites", path: "/global-networks/{globalNetworkId}/sites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information about one or more of your transit gateway Connect peer associations in a global network.
+    public func getTransitGatewayConnectPeerAssociations(_ input: GetTransitGatewayConnectPeerAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTransitGatewayConnectPeerAssociationsResponse> {
+        return self.client.execute(operation: "GetTransitGatewayConnectPeerAssociations", path: "/global-networks/{globalNetworkId}/transit-gateway-connect-peer-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information about the transit gateway registrations in a specified global network.
     public func getTransitGatewayRegistrations(_ input: GetTransitGatewayRegistrationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTransitGatewayRegistrationsResponse> {
         return self.client.execute(operation: "GetTransitGatewayRegistrations", path: "/global-networks/{globalNetworkId}/transit-gateway-registrations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -180,6 +210,11 @@ public struct NetworkManager: AWSService {
     /// Removes tags from a specified resource.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string.
+    public func updateConnection(_ input: UpdateConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConnectionResponse> {
+        return self.client.execute(operation: "UpdateConnection", path: "/global-networks/{globalNetworkId}/connections/{connectionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the details for an existing device. To remove information for any of the parameters, specify an empty string.

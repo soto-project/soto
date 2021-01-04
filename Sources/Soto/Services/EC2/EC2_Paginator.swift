@@ -2161,6 +2161,108 @@ extension EC2 {
         )
     }
 
+    ///  Describes one or more of your network insights analyses.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeNetworkInsightsAnalysesPaginator<Result>(
+        _ input: DescribeNetworkInsightsAnalysesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeNetworkInsightsAnalysesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeNetworkInsightsAnalyses,
+            tokenKey: \DescribeNetworkInsightsAnalysesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeNetworkInsightsAnalysesPaginator(
+        _ input: DescribeNetworkInsightsAnalysesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeNetworkInsightsAnalysesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeNetworkInsightsAnalyses,
+            tokenKey: \DescribeNetworkInsightsAnalysesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes one or more of your paths.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeNetworkInsightsPathsPaginator<Result>(
+        _ input: DescribeNetworkInsightsPathsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeNetworkInsightsPathsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeNetworkInsightsPaths,
+            tokenKey: \DescribeNetworkInsightsPathsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeNetworkInsightsPathsPaginator(
+        _ input: DescribeNetworkInsightsPathsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeNetworkInsightsPathsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeNetworkInsightsPaths,
+            tokenKey: \DescribeNetworkInsightsPathsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Describes the permissions for your network interfaces.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -3278,6 +3380,108 @@ extension EC2 {
             input: input,
             command: describeTransitGatewayAttachments,
             tokenKey: \DescribeTransitGatewayAttachmentsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes one or more Connect peers.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeTransitGatewayConnectPeersPaginator<Result>(
+        _ input: DescribeTransitGatewayConnectPeersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeTransitGatewayConnectPeersResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeTransitGatewayConnectPeers,
+            tokenKey: \DescribeTransitGatewayConnectPeersResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeTransitGatewayConnectPeersPaginator(
+        _ input: DescribeTransitGatewayConnectPeersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeTransitGatewayConnectPeersResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeTransitGatewayConnectPeers,
+            tokenKey: \DescribeTransitGatewayConnectPeersResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes one or more Connect attachments.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeTransitGatewayConnectsPaginator<Result>(
+        _ input: DescribeTransitGatewayConnectsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeTransitGatewayConnectsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeTransitGatewayConnects,
+            tokenKey: \DescribeTransitGatewayConnectsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeTransitGatewayConnectsPaginator(
+        _ input: DescribeTransitGatewayConnectsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeTransitGatewayConnectsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeTransitGatewayConnects,
+            tokenKey: \DescribeTransitGatewayConnectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -5168,6 +5372,33 @@ extension EC2.DescribeNetworkAclsRequest: AWSPaginateToken {
     }
 }
 
+extension EC2.DescribeNetworkInsightsAnalysesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkInsightsAnalysesRequest {
+        return .init(
+            analysisEndTime: self.analysisEndTime,
+            analysisStartTime: self.analysisStartTime,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkInsightsAnalysisIds: self.networkInsightsAnalysisIds,
+            networkInsightsPathId: self.networkInsightsPathId,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeNetworkInsightsPathsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkInsightsPathsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkInsightsPathIds: self.networkInsightsPathIds,
+            nextToken: token
+        )
+    }
+}
+
 extension EC2.DescribeNetworkInterfacePermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkInterfacePermissionsRequest {
         return .init(
@@ -5435,6 +5666,30 @@ extension EC2.DescribeTrafficMirrorTargetsRequest: AWSPaginateToken {
 
 extension EC2.DescribeTransitGatewayAttachmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayAttachmentsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayAttachmentIds: self.transitGatewayAttachmentIds
+        )
+    }
+}
+
+extension EC2.DescribeTransitGatewayConnectPeersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayConnectPeersRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayConnectPeerIds: self.transitGatewayConnectPeerIds
+        )
+    }
+}
+
+extension EC2.DescribeTransitGatewayConnectsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeTransitGatewayConnectsRequest {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,

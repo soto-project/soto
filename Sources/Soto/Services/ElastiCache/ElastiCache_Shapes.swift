@@ -1462,7 +1462,7 @@ extension ElastiCache {
     }
 
     public struct CreateUserGroupMessage: AWSEncodableShape {
-        /// Must be Redis.
+        /// The current supported value is Redis.
         public let engine: String
         /// The ID of the user group.
         public let userGroupId: String
@@ -1493,13 +1493,13 @@ extension ElastiCache {
     }
 
     public struct CreateUserMessage: AWSEncodableShape {
-        /// Access permissions string used for this user account.
+        /// Access permissions string used for this user.
         public let accessString: String
-        /// Must be Redis.
+        /// The current supported value is Redis.
         public let engine: String
-        /// Indicates a password is not required for this user account.
+        /// Indicates a password is not required for this user.
         public let noPasswordRequired: Bool?
-        /// Passwords used for this user account. You can create up to two passwords for each user.
+        /// Passwords used for this user. You can create up to two passwords for each user.
         @OptionalCustomCoding<StandardArrayCoder>
         public var passwords: [String]?
         /// The ID of the user.
@@ -3341,13 +3341,13 @@ extension ElastiCache {
     }
 
     public struct ModifyUserMessage: AWSEncodableShape {
-        /// Access permissions string used for this user account.
+        /// Access permissions string used for this user.
         public let accessString: String?
         /// Adds additional user permissions to the access string.
         public let appendAccessString: String?
-        /// Indicates no password is required for the user account.
+        /// Indicates no password is required for the user.
         public let noPasswordRequired: Bool?
-        /// The passwords belonging to the user account. You are allowed up to two.
+        /// The passwords belonging to the user. You are allowed up to two.
         @OptionalCustomCoding<StandardArrayCoder>
         public var passwords: [String]?
         /// The ID of the user.
@@ -3422,7 +3422,7 @@ extension ElastiCache {
         public let nodeGroupId: String?
         /// The Availability Zone where the primary node of this node group (shard) is launched.
         public let primaryAvailabilityZone: String?
-        /// The output ARN of the primary node.
+        /// The outpost ARN of the primary node.
         public let primaryOutpostArn: String?
         /// A list of Availability Zones to be used for the read replicas. The number of Availability Zones in this list must match the value of ReplicaCount or ReplicasPerNodeGroup if not specified.
         @OptionalCustomCoding<ArrayCoder<_ReplicaAvailabilityZonesEncoding, String>>
@@ -4824,13 +4824,13 @@ extension ElastiCache {
     }
 
     public struct User: AWSDecodableShape {
-        /// Access permissions string used for this user account.
+        /// Access permissions string used for this user.
         public let accessString: String?
-        /// The Amazon Resource Name (ARN) of the user account.
+        /// The Amazon Resource Name (ARN) of the user.
         public let arn: String?
         /// Denotes whether the user requires a password to authenticate.
         public let authentication: Authentication?
-        /// Must be Redis.
+        /// The current supported value is Redis.
         public let engine: String?
         /// Indicates the user status. Can be "active", "modifying" or "deleting".
         public let status: String?
@@ -4868,7 +4868,7 @@ extension ElastiCache {
     public struct UserGroup: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the user group.
         public let arn: String?
-        /// Must be Redis.
+        /// The current supported value is Redis.
         public let engine: String?
         /// A list of updates being applied to the user groups.
         public let pendingChanges: UserGroupPendingChanges?
@@ -4908,7 +4908,7 @@ extension ElastiCache {
         /// The list of user IDs to add.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userIdsToAdd: [String]?
-        /// The list of user group IDs ro remove.
+        /// The list of user IDs to remove.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userIdsToRemove: [String]?
 

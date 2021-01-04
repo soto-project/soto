@@ -1651,7 +1651,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of the source AWS Regions where the current AWS Region can create a read replica or copy a DB snapshot from. This API action supports pagination.
+    ///  Returns a list of the source AWS Regions where the current AWS Region can create a read replica, copy a DB snapshot from, or replicate automated backups from. This API action supports pagination.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1872,6 +1872,7 @@ extension RDS.DescribeDBEngineVersionsMessage: AWSPaginateToken {
 extension RDS.DescribeDBInstanceAutomatedBackupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBInstanceAutomatedBackupsMessage {
         return .init(
+            dBInstanceAutomatedBackupsArn: self.dBInstanceAutomatedBackupsArn,
             dBInstanceIdentifier: self.dBInstanceIdentifier,
             dbiResourceId: self.dbiResourceId,
             filters: self.filters,

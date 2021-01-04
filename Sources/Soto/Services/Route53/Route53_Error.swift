@@ -22,6 +22,7 @@ public struct Route53ErrorType: AWSErrorType {
         case concurrentModification = "ConcurrentModification"
         case conflictingDomainExists = "ConflictingDomainExists"
         case conflictingTypes = "ConflictingTypes"
+        case dNSSECNotFound = "DNSSECNotFound"
         case delegationSetAlreadyCreated = "DelegationSetAlreadyCreated"
         case delegationSetAlreadyReusable = "DelegationSetAlreadyReusable"
         case delegationSetInUse = "DelegationSetInUse"
@@ -34,15 +35,24 @@ public struct Route53ErrorType: AWSErrorType {
         case hostedZoneNotEmpty = "HostedZoneNotEmpty"
         case hostedZoneNotFound = "HostedZoneNotFound"
         case hostedZoneNotPrivate = "HostedZoneNotPrivate"
+        case hostedZonePartiallyDelegated = "HostedZonePartiallyDelegated"
         case incompatibleVersion = "IncompatibleVersion"
         case insufficientCloudWatchLogsResourcePolicy = "InsufficientCloudWatchLogsResourcePolicy"
         case invalidArgument = "InvalidArgument"
         case invalidChangeBatch = "InvalidChangeBatch"
         case invalidDomainName = "InvalidDomainName"
         case invalidInput = "InvalidInput"
+        case invalidKMSArn = "InvalidKMSArn"
+        case invalidKeySigningKeyName = "InvalidKeySigningKeyName"
+        case invalidKeySigningKeyStatus = "InvalidKeySigningKeyStatus"
         case invalidPaginationToken = "InvalidPaginationToken"
+        case invalidSigningStatus = "InvalidSigningStatus"
         case invalidTrafficPolicyDocument = "InvalidTrafficPolicyDocument"
         case invalidVPCId = "InvalidVPCId"
+        case keySigningKeyAlreadyExists = "KeySigningKeyAlreadyExists"
+        case keySigningKeyInParentDSRecord = "KeySigningKeyInParentDSRecord"
+        case keySigningKeyInUse = "KeySigningKeyInUse"
+        case keySigningKeyWithActiveStatusNotFound = "KeySigningKeyWithActiveStatusNotFound"
         case lastVPCAssociation = "LastVPCAssociation"
         case limitsExceeded = "LimitsExceeded"
         case noSuchChange = "NoSuchChange"
@@ -51,6 +61,7 @@ public struct Route53ErrorType: AWSErrorType {
         case noSuchGeoLocation = "NoSuchGeoLocation"
         case noSuchHealthCheck = "NoSuchHealthCheck"
         case noSuchHostedZone = "NoSuchHostedZone"
+        case noSuchKeySigningKey = "NoSuchKeySigningKey"
         case noSuchQueryLoggingConfig = "NoSuchQueryLoggingConfig"
         case noSuchTrafficPolicy = "NoSuchTrafficPolicy"
         case noSuchTrafficPolicyInstance = "NoSuchTrafficPolicyInstance"
@@ -61,6 +72,7 @@ public struct Route53ErrorType: AWSErrorType {
         case throttlingException = "ThrottlingException"
         case tooManyHealthChecks = "TooManyHealthChecks"
         case tooManyHostedZones = "TooManyHostedZones"
+        case tooManyKeySigningKeys = "TooManyKeySigningKeys"
         case tooManyTrafficPolicies = "TooManyTrafficPolicies"
         case tooManyTrafficPolicyInstances = "TooManyTrafficPolicyInstances"
         case tooManyTrafficPolicyVersionsForCurrentPolicy = "TooManyTrafficPolicyVersionsForCurrentPolicy"
@@ -96,6 +108,8 @@ public struct Route53ErrorType: AWSErrorType {
     public static var conflictingDomainExists: Self { .init(.conflictingDomainExists) }
     /// You tried to update a traffic policy instance by using a traffic policy version that has a different DNS type than the current type for the instance. You specified the type in the JSON document in the CreateTrafficPolicy or CreateTrafficPolicyVersionrequest.
     public static var conflictingTypes: Self { .init(.conflictingTypes) }
+    /// The hosted zone doesn't have any DNSSEC resources.
+    public static var dNSSECNotFound: Self { .init(.dNSSECNotFound) }
     /// A delegation set with the same owner and caller reference combination has already been created.
     public static var delegationSetAlreadyCreated: Self { .init(.delegationSetAlreadyCreated) }
     /// The specified delegation set has already been marked as reusable.
@@ -120,11 +134,13 @@ public struct Route53ErrorType: AWSErrorType {
     public static var hostedZoneNotFound: Self { .init(.hostedZoneNotFound) }
     /// The specified hosted zone is a public hosted zone, not a private hosted zone.
     public static var hostedZoneNotPrivate: Self { .init(.hostedZoneNotPrivate) }
+    /// The hosted zone nameservers don't match the parent nameservers. The hosted zone and parent must have the same nameservers.
+    public static var hostedZonePartiallyDelegated: Self { .init(.hostedZonePartiallyDelegated) }
     /// The resource you're trying to access is unsupported on this Amazon Route 53 endpoint.
     public static var incompatibleVersion: Self { .init(.incompatibleVersion) }
     /// Amazon Route 53 doesn't have the permissions required to create log streams and send query logs to log streams. Possible causes include the following:   There is no resource policy that specifies the log group ARN in the value for Resource.   The resource policy that includes the log group ARN in the value for Resource doesn't have the necessary permissions.   The resource policy hasn't finished propagating yet.
     public static var insufficientCloudWatchLogsResourcePolicy: Self { .init(.insufficientCloudWatchLogsResourcePolicy) }
-    /// Parameter name is invalid.
+    /// Parameter name is not valid.
     public static var invalidArgument: Self { .init(.invalidArgument) }
     /// This exception contains a list of messages that might contain one or more error messages. Each error message indicates one error in the change batch.
     public static var invalidChangeBatch: Self { .init(.invalidChangeBatch) }
@@ -132,12 +148,28 @@ public struct Route53ErrorType: AWSErrorType {
     public static var invalidDomainName: Self { .init(.invalidDomainName) }
     /// The input is not valid.
     public static var invalidInput: Self { .init(.invalidInput) }
+    /// The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
+    public static var invalidKMSArn: Self { .init(.invalidKMSArn) }
+    /// The key signing key (KSK) name that you specified isn't a valid name.
+    public static var invalidKeySigningKeyName: Self { .init(.invalidKeySigningKeyName) }
+    /// The key signing key (KSK) status isn't valid or another KSK has the status INTERNAL_FAILURE.
+    public static var invalidKeySigningKeyStatus: Self { .init(.invalidKeySigningKeyStatus) }
     /// The value that you specified to get the second or subsequent page of results is invalid.
     public static var invalidPaginationToken: Self { .init(.invalidPaginationToken) }
-    /// The format of the traffic policy document that you specified in the Document element is invalid.
+    /// Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
+    public static var invalidSigningStatus: Self { .init(.invalidSigningStatus) }
+    /// The format of the traffic policy document that you specified in the Document element is not valid.
     public static var invalidTrafficPolicyDocument: Self { .init(.invalidTrafficPolicyDocument) }
     /// The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
     public static var invalidVPCId: Self { .init(.invalidVPCId) }
+    /// You've already created a key signing key (KSK) with this name or with the same customer managed key (CMK) ARN.
+    public static var keySigningKeyAlreadyExists: Self { .init(.keySigningKeyAlreadyExists) }
+    /// The key signing key (KSK) is specified in a parent DS record.
+    public static var keySigningKeyInParentDSRecord: Self { .init(.keySigningKeyInParentDSRecord) }
+    /// The key signing key (KSK) that you specified can't be deactivated because it's the only KSK for a currently-enabled DNSSEC. Disable DNSSEC signing, or add or enable another KSK.
+    public static var keySigningKeyInUse: Self { .init(.keySigningKeyInUse) }
+    /// A key signing key (KSK) with ACTIVE status wasn't found.
+    public static var keySigningKeyWithActiveStatusNotFound: Self { .init(.keySigningKeyWithActiveStatusNotFound) }
     /// The VPC that you're trying to disassociate from the private hosted zone is the last VPC that is associated with the hosted zone. Amazon Route 53 doesn't support disassociating the last VPC from a hosted zone.
     public static var lastVPCAssociation: Self { .init(.lastVPCAssociation) }
     /// This operation can't be completed either because the current account has reached the limit on reusable delegation sets that it can create or because you've reached the limit on the number of Amazon VPCs that you can associate with a private hosted zone. To get the current limit on the number of reusable delegation sets, see GetAccountLimit. To get the current limit on the number of Amazon VPCs that you can associate with a private hosted zone, see GetHostedZoneLimit. To request a higher limit, create a case with the AWS Support Center.
@@ -154,6 +186,8 @@ public struct Route53ErrorType: AWSErrorType {
     public static var noSuchHealthCheck: Self { .init(.noSuchHealthCheck) }
     /// No hosted zone exists with the ID that you specified.
     public static var noSuchHostedZone: Self { .init(.noSuchHostedZone) }
+    /// The specified key signing key (KSK) doesn't exist.
+    public static var noSuchKeySigningKey: Self { .init(.noSuchKeySigningKey) }
     /// There is no DNS query logging configuration with the specified ID.
     public static var noSuchQueryLoggingConfig: Self { .init(.noSuchQueryLoggingConfig) }
     /// No traffic policy exists with the specified ID.
@@ -174,6 +208,8 @@ public struct Route53ErrorType: AWSErrorType {
     public static var tooManyHealthChecks: Self { .init(.tooManyHealthChecks) }
     /// This operation can't be completed either because the current account has reached the limit on the number of hosted zones or because you've reached the limit on the number of hosted zones that can be associated with a reusable delegation set. For information about default limits, see Limits in the Amazon Route 53 Developer Guide. To get the current limit on hosted zones that can be created by an account, see GetAccountLimit. To get the current limit on hosted zones that can be associated with a reusable delegation set, see GetReusableDelegationSetLimit. To request a higher limit, create a case with the AWS Support Center.
     public static var tooManyHostedZones: Self { .init(.tooManyHostedZones) }
+    /// You've reached the limit for the number of key signing keys (KSKs). Remove at least one KSK, and then try again.
+    public static var tooManyKeySigningKeys: Self { .init(.tooManyKeySigningKeys) }
     /// This traffic policy can't be created because the current account has reached the limit on the number of traffic policies. For information about default limits, see Limits in the Amazon Route 53 Developer Guide. To get the current limit for an account, see GetAccountLimit.  To request a higher limit, create a case with the AWS Support Center.
     public static var tooManyTrafficPolicies: Self { .init(.tooManyTrafficPolicies) }
     /// This traffic policy instance can't be created because the current account has reached the limit on the number of traffic policy instances. For information about default limits, see Limits in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see GetAccountLimit. To request a higher limit, create a case with the AWS Support Center.

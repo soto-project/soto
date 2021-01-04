@@ -128,6 +128,7 @@
         "DeleteCostCategoryDefinitionRequest$CostCategoryArn": "<p> The unique identifier for your Cost Category. </p>",
         "DeleteCostCategoryDefinitionResponse$CostCategoryArn": "<p> The unique identifier for your Cost Category. </p>",
         "DescribeCostCategoryDefinitionRequest$CostCategoryArn": "<p> The unique identifier for your Cost Category. </p>",
+        "MonitorArnList$member": null,
         "UpdateCostCategoryDefinitionRequest$CostCategoryArn": "<p>The unique identifier for your Cost Category.</p>",
         "UpdateCostCategoryDefinitionResponse$CostCategoryArn": "<p> The unique identifier for your Cost Category. </p>"
       }
@@ -678,6 +679,7 @@
         "RightsizingRecommendation$AccountId": "<p>The account that this recommendation is for.</p>",
         "RightsizingRecommendationMetadata$RecommendationId": "<p> The ID for this specific recommendation.</p>",
         "RightsizingRecommendationMetadata$GenerationTimestamp": "<p> The timestamp for when AWS made this recommendation.</p>",
+        "RightsizingRecommendationMetadata$AdditionalMetadata": "<p>Additional metadata that may be applicable to the recommendation.</p>",
         "RightsizingRecommendationSummary$TotalRecommendationCount": "<p> Total number of instance recommendations.</p>",
         "RightsizingRecommendationSummary$EstimatedTotalMonthlySavingsAmount": "<p> Estimated total savings resulting from modifications, on a monthly basis.</p>",
         "RightsizingRecommendationSummary$SavingsCurrencyCode": "<p> The currency code that AWS used to calculate the savings.</p>",
@@ -1098,6 +1100,13 @@
       "base": "<p> Details on the modification recommendation.</p>",
       "refs": {
         "RightsizingRecommendation$ModifyRecommendationDetail": "<p> Details for modification recommendations. </p>"
+      }
+    },
+    "MonitorArnList": {
+      "base": null,
+      "refs": {
+        "AnomalySubscription$MonitorArnList": "<p> A list of cost anomaly monitors. </p>",
+        "UpdateAnomalySubscriptionRequest$MonitorArnList": "<p> A list of cost anomaly monitor ARNs. </p>"
       }
     },
     "MonitorDimension": {
@@ -1810,13 +1819,11 @@
     "Values": {
       "base": null,
       "refs": {
-        "AnomalySubscription$MonitorArnList": "<p> A list of cost anomaly monitors. </p>",
         "CostCategoryValues$Values": "<p>The specific value of the Cost Category.</p>",
         "DimensionValues$Values": "<p>The metadata values that you can use to filter and group your results. You can use <code>GetDimensionValues</code> to find specific values.</p>",
         "GetAnomalyMonitorsRequest$MonitorArnList": "<p> A list of cost anomaly monitor ARNs. </p>",
         "GetAnomalySubscriptionsRequest$SubscriptionArnList": "<p> A list of cost anomaly subscription ARNs. </p>",
-        "TagValues$Values": "<p>The specific value of the tag.</p>",
-        "UpdateAnomalySubscriptionRequest$MonitorArnList": "<p> A list of cost anomaly subscription ARNs. </p>"
+        "TagValues$Values": "<p>The specific value of the tag.</p>"
       }
     },
     "YearMonthDay": {

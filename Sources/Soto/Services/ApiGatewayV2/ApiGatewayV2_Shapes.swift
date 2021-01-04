@@ -684,11 +684,12 @@ extension ApiGatewayV2 {
         public let payloadFormatVersion: String?
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
+        public let responseParameters: [String: [String: String]]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
         public let tlsConfig: TlsConfigInput?
 
-        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
+        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -703,6 +704,7 @@ extension ApiGatewayV2 {
             self.payloadFormatVersion = payloadFormatVersion
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
+            self.responseParameters = responseParameters
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
@@ -727,6 +729,7 @@ extension ApiGatewayV2 {
             case payloadFormatVersion
             case requestParameters
             case requestTemplates
+            case responseParameters
             case templateSelectionExpression
             case timeoutInMillis
             case tlsConfig
@@ -810,11 +813,12 @@ extension ApiGatewayV2 {
         public let payloadFormatVersion: String?
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
+        public let responseParameters: [String: [String: String]]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
         public let tlsConfig: TlsConfig?
 
-        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
+        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -831,6 +835,7 @@ extension ApiGatewayV2 {
             self.payloadFormatVersion = payloadFormatVersion
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
+            self.responseParameters = responseParameters
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
@@ -853,6 +858,7 @@ extension ApiGatewayV2 {
             case payloadFormatVersion
             case requestParameters
             case requestTemplates
+            case responseParameters
             case templateSelectionExpression
             case timeoutInMillis
             case tlsConfig
@@ -2186,11 +2192,12 @@ extension ApiGatewayV2 {
         public let payloadFormatVersion: String?
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
+        public let responseParameters: [String: [String: String]]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
         public let tlsConfig: TlsConfig?
 
-        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
+        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -2207,6 +2214,7 @@ extension ApiGatewayV2 {
             self.payloadFormatVersion = payloadFormatVersion
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
+            self.responseParameters = responseParameters
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
@@ -2229,6 +2237,7 @@ extension ApiGatewayV2 {
             case payloadFormatVersion
             case requestParameters
             case requestTemplates
+            case responseParameters
             case templateSelectionExpression
             case timeoutInMillis
             case tlsConfig
@@ -2880,10 +2889,16 @@ extension ApiGatewayV2 {
         /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
         public let payloadFormatVersion: String?
         /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name}
-        ///               , where  {location}  is querystring, path, or header; and {name} must be a valid and unique method request parameter name. For HTTP APIs, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations with a specified integrationSubtype. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs.
+        ///           , where
+        ///             {location}
+        ///            is querystring, path, or header; and
+        ///             {name}
+        ///            must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API itegrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
         public let requestParameters: [String: String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value. Supported only for WebSocket APIs.
         public let requestTemplates: [String: String]?
+        /// Supported only for HTTP APIs. You use response parameters to transform the HTTP response from a backend integration before returning the response to clients. Specify a key-value map from a selection key to response parameters. The selection key must be a valid HTTP status code within the range of 200-599. Response parameters are a key-value map. The key must match pattern &lt;action&gt;:&lt;header&gt;.&lt;location&gt; or overwrite.statuscode. The action can be append, overwrite or remove. The value can be a static value, or map to response data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
+        public let responseParameters: [String: [String: String]]?
         /// The template selection expression for the integration. Supported only for WebSocket APIs.
         public let templateSelectionExpression: String?
         /// Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29 seconds for WebSocket APIs and 30 seconds for HTTP APIs.
@@ -2891,7 +2906,7 @@ extension ApiGatewayV2 {
         /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
         public let tlsConfig: TlsConfig?
 
-        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
+        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -2908,6 +2923,7 @@ extension ApiGatewayV2 {
             self.payloadFormatVersion = payloadFormatVersion
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
+            self.responseParameters = responseParameters
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
@@ -2930,6 +2946,7 @@ extension ApiGatewayV2 {
             case payloadFormatVersion
             case requestParameters
             case requestTemplates
+            case responseParameters
             case templateSelectionExpression
             case timeoutInMillis
             case tlsConfig
@@ -3017,7 +3034,8 @@ extension ApiGatewayV2 {
     }
 
     public struct MutualTlsAuthentication: AWSDecodableShape {
-        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
+        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name
+        ///                . The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
         public let truststoreUri: String?
         /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
         public let truststoreVersion: String?
@@ -3038,7 +3056,8 @@ extension ApiGatewayV2 {
     }
 
     public struct MutualTlsAuthenticationInput: AWSEncodableShape {
-        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
+        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name
+        ///                . The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
         public let truststoreUri: String?
         /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
         public let truststoreVersion: String?
@@ -3785,11 +3804,12 @@ extension ApiGatewayV2 {
         public let payloadFormatVersion: String?
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
+        public let responseParameters: [String: [String: String]]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
         public let tlsConfig: TlsConfigInput?
 
-        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String, integrationMethod: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
+        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String, integrationMethod: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -3805,6 +3825,7 @@ extension ApiGatewayV2 {
             self.payloadFormatVersion = payloadFormatVersion
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
+            self.responseParameters = responseParameters
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
@@ -3829,6 +3850,7 @@ extension ApiGatewayV2 {
             case payloadFormatVersion
             case requestParameters
             case requestTemplates
+            case responseParameters
             case templateSelectionExpression
             case timeoutInMillis
             case tlsConfig
@@ -3915,11 +3937,12 @@ extension ApiGatewayV2 {
         public let payloadFormatVersion: String?
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
+        public let responseParameters: [String: [String: String]]?
         public let templateSelectionExpression: String?
         public let timeoutInMillis: Int?
         public let tlsConfig: TlsConfig?
 
-        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
+        public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -3936,6 +3959,7 @@ extension ApiGatewayV2 {
             self.payloadFormatVersion = payloadFormatVersion
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
+            self.responseParameters = responseParameters
             self.templateSelectionExpression = templateSelectionExpression
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
@@ -3958,6 +3982,7 @@ extension ApiGatewayV2 {
             case payloadFormatVersion
             case requestParameters
             case requestTemplates
+            case responseParameters
             case templateSelectionExpression
             case timeoutInMillis
             case tlsConfig

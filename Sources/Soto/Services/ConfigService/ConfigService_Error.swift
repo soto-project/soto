@@ -65,6 +65,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
         case organizationConformancePackTemplateValidationException = "OrganizationConformancePackTemplateValidationException"
         case oversizedConfigurationItemException = "OversizedConfigurationItemException"
         case remediationInProgressException = "RemediationInProgressException"
+        case resourceConcurrentModificationException = "ResourceConcurrentModificationException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotDiscoveredException = "ResourceNotDiscoveredException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -182,6 +183,8 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var oversizedConfigurationItemException: Self { .init(.oversizedConfigurationItemException) }
     /// Remediation action is in progress. You can either cancel execution in AWS Systems Manager or wait and try again later.
     public static var remediationInProgressException: Self { .init(.remediationInProgressException) }
+    /// Two users are trying to modify the same query at the same time. Wait for a moment and try again.
+    public static var resourceConcurrentModificationException: Self { .init(.resourceConcurrentModificationException) }
     /// You see this exception in the following cases:    For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.   For DeleteConfigRule, the rule is deleting your evaluation results. Try your request again later.   For DeleteConfigRule, a remediation action is associated with the rule and AWS Config cannot delete this rule. Delete the remediation action associated with the rule before deleting the rule and try your request again later.   For PutConfigOrganizationRule, organization config rule deletion is in progress. Try your request again later.   For DeleteOrganizationConfigRule, organization config rule creation is in progress. Try your request again later.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.   For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// You have specified a resource that is either unknown or has not been discovered.

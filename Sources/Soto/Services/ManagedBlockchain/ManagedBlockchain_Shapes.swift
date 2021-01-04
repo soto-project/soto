@@ -27,6 +27,7 @@ extension ManagedBlockchain {
     }
 
     public enum Framework: String, CustomStringConvertible, Codable {
+        case ethereum = "ETHEREUM"
         case hyperledgerFabric = "HYPERLEDGER_FABRIC"
         public var description: String { return self.rawValue }
     }
@@ -66,6 +67,7 @@ extension ManagedBlockchain {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case unhealthy = "UNHEALTHY"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -251,20 +253,19 @@ extension ManagedBlockchain {
 
     public struct CreateNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")),
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId"))
         ]
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
         public let clientRequestToken: String
-        /// The unique identifier of the member that owns this node.
-        public let memberId: String
-        /// The unique identifier of the network in which this node runs.
+        /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric.
+        public let memberId: String?
+        /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-rinkeby     n-ethereum-ropsten
         public let networkId: String
         /// The properties of a node configuration.
         public let nodeConfiguration: NodeConfiguration
 
-        public init(clientRequestToken: String = CreateNodeInput.idempotencyToken(), memberId: String, networkId: String, nodeConfiguration: NodeConfiguration) {
+        public init(clientRequestToken: String = CreateNodeInput.idempotencyToken(), memberId: String? = nil, networkId: String, nodeConfiguration: NodeConfiguration) {
             self.clientRequestToken = clientRequestToken
             self.memberId = memberId
             self.networkId = networkId
@@ -282,6 +283,7 @@ extension ManagedBlockchain {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case memberId = "MemberId"
             case nodeConfiguration = "NodeConfiguration"
         }
     }
@@ -387,19 +389,19 @@ extension ManagedBlockchain {
 
     public struct DeleteNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")),
+            AWSMemberEncoding(label: "memberId", location: .querystring(locationName: "memberId")),
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")),
             AWSMemberEncoding(label: "nodeId", location: .uri(locationName: "nodeId"))
         ]
 
-        /// The unique identifier of the member that owns this node.
-        public let memberId: String
-        /// The unique identifier of the network that the node belongs to.
+        /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
+        public let memberId: String?
+        /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-rinkeby     n-ethereum-ropsten
         public let networkId: String
         /// The unique identifier of the node.
         public let nodeId: String
 
-        public init(memberId: String, networkId: String, nodeId: String) {
+        public init(memberId: String? = nil, networkId: String, nodeId: String) {
             self.memberId = memberId
             self.networkId = networkId
             self.nodeId = nodeId
@@ -495,19 +497,19 @@ extension ManagedBlockchain {
 
     public struct GetNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")),
+            AWSMemberEncoding(label: "memberId", location: .querystring(locationName: "memberId")),
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")),
             AWSMemberEncoding(label: "nodeId", location: .uri(locationName: "nodeId"))
         ]
 
-        /// The unique identifier of the member that owns the node.
-        public let memberId: String
-        /// The unique identifier of the network to which the node belongs.
+        /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
+        public let memberId: String?
+        /// The unique identifier of the network that the node is on.
         public let networkId: String
         /// The unique identifier of the node.
         public let nodeId: String
 
-        public init(memberId: String, networkId: String, nodeId: String) {
+        public init(memberId: String? = nil, networkId: String, nodeId: String) {
             self.memberId = memberId
             self.networkId = networkId
             self.nodeId = nodeId
@@ -739,7 +741,7 @@ extension ManagedBlockchain {
         public let name: String?
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
-        /// An optional status specifier. If provided, only networks currently in this status are listed.
+        /// An optional status specifier. If provided, only networks currently in this status are listed. Applies only to Hyperledger Fabric.
         public let status: NetworkStatus?
 
         public init(framework: Framework? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, status: NetworkStatus? = nil) {
@@ -779,7 +781,7 @@ extension ManagedBlockchain {
     public struct ListNodesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")),
+            AWSMemberEncoding(label: "memberId", location: .querystring(locationName: "memberId")),
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
@@ -787,8 +789,8 @@ extension ManagedBlockchain {
 
         /// The maximum number of nodes to list.
         public let maxResults: Int?
-        /// The unique identifier of the member who owns the nodes to list.
-        public let memberId: String
+        /// The unique identifier of the member who owns the nodes to list. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
+        public let memberId: String?
         /// The unique identifier of the network for which to list nodes.
         public let networkId: String
         /// The pagination token that indicates the next set of results to retrieve.
@@ -796,7 +798,7 @@ extension ManagedBlockchain {
         /// An optional status specifier. If provided, only nodes currently in this status are listed.
         public let status: NodeStatus?
 
-        public init(maxResults: Int? = nil, memberId: String, networkId: String, nextToken: String? = nil, status: NodeStatus? = nil) {
+        public init(maxResults: Int? = nil, memberId: String? = nil, networkId: String, nextToken: String? = nil, status: NodeStatus? = nil) {
             self.maxResults = maxResults
             self.memberId = memberId
             self.networkId = networkId
@@ -874,7 +876,7 @@ extension ManagedBlockchain {
     public struct ListProposalVotesOutput: AWSDecodableShape {
         ///  The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
-        ///  The listing of votes.
+        ///  The list of votes.
         public let proposalVotes: [VoteSummary]?
 
         public init(nextToken: String? = nil, proposalVotes: [VoteSummary]? = nil) {
@@ -1026,7 +1028,7 @@ extension ManagedBlockchain {
             try self.frameworkConfiguration.validate(name: "\(name).frameworkConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!-)^[^0-9](?!.*--)[A-Za-z0-9-]+[^- ]$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!-|[0-9])(?!.*-$)(?!.*?--)[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1055,7 +1057,7 @@ extension ManagedBlockchain {
     }
 
     public struct MemberFabricConfiguration: AWSEncodableShape {
-        /// The password for the member's initial administrative user. The AdminPassword must be at least eight characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quote(‘), double quote(“), forward slash(/), backward slash(\), @, or a space.
+        /// The password for the member's initial administrative user. The AdminPassword must be at least eight characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quotation mark (‘), a double quotation marks (“), a forward slash(/), a backward slash(\), @, or a space.
         public let adminPassword: String
         /// The user name for the member's initial administrative user.
         public let adminUsername: String
@@ -1220,6 +1222,19 @@ extension ManagedBlockchain {
         }
     }
 
+    public struct NetworkEthereumAttributes: AWSDecodableShape {
+        /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:   mainnet = 1    rinkeby = 4    ropsten = 3
+        public let chainId: String?
+
+        public init(chainId: String? = nil) {
+            self.chainId = chainId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chainId = "ChainId"
+        }
+    }
+
     public struct NetworkFabricAttributes: AWSDecodableShape {
         /// The edition of Amazon Managed Blockchain that Hyperledger Fabric uses. For more information, see Amazon Managed Blockchain Pricing.
         public let edition: Edition?
@@ -1251,14 +1266,18 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkFrameworkAttributes: AWSDecodableShape {
+        /// Attributes of an Ethereum network for Managed Blockchain resources participating in an Ethereum network.
+        public let ethereum: NetworkEthereumAttributes?
         /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NetworkFabricAttributes?
 
-        public init(fabric: NetworkFabricAttributes? = nil) {
+        public init(ethereum: NetworkEthereumAttributes? = nil, fabric: NetworkFabricAttributes? = nil) {
+            self.ethereum = ethereum
             self.fabric = fabric
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ethereum = "Ethereum"
             case fabric = "Fabric"
         }
     }
@@ -1326,13 +1345,13 @@ extension ManagedBlockchain {
         public let id: String?
         /// The instance type of the node.
         public let instanceType: String?
-        /// Configuration properties for logging events associated with a peer node owned by a member in a Managed Blockchain network.
+        /// Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain.
         public let logPublishingConfiguration: NodeLogPublishingConfiguration?
-        /// The unique identifier of the member to which the node belongs.
+        /// The unique identifier of the member to which the node belongs. Applies only to Hyperledger Fabric.
         public let memberId: String?
-        /// The unique identifier of the network that the node is in.
+        /// The unique identifier of the network that the node is on.
         public let networkId: String?
-        /// The state database that the node uses. Values are LevelDB or CouchDB.
+        /// The state database that the node uses. Values are LevelDB or CouchDB. Applies only to Hyperledger Fabric.
         public let stateDB: StateDBType?
         /// The status of the node.
         public let status: NodeStatus?
@@ -1366,15 +1385,15 @@ extension ManagedBlockchain {
 
     public struct NodeConfiguration: AWSEncodableShape {
         /// The Availability Zone in which the node exists.
-        public let availabilityZone: String
+        public let availabilityZone: String?
         /// The Amazon Managed Blockchain instance type for the node.
         public let instanceType: String
-        /// Configuration properties for logging events associated with a peer node owned by a member in a Managed Blockchain network.
+        /// Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain.
         public let logPublishingConfiguration: NodeLogPublishingConfiguration?
-        /// The state database that the node uses. Values are LevelDB or CouchDB. When using an Amazon Managed Blockchain network with Hyperledger Fabric version 1.4 or later, the default is CouchDB.
+        /// The state database that the node uses. Values are LevelDB or CouchDB. When using an Amazon Managed Blockchain network with Hyperledger Fabric version 1.4 or later, the default is CouchDB. Applies only to Hyperledger Fabric.
         public let stateDB: StateDBType?
 
-        public init(availabilityZone: String, instanceType: String, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, stateDB: StateDBType? = nil) {
+        public init(availabilityZone: String? = nil, instanceType: String, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, stateDB: StateDBType? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
             self.logPublishingConfiguration = logPublishingConfiguration
@@ -1386,6 +1405,23 @@ extension ManagedBlockchain {
             case instanceType = "InstanceType"
             case logPublishingConfiguration = "LogPublishingConfiguration"
             case stateDB = "StateDB"
+        }
+    }
+
+    public struct NodeEthereumAttributes: AWSDecodableShape {
+        /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over HTTP connections from a client. Use this endpoint in client code for smart contracts when using an HTTP connection. Connections to this endpoint are authenticated using Signature Version 4.
+        public let httpEndpoint: String?
+        /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over WebSockets connections from a client. Use this endpoint in client code for smart contracts when using a WebSockets connection. Connections to this endpoint are authenticated using Signature Version 4.
+        public let webSocketEndpoint: String?
+
+        public init(httpEndpoint: String? = nil, webSocketEndpoint: String? = nil) {
+            self.httpEndpoint = httpEndpoint
+            self.webSocketEndpoint = webSocketEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpEndpoint = "HttpEndpoint"
+            case webSocketEndpoint = "WebSocketEndpoint"
         }
     }
 
@@ -1424,14 +1460,18 @@ extension ManagedBlockchain {
     }
 
     public struct NodeFrameworkAttributes: AWSDecodableShape {
+        /// Attributes of Ethereum for a node on a Managed Blockchain network that uses Ethereum.
+        public let ethereum: NodeEthereumAttributes?
         /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NodeFabricAttributes?
 
-        public init(fabric: NodeFabricAttributes? = nil) {
+        public init(ethereum: NodeEthereumAttributes? = nil, fabric: NodeFabricAttributes? = nil) {
+            self.ethereum = ethereum
             self.fabric = fabric
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ethereum = "Ethereum"
             case fabric = "Fabric"
         }
     }
@@ -1650,9 +1690,9 @@ extension ManagedBlockchain {
 
         /// Configuration properties for publishing to Amazon CloudWatch Logs.
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
-        /// The unique ID of the member.
+        /// The unique identifier of the member.
         public let memberId: String
-        /// The unique ID of the Managed Blockchain network to which the member belongs.
+        /// The unique identifier of the Managed Blockchain network to which the member belongs.
         public let networkId: String
 
         public init(logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, memberId: String, networkId: String) {
@@ -1679,21 +1719,20 @@ extension ManagedBlockchain {
 
     public struct UpdateNodeInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")),
             AWSMemberEncoding(label: "networkId", location: .uri(locationName: "networkId")),
             AWSMemberEncoding(label: "nodeId", location: .uri(locationName: "nodeId"))
         ]
 
         /// Configuration properties for publishing to Amazon CloudWatch Logs.
         public let logPublishingConfiguration: NodeLogPublishingConfiguration?
-        /// The unique ID of the member that owns the node.
-        public let memberId: String
-        /// The unique ID of the Managed Blockchain network to which the node belongs.
+        /// The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric.
+        public let memberId: String?
+        /// The unique identifier of the network that the node is on.
         public let networkId: String
-        /// The unique ID of the node.
+        /// The unique identifier of the node.
         public let nodeId: String
 
-        public init(logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String, networkId: String, nodeId: String) {
+        public init(logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String, nodeId: String) {
             self.logPublishingConfiguration = logPublishingConfiguration
             self.memberId = memberId
             self.networkId = networkId
@@ -1711,6 +1750,7 @@ extension ManagedBlockchain {
 
         private enum CodingKeys: String, CodingKey {
             case logPublishingConfiguration = "LogPublishingConfiguration"
+            case memberId = "MemberId"
         }
     }
 

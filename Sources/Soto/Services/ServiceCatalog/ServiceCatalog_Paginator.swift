@@ -19,6 +19,57 @@ import SotoCore
 // MARK: Paginators
 
 extension ServiceCatalog {
+    ///  Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describePortfolioSharesPaginator<Result>(
+        _ input: DescribePortfolioSharesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribePortfolioSharesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describePortfolioShares,
+            tokenKey: \DescribePortfolioSharesOutput.nextPageToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describePortfolioSharesPaginator(
+        _ input: DescribePortfolioSharesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribePortfolioSharesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describePortfolioShares,
+            tokenKey: \DescribePortfolioSharesOutput.nextPageToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -934,6 +985,17 @@ extension ServiceCatalog {
             tokenKey: \SearchProvisionedProductsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension ServiceCatalog.DescribePortfolioSharesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.DescribePortfolioSharesInput {
+        return .init(
+            pageSize: self.pageSize,
+            pageToken: token,
+            portfolioId: self.portfolioId,
+            type: self.type
         )
     }
 }

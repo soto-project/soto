@@ -20,6 +20,13 @@ import SotoCore
 extension ACMPCA {
     // MARK: Enums
 
+    public enum AccessMethodType: String, CustomStringConvertible, Codable {
+        case caRepository = "CA_REPOSITORY"
+        case resourcePkiManifest = "RESOURCE_PKI_MANIFEST"
+        case resourcePkiNotify = "RESOURCE_PKI_NOTIFY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ActionType: String, CustomStringConvertible, Codable {
         case getcertificate = "GetCertificate"
         case issuecertificate = "IssueCertificate"
@@ -112,7 +119,7 @@ extension ACMPCA {
     // MARK: Shapes
 
     public struct ASN1Subject: AWSEncodableShape & AWSDecodableShape {
-        /// Fully qualified domain name (FQDN) associated with the certificate subject.
+        /// For CA and end-entity certificates in a private PKI, the common name (CN) can be any string within the length limit.  Note: In publicly trusted certificates, the common name must be a fully qualified domain name (FQDN) associated with the certificate subject.
         public let commonName: String?
         /// Two-digit code that specifies the country in which the certificate subject located.
         public let country: String?
@@ -210,6 +217,51 @@ extension ACMPCA {
         }
     }
 
+    public struct AccessDescription: AWSEncodableShape & AWSDecodableShape {
+        /// The location of AccessDescription information.
+        public let accessLocation: GeneralName
+        /// The type and format of AccessDescription information.
+        public let accessMethod: AccessMethod
+
+        public init(accessLocation: GeneralName, accessMethod: AccessMethod) {
+            self.accessLocation = accessLocation
+            self.accessMethod = accessMethod
+        }
+
+        public func validate(name: String) throws {
+            try self.accessLocation.validate(name: "\(name).accessLocation")
+            try self.accessMethod.validate(name: "\(name).accessMethod")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLocation = "AccessLocation"
+            case accessMethod = "AccessMethod"
+        }
+    }
+
+    public struct AccessMethod: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the AccessMethod.
+        public let accessMethodType: AccessMethodType?
+        /// An object identifier (OID) specifying the AccessMethod. The OID must satisfy the regular expression shown below. For more information, see NIST's definition of Object Identifier (OID).
+        public let customObjectIdentifier: String?
+
+        public init(accessMethodType: AccessMethodType? = nil, customObjectIdentifier: String? = nil) {
+            self.accessMethodType = accessMethodType
+            self.customObjectIdentifier = customObjectIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customObjectIdentifier, name: "customObjectIdentifier", parent: name, max: 64)
+            try self.validate(self.customObjectIdentifier, name: "customObjectIdentifier", parent: name, min: 0)
+            try self.validate(self.customObjectIdentifier, name: "customObjectIdentifier", parent: name, pattern: "^([0-2])\\.([0-9]|([0-3][0-9]))((\\.([0-9]+)){0,126})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessMethodType = "AccessMethodType"
+            case customObjectIdentifier = "CustomObjectIdentifier"
+        }
+    }
+
     public struct CertificateAuthority: AWSDecodableShape {
         /// Amazon Resource Name (ARN) for your private certificate authority (CA). The format is  12345678-1234-1234-1234-123456789012 .
         public let arn: String?
@@ -272,6 +324,8 @@ extension ACMPCA {
     }
 
     public struct CertificateAuthorityConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies information to be added to the extension section of the certificate signing request (CSR).
+        public let csrExtensions: CsrExtensions?
         /// Type of the public key algorithm and size, in bits, of the key pair that your CA creates when it issues a certificate. When you create a subordinate CA, you must use a key algorithm supported by the parent CA.
         public let keyAlgorithm: KeyAlgorithm
         /// Name of the algorithm your private CA uses to sign certificate requests. This parameter should not be confused with the SigningAlgorithm parameter used to sign certificates when they are issued.
@@ -279,17 +333,20 @@ extension ACMPCA {
         /// Structure that contains X.500 distinguished name information for your private CA.
         public let subject: ASN1Subject
 
-        public init(keyAlgorithm: KeyAlgorithm, signingAlgorithm: SigningAlgorithm, subject: ASN1Subject) {
+        public init(csrExtensions: CsrExtensions? = nil, keyAlgorithm: KeyAlgorithm, signingAlgorithm: SigningAlgorithm, subject: ASN1Subject) {
+            self.csrExtensions = csrExtensions
             self.keyAlgorithm = keyAlgorithm
             self.signingAlgorithm = signingAlgorithm
             self.subject = subject
         }
 
         public func validate(name: String) throws {
+            try self.csrExtensions?.validate(name: "\(name).csrExtensions")
             try self.subject.validate(name: "\(name).subject")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case csrExtensions = "CsrExtensions"
             case keyAlgorithm = "KeyAlgorithm"
             case signingAlgorithm = "SigningAlgorithm"
             case subject = "Subject"
@@ -441,7 +498,7 @@ extension ACMPCA {
         public let customCname: String?
         /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the CreateCertificateAuthority action or for an existing CA when you call the UpdateCertificateAuthority action.
         public let enabled: Bool
-        /// Number of days until a certificate expires.
+        /// Validity period of the CRL in days.
         public let expirationInDays: Int?
         /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority action. You must specify a bucket policy that allows ACM Private CA to write the CRL to your bucket.
         public let s3BucketName: String?
@@ -467,6 +524,29 @@ extension ACMPCA {
             case enabled = "Enabled"
             case expirationInDays = "ExpirationInDays"
             case s3BucketName = "S3BucketName"
+        }
+    }
+
+    public struct CsrExtensions: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the purpose of the certificate and of the key contained in the certificate.
+        public let keyUsage: KeyUsage?
+        /// For CA certificates, provides a path to additional information pertaining to the CA, such as revocation and policy. For more information, see Subject Information Access in RFC 5280.
+        public let subjectInformationAccess: [AccessDescription]?
+
+        public init(keyUsage: KeyUsage? = nil, subjectInformationAccess: [AccessDescription]? = nil) {
+            self.keyUsage = keyUsage
+            self.subjectInformationAccess = subjectInformationAccess
+        }
+
+        public func validate(name: String) throws {
+            try self.subjectInformationAccess?.forEach {
+                try $0.validate(name: "\(name).subjectInformationAccess[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyUsage = "KeyUsage"
+            case subjectInformationAccess = "SubjectInformationAccess"
         }
     }
 
@@ -630,6 +710,87 @@ extension ACMPCA {
         }
     }
 
+    public struct EdiPartyName: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the name assigner.
+        public let nameAssigner: String?
+        /// Specifies the party name.
+        public let partyName: String
+
+        public init(nameAssigner: String? = nil, partyName: String) {
+            self.nameAssigner = nameAssigner
+            self.partyName = partyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nameAssigner, name: "nameAssigner", parent: name, max: 256)
+            try self.validate(self.nameAssigner, name: "nameAssigner", parent: name, min: 0)
+            try self.validate(self.partyName, name: "partyName", parent: name, max: 256)
+            try self.validate(self.partyName, name: "partyName", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nameAssigner = "NameAssigner"
+            case partyName = "PartyName"
+        }
+    }
+
+    public struct GeneralName: AWSEncodableShape & AWSDecodableShape {
+        public let directoryName: ASN1Subject?
+        /// Represents GeneralName as a DNS name.
+        public let dnsName: String?
+        /// Represents GeneralName as an EdiPartyName object.
+        public let ediPartyName: EdiPartyName?
+        /// Represents GeneralName as an IPv4 or IPv6 address.
+        public let ipAddress: String?
+        /// Represents GeneralName using an OtherName object.
+        public let otherName: OtherName?
+        ///  Represents GeneralName as an object identifier (OID).
+        public let registeredId: String?
+        /// Represents GeneralName as an RFC 822 email address.
+        public let rfc822Name: String?
+        /// Represents GeneralName as a URI.
+        public let uniformResourceIdentifier: String?
+
+        public init(directoryName: ASN1Subject? = nil, dnsName: String? = nil, ediPartyName: EdiPartyName? = nil, ipAddress: String? = nil, otherName: OtherName? = nil, registeredId: String? = nil, rfc822Name: String? = nil, uniformResourceIdentifier: String? = nil) {
+            self.directoryName = directoryName
+            self.dnsName = dnsName
+            self.ediPartyName = ediPartyName
+            self.ipAddress = ipAddress
+            self.otherName = otherName
+            self.registeredId = registeredId
+            self.rfc822Name = rfc822Name
+            self.uniformResourceIdentifier = uniformResourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.directoryName?.validate(name: "\(name).directoryName")
+            try self.validate(self.dnsName, name: "dnsName", parent: name, max: 253)
+            try self.validate(self.dnsName, name: "dnsName", parent: name, min: 0)
+            try self.ediPartyName?.validate(name: "\(name).ediPartyName")
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 39)
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, min: 0)
+            try self.otherName?.validate(name: "\(name).otherName")
+            try self.validate(self.registeredId, name: "registeredId", parent: name, max: 64)
+            try self.validate(self.registeredId, name: "registeredId", parent: name, min: 0)
+            try self.validate(self.registeredId, name: "registeredId", parent: name, pattern: "^([0-2])\\.([0-9]|([0-3][0-9]))((\\.([0-9]+)){0,126})$")
+            try self.validate(self.rfc822Name, name: "rfc822Name", parent: name, max: 256)
+            try self.validate(self.rfc822Name, name: "rfc822Name", parent: name, min: 0)
+            try self.validate(self.uniformResourceIdentifier, name: "uniformResourceIdentifier", parent: name, max: 253)
+            try self.validate(self.uniformResourceIdentifier, name: "uniformResourceIdentifier", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryName = "DirectoryName"
+            case dnsName = "DnsName"
+            case ediPartyName = "EdiPartyName"
+            case ipAddress = "IpAddress"
+            case otherName = "OtherName"
+            case registeredId = "RegisteredId"
+            case rfc822Name = "Rfc822Name"
+            case uniformResourceIdentifier = "UniformResourceIdentifier"
+        }
+    }
+
     public struct GetCertificateAuthorityCertificateRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of your private CA. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         public let certificateAuthorityArn: String
@@ -652,7 +813,7 @@ extension ACMPCA {
     public struct GetCertificateAuthorityCertificateResponse: AWSDecodableShape {
         /// Base64-encoded certificate authority (CA) certificate.
         public let certificate: String?
-        /// Base64-encoded certificate chain that includes any intermediate certificates and chains up to root on-premises certificate that you used to sign your private CA certificate. The chain does not include your private CA certificate. If this is a root CA, the value will be null.
+        /// Base64-encoded certificate chain that includes any intermediate certificates and chains up to root certificate that you used to sign your private CA certificate. The chain does not include your private CA certificate. If this is a root CA, the value will be null.
         public let certificateChain: String?
 
         public init(certificate: String? = nil, certificateChain: String? = nil) {
@@ -727,7 +888,7 @@ extension ACMPCA {
     public struct GetCertificateResponse: AWSDecodableShape {
         /// The base64 PEM-encoded certificate specified by the CertificateArn parameter.
         public let certificate: String?
-        /// The base64 PEM-encoded certificate chain that chains up to the on-premises root CA certificate that you used to sign your private CA certificate.
+        /// The base64 PEM-encoded certificate chain that chains up to the root CA certificate that you used to sign your private CA certificate.
         public let certificateChain: String?
 
         public init(certificate: String? = nil, certificateChain: String? = nil) {
@@ -862,6 +1023,51 @@ extension ACMPCA {
 
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
+        }
+    }
+
+    public struct KeyUsage: AWSEncodableShape & AWSDecodableShape {
+        /// Key can be used to sign CRLs.
+        public let cRLSign: Bool?
+        /// Key can be used to decipher data.
+        public let dataEncipherment: Bool?
+        /// Key can be used only to decipher data.
+        public let decipherOnly: Bool?
+        ///  Key can be used for digital signing.
+        public let digitalSignature: Bool?
+        /// Key can be used only to encipher data.
+        public let encipherOnly: Bool?
+        /// Key can be used in a key-agreement protocol.
+        public let keyAgreement: Bool?
+        /// Key can be used to sign certificates.
+        public let keyCertSign: Bool?
+        /// Key can be used to encipher data.
+        public let keyEncipherment: Bool?
+        /// Key can be used for non-repudiation.
+        public let nonRepudiation: Bool?
+
+        public init(cRLSign: Bool? = nil, dataEncipherment: Bool? = nil, decipherOnly: Bool? = nil, digitalSignature: Bool? = nil, encipherOnly: Bool? = nil, keyAgreement: Bool? = nil, keyCertSign: Bool? = nil, keyEncipherment: Bool? = nil, nonRepudiation: Bool? = nil) {
+            self.cRLSign = cRLSign
+            self.dataEncipherment = dataEncipherment
+            self.decipherOnly = decipherOnly
+            self.digitalSignature = digitalSignature
+            self.encipherOnly = encipherOnly
+            self.keyAgreement = keyAgreement
+            self.keyCertSign = keyCertSign
+            self.keyEncipherment = keyEncipherment
+            self.nonRepudiation = nonRepudiation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cRLSign = "CRLSign"
+            case dataEncipherment = "DataEncipherment"
+            case decipherOnly = "DecipherOnly"
+            case digitalSignature = "DigitalSignature"
+            case encipherOnly = "EncipherOnly"
+            case keyAgreement = "KeyAgreement"
+            case keyCertSign = "KeyCertSign"
+            case keyEncipherment = "KeyEncipherment"
+            case nonRepudiation = "NonRepudiation"
         }
     }
 
@@ -1003,6 +1209,31 @@ extension ACMPCA {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
+        }
+    }
+
+    public struct OtherName: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies an OID.
+        public let typeId: String
+        /// Specifies an OID value.
+        public let value: String
+
+        public init(typeId: String, value: String) {
+            self.typeId = typeId
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.typeId, name: "typeId", parent: name, max: 64)
+            try self.validate(self.typeId, name: "typeId", parent: name, min: 0)
+            try self.validate(self.typeId, name: "typeId", parent: name, pattern: "^([0-2])\\.([0-9]|([0-3][0-9]))((\\.([0-9]+)){0,126})$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typeId = "TypeId"
+            case value = "Value"
         }
     }
 
@@ -1241,7 +1472,7 @@ extension ACMPCA {
     }
 
     public struct Validity: AWSEncodableShape {
-        /// Determines how ACM Private CA interprets the Value parameter, an integer. Supported validity types include those listed below. Type definitions with values include a sample input value and the resulting output.   END_DATE: The specific date and time when the certificate will expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime (YYYYMMDDHHMMSS) format. When UTCTime is used, if the year field (YY) is greater than or equal to 50, the year is interpreted as 19YY. If the year field is less than 50, the year is interpreted as 20YY.   Sample input value: 491231235959 (UTCTime format)   Output expiration date/time: 12/31/2049 23:59:59    ABSOLUTE: The specific date and time when the certificate will expire, expressed in seconds since the Unix Epoch.    Sample input value: 2524608000   Output expiration date/time: 01/01/2050 00:00:00    DAYS, MONTHS, YEARS: The relative time from the moment of issuance until the certificate will expire, expressed in days, months, or years.  Example if DAYS, issued on 10/12/2020 at 12:34:54 UTC:   Sample input value: 90   Output expiration date: 01/10/2020 12:34:54 UTC
+        /// Determines how ACM Private CA interprets the Value parameter, an integer. Supported validity types include those listed below. Type definitions with values include a sample input value and the resulting output.   END_DATE: The specific date and time when the certificate will expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime (YYYYMMDDHHMMSS) format. When UTCTime is used, if the year field (YY) is greater than or equal to 50, the year is interpreted as 19YY. If the year field is less than 50, the year is interpreted as 20YY.   Sample input value: 491231235959 (UTCTime format)   Output expiration date/time: 12/31/2049 23:59:59    ABSOLUTE: The specific date and time when the certificate will expire, expressed in seconds since the Unix Epoch.    Sample input value: 2524608000   Output expiration date/time: 01/01/2050 00:00:00    DAYS, MONTHS, YEARS: The relative time from the moment of issuance until the certificate will expire, expressed in days, months, or years.  Example if DAYS, issued on 10/12/2020 at 12:34:54 UTC:   Sample input value: 90   Output expiration date: 01/10/2020 12:34:54 UTC   The minimum validity duration for a certificate using relative time (DAYS) is one day. The minimum validity for a certificate using absolute time (ABSOLUTE or END_DATE) is one second.
         public let type: ValidityPeriodType
         /// A long integer interpreted according to the value of Type, below.
         public let value: Int64
