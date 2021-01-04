@@ -70,6 +70,57 @@ extension NetworkManager {
         )
     }
 
+    ///  Gets information about one or more of your connections in a global network.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getConnectionsPaginator<Result>(
+        _ input: GetConnectionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getConnections,
+            tokenKey: \GetConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getConnectionsPaginator(
+        _ input: GetConnectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getConnections,
+            tokenKey: \GetConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets the association information for customer gateways that are associated with devices and links in your global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -325,6 +376,57 @@ extension NetworkManager {
         )
     }
 
+    ///  Gets information about one or more of your transit gateway Connect peer associations in a global network.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getTransitGatewayConnectPeerAssociationsPaginator<Result>(
+        _ input: GetTransitGatewayConnectPeerAssociationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetTransitGatewayConnectPeerAssociationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getTransitGatewayConnectPeerAssociations,
+            tokenKey: \GetTransitGatewayConnectPeerAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getTransitGatewayConnectPeerAssociationsPaginator(
+        _ input: GetTransitGatewayConnectPeerAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetTransitGatewayConnectPeerAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getTransitGatewayConnectPeerAssociations,
+            tokenKey: \GetTransitGatewayConnectPeerAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets information about the transit gateway registrations in a specified global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -387,6 +489,18 @@ extension NetworkManager.DescribeGlobalNetworksRequest: AWSPaginateToken {
     }
 }
 
+extension NetworkManager.GetConnectionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetConnectionsRequest {
+        return .init(
+            connectionIds: self.connectionIds,
+            deviceId: self.deviceId,
+            globalNetworkId: self.globalNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension NetworkManager.GetCustomerGatewayAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkManager.GetCustomerGatewayAssociationsRequest {
         return .init(
@@ -443,6 +557,17 @@ extension NetworkManager.GetSitesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             siteIds: self.siteIds
+        )
+    }
+}
+
+extension NetworkManager.GetTransitGatewayConnectPeerAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetTransitGatewayConnectPeerAssociationsRequest {
+        return .init(
+            globalNetworkId: self.globalNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayConnectPeerArns: self.transitGatewayConnectPeerArns
         )
     }
 }

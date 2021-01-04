@@ -37,6 +37,7 @@ extension Kafka {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case healing = "HEALING"
         case maintenance = "MAINTENANCE"
         case rebootingBroker = "REBOOTING_BROKER"
         case updating = "UPDATING"
@@ -333,7 +334,7 @@ extension Kafka {
         public let numberOfBrokerNodes: Int?
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?
-        /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
+        /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public let state: ClusterState?
         /// Tags attached to the cluster.
         public let tags: [String: String]?
@@ -626,7 +627,7 @@ extension Kafka {
         public let clusterArn: String?
         /// The name of the MSK cluster.
         public let clusterName: String?
-        /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
+        /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public let state: ClusterState?
 
         public init(clusterArn: String? = nil, clusterName: String? = nil, state: ClusterState? = nil) {
@@ -716,7 +717,7 @@ extension Kafka {
     public struct DeleteClusterResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
-        /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
+        /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public let state: ClusterState?
 
         public init(clusterArn: String? = nil, state: ClusterState? = nil) {

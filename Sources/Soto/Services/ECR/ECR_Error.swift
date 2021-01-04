@@ -38,6 +38,7 @@ public struct ECRErrorType: AWSErrorType {
         case lifecyclePolicyPreviewNotFoundException = "LifecyclePolicyPreviewNotFoundException"
         case limitExceededException = "LimitExceededException"
         case referencedImagesNotFoundException = "ReferencedImagesNotFoundException"
+        case registryPolicyNotFoundException = "RegistryPolicyNotFoundException"
         case repositoryAlreadyExistsException = "RepositoryAlreadyExistsException"
         case repositoryNotEmptyException = "RepositoryNotEmptyException"
         case repositoryNotFoundException = "RepositoryNotFoundException"
@@ -47,6 +48,7 @@ public struct ECRErrorType: AWSErrorType {
         case tooManyTagsException = "TooManyTagsException"
         case unsupportedImageTypeException = "UnsupportedImageTypeException"
         case uploadNotFoundException = "UploadNotFoundException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -105,6 +107,8 @@ public struct ECRErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The manifest list is referencing an image that does not exist.
     public static var referencedImagesNotFoundException: Self { .init(.referencedImagesNotFoundException) }
+    /// The registry doesn't have an associated registry policy.
+    public static var registryPolicyNotFoundException: Self { .init(.registryPolicyNotFoundException) }
     /// The specified repository already exists in the specified registry.
     public static var repositoryAlreadyExistsException: Self { .init(.repositoryAlreadyExistsException) }
     /// The specified repository contains images. To delete a repository that contains images, you must force the deletion with the force parameter.
@@ -123,6 +127,8 @@ public struct ECRErrorType: AWSErrorType {
     public static var unsupportedImageTypeException: Self { .init(.unsupportedImageTypeException) }
     /// The upload could not be found, or the specified upload ID is not valid for this repository.
     public static var uploadNotFoundException: Self { .init(.uploadNotFoundException) }
+    /// There was an exception validating this request.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension ECRErrorType: Equatable {

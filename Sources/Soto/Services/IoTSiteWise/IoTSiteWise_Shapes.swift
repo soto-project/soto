@@ -45,6 +45,11 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssetRelationshipType: String, CustomStringConvertible, Codable {
+        case hierarchy = "HIERARCHY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssetState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -151,6 +156,7 @@ extension IoTSiteWise {
         case double = "DOUBLE"
         case integer = "INTEGER"
         case string = "STRING"
+        case `struct` = "STRUCT"
         public var description: String { return self.rawValue }
     }
 
@@ -182,6 +188,11 @@ extension IoTSiteWise {
     public enum TraversalDirection: String, CustomStringConvertible, Codable {
         case child = "CHILD"
         case parent = "PARENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TraversalType: String, CustomStringConvertible, Codable {
+        case pathToRoot = "PATH_TO_ROOT"
         public var description: String { return self.rawValue }
     }
 
@@ -274,6 +285,31 @@ extension IoTSiteWise {
         }
     }
 
+    public struct AssetCompositeModel: AWSDecodableShape {
+        /// The description of the composite model.
+        public let description: String?
+        /// The name of the composite model.
+        public let name: String
+        /// The asset properties that this composite model defines.
+        public let properties: [AssetProperty]
+        /// The type of the composite model. For alarm composite models, this type is AWS/ALARM.
+        public let type: String
+
+        public init(description: String? = nil, name: String, properties: [AssetProperty], type: String) {
+            self.description = description
+            self.name = name
+            self.properties = properties
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case name
+            case properties
+            case type
+        }
+    }
+
     public struct AssetErrorDetails: AWSDecodableShape {
         /// The ID of the asset.
         public let assetId: String
@@ -309,6 +345,103 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case id
             case name
+        }
+    }
+
+    public struct AssetHierarchyInfo: AWSDecodableShape {
+        /// The ID of the child asset in this asset relationship.
+        public let childAssetId: String?
+        /// The ID of the parent asset in this asset relationship.
+        public let parentAssetId: String?
+
+        public init(childAssetId: String? = nil, parentAssetId: String? = nil) {
+            self.childAssetId = childAssetId
+            self.parentAssetId = parentAssetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case childAssetId
+            case parentAssetId
+        }
+    }
+
+    public struct AssetModelCompositeModel: AWSEncodableShape & AWSDecodableShape {
+        /// The description of the composite model.
+        public let description: String?
+        /// The name of the composite model.
+        public let name: String
+        /// The asset property definitions for this composite model.
+        public let properties: [AssetModelProperty]?
+        /// The type of the composite model. For alarm composite models, this type is AWS/ALARM.
+        public let type: String
+
+        public init(description: String? = nil, name: String, properties: [AssetModelProperty]? = nil, type: String) {
+            self.description = description
+            self.name = name
+            self.properties = properties
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.properties?.forEach {
+                try $0.validate(name: "\(name).properties[]")
+            }
+            try self.validate(self.type, name: "type", parent: name, max: 256)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case name
+            case properties
+            case type
+        }
+    }
+
+    public struct AssetModelCompositeModelDefinition: AWSEncodableShape {
+        /// The description of the composite model.
+        public let description: String?
+        /// The name of the composite model.
+        public let name: String
+        /// The asset property definitions for this composite model.
+        public let properties: [AssetModelPropertyDefinition]?
+        /// The type of the composite model. For alarm composite models, this type is AWS/ALARM.
+        public let type: String
+
+        public init(description: String? = nil, name: String, properties: [AssetModelPropertyDefinition]? = nil, type: String) {
+            self.description = description
+            self.name = name
+            self.properties = properties
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.properties?.forEach {
+                try $0.validate(name: "\(name).properties[]")
+            }
+            try self.validate(self.type, name: "type", parent: name, max: 256)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case name
+            case properties
+            case type
         }
     }
 
@@ -374,6 +507,8 @@ extension IoTSiteWise {
     public struct AssetModelProperty: AWSEncodableShape & AWSDecodableShape {
         /// The data type of the asset model property.
         public let dataType: PropertyDataType
+        /// The data type of the structure for this property. This parameter exists on properties that have the STRUCT data type.
+        public let dataTypeSpec: String?
         /// The ID of the asset model property.
         public let id: String?
         /// The name of the asset model property.
@@ -383,8 +518,9 @@ extension IoTSiteWise {
         /// The unit of the asset model property, such as Newtons or RPM.
         public let unit: String?
 
-        public init(dataType: PropertyDataType, id: String? = nil, name: String, type: PropertyType, unit: String? = nil) {
+        public init(dataType: PropertyDataType, dataTypeSpec: String? = nil, id: String? = nil, name: String, type: PropertyType, unit: String? = nil) {
             self.dataType = dataType
+            self.dataTypeSpec = dataTypeSpec
             self.id = id
             self.name = name
             self.type = type
@@ -392,6 +528,9 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, max: 256)
+            try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, min: 1)
+            try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -406,6 +545,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case dataType
+            case dataTypeSpec
             case id
             case name
             case type
@@ -414,8 +554,10 @@ extension IoTSiteWise {
     }
 
     public struct AssetModelPropertyDefinition: AWSEncodableShape {
-        /// The data type of the property definition.
+        /// The data type of the property definition. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
         public let dataType: PropertyDataType
+        /// The data type of the structure for this property. This parameter is required on properties that have the STRUCT data type. The options for this parameter depend on the type of the composite model in which you define this property. Use AWS/ALARM_STATE for alarm state in alarm composite models.
+        public let dataTypeSpec: String?
         /// The name of the property definition.
         public let name: String
         /// The property definition type (see PropertyType). You can only specify one type in a property definition.
@@ -423,14 +565,18 @@ extension IoTSiteWise {
         /// The unit of the property definition, such as Newtons or RPM.
         public let unit: String?
 
-        public init(dataType: PropertyDataType, name: String, type: PropertyType, unit: String? = nil) {
+        public init(dataType: PropertyDataType, dataTypeSpec: String? = nil, name: String, type: PropertyType, unit: String? = nil) {
             self.dataType = dataType
+            self.dataTypeSpec = dataTypeSpec
             self.name = name
             self.type = type
             self.unit = unit
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, max: 256)
+            try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, min: 1)
+            try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -442,6 +588,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case dataType
+            case dataTypeSpec
             case name
             case type
             case unit
@@ -507,6 +654,8 @@ extension IoTSiteWise {
         public let alias: String?
         /// The data type of the asset property.
         public let dataType: PropertyDataType
+        /// The data type of the structure for this property. This parameter exists on properties that have the STRUCT data type.
+        public let dataTypeSpec: String?
         /// The ID of the asset property.
         public let id: String
         /// The name of the property.
@@ -516,9 +665,10 @@ extension IoTSiteWise {
         /// The unit (such as Newtons or RPM) of the asset property.
         public let unit: String?
 
-        public init(alias: String? = nil, dataType: PropertyDataType, id: String, name: String, notification: PropertyNotification? = nil, unit: String? = nil) {
+        public init(alias: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, id: String, name: String, notification: PropertyNotification? = nil, unit: String? = nil) {
             self.alias = alias
             self.dataType = dataType
+            self.dataTypeSpec = dataTypeSpec
             self.id = id
             self.name = name
             self.notification = notification
@@ -528,6 +678,7 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case alias
             case dataType
+            case dataTypeSpec
             case id
             case name
             case notification
@@ -558,6 +709,23 @@ extension IoTSiteWise {
             case quality
             case timestamp
             case value
+        }
+    }
+
+    public struct AssetRelationshipSummary: AWSDecodableShape {
+        /// The assets that are related through an asset hierarchy. This object is present if the relationshipType is HIERARCHY.
+        public let hierarchyInfo: AssetHierarchyInfo?
+        /// The relationship type of the assets in this relationship. This value is one of the following:    HIERARCHY – The assets are related through an asset hierarchy. If you specify this relationship type, this asset relationship includes the hierarchyInfo object.
+        public let relationshipType: AssetRelationshipType
+
+        public init(hierarchyInfo: AssetHierarchyInfo? = nil, relationshipType: AssetRelationshipType) {
+            self.hierarchyInfo = hierarchyInfo
+            self.relationshipType = relationshipType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hierarchyInfo
+            case relationshipType
         }
     }
 
@@ -898,8 +1066,30 @@ extension IoTSiteWise {
         }
     }
 
+    public struct CompositeModelProperty: AWSDecodableShape {
+        public let assetProperty: Property
+        /// The name of the property.
+        public let name: String
+        /// The type of the composite model that defines this property.
+        public let type: String
+
+        public init(assetProperty: Property, name: String, type: String) {
+            self.assetProperty = assetProperty
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetProperty
+            case name
+            case type
+        }
+    }
+
     public struct ConfigurationErrorDetails: AWSDecodableShape {
+        /// The error code.
         public let code: ErrorCode
+        /// The error message.
         public let message: String
 
         public init(code: ErrorCode, message: String) {
@@ -914,7 +1104,9 @@ extension IoTSiteWise {
     }
 
     public struct ConfigurationStatus: AWSDecodableShape {
+        /// Contains associated error information, if any.
         public let error: ConfigurationErrorDetails?
+        /// The current state of the configuration.
         public let state: ConfigurationState
 
         public init(error: ConfigurationErrorDetails? = nil, state: ConfigurationState) {
@@ -989,6 +1181,8 @@ extension IoTSiteWise {
     }
 
     public struct CreateAssetModelRequest: AWSEncodableShape {
+        /// The composite asset models that are part of this asset model. Composite asset models are asset models that contain specific properties. Each composite model has a type that defines the properties that the composite model supports. Use composite asset models to define alarms on this asset model.
+        public let assetModelCompositeModels: [AssetModelCompositeModelDefinition]?
         /// A description for the asset model.
         public let assetModelDescription: String?
         /// The hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
@@ -1002,7 +1196,8 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the asset model. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
         public let tags: [String: String]?
 
-        public init(assetModelDescription: String? = nil, assetModelHierarchies: [AssetModelHierarchyDefinition]? = nil, assetModelName: String, assetModelProperties: [AssetModelPropertyDefinition]? = nil, clientToken: String? = CreateAssetModelRequest.idempotencyToken(), tags: [String: String]? = nil) {
+        public init(assetModelCompositeModels: [AssetModelCompositeModelDefinition]? = nil, assetModelDescription: String? = nil, assetModelHierarchies: [AssetModelHierarchyDefinition]? = nil, assetModelName: String, assetModelProperties: [AssetModelPropertyDefinition]? = nil, clientToken: String? = CreateAssetModelRequest.idempotencyToken(), tags: [String: String]? = nil) {
+            self.assetModelCompositeModels = assetModelCompositeModels
             self.assetModelDescription = assetModelDescription
             self.assetModelHierarchies = assetModelHierarchies
             self.assetModelName = assetModelName
@@ -1012,6 +1207,9 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetModelCompositeModels?.forEach {
+                try $0.validate(name: "\(name).assetModelCompositeModels[]")
+            }
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, max: 2048)
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, min: 1)
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -1036,6 +1234,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetModelCompositeModels
             case assetModelDescription
             case assetModelHierarchies
             case assetModelName
@@ -1258,7 +1457,7 @@ extension IoTSiteWise {
     public struct CreatePortalRequest: AWSEncodableShape {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users and manage user permissions. Before you can create a portal that uses AWS SSO, you must enable AWS SSO. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide. This option is only available in AWS Regions other than the China Regions.    IAM – The portal uses AWS Identity and Access Management (IAM) to authenticate users and manage user permissions. IAM users must have the iotsitewise:CreatePresignedPortalUrl permission to sign in to the portal. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO
+        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users and manage user permissions. Before you can create a portal that uses AWS SSO, you must enable AWS SSO. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide. This option is only available in AWS Regions other than the China Regions.    IAM – The portal uses AWS Identity and Access Management (IAM) to authenticate users and manage user permissions. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO
         public let portalAuthMode: AuthMode?
         /// The AWS administrator's contact email address.
         public let portalContactEmail: String
@@ -1326,7 +1525,7 @@ extension IoTSiteWise {
         public let portalArn: String
         /// The ID of the created portal.
         public let portalId: String
-        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the CreatePresignedPortalUrl operation to create a URL that you can use to access the portal.
+        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the AWS IoT SiteWise console to get a URL that you can use to access the portal.
         public let portalStartUrl: String
         /// The status of the portal, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
@@ -1347,46 +1546,6 @@ extension IoTSiteWise {
             case portalStartUrl
             case portalStatus
             case ssoApplicationId
-        }
-    }
-
-    public struct CreatePresignedPortalUrlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalId", location: .uri(locationName: "portalId")),
-            AWSMemberEncoding(label: "sessionDurationSeconds", location: .querystring(locationName: "sessionDurationSeconds"))
-        ]
-
-        /// The ID of the portal to access.
-        public let portalId: String
-        /// The duration (in seconds) for which the session at the URL is valid. Default: 43,200 seconds (12 hours)
-        public let sessionDurationSeconds: Int?
-
-        public init(portalId: String, sessionDurationSeconds: Int? = nil) {
-            self.portalId = portalId
-            self.sessionDurationSeconds = sessionDurationSeconds
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
-            try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
-            try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.sessionDurationSeconds, name: "sessionDurationSeconds", parent: name, max: 43200)
-            try self.validate(self.sessionDurationSeconds, name: "sessionDurationSeconds", parent: name, min: 900)
-        }
-
-        private enum CodingKeys: CodingKey {}
-    }
-
-    public struct CreatePresignedPortalUrlResponse: AWSDecodableShape {
-        /// The pre-signed URL to the portal. The URL contains the portal ID and an authentication token that lets you access the portal. The URL has the following format.  https://&lt;portal-id&gt;.app.iotsitewise.aws/iam?token=&lt;encrypted-token&gt;
-        public let presignedPortalUrl: String
-
-        public init(presignedPortalUrl: String) {
-            self.presignedPortalUrl = presignedPortalUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case presignedPortalUrl
         }
     }
 
@@ -1808,6 +1967,8 @@ extension IoTSiteWise {
     public struct DescribeAssetModelResponse: AWSDecodableShape {
         /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
         public let assetModelArn: String
+        /// The list of composite asset models for the asset model.
+        public let assetModelCompositeModels: [AssetModelCompositeModel]?
         /// The date the asset model was created, in Unix epoch time.
         public let assetModelCreationDate: Date
         /// The asset model's description.
@@ -1820,13 +1981,14 @@ extension IoTSiteWise {
         public let assetModelLastUpdateDate: Date
         /// The name of the asset model.
         public let assetModelName: String
-        /// The list of asset properties for the asset model.
+        /// The list of asset properties for the asset model. This object doesn't include properties that you define in composite models. You can find composite model properties in the assetModelCompositeModels object.
         public let assetModelProperties: [AssetModelProperty]
         /// The current status of the asset model, which contains a state and any error message.
         public let assetModelStatus: AssetModelStatus
 
-        public init(assetModelArn: String, assetModelCreationDate: Date, assetModelDescription: String, assetModelHierarchies: [AssetModelHierarchy], assetModelId: String, assetModelLastUpdateDate: Date, assetModelName: String, assetModelProperties: [AssetModelProperty], assetModelStatus: AssetModelStatus) {
+        public init(assetModelArn: String, assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelCreationDate: Date, assetModelDescription: String, assetModelHierarchies: [AssetModelHierarchy], assetModelId: String, assetModelLastUpdateDate: Date, assetModelName: String, assetModelProperties: [AssetModelProperty], assetModelStatus: AssetModelStatus) {
             self.assetModelArn = assetModelArn
+            self.assetModelCompositeModels = assetModelCompositeModels
             self.assetModelCreationDate = assetModelCreationDate
             self.assetModelDescription = assetModelDescription
             self.assetModelHierarchies = assetModelHierarchies
@@ -1839,6 +2001,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case assetModelArn
+            case assetModelCompositeModels
             case assetModelCreationDate
             case assetModelDescription
             case assetModelHierarchies
@@ -1885,14 +2048,17 @@ extension IoTSiteWise {
         public let assetModelId: String
         /// The name of the asset.
         public let assetName: String
-        /// The asset property's definition, alias, and notification state.
-        public let assetProperty: Property
+        /// The asset property's definition, alias, and notification state. This response includes this object for normal asset properties. If you describe an asset property in a composite model, this response includes the asset property information in compositeModel.
+        public let assetProperty: Property?
+        /// The composite asset model that declares this asset property, if this asset property exists in a composite model.
+        public let compositeModel: CompositeModelProperty?
 
-        public init(assetId: String, assetModelId: String, assetName: String, assetProperty: Property) {
+        public init(assetId: String, assetModelId: String, assetName: String, assetProperty: Property? = nil, compositeModel: CompositeModelProperty? = nil) {
             self.assetId = assetId
             self.assetModelId = assetModelId
             self.assetName = assetName
             self.assetProperty = assetProperty
+            self.compositeModel = compositeModel
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1900,6 +2066,7 @@ extension IoTSiteWise {
             case assetModelId
             case assetName
             case assetProperty
+            case compositeModel
         }
     }
 
@@ -1927,6 +2094,8 @@ extension IoTSiteWise {
     public struct DescribeAssetResponse: AWSDecodableShape {
         /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
         public let assetArn: String
+        /// The composite models for the asset.
+        public let assetCompositeModels: [AssetCompositeModel]?
         /// The date the asset was created, in Unix epoch time.
         public let assetCreationDate: Date
         /// A list of asset hierarchies that each contain a hierarchyId. A hierarchy specifies allowed parent/child asset relationships.
@@ -1939,13 +2108,14 @@ extension IoTSiteWise {
         public let assetModelId: String
         /// The name of the asset.
         public let assetName: String
-        /// The list of asset properties for the asset.
+        /// The list of asset properties for the asset. This object doesn't include properties that you define in composite models. You can find composite model properties in the assetCompositeModels object.
         public let assetProperties: [AssetProperty]
         /// The current status of the asset, which contains a state and any error message.
         public let assetStatus: AssetStatus
 
-        public init(assetArn: String, assetCreationDate: Date, assetHierarchies: [AssetHierarchy], assetId: String, assetLastUpdateDate: Date, assetModelId: String, assetName: String, assetProperties: [AssetProperty], assetStatus: AssetStatus) {
+        public init(assetArn: String, assetCompositeModels: [AssetCompositeModel]? = nil, assetCreationDate: Date, assetHierarchies: [AssetHierarchy], assetId: String, assetLastUpdateDate: Date, assetModelId: String, assetName: String, assetProperties: [AssetProperty], assetStatus: AssetStatus) {
             self.assetArn = assetArn
+            self.assetCompositeModels = assetCompositeModels
             self.assetCreationDate = assetCreationDate
             self.assetHierarchies = assetHierarchies
             self.assetId = assetId
@@ -1958,6 +2128,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case assetArn
+            case assetCompositeModels
             case assetCreationDate
             case assetHierarchies
             case assetId
@@ -2226,7 +2397,7 @@ extension IoTSiteWise {
         public let portalLogoImageLocation: ImageLocation?
         /// The name of the portal.
         public let portalName: String
-        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the CreatePresignedPortalUrl operation to create a URL that you can use to access the portal.
+        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the AWS IoT SiteWise console to get a URL that you can use to access the portal.
         public let portalStartUrl: String
         /// The current status of the portal, which contains a state and any error message.
         public let portalStatus: PortalStatus
@@ -2736,7 +2907,7 @@ extension IoTSiteWise {
     }
 
     public struct IAMUserIdentity: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the IAM user. IAM users must have the iotsitewise:CreatePresignedPortalUrl permission to sign in to the portal. For more information, see IAM ARNs in the IAM User Guide.  If you delete the IAM user, access policies that contain this identity include an empty arn. You can delete the access policy for the IAM user that no longer exists.
+        /// The ARN of the IAM user. For more information, see IAM ARNs in the IAM User Guide.  If you delete the IAM user, access policies that contain this identity include an empty arn. You can delete the access policy for the IAM user that no longer exists.
         public let arn: String
 
         public init(arn: String) {
@@ -2956,6 +3127,61 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case assetModelSummaries
+            case nextToken
+        }
+    }
+
+    public struct ListAssetRelationshipsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "traversalType", location: .querystring(locationName: "traversalType"))
+        ]
+
+        /// The ID of the asset.
+        public let assetId: String
+        /// The maximum number of results to be returned per paginated request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The type of traversal to use to identify asset relationships. Choose the following option:    PATH_TO_ROOT – Identify the asset's parent assets up to the root asset. The asset that you specify in assetId is the first result in the list of assetRelationshipSummaries, and the root asset is the last result.
+        public let traversalType: TraversalType
+
+        public init(assetId: String, maxResults: Int? = nil, nextToken: String? = nil, traversalType: TraversalType) {
+            self.assetId = assetId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.traversalType = traversalType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAssetRelationshipsResponse: AWSDecodableShape {
+        /// A list that summarizes each asset relationship.
+        public let assetRelationshipSummaries: [AssetRelationshipSummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(assetRelationshipSummaries: [AssetRelationshipSummary], nextToken: String? = nil) {
+            self.assetRelationshipSummaries = assetRelationshipSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetRelationshipSummaries
             case nextToken
         }
     }
@@ -3481,7 +3707,7 @@ extension IoTSiteWise {
         public let name: String
         /// The ARN of the service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
         public let roleArn: String?
-        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the CreatePresignedPortalUrl operation to create a URL that you can use to access the portal.
+        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the AWS IoT SiteWise console to get a URL that you can use to access the portal.
         public let startUrl: String
         public let status: PortalStatus
 
@@ -3959,6 +4185,8 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "assetModelId", location: .uri(locationName: "assetModelId"))
         ]
 
+        /// The composite asset models that are part of this asset model. Composite asset models are asset models that contain specific properties. Each composite model has a type that defines the properties that the composite model supports. Use composite asset models to define alarms on this asset model.
+        public let assetModelCompositeModels: [AssetModelCompositeModel]?
         /// A description for the asset model.
         public let assetModelDescription: String?
         /// The updated hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
@@ -3972,7 +4200,8 @@ extension IoTSiteWise {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
 
-        public init(assetModelDescription: String? = nil, assetModelHierarchies: [AssetModelHierarchy]? = nil, assetModelId: String, assetModelName: String, assetModelProperties: [AssetModelProperty]? = nil, clientToken: String? = UpdateAssetModelRequest.idempotencyToken()) {
+        public init(assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelDescription: String? = nil, assetModelHierarchies: [AssetModelHierarchy]? = nil, assetModelId: String, assetModelName: String, assetModelProperties: [AssetModelProperty]? = nil, clientToken: String? = UpdateAssetModelRequest.idempotencyToken()) {
+            self.assetModelCompositeModels = assetModelCompositeModels
             self.assetModelDescription = assetModelDescription
             self.assetModelHierarchies = assetModelHierarchies
             self.assetModelId = assetModelId
@@ -3982,6 +4211,9 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetModelCompositeModels?.forEach {
+                try $0.validate(name: "\(name).assetModelCompositeModels[]")
+            }
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, max: 2048)
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, min: 1)
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -4003,6 +4235,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetModelCompositeModels
             case assetModelDescription
             case assetModelHierarchies
             case assetModelName
@@ -4192,7 +4425,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 204_800)
+            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 104_857_600)
             try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, min: 1)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, max: 512)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, min: 1)
@@ -4438,8 +4671,6 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.stringValue, name: "stringValue", parent: name, max: 1024)
-            try self.validate(self.stringValue, name: "stringValue", parent: name, min: 1)
             try self.validate(self.stringValue, name: "stringValue", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
         }
 

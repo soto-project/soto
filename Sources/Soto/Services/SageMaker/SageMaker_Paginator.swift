@@ -580,6 +580,159 @@ extension SageMaker {
         )
     }
 
+    ///  Lists the data quality job definitions in your account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDataQualityJobDefinitionsPaginator<Result>(
+        _ input: ListDataQualityJobDefinitionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDataQualityJobDefinitionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDataQualityJobDefinitions,
+            tokenKey: \ListDataQualityJobDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDataQualityJobDefinitionsPaginator(
+        _ input: ListDataQualityJobDefinitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDataQualityJobDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDataQualityJobDefinitions,
+            tokenKey: \ListDataQualityJobDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of devices in the fleet.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDeviceFleetsPaginator<Result>(
+        _ input: ListDeviceFleetsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDeviceFleetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDeviceFleets,
+            tokenKey: \ListDeviceFleetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDeviceFleetsPaginator(
+        _ input: ListDeviceFleetsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDeviceFleetsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDeviceFleets,
+            tokenKey: \ListDeviceFleetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  A list of devices.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDevicesPaginator<Result>(
+        _ input: ListDevicesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDevicesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDevices,
+            tokenKey: \ListDevicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDevicesPaginator(
+        _ input: ListDevicesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDevices,
+            tokenKey: \ListDevicesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the domains.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -626,6 +779,57 @@ extension SageMaker {
             input: input,
             command: listDomains,
             tokenKey: \ListDomainsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of edge packaging jobs.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEdgePackagingJobsPaginator<Result>(
+        _ input: ListEdgePackagingJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListEdgePackagingJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listEdgePackagingJobs,
+            tokenKey: \ListEdgePackagingJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listEdgePackagingJobsPaginator(
+        _ input: ListEdgePackagingJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListEdgePackagingJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listEdgePackagingJobs,
+            tokenKey: \ListEdgePackagingJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1192,6 +1396,108 @@ extension SageMaker {
         )
     }
 
+    ///  Lists model bias jobs definitions that satisfy various filters.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listModelBiasJobDefinitionsPaginator<Result>(
+        _ input: ListModelBiasJobDefinitionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListModelBiasJobDefinitionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listModelBiasJobDefinitions,
+            tokenKey: \ListModelBiasJobDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listModelBiasJobDefinitionsPaginator(
+        _ input: ListModelBiasJobDefinitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListModelBiasJobDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listModelBiasJobDefinitions,
+            tokenKey: \ListModelBiasJobDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists model explainability job definitions that satisfy various filters.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listModelExplainabilityJobDefinitionsPaginator<Result>(
+        _ input: ListModelExplainabilityJobDefinitionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListModelExplainabilityJobDefinitionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listModelExplainabilityJobDefinitions,
+            tokenKey: \ListModelExplainabilityJobDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listModelExplainabilityJobDefinitionsPaginator(
+        _ input: ListModelExplainabilityJobDefinitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListModelExplainabilityJobDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listModelExplainabilityJobDefinitions,
+            tokenKey: \ListModelExplainabilityJobDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets a list of the model groups in your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1289,6 +1595,57 @@ extension SageMaker {
             input: input,
             command: listModelPackages,
             tokenKey: \ListModelPackagesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Gets a list of model quality monitoring job definitions in your account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listModelQualityJobDefinitionsPaginator<Result>(
+        _ input: ListModelQualityJobDefinitionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListModelQualityJobDefinitionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listModelQualityJobDefinitions,
+            tokenKey: \ListModelQualityJobDefinitionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listModelQualityJobDefinitionsPaginator(
+        _ input: ListModelQualityJobDefinitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListModelQualityJobDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listModelQualityJobDefinitions,
+            tokenKey: \ListModelQualityJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2587,11 +2944,72 @@ extension SageMaker.ListContextsRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListDataQualityJobDefinitionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListDataQualityJobDefinitionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            endpointName: self.endpointName,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListDeviceFleetsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListDeviceFleetsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter,
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListDevicesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListDevicesRequest {
+        return .init(
+            deviceFleetName: self.deviceFleetName,
+            latestHeartbeatAfter: self.latestHeartbeatAfter,
+            maxResults: self.maxResults,
+            modelName: self.modelName,
+            nextToken: token
+        )
+    }
+}
+
 extension SageMaker.ListDomainsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListDomainsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SageMaker.ListEdgePackagingJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListEdgePackagingJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter,
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore,
+            maxResults: self.maxResults,
+            modelNameContains: self.modelNameContains,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
         )
     }
 }
@@ -2761,6 +3179,36 @@ extension SageMaker.ListLabelingJobsForWorkteamRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListModelBiasJobDefinitionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListModelBiasJobDefinitionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            endpointName: self.endpointName,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListModelExplainabilityJobDefinitionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListModelExplainabilityJobDefinitionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            endpointName: self.endpointName,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension SageMaker.ListModelPackageGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListModelPackageGroupsInput {
         return .init(
@@ -2792,6 +3240,21 @@ extension SageMaker.ListModelPackagesInput: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListModelQualityJobDefinitionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListModelQualityJobDefinitionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            endpointName: self.endpointName,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension SageMaker.ListModelsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListModelsInput {
         return .init(
@@ -2815,7 +3278,9 @@ extension SageMaker.ListMonitoringExecutionsRequest: AWSPaginateToken {
             lastModifiedTimeAfter: self.lastModifiedTimeAfter,
             lastModifiedTimeBefore: self.lastModifiedTimeBefore,
             maxResults: self.maxResults,
+            monitoringJobDefinitionName: self.monitoringJobDefinitionName,
             monitoringScheduleName: self.monitoringScheduleName,
+            monitoringTypeEquals: self.monitoringTypeEquals,
             nextToken: token,
             scheduledTimeAfter: self.scheduledTimeAfter,
             scheduledTimeBefore: self.scheduledTimeBefore,
@@ -2835,6 +3300,8 @@ extension SageMaker.ListMonitoringSchedulesRequest: AWSPaginateToken {
             lastModifiedTimeAfter: self.lastModifiedTimeAfter,
             lastModifiedTimeBefore: self.lastModifiedTimeBefore,
             maxResults: self.maxResults,
+            monitoringJobDefinitionName: self.monitoringJobDefinitionName,
+            monitoringTypeEquals: self.monitoringTypeEquals,
             nameContains: self.nameContains,
             nextToken: token,
             sortBy: self.sortBy,

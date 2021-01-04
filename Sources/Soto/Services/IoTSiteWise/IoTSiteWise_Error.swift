@@ -28,6 +28,7 @@ public struct IoTSiteWiseErrorType: AWSErrorType {
         case serviceUnavailableException = "ServiceUnavailableException"
         case throttlingException = "ThrottlingException"
         case tooManyTagsException = "TooManyTagsException"
+        case unauthorizedException = "UnauthorizedException"
     }
 
     private let error: Code
@@ -66,6 +67,8 @@ public struct IoTSiteWiseErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// You've reached the limit for the number of tags allowed for a resource. For more information, see Tag naming limits and requirements in the AWS General Reference.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// You are not authorized.
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 
 extension IoTSiteWiseErrorType: Equatable {

@@ -1814,12 +1814,16 @@ extension DatabaseMigrationService {
         public let password: String?
         ///  The port value for the DocumentDB source endpoint.
         public let port: Int?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. SecretsManagerSecret has the value of the AWS Secrets Manager secret that allows access to the DocumentDB endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the DocumentDB endpoint connection details.
+        public let secretsManagerSecretId: String?
         ///  The name of the server on the DocumentDB source endpoint.
         public let serverName: String?
         /// The user name you use to access the DocumentDB source endpoint.
         public let username: String?
 
-        public init(databaseName: String? = nil, docsToInvestigate: Int? = nil, extractDocId: Bool? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
+        public init(databaseName: String? = nil, docsToInvestigate: Int? = nil, extractDocId: Bool? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, username: String? = nil) {
             self.databaseName = databaseName
             self.docsToInvestigate = docsToInvestigate
             self.extractDocId = extractDocId
@@ -1827,6 +1831,8 @@ extension DatabaseMigrationService {
             self.nestingLevel = nestingLevel
             self.password = password
             self.port = port
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.username = username
         }
@@ -1839,6 +1845,8 @@ extension DatabaseMigrationService {
             case nestingLevel = "NestingLevel"
             case password = "Password"
             case port = "Port"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case username = "Username"
         }
@@ -2141,6 +2149,10 @@ extension DatabaseMigrationService {
         public let password: String?
         /// Endpoint TCP port.
         public let port: Int?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. SecretsManagerSecret has the value of the AWS Secrets Manager secret that allows access to the Db2 LUW endpoint.   You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the Db2 LUW endpoint connection details.
+        public let secretsManagerSecretId: String?
         /// Fully qualified domain name of the endpoint.
         public let serverName: String?
         /// Enables ongoing replication (CDC) as a BOOLEAN value. The default is true.
@@ -2148,12 +2160,14 @@ extension DatabaseMigrationService {
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(currentLsn: String? = nil, databaseName: String? = nil, maxKBytesPerRead: Int? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, setDataCaptureChanges: Bool? = nil, username: String? = nil) {
+        public init(currentLsn: String? = nil, databaseName: String? = nil, maxKBytesPerRead: Int? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, setDataCaptureChanges: Bool? = nil, username: String? = nil) {
             self.currentLsn = currentLsn
             self.databaseName = databaseName
             self.maxKBytesPerRead = maxKBytesPerRead
             self.password = password
             self.port = port
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.setDataCaptureChanges = setDataCaptureChanges
             self.username = username
@@ -2165,6 +2179,8 @@ extension DatabaseMigrationService {
             case maxKBytesPerRead = "MaxKBytesPerRead"
             case password = "Password"
             case port = "Port"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case setDataCaptureChanges = "SetDataCaptureChanges"
             case username = "Username"
@@ -2332,7 +2348,7 @@ extension DatabaseMigrationService {
     public struct MicrosoftSQLServerSettings: AWSEncodableShape & AWSDecodableShape {
         /// The maximum size of the packets (in bytes) used to transfer data using BCP.
         public let bcpPacketSize: Int?
-        /// Specify a filegroup for the AWS DMS internal tables. When the replication task starts, all the internal AWS DMS control tables (awsdms_ apply_exception, awsdms_apply, awsdms_changes) are created on the specified filegroup.
+        /// Specifies a file group for the AWS DMS internal tables. When the replication task starts, all the internal AWS DMS control tables (awsdms_ apply_exception, awsdms_apply, awsdms_changes) are created for the specified file group.
         public let controlTablesFileGroup: String?
         /// Database name for the endpoint.
         public let databaseName: String?
@@ -2344,6 +2360,10 @@ extension DatabaseMigrationService {
         public let readBackupOnly: Bool?
         /// Use this attribute to minimize the need to access the backup log and enable AWS DMS to prevent truncation using one of the following two methods.  Start transactions in the database: This is the default method. When this method is used, AWS DMS prevents TLOG truncation by mimicking a transaction in the database. As long as such a transaction is open, changes that appear after the transaction started aren't truncated. If you need Microsoft Replication to be enabled in your database, then you must choose this method.  Exclusively use sp_repldone within a single task: When this method is used, AWS DMS reads the changes and then uses sp_repldone to mark the TLOG transactions as ready for truncation. Although this method doesn't involve any transactional activities, it can only be used when Microsoft Replication isn't running. Also, when using this method, only one AWS DMS task can access the database at any given time. Therefore, if you need to run parallel AWS DMS tasks against the same database, use the default method.
         public let safeguardPolicy: SafeguardPolicy?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. SecretsManagerSecret has the value of the AWS Secrets Manager secret that allows access to the SQL Server endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the SQL Server endpoint connection details.
+        public let secretsManagerSecretId: String?
         /// Fully qualified domain name of the endpoint.
         public let serverName: String?
         /// Use this to attribute to transfer data for full-load operations using BCP. When the target table contains an identity column that does not exist in the source table, you must disable the use BCP for loading table option.
@@ -2351,7 +2371,7 @@ extension DatabaseMigrationService {
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(bcpPacketSize: Int? = nil, controlTablesFileGroup: String? = nil, databaseName: String? = nil, password: String? = nil, port: Int? = nil, readBackupOnly: Bool? = nil, safeguardPolicy: SafeguardPolicy? = nil, serverName: String? = nil, useBcpFullLoad: Bool? = nil, username: String? = nil) {
+        public init(bcpPacketSize: Int? = nil, controlTablesFileGroup: String? = nil, databaseName: String? = nil, password: String? = nil, port: Int? = nil, readBackupOnly: Bool? = nil, safeguardPolicy: SafeguardPolicy? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, useBcpFullLoad: Bool? = nil, username: String? = nil) {
             self.bcpPacketSize = bcpPacketSize
             self.controlTablesFileGroup = controlTablesFileGroup
             self.databaseName = databaseName
@@ -2359,6 +2379,8 @@ extension DatabaseMigrationService {
             self.port = port
             self.readBackupOnly = readBackupOnly
             self.safeguardPolicy = safeguardPolicy
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.useBcpFullLoad = useBcpFullLoad
             self.username = username
@@ -2372,6 +2394,8 @@ extension DatabaseMigrationService {
             case port = "Port"
             case readBackupOnly = "ReadBackupOnly"
             case safeguardPolicy = "SafeguardPolicy"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case useBcpFullLoad = "UseBcpFullLoad"
             case username = "Username"
@@ -2568,7 +2592,7 @@ extension DatabaseMigrationService {
         public let allowMajorVersionUpgrade: Bool?
         /// Indicates whether the changes should be applied immediately or during the next maintenance window.
         public let applyImmediately: Bool?
-        /// A value that indicates that minor version upgrades are applied automatically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case dsecribed following. The change is asynchronously applied as soon as possible.  An outage does result if these factors apply:    This parameter is set to true during the maintenance window.   A newer minor version is available.    AWS DMS has enabled automatic patching for the given engine version.
+        /// A value that indicates that minor version upgrades are applied automatically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case described following. The change is asynchronously applied as soon as possible.  An outage does result if these factors apply:    This parameter is set to true during the maintenance window.   A newer minor version is available.    AWS DMS has enabled automatic patching for the given engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
         public let engineVersion: String?
@@ -2740,12 +2764,16 @@ extension DatabaseMigrationService {
         public let password: String?
         ///  The port value for the MongoDB source endpoint.
         public let port: Int?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. SecretsManagerSecret has the value of the AWS Secrets Manager secret that allows access to the MongoDB endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the MongoDB endpoint connection details.
+        public let secretsManagerSecretId: String?
         ///  The name of the server on the MongoDB source endpoint.
         public let serverName: String?
         /// The user name you use to access the MongoDB source endpoint.
         public let username: String?
 
-        public init(authMechanism: AuthMechanismValue? = nil, authSource: String? = nil, authType: AuthTypeValue? = nil, databaseName: String? = nil, docsToInvestigate: String? = nil, extractDocId: String? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
+        public init(authMechanism: AuthMechanismValue? = nil, authSource: String? = nil, authType: AuthTypeValue? = nil, databaseName: String? = nil, docsToInvestigate: String? = nil, extractDocId: String? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, username: String? = nil) {
             self.authMechanism = authMechanism
             self.authSource = authSource
             self.authType = authType
@@ -2756,6 +2784,8 @@ extension DatabaseMigrationService {
             self.nestingLevel = nestingLevel
             self.password = password
             self.port = port
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.username = username
         }
@@ -2771,6 +2801,8 @@ extension DatabaseMigrationService {
             case nestingLevel = "NestingLevel"
             case password = "Password"
             case port = "Port"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case username = "Username"
         }
@@ -2815,12 +2847,16 @@ extension DatabaseMigrationService {
         public let eventsPollInterval: Int?
         /// Specifies the maximum size (in KB) of any .csv file used to transfer data to a MySQL-compatible database. Example: maxFileSize=512
         public let maxFileSize: Int?
-        /// Improves performance when loading data into the MySQLcompatible target database. Specifies how many threads to use to load the data into the MySQL-compatible target database. Setting a large number of threads can have an adverse effect on database performance, because a separate connection is required for each thread. Example: parallelLoadThreads=1
+        /// Improves performance when loading data into the MySQL-compatible target database. Specifies how many threads to use to load the data into the MySQL-compatible target database. Setting a large number of threads can have an adverse effect on database performance, because a separate connection is required for each thread. Example: parallelLoadThreads=1
         public let parallelLoadThreads: Int?
         /// Endpoint connection password.
         public let password: String?
         /// Endpoint TCP port.
         public let port: Int?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. SecretsManagerSecret has the value of the AWS Secrets Manager secret that allows access to the MySQL endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the MySQL endpoint connection details.
+        public let secretsManagerSecretId: String?
         /// Fully qualified domain name of the endpoint.
         public let serverName: String?
         /// Specifies the time zone for the source MySQL database. Example: serverTimezone=US/Pacific;  Note: Do not enclose time zones in single quotes.
@@ -2830,7 +2866,7 @@ extension DatabaseMigrationService {
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(afterConnectScript: String? = nil, databaseName: String? = nil, eventsPollInterval: Int? = nil, maxFileSize: Int? = nil, parallelLoadThreads: Int? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, serverTimezone: String? = nil, targetDbType: TargetDbType? = nil, username: String? = nil) {
+        public init(afterConnectScript: String? = nil, databaseName: String? = nil, eventsPollInterval: Int? = nil, maxFileSize: Int? = nil, parallelLoadThreads: Int? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, serverTimezone: String? = nil, targetDbType: TargetDbType? = nil, username: String? = nil) {
             self.afterConnectScript = afterConnectScript
             self.databaseName = databaseName
             self.eventsPollInterval = eventsPollInterval
@@ -2838,6 +2874,8 @@ extension DatabaseMigrationService {
             self.parallelLoadThreads = parallelLoadThreads
             self.password = password
             self.port = port
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.serverTimezone = serverTimezone
             self.targetDbType = targetDbType
@@ -2852,6 +2890,8 @@ extension DatabaseMigrationService {
             case parallelLoadThreads = "ParallelLoadThreads"
             case password = "Password"
             case port = "Port"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case serverTimezone = "ServerTimezone"
             case targetDbType = "TargetDbType"
@@ -2945,6 +2985,14 @@ extension DatabaseMigrationService {
         public let replacePathPrefix: Bool?
         /// Specifies the number of seconds that the system waits before resending a query. Example: retryInterval=6;
         public let retryInterval: Int?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. SecretsManagerSecret has the value of the AWS Secrets Manager secret that allows access to the Oracle endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM). The full ARN of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the SecretsManagerOracleAsmSecret. This SecretsManagerOracleAsmSecret has the secret value that allows access to the Oracle ASM of the endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerOracleAsmSecretId. Or you can specify clear-text values for AsmUserName, AsmPassword, and AsmServerName. You can't specify both. For more information on creating this SecretsManagerOracleAsmSecret and the SecretsManagerOracleAsmAccessRoleArn and SecretsManagerOracleAsmSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerOracleAsmAccessRoleArn: String?
+        /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM). The full ARN, partial ARN, or friendly name of the SecretsManagerOracleAsmSecret that contains the Oracle ASM connection details for the Oracle endpoint.
+        public let secretsManagerOracleAsmSecretId: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the Oracle endpoint connection details.
+        public let secretsManagerSecretId: String?
         /// For an Oracle source endpoint, the transparent data encryption (TDE) password required by AWM DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the  TDE_Password  part of the comma-separated value you set to the Password request parameter when you create the endpoint. The SecurityDbEncryptian setting is related to this SecurityDbEncryptionName setting. For more information, see  Supported encryption methods for using Oracle as a source for AWS DMS in the AWS Database Migration Service User Guide.
         public let securityDbEncryption: String?
         /// For an Oracle source endpoint, the name of a key used for the transparent data encryption (TDE) of the columns and tablespaces in an Oracle source database that is encrypted using TDE. The key value is the value of the SecurityDbEncryption setting. For more information on setting the key name value of SecurityDbEncryptionName, see the information and example for setting the securityDbEncryptionName extra connection attribute in  Supported encryption methods for using Oracle as a source for AWS DMS in the AWS Database Migration Service User Guide.
@@ -2958,7 +3006,7 @@ extension DatabaseMigrationService {
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, charLengthSemantics: CharLengthSemantics? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, useAlternateFolderForOnline: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
+        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, charLengthSemantics: CharLengthSemantics? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecretId: String? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, useAlternateFolderForOnline: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
             self.accessAlternateDirectly = accessAlternateDirectly
             self.additionalArchivedLogDestId = additionalArchivedLogDestId
             self.addSupplementalLogging = addSupplementalLogging
@@ -2983,6 +3031,10 @@ extension DatabaseMigrationService {
             self.readTableSpaceName = readTableSpaceName
             self.replacePathPrefix = replacePathPrefix
             self.retryInterval = retryInterval
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerOracleAsmAccessRoleArn = secretsManagerOracleAsmAccessRoleArn
+            self.secretsManagerOracleAsmSecretId = secretsManagerOracleAsmSecretId
+            self.secretsManagerSecretId = secretsManagerSecretId
             self.securityDbEncryption = securityDbEncryption
             self.securityDbEncryptionName = securityDbEncryptionName
             self.serverName = serverName
@@ -3016,6 +3068,10 @@ extension DatabaseMigrationService {
             case readTableSpaceName = "ReadTableSpaceName"
             case replacePathPrefix = "ReplacePathPrefix"
             case retryInterval = "RetryInterval"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerOracleAsmAccessRoleArn = "SecretsManagerOracleAsmAccessRoleArn"
+            case secretsManagerOracleAsmSecretId = "SecretsManagerOracleAsmSecretId"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
             case securityDbEncryption = "SecurityDbEncryption"
             case securityDbEncryptionName = "SecurityDbEncryptionName"
             case serverName = "ServerName"
@@ -3122,6 +3178,10 @@ extension DatabaseMigrationService {
         public let password: String?
         /// Endpoint TCP port.
         public let port: Int?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. SecretsManagerSecret has the value of the AWS Secrets Manager secret that allows access to the PostgreSQL endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the PostgreSQL endpoint connection details.
+        public let secretsManagerSecretId: String?
         /// Fully qualified domain name of the endpoint.
         public let serverName: String?
         /// Sets the name of a previously created logical replication slot for a CDC load of the PostgreSQL source instance. When used with the AWS DMS API CdcStartPosition request parameter, this attribute also enables using native CDC start points.
@@ -3129,7 +3189,7 @@ extension DatabaseMigrationService {
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(afterConnectScript: String? = nil, captureDdls: Bool? = nil, databaseName: String? = nil, ddlArtifactsSchema: String? = nil, executeTimeout: Int? = nil, failTasksOnLobTruncation: Bool? = nil, maxFileSize: Int? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, slotName: String? = nil, username: String? = nil) {
+        public init(afterConnectScript: String? = nil, captureDdls: Bool? = nil, databaseName: String? = nil, ddlArtifactsSchema: String? = nil, executeTimeout: Int? = nil, failTasksOnLobTruncation: Bool? = nil, maxFileSize: Int? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, slotName: String? = nil, username: String? = nil) {
             self.afterConnectScript = afterConnectScript
             self.captureDdls = captureDdls
             self.databaseName = databaseName
@@ -3139,6 +3199,8 @@ extension DatabaseMigrationService {
             self.maxFileSize = maxFileSize
             self.password = password
             self.port = port
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.slotName = slotName
             self.username = username
@@ -3154,6 +3216,8 @@ extension DatabaseMigrationService {
             case maxFileSize = "MaxFileSize"
             case password = "Password"
             case port = "Port"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case slotName = "SlotName"
             case username = "Username"
@@ -3195,7 +3259,7 @@ extension DatabaseMigrationService {
         public let acceptAnyDate: Bool?
         /// Code to run after connecting. This parameter should contain the code itself, not the name of a file containing the code.
         public let afterConnectScript: String?
-        /// An S3 folder where the comma-separated-value (.csv) files are stored before being uploaded to the target Redshift cluster.  For full load mode, AWS DMS converts source records into .csv files and loads them to the BucketFolder/TableID path. AWS DMS uses the Redshift COPY command to upload the .csv files to the target table. The files are deleted once the COPY operation has finished. For more information, see Amazon Redshift Database Developer Guide  For change-data-capture (CDC) mode, AWS DMS creates a NetChanges table, and loads the .csv files to this BucketFolder/NetChangesTableID path.
+        /// An S3 folder where the comma-separated-value (.csv) files are stored before being uploaded to the target Redshift cluster.  For full load mode, AWS DMS converts source records into .csv files and loads them to the BucketFolder/TableID path. AWS DMS uses the Redshift COPY command to upload the .csv files to the target table. The files are deleted once the COPY operation has finished. For more information, see COPY in the Amazon Redshift Database Developer Guide. For change-data-capture (CDC) mode, AWS DMS creates a NetChanges table, and loads the .csv files to this BucketFolder/NetChangesTableID path.
         public let bucketFolder: String?
         /// The name of the intermediate S3 bucket used to store .csv files before uploading data to Redshift.
         public let bucketName: String?
@@ -3231,6 +3295,10 @@ extension DatabaseMigrationService {
         public let replaceChars: String?
         /// A list of characters that you want to replace. Use with ReplaceChars.
         public let replaceInvalidChars: String?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. SecretsManagerSecret has the value of the AWS Secrets Manager secret that allows access to the Amazon Redshift endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the Amazon Redshift endpoint connection details.
+        public let secretsManagerSecretId: String?
         /// The name of the Amazon Redshift cluster you are using.
         public let serverName: String?
         /// The AWS KMS key ID. If you are using SSE_KMS for the EncryptionMode, provide this key ID. The key that you use needs an attached policy that enables IAM user permissions and allows use of the key.
@@ -3248,7 +3316,7 @@ extension DatabaseMigrationService {
         /// The size (in KB) of the in-memory file write buffer used when generating .csv files on the local disk at the DMS replication instance. The default value is 1000 (buffer size is 1000KB).
         public let writeBufferSize: Int?
 
-        public init(acceptAnyDate: Bool? = nil, afterConnectScript: String? = nil, bucketFolder: String? = nil, bucketName: String? = nil, caseSensitiveNames: Bool? = nil, compUpdate: Bool? = nil, connectionTimeout: Int? = nil, databaseName: String? = nil, dateFormat: String? = nil, emptyAsNull: Bool? = nil, encryptionMode: EncryptionModeValue? = nil, explicitIds: Bool? = nil, fileTransferUploadStreams: Int? = nil, loadTimeout: Int? = nil, maxFileSize: Int? = nil, password: String? = nil, port: Int? = nil, removeQuotes: Bool? = nil, replaceChars: String? = nil, replaceInvalidChars: String? = nil, serverName: String? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timeFormat: String? = nil, trimBlanks: Bool? = nil, truncateColumns: Bool? = nil, username: String? = nil, writeBufferSize: Int? = nil) {
+        public init(acceptAnyDate: Bool? = nil, afterConnectScript: String? = nil, bucketFolder: String? = nil, bucketName: String? = nil, caseSensitiveNames: Bool? = nil, compUpdate: Bool? = nil, connectionTimeout: Int? = nil, databaseName: String? = nil, dateFormat: String? = nil, emptyAsNull: Bool? = nil, encryptionMode: EncryptionModeValue? = nil, explicitIds: Bool? = nil, fileTransferUploadStreams: Int? = nil, loadTimeout: Int? = nil, maxFileSize: Int? = nil, password: String? = nil, port: Int? = nil, removeQuotes: Bool? = nil, replaceChars: String? = nil, replaceInvalidChars: String? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timeFormat: String? = nil, trimBlanks: Bool? = nil, truncateColumns: Bool? = nil, username: String? = nil, writeBufferSize: Int? = nil) {
             self.acceptAnyDate = acceptAnyDate
             self.afterConnectScript = afterConnectScript
             self.bucketFolder = bucketFolder
@@ -3269,6 +3337,8 @@ extension DatabaseMigrationService {
             self.removeQuotes = removeQuotes
             self.replaceChars = replaceChars
             self.replaceInvalidChars = replaceInvalidChars
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.serverSideEncryptionKmsKeyId = serverSideEncryptionKmsKeyId
             self.serviceAccessRoleArn = serviceAccessRoleArn
@@ -3300,6 +3370,8 @@ extension DatabaseMigrationService {
             case removeQuotes = "RemoveQuotes"
             case replaceChars = "ReplaceChars"
             case replaceInvalidChars = "ReplaceInvalidChars"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case serverSideEncryptionKmsKeyId = "ServerSideEncryptionKmsKeyId"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
@@ -3897,10 +3969,14 @@ extension DatabaseMigrationService {
         public let cdcInsertsAndUpdates: Bool?
         /// A value that enables a change data capture (CDC) load to write only INSERT operations to .csv or columnar storage (.parquet) output files. By default (the false setting), the first field in a .csv or .parquet record contains the letter I (INSERT), U (UPDATE), or D (DELETE). These values indicate whether the row was inserted, updated, or deleted at the source database for a CDC load to the target. If CdcInsertsOnly is set to true or y, only INSERTs from the source database are migrated to the .csv or .parquet file. For .csv format only, how these INSERTs are recorded depends on the value of IncludeOpForFullLoad. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to I to indicate the INSERT operation at the source. If IncludeOpForFullLoad is set to false, every CDC record is written without a first field to indicate the INSERT operation at the source. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide..  AWS DMS supports the interaction described preceding between the CdcInsertsOnly and IncludeOpForFullLoad parameters in versions 3.1.4 and later.   CdcInsertsOnly and CdcInsertsAndUpdates can't both be set to true for the same endpoint. Set either CdcInsertsOnly or CdcInsertsAndUpdates to true for the same endpoint, but not both.
         public let cdcInsertsOnly: Bool?
+        /// Specifies the folder path of CDC files. For an S3 source, this setting is required if a task captures change data; otherwise, it's optional. If CdcPath is set, AWS DMS reads CDC files from this path and replicates the data changes to the target endpoint. For an S3 target if you set  PreserveTransactions  to true, AWS DMS verifies that you have set this parameter to a folder path on your S3 target where AWS DMS can save the transaction order for the CDC load. AWS DMS creates this CDC folder path in either your S3 target working directory or the S3 target location specified by  BucketFolder  and  BucketName . For example, if you specify CdcPath as MyChangedData, and you specify BucketName as MyTargetBucket but do not specify BucketFolder, AWS DMS creates the CDC folder path following: MyTargetBucket/MyChangedData. If you specify the same CdcPath, and you specify BucketName as MyTargetBucket and BucketFolder as MyTargetData, AWS DMS creates the CDC folder path following: MyTargetBucket/MyTargetData/MyChangedData. For more information on CDC including transaction order on an S3 target, see Capturing data changes (CDC) including transaction order on the S3 target.  This setting is supported in AWS DMS versions 3.4.2 and later.
+        public let cdcPath: String?
         /// An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Either set this parameter to NONE (the default) or don't use it to leave the files uncompressed. This parameter applies to both .csv and .parquet file formats.
         public let compressionType: CompressionTypeValue?
         ///  The delimiter used to separate columns in the .csv file for both source and target. The default is a comma.
         public let csvDelimiter: String?
+        /// This setting only applies if your Amazon S3 output files during a change data capture (CDC) load are written in .csv format. If  UseCsvNoSupValue  is set to true, specify a string value that you want AWS DMS to use for all columns not included in the supplemental log. If you do not specify a string value, AWS DMS uses the null value for these columns regardless of the UseCsvNoSupValue setting.  This setting is supported in AWS DMS versions 3.4.1 and later.
+        public let csvNoSupValue: String?
         ///  The delimiter used to separate rows in the .csv file for both source and target. The default is a carriage return (\n).
         public let csvRowDelimiter: String?
         /// The format of the data that you want to use for output. You can choose one of the following:     csv : This is a row-based file format with comma-separated values (.csv).     parquet : Apache Parquet (.parquet) is a columnar storage file format that features efficient compression and provides faster query response.
@@ -3929,6 +4005,8 @@ extension DatabaseMigrationService {
         public let parquetTimestampInMillisecond: Bool?
         /// The version of the Apache Parquet format that you want to use: parquet_1_0 (the default) or parquet_2_0.
         public let parquetVersion: ParquetVersionValue?
+        /// If set to true, AWS DMS saves the transaction order for a change data capture (CDC) load on the Amazon S3 target specified by  CdcPath . For more information, see Capturing data changes (CDC) including transaction order on the S3 target.  This setting is supported in AWS DMS versions 3.4.2 and later.
+        public let preserveTransactions: Bool?
         /// The number of rows in a row group. A smaller row group size provides faster reads. But as the number of row groups grows, the slower writes become. This parameter defaults to 10,000 rows. This number is used for .parquet file format only.  If you choose a value larger than the maximum, RowGroupLength is set to the max row group length in bytes (64 * 1024 * 1024).
         public let rowGroupLength: Int?
         /// If you are using SSE_KMS for the EncryptionMode, provide the AWS KMS key ID. The key that you use needs an attached policy that enables AWS Identity and Access Management (IAM) user permissions and allows use of the key. Here is a CLI example: aws dms create-endpoint --endpoint-identifier value --endpoint-type target --engine-name s3 --s3-settings ServiceAccessRoleArn=value,BucketFolder=value,BucketName=value,EncryptionMode=SSE_KMS,ServerSideEncryptionKmsKeyId=value
@@ -3937,14 +4015,18 @@ extension DatabaseMigrationService {
         public let serviceAccessRoleArn: String?
         /// A value that when nonblank causes AWS DMS to add a column with timestamp information to the endpoint data for an Amazon S3 target.  AWS DMS supports the TimestampColumnName parameter in versions 3.1.4 and later.  DMS includes an additional STRING column in the .csv or .parquet object files of your migrated data when you set TimestampColumnName to a nonblank value. For a full load, each row of this timestamp column contains a timestamp for when the data was transferred from the source to the target by DMS.  For a change data capture (CDC) load, each row of the timestamp column contains the timestamp for the commit of that row in the source database. The string format for this timestamp column value is yyyy-MM-dd HH:mm:ss.SSSSSS. By default, the precision of this value is in microseconds. For a CDC load, the rounding of the precision depends on the commit timestamp supported by DMS for the source database. When the AddColumnName parameter is set to true, DMS also includes a name for the timestamp column that you set with TimestampColumnName.
         public let timestampColumnName: String?
+        /// This setting applies if the S3 output files during a change data capture (CDC) load are written in .csv format. If set to true for columns not included in the supplemental log, AWS DMS uses the value specified by  CsvNoSupValue . If not set or set to false, AWS DMS uses the null value for these columns.  This setting is supported in AWS DMS versions 3.4.1 and later.
+        public let useCsvNoSupValue: Bool?
 
-        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, includeOpForFullLoad: Bool? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil) {
+        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, cdcPath: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvNoSupValue: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, includeOpForFullLoad: Bool? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, preserveTransactions: Bool? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil, useCsvNoSupValue: Bool? = nil) {
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
             self.cdcInsertsAndUpdates = cdcInsertsAndUpdates
             self.cdcInsertsOnly = cdcInsertsOnly
+            self.cdcPath = cdcPath
             self.compressionType = compressionType
             self.csvDelimiter = csvDelimiter
+            self.csvNoSupValue = csvNoSupValue
             self.csvRowDelimiter = csvRowDelimiter
             self.dataFormat = dataFormat
             self.dataPageSize = dataPageSize
@@ -3959,10 +4041,12 @@ extension DatabaseMigrationService {
             self.includeOpForFullLoad = includeOpForFullLoad
             self.parquetTimestampInMillisecond = parquetTimestampInMillisecond
             self.parquetVersion = parquetVersion
+            self.preserveTransactions = preserveTransactions
             self.rowGroupLength = rowGroupLength
             self.serverSideEncryptionKmsKeyId = serverSideEncryptionKmsKeyId
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.timestampColumnName = timestampColumnName
+            self.useCsvNoSupValue = useCsvNoSupValue
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3970,8 +4054,10 @@ extension DatabaseMigrationService {
             case bucketName = "BucketName"
             case cdcInsertsAndUpdates = "CdcInsertsAndUpdates"
             case cdcInsertsOnly = "CdcInsertsOnly"
+            case cdcPath = "CdcPath"
             case compressionType = "CompressionType"
             case csvDelimiter = "CsvDelimiter"
+            case csvNoSupValue = "CsvNoSupValue"
             case csvRowDelimiter = "CsvRowDelimiter"
             case dataFormat = "DataFormat"
             case dataPageSize = "DataPageSize"
@@ -3986,10 +4072,12 @@ extension DatabaseMigrationService {
             case includeOpForFullLoad = "IncludeOpForFullLoad"
             case parquetTimestampInMillisecond = "ParquetTimestampInMillisecond"
             case parquetVersion = "ParquetVersion"
+            case preserveTransactions = "PreserveTransactions"
             case rowGroupLength = "RowGroupLength"
             case serverSideEncryptionKmsKeyId = "ServerSideEncryptionKmsKeyId"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case timestampColumnName = "TimestampColumnName"
+            case useCsvNoSupValue = "UseCsvNoSupValue"
         }
     }
 
@@ -4202,15 +4290,21 @@ extension DatabaseMigrationService {
         public let password: String?
         /// Endpoint TCP port.
         public let port: Int?
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. SecretsManagerSecret has the value of the AWS Secrets Manager secret that allows access to the SAP ASE endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access AWS Database Migration Service resources in the AWS Database Migration Service User Guide.
+        public let secretsManagerAccessRoleArn: String?
+        /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the SAP SAE endpoint connection details.
+        public let secretsManagerSecretId: String?
         /// Fully qualified domain name of the endpoint.
         public let serverName: String?
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(databaseName: String? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
+        public init(databaseName: String? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, username: String? = nil) {
             self.databaseName = databaseName
             self.password = password
             self.port = port
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
             self.username = username
         }
@@ -4219,6 +4313,8 @@ extension DatabaseMigrationService {
             case databaseName = "DatabaseName"
             case password = "Password"
             case port = "Port"
+            case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+            case secretsManagerSecretId = "SecretsManagerSecretId"
             case serverName = "ServerName"
             case username = "Username"
         }

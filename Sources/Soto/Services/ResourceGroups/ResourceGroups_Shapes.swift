@@ -50,16 +50,21 @@ extension ResourceGroups {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceStatusValue: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct CreateGroupInput: AWSEncodableShape {
-        /// A configuration associates the resource group with an AWS service and specifies how the service can interact with the resources in the group. A configuration is an array of GroupConfigurationItem elements.  You can specify either a Configuration or a ResourceQuery in a group, but not both.
+        /// A configuration associates the resource group with an AWS service and specifies how the service can interact with the resources in the group. A configuration is an array of GroupConfigurationItem elements. For details about the syntax of service configurations, see Service configurations for resource groups.  A resource group can contain either a Configuration or a ResourceQuery, but not both.
         public let configuration: [GroupConfigurationItem]?
         /// The description of the resource group. Descriptions can consist of letters, numbers, hyphens, underscores, periods, and spaces.
         public let description: String?
         /// The name of the group, which is the identifier of the group in other operations. You can't change the name of a resource group after you create it. A resource group name can consist of letters, numbers, hyphens, periods, and underscores. The name cannot start with AWS or aws; these are reserved. A resource group name must be unique within each AWS Region in your AWS account.
         public let name: String
-        /// The resource query that determines which AWS resources are members of this group.  You can specify either a ResourceQuery or a Configuration, but not both.
+        /// The resource query that determines which AWS resources are members of this group. For more information about resource queries, see Create a tag-based group in Resource Groups.   A resource group can contain either a ResourceQuery or a Configuration, but not both.
         public let resourceQuery: ResourceQuery?
         /// The tags to add to the group. A tag is key-value pair string.
         public let tags: [String: String]?
@@ -105,9 +110,9 @@ extension ResourceGroups {
     public struct CreateGroupOutput: AWSDecodableShape {
         /// The description of the resource group.
         public let group: Group?
-        /// The service configuration associated with the resource group. AWS Resource Groups supports adding service configurations for the following resource group types:    AWS::EC2::CapacityReservationPool - Amazon EC2 capacity reservation pools. For more information, see Working with capacity reservation groups in the EC2 Users Guide.
+        /// The service configuration associated with the resource group. For details about the syntax of a service configuration, see Service configurations for resource groups.
         public let groupConfiguration: GroupConfiguration?
-        /// The resource query associated with the group.
+        /// The resource query associated with the group. For more information about resource queries, see Create a tag-based group in Resource Groups.
         public let resourceQuery: ResourceQuery?
         /// The tags associated with the group.
         public let tags: [String: String]?
@@ -200,7 +205,7 @@ extension ResourceGroups {
     }
 
     public struct GetGroupConfigurationOutput: AWSDecodableShape {
-        /// The configuration associated with the specified group.
+        /// The service configuration associated with the specified group. For details about the service configuration syntax, see Service configurations for resource groups.
         public let groupConfiguration: GroupConfiguration?
 
         public init(groupConfiguration: GroupConfiguration? = nil) {
@@ -264,7 +269,7 @@ extension ResourceGroups {
     }
 
     public struct GetGroupQueryOutput: AWSDecodableShape {
-        /// The resource query associated with the specified group.
+        /// The resource query associated with the specified group. For more information about resource queries, see Create a tag-based group in Resource Groups.
         public let groupQuery: GroupQuery?
 
         public init(groupQuery: GroupQuery? = nil) {
@@ -361,9 +366,9 @@ extension ResourceGroups {
     }
 
     public struct GroupConfigurationItem: AWSEncodableShape & AWSDecodableShape {
-        /// A collection of parameters for this group configuration item.
+        /// A collection of parameters for this group configuration item. For the list of parameters that you can use with each configuration item type, see Supported resource types and parameters.
         public let parameters: [GroupConfigurationParameter]?
-        /// Specifies the type of group configuration item. Each item must have a unique value for type. You can specify the following string values:    AWS::EC2::CapacityReservationPool  For more information about EC2 capacity reservation groups, see Working with capacity reservation groups in the EC2 Users Guide.    AWS::ResourceGroups::Generic - Supports parameters that configure the behavior of resource groups of any type.
+        /// Specifies the type of group configuration item. Each item must have a unique value for type. For the list of types that you can specify for a configuration item, see Supported resource types and parameters.
         public let type: String
 
         public init(parameters: [GroupConfigurationParameter]? = nil, type: String) {
@@ -386,9 +391,9 @@ extension ResourceGroups {
     }
 
     public struct GroupConfigurationParameter: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the group configuration parameter. You can specify the following string values:   For configuration item type AWS::ResourceGroups::Generic:    allowed-resource-types  Specifies the types of resources that you can add to this group by using the GroupResources operation.     For configuration item type AWS::EC2::CapacityReservationPool:   None - This configuration item type doesn't support any parameters.   For more information about EC2 capacity reservation groups, see Working with capacity reservation groups in the EC2 Users Guide.
+        /// The name of the group configuration parameter. For the list of parameters that you can use with each configuration item type, see Supported resource types and parameters.
         public let name: String
-        /// The values of for this parameter. You can specify the following string value:   For item type allowed-resource-types: the only supported parameter value is AWS::EC2::CapacityReservation.
+        /// The value or values to be used for the specified parameter. For the list of values you can use with each parameter, see Supported resource types and parameters.
         public let values: [String]?
 
         public init(name: String, values: [String]? = nil) {
@@ -397,13 +402,13 @@ extension ResourceGroups {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 40)
+            try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-z-]+")
             try self.values?.forEach {
-                try validate($0, name: "values[]", parent: name, max: 40)
+                try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "[a-zA-Z0-9:]+")
+                try validate($0, name: "values[]", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             }
         }
 
@@ -503,18 +508,22 @@ extension ResourceGroups {
     }
 
     public struct GroupResourcesOutput: AWSDecodableShape {
-        /// The ARNs of the resources that failed to be added to the group by this operation.
+        /// A list of ARNs of any resources that failed to be added to the group by this operation.
         public let failed: [FailedResource]?
-        /// The ARNs of the resources that were successfully added to the group by this operation.
+        /// A list of ARNs of any resources that are still in the process of being added to the group by this operation. These pending additions continue asynchronously. You can check the status of pending additions by using the  ListGroupResources  operation, and checking the Resources array in the response and the Status field of each object in that array.
+        public let pending: [PendingResource]?
+        /// A list of ARNs of resources that were successfully added to the group by this operation.
         public let succeeded: [String]?
 
-        public init(failed: [FailedResource]? = nil, succeeded: [String]? = nil) {
+        public init(failed: [FailedResource]? = nil, pending: [PendingResource]? = nil, succeeded: [String]? = nil) {
             self.failed = failed
+            self.pending = pending
             self.succeeded = succeeded
         }
 
         private enum CodingKeys: String, CodingKey {
             case failed = "Failed"
+            case pending = "Pending"
             case succeeded = "Succeeded"
         }
     }
@@ -558,24 +567,40 @@ extension ResourceGroups {
         }
     }
 
+    public struct ListGroupResourcesItem: AWSDecodableShape {
+        public let identifier: ResourceIdentifier?
+        /// A structure that contains the status of this resource's membership in the group.  This field is present in the response only if the group is of type AWS::EC2::HostManagement.
+        public let status: ResourceStatus?
+
+        public init(identifier: ResourceIdentifier? = nil, status: ResourceStatus? = nil) {
+            self.identifier = identifier
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+            case status = "Status"
+        }
+    }
+
     public struct ListGroupResourcesOutput: AWSDecodableShape {
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
         /// A list of QueryError objects. Each error is an object that contains ErrorCode and Message structures. Possible values for ErrorCode are CLOUDFORMATION_STACK_INACTIVE and CLOUDFORMATION_STACK_NOT_EXISTING.
         public let queryErrors: [QueryError]?
-        /// The ARNs and resource types of resources that are members of the group that you specified.
-        public let resourceIdentifiers: [ResourceIdentifier]?
+        /// An array of resources from which you can determine each resource's identity, type, and group membership status.
+        public let resources: [ListGroupResourcesItem]?
 
-        public init(nextToken: String? = nil, queryErrors: [QueryError]? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil) {
+        public init(nextToken: String? = nil, queryErrors: [QueryError]? = nil, resources: [ListGroupResourcesItem]? = nil) {
             self.nextToken = nextToken
             self.queryErrors = queryErrors
-            self.resourceIdentifiers = resourceIdentifiers
+            self.resources = resources
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case queryErrors = "QueryErrors"
-            case resourceIdentifiers = "ResourceIdentifiers"
+            case resources = "Resources"
         }
     }
 
@@ -585,7 +610,7 @@ extension ResourceGroups {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those of the specified resource types. Specify up to five resource types in the format AWS::ServiceCode::ResourceType . For example, AWS::EC2::Instance, or AWS::S3::Bucket.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:   AWS:EC2::CapacityReservationPool
+        /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those of the specified resource types. Specify up to five resource types in the format AWS::ServiceCode::ResourceType . For example, AWS::EC2::Instance, or AWS::S3::Bucket.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS:EC2::CapacityReservationPool     AWS:EC2::HostManagement
         public let filters: [GroupFilter]?
         /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -629,6 +654,50 @@ extension ResourceGroups {
             case groupIdentifiers = "GroupIdentifiers"
             case nextToken = "NextToken"
         }
+    }
+
+    public struct PendingResource: AWSDecodableShape {
+        /// The Amazon resource name (ARN) of the resource that's in a pending state.
+        public let resourceArn: String?
+
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct PutGroupConfigurationInput: AWSEncodableShape {
+        /// The new configuration to associate with the specified group. A configuration associates the resource group with an AWS service and specifies how the service can interact with the resources in the group. A configuration is an array of GroupConfigurationItem elements. For information about the syntax of a service configuration, see Service configurations for resource groups.  A resource group can contain either a Configuration or a ResourceQuery, but not both.
+        public let configuration: [GroupConfigurationItem]?
+        /// The name or ARN of the resource group with the configuration that you want to update.
+        public let group: String?
+
+        public init(configuration: [GroupConfigurationItem]? = nil, group: String? = nil) {
+            self.configuration = configuration
+            self.group = group
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.forEach {
+                try $0.validate(name: "\(name).configuration[]")
+            }
+            try self.validate(self.configuration, name: "configuration", parent: name, max: 2)
+            try self.validate(self.group, name: "group", parent: name, max: 1600)
+            try self.validate(self.group, name: "group", parent: name, min: 1)
+            try self.validate(self.group, name: "group", parent: name, pattern: "(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case group = "Group"
+        }
+    }
+
+    public struct PutGroupConfigurationOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct QueryError: AWSDecodableShape {
@@ -711,6 +780,19 @@ extension ResourceGroups {
         private enum CodingKeys: String, CodingKey {
             case query = "Query"
             case type = "Type"
+        }
+    }
+
+    public struct ResourceStatus: AWSDecodableShape {
+        /// The current status.
+        public let name: ResourceStatusValue?
+
+        public init(name: ResourceStatusValue? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
@@ -845,18 +927,22 @@ extension ResourceGroups {
     }
 
     public struct UngroupResourcesOutput: AWSDecodableShape {
-        /// The resources that failed to be removed from the group.
+        /// A list of any resources that failed to be removed from the group by this operation.
         public let failed: [FailedResource]?
-        /// The ARNs of the resources that were successfully removed from the group.
+        /// A list of any resources that are still in the process of being removed from the group by this operation. These pending removals continue asynchronously. You can check the status of pending removals by using the  ListGroupResources  operation. After the resource is successfully removed, it no longer appears in the response.
+        public let pending: [PendingResource]?
+        /// A list of resources that were successfully removed from the group by this operation.
         public let succeeded: [String]?
 
-        public init(failed: [FailedResource]? = nil, succeeded: [String]? = nil) {
+        public init(failed: [FailedResource]? = nil, pending: [PendingResource]? = nil, succeeded: [String]? = nil) {
             self.failed = failed
+            self.pending = pending
             self.succeeded = succeeded
         }
 
         private enum CodingKeys: String, CodingKey {
             case failed = "Failed"
+            case pending = "Pending"
             case succeeded = "Succeeded"
         }
     }
@@ -950,7 +1036,7 @@ extension ResourceGroups {
     public struct UpdateGroupQueryInput: AWSEncodableShape {
         /// The name or the ARN of the resource group to query.
         public let group: String?
-        /// The resource query to determine which AWS resources are members of this resource group.
+        /// The resource query to determine which AWS resources are members of this resource group.  A resource group can contain either a Configuration or a ResourceQuery, but not both.
         public let resourceQuery: ResourceQuery
 
         public init(group: String? = nil, resourceQuery: ResourceQuery) {

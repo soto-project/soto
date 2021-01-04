@@ -133,6 +133,13 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum BehaviorCriteriaType: String, CustomStringConvertible, Codable {
+        case machineLearning = "MACHINE_LEARNING"
+        case `static` = "STATIC"
+        case statistical = "STATISTICAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CACertificateStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
@@ -177,10 +184,27 @@ extension IoT {
         case greaterThanEquals = "greater-than-equals"
         case inCidrSet = "in-cidr-set"
         case inPortSet = "in-port-set"
+        case inSet = "in-set"
         case lessThan = "less-than"
         case lessThanEquals = "less-than-equals"
         case notInCidrSet = "not-in-cidr-set"
         case notInPortSet = "not-in-port-set"
+        case notInSet = "not-in-set"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfidenceLevel: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomMetricType: String, CustomStringConvertible, Codable {
+        case ipAddressList = "ip-address-list"
+        case number
+        case numberList = "number-list"
+        case stringList = "string-list"
         public var description: String { return self.rawValue }
     }
 
@@ -192,6 +216,22 @@ extension IoT {
         case thu = "THU"
         case tue = "TUE"
         case wed = "WED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetectMitigationActionExecutionStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case skipped = "SKIPPED"
+        case successful = "SUCCESSFUL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetectMitigationActionsTaskStatus: String, CustomStringConvertible, Codable {
+        case canceled = "CANCELED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case successful = "SUCCESSFUL"
         public var description: String { return self.rawValue }
     }
 
@@ -325,6 +365,13 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum ModelStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case expired = "EXPIRED"
+        case pendingBuild = "PENDING_BUILD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OTAUpdateStatus: String, CustomStringConvertible, Codable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
@@ -410,6 +457,7 @@ extension IoT {
     }
 
     public enum TopicRuleDestinationStatus: String, CustomStringConvertible, Codable {
+        case deleting = "DELETING"
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case error = "ERROR"
@@ -524,6 +572,8 @@ extension IoT {
         public let iotEvents: IotEventsAction?
         /// Sends data from the MQTT message that triggered the rule to AWS IoT SiteWise asset properties.
         public let iotSiteWise: IotSiteWiseAction?
+        /// Send messages to an Amazon Managed Streaming for Apache Kafka (Amazon MSK) or self-managed Apache Kafka cluster.
+        public let kafka: KafkaAction?
         /// Write data to an Amazon Kinesis stream.
         public let kinesis: KinesisAction?
         /// Invoke a Lambda function.
@@ -543,7 +593,7 @@ extension IoT {
         /// The Timestream rule action writes attributes (measures) from an MQTT message into an Amazon Timestream table. For more information, see the Timestream topic rule action documentation.
         public let timestream: TimestreamAction?
 
-        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
+        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kafka: KafkaAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
             self.cloudwatchAlarm = cloudwatchAlarm
             self.cloudwatchLogs = cloudwatchLogs
             self.cloudwatchMetric = cloudwatchMetric
@@ -555,6 +605,7 @@ extension IoT {
             self.iotAnalytics = iotAnalytics
             self.iotEvents = iotEvents
             self.iotSiteWise = iotSiteWise
+            self.kafka = kafka
             self.kinesis = kinesis
             self.lambda = lambda
             self.republish = republish
@@ -589,6 +640,7 @@ extension IoT {
             case iotAnalytics
             case iotEvents
             case iotSiteWise
+            case kafka
             case kinesis
             case lambda
             case republish
@@ -602,27 +654,30 @@ extension IoT {
     }
 
     public struct ActiveViolation: AWSDecodableShape {
-        /// The behavior which is being violated.
+        /// The behavior that is being violated.
         public let behavior: Behavior?
         /// The time the most recent violation occurred.
         public let lastViolationTime: Date?
-        /// The value of the metric (the measurement) which caused the most recent violation.
+        /// The value of the metric (the measurement) that caused the most recent violation.
         public let lastViolationValue: MetricValue?
-        /// The security profile whose behavior is in violation.
+        /// The security profile with the behavior is in violation.
         public let securityProfileName: String?
         /// The name of the thing responsible for the active violation.
         public let thingName: String?
+        ///  The details of a violation event.
+        public let violationEventAdditionalInfo: ViolationEventAdditionalInfo?
         /// The ID of the active violation.
         public let violationId: String?
         /// The time the violation started.
         public let violationStartTime: Date?
 
-        public init(behavior: Behavior? = nil, lastViolationTime: Date? = nil, lastViolationValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationId: String? = nil, violationStartTime: Date? = nil) {
+        public init(behavior: Behavior? = nil, lastViolationTime: Date? = nil, lastViolationValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationEventAdditionalInfo: ViolationEventAdditionalInfo? = nil, violationId: String? = nil, violationStartTime: Date? = nil) {
             self.behavior = behavior
             self.lastViolationTime = lastViolationTime
             self.lastViolationValue = lastViolationValue
             self.securityProfileName = securityProfileName
             self.thingName = thingName
+            self.violationEventAdditionalInfo = violationEventAdditionalInfo
             self.violationId = violationId
             self.violationStartTime = violationStartTime
         }
@@ -633,6 +688,7 @@ extension IoT {
             case lastViolationValue
             case securityProfileName
             case thingName
+            case violationEventAdditionalInfo
             case violationId
             case violationStartTime
         }
@@ -719,9 +775,9 @@ extension IoT {
     }
 
     public struct AddThingsToThingGroupParams: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies if this mitigation action can move the things that triggered the mitigation action even if they are part of one or more dynamic things groups.
+        /// Specifies if this mitigation action can move the things that triggered the mitigation action even if they are part of one or more dynamic thing groups.
         public let overrideDynamicGroups: Bool?
-        /// The list of groups to which you want to add the things that triggered the mitigation action. You can add a thing to a maximum of 10 groups, but you cannot add a thing to more than one group in the same hierarchy.
+        /// The list of groups to which you want to add the things that triggered the mitigation action. You can add a thing to a maximum of 10 groups, but you can't add a thing to more than one group in the same hierarchy.
         public let thingGroupNames: [String]
 
         public init(overrideDynamicGroups: Bool? = nil, thingGroupNames: [String]) {
@@ -746,7 +802,7 @@ extension IoT {
     }
 
     public struct AlertTarget: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the notification target to which alerts are sent.
+        /// The Amazon Resource Name (ARN) of the notification target to which alerts are sent.
         public let alertTargetArn: String
         /// The ARN of the role that grants permission to send alerts to the notification target.
         public let roleArn: String
@@ -1623,16 +1679,19 @@ extension IoT {
         public let criteria: BehaviorCriteria?
         /// What is measured by the behavior.
         public let metric: String?
-        /// The dimension for a metric in your behavior. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.
+        /// The dimension for a metric in your behavior. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric to only MQTT topics where the name matches the pattern specified in the dimension. This can't be used with custom metrics.
         public let metricDimension: MetricDimension?
-        /// The name you have given to the behavior.
+        /// The name you've given to the behavior.
         public let name: String
+        ///  Suppresses alerts.
+        public let suppressAlerts: Bool?
 
-        public init(criteria: BehaviorCriteria? = nil, metric: String? = nil, metricDimension: MetricDimension? = nil, name: String) {
+        public init(criteria: BehaviorCriteria? = nil, metric: String? = nil, metricDimension: MetricDimension? = nil, name: String, suppressAlerts: Bool? = nil) {
             self.criteria = criteria
             self.metric = metric
             self.metricDimension = metricDimension
             self.name = name
+            self.suppressAlerts = suppressAlerts
         }
 
         public func validate(name: String) throws {
@@ -1648,28 +1707,32 @@ extension IoT {
             case metric
             case metricDimension
             case name
+            case suppressAlerts
         }
     }
 
     public struct BehaviorCriteria: AWSEncodableShape & AWSDecodableShape {
-        /// The operator that relates the thing measured (metric) to the criteria (containing a value or statisticalThreshold).
+        /// The operator that relates the thing measured (metric) to the criteria (containing a value or statisticalThreshold). Valid operators include:    string-list: in-set and not-in-set     number-list: in-set and not-in-set     ip-address-list: in-cidr-set and not-in-cidr-set     number: less-than, less-than-equals, greater-than, and greater-than-equals
         public let comparisonOperator: ComparisonOperator?
         /// If a device is in violation of the behavior for the specified number of consecutive datapoints, an alarm occurs. If not specified, the default is 1.
         public let consecutiveDatapointsToAlarm: Int?
         /// If an alarm has occurred and the offending device is no longer in violation of the behavior for the specified number of consecutive datapoints, the alarm is cleared. If not specified, the default is 1.
         public let consecutiveDatapointsToClear: Int?
-        /// Use this to specify the time duration over which the behavior is evaluated, for those criteria which have a time dimension (for example, NUM_MESSAGES_SENT). For a statisticalThreshhold metric comparison, measurements from all devices are accumulated over this time duration before being used to calculate percentiles, and later, measurements from an individual device are also accumulated over this time duration before being given a percentile rank.
+        /// Use this to specify the time duration over which the behavior is evaluated, for those criteria that have a time dimension (for example, NUM_MESSAGES_SENT). For a statisticalThreshhold metric comparison, measurements from all devices are accumulated over this time duration before being used to calculate percentiles, and later, measurements from an individual device are also accumulated over this time duration before being given a percentile rank. Cannot be used with list-based metric datatypes.
         public let durationSeconds: Int?
-        /// A statistical ranking (percentile) which indicates a threshold value by which a behavior is determined to be in compliance or in violation of the behavior.
+        ///  The configuration of an ML Detect
+        public let mlDetectionConfig: MachineLearningDetectionConfig?
+        /// A statistical ranking (percentile)that indicates a threshold value by which a behavior is determined to be in compliance or in violation of the behavior.
         public let statisticalThreshold: StatisticalThreshold?
         /// The value to be compared with the metric.
         public let value: MetricValue?
 
-        public init(comparisonOperator: ComparisonOperator? = nil, consecutiveDatapointsToAlarm: Int? = nil, consecutiveDatapointsToClear: Int? = nil, durationSeconds: Int? = nil, statisticalThreshold: StatisticalThreshold? = nil, value: MetricValue? = nil) {
+        public init(comparisonOperator: ComparisonOperator? = nil, consecutiveDatapointsToAlarm: Int? = nil, consecutiveDatapointsToClear: Int? = nil, durationSeconds: Int? = nil, mlDetectionConfig: MachineLearningDetectionConfig? = nil, statisticalThreshold: StatisticalThreshold? = nil, value: MetricValue? = nil) {
             self.comparisonOperator = comparisonOperator
             self.consecutiveDatapointsToAlarm = consecutiveDatapointsToAlarm
             self.consecutiveDatapointsToClear = consecutiveDatapointsToClear
             self.durationSeconds = durationSeconds
+            self.mlDetectionConfig = mlDetectionConfig
             self.statisticalThreshold = statisticalThreshold
             self.value = value
         }
@@ -1688,8 +1751,42 @@ extension IoT {
             case consecutiveDatapointsToAlarm
             case consecutiveDatapointsToClear
             case durationSeconds
+            case mlDetectionConfig
             case statisticalThreshold
             case value
+        }
+    }
+
+    public struct BehaviorModelTrainingSummary: AWSDecodableShape {
+        ///  The name of the behavior.
+        public let behaviorName: String?
+        ///  The percentage of datapoints collected.
+        public let datapointsCollectionPercentage: Double?
+        ///  The date the model was last refreshed.
+        public let lastModelRefreshDate: Date?
+        ///  The status of the behavior model.
+        public let modelStatus: ModelStatus?
+        ///  The name of the security profile.
+        public let securityProfileName: String?
+        ///  The date a training model started collecting data.
+        public let trainingDataCollectionStartDate: Date?
+
+        public init(behaviorName: String? = nil, datapointsCollectionPercentage: Double? = nil, lastModelRefreshDate: Date? = nil, modelStatus: ModelStatus? = nil, securityProfileName: String? = nil, trainingDataCollectionStartDate: Date? = nil) {
+            self.behaviorName = behaviorName
+            self.datapointsCollectionPercentage = datapointsCollectionPercentage
+            self.lastModelRefreshDate = lastModelRefreshDate
+            self.modelStatus = modelStatus
+            self.securityProfileName = securityProfileName
+            self.trainingDataCollectionStartDate = trainingDataCollectionStartDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behaviorName
+            case datapointsCollectionPercentage
+            case lastModelRefreshDate
+            case modelStatus
+            case securityProfileName
+            case trainingDataCollectionStartDate
         }
     }
 
@@ -1871,6 +1968,31 @@ extension IoT {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelDetectMitigationActionsTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+        ]
+
+        ///  The unique identifier of the task.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
+            try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelDetectMitigationActionsTaskResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CancelJobExecutionRequest: AWSEncodableShape {
@@ -2486,6 +2608,69 @@ extension IoT {
         }
     }
 
+    public struct CreateCustomMetricRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+        ]
+
+        /// Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        public let clientRequestToken: String
+        ///  Field represents a friendly name in the console for the custom metric; it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated once defined.
+        public let displayName: String?
+        ///  The name of the custom metric. This will be used in the metric report submitted from the device/thing. Shouldn't begin with aws:. Cannot be updated once defined.
+        public let metricName: String
+        ///  The type of the custom metric. Types include string-list, ip-address-list, number-list, and number.
+        public let metricType: CustomMetricType
+        ///  Metadata that can be used to manage the custom metric.
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String = CreateCustomMetricRequest.idempotencyToken(), displayName: String? = nil, metricName: String, metricType: CustomMetricType, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.displayName = displayName
+            self.metricName = metricName
+            self.metricType = metricType
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 128)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken
+            case displayName
+            case metricType
+            case tags
+        }
+    }
+
+    public struct CreateCustomMetricResponse: AWSDecodableShape {
+        ///  The Amazon Resource Number (ARN) of the custom metric, e.g. arn:aws-partition:iot:region:accountId:custommetric/metricName
+        public let metricArn: String?
+        ///  The name of the custom metric to be used in the metric report.
+        public let metricName: String?
+
+        public init(metricArn: String? = nil, metricName: String? = nil) {
+            self.metricArn = metricArn
+            self.metricName = metricName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricArn
+            case metricName
+        }
+    }
+
     public struct CreateDimensionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
@@ -2537,7 +2722,7 @@ extension IoT {
     }
 
     public struct CreateDimensionResponse: AWSDecodableShape {
-        /// The ARN (Amazon resource name) of the created dimension.
+        /// The Amazon Resource Name (ARN) of the created dimension.
         public let arn: String?
         /// A unique identifier for the dimension.
         public let name: String?
@@ -3382,11 +3567,11 @@ extension IoT {
             AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
 
-        /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
+        /// The day of the month on which the scheduled audit takes place. This can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to MONTHLY. If days 29 to 31 are specified, and the month doesn't have that many days, the audit takes place on the LAST day of the month.
         public let dayOfMonth: String?
-        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+        /// The day of the week on which the scheduled audit takes place, either SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the frequency parameter is set to WEEKLY or BIWEEKLY.
         public let dayOfWeek: DayOfWeek?
-        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The start time of each audit is determined by the system.
+        /// How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY or MONTHLY. The start time of each audit is determined by the system.
         public let frequency: AuditFrequency
         /// The name you want to give to the scheduled audit. (Max. 128 chars)
         public let scheduledAuditName: String
@@ -3441,7 +3626,7 @@ extension IoT {
             AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
         ]
 
-        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
         public let additionalMetricsToRetainV2: [MetricToRetain]?
         /// Specifies the destinations to which alerts are sent. (Alerts are always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
         public let alertTargets: [AlertTargetType: AlertTarget]?
@@ -3996,6 +4181,31 @@ extension IoT {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCustomMetricRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+        ]
+
+        ///  The name of the custom metric.
+        public let metricName: String
+
+        public init(metricName: String) {
+            self.metricName = metricName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCustomMetricResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteDimensionRequest: AWSEncodableShape {
@@ -4987,6 +5197,60 @@ extension IoT {
         }
     }
 
+    public struct DescribeCustomMetricRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+        ]
+
+        ///  The name of the custom metric.
+        public let metricName: String
+
+        public init(metricName: String) {
+            self.metricName = metricName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeCustomMetricResponse: AWSDecodableShape {
+        ///  The creation date of the custom metric in milliseconds since epoch.
+        public let creationDate: Date?
+        ///  Field represents a friendly name in the console for the custom metric; doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated.
+        public let displayName: String?
+        ///  The time the custom metric was last modified in milliseconds since epoch.
+        public let lastModifiedDate: Date?
+        ///  The Amazon Resource Number (ARN) of the custom metric.
+        public let metricArn: String?
+        ///  The name of the custom metric.
+        public let metricName: String?
+        ///  The type of the custom metric. Types include string-list, ip-address-list, number-list, and number.
+        public let metricType: CustomMetricType?
+
+        public init(creationDate: Date? = nil, displayName: String? = nil, lastModifiedDate: Date? = nil, metricArn: String? = nil, metricName: String? = nil, metricType: CustomMetricType? = nil) {
+            self.creationDate = creationDate
+            self.displayName = displayName
+            self.lastModifiedDate = lastModifiedDate
+            self.metricArn = metricArn
+            self.metricName = metricName
+            self.metricType = metricType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate
+            case displayName
+            case lastModifiedDate
+            case metricArn
+            case metricName
+            case metricType
+        }
+    }
+
     public struct DescribeDefaultAuthorizerRequest: AWSEncodableShape {
         public init() {}
     }
@@ -5001,6 +5265,40 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerDescription
+        }
+    }
+
+    public struct DescribeDetectMitigationActionsTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+        ]
+
+        ///  The unique identifier of the task.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
+            try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDetectMitigationActionsTaskResponse: AWSDecodableShape {
+        ///  The description of a task.
+        public let taskSummary: DetectMitigationActionsTaskSummary?
+
+        public init(taskSummary: DetectMitigationActionsTaskSummary? = nil) {
+            self.taskSummary = taskSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskSummary
         }
     }
 
@@ -5026,7 +5324,7 @@ extension IoT {
     }
 
     public struct DescribeDimensionResponse: AWSDecodableShape {
-        /// The ARN (Amazon resource name) for the dimension.
+        /// The Amazon Resource Name (ARN) for the dimension.
         public let arn: String?
         /// The date the dimension was created.
         public let creationDate: Date?
@@ -5543,11 +5841,11 @@ extension IoT {
     }
 
     public struct DescribeScheduledAuditResponse: AWSDecodableShape {
-        /// The day of the month on which the scheduled audit takes place. Will be "1" through "31" or "LAST". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
+        /// The day of the month on which the scheduled audit takes place. This is will be 1 through 31 or LAST. If days 29-31 are specified, and the month does not have that many days, the audit takes place on the LAST day of the month.
         public let dayOfMonth: String?
-        /// The day of the week on which the scheduled audit takes place. One of "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT".
+        /// The day of the week on which the scheduled audit takes place, either one of SUN, MON, TUE, WED, THU, FRI, or SAT.
         public let dayOfWeek: DayOfWeek?
-        /// How often the scheduled audit takes place. One of "DAILY", "WEEKLY", "BIWEEKLY", or "MONTHLY". The start time of each audit is determined by the system.
+        /// How often the scheduled audit takes place, either one of DAILY, WEEKLY, BIWEEKLY, or MONTHLY. The start time of each audit is determined by the system.
         public let frequency: AuditFrequency?
         /// The ARN of the scheduled audit.
         public let scheduledAuditArn: String?
@@ -6059,6 +6357,158 @@ extension IoT {
         public init() {}
     }
 
+    public struct DetectMitigationActionExecution: AWSDecodableShape {
+        ///  The friendly name that uniquely identifies the mitigation action.
+        public let actionName: String?
+        ///  The error code of a mitigation action.
+        public let errorCode: String?
+        ///  The date a mitigation action ended.
+        public let executionEndDate: Date?
+        ///  The date a mitigation action was started.
+        public let executionStartDate: Date?
+        ///  The message of a mitigation action.
+        public let message: String?
+        ///  The status of a mitigation action.
+        public let status: DetectMitigationActionExecutionStatus?
+        ///  The unique identifier of the task.
+        public let taskId: String?
+        ///  The name of the thing.
+        public let thingName: String?
+        ///  The unique identifier of the violation.
+        public let violationId: String?
+
+        public init(actionName: String? = nil, errorCode: String? = nil, executionEndDate: Date? = nil, executionStartDate: Date? = nil, message: String? = nil, status: DetectMitigationActionExecutionStatus? = nil, taskId: String? = nil, thingName: String? = nil, violationId: String? = nil) {
+            self.actionName = actionName
+            self.errorCode = errorCode
+            self.executionEndDate = executionEndDate
+            self.executionStartDate = executionStartDate
+            self.message = message
+            self.status = status
+            self.taskId = taskId
+            self.thingName = thingName
+            self.violationId = violationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName
+            case errorCode
+            case executionEndDate
+            case executionStartDate
+            case message
+            case status
+            case taskId
+            case thingName
+            case violationId
+        }
+    }
+
+    public struct DetectMitigationActionsTaskStatistics: AWSDecodableShape {
+        ///  The actions that were performed.
+        public let actionsExecuted: Int64?
+        ///  The actions that failed.
+        public let actionsFailed: Int64?
+        ///  The actions that were skipped.
+        public let actionsSkipped: Int64?
+
+        public init(actionsExecuted: Int64? = nil, actionsFailed: Int64? = nil, actionsSkipped: Int64? = nil) {
+            self.actionsExecuted = actionsExecuted
+            self.actionsFailed = actionsFailed
+            self.actionsSkipped = actionsSkipped
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionsExecuted
+            case actionsFailed
+            case actionsSkipped
+        }
+    }
+
+    public struct DetectMitigationActionsTaskSummary: AWSDecodableShape {
+        ///  The definition of the actions.
+        public let actionsDefinition: [MitigationAction]?
+        ///  Includes only active violations.
+        public let onlyActiveViolationsIncluded: Bool?
+        ///  Includes suppressed alerts.
+        public let suppressedAlertsIncluded: Bool?
+        ///  Specifies the ML Detect findings to which the mitigation actions are applied.
+        public let target: DetectMitigationActionsTaskTarget?
+        ///  The date the task ended.
+        public let taskEndTime: Date?
+        ///  The unique identifier of the task.
+        public let taskId: String?
+        ///  The date the task started.
+        public let taskStartTime: Date?
+        ///  The statistics of a mitigation action task.
+        public let taskStatistics: DetectMitigationActionsTaskStatistics?
+        ///  The status of the task.
+        public let taskStatus: DetectMitigationActionsTaskStatus?
+        ///  Specifies the time period of which violation events occurred between.
+        public let violationEventOccurrenceRange: ViolationEventOccurrenceRange?
+
+        public init(actionsDefinition: [MitigationAction]? = nil, onlyActiveViolationsIncluded: Bool? = nil, suppressedAlertsIncluded: Bool? = nil, target: DetectMitigationActionsTaskTarget? = nil, taskEndTime: Date? = nil, taskId: String? = nil, taskStartTime: Date? = nil, taskStatistics: DetectMitigationActionsTaskStatistics? = nil, taskStatus: DetectMitigationActionsTaskStatus? = nil, violationEventOccurrenceRange: ViolationEventOccurrenceRange? = nil) {
+            self.actionsDefinition = actionsDefinition
+            self.onlyActiveViolationsIncluded = onlyActiveViolationsIncluded
+            self.suppressedAlertsIncluded = suppressedAlertsIncluded
+            self.target = target
+            self.taskEndTime = taskEndTime
+            self.taskId = taskId
+            self.taskStartTime = taskStartTime
+            self.taskStatistics = taskStatistics
+            self.taskStatus = taskStatus
+            self.violationEventOccurrenceRange = violationEventOccurrenceRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionsDefinition
+            case onlyActiveViolationsIncluded
+            case suppressedAlertsIncluded
+            case target
+            case taskEndTime
+            case taskId
+            case taskStartTime
+            case taskStatistics
+            case taskStatus
+            case violationEventOccurrenceRange
+        }
+    }
+
+    public struct DetectMitigationActionsTaskTarget: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the behavior.
+        public let behaviorName: String?
+        ///  The name of the security profile.
+        public let securityProfileName: String?
+        ///  The unique identifiers of the violations.
+        public let violationIds: [String]?
+
+        public init(behaviorName: String? = nil, securityProfileName: String? = nil, violationIds: [String]? = nil) {
+            self.behaviorName = behaviorName
+            self.securityProfileName = securityProfileName
+            self.violationIds = violationIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.behaviorName, name: "behaviorName", parent: name, max: 128)
+            try self.validate(self.behaviorName, name: "behaviorName", parent: name, min: 1)
+            try self.validate(self.behaviorName, name: "behaviorName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
+            try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
+            try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.violationIds?.forEach {
+                try validate($0, name: "violationIds[]", parent: name, max: 128)
+                try validate($0, name: "violationIds[]", parent: name, min: 1)
+                try validate($0, name: "violationIds[]", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            }
+            try self.validate(self.violationIds, name: "violationIds", parent: name, max: 25)
+            try self.validate(self.violationIds, name: "violationIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behaviorName
+            case securityProfileName
+            case violationIds
+        }
+    }
+
     public struct DisableTopicRuleRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
@@ -6222,9 +6672,9 @@ extension IoT {
     }
 
     public struct EnableIoTLoggingParams: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the types of information to be logged.
+        /// Specifies the type of information to be logged.
         public let logLevel: LogLevel
-        /// The ARN of the IAM role used for logging.
+        /// The Amazon Resource Name (ARN) of the IAM role used for logging.
         public let roleArnForLogging: String
 
         public init(logLevel: LogLevel, roleArnForLogging: String) {
@@ -6388,6 +6838,54 @@ extension IoT {
             case deliveryStreamName
             case roleArn
             case separator
+        }
+    }
+
+    public struct GetBehaviorModelTrainingSummariesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName"))
+        ]
+
+        ///  The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int?
+        ///  The token for the next set of results.
+        public let nextToken: String?
+        ///  The name of the security profile.
+        public let securityProfileName: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.securityProfileName = securityProfileName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
+            try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
+            try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBehaviorModelTrainingSummariesResponse: AWSDecodableShape {
+        ///  A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        ///  A list of all ML Detect behaviors and their model status for a given Security Profile.
+        public let summaries: [BehaviorModelTrainingSummary]?
+
+        public init(nextToken: String? = nil, summaries: [BehaviorModelTrainingSummary]? = nil) {
+            self.nextToken = nextToken
+            self.summaries = summaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case summaries
         }
     }
 
@@ -7493,6 +7991,35 @@ extension IoT {
         }
     }
 
+    public struct KafkaAction: AWSEncodableShape & AWSDecodableShape {
+        /// Properties of the Apache Kafka producer client.
+        public let clientProperties: [String: String]
+        /// The ARN of Kafka action's VPC TopicRuleDestination.
+        public let destinationArn: String
+        /// The Kafka message key.
+        public let key: String?
+        /// The Kafka message partition.
+        public let partition: String?
+        /// The Kafka topic for messages to be sent to the Kafka broker.
+        public let topic: String
+
+        public init(clientProperties: [String: String], destinationArn: String, key: String? = nil, partition: String? = nil, topic: String) {
+            self.clientProperties = clientProperties
+            self.destinationArn = destinationArn
+            self.key = key
+            self.partition = partition
+            self.topic = topic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientProperties
+            case destinationArn
+            case key
+            case partition
+            case topic
+        }
+    }
+
     public struct KeyPair: AWSDecodableShape {
         /// The private key.
         public let privateKey: String?
@@ -7546,12 +8073,18 @@ extension IoT {
 
     public struct ListActiveViolationsRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "behaviorCriteriaType", location: .querystring(locationName: "behaviorCriteriaType")),
+            AWSMemberEncoding(label: "listSuppressedAlerts", location: .querystring(locationName: "listSuppressedAlerts")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName")),
             AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
         ]
 
+        ///  The criteria for a behavior.
+        public let behaviorCriteriaType: BehaviorCriteriaType?
+        ///  A list of all suppressed alerts.
+        public let listSuppressedAlerts: Bool?
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -7561,7 +8094,9 @@ extension IoT {
         /// The name of the thing whose active violations are listed.
         public let thingName: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, thingName: String? = nil) {
+        public init(behaviorCriteriaType: BehaviorCriteriaType? = nil, listSuppressedAlerts: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, thingName: String? = nil) {
+            self.behaviorCriteriaType = behaviorCriteriaType
+            self.listSuppressedAlerts = listSuppressedAlerts
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.securityProfileName = securityProfileName
@@ -8193,6 +8728,165 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case certificates
             case nextMarker
+        }
+    }
+
+    public struct ListCustomMetricsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        ///  The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int?
+        ///  The token for the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCustomMetricsResponse: AWSDecodableShape {
+        ///  The name of the custom metric.
+        public let metricNames: [String]?
+        ///  A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(metricNames: [String]? = nil, nextToken: String? = nil) {
+            self.metricNames = metricNames
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricNames
+            case nextToken
+        }
+    }
+
+    public struct ListDetectMitigationActionsExecutionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")),
+            AWSMemberEncoding(label: "taskId", location: .querystring(locationName: "taskId")),
+            AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName")),
+            AWSMemberEncoding(label: "violationId", location: .querystring(locationName: "violationId"))
+        ]
+
+        ///  The end of the time period for which ML Detect mitigation actions executions are returned.
+        public let endTime: Date?
+        ///  The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int?
+        ///  The token for the next set of results.
+        public let nextToken: String?
+        ///  A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both.
+        public let startTime: Date?
+        ///  The unique identifier of the task.
+        public let taskId: String?
+        ///  The name of the thing whose mitigation actions are listed.
+        public let thingName: String?
+        ///  The unique identifier of the violation.
+        public let violationId: String?
+
+        public init(endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil, taskId: String? = nil, thingName: String? = nil, violationId: String? = nil) {
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTime = startTime
+            self.taskId = taskId
+            self.thingName = thingName
+            self.violationId = violationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
+            try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
+            try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
+            try self.validate(self.violationId, name: "violationId", parent: name, max: 128)
+            try self.validate(self.violationId, name: "violationId", parent: name, min: 1)
+            try self.validate(self.violationId, name: "violationId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDetectMitigationActionsExecutionsResponse: AWSDecodableShape {
+        ///  List of actions executions.
+        public let actionsExecutions: [DetectMitigationActionExecution]?
+        ///  A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(actionsExecutions: [DetectMitigationActionExecution]? = nil, nextToken: String? = nil) {
+            self.actionsExecutions = actionsExecutions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionsExecutions
+            case nextToken
+        }
+    }
+
+    public struct ListDetectMitigationActionsTasksRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
+        ]
+
+        ///  The end of the time period for which ML Detect mitigation actions tasks are returned.
+        public let endTime: Date
+        /// The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int?
+        ///  The token for the next set of results.
+        public let nextToken: String?
+        ///  A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both.
+        public let startTime: Date
+
+        public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDetectMitigationActionsTasksResponse: AWSDecodableShape {
+        ///  A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        ///  The collection of ML Detect mitigation tasks that matched the filter criteria.
+        public let tasks: [DetectMitigationActionsTaskSummary]?
+
+        public init(nextToken: String? = nil, tasks: [DetectMitigationActionsTaskSummary]? = nil) {
+            self.nextToken = nextToken
+            self.tasks = tasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case tasks
         }
     }
 
@@ -9104,19 +9798,23 @@ extension IoT {
         public static var _encoding = [
             AWSMemberEncoding(label: "dimensionName", location: .querystring(locationName: "dimensionName")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "metricName", location: .querystring(locationName: "metricName")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// A filter to limit results to the security profiles that use the defined dimension.
+        /// A filter to limit results to the security profiles that use the defined dimension. Cannot be used with metricName
         public let dimensionName: String?
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
+        ///  The name of the custom metric. Cannot be used with dimensionName.
+        public let metricName: String?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(dimensionName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(dimensionName: String? = nil, maxResults: Int? = nil, metricName: String? = nil, nextToken: String? = nil) {
             self.dimensionName = dimensionName
             self.maxResults = maxResults
+            self.metricName = metricName
             self.nextToken = nextToken
         }
 
@@ -9126,6 +9824,9 @@ extension IoT {
             try self.validate(self.dimensionName, name: "dimensionName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9926,7 +10627,9 @@ extension IoT {
 
     public struct ListViolationEventsRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "behaviorCriteriaType", location: .querystring(locationName: "behaviorCriteriaType")),
             AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
+            AWSMemberEncoding(label: "listSuppressedAlerts", location: .querystring(locationName: "listSuppressedAlerts")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "securityProfileName", location: .querystring(locationName: "securityProfileName")),
@@ -9934,8 +10637,12 @@ extension IoT {
             AWSMemberEncoding(label: "thingName", location: .querystring(locationName: "thingName"))
         ]
 
+        ///  The criteria for a behavior.
+        public let behaviorCriteriaType: BehaviorCriteriaType?
         /// The end time for the alerts to be listed.
         public let endTime: Date
+        ///  A list of all suppressed alerts.
+        public let listSuppressedAlerts: Bool?
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -9947,8 +10654,10 @@ extension IoT {
         /// A filter to limit results to those alerts caused by the specified thing.
         public let thingName: String?
 
-        public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, startTime: Date, thingName: String? = nil) {
+        public init(behaviorCriteriaType: BehaviorCriteriaType? = nil, endTime: Date, listSuppressedAlerts: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, startTime: Date, thingName: String? = nil) {
+            self.behaviorCriteriaType = behaviorCriteriaType
             self.endTime = endTime
+            self.listSuppressedAlerts = listSuppressedAlerts
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.securityProfileName = securityProfileName
@@ -10037,6 +10746,19 @@ extension IoT {
         }
     }
 
+    public struct MachineLearningDetectionConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The sensitivity of anomalous behavior evaluation. Can be Low, Medium, or High.
+        public let confidenceLevel: ConfidenceLevel
+
+        public init(confidenceLevel: ConfidenceLevel) {
+            self.confidenceLevel = confidenceLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceLevel
+        }
+    }
+
     public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
         /// A unique identifier for the dimension.
         public let dimensionName: String
@@ -10063,7 +10785,7 @@ extension IoT {
     public struct MetricToRetain: AWSEncodableShape & AWSDecodableShape {
         /// What is measured by the behavior.
         public let metric: String
-        /// The dimension of a metric.
+        /// The dimension of a metric. This can't be used with custom metrics.
         public let metricDimension: MetricDimension?
 
         public init(metric: String, metricDimension: MetricDimension? = nil) {
@@ -10086,13 +10808,22 @@ extension IoT {
         public let cidrs: [String]?
         /// If the comparisonOperator calls for a numeric value, use this to specify that numeric value to be compared with the metric.
         public let count: Int64?
+        ///  The numeral value of a metric.
+        public let number: Double?
+        ///  The numeral values of a metric.
+        public let numbers: [Double]?
         /// If the comparisonOperator calls for a set of ports, use this to specify that set to be compared with the metric.
         public let ports: [Int]?
+        ///  The string values of a metric.
+        public let strings: [String]?
 
-        public init(cidrs: [String]? = nil, count: Int64? = nil, ports: [Int]? = nil) {
+        public init(cidrs: [String]? = nil, count: Int64? = nil, number: Double? = nil, numbers: [Double]? = nil, ports: [Int]? = nil, strings: [String]? = nil) {
             self.cidrs = cidrs
             self.count = count
+            self.number = number
+            self.numbers = numbers
             self.ports = ports
+            self.strings = strings
         }
 
         public func validate(name: String) throws {
@@ -10111,7 +10842,10 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case cidrs
             case count
+            case number
+            case numbers
             case ports
+            case strings
         }
     }
 
@@ -10166,7 +10900,7 @@ extension IoT {
         public let addThingsToThingGroupParams: AddThingsToThingGroupParams?
         /// Parameters to define a mitigation action that enables AWS IoT logging at a specified level of detail.
         public let enableIoTLoggingParams: EnableIoTLoggingParams?
-        /// Parameters to define a mitigation action that publishes findings to Amazon SNS. You can implement your own custom actions in response to the Amazon SNS messages.
+        /// Parameters to define a mitigation action that publishes findings to Amazon Simple Notification Service (Amazon SNS. You can implement your own custom actions in response to the Amazon SNS messages.
         public let publishFindingToSnsParams: PublishFindingToSnsParams?
         /// Parameters to define a mitigation action that adds a blank policy to restrict permissions.
         public let replaceDefaultPolicyVersionParams: ReplaceDefaultPolicyVersionParams?
@@ -11365,7 +12099,7 @@ extension IoT {
     public struct SecurityProfileIdentifier: AWSDecodableShape {
         /// The ARN of the security profile.
         public let arn: String
-        /// The name you have given to the security profile.
+        /// The name you've given to the security profile.
         public let name: String
 
         public init(arn: String, name: String) {
@@ -11639,7 +12373,7 @@ extension IoT {
         public let auditCheckToActionsMapping: [String: [String]]
         /// Each audit mitigation task must have a unique client request token. If you try to start a new task with the same token as a task that already exists, an exception occurs. If you omit this value, a unique client request token is generated automatically.
         public let clientRequestToken: String
-        /// Specifies the audit findings to which the mitigation actions are applied. You can apply them to a type of audit check, to all findings from an audit, or to a speecific set of findings.
+        /// Specifies the audit findings to which the mitigation actions are applied. You can apply them to a type of audit check, to all findings from an audit, or to a specific set of findings.
         public let target: AuditMitigationActionsTaskTarget
         /// A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it.
         public let taskId: String
@@ -11674,6 +12408,75 @@ extension IoT {
 
     public struct StartAuditMitigationActionsTaskResponse: AWSDecodableShape {
         /// The unique identifier for the audit mitigation task. This matches the taskId that you specified in the request.
+        public let taskId: String?
+
+        public init(taskId: String? = nil) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId
+        }
+    }
+
+    public struct StartDetectMitigationActionsTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "taskId", location: .uri(locationName: "taskId"))
+        ]
+
+        ///  The actions to be performed when a device has unexpected behavior.
+        public let actions: [String]
+        ///  Each mitigation action task must have a unique client request token. If you try to create a new task with the same token as a task that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        public let clientRequestToken: String
+        ///  Specifies to list only active violations.
+        public let includeOnlyActiveViolations: Bool?
+        ///  Specifies to include suppressed alerts.
+        public let includeSuppressedAlerts: Bool?
+        ///  Specifies the ML Detect findings to which the mitigation actions are applied.
+        public let target: DetectMitigationActionsTaskTarget
+        ///  The unique identifier of the task.
+        public let taskId: String
+        ///  Specifies the time period of which violation events occurred between.
+        public let violationEventOccurrenceRange: ViolationEventOccurrenceRange?
+
+        public init(actions: [String], clientRequestToken: String = StartDetectMitigationActionsTaskRequest.idempotencyToken(), includeOnlyActiveViolations: Bool? = nil, includeSuppressedAlerts: Bool? = nil, target: DetectMitigationActionsTaskTarget, taskId: String, violationEventOccurrenceRange: ViolationEventOccurrenceRange? = nil) {
+            self.actions = actions
+            self.clientRequestToken = clientRequestToken
+            self.includeOnlyActiveViolations = includeOnlyActiveViolations
+            self.includeSuppressedAlerts = includeSuppressedAlerts
+            self.target = target
+            self.taskId = taskId
+            self.violationEventOccurrenceRange = violationEventOccurrenceRange
+        }
+
+        public func validate(name: String) throws {
+            try self.actions.forEach {
+                try validate($0, name: "actions[]", parent: name, max: 128)
+                try validate($0, name: "actions[]", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 5)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.target.validate(name: "\(name).target")
+            try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
+            try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions
+            case clientRequestToken
+            case includeOnlyActiveViolations
+            case includeSuppressedAlerts
+            case target
+            case violationEventOccurrenceRange
+        }
+    }
+
+    public struct StartDetectMitigationActionsTaskResponse: AWSDecodableShape {
+        ///  The unique identifier of the task.
         public let taskId: String?
 
         public init(taskId: String? = nil) {
@@ -11786,7 +12589,7 @@ extension IoT {
     }
 
     public struct StatisticalThreshold: AWSEncodableShape & AWSDecodableShape {
-        /// The percentile which resolves to a threshold value by which compliance with a behavior is determined. Metrics are collected over the specified period (durationSeconds) from all reporting devices in your account and statistical ranks are calculated. Then, the measurements from a device are collected over the same period. If the accumulated measurements from the device fall above or below (comparisonOperator) the value associated with the percentile specified, then the device is considered to be in compliance with the behavior, otherwise a violation occurs.
+        /// The percentile that resolves to a threshold value by which compliance with a behavior is determined. Metrics are collected over the specified period (durationSeconds) from all reporting devices in your account and statistical ranks are calculated. Then, the measurements from a device are collected over the same period. If the accumulated measurements from the device fall above or below (comparisonOperator) the value associated with the percentile specified, then the device is considered to be in compliance with the behavior, otherwise a violation occurs.
         public let statistic: String?
 
         public init(statistic: String? = nil) {
@@ -12682,34 +13485,49 @@ extension IoT {
     public struct TopicRuleDestination: AWSDecodableShape {
         /// The topic rule destination URL.
         public let arn: String?
+        /// The date and time when the topic rule destination was created.
+        public let createdAt: Date?
         /// Properties of the HTTP URL.
         public let httpUrlProperties: HttpUrlDestinationProperties?
+        /// The date and time when the topic rule destination was last updated.
+        public let lastUpdatedAt: Date?
         /// The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.
         public let status: TopicRuleDestinationStatus?
         /// Additional details or reason why the topic rule destination is in the current status.
         public let statusReason: String?
+        /// Properties of the virtual private cloud (VPC) connection.
+        public let vpcProperties: VpcDestinationProperties?
 
-        public init(arn: String? = nil, httpUrlProperties: HttpUrlDestinationProperties? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, httpUrlProperties: HttpUrlDestinationProperties? = nil, lastUpdatedAt: Date? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil, vpcProperties: VpcDestinationProperties? = nil) {
             self.arn = arn
+            self.createdAt = createdAt
             self.httpUrlProperties = httpUrlProperties
+            self.lastUpdatedAt = lastUpdatedAt
             self.status = status
             self.statusReason = statusReason
+            self.vpcProperties = vpcProperties
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case createdAt
             case httpUrlProperties
+            case lastUpdatedAt
             case status
             case statusReason
+            case vpcProperties
         }
     }
 
     public struct TopicRuleDestinationConfiguration: AWSEncodableShape {
         /// Configuration of the HTTP URL.
         public let httpUrlConfiguration: HttpUrlDestinationConfiguration?
+        /// Configuration of the virtual private cloud (VPC) connection.
+        public let vpcConfiguration: VpcDestinationConfiguration?
 
-        public init(httpUrlConfiguration: HttpUrlDestinationConfiguration? = nil) {
+        public init(httpUrlConfiguration: HttpUrlDestinationConfiguration? = nil, vpcConfiguration: VpcDestinationConfiguration? = nil) {
             self.httpUrlConfiguration = httpUrlConfiguration
+            self.vpcConfiguration = vpcConfiguration
         }
 
         public func validate(name: String) throws {
@@ -12718,31 +13536,44 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case httpUrlConfiguration
+            case vpcConfiguration
         }
     }
 
     public struct TopicRuleDestinationSummary: AWSDecodableShape {
         /// The topic rule destination ARN.
         public let arn: String?
+        /// The date and time when the topic rule destination was created.
+        public let createdAt: Date?
         /// Information about the HTTP URL.
         public let httpUrlSummary: HttpUrlDestinationSummary?
+        /// The date and time when the topic rule destination was last updated.
+        public let lastUpdatedAt: Date?
         /// The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.
         public let status: TopicRuleDestinationStatus?
         /// The reason the topic rule destination is in the current status.
         public let statusReason: String?
+        /// Information about the virtual private cloud (VPC) connection.
+        public let vpcDestinationSummary: VpcDestinationSummary?
 
-        public init(arn: String? = nil, httpUrlSummary: HttpUrlDestinationSummary? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, httpUrlSummary: HttpUrlDestinationSummary? = nil, lastUpdatedAt: Date? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil, vpcDestinationSummary: VpcDestinationSummary? = nil) {
             self.arn = arn
+            self.createdAt = createdAt
             self.httpUrlSummary = httpUrlSummary
+            self.lastUpdatedAt = lastUpdatedAt
             self.status = status
             self.statusReason = statusReason
+            self.vpcDestinationSummary = vpcDestinationSummary
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case createdAt
             case httpUrlSummary
+            case lastUpdatedAt
             case status
             case statusReason
+            case vpcDestinationSummary
         }
     }
 
@@ -12923,11 +13754,11 @@ extension IoT {
     }
 
     public struct UpdateAccountAuditConfigurationRequest: AWSEncodableShape {
-        /// Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it is used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is required and must specify at least one enabled check.
+        /// Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it's used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is required and must specify at least one enabled check.
         public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
         /// Information about the targets to which audit notifications are sent.
         public let auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]?
-        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates and other items as required when performing an audit.
+        /// The Amazon Resource Name (ARN) of the role that grants permission to AWS IoT to access information about your devices, policies, certificates, and other items as required when performing an audit.
         public let roleArn: String?
 
         public init(auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil, roleArn: String? = nil) {
@@ -13102,7 +13933,7 @@ extension IoT {
     }
 
     public struct UpdateCACertificateParams: AWSEncodableShape & AWSDecodableShape {
-        /// The action that you want to apply to the CA cerrtificate. The only supported value is DEACTIVATE.
+        /// The action that you want to apply to the CA certificate. The only supported value is DEACTIVATE.
         public let action: CACertificateUpdateAction
 
         public init(action: CACertificateUpdateAction) {
@@ -13178,8 +14009,69 @@ extension IoT {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateCustomMetricRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "metricName", location: .uri(locationName: "metricName"))
+        ]
+
+        ///  Field represents a friendly name in the console for the custom metric, it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated.
+        public let displayName: String
+        ///  The name of the custom metric. Cannot be updated.
+        public let metricName: String
+
+        public init(displayName: String, metricName: String) {
+            self.displayName = displayName
+            self.metricName = metricName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 128)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName
+        }
+    }
+
+    public struct UpdateCustomMetricResponse: AWSDecodableShape {
+        ///  The creation date of the custom metric in milliseconds since epoch.
+        public let creationDate: Date?
+        ///  A friendly name in the console for the custom metric
+        public let displayName: String?
+        ///  The time the custom metric was last modified in milliseconds since epoch.
+        public let lastModifiedDate: Date?
+        ///  The Amazon Resource Number (ARN) of the custom metric.
+        public let metricArn: String?
+        ///  The name of the custom metric.
+        public let metricName: String?
+        ///  The type of the custom metric. Types include string-list, ip-address-list, number-list, and number.
+        public let metricType: CustomMetricType?
+
+        public init(creationDate: Date? = nil, displayName: String? = nil, lastModifiedDate: Date? = nil, metricArn: String? = nil, metricName: String? = nil, metricType: CustomMetricType? = nil) {
+            self.creationDate = creationDate
+            self.displayName = displayName
+            self.lastModifiedDate = lastModifiedDate
+            self.metricArn = metricArn
+            self.metricName = metricName
+            self.metricType = metricType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate
+            case displayName
+            case lastModifiedDate
+            case metricArn
+            case metricName
+            case metricType
+        }
+    }
+
     public struct UpdateDeviceCertificateParams: AWSEncodableShape & AWSDecodableShape {
-        /// The action that you want to apply to the device cerrtificate. The only supported value is DEACTIVATE.
+        /// The action that you want to apply to the device certificate. The only supported value is DEACTIVATE.
         public let action: DeviceCertificateUpdateAction
 
         public init(action: DeviceCertificateUpdateAction) {
@@ -13224,7 +14116,7 @@ extension IoT {
     }
 
     public struct UpdateDimensionResponse: AWSDecodableShape {
-        /// The ARN (Amazon resource name) of the created dimension.
+        /// The Amazon Resource Name (ARN)of the created dimension.
         public let arn: String?
         /// The date and time, in milliseconds since epoch, when the dimension was initially created.
         public let creationDate: Date?
@@ -13465,7 +14357,7 @@ extension IoT {
             AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
         ]
 
-        /// The friendly name for the mitigation action. You can't change the name by using UpdateMitigationAction. Instead, you must delete and re-create the mitigation action with the new name.
+        /// The friendly name for the mitigation action. You cannot change the name by using UpdateMitigationAction. Instead, you must delete and recreate the mitigation action with the new name.
         public let actionName: String
         /// Defines the type of action and the parameters for that action.
         public let actionParams: MitigationActionParams?
@@ -13621,11 +14513,11 @@ extension IoT {
             AWSMemberEncoding(label: "scheduledAuditName", location: .uri(locationName: "scheduledAuditName"))
         ]
 
-        /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
+        /// The day of the month on which the scheduled audit takes place. This can be 1 through 31 or LAST. This field is required if the frequency parameter is set to MONTHLY. If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public let dayOfMonth: String?
-        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+        /// The day of the week on which the scheduled audit takes place. This can be one of SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the "frequency" parameter is set to WEEKLY or BIWEEKLY.
         public let dayOfWeek: DayOfWeek?
-        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY", or "MONTHLY". The start time of each audit is determined by the system.
+        /// How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY, or MONTHLY. The start time of each audit is determined by the system.
         public let frequency: AuditFrequency?
         /// The name of the scheduled audit. (Max. 128 chars)
         public let scheduledAuditName: String
@@ -13674,7 +14566,7 @@ extension IoT {
             AWSMemberEncoding(label: "securityProfileName", location: .uri(locationName: "securityProfileName"))
         ]
 
-        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
         public let additionalMetricsToRetainV2: [MetricToRetain]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
@@ -13735,7 +14627,7 @@ extension IoT {
     }
 
     public struct UpdateSecurityProfileResponse: AWSDecodableShape {
-        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
         public let additionalMetricsToRetainV2: [MetricToRetain]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
@@ -14054,7 +14946,7 @@ extension IoT {
     }
 
     public struct ViolationEvent: AWSDecodableShape {
-        /// The behavior which was violated.
+        /// The behavior that was violated.
         public let behavior: Behavior?
         /// The value of the metric (the measurement).
         public let metricValue: MetricValue?
@@ -14062,6 +14954,8 @@ extension IoT {
         public let securityProfileName: String?
         /// The name of the thing responsible for the violation event.
         public let thingName: String?
+        ///  The details of a violation event.
+        public let violationEventAdditionalInfo: ViolationEventAdditionalInfo?
         /// The time the violation event occurred.
         public let violationEventTime: Date?
         /// The type of violation event.
@@ -14069,11 +14963,12 @@ extension IoT {
         /// The ID of the violation event.
         public let violationId: String?
 
-        public init(behavior: Behavior? = nil, metricValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationEventTime: Date? = nil, violationEventType: ViolationEventType? = nil, violationId: String? = nil) {
+        public init(behavior: Behavior? = nil, metricValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, violationEventAdditionalInfo: ViolationEventAdditionalInfo? = nil, violationEventTime: Date? = nil, violationEventType: ViolationEventType? = nil, violationId: String? = nil) {
             self.behavior = behavior
             self.metricValue = metricValue
             self.securityProfileName = securityProfileName
             self.thingName = thingName
+            self.violationEventAdditionalInfo = violationEventAdditionalInfo
             self.violationEventTime = violationEventTime
             self.violationEventType = violationEventType
             self.violationId = violationId
@@ -14084,9 +14979,115 @@ extension IoT {
             case metricValue
             case securityProfileName
             case thingName
+            case violationEventAdditionalInfo
             case violationEventTime
             case violationEventType
             case violationId
+        }
+    }
+
+    public struct ViolationEventAdditionalInfo: AWSDecodableShape {
+        ///  The sensitivity of anomalous behavior evaluation. Can be Low, Medium, or High.
+        public let confidenceLevel: ConfidenceLevel?
+
+        public init(confidenceLevel: ConfidenceLevel? = nil) {
+            self.confidenceLevel = confidenceLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceLevel
+        }
+    }
+
+    public struct ViolationEventOccurrenceRange: AWSEncodableShape & AWSDecodableShape {
+        ///  The end date and time of a time period in which violation events occurred.
+        public let endTime: Date
+        ///  The start date and time of a time period in which violation events occurred.
+        public let startTime: Date
+
+        public init(endTime: Date, startTime: Date) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime
+            case startTime
+        }
+    }
+
+    public struct VpcDestinationConfiguration: AWSEncodableShape {
+        /// The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs).
+        public let roleArn: String
+        /// The security groups of the VPC destination.
+        public let securityGroups: [String]?
+        /// The subnet IDs of the VPC destination.
+        public let subnetIds: [String]
+        /// The ID of the VPC.
+        public let vpcId: String
+
+        public init(roleArn: String, securityGroups: [String]? = nil, subnetIds: [String], vpcId: String) {
+            self.roleArn = roleArn
+            self.securityGroups = securityGroups
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn
+            case securityGroups
+            case subnetIds
+            case vpcId
+        }
+    }
+
+    public struct VpcDestinationProperties: AWSDecodableShape {
+        /// The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs).
+        public let roleArn: String?
+        /// The security groups of the VPC destination.
+        public let securityGroups: [String]?
+        /// The subnet IDs of the VPC destination.
+        public let subnetIds: [String]?
+        /// The ID of the VPC.
+        public let vpcId: String?
+
+        public init(roleArn: String? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.roleArn = roleArn
+            self.securityGroups = securityGroups
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn
+            case securityGroups
+            case subnetIds
+            case vpcId
+        }
+    }
+
+    public struct VpcDestinationSummary: AWSDecodableShape {
+        /// The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs).
+        public let roleArn: String?
+        /// The security groups of the VPC destination.
+        public let securityGroups: [String]?
+        /// The subnet IDs of the VPC destination.
+        public let subnetIds: [String]?
+        /// The ID of the VPC.
+        public let vpcId: String?
+
+        public init(roleArn: String? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.roleArn = roleArn
+            self.securityGroups = securityGroups
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn
+            case securityGroups
+            case subnetIds
+            case vpcId
         }
     }
 }

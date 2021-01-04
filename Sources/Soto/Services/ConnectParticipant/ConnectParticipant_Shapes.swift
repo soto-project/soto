@@ -20,10 +20,24 @@ import SotoCore
 extension ConnectParticipant {
     // MARK: Enums
 
+    public enum ArtifactStatus: String, CustomStringConvertible, Codable {
+        case approved = "APPROVED"
+        case inProgress = "IN_PROGRESS"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChatItemType: String, CustomStringConvertible, Codable {
+        case attachment = "ATTACHMENT"
+        case chatEnded = "CHAT_ENDED"
         case connectionAck = "CONNECTION_ACK"
         case event = "EVENT"
         case message = "MESSAGE"
+        case participantJoined = "PARTICIPANT_JOINED"
+        case participantLeft = "PARTICIPANT_LEFT"
+        case transferFailed = "TRANSFER_FAILED"
+        case transferSucceeded = "TRANSFER_SUCCEEDED"
+        case typing = "TYPING"
         public var description: String { return self.rawValue }
     }
 
@@ -54,6 +68,72 @@ extension ConnectParticipant {
 
     // MARK: Shapes
 
+    public struct AttachmentItem: AWSDecodableShape {
+        /// A unique identifier for the attachment.
+        public let attachmentId: String?
+        /// A case-sensitive name of the attachment being uploaded.
+        public let attachmentName: String?
+        /// Describes the MIME file type of the attachment. For a list of supported file types, see Feature specifications in the Amazon Connect Administrator Guide.
+        public let contentType: String?
+        /// Status of the attachment.
+        public let status: ArtifactStatus?
+
+        public init(attachmentId: String? = nil, attachmentName: String? = nil, contentType: String? = nil, status: ArtifactStatus? = nil) {
+            self.attachmentId = attachmentId
+            self.attachmentName = attachmentName
+            self.contentType = contentType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case attachmentName = "AttachmentName"
+            case contentType = "ContentType"
+            case status = "Status"
+        }
+    }
+
+    public struct CompleteAttachmentUploadRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+        ]
+
+        /// A list of unique identifiers for the attachments.
+        public let attachmentIds: [String]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// The authentication token associated with the participant's connection.
+        public let connectionToken: String
+
+        public init(attachmentIds: [String], clientToken: String = CompleteAttachmentUploadRequest.idempotencyToken(), connectionToken: String) {
+            self.attachmentIds = attachmentIds
+            self.clientToken = clientToken
+            self.connectionToken = connectionToken
+        }
+
+        public func validate(name: String) throws {
+            try self.attachmentIds.forEach {
+                try validate($0, name: "attachmentIds[]", parent: name, max: 256)
+                try validate($0, name: "attachmentIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.attachmentIds, name: "attachmentIds", parent: name, max: 1)
+            try self.validate(self.attachmentIds, name: "attachmentIds", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentIds = "AttachmentIds"
+            case clientToken = "ClientToken"
+        }
+    }
+
+    public struct CompleteAttachmentUploadResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ConnectionCredentials: AWSDecodableShape {
         /// The connection token.
         public let connectionToken: String?
@@ -76,7 +156,7 @@ extension ConnectParticipant {
             AWSMemberEncoding(label: "participantToken", location: .header(locationName: "X-Amz-Bearer"))
         ]
 
-        /// Participant Token as obtained from StartChatContact API response.
+        /// This is a header parameter. The Participant Token as obtained from StartChatContact API response.
         public let participantToken: String
         /// Type of connection information required.
         public let type: [ConnectionType]
@@ -142,6 +222,50 @@ extension ConnectParticipant {
 
     public struct DisconnectParticipantResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct GetAttachmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+        ]
+
+        /// A unique identifier for the attachment.
+        public let attachmentId: String
+        /// The authentication token associated with the participant's connection.
+        public let connectionToken: String
+
+        public init(attachmentId: String, connectionToken: String) {
+            self.attachmentId = attachmentId
+            self.connectionToken = connectionToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 256)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 1)
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+        }
+    }
+
+    public struct GetAttachmentResponse: AWSDecodableShape {
+        /// The pre-signed URL using which file would be downloaded from Amazon S3 by the API caller.
+        public let url: String?
+        /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+        public let urlExpiry: String?
+
+        public init(url: String? = nil, urlExpiry: String? = nil) {
+            self.url = url
+            self.urlExpiry = urlExpiry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "Url"
+            case urlExpiry = "UrlExpiry"
+        }
     }
 
     public struct GetTranscriptRequest: AWSEncodableShape {
@@ -220,6 +344,8 @@ extension ConnectParticipant {
     public struct Item: AWSDecodableShape {
         /// The time when the message or event was sent. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
+        /// Provides information about the attachments.
+        public let attachments: [AttachmentItem]?
         /// The content of the message or event.
         public let content: String?
         /// The type of content of the item.
@@ -235,8 +361,9 @@ extension ConnectParticipant {
         /// Type of the item: message or event.
         public let type: ChatItemType?
 
-        public init(absoluteTime: String? = nil, content: String? = nil, contentType: String? = nil, displayName: String? = nil, id: String? = nil, participantId: String? = nil, participantRole: ParticipantRole? = nil, type: ChatItemType? = nil) {
+        public init(absoluteTime: String? = nil, attachments: [AttachmentItem]? = nil, content: String? = nil, contentType: String? = nil, displayName: String? = nil, id: String? = nil, participantId: String? = nil, participantRole: ParticipantRole? = nil, type: ChatItemType? = nil) {
             self.absoluteTime = absoluteTime
+            self.attachments = attachments
             self.content = content
             self.contentType = contentType
             self.displayName = displayName
@@ -248,6 +375,7 @@ extension ConnectParticipant {
 
         private enum CodingKeys: String, CodingKey {
             case absoluteTime = "AbsoluteTime"
+            case attachments = "Attachments"
             case content = "Content"
             case contentType = "ContentType"
             case displayName = "DisplayName"
@@ -368,6 +496,67 @@ extension ConnectParticipant {
         }
     }
 
+    public struct StartAttachmentUploadRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectionToken", location: .header(locationName: "X-Amz-Bearer"))
+        ]
+
+        /// A case-sensitive name of the attachment being uploaded.
+        public let attachmentName: String
+        /// The size of the attachment in bytes.
+        public let attachmentSizeInBytes: Int64
+        /// A unique case sensitive identifier to support idempotency of request.
+        public let clientToken: String
+        /// The authentication token associated with the participant's connection.
+        public let connectionToken: String
+        /// Describes the MIME file type of the attachment. For a list of supported file types, see Feature specifications in the Amazon Connect Administrator Guide.
+        public let contentType: String
+
+        public init(attachmentName: String, attachmentSizeInBytes: Int64, clientToken: String = StartAttachmentUploadRequest.idempotencyToken(), connectionToken: String, contentType: String) {
+            self.attachmentName = attachmentName
+            self.attachmentSizeInBytes = attachmentSizeInBytes
+            self.clientToken = clientToken
+            self.connectionToken = connectionToken
+            self.contentType = contentType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, max: 256)
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, min: 1)
+            try self.validate(self.attachmentSizeInBytes, name: "attachmentSizeInBytes", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+            try self.validate(self.contentType, name: "contentType", parent: name, max: 255)
+            try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentName = "AttachmentName"
+            case attachmentSizeInBytes = "AttachmentSizeInBytes"
+            case clientToken = "ClientToken"
+            case contentType = "ContentType"
+        }
+    }
+
+    public struct StartAttachmentUploadResponse: AWSDecodableShape {
+        /// A unique identifier for the attachment.
+        public let attachmentId: String?
+        /// Fields to be used while uploading the attachment.
+        public let uploadMetadata: UploadMetadata?
+
+        public init(attachmentId: String? = nil, uploadMetadata: UploadMetadata? = nil) {
+            self.attachmentId = attachmentId
+            self.uploadMetadata = uploadMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case uploadMetadata = "UploadMetadata"
+        }
+    }
+
     public struct StartPosition: AWSEncodableShape {
         /// The time in ISO format where to start. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let absoluteTime: String?
@@ -395,6 +584,27 @@ extension ConnectParticipant {
             case absoluteTime = "AbsoluteTime"
             case id = "Id"
             case mostRecent = "MostRecent"
+        }
+    }
+
+    public struct UploadMetadata: AWSDecodableShape {
+        /// The headers to be provided while uploading the file to the URL.
+        public let headersToInclude: [String: String]?
+        /// The pre-signed URL using which file would be downloaded from Amazon S3 by the API caller.
+        public let url: String?
+        /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+        public let urlExpiry: String?
+
+        public init(headersToInclude: [String: String]? = nil, url: String? = nil, urlExpiry: String? = nil) {
+            self.headersToInclude = headersToInclude
+            self.url = url
+            self.urlExpiry = urlExpiry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headersToInclude = "HeadersToInclude"
+            case url = "Url"
+            case urlExpiry = "UrlExpiry"
         }
     }
 

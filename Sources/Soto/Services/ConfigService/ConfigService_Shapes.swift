@@ -265,6 +265,9 @@ extension ConfigService {
         case awsIamUser = "AWS::IAM::User"
         case awsKmsKey = "AWS::KMS::Key"
         case awsLambdaFunction = "AWS::Lambda::Function"
+        case awsNetworkfirewallFirewall = "AWS::NetworkFirewall::Firewall"
+        case awsNetworkfirewallFirewallpolicy = "AWS::NetworkFirewall::FirewallPolicy"
+        case awsNetworkfirewallRulegroup = "AWS::NetworkFirewall::RuleGroup"
         case awsQldbLedger = "AWS::QLDB::Ledger"
         case awsRdsDbcluster = "AWS::RDS::DBCluster"
         case awsRdsDbclustersnapshot = "AWS::RDS::DBClusterSnapshot"
@@ -1765,6 +1768,29 @@ extension ConfigService {
         }
     }
 
+    public struct DeleteStoredQueryRequest: AWSEncodableShape {
+        /// The name of the query that you want to delete.
+        public let queryName: String
+
+        public init(queryName: String) {
+            self.queryName = queryName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryName, name: "queryName", parent: name, max: 64)
+            try self.validate(self.queryName, name: "queryName", parent: name, min: 1)
+            try self.validate(self.queryName, name: "queryName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryName = "QueryName"
+        }
+    }
+
+    public struct DeleteStoredQueryResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeliverConfigSnapshotRequest: AWSEncodableShape {
         /// The name of the delivery channel through which the snapshot is delivered.
         public let deliveryChannelName: String
@@ -3087,6 +3113,39 @@ extension ConfigService {
         }
     }
 
+    public struct ExternalEvaluation: AWSEncodableShape {
+        public let annotation: String?
+        public let complianceResourceId: String
+        public let complianceResourceType: String
+        public let complianceType: ComplianceType
+        public let orderingTimestamp: Date
+
+        public init(annotation: String? = nil, complianceResourceId: String, complianceResourceType: String, complianceType: ComplianceType, orderingTimestamp: Date) {
+            self.annotation = annotation
+            self.complianceResourceId = complianceResourceId
+            self.complianceResourceType = complianceResourceType
+            self.complianceType = complianceType
+            self.orderingTimestamp = orderingTimestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.annotation, name: "annotation", parent: name, max: 256)
+            try self.validate(self.annotation, name: "annotation", parent: name, min: 1)
+            try self.validate(self.complianceResourceId, name: "complianceResourceId", parent: name, max: 768)
+            try self.validate(self.complianceResourceId, name: "complianceResourceId", parent: name, min: 1)
+            try self.validate(self.complianceResourceType, name: "complianceResourceType", parent: name, max: 256)
+            try self.validate(self.complianceResourceType, name: "complianceResourceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotation = "Annotation"
+            case complianceResourceId = "ComplianceResourceId"
+            case complianceResourceType = "ComplianceResourceType"
+            case complianceType = "ComplianceType"
+            case orderingTimestamp = "OrderingTimestamp"
+        }
+    }
+
     public struct FailedDeleteRemediationExceptionsBatch: AWSDecodableShape {
         /// Returns remediation exception resource key object of the failed items.
         public let failedItems: [RemediationExceptionResourceKey]?
@@ -3849,6 +3908,38 @@ extension ConfigService {
         }
     }
 
+    public struct GetStoredQueryRequest: AWSEncodableShape {
+        /// The name of the query.
+        public let queryName: String
+
+        public init(queryName: String) {
+            self.queryName = queryName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryName, name: "queryName", parent: name, max: 64)
+            try self.validate(self.queryName, name: "queryName", parent: name, min: 1)
+            try self.validate(self.queryName, name: "queryName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryName = "QueryName"
+        }
+    }
+
+    public struct GetStoredQueryResponse: AWSDecodableShape {
+        /// Returns a StoredQuery object.
+        public let storedQuery: StoredQuery?
+
+        public init(storedQuery: StoredQuery? = nil) {
+            self.storedQuery = storedQuery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storedQuery = "StoredQuery"
+        }
+    }
+
     public struct GroupedResourceCount: AWSDecodableShape {
         /// The name of the group that can be region, account ID, or resource type. For example, region1, region2 if the region was chosen as GroupByKey.
         public let groupName: String
@@ -3977,6 +4068,45 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case resourceIdentifiers
+        }
+    }
+
+    public struct ListStoredQueriesRequest: AWSEncodableShape {
+        /// The maximum number of results to be returned with a single call.
+        public let maxResults: Int?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListStoredQueriesResponse: AWSDecodableShape {
+        /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        public let nextToken: String?
+        /// A list of StoredQueryMetadata objects.
+        public let storedQueryMetadata: [StoredQueryMetadata]?
+
+        public init(nextToken: String? = nil, storedQueryMetadata: [StoredQueryMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.storedQueryMetadata = storedQueryMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case storedQueryMetadata = "StoredQueryMetadata"
         }
     }
 
@@ -4678,6 +4808,32 @@ extension ConfigService {
         }
     }
 
+    public struct PutExternalEvaluationRequest: AWSEncodableShape {
+        public let configRuleName: String
+        public let externalEvaluation: ExternalEvaluation
+
+        public init(configRuleName: String, externalEvaluation: ExternalEvaluation) {
+            self.configRuleName = configRuleName
+            self.externalEvaluation = externalEvaluation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configRuleName, name: "configRuleName", parent: name, max: 128)
+            try self.validate(self.configRuleName, name: "configRuleName", parent: name, min: 1)
+            try self.validate(self.configRuleName, name: "configRuleName", parent: name, pattern: ".*\\S.*")
+            try self.externalEvaluation.validate(name: "\(name).externalEvaluation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
+            case externalEvaluation = "ExternalEvaluation"
+        }
+    }
+
+    public struct PutExternalEvaluationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PutOrganizationConfigRuleRequest: AWSEncodableShape {
         /// A comma-separated list of accounts that you want to exclude from an organization config rule.
         public let excludedAccounts: [String]?
@@ -4963,6 +5119,45 @@ extension ConfigService {
         }
     }
 
+    public struct PutStoredQueryRequest: AWSEncodableShape {
+        /// A list of StoredQuery objects. The mandatory fields are QueryName and Expression.
+        public let storedQuery: StoredQuery
+        /// A list of Tags object.
+        public let tags: [Tag]?
+
+        public init(storedQuery: StoredQuery, tags: [Tag]? = nil) {
+            self.storedQuery = storedQuery
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.storedQuery.validate(name: "\(name).storedQuery")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storedQuery = "StoredQuery"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PutStoredQueryResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-id.
+        public let queryArn: String?
+
+        public init(queryArn: String? = nil) {
+            self.queryArn = queryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryArn = "QueryArn"
+        }
+    }
+
     public struct QueryInfo: AWSDecodableShape {
         /// Returns a FieldInfo object.
         public let selectFields: [FieldInfo]?
@@ -5033,13 +5228,13 @@ extension ConfigService {
         public let createdByService: String?
         /// An ExecutionControls object.
         public let executionControls: ExecutionControls?
-        /// The maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5. For example, if you specify MaximumAutomaticAttempts as 5 with RetryAttemptsSeconds as 50 seconds, AWS Config will put a RemediationException on your behalf for the failing resource after the 5th failed attempt within 50 seconds.
+        /// The maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5. For example, if you specify MaximumAutomaticAttempts as 5 with RetryAttemptSeconds as 50 seconds, AWS Config will put a RemediationException on your behalf for the failing resource after the 5th failed attempt within 50 seconds.
         public let maximumAutomaticAttempts: Int?
         /// An object of the RemediationParameterValue.
         public let parameters: [String: RemediationParameterValue]?
         /// The type of a resource.
         public let resourceType: String?
-        /// Maximum time in seconds that AWS Config runs auto-remediation. If you do not select a number, the default is 60 seconds.  For example, if you specify RetryAttemptsSeconds as 50 seconds and MaximumAutomaticAttempts as 5, AWS Config will run auto-remediations 5 times within 50 seconds before throwing an exception.
+        /// Maximum time in seconds that AWS Config runs auto-remediation. If you do not select a number, the default is 60 seconds.  For example, if you specify RetryAttemptSeconds as 50 seconds and MaximumAutomaticAttempts as 5, AWS Config will run auto-remediations 5 times within 50 seconds before throwing an exception.
         public let retryAttemptSeconds: Int64?
         /// Target ID is the name of the public document.
         public let targetId: String
@@ -5757,6 +5952,78 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case configurationRecorderName = "ConfigurationRecorderName"
+        }
+    }
+
+    public struct StoredQuery: AWSEncodableShape & AWSDecodableShape {
+        /// A unique description for the query.
+        public let description: String?
+        /// The expression of the query. For example, SELECT resourceId, resourceType, supplementaryConfiguration.BucketVersioningConfiguration.status WHERE resourceType = 'AWS::S3::Bucket' AND supplementaryConfiguration.BucketVersioningConfiguration.status = 'Off'.
+        public let expression: String?
+        /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-id.
+        public let queryArn: String?
+        /// The ID of the query.
+        public let queryId: String?
+        /// The name of the query.
+        public let queryName: String
+
+        public init(description: String? = nil, expression: String? = nil, queryArn: String? = nil, queryId: String? = nil, queryName: String) {
+            self.description = description
+            self.expression = expression
+            self.queryArn = queryArn
+            self.queryId = queryId
+            self.queryName = queryName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.queryArn, name: "queryArn", parent: name, max: 500)
+            try self.validate(self.queryArn, name: "queryArn", parent: name, min: 1)
+            try self.validate(self.queryArn, name: "queryArn", parent: name, pattern: "^arn:aws[a-z\\-]*:config:[a-z\\-\\d]+:\\d+:stored-query/[a-zA-Z0-9-_]+/query-[a-zA-Z\\d-_/]+$")
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
+            try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^\\S+$")
+            try self.validate(self.queryName, name: "queryName", parent: name, max: 64)
+            try self.validate(self.queryName, name: "queryName", parent: name, min: 1)
+            try self.validate(self.queryName, name: "queryName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case expression = "Expression"
+            case queryArn = "QueryArn"
+            case queryId = "QueryId"
+            case queryName = "QueryName"
+        }
+    }
+
+    public struct StoredQueryMetadata: AWSDecodableShape {
+        /// A unique description for the query.
+        public let description: String?
+        /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-id.
+        public let queryArn: String
+        /// The ID of the query.
+        public let queryId: String
+        /// The name of the query.
+        public let queryName: String
+
+        public init(description: String? = nil, queryArn: String, queryId: String, queryName: String) {
+            self.description = description
+            self.queryArn = queryArn
+            self.queryId = queryId
+            self.queryName = queryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case queryArn = "QueryArn"
+            case queryId = "QueryId"
+            case queryName = "QueryName"
         }
     }
 

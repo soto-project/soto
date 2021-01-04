@@ -148,9 +148,9 @@ extension GuardDuty {
 
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
-        /// The value that is used to validate the master account to the member account.
+        /// The value that is used to validate the administrator account to the member account.
         public let invitationId: String
-        /// The account ID of the master GuardDuty account whose invitation you're accepting.
+        /// The account ID of the GuardDuty administrator account whose invitation you're accepting.
         public let masterId: String
 
         public init(detectorId: String, invitationId: String, masterId: String) {
@@ -509,11 +509,11 @@ extension GuardDuty {
     public struct CreateDetectorRequest: AWSEncodableShape {
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// An object that describes which data sources will be enabled for the detector.
+        /// Describes which data sources will be enabled for the detector.
         public let dataSources: DataSourceConfigurations?
         /// A Boolean value that specifies whether the detector is to be enabled.
         public let enable: Bool
-        /// An enum value that specifies how frequently updated findings are exported.
+        /// A value that specifies how frequently updated findings are exported.
         public let findingPublishingFrequency: FindingPublishingFrequency?
         /// The tags to be added to a new detector resource.
         public let tags: [String: String]?
@@ -570,11 +570,11 @@ extension GuardDuty {
         public let clientToken: String?
         /// The description of the filter.
         public let description: String?
-        /// The unique ID of the detector of the GuardDuty account that you want to create a filter for.
+        /// The ID of the detector belonging to the GuardDuty account that you want to create a filter for.
         public let detectorId: String
-        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
+        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
         public let findingCriteria: FindingCriteria
-        /// The name of the filter.
+        /// The name of the filter. Minimum length of 3. Maximum length of 64. Valid characters include alphanumeric characters, dot (.), underscore (_), and dash (-). Spaces are not allowed.
         public let name: String
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
         public let rank: Int?
@@ -710,7 +710,7 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
 
-        /// A list of account ID and email address pairs of the accounts that you want to associate with the master GuardDuty account.
+        /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
         public let accountDetails: [AccountDetail]
         /// The unique ID of the detector of the GuardDuty account that you want to associate member accounts with.
         public let detectorId: String
@@ -1242,9 +1242,9 @@ extension GuardDuty {
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
         /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization.
         public let autoEnable: Bool
-        /// An object that describes which data sources are enabled automatically for member accounts.
+        /// Describes which data sources are enabled automatically for member accounts.
         public let dataSources: OrganizationDataSourceConfigurationsResult?
-        /// Indicates whether the maximum number of allowed member accounts are already associated with the delegated administrator master account.
+        /// Indicates whether the maximum number of allowed member accounts are already associated with the delegated administrator account for your organization.
         public let memberAccountLimitReached: Bool
 
         public init(autoEnable: Bool, dataSources: OrganizationDataSourceConfigurationsResult? = nil, memberAccountLimitReached: Bool) {
@@ -1397,9 +1397,9 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
 
-        /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from the master account.
+        /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from the administrator account.
         public let accountIds: [String]
-        /// The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the master account.
+        /// The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the administrator account.
         public let detectorId: String
 
         public init(accountIds: [String], detectorId: String) {
@@ -1638,7 +1638,7 @@ extension GuardDuty {
     public struct GetDetectorResponse: AWSDecodableShape {
         /// The timestamp of when the detector was created.
         public let createdAt: String?
-        /// An object that describes which data sources are enabled for the detector.
+        /// Describes which data sources are enabled for the detector.
         public let dataSources: DataSourceConfigurationsResult?
         /// The publishing frequency of the finding.
         public let findingPublishingFrequency: FindingPublishingFrequency?
@@ -1912,7 +1912,7 @@ extension GuardDuty {
     }
 
     public struct GetMasterAccountResponse: AWSDecodableShape {
-        /// The master account details.
+        /// The administrator account details.
         public let master: Master
 
         public init(master: Master) {
@@ -1931,7 +1931,7 @@ extension GuardDuty {
 
         /// The account ID of the member account.
         public let accountIds: [String]
-        /// The detector ID for the master account.
+        /// The detector ID for the administrator account.
         public let detectorId: String
 
         public init(accountIds: [String], detectorId: String) {
@@ -2597,7 +2597,7 @@ extension GuardDuty {
     }
 
     public struct ListOrganizationAdminAccountsResponse: AWSDecodableShape {
-        /// An AdminAccounts object that includes a list of accounts configured as GuardDuty delegated administrators.
+        /// A list of accounts configured as GuardDuty delegated administrators.
         public let adminAccounts: [AdminAccount]?
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
@@ -2770,13 +2770,13 @@ extension GuardDuty {
     }
 
     public struct Master: AWSDecodableShape {
-        /// The ID of the account used as the master account.
+        /// The ID of the account used as the administrator account.
         public let accountId: String?
-        /// The value used to validate the master account to the member account.
+        /// The value used to validate the administrator account to the member account.
         public let invitationId: String?
         /// The timestamp when the invitation was sent.
         public let invitedAt: String?
-        /// The status of the relationship between the master and member accounts.
+        /// The status of the relationship between the administrator and member accounts.
         public let relationshipStatus: String?
 
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: String? = nil, relationshipStatus: String? = nil) {
@@ -2803,9 +2803,9 @@ extension GuardDuty {
         public let email: String
         /// The timestamp when the invitation was sent.
         public let invitedAt: String?
-        /// The master account ID.
+        /// The administrator account ID.
         public let masterId: String
-        /// The status of the relationship between the member and the master.
+        /// The status of the relationship between the member and the administrator.
         public let relationshipStatus: String
         /// The last-updated timestamp of the member.
         public let updatedAt: String
@@ -3358,7 +3358,7 @@ extension GuardDuty {
 
         /// A list of account IDs of the GuardDuty member accounts to start monitoring.
         public let accountIds: [String]
-        /// The unique ID of the detector of the GuardDuty master account associated with the member accounts to monitor.
+        /// The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor.
         public let detectorId: String
 
         public init(accountIds: [String], detectorId: String) {
@@ -3402,7 +3402,7 @@ extension GuardDuty {
 
         /// A list of account IDs for the member accounts to stop monitoring.
         public let accountIds: [String]
-        /// The unique ID of the detector associated with the GuardDuty master account that is monitoring member accounts.
+        /// The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts.
         public let detectorId: String
 
         public init(accountIds: [String], detectorId: String) {
@@ -3615,7 +3615,7 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri(locationName: "detectorId"))
         ]
 
-        /// An object that describes which data sources will be updated.
+        /// Describes which data sources will be updated.
         public let dataSources: DataSourceConfigurations?
         /// The unique ID of the detector to update.
         public let detectorId: String
@@ -3800,9 +3800,9 @@ extension GuardDuty {
 
         /// A list of member account IDs to be updated.
         public let accountIds: [String]
-        /// An object describes which data sources will be updated.
+        /// Describes which data sources will be updated.
         public let dataSources: DataSourceConfigurations?
-        /// The detector ID of the master account.
+        /// The detector ID of the administrator account.
         public let detectorId: String
 
         public init(accountIds: [String], dataSources: DataSourceConfigurations? = nil, detectorId: String) {
@@ -3848,7 +3848,7 @@ extension GuardDuty {
 
         /// Indicates whether to automatically enable member accounts in the organization.
         public let autoEnable: Bool
-        /// An object describes which data sources will be updated.
+        /// Describes which data sources will be updated.
         public let dataSources: OrganizationDataSourceConfigurations?
         /// The ID of the detector to update the delegated administrator for.
         public let detectorId: String
@@ -3917,7 +3917,7 @@ extension GuardDuty {
         public let activate: Bool?
         /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
         public let detectorId: String
-        /// The updated URI of the file that contains the ThreateIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+        /// The updated URI of the file that contains the ThreateIntelSet.
         public let location: String?
         /// The unique ID that specifies the ThreatIntelSet that you want to update.
         public let name: String?

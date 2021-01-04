@@ -87,12 +87,12 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "CreateBackendConfig", path: "/backend/{appId}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Generates a one time challenge code to authenticate a user into your Amplify Admin UI.
+    /// Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
     public func createToken(_ input: CreateTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTokenResponse> {
         return self.client.execute(operation: "CreateToken", path: "/backend/{appId}/challenge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes an existing environment from your Ampify project.
+    /// Removes an existing environment from your Amplify project.
     public func deleteBackend(_ input: DeleteBackendRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendResponse> {
         return self.client.execute(operation: "DeleteBackend", path: "/backend/{appId}/environments/{backendEnvironmentName}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -117,12 +117,12 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "GenerateBackendAPIModels", path: "/backend/{appId}/api/{backendEnvironmentName}/generateModels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides project level details for your Amplify UI project.
+    /// Provides project-level details for your Amplify UI project.
     public func getBackend(_ input: GetBackendRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendResponse> {
         return self.client.execute(operation: "GetBackend", path: "/backend/{appId}/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the details for a backend api.
+    /// Gets the details for a backend API.
     public func getBackendAPI(_ input: GetBackendAPIRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendAPIResponse> {
         return self.client.execute(operation: "GetBackendAPI", path: "/backend/{appId}/api/{backendEnvironmentName}/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -132,7 +132,7 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "GetBackendAPIModels", path: "/backend/{appId}/api/{backendEnvironmentName}/getModels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets a backend auth details.
+    /// Gets backend auth details.
     public func getBackendAuth(_ input: GetBackendAuthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendAuthResponse> {
         return self.client.execute(operation: "GetBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -157,7 +157,7 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "RemoveAllBackends", path: "/backend/{appId}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the AWS resources required to access the Amplify Admin UI.
+    /// Removes the AWS resources that are required to access the Amplify Admin UI.
     public func removeBackendConfig(_ input: RemoveBackendConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveBackendConfigResponse> {
         return self.client.execute(operation: "RemoveBackendConfig", path: "/backend/{appId}/config/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -172,7 +172,7 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "UpdateBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the AWS resources required to access the Amplify Admin UI.
+    /// Updates the AWS resources that are required to access the Amplify Admin UI.
     public func updateBackendConfig(_ input: UpdateBackendConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendConfigResponse> {
         return self.client.execute(operation: "UpdateBackendConfig", path: "/backend/{appId}/config/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

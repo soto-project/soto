@@ -450,6 +450,27 @@ extension ECR {
         }
     }
 
+    public struct DeleteRegistryPolicyRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRegistryPolicyResponse: AWSDecodableShape {
+        /// The contents of the registry permissions policy that was deleted.
+        public let policyText: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+
+        public init(policyText: String? = nil, registryId: String? = nil) {
+            self.policyText = policyText
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyText
+            case registryId
+        }
+    }
+
     public struct DeleteRepositoryPolicyRequest: AWSEncodableShape {
         /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -683,6 +704,27 @@ extension ECR {
         }
     }
 
+    public struct DescribeRegistryRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeRegistryResponse: AWSDecodableShape {
+        /// The ID of the registry.
+        public let registryId: String?
+        /// The replication configuration for the registry.
+        public let replicationConfiguration: ReplicationConfiguration?
+
+        public init(registryId: String? = nil, replicationConfiguration: ReplicationConfiguration? = nil) {
+            self.registryId = registryId
+            self.replicationConfiguration = replicationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId
+            case replicationConfiguration
+        }
+    }
+
     public struct DescribeRepositoriesRequest: AWSEncodableShape {
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
         public let maxResults: Int?
@@ -761,24 +803,7 @@ extension ECR {
     }
 
     public struct GetAuthorizationTokenRequest: AWSEncodableShape {
-        /// A list of AWS account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed.
-        public let registryIds: [String]?
-
-        public init(registryIds: [String]? = nil) {
-            self.registryIds = registryIds
-        }
-
-        public func validate(name: String) throws {
-            try self.registryIds?.forEach {
-                try validate($0, name: "registryIds[]", parent: name, pattern: "[0-9]{12}")
-            }
-            try self.validate(self.registryIds, name: "registryIds", parent: name, max: 10)
-            try self.validate(self.registryIds, name: "registryIds", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case registryIds
-        }
+        public init() {}
     }
 
     public struct GetAuthorizationTokenResponse: AWSDecodableShape {
@@ -970,6 +995,27 @@ extension ECR {
             case lifecyclePolicyText
             case registryId
             case repositoryName
+        }
+    }
+
+    public struct GetRegistryPolicyRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetRegistryPolicyResponse: AWSDecodableShape {
+        /// The JSON text of the permissions policy for a registry.
+        public let policyText: String?
+        /// The ID of the registry.
+        public let registryId: String?
+
+        public init(policyText: String? = nil, registryId: String? = nil) {
+            self.policyText = policyText
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyText
+            case registryId
         }
     }
 
@@ -1696,6 +1742,137 @@ extension ECR {
             case lifecyclePolicyText
             case registryId
             case repositoryName
+        }
+    }
+
+    public struct PutRegistryPolicyRequest: AWSEncodableShape {
+        /// The JSON policy text to apply to your registry. The policy text follows the same format as IAM policy text. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide.
+        public let policyText: String
+
+        public init(policyText: String) {
+            self.policyText = policyText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyText, name: "policyText", parent: name, max: 10240)
+            try self.validate(self.policyText, name: "policyText", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyText
+        }
+    }
+
+    public struct PutRegistryPolicyResponse: AWSDecodableShape {
+        /// The JSON policy text for your registry.
+        public let policyText: String?
+        /// The registry ID.
+        public let registryId: String?
+
+        public init(policyText: String? = nil, registryId: String? = nil) {
+            self.policyText = policyText
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyText
+            case registryId
+        }
+    }
+
+    public struct PutReplicationConfigurationRequest: AWSEncodableShape {
+        /// An object representing the replication configuration for a registry.
+        public let replicationConfiguration: ReplicationConfiguration
+
+        public init(replicationConfiguration: ReplicationConfiguration) {
+            self.replicationConfiguration = replicationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.replicationConfiguration.validate(name: "\(name).replicationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationConfiguration
+        }
+    }
+
+    public struct PutReplicationConfigurationResponse: AWSDecodableShape {
+        /// The contents of the replication configuration for the registry.
+        public let replicationConfiguration: ReplicationConfiguration?
+
+        public init(replicationConfiguration: ReplicationConfiguration? = nil) {
+            self.replicationConfiguration = replicationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationConfiguration
+        }
+    }
+
+    public struct ReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An array of objects representing the replication rules for a replication configuration. A replication configuration may contain only one replication rule but the rule may contain one or more replication destinations.
+        public let rules: [ReplicationRule]
+
+        public init(rules: [ReplicationRule]) {
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 1)
+            try self.validate(self.rules, name: "rules", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules
+        }
+    }
+
+    public struct ReplicationDestination: AWSEncodableShape & AWSDecodableShape {
+        /// A Region to replicate to.
+        public let region: String
+        /// The account ID of the destination registry to replicate to.
+        public let registryId: String
+
+        public init(region: String, registryId: String) {
+            self.region = region
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.region, name: "region", parent: name, max: 25)
+            try self.validate(self.region, name: "region", parent: name, min: 2)
+            try self.validate(self.region, name: "region", parent: name, pattern: "[0-9a-z-]{2,25}")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case region
+            case registryId
+        }
+    }
+
+    public struct ReplicationRule: AWSEncodableShape & AWSDecodableShape {
+        /// An array of objects representing the details of a replication destination.
+        public let destinations: [ReplicationDestination]
+
+        public init(destinations: [ReplicationDestination]) {
+            self.destinations = destinations
+        }
+
+        public func validate(name: String) throws {
+            try self.destinations.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try self.validate(self.destinations, name: "destinations", parent: name, max: 25)
+            try self.validate(self.destinations, name: "destinations", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations
         }
     }
 

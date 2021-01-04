@@ -76,6 +76,9 @@ extension Glue {
     public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable {
         case configFiles = "CONFIG_FILES"
         case connectionUrl = "CONNECTION_URL"
+        case connectorClassName = "CONNECTOR_CLASS_NAME"
+        case connectorType = "CONNECTOR_TYPE"
+        case connectorUrl = "CONNECTOR_URL"
         case customJdbcCert = "CUSTOM_JDBC_CERT"
         case customJdbcCertString = "CUSTOM_JDBC_CERT_STRING"
         case encryptedPassword = "ENCRYPTED_PASSWORD"
@@ -93,14 +96,17 @@ extension Glue {
         case kafkaSslEnabled = "KAFKA_SSL_ENABLED"
         case password = "PASSWORD"
         case port = "PORT"
+        case secretId = "SECRET_ID"
         case skipCustomJdbcCertValidation = "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
         case username = "USERNAME"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionType: String, CustomStringConvertible, Codable {
+        case custom = "CUSTOM"
         case jdbc = "JDBC"
         case kafka = "KAFKA"
+        case marketplace = "MARKETPLACE"
         case mongodb = "MONGODB"
         case network = "NETWORK"
         case sftp = "SFTP"
@@ -1577,6 +1583,23 @@ extension Glue {
         }
     }
 
+    public struct ColumnImportance: AWSDecodableShape {
+        /// The name of a column.
+        public let columnName: String?
+        /// The column importance score for the column, as a decimal.
+        public let importance: Double?
+
+        public init(columnName: String? = nil, importance: Double? = nil) {
+            self.columnName = columnName
+            self.importance = importance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "ColumnName"
+            case importance = "Importance"
+        }
+    }
+
     public struct ColumnStatistics: AWSEncodableShape & AWSDecodableShape {
         /// The timestamp of when column statistics were generated.
         public let analyzedTime: Date
@@ -1744,7 +1767,7 @@ extension Glue {
     }
 
     public struct Connection: AWSDecodableShape {
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. AWS Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. AWS Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -1791,7 +1814,7 @@ extension Glue {
     public struct ConnectionInput: AWSEncodableShape {
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).   SFTP is not supported.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).    MARKETPLACE - Uses configuration settings contained in a connector purchased from AWS Marketplace to read from and write to data stores that are not natively supported by AWS Glue.    CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by AWS Glue.   SFTP is not supported.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
@@ -4703,6 +4726,8 @@ extension Glue {
     public struct FindMatchesMetrics: AWSDecodableShape {
         /// The area under the precision/recall curve (AUPRC) is a single number measuring the overall quality of the transform, that is independent of the choice made for precision vs. recall. Higher values indicate that you have a more attractive precision vs. recall tradeoff. For more information, see Precision and recall in Wikipedia.
         public let areaUnderPRCurve: Double?
+        /// A list of ColumnImportance structures containing column importance metrics, sorted in order of descending importance.
+        public let columnImportances: [ColumnImportance]?
         /// The confusion matrix shows you what your transform is predicting accurately and what types of errors it is making. For more information, see Confusion matrix in Wikipedia.
         public let confusionMatrix: ConfusionMatrix?
         /// The maximum F1 metric indicates the transform's accuracy between 0 and 1, where 1 is the best accuracy. For more information, see F1 score in Wikipedia.
@@ -4712,8 +4737,9 @@ extension Glue {
         /// The recall metric indicates that for an actual match, how often your transform predicts the match. Specifically, it measures how well the transform finds true positives from the total records in the source data. For more information, see Precision and recall in Wikipedia.
         public let recall: Double?
 
-        public init(areaUnderPRCurve: Double? = nil, confusionMatrix: ConfusionMatrix? = nil, f1: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
+        public init(areaUnderPRCurve: Double? = nil, columnImportances: [ColumnImportance]? = nil, confusionMatrix: ConfusionMatrix? = nil, f1: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
             self.areaUnderPRCurve = areaUnderPRCurve
+            self.columnImportances = columnImportances
             self.confusionMatrix = confusionMatrix
             self.f1 = f1
             self.precision = precision
@@ -4722,6 +4748,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case areaUnderPRCurve = "AreaUnderPRCurve"
+            case columnImportances = "ColumnImportances"
             case confusionMatrix = "ConfusionMatrix"
             case f1 = "F1"
             case precision = "Precision"
@@ -9637,8 +9664,11 @@ extension Glue {
     }
 
     public struct SchemaId: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the schema registry that contains the schema.
         public let registryName: String?
+        /// The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.
         public let schemaArn: String?
+        /// The name of the schema. One of SchemaArn or SchemaName has to be provided.
         public let schemaName: String?
 
         public init(registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil) {
@@ -9780,7 +9810,9 @@ extension Glue {
     }
 
     public struct SchemaVersionNumber: AWSEncodableShape {
+        /// The latest version available for the schema.
         public let latestVersion: Bool?
+        /// The version number of the schema.
         public let versionNumber: Int64?
 
         public init(latestVersion: Bool? = nil, versionNumber: Int64? = nil) {

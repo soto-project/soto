@@ -26,6 +26,7 @@ public struct SSMErrorType: AWSErrorType {
         case associationExecutionDoesNotExist = "AssociationExecutionDoesNotExist"
         case associationLimitExceeded = "AssociationLimitExceeded"
         case associationVersionLimitExceeded = "AssociationVersionLimitExceeded"
+        case automationDefinitionNotApprovedException = "AutomationDefinitionNotApprovedException"
         case automationDefinitionNotFoundException = "AutomationDefinitionNotFoundException"
         case automationDefinitionVersionNotFoundException = "AutomationDefinitionVersionNotFoundException"
         case automationExecutionLimitExceededException = "AutomationExecutionLimitExceededException"
@@ -102,6 +103,12 @@ public struct SSMErrorType: AWSErrorType {
         case opsItemInvalidParameterException = "OpsItemInvalidParameterException"
         case opsItemLimitExceededException = "OpsItemLimitExceededException"
         case opsItemNotFoundException = "OpsItemNotFoundException"
+        case opsMetadataAlreadyExistsException = "OpsMetadataAlreadyExistsException"
+        case opsMetadataInvalidArgumentException = "OpsMetadataInvalidArgumentException"
+        case opsMetadataKeyLimitExceededException = "OpsMetadataKeyLimitExceededException"
+        case opsMetadataLimitExceededException = "OpsMetadataLimitExceededException"
+        case opsMetadataNotFoundException = "OpsMetadataNotFoundException"
+        case opsMetadataTooManyUpdatesException = "OpsMetadataTooManyUpdatesException"
         case parameterAlreadyExists = "ParameterAlreadyExists"
         case parameterLimitExceeded = "ParameterLimitExceeded"
         case parameterMaxVersionLimitExceeded = "ParameterMaxVersionLimitExceeded"
@@ -166,6 +173,8 @@ public struct SSMErrorType: AWSErrorType {
     public static var associationLimitExceeded: Self { .init(.associationLimitExceeded) }
     /// You have reached the maximum number versions allowed for an association. Each association has a limit of 1,000 versions.
     public static var associationVersionLimitExceeded: Self { .init(.associationVersionLimitExceeded) }
+    /// Indicates that the Change Manager change template used in the change request was rejected or is still in a pending state.
+    public static var automationDefinitionNotApprovedException: Self { .init(.automationDefinitionNotApprovedException) }
     /// An Automation document with the specified name could not be found.
     public static var automationDefinitionNotFoundException: Self { .init(.automationDefinitionNotFoundException) }
     /// An Automation document with the specified name and version could not be found.
@@ -317,6 +326,18 @@ public struct SSMErrorType: AWSErrorType {
     public static var opsItemLimitExceededException: Self { .init(.opsItemLimitExceededException) }
     /// The specified OpsItem ID doesn't exist. Verify the ID and try again.
     public static var opsItemNotFoundException: Self { .init(.opsItemNotFoundException) }
+    /// An OpsMetadata object already exists for the selected resource.
+    public static var opsMetadataAlreadyExistsException: Self { .init(.opsMetadataAlreadyExistsException) }
+    /// One of the arguments passed is invalid.
+    public static var opsMetadataInvalidArgumentException: Self { .init(.opsMetadataInvalidArgumentException) }
+    /// The OpsMetadata object exceeds the maximum number of OpsMetadata keys that you can assign to an application in Application Manager.
+    public static var opsMetadataKeyLimitExceededException: Self { .init(.opsMetadataKeyLimitExceededException) }
+    /// Your account reached the maximum number of OpsMetadata objects allowed by Application Manager. The maximum is 200 OpsMetadata objects. Delete one or more OpsMetadata object and try again.
+    public static var opsMetadataLimitExceededException: Self { .init(.opsMetadataLimitExceededException) }
+    /// The OpsMetadata object does not exist.
+    public static var opsMetadataNotFoundException: Self { .init(.opsMetadataNotFoundException) }
+    /// The system is processing too many concurrent updates. Wait a few moments and try again.
+    public static var opsMetadataTooManyUpdatesException: Self { .init(.opsMetadataTooManyUpdatesException) }
     /// The parameter already exists. You can't create duplicate parameters.
     public static var parameterAlreadyExists: Self { .init(.parameterAlreadyExists) }
     /// You have exceeded the number of parameters for this AWS account. Delete one or more parameters and try again.

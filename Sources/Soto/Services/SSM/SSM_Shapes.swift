@@ -88,11 +88,13 @@ extension SSM {
     }
 
     public enum AutomationExecutionFilterKey: String, CustomStringConvertible, Codable {
+        case automationsubtype = "AutomationSubtype"
         case automationtype = "AutomationType"
         case currentaction = "CurrentAction"
         case documentnameprefix = "DocumentNamePrefix"
         case executionid = "ExecutionId"
         case executionstatus = "ExecutionStatus"
+        case opsitemid = "OpsItemId"
         case parentexecutionid = "ParentExecutionId"
         case starttimeafter = "StartTimeAfter"
         case starttimebefore = "StartTimeBefore"
@@ -102,14 +104,29 @@ extension SSM {
     }
 
     public enum AutomationExecutionStatus: String, CustomStringConvertible, Codable {
+        case approved = "Approved"
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
+        case changecalendaroverrideapproved = "ChangeCalendarOverrideApproved"
+        case changecalendaroverriderejected = "ChangeCalendarOverrideRejected"
+        case completedwithfailure = "CompletedWithFailure"
+        case completedwithsuccess = "CompletedWithSuccess"
         case failed = "Failed"
         case inprogress = "InProgress"
         case pending = "Pending"
+        case pendingapproval = "PendingApproval"
+        case pendingchangecalendaroverride = "PendingChangeCalendarOverride"
+        case rejected = "Rejected"
+        case runbookinprogress = "RunbookInProgress"
+        case scheduled = "Scheduled"
         case success = "Success"
         case timedout = "TimedOut"
         case waiting = "Waiting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomationSubtype: String, CustomStringConvertible, Codable {
+        case changerequest = "ChangeRequest"
         public var description: String { return self.rawValue }
     }
 
@@ -232,6 +249,11 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum DocumentMetadataEnum: String, CustomStringConvertible, Codable {
+        case documentreviews = "DocumentReviews"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DocumentParameterType: String, CustomStringConvertible, Codable {
         case string = "String"
         case stringlist = "StringList"
@@ -240,6 +262,19 @@ extension SSM {
 
     public enum DocumentPermissionType: String, CustomStringConvertible, Codable {
         case share = "Share"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentReviewAction: String, CustomStringConvertible, Codable {
+        case approve = "Approve"
+        case reject = "Reject"
+        case sendforreview = "SendForReview"
+        case updatereview = "UpdateReview"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentReviewCommentType: String, CustomStringConvertible, Codable {
+        case comment = "Comment"
         public var description: String { return self.rawValue }
     }
 
@@ -256,6 +291,7 @@ extension SSM {
         case applicationconfiguration = "ApplicationConfiguration"
         case applicationconfigurationschema = "ApplicationConfigurationSchema"
         case automation = "Automation"
+        case automationChangetemplate = "Automation.ChangeTemplate"
         case changecalendar = "ChangeCalendar"
         case command = "Command"
         case deploymentstrategy = "DeploymentStrategy"
@@ -380,6 +416,7 @@ extension SSM {
         case amazonLinux2 = "AMAZON_LINUX_2"
         case centos = "CENTOS"
         case debian = "DEBIAN"
+        case macos = "MACOS"
         case oracleLinux = "ORACLE_LINUX"
         case redhatEnterpriseLinux = "REDHAT_ENTERPRISE_LINUX"
         case suse = "SUSE"
@@ -404,9 +441,27 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum OpsItemEventFilterKey: String, CustomStringConvertible, Codable {
+        case opsitemid = "OpsItemId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpsItemEventFilterOperator: String, CustomStringConvertible, Codable {
+        case equal = "Equal"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OpsItemFilterKey: String, CustomStringConvertible, Codable {
+        case actualendtime = "ActualEndTime"
+        case actualstarttime = "ActualStartTime"
         case automationid = "AutomationId"
         case category = "Category"
+        case changerequestbyapproverarn = "ChangeRequestByApproverArn"
+        case changerequestbyapprovername = "ChangeRequestByApproverName"
+        case changerequestbyrequesterarn = "ChangeRequestByRequesterArn"
+        case changerequestbyrequestername = "ChangeRequestByRequesterName"
+        case changerequestbytargetsresourcegroup = "ChangeRequestByTargetsResourceGroup"
+        case changerequestbytemplate = "ChangeRequestByTemplate"
         case createdby = "CreatedBy"
         case createdtime = "CreatedTime"
         case lastmodifiedtime = "LastModifiedTime"
@@ -414,6 +469,9 @@ extension SSM {
         case operationaldatakey = "OperationalDataKey"
         case operationaldatavalue = "OperationalDataValue"
         case opsitemid = "OpsItemId"
+        case opsitemtype = "OpsItemType"
+        case plannedendtime = "PlannedEndTime"
+        case plannedstarttime = "PlannedStartTime"
         case priority = "Priority"
         case resourceid = "ResourceId"
         case severity = "Severity"
@@ -432,9 +490,24 @@ extension SSM {
     }
 
     public enum OpsItemStatus: String, CustomStringConvertible, Codable {
+        case approved = "Approved"
+        case cancelled = "Cancelled"
+        case cancelling = "Cancelling"
+        case changecalendaroverrideapproved = "ChangeCalendarOverrideApproved"
+        case changecalendaroverriderejected = "ChangeCalendarOverrideRejected"
+        case completedwithfailure = "CompletedWithFailure"
+        case completedwithsuccess = "CompletedWithSuccess"
+        case failed = "Failed"
         case inprogress = "InProgress"
         case open = "Open"
+        case pending = "Pending"
+        case pendingapproval = "PendingApproval"
+        case pendingchangecalendaroverride = "PendingChangeCalendarOverride"
+        case rejected = "Rejected"
         case resolved = "Resolved"
+        case runbookinprogress = "RunbookInProgress"
+        case scheduled = "Scheduled"
+        case timedout = "TimedOut"
         public var description: String { return self.rawValue }
     }
 
@@ -577,6 +650,14 @@ extension SSM {
         case opsitem = "OpsItem"
         case parameter = "Parameter"
         case patchbaseline = "PatchBaseline"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReviewStatus: String, CustomStringConvertible, Codable {
+        case approved = "APPROVED"
+        case notReviewed = "NOT_REVIEWED"
+        case pending = "PENDING"
+        case rejected = "REJECTED"
         public var description: String { return self.rawValue }
     }
 
@@ -781,7 +862,7 @@ extension SSM {
     }
 
     public struct AssociationDescription: AWSDecodableShape {
-        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter is not supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
         /// The association ID.
         public let associationId: String?
@@ -823,10 +904,12 @@ extension SSM {
         public let status: AssociationStatus?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
+        /// The combination of AWS Regions and AWS accounts where you want to run the association.
+        public let targetLocations: [TargetLocation]?
         /// The instances targeted by the request.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
@@ -848,6 +931,7 @@ extension SSM {
             self.scheduleExpression = scheduleExpression
             self.status = status
             self.syncCompliance = syncCompliance
+            self.targetLocations = targetLocations
             self.targets = targets
         }
 
@@ -873,6 +957,7 @@ extension SSM {
             case scheduleExpression = "ScheduleExpression"
             case status = "Status"
             case syncCompliance = "SyncCompliance"
+            case targetLocations = "TargetLocations"
             case targets = "Targets"
         }
     }
@@ -1083,7 +1168,7 @@ extension SSM {
     }
 
     public struct AssociationVersionInfo: AWSDecodableShape {
-        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter is not supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
         /// The ID created by the system when the association was created.
         public let associationId: String?
@@ -1111,10 +1196,12 @@ extension SSM {
         public let scheduleExpression: String?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
+        /// The combination of AWS Regions and AWS accounts where you wanted to run the association when this association version was created.
+        public let targetLocations: [TargetLocation]?
         /// The targets specified for the association when the association version was created.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: Date? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: Date? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
@@ -1129,6 +1216,7 @@ extension SSM {
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
             self.syncCompliance = syncCompliance
+            self.targetLocations = targetLocations
             self.targets = targets
         }
 
@@ -1147,6 +1235,7 @@ extension SSM {
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
             case syncCompliance = "SyncCompliance"
+            case targetLocations = "TargetLocations"
             case targets = "Targets"
         }
     }
@@ -1225,10 +1314,16 @@ extension SSM {
     }
 
     public struct AutomationExecution: AWSDecodableShape {
+        /// The ID of a State Manager association used in the Automation operation.
+        public let associationId: String?
         /// The execution ID.
         public let automationExecutionId: String?
         /// The execution status of the Automation.
         public let automationExecutionStatus: AutomationExecutionStatus?
+        /// The subtype of the Automation operation. Currently, the only supported value is ChangeRequest.
+        public let automationSubtype: AutomationSubtype?
+        /// The name of the Change Manager change request.
+        public let changeRequestName: String?
         /// The action of the step that is currently running.
         public let currentAction: String?
         /// The name of the step that is currently running.
@@ -1251,6 +1346,8 @@ extension SSM {
         public let maxErrors: String?
         /// The automation execution mode.
         public let mode: ExecutionMode?
+        /// The ID of an OpsItem that is created to represent a Change Manager change request.
+        public let opsItemId: String?
         /// The list of execution outputs as defined in the automation document.
         public let outputs: [String: [String]]?
         /// The key-value map of execution parameters, which were supplied when calling StartAutomationExecution.
@@ -1261,6 +1358,10 @@ extension SSM {
         public let progressCounters: ProgressCounters?
         /// A list of resolved targets in the rate control execution.
         public let resolvedTargets: ResolvedTargets?
+        /// Information about the Automation runbooks (Automation documents) that are run as part of a runbook workflow.  The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received.
+        public let runbooks: [Runbook]?
+        /// The date and time the Automation operation is scheduled to start.
+        public let scheduledTime: Date?
         /// A list of details about the current state of all steps that comprise an execution. An Automation document contains a list of steps that are run in order.
         public let stepExecutions: [StepExecution]?
         /// A boolean value that indicates if the response contains the full list of the Automation step executions. If true, use the DescribeAutomationStepExecutions API action to get the full list of step executions.
@@ -1276,9 +1377,12 @@ extension SSM {
         /// The specified targets.
         public let targets: [Target]?
 
-        public init(automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+        public init(associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+            self.associationId = associationId
             self.automationExecutionId = automationExecutionId
             self.automationExecutionStatus = automationExecutionStatus
+            self.automationSubtype = automationSubtype
+            self.changeRequestName = changeRequestName
             self.currentAction = currentAction
             self.currentStepName = currentStepName
             self.documentName = documentName
@@ -1290,11 +1394,14 @@ extension SSM {
             self.maxConcurrency = maxConcurrency
             self.maxErrors = maxErrors
             self.mode = mode
+            self.opsItemId = opsItemId
             self.outputs = outputs
             self.parameters = parameters
             self.parentAutomationExecutionId = parentAutomationExecutionId
             self.progressCounters = progressCounters
             self.resolvedTargets = resolvedTargets
+            self.runbooks = runbooks
+            self.scheduledTime = scheduledTime
             self.stepExecutions = stepExecutions
             self.stepExecutionsTruncated = stepExecutionsTruncated
             self.target = target
@@ -1305,8 +1412,11 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
             case automationExecutionId = "AutomationExecutionId"
             case automationExecutionStatus = "AutomationExecutionStatus"
+            case automationSubtype = "AutomationSubtype"
+            case changeRequestName = "ChangeRequestName"
             case currentAction = "CurrentAction"
             case currentStepName = "CurrentStepName"
             case documentName = "DocumentName"
@@ -1318,11 +1428,14 @@ extension SSM {
             case maxConcurrency = "MaxConcurrency"
             case maxErrors = "MaxErrors"
             case mode = "Mode"
+            case opsItemId = "OpsItemId"
             case outputs = "Outputs"
             case parameters = "Parameters"
             case parentAutomationExecutionId = "ParentAutomationExecutionId"
             case progressCounters = "ProgressCounters"
             case resolvedTargets = "ResolvedTargets"
+            case runbooks = "Runbooks"
+            case scheduledTime = "ScheduledTime"
             case stepExecutions = "StepExecutions"
             case stepExecutionsTruncated = "StepExecutionsTruncated"
             case target = "Target"
@@ -1360,12 +1473,18 @@ extension SSM {
     }
 
     public struct AutomationExecutionMetadata: AWSDecodableShape {
+        /// The ID of a State Manager association used in the Automation operation.
+        public let associationId: String?
         /// The execution ID.
         public let automationExecutionId: String?
         /// The status of the execution.
         public let automationExecutionStatus: AutomationExecutionStatus?
+        /// The subtype of the Automation operation. Currently, the only supported value is ChangeRequest.
+        public let automationSubtype: AutomationSubtype?
         /// Use this filter with DescribeAutomationExecutions. Specify either Local or CrossAccount. CrossAccount is an Automation that runs in multiple AWS Regions and accounts. For more information, see Running Automation workflows in multiple AWS Regions and accounts in the AWS Systems Manager User Guide.
         public let automationType: AutomationType?
+        /// The name of the Change Manager change request.
+        public let changeRequestName: String?
         /// The action of the step that is currently running.
         public let currentAction: String?
         /// The name of the step that is currently running.
@@ -1390,12 +1509,18 @@ extension SSM {
         public let maxErrors: String?
         /// The Automation execution mode.
         public let mode: ExecutionMode?
+        /// The ID of an OpsItem that is created to represent a Change Manager change request.
+        public let opsItemId: String?
         /// The list of execution outputs as defined in the Automation document.
         public let outputs: [String: [String]]?
         /// The ExecutionId of the parent Automation.
         public let parentAutomationExecutionId: String?
         /// A list of targets that resolved during the execution.
         public let resolvedTargets: ResolvedTargets?
+        /// Information about the Automation runbooks (Automation documents) that are run during a runbook workflow in Change Manager.  The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received.
+        public let runbooks: [Runbook]?
+        /// The date and time the Automation operation is scheduled to start.
+        public let scheduledTime: Date?
         /// The list of execution outputs as defined in the Automation document.
         public let target: String?
         /// The specified key-value mapping of document parameters to target resources.
@@ -1405,10 +1530,13 @@ extension SSM {
         /// The targets defined by the user when starting the Automation.
         public let targets: [Target]?
 
-        public init(automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationType: AutomationType? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, logFile: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, outputs: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, resolvedTargets: ResolvedTargets? = nil, target: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+        public init(associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, automationType: AutomationType? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, logFile: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, target: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+            self.associationId = associationId
             self.automationExecutionId = automationExecutionId
             self.automationExecutionStatus = automationExecutionStatus
+            self.automationSubtype = automationSubtype
             self.automationType = automationType
+            self.changeRequestName = changeRequestName
             self.currentAction = currentAction
             self.currentStepName = currentStepName
             self.documentName = documentName
@@ -1421,9 +1549,12 @@ extension SSM {
             self.maxConcurrency = maxConcurrency
             self.maxErrors = maxErrors
             self.mode = mode
+            self.opsItemId = opsItemId
             self.outputs = outputs
             self.parentAutomationExecutionId = parentAutomationExecutionId
             self.resolvedTargets = resolvedTargets
+            self.runbooks = runbooks
+            self.scheduledTime = scheduledTime
             self.target = target
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
@@ -1431,9 +1562,12 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
             case automationExecutionId = "AutomationExecutionId"
             case automationExecutionStatus = "AutomationExecutionStatus"
+            case automationSubtype = "AutomationSubtype"
             case automationType = "AutomationType"
+            case changeRequestName = "ChangeRequestName"
             case currentAction = "CurrentAction"
             case currentStepName = "CurrentStepName"
             case documentName = "DocumentName"
@@ -1446,9 +1580,12 @@ extension SSM {
             case maxConcurrency = "MaxConcurrency"
             case maxErrors = "MaxErrors"
             case mode = "Mode"
+            case opsItemId = "OpsItemId"
             case outputs = "Outputs"
             case parentAutomationExecutionId = "ParentAutomationExecutionId"
             case resolvedTargets = "ResolvedTargets"
+            case runbooks = "Runbooks"
+            case scheduledTime = "ScheduledTime"
             case target = "Target"
             case targetMaps = "TargetMaps"
             case targetParameterName = "TargetParameterName"
@@ -2059,7 +2196,7 @@ extension SSM {
     }
 
     public struct CreateAssociationBatchRequestEntry: AWSEncodableShape & AWSDecodableShape {
-        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter is not supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
@@ -2085,10 +2222,12 @@ extension SSM {
         public let scheduleExpression: String?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT.  In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
+        /// Use this action to create an association in multiple Regions and multiple accounts.
+        public let targetLocations: [TargetLocation]?
         /// The instances targeted by the request.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
@@ -2102,6 +2241,7 @@ extension SSM {
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
             self.syncCompliance = syncCompliance
+            self.targetLocations = targetLocations
             self.targets = targets
         }
 
@@ -2121,6 +2261,11 @@ extension SSM {
             try self.outputLocation?.validate(name: "\(name).outputLocation")
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.targetLocations?.forEach {
+                try $0.validate(name: "\(name).targetLocations[]")
+            }
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
@@ -2142,6 +2287,7 @@ extension SSM {
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
             case syncCompliance = "SyncCompliance"
+            case targetLocations = "TargetLocations"
             case targets = "Targets"
         }
     }
@@ -2164,7 +2310,7 @@ extension SSM {
     }
 
     public struct CreateAssociationRequest: AWSEncodableShape {
-        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter is not supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
@@ -2190,10 +2336,12 @@ extension SSM {
         public let scheduleExpression: String?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
+        /// A location is a combination of AWS Regions and AWS accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
+        public let targetLocations: [TargetLocation]?
         /// The targets for the association. You can target instances by using tags, AWS Resource Groups, all instances in an AWS account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the AWS Systems Manager User Guide.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
@@ -2207,6 +2355,7 @@ extension SSM {
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
             self.syncCompliance = syncCompliance
+            self.targetLocations = targetLocations
             self.targets = targets
         }
 
@@ -2226,6 +2375,11 @@ extension SSM {
             try self.outputLocation?.validate(name: "\(name).outputLocation")
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.targetLocations?.forEach {
+                try $0.validate(name: "\(name).targetLocations[]")
+            }
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
@@ -2247,6 +2401,7 @@ extension SSM {
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
             case syncCompliance = "SyncCompliance"
+            case targetLocations = "TargetLocations"
             case targets = "Targets"
         }
     }
@@ -2360,9 +2515,9 @@ extension SSM {
         public let name: String
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String
-        /// The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run on the third Tuesday of every month at 11:30 PM.  cron(0 30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
+        /// The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run on the third Tuesday of every month at 11:30 PM.  cron(30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
         public let scheduleOffset: Int?
-        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
         public let startDate: String?
@@ -2436,6 +2591,10 @@ extension SSM {
     }
 
     public struct CreateOpsItemRequest: AWSEncodableShape {
+        /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
+        public let actualEndTime: Date?
+        /// The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
+        public let actualStartTime: Date?
         /// Specify a category to assign to an OpsItem.
         public let category: String?
         /// Information about the OpsItem.
@@ -2444,6 +2603,12 @@ extension SSM {
         public let notifications: [OpsItemNotification]?
         /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems manually in the AWS Systems Manager User Guide.
         public let operationalData: [String: OpsItemDataValue]?
+        /// The type of OpsItem to create. Currently, the only valid values are /aws/changerequest and /aws/issue.
+        public let opsItemType: String?
+        /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
+        public let plannedEndTime: Date?
+        /// The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/changerequest.
+        public let plannedStartTime: Date?
         /// The importance of this OpsItem in relation to other OpsItems in the system.
         public let priority: Int?
         /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
@@ -2457,11 +2622,16 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String
 
-        public init(category: String? = nil, description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String, tags: [Tag]? = nil, title: String) {
+        public init(actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemType: String? = nil, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String, tags: [Tag]? = nil, title: String) {
+            self.actualEndTime = actualEndTime
+            self.actualStartTime = actualStartTime
             self.category = category
             self.description = description
             self.notifications = notifications
             self.operationalData = operationalData
+            self.opsItemType = opsItemType
+            self.plannedEndTime = plannedEndTime
+            self.plannedStartTime = plannedStartTime
             self.priority = priority
             self.relatedOpsItems = relatedOpsItems
             self.severity = severity
@@ -2473,31 +2643,43 @@ extension SSM {
         public func validate(name: String) throws {
             try self.validate(self.category, name: "category", parent: name, max: 64)
             try self.validate(self.category, name: "category", parent: name, min: 1)
+            try self.validate(self.category, name: "category", parent: name, pattern: "^(?!\\s*$).+")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
             try self.operationalData?.forEach {
                 try validate($0.key, name: "operationalData.key", parent: name, max: 128)
                 try validate($0.key, name: "operationalData.key", parent: name, min: 1)
+                try validate($0.key, name: "operationalData.key", parent: name, pattern: "^(?!\\s*$).+")
+                try $0.value.validate(name: "\(name).operationalData[\"\($0.key)\"]")
             }
             try self.validate(self.priority, name: "priority", parent: name, max: 5)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
             try self.validate(self.severity, name: "severity", parent: name, max: 64)
             try self.validate(self.severity, name: "severity", parent: name, min: 1)
-            try self.validate(self.source, name: "source", parent: name, max: 64)
+            try self.validate(self.severity, name: "severity", parent: name, pattern: "^(?!\\s*$).+")
+            try self.validate(self.source, name: "source", parent: name, max: 128)
             try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, pattern: "^(?!\\s*$).+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
             try self.validate(self.title, name: "title", parent: name, max: 1024)
             try self.validate(self.title, name: "title", parent: name, min: 1)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^(?!\\s*$).+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actualEndTime = "ActualEndTime"
+            case actualStartTime = "ActualStartTime"
             case category = "Category"
             case description = "Description"
             case notifications = "Notifications"
             case operationalData = "OperationalData"
+            case opsItemType = "OpsItemType"
+            case plannedEndTime = "PlannedEndTime"
+            case plannedStartTime = "PlannedStartTime"
             case priority = "Priority"
             case relatedOpsItems = "RelatedOpsItems"
             case severity = "Severity"
@@ -2517,6 +2699,48 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case opsItemId = "OpsItemId"
+        }
+    }
+
+    public struct CreateOpsMetadataRequest: AWSEncodableShape {
+        /// Metadata for a new Application Manager application.
+        public let metadata: [String: MetadataValue]?
+        /// A resource ID for a new Application Manager application.
+        public let resourceId: String
+
+        public init(metadata: [String: MetadataValue]? = nil, resourceId: String) {
+            self.metadata = metadata
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.metadata?.forEach {
+                try validate($0.key, name: "metadata.key", parent: name, max: 256)
+                try validate($0.key, name: "metadata.key", parent: name, min: 1)
+                try validate($0.key, name: "metadata.key", parent: name, pattern: "^(?!\\s*$).+")
+                try $0.value.validate(name: "\(name).metadata[\"\($0.key)\"]")
+            }
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1024)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(?!\\s*$).+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct CreateOpsMetadataResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the OpsMetadata Object or blob created by the call.
+        public let opsMetadataArn: String?
+
+        public init(opsMetadataArn: String? = nil) {
+            self.opsMetadataArn = opsMetadataArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case opsMetadataArn = "OpsMetadataArn"
         }
     }
 
@@ -2835,6 +3059,29 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case windowId = "WindowId"
         }
+    }
+
+    public struct DeleteOpsMetadataRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of an OpsMetadata Object to delete.
+        public let opsMetadataArn: String
+
+        public init(opsMetadataArn: String) {
+            self.opsMetadataArn = opsMetadataArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, max: 1011)
+            try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, min: 1)
+            try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:opsmetadata\\/([a-zA-Z0-9-_\\.\\/]*)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case opsMetadataArn = "OpsMetadataArn"
+        }
+    }
+
+    public struct DeleteOpsMetadataResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteParameterRequest: AWSEncodableShape {
@@ -4658,7 +4905,7 @@ extension SSM {
         public let nextToken: String?
         /// The operating system type for which to list patches.
         public let operatingSystem: OperatingSystem
-        /// Indicates whether to list patches for the Windows operating system or for Microsoft applications. Not applicable for Linux operating systems.
+        /// Indicates whether to list patches for the Windows operating system or for Microsoft applications. Not applicable for the Linux or macOS operating systems.
         public let patchSet: PatchSet?
         /// The patch property for which you want to view patch details.
         public let property: PatchProperty
@@ -4776,8 +5023,12 @@ extension SSM {
     }
 
     public struct DocumentDescription: AWSDecodableShape {
+        /// The version of the document currently approved for use in the organization.
+        public let approvedVersion: String?
         /// Details about the document attachments, including names, locations, sizes, and so on.
         public let attachmentsInformation: [AttachmentInformation]?
+        /// The user in your organization who created the document.
+        public let author: String?
         /// The date when the document was created.
         public let createdDate: Date?
         /// The default version.
@@ -4802,10 +5053,16 @@ extension SSM {
         public let owner: String?
         /// A description of the parameters for a document.
         public let parameters: [DocumentParameter]?
+        /// The version of the document that is currently under review.
+        public let pendingReviewVersion: String?
         /// The list of OS platforms compatible with this Systems Manager document.
         public let platformTypes: [PlatformType]?
         /// A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.
         public let requires: [DocumentRequires]?
+        /// Details about the review of a document.
+        public let reviewInformation: [ReviewInformation]?
+        /// The current status of the review.
+        public let reviewStatus: ReviewStatus?
         /// The schema version.
         public let schemaVersion: String?
         /// The SHA1 hash of the document, which you can use for verification.
@@ -4821,8 +5078,10 @@ extension SSM {
         /// The version of the artifact associated with the document.
         public let versionName: String?
 
-        public init(attachmentsInformation: [AttachmentInformation]? = nil, createdDate: Date? = nil, defaultVersion: String? = nil, description: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, hash: String? = nil, hashType: DocumentHashType? = nil, latestVersion: String? = nil, name: String? = nil, owner: String? = nil, parameters: [DocumentParameter]? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, schemaVersion: String? = nil, sha1: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+        public init(approvedVersion: String? = nil, attachmentsInformation: [AttachmentInformation]? = nil, author: String? = nil, createdDate: Date? = nil, defaultVersion: String? = nil, description: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, hash: String? = nil, hashType: DocumentHashType? = nil, latestVersion: String? = nil, name: String? = nil, owner: String? = nil, parameters: [DocumentParameter]? = nil, pendingReviewVersion: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, reviewInformation: [ReviewInformation]? = nil, reviewStatus: ReviewStatus? = nil, schemaVersion: String? = nil, sha1: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+            self.approvedVersion = approvedVersion
             self.attachmentsInformation = attachmentsInformation
+            self.author = author
             self.createdDate = createdDate
             self.defaultVersion = defaultVersion
             self.description = description
@@ -4835,8 +5094,11 @@ extension SSM {
             self.name = name
             self.owner = owner
             self.parameters = parameters
+            self.pendingReviewVersion = pendingReviewVersion
             self.platformTypes = platformTypes
             self.requires = requires
+            self.reviewInformation = reviewInformation
+            self.reviewStatus = reviewStatus
             self.schemaVersion = schemaVersion
             self.sha1 = sha1
             self.status = status
@@ -4847,7 +5109,9 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case approvedVersion = "ApprovedVersion"
             case attachmentsInformation = "AttachmentsInformation"
+            case author = "Author"
             case createdDate = "CreatedDate"
             case defaultVersion = "DefaultVersion"
             case description = "Description"
@@ -4860,8 +5124,11 @@ extension SSM {
             case name = "Name"
             case owner = "Owner"
             case parameters = "Parameters"
+            case pendingReviewVersion = "PendingReviewVersion"
             case platformTypes = "PlatformTypes"
             case requires = "Requires"
+            case reviewInformation = "ReviewInformation"
+            case reviewStatus = "ReviewStatus"
             case schemaVersion = "SchemaVersion"
             case sha1 = "Sha1"
             case status = "Status"
@@ -4894,6 +5161,8 @@ extension SSM {
     }
 
     public struct DocumentIdentifier: AWSDecodableShape {
+        /// The user in your organization who created the document.
+        public let author: String?
         /// The document format, either JSON or YAML.
         public let documentFormat: DocumentFormat?
         /// The document type.
@@ -4908,6 +5177,8 @@ extension SSM {
         public let platformTypes: [PlatformType]?
         /// A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.
         public let requires: [DocumentRequires]?
+        /// The current status of a document review.
+        public let reviewStatus: ReviewStatus?
         /// The schema version.
         public let schemaVersion: String?
         /// The tags, or metadata, that have been applied to the document.
@@ -4917,7 +5188,8 @@ extension SSM {
         /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, owner: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, schemaVersion: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+        public init(author: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, owner: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, reviewStatus: ReviewStatus? = nil, schemaVersion: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+            self.author = author
             self.documentFormat = documentFormat
             self.documentType = documentType
             self.documentVersion = documentVersion
@@ -4925,6 +5197,7 @@ extension SSM {
             self.owner = owner
             self.platformTypes = platformTypes
             self.requires = requires
+            self.reviewStatus = reviewStatus
             self.schemaVersion = schemaVersion
             self.tags = tags
             self.targetType = targetType
@@ -4932,6 +5205,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case author = "Author"
             case documentFormat = "DocumentFormat"
             case documentType = "DocumentType"
             case documentVersion = "DocumentVersion"
@@ -4939,6 +5213,7 @@ extension SSM {
             case owner = "Owner"
             case platformTypes = "PlatformTypes"
             case requires = "Requires"
+            case reviewStatus = "ReviewStatus"
             case schemaVersion = "SchemaVersion"
             case tags = "Tags"
             case targetType = "TargetType"
@@ -4969,6 +5244,19 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case values = "Values"
+        }
+    }
+
+    public struct DocumentMetadataResponseInfo: AWSDecodableShape {
+        /// Details about a reviewer's response to a document review request.
+        public let reviewerResponse: [DocumentReviewerResponseSource]?
+
+        public init(reviewerResponse: [DocumentReviewerResponseSource]? = nil) {
+            self.reviewerResponse = reviewerResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reviewerResponse = "ReviewerResponse"
         }
     }
 
@@ -5019,6 +5307,83 @@ extension SSM {
         }
     }
 
+    public struct DocumentReviewCommentSource: AWSEncodableShape & AWSDecodableShape {
+        /// The content of a comment entered by a user who requests a review of a new document version, or who reviews the new version.
+        public let content: String?
+        /// The type of information added to a review request. Currently, only the value Comment is supported.
+        public let type: DocumentReviewCommentType?
+
+        public init(content: String? = nil, type: DocumentReviewCommentType? = nil) {
+            self.content = content
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.content, name: "content", parent: name, max: 1024)
+            try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.validate(self.content, name: "content", parent: name, pattern: "^(?!\\s*$).+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case type = "Type"
+        }
+    }
+
+    public struct DocumentReviewerResponseSource: AWSDecodableShape {
+        /// The comment entered by a reviewer as part of their document review response.
+        public let comment: [DocumentReviewCommentSource]?
+        /// The date and time that a reviewer entered a response to a document review request.
+        public let createTime: Date?
+        /// The user in your organization assigned to review a document request.
+        public let reviewer: String?
+        /// The current review status of a new custom SSM document created by a member of your organization, or of the latest version of an existing SSM document. Only one version of a document can be in the APPROVED state at a time. When a new version is approved, the status of the previous version changes to REJECTED. Only one version of a document can be in review, or PENDING, at a time.
+        public let reviewStatus: ReviewStatus?
+        /// The date and time that a reviewer last updated a response to a document review request.
+        public let updatedTime: Date?
+
+        public init(comment: [DocumentReviewCommentSource]? = nil, createTime: Date? = nil, reviewer: String? = nil, reviewStatus: ReviewStatus? = nil, updatedTime: Date? = nil) {
+            self.comment = comment
+            self.createTime = createTime
+            self.reviewer = reviewer
+            self.reviewStatus = reviewStatus
+            self.updatedTime = updatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case createTime = "CreateTime"
+            case reviewer = "Reviewer"
+            case reviewStatus = "ReviewStatus"
+            case updatedTime = "UpdatedTime"
+        }
+    }
+
+    public struct DocumentReviews: AWSEncodableShape {
+        /// The action to take on a document approval review request.
+        public let action: DocumentReviewAction
+        /// A comment entered by a user in your organization about the document review request.
+        public let comment: [DocumentReviewCommentSource]?
+
+        public init(action: DocumentReviewAction, comment: [DocumentReviewCommentSource]? = nil) {
+            self.action = action
+            self.comment = comment
+        }
+
+        public func validate(name: String) throws {
+            try self.comment?.forEach {
+                try $0.validate(name: "\(name).comment[]")
+            }
+            try self.validate(self.comment, name: "comment", parent: name, max: 1)
+            try self.validate(self.comment, name: "comment", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case comment = "Comment"
+        }
+    }
+
     public struct DocumentVersionInfo: AWSDecodableShape {
         /// The date the document was created.
         public let createdDate: Date?
@@ -5030,6 +5395,8 @@ extension SSM {
         public let isDefaultVersion: Bool?
         /// The document name.
         public let name: String?
+        /// The current status of the approval review for the latest version of the document.
+        public let reviewStatus: ReviewStatus?
         /// The status of the Systems Manager document, such as Creating, Active, Failed, and Deleting.
         public let status: DocumentStatus?
         /// A message returned by AWS Systems Manager that explains the Status value. For example, a Failed status might be explained by the StatusInformation message, "The specified S3 bucket does not exist. Verify that the URL of the S3 bucket is correct."
@@ -5037,12 +5404,13 @@ extension SSM {
         /// The version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(createdDate: Date? = nil, documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, isDefaultVersion: Bool? = nil, name: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
+        public init(createdDate: Date? = nil, documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, isDefaultVersion: Bool? = nil, name: String? = nil, reviewStatus: ReviewStatus? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
             self.createdDate = createdDate
             self.documentFormat = documentFormat
             self.documentVersion = documentVersion
             self.isDefaultVersion = isDefaultVersion
             self.name = name
+            self.reviewStatus = reviewStatus
             self.status = status
             self.statusInformation = statusInformation
             self.versionName = versionName
@@ -5054,6 +5422,7 @@ extension SSM {
             case documentVersion = "DocumentVersion"
             case isDefaultVersion = "IsDefaultVersion"
             case name = "Name"
+            case reviewStatus = "ReviewStatus"
             case status = "Status"
             case statusInformation = "StatusInformation"
             case versionName = "VersionName"
@@ -5453,6 +5822,8 @@ extension SSM {
         public let name: String?
         /// A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.
         public let requires: [DocumentRequires]?
+        /// The current review status of a new custom Systems Manager document (SSM document) created by a member of your organization, or of the latest version of an existing SSM document. Only one version of an SSM document can be in the APPROVED state at a time. When a new version is approved, the status of the previous version changes to REJECTED. Only one version of an SSM document can be in review, or PENDING, at a time.
+        public let reviewStatus: ReviewStatus?
         /// The status of the Systems Manager document, such as Creating, Active, Updating, Failed, and Deleting.
         public let status: DocumentStatus?
         /// A message returned by AWS Systems Manager that explains the Status value. For example, a Failed status might be explained by the StatusInformation message, "The specified S3 bucket does not exist. Verify that the URL of the S3 bucket is correct."
@@ -5460,7 +5831,7 @@ extension SSM {
         /// The version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(attachmentsContent: [AttachmentContent]? = nil, content: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, requires: [DocumentRequires]? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
+        public init(attachmentsContent: [AttachmentContent]? = nil, content: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, requires: [DocumentRequires]? = nil, reviewStatus: ReviewStatus? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
             self.attachmentsContent = attachmentsContent
             self.content = content
             self.documentFormat = documentFormat
@@ -5468,6 +5839,7 @@ extension SSM {
             self.documentVersion = documentVersion
             self.name = name
             self.requires = requires
+            self.reviewStatus = reviewStatus
             self.status = status
             self.statusInformation = statusInformation
             self.versionName = versionName
@@ -5481,6 +5853,7 @@ extension SSM {
             case documentVersion = "DocumentVersion"
             case name = "Name"
             case requires = "Requires"
+            case reviewStatus = "ReviewStatus"
             case status = "Status"
             case statusInformation = "StatusInformation"
             case versionName = "VersionName"
@@ -5879,7 +6252,7 @@ extension SSM {
         public let schedule: String?
         /// The number of days to wait to run a maintenance window after the scheduled CRON expression date and time.
         public let scheduleOffset: Int?
-        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active. The maintenance window will not run before this specified time.
         public let startDate: String?
@@ -5954,9 +6327,9 @@ extension SSM {
         public let description: String?
         /// The location in Amazon S3 where the task results are logged.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
         public let loggingInfo: LoggingInfo?
-        /// The maximum number of targets allowed to run this task in parallel.
+        /// The maximum number of targets allowed to run this task in parallel.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. This value does not affect the running of your task and can be ignored.
         public let maxConcurrency: String?
-        /// The maximum number of errors allowed before the task stops being scheduled.
+        /// The maximum number of errors allowed before the task stops being scheduled.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. This value does not affect the running of your task and can be ignored.
         public let maxErrors: String?
         /// The retrieved task name.
         public let name: String?
@@ -6041,6 +6414,56 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case opsItem = "OpsItem"
+        }
+    }
+
+    public struct GetOpsMetadataRequest: AWSEncodableShape {
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of an OpsMetadata Object to view.
+        public let opsMetadataArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, opsMetadataArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.opsMetadataArn = opsMetadataArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, max: 1011)
+            try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, min: 1)
+            try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:opsmetadata\\/([a-zA-Z0-9-_\\.\\/]*)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case opsMetadataArn = "OpsMetadataArn"
+        }
+    }
+
+    public struct GetOpsMetadataResult: AWSDecodableShape {
+        /// OpsMetadata for an Application Manager application.
+        public let metadata: [String: MetadataValue]?
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// The resource ID of the Application Manager application.
+        public let resourceId: String?
+
+        public init(metadata: [String: MetadataValue]? = nil, nextToken: String? = nil, resourceId: String? = nil) {
+            self.metadata = metadata
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
         }
     }
 
@@ -6615,7 +7038,7 @@ extension SSM {
         public let isLatestVersion: Bool?
         /// The date the association was last run.
         public let lastAssociationExecutionDate: Date?
-        /// The date and time when agent last pinged Systems Manager service.
+        /// The date and time when the agent last pinged the Systems Manager service.
         public let lastPingDateTime: Date?
         /// The last date the association was successfully run.
         public let lastSuccessfulAssociationExecutionDate: Date?
@@ -7523,6 +7946,71 @@ extension SSM {
         }
     }
 
+    public struct ListDocumentMetadataHistoryRequest: AWSEncodableShape {
+        /// The version of the document.
+        public let documentVersion: String?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// The type of data for which details are being requested. Currently, the only supported value is DocumentReviews.
+        public let metadata: DocumentMetadataEnum
+        /// The name of the document.
+        public let name: String
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(documentVersion: String? = nil, maxResults: Int? = nil, metadata: DocumentMetadataEnum, name: String, nextToken: String? = nil) {
+            self.documentVersion = documentVersion
+            self.maxResults = maxResults
+            self.metadata = metadata
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentVersion = "DocumentVersion"
+            case maxResults = "MaxResults"
+            case metadata = "Metadata"
+            case name = "Name"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDocumentMetadataHistoryResponse: AWSDecodableShape {
+        /// The user ID of the person in the organization who requested the document review.
+        public let author: String?
+        /// The version of the document.
+        public let documentVersion: String?
+        /// Information about the response to the document approval request.
+        public let metadata: DocumentMetadataResponseInfo?
+        /// The name of the document.
+        public let name: String?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let nextToken: String?
+
+        public init(author: String? = nil, documentVersion: String? = nil, metadata: DocumentMetadataResponseInfo? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.author = author
+            self.documentVersion = documentVersion
+            self.metadata = metadata
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case author = "Author"
+            case documentVersion = "DocumentVersion"
+            case metadata = "Metadata"
+            case name = "Name"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListDocumentVersionsRequest: AWSEncodableShape {
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -7696,6 +8184,100 @@ extension SSM {
             case nextToken = "NextToken"
             case schemaVersion = "SchemaVersion"
             case typeName = "TypeName"
+        }
+    }
+
+    public struct ListOpsItemEventsRequest: AWSEncodableShape {
+        /// One or more OpsItem filters. Use a filter to return a more specific list of results.
+        public let filters: [OpsItemEventFilter]?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(filters: [OpsItemEventFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOpsItemEventsResponse: AWSDecodableShape {
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// A list of event information for the specified OpsItems.
+        public let summaries: [OpsItemEventSummary]?
+
+        public init(nextToken: String? = nil, summaries: [OpsItemEventSummary]? = nil) {
+            self.nextToken = nextToken
+            self.summaries = summaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case summaries = "Summaries"
+        }
+    }
+
+    public struct ListOpsMetadataRequest: AWSEncodableShape {
+        /// One or more filters to limit the number of OpsMetadata objects returned by the call.
+        public let filters: [OpsMetadataFilter]?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(filters: [OpsMetadataFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOpsMetadataResult: AWSDecodableShape {
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// Returns a list of OpsMetadata objects.
+        public let opsMetadataList: [OpsMetadata]?
+
+        public init(nextToken: String? = nil, opsMetadataList: [OpsMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.opsMetadataList = opsMetadataList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case opsMetadataList = "OpsMetadataList"
         }
     }
 
@@ -8373,6 +8955,24 @@ extension SSM {
         }
     }
 
+    public struct MetadataValue: AWSEncodableShape & AWSDecodableShape {
+        /// Metadata value to assign to an Application Manager application.
+        public let value: String?
+
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 4096)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
     public struct ModifyDocumentPermissionRequest: AWSEncodableShape {
         /// The AWS user accounts that should have access to the document. The account IDs can either be a group of account IDs or All.
         public let accountIdsToAdd: [String]?
@@ -8585,6 +9185,10 @@ extension SSM {
     }
 
     public struct OpsItem: AWSDecodableShape {
+        /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
+        public let actualEndTime: Date?
+        /// The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
+        public let actualStartTime: Date?
         /// An OpsItem category. Category options include: Availability, Cost, Performance, Recovery, Security.
         public let category: String?
         /// The ARN of the AWS account that created the OpsItem.
@@ -8603,6 +9207,12 @@ extension SSM {
         public let operationalData: [String: OpsItemDataValue]?
         /// The ID of the OpsItem.
         public let opsItemId: String?
+        /// The type of OpsItem. Currently, the only valid values are /aws/changerequest and /aws/issue.
+        public let opsItemType: String?
+        /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
+        public let plannedEndTime: Date?
+        /// The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/changerequest.
+        public let plannedStartTime: Date?
         /// The importance of this OpsItem in relation to other OpsItems in the system.
         public let priority: Int?
         /// One or more OpsItems that share something in common with the current OpsItem. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
@@ -8618,7 +9228,9 @@ extension SSM {
         /// The version of this OpsItem. Each time the OpsItem is edited the version number increments by one.
         public let version: String?
 
-        public init(category: String? = nil, createdBy: String? = nil, createdTime: Date? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
+        public init(actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, createdBy: String? = nil, createdTime: Date? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, opsItemType: String? = nil, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
+            self.actualEndTime = actualEndTime
+            self.actualStartTime = actualStartTime
             self.category = category
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -8628,6 +9240,9 @@ extension SSM {
             self.notifications = notifications
             self.operationalData = operationalData
             self.opsItemId = opsItemId
+            self.opsItemType = opsItemType
+            self.plannedEndTime = plannedEndTime
+            self.plannedStartTime = plannedStartTime
             self.priority = priority
             self.relatedOpsItems = relatedOpsItems
             self.severity = severity
@@ -8638,6 +9253,8 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actualEndTime = "ActualEndTime"
+            case actualStartTime = "ActualStartTime"
             case category = "Category"
             case createdBy = "CreatedBy"
             case createdTime = "CreatedTime"
@@ -8647,6 +9264,9 @@ extension SSM {
             case notifications = "Notifications"
             case operationalData = "OperationalData"
             case opsItemId = "OpsItemId"
+            case opsItemType = "OpsItemType"
+            case plannedEndTime = "PlannedEndTime"
+            case plannedStartTime = "PlannedStartTime"
             case priority = "Priority"
             case relatedOpsItems = "RelatedOpsItems"
             case severity = "Severity"
@@ -8668,9 +9288,79 @@ extension SSM {
             self.value = value
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case type = "Type"
             case value = "Value"
+        }
+    }
+
+    public struct OpsItemEventFilter: AWSEncodableShape {
+        /// The name of the filter key. Currently, the only supported value is OpsItemId.
+        public let key: OpsItemEventFilterKey
+        /// The operator used by the filter call. Currently, the only supported value is Equal.
+        public let `operator`: OpsItemEventFilterOperator
+        /// The values for the filter, consisting of one or more OpsItem IDs.
+        public let values: [String]
+
+        public init(key: OpsItemEventFilterKey, operator: OpsItemEventFilterOperator, values: [String]) {
+            self.key = key
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 15)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case `operator` = "Operator"
+            case values = "Values"
+        }
+    }
+
+    public struct OpsItemEventSummary: AWSDecodableShape {
+        /// Information about the user or resource that created the OpsItem event.
+        public let createdBy: OpsItemIdentity?
+        /// The date and time the OpsItem event was created.
+        public let createdTime: Date?
+        /// Specific information about the OpsItem event.
+        public let detail: String?
+        /// The type of information provided as a detail.
+        public let detailType: String?
+        /// The ID of the OpsItem event.
+        public let eventId: String?
+        /// The ID of the OpsItem.
+        public let opsItemId: String?
+        /// The source of the OpsItem event.
+        public let source: String?
+
+        public init(createdBy: OpsItemIdentity? = nil, createdTime: Date? = nil, detail: String? = nil, detailType: String? = nil, eventId: String? = nil, opsItemId: String? = nil, source: String? = nil) {
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.detail = detail
+            self.detailType = detailType
+            self.eventId = eventId
+            self.opsItemId = opsItemId
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case createdTime = "CreatedTime"
+            case detail = "Detail"
+            case detailType = "DetailType"
+            case eventId = "EventId"
+            case opsItemId = "OpsItemId"
+            case source = "Source"
         }
     }
 
@@ -8695,6 +9385,19 @@ extension SSM {
         }
     }
 
+    public struct OpsItemIdentity: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem event.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct OpsItemNotification: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
         public let arn: String?
@@ -8709,6 +9412,10 @@ extension SSM {
     }
 
     public struct OpsItemSummary: AWSDecodableShape {
+        /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
+        public let actualEndTime: Date?
+        /// The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
+        public let actualStartTime: Date?
         /// A list of OpsItems by category.
         public let category: String?
         /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem.
@@ -8723,6 +9430,12 @@ extension SSM {
         public let operationalData: [String: OpsItemDataValue]?
         /// The ID of the OpsItem.
         public let opsItemId: String?
+        /// The type of OpsItem. Currently, the only valid values are /aws/changerequest and /aws/issue.
+        public let opsItemType: String?
+        /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
+        public let plannedEndTime: Date?
+        /// The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/changerequest.
+        public let plannedStartTime: Date?
         /// The importance of this OpsItem in relation to other OpsItems in the system.
         public let priority: Int?
         /// A list of OpsItems by severity.
@@ -8734,7 +9447,9 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
 
-        public init(category: String? = nil, createdBy: String? = nil, createdTime: Date? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int? = nil, severity: String? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+        public init(actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, createdBy: String? = nil, createdTime: Date? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, opsItemType: String? = nil, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, severity: String? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+            self.actualEndTime = actualEndTime
+            self.actualStartTime = actualStartTime
             self.category = category
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -8742,6 +9457,9 @@ extension SSM {
             self.lastModifiedTime = lastModifiedTime
             self.operationalData = operationalData
             self.opsItemId = opsItemId
+            self.opsItemType = opsItemType
+            self.plannedEndTime = plannedEndTime
+            self.plannedStartTime = plannedStartTime
             self.priority = priority
             self.severity = severity
             self.source = source
@@ -8750,6 +9468,8 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actualEndTime = "ActualEndTime"
+            case actualStartTime = "ActualStartTime"
             case category = "Category"
             case createdBy = "CreatedBy"
             case createdTime = "CreatedTime"
@@ -8757,11 +9477,72 @@ extension SSM {
             case lastModifiedTime = "LastModifiedTime"
             case operationalData = "OperationalData"
             case opsItemId = "OpsItemId"
+            case opsItemType = "OpsItemType"
+            case plannedEndTime = "PlannedEndTime"
+            case plannedStartTime = "PlannedStartTime"
             case priority = "Priority"
             case severity = "Severity"
             case source = "Source"
             case status = "Status"
             case title = "Title"
+        }
+    }
+
+    public struct OpsMetadata: AWSDecodableShape {
+        /// The date the OpsMetadata objects was created.
+        public let creationDate: Date?
+        /// The date the OpsMetadata object was last updated.
+        public let lastModifiedDate: Date?
+        /// The user name who last updated the OpsMetadata object.
+        public let lastModifiedUser: String?
+        /// The Amazon Resource Name (ARN) of the OpsMetadata Object or blob.
+        public let opsMetadataArn: String?
+        /// The ID of the Application Manager application.
+        public let resourceId: String?
+
+        public init(creationDate: Date? = nil, lastModifiedDate: Date? = nil, lastModifiedUser: String? = nil, opsMetadataArn: String? = nil, resourceId: String? = nil) {
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.lastModifiedUser = lastModifiedUser
+            self.opsMetadataArn = opsMetadataArn
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case lastModifiedDate = "LastModifiedDate"
+            case lastModifiedUser = "LastModifiedUser"
+            case opsMetadataArn = "OpsMetadataArn"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct OpsMetadataFilter: AWSEncodableShape {
+        /// A filter key.
+        public let key: String
+        /// A filter value.
+        public let values: [String]
+
+        public init(key: String, values: [String]) {
+            self.key = key
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^(?!\\s*$).+")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 10)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
@@ -9053,7 +9834,7 @@ extension SSM {
         public let classification: String?
         /// The URL where more information can be obtained about the patch.
         public let contentUrl: String?
-        /// The Common Vulnerabilities and Exposures (CVE) ID of the patch. For example, CVE-1999-0067. Applies to Linux-based instances only.
+        /// The Common Vulnerabilities and Exposures (CVE) ID of the patch. For example, CVE-2011-3192. Applies to Linux-based instances only.
         public let cVEIds: [String]?
         /// The description of the patch.
         public let description: String?
@@ -9779,18 +10560,18 @@ extension SSM {
         public let description: String?
         /// A structure containing information about an S3 bucket to write instance-level logs to.    LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
         public let loggingInfo: LoggingInfo?
-        /// The maximum number of targets this task can be run for in parallel.
-        public let maxConcurrency: String
-        /// The maximum number of errors allowed before this task stops being scheduled.
-        public let maxErrors: String
+        /// The maximum number of targets this task can be run for in parallel.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1. This value does not affect the running of your task.
+        public let maxConcurrency: String?
+        /// The maximum number of errors allowed before this task stops being scheduled.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1. This value does not affect the running of your task.
+        public let maxErrors: String?
         /// An optional name for the task.
         public let name: String?
         /// The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
         public let priority: Int?
         /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?
         public let serviceRoleArn: String?
-        /// The targets (either instances or maintenance window targets). Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;
-        public let targets: [Target]
+        /// The targets (either instances or maintenance window targets).  One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, AWS Lambda, and AWS Step Functions). For more information about running tasks that do not specify targets, see see Registering maintenance window tasks without targets in the AWS Systems Manager User Guide.  Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;
+        public let targets: [Target]?
         /// The ARN of the task to run.
         public let taskArn: String
         /// The parameters that the task should use during execution. Populate only the fields that match the task type. All other fields should be empty.
@@ -9802,7 +10583,7 @@ extension SSM {
         /// The ID of the maintenance window the task should be added to.
         public let windowId: String
 
-        public init(clientToken: String? = RegisterTaskWithMaintenanceWindowRequest.idempotencyToken(), description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String, maxErrors: String, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target], taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
+        public init(clientToken: String? = RegisterTaskWithMaintenanceWindowRequest.idempotencyToken(), description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
             self.clientToken = clientToken
             self.description = description
             self.loggingInfo = loggingInfo
@@ -9835,7 +10616,7 @@ extension SSM {
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
-            try self.targets.forEach {
+            try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
@@ -10297,6 +11078,97 @@ extension SSM {
             case sessionId = "SessionId"
             case streamUrl = "StreamUrl"
             case tokenValue = "TokenValue"
+        }
+    }
+
+    public struct ReviewInformation: AWSDecodableShape {
+        /// The time that the reviewer took action on the document review request.
+        public let reviewedTime: Date?
+        /// The reviewer assigned to take action on the document review request.
+        public let reviewer: String?
+        /// The current status of the document review request.
+        public let status: ReviewStatus?
+
+        public init(reviewedTime: Date? = nil, reviewer: String? = nil, status: ReviewStatus? = nil) {
+            self.reviewedTime = reviewedTime
+            self.reviewer = reviewer
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reviewedTime = "ReviewedTime"
+            case reviewer = "Reviewer"
+            case status = "Status"
+        }
+    }
+
+    public struct Runbook: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Automation runbook (Automation document) used in a runbook workflow.
+        public let documentName: String
+        /// The version of the Automation runbook (Automation document) used in a runbook workflow.
+        public let documentVersion: String?
+        /// The MaxConcurrency value specified by the user when the operation started, indicating the maximum number of resources that the runbook operation can run on at the same time.
+        public let maxConcurrency: String?
+        /// The MaxErrors value specified by the user when the execution started, indicating the maximum number of errors that can occur during the operation before the updates are stopped or rolled back.
+        public let maxErrors: String?
+        /// The key-value map of execution parameters, which were supplied when calling StartChangeRequestExecution.
+        public let parameters: [String: [String]]?
+        /// Information about the AWS Regions and accounts targeted by the current Runbook operation.
+        public let targetLocations: [TargetLocation]?
+        /// The name of the parameter used as the target resource for the rate-controlled runbook workflow. Required if you specify Targets.
+        public let targetParameterName: String?
+        /// A key-value mapping to target resources that the Runbook operation performs tasks on. Required if you specify TargetParameterName.
+        public let targets: [Target]?
+
+        public init(documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, parameters: [String: [String]]? = nil, targetLocations: [TargetLocation]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+            self.documentName = documentName
+            self.documentVersion = documentVersion
+            self.maxConcurrency = maxConcurrency
+            self.maxErrors = maxErrors
+            self.parameters = parameters
+            self.targetLocations = targetLocations
+            self.targetParameterName = targetParameterName
+            self.targets = targets
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 7)
+            try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
+            try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.validate(self.maxErrors, name: "maxErrors", parent: name, max: 7)
+            try self.validate(self.maxErrors, name: "maxErrors", parent: name, min: 1)
+            try self.validate(self.maxErrors, name: "maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 50)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
+            }
+            try self.targetLocations?.forEach {
+                try $0.validate(name: "\(name).targetLocations[]")
+            }
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
+            try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, max: 50)
+            try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, min: 1)
+            try self.targets?.forEach {
+                try $0.validate(name: "\(name).targets[]")
+            }
+            try self.validate(self.targets, name: "targets", parent: name, max: 5)
+            try self.validate(self.targets, name: "targets", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentName = "DocumentName"
+            case documentVersion = "DocumentVersion"
+            case maxConcurrency = "MaxConcurrency"
+            case maxErrors = "MaxErrors"
+            case parameters = "Parameters"
+            case targetLocations = "TargetLocations"
+            case targetParameterName = "TargetParameterName"
+            case targets = "Targets"
         }
     }
 
@@ -10803,6 +11675,85 @@ extension SSM {
         }
     }
 
+    public struct StartChangeRequestExecutionRequest: AWSEncodableShape {
+        /// The name of the change request associated with the runbook workflow to be run.
+        public let changeRequestName: String?
+        /// The user-provided idempotency token. The token must be unique, is case insensitive, enforces the UUID format, and can't be reused.
+        public let clientToken: String?
+        /// The name of the change template document to run during the runbook workflow.
+        public let documentName: String
+        /// The version of the change template document to run during the runbook workflow.
+        public let documentVersion: String?
+        /// A key-value map of parameters that match the declared parameters in the change template document.
+        public let parameters: [String: [String]]?
+        /// Information about the Automation runbooks (Automation documents) that are run during the runbook workflow.  The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received.
+        public let runbooks: [Runbook]
+        /// The date and time specified in the change request to run the Automation runbooks.  The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received.
+        public let scheduledTime: Date?
+        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for a change request. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a change request to identify an environment or target AWS Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
+        public let tags: [Tag]?
+
+        public init(changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledTime: Date? = nil, tags: [Tag]? = nil) {
+            self.changeRequestName = changeRequestName
+            self.clientToken = clientToken
+            self.documentName = documentName
+            self.documentVersion = documentVersion
+            self.parameters = parameters
+            self.runbooks = runbooks
+            self.scheduledTime = scheduledTime
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.changeRequestName, name: "changeRequestName", parent: name, max: 1024)
+            try self.validate(self.changeRequestName, name: "changeRequestName", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+            try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 50)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
+            }
+            try self.runbooks.forEach {
+                try $0.validate(name: "\(name).runbooks[]")
+            }
+            try self.validate(self.runbooks, name: "runbooks", parent: name, max: 1)
+            try self.validate(self.runbooks, name: "runbooks", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 1000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeRequestName = "ChangeRequestName"
+            case clientToken = "ClientToken"
+            case documentName = "DocumentName"
+            case documentVersion = "DocumentVersion"
+            case parameters = "Parameters"
+            case runbooks = "Runbooks"
+            case scheduledTime = "ScheduledTime"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartChangeRequestExecutionResult: AWSDecodableShape {
+        /// The unique ID of a runbook workflow operation. (A runbook workflow is a type of Automation operation.)
+        public let automationExecutionId: String?
+
+        public init(automationExecutionId: String? = nil) {
+            self.automationExecutionId = automationExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automationExecutionId = "AutomationExecutionId"
+        }
+    }
+
     public struct StartSessionRequest: AWSEncodableShape {
         /// The name of the SSM document to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell. You can call the GetDocument API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the instance is launched by default.
         public let documentName: String?
@@ -11058,11 +12009,11 @@ extension SSM {
     public struct TargetLocation: AWSEncodableShape & AWSDecodableShape {
         /// The AWS accounts targeted by the current Automation execution.
         public let accounts: [String]?
-        /// The Automation execution role used by the currently running Automation.
+        /// The Automation execution role used by the currently running Automation. If not specified, the default value is AWS-SystemsManager-AutomationExecutionRole.
         public let executionRoleName: String?
         /// The AWS Regions targeted by the current Automation execution.
         public let regions: [String]?
-        /// The maximum number of AWS accounts and AWS regions allowed to run the Automation concurrently
+        /// The maximum number of AWS accounts and AWS regions allowed to run the Automation concurrently.
         public let targetLocationMaxConcurrency: String?
         /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation.
         public let targetLocationMaxErrors: String?
@@ -11080,6 +12031,7 @@ extension SSM {
             try self.validate(self.accounts, name: "accounts", parent: name, min: 1)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, max: 64)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, min: 1)
+            try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, pattern: "[\\w+=,.@-]+")
             try self.validate(self.regions, name: "regions", parent: name, max: 50)
             try self.validate(self.regions, name: "regions", parent: name, min: 1)
             try self.validate(self.targetLocationMaxConcurrency, name: "targetLocationMaxConcurrency", parent: name, max: 7)
@@ -11131,7 +12083,7 @@ extension SSM {
     }
 
     public struct UpdateAssociationRequest: AWSEncodableShape {
-        /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+        /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter is not supported for rate expressions. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
         public let applyOnlyAtCronInterval: Bool?
         /// The ID of the association you want to update.
         public let associationId: String
@@ -11159,10 +12111,12 @@ extension SSM {
         public let scheduleExpression: String?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
+        /// A location is a combination of AWS Regions and AWS accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
+        public let targetLocations: [TargetLocation]?
         /// The targets of the association.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
@@ -11177,6 +12131,7 @@ extension SSM {
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
             self.syncCompliance = syncCompliance
+            self.targetLocations = targetLocations
             self.targets = targets
         }
 
@@ -11197,6 +12152,11 @@ extension SSM {
             try self.outputLocation?.validate(name: "\(name).outputLocation")
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.targetLocations?.forEach {
+                try $0.validate(name: "\(name).targetLocations[]")
+            }
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
@@ -11219,6 +12179,7 @@ extension SSM {
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
             case syncCompliance = "SyncCompliance"
+            case targetLocations = "TargetLocations"
             case targets = "Targets"
         }
     }
@@ -11311,6 +12272,37 @@ extension SSM {
         }
     }
 
+    public struct UpdateDocumentMetadataRequest: AWSEncodableShape {
+        /// The document review details to update.
+        public let documentReviews: DocumentReviews
+        /// The version of a document to update.
+        public let documentVersion: String?
+        /// The name of the document for which a version is to be updated.
+        public let name: String
+
+        public init(documentReviews: DocumentReviews, documentVersion: String? = nil, name: String) {
+            self.documentReviews = documentReviews
+            self.documentVersion = documentVersion
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.documentReviews.validate(name: "\(name).documentReviews")
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentReviews = "DocumentReviews"
+            case documentVersion = "DocumentVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateDocumentMetadataResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateDocumentRequest: AWSEncodableShape {
         /// A list of key and value pairs that describe attachments to a version of a document.
         public let attachments: [AttachmentsSource]?
@@ -11394,11 +12386,11 @@ extension SSM {
         public let replace: Bool?
         /// The schedule of the maintenance window in the form of a cron or rate expression.
         public let schedule: String?
-        /// The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run the third Tuesday of every month at 11:30 PM.  cron(0 30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
+        /// The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run the third Tuesday of every month at 11:30 PM.  cron(30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
         public let scheduleOffset: Int?
-        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
-        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let startDate: String?
         /// The ID of the maintenance window to update.
         public let windowId: String
@@ -11474,7 +12466,7 @@ extension SSM {
         public let schedule: String?
         /// The number of days to wait to run a maintenance window after the scheduled CRON expression date and time.
         public let scheduleOffset: Int?
-        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become active. The maintenance window will not run before this specified time.
         public let startDate: String?
@@ -11608,9 +12600,9 @@ extension SSM {
         public let description: String?
         /// The new logging location in Amazon S3 to specify.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
         public let loggingInfo: LoggingInfo?
-        /// The new MaxConcurrency value you want to specify. MaxConcurrency is the number of targets that are allowed to run this task in parallel.
+        /// The new MaxConcurrency value you want to specify. MaxConcurrency is the number of targets that are allowed to run this task in parallel.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. This value does not affect the running of your task and can be ignored.
         public let maxConcurrency: String?
-        /// The new MaxErrors value to specify. MaxErrors is the maximum number of errors that are allowed before the task stops being scheduled.
+        /// The new MaxErrors value to specify. MaxErrors is the maximum number of errors that are allowed before the task stops being scheduled.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. This value does not affect the running of your task and can be ignored.
         public let maxErrors: String?
         /// The new task name to specify.
         public let name: String?
@@ -11620,7 +12612,7 @@ extension SSM {
         public let replace: Bool?
         /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?
         public let serviceRoleArn: String?
-        /// The targets (either instances or tags) to modify. Instances are specified using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using Key=tag_name,Values=tag_value.
+        /// The targets (either instances or tags) to modify. Instances are specified using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using Key=tag_name,Values=tag_value.   One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, AWS Lambda, and AWS Step Functions). For more information about running tasks that do not specify targets, see see Registering maintenance window tasks without targets in the AWS Systems Manager User Guide.
         public let targets: [Target]?
         /// The task ARN to modify.
         public let taskArn: String?
@@ -11791,6 +12783,10 @@ extension SSM {
     }
 
     public struct UpdateOpsItemRequest: AWSEncodableShape {
+        /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
+        public let actualEndTime: Date?
+        /// The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
+        public let actualStartTime: Date?
         /// Specify a new category for an OpsItem.
         public let category: String?
         /// Update the information about the OpsItem. Provide enough information so that users reading this OpsItem for the first time understand the issue.
@@ -11803,6 +12799,10 @@ extension SSM {
         public let operationalDataToDelete: [String]?
         /// The ID of the OpsItem.
         public let opsItemId: String
+        /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
+        public let plannedEndTime: Date?
+        /// The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/changerequest.
+        public let plannedStartTime: Date?
         /// The importance of this OpsItem in relation to other OpsItems in the system.
         public let priority: Int?
         /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
@@ -11814,13 +12814,17 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
 
-        public init(category: String? = nil, description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemId: String, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+        public init(actualEndTime: Date? = nil, actualStartTime: Date? = nil, category: String? = nil, description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemId: String, plannedEndTime: Date? = nil, plannedStartTime: Date? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+            self.actualEndTime = actualEndTime
+            self.actualStartTime = actualStartTime
             self.category = category
             self.description = description
             self.notifications = notifications
             self.operationalData = operationalData
             self.operationalDataToDelete = operationalDataToDelete
             self.opsItemId = opsItemId
+            self.plannedEndTime = plannedEndTime
+            self.plannedStartTime = plannedStartTime
             self.priority = priority
             self.relatedOpsItems = relatedOpsItems
             self.severity = severity
@@ -11831,28 +12835,38 @@ extension SSM {
         public func validate(name: String) throws {
             try self.validate(self.category, name: "category", parent: name, max: 64)
             try self.validate(self.category, name: "category", parent: name, min: 1)
+            try self.validate(self.category, name: "category", parent: name, pattern: "^(?!\\s*$).+")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
             try self.operationalData?.forEach {
                 try validate($0.key, name: "operationalData.key", parent: name, max: 128)
                 try validate($0.key, name: "operationalData.key", parent: name, min: 1)
+                try validate($0.key, name: "operationalData.key", parent: name, pattern: "^(?!\\s*$).+")
+                try $0.value.validate(name: "\(name).operationalData[\"\($0.key)\"]")
             }
             try self.validate(self.opsItemId, name: "opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
             try self.validate(self.priority, name: "priority", parent: name, max: 5)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
             try self.validate(self.severity, name: "severity", parent: name, max: 64)
             try self.validate(self.severity, name: "severity", parent: name, min: 1)
+            try self.validate(self.severity, name: "severity", parent: name, pattern: "^(?!\\s*$).+")
             try self.validate(self.title, name: "title", parent: name, max: 1024)
             try self.validate(self.title, name: "title", parent: name, min: 1)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^(?!\\s*$).+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actualEndTime = "ActualEndTime"
+            case actualStartTime = "ActualStartTime"
             case category = "Category"
             case description = "Description"
             case notifications = "Notifications"
             case operationalData = "OperationalData"
             case operationalDataToDelete = "OperationalDataToDelete"
             case opsItemId = "OpsItemId"
+            case plannedEndTime = "PlannedEndTime"
+            case plannedStartTime = "PlannedStartTime"
             case priority = "Priority"
             case relatedOpsItems = "RelatedOpsItems"
             case severity = "Severity"
@@ -11863,6 +12877,59 @@ extension SSM {
 
     public struct UpdateOpsItemResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateOpsMetadataRequest: AWSEncodableShape {
+        /// The metadata keys to delete from the OpsMetadata object.
+        public let keysToDelete: [String]?
+        /// Metadata to add to an OpsMetadata object.
+        public let metadataToUpdate: [String: MetadataValue]?
+        /// The Amazon Resoure Name (ARN) of the OpsMetadata Object to update.
+        public let opsMetadataArn: String
+
+        public init(keysToDelete: [String]? = nil, metadataToUpdate: [String: MetadataValue]? = nil, opsMetadataArn: String) {
+            self.keysToDelete = keysToDelete
+            self.metadataToUpdate = metadataToUpdate
+            self.opsMetadataArn = opsMetadataArn
+        }
+
+        public func validate(name: String) throws {
+            try self.keysToDelete?.forEach {
+                try validate($0, name: "keysToDelete[]", parent: name, max: 256)
+                try validate($0, name: "keysToDelete[]", parent: name, min: 1)
+                try validate($0, name: "keysToDelete[]", parent: name, pattern: "^(?!\\s*$).+")
+            }
+            try self.validate(self.keysToDelete, name: "keysToDelete", parent: name, max: 10)
+            try self.validate(self.keysToDelete, name: "keysToDelete", parent: name, min: 1)
+            try self.metadataToUpdate?.forEach {
+                try validate($0.key, name: "metadataToUpdate.key", parent: name, max: 256)
+                try validate($0.key, name: "metadataToUpdate.key", parent: name, min: 1)
+                try validate($0.key, name: "metadataToUpdate.key", parent: name, pattern: "^(?!\\s*$).+")
+                try $0.value.validate(name: "\(name).metadataToUpdate[\"\($0.key)\"]")
+            }
+            try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, max: 1011)
+            try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, min: 1)
+            try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:opsmetadata\\/([a-zA-Z0-9-_\\.\\/]*)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keysToDelete = "KeysToDelete"
+            case metadataToUpdate = "MetadataToUpdate"
+            case opsMetadataArn = "OpsMetadataArn"
+        }
+    }
+
+    public struct UpdateOpsMetadataResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the OpsMetadata Object that was updated.
+        public let opsMetadataArn: String?
+
+        public init(opsMetadataArn: String? = nil) {
+            self.opsMetadataArn = opsMetadataArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case opsMetadataArn = "OpsMetadataArn"
+        }
     }
 
     public struct UpdatePatchBaselineRequest: AWSEncodableShape {

@@ -41,7 +41,7 @@ public struct BatchErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an identifier that is not valid.
+    /// These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an identifier that's not valid.
     public static var clientException: Self { .init(.clientException) }
     /// These errors are usually caused by a server issue.
     public static var serverException: Self { .init(.serverException) }

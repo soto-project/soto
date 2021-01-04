@@ -46,12 +46,19 @@ public struct DevOpsGuruErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    ///  An exception that is thrown when a conflict occurs.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An internal failure in an Amazon service occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// A requested resource could not be found
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request contains a value that exceeds a maximum quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The request was denied due to a request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+    ///  Contains information about data passed in to a field during a request that is not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

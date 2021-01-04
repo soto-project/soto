@@ -401,7 +401,7 @@ extension DirectoryService {
     public struct Certificate: AWSDecodableShape {
         /// The identifier of the certificate.
         public let certificateId: String?
-        /// Provides information about the client certificate authentication settings. The default value is ClientLDAPS.
+        /// A ClientCertAuthSettings object that contains client certificate authentication settings.
         public let clientCertAuthSettings: ClientCertAuthSettings?
         /// The common name for the certificate.
         public let commonName: String?
@@ -413,7 +413,7 @@ extension DirectoryService {
         public let state: CertificateState?
         /// Describes a state change for the certificate.
         public let stateReason: String?
-        /// Select ClientCertAuth for smart card integration.
+        /// The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
         public let type: CertificateType?
 
         public init(certificateId: String? = nil, clientCertAuthSettings: ClientCertAuthSettings? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, registeredDateTime: Date? = nil, state: CertificateState? = nil, stateReason: String? = nil, type: CertificateType? = nil) {
@@ -448,7 +448,7 @@ extension DirectoryService {
         public let expiryDateTime: Date?
         /// The state of the certificate.
         public let state: CertificateState?
-        /// Displays the type of certificate.
+        /// The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
         public let type: CertificateType?
 
         public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, state: CertificateState? = nil, type: CertificateType? = nil) {
@@ -469,7 +469,7 @@ extension DirectoryService {
     }
 
     public struct ClientCertAuthSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the URL of the default OCSP server used to check for revocation status.
+        /// Specifies the URL of the default OCSP server used to check for revocation status. A secondary value to any OCSP address found in the AIA extension of the user certificate.
         public let oCSPUrl: String?
 
         public init(oCSPUrl: String? = nil) {
@@ -1892,9 +1892,9 @@ extension DirectoryService {
     }
 
     public struct DisableClientAuthenticationRequest: AWSEncodableShape {
-        /// Disable client authentication in a specified directory for smart cards.
+        /// The identifier of the directory
         public let directoryId: String
-        /// Disable the type of client authentication request.
+        /// The type of client authentication to disable. Currently, only the parameter, SmartCard is supported.
         public let type: ClientAuthenticationType
 
         public init(directoryId: String, type: ClientAuthenticationType) {
@@ -2045,9 +2045,9 @@ extension DirectoryService {
     }
 
     public struct EnableClientAuthenticationRequest: AWSEncodableShape {
-        /// Enable client authentication in a specified directory for smart cards.
+        /// The identifier of the specified directory.
         public let directoryId: String
-        /// Enable the type of client authentication request.
+        /// The type of client authentication to enable. Currently only the value SmartCard is supported. Smart card authentication in AD Connector requires that you enable Kerberos Constrained Delegation for the Service User to the LDAP service in the on-premises AD.
         public let type: ClientAuthenticationType
 
         public init(directoryId: String, type: ClientAuthenticationType) {
@@ -2699,10 +2699,11 @@ extension DirectoryService {
     public struct RegisterCertificateRequest: AWSEncodableShape {
         /// The certificate PEM string that needs to be registered.
         public let certificateData: String
+        /// A ClientCertAuthSettings object that contains client certificate authentication settings.
         public let clientCertAuthSettings: ClientCertAuthSettings?
         /// The identifier of the directory.
         public let directoryId: String
-        /// The certificate type to register for the request.
+        /// The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
         public let type: CertificateType?
 
         public init(certificateData: String, clientCertAuthSettings: ClientCertAuthSettings? = nil, directoryId: String, type: CertificateType? = nil) {

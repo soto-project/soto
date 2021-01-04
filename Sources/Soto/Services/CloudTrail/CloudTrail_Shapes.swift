@@ -73,10 +73,12 @@ extension CloudTrail {
     }
 
     public struct AdvancedEventSelector: AWSEncodableShape & AWSDecodableShape {
+        /// Contains all selector statements in an advanced event selector.
         public let fieldSelectors: [AdvancedFieldSelector]
-        public let name: String
+        /// An optional, descriptive name for an advanced event selector, such as "Log data events for only two S3 buckets".
+        public let name: String?
 
-        public init(fieldSelectors: [AdvancedFieldSelector], name: String) {
+        public init(fieldSelectors: [AdvancedFieldSelector], name: String? = nil) {
             self.fieldSelectors = fieldSelectors
             self.name = name
         }
@@ -87,8 +89,8 @@ extension CloudTrail {
             }
             try self.validate(self.fieldSelectors, name: "fieldSelectors", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 1000)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: ".+")
+            try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -98,12 +100,19 @@ extension CloudTrail {
     }
 
     public struct AdvancedFieldSelector: AWSEncodableShape & AWSDecodableShape {
+        ///  An operator that includes events that match the last few characters of the event record field specified as the value of Field.
         public let endsWith: [String]?
+        ///  An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public let equals: [String]?
+        ///  A field in an event record on which to filter events to be logged. Supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN.      readOnly  - Optional. Can be set to Equals a value of true or false. A value of false logs both read and write events.     eventSource  - For filtering management events only. This can be set only to NotEquals kms.amazonaws.com.     eventName  - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as PutBucket. You can have multiple values for this ﬁeld, separated by commas.     eventCategory  - This is required. It must be set to Equals, and the value must be Management or Data.     resources.type  - This ﬁeld is required. resources.type can only use the Equals operator, and the value can be one of the following: AWS::S3::Object or AWS::Lambda::Function. You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.     resources.ARN  - You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals AWS::S3::Object, the ARN must be in one of the following formats. The trailing slash is intentional; do not exclude it.    arn:partition:s3:::bucket_name/     arn:partition:s3:::bucket_name/object_or_file_name/    When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:partition:lambda:region:account_ID:function:function_name
         public let field: String
+        ///  An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
         public let notEndsWith: [String]?
+        ///  An operator that excludes events that match the exact value of the event record field specified as the value of Field.
         public let notEquals: [String]?
+        ///  An operator that excludes events that match the first few characters of the event record field specified as the value of Field.
         public let notStartsWith: [String]?
+        ///  An operator that includes events that match the first few characters of the event record field specified as the value of Field.
         public let startsWith: [String]?
 
         public init(endsWith: [String]? = nil, equals: [String]? = nil, field: String, notEndsWith: [String]? = nil, notEquals: [String]? = nil, notStartsWith: [String]? = nil, startsWith: [String]? = nil) {
@@ -430,6 +439,7 @@ extension CloudTrail {
     }
 
     public struct GetEventSelectorsResponse: AWSDecodableShape {
+        ///  The advanced event selectors that are configured for the trail.
         public let advancedEventSelectors: [AdvancedEventSelector]?
         /// The event selectors that are configured for the trail.
         public let eventSelectors: [EventSelector]?
@@ -807,8 +817,9 @@ extension CloudTrail {
     }
 
     public struct PutEventSelectorsRequest: AWSEncodableShape {
+        ///  Specifies the settings for advanced event selectors. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see Logging data events for trails in the AWS CloudTrail User Guide.
         public let advancedEventSelectors: [AdvancedEventSelector]?
-        /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
+        /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail. You can use either EventSelectors or AdvancedEventSelectors in a PutEventSelectors request, but not both. If you apply EventSelectors to a trail, any existing AdvancedEventSelectors are overwritten.
         public let eventSelectors: [EventSelector]?
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailName: String
@@ -833,6 +844,7 @@ extension CloudTrail {
     }
 
     public struct PutEventSelectorsResponse: AWSDecodableShape {
+        /// Specifies the advanced event selectors configured for your trail.
         public let advancedEventSelectors: [AdvancedEventSelector]?
         /// Specifies the event selectors configured for your trail.
         public let eventSelectors: [EventSelector]?

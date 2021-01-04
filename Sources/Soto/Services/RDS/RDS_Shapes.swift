@@ -161,7 +161,7 @@ extension RDS {
         public let dBClusterIdentifier: String
         /// The name of the feature for the DB cluster that the IAM role is to be associated with. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String?
-        /// The Amazon Resource Name (ARN) of the IAM role to associate with the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole.
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with the Aurora DB cluster, for example, arn:aws:iam::123456789012:role/AuroraAccessRole.
         public let roleArn: String
 
         public init(dBClusterIdentifier: String, featureName: String? = nil, roleArn: String) {
@@ -490,6 +490,34 @@ extension RDS {
         }
     }
 
+    public struct ClusterPendingModifiedValues: AWSDecodableShape {
+        /// The DBClusterIdentifier for the DB cluster.
+        public let dBClusterIdentifier: String?
+        /// The database engine version.
+        public let engineVersion: String?
+        /// Whether mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled.
+        public let iAMDatabaseAuthenticationEnabled: Bool?
+        /// The master credentials for the DB cluster.
+        public let masterUserPassword: String?
+        public let pendingCloudwatchLogsExports: PendingCloudwatchLogsExports?
+
+        public init(dBClusterIdentifier: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, masterUserPassword: String? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil) {
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.engineVersion = engineVersion
+            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
+            self.masterUserPassword = masterUserPassword
+            self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case engineVersion = "EngineVersion"
+            case iAMDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+            case masterUserPassword = "MasterUserPassword"
+            case pendingCloudwatchLogsExports = "PendingCloudwatchLogsExports"
+        }
+    }
+
     public struct ConnectionPoolConfiguration: AWSEncodableShape {
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints: between 1 and 3600, or 0 representing unlimited
         public let connectionBorrowTimeout: Int?
@@ -594,9 +622,9 @@ extension RDS {
 
         /// A value that indicates whether to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot. By default, tags are not copied.
         public let copyTags: Bool?
-        /// The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another AWS Region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+        /// The AWS KMS key identifier for an encrypted DB cluster snapshot. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new AWS KMS CMK. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same AWS KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another AWS Region, you must set KmsKeyId to the AWS KMS key identifier you want to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. AWS KMS CMKs are specific to the AWS Region that they are created in, and you can't use CMKs from one AWS Region in another AWS Region. If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
         public let kmsKeyId: String?
-        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS Region. Don't specify PreSignedUrl when you are copying an encrypted DB cluster snapshot in the same AWS Region. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot is to be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.
+        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS Region. Don't specify PreSignedUrl when you are copying an encrypted DB cluster snapshot in the same AWS Region. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the customer master key (CMK) to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot is to be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.
         public let preSignedUrl: String?
         /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. You can't copy an encrypted, shared DB cluster snapshot from one AWS Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different AWS Region than the copy, specify a valid DB cluster snapshot ARN. For more information, go to  Copying Snapshots Across AWS Regions in the Amazon Aurora User Guide.    Example: my-cluster-snapshot1
         public let sourceDBClusterSnapshotIdentifier: String
@@ -680,11 +708,11 @@ extension RDS {
 
         /// A value that indicates whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags are not copied.
         public let copyTags: Bool?
-        /// The AWS KMS key ID for an encrypted DB snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted DB snapshot from your AWS account, you can specify a value for this parameter to encrypt the copy with a new KMS encryption key. If you don't specify a value for this parameter, then the copy of the DB snapshot is encrypted with the same KMS key as the source DB snapshot.  If you copy an encrypted DB snapshot that is shared from another AWS account, then you must specify a value for this parameter.  If you specify this parameter when you copy an unencrypted snapshot, the copy is encrypted.  If you copy an encrypted snapshot to a different AWS Region, then you must specify a KMS key for the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region.
+        /// The AWS KMS key identifier for an encrypted DB snapshot. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).  If you copy an encrypted DB snapshot from your AWS account, you can specify a value for this parameter to encrypt the copy with a new AWS KMS CMK. If you don't specify a value for this parameter, then the copy of the DB snapshot is encrypted with the same AWS KMS key as the source DB snapshot.  If you copy an encrypted DB snapshot that is shared from another AWS account, then you must specify a value for this parameter.  If you specify this parameter when you copy an unencrypted snapshot, the copy is encrypted.  If you copy an encrypted snapshot to a different AWS Region, then you must specify a AWS KMS key identifier for the destination AWS Region. AWS KMS CMKs are specific to the AWS Region that they are created in, and you can't use CMKs from one AWS Region in another AWS Region.
         public let kmsKeyId: String?
-        /// The name of an option group to associate with the copy of the snapshot. Specify this option if you are copying a snapshot from one AWS Region to another, and your DB instance uses a nondefault option group. If your source DB instance uses Transparent Data Encryption for Oracle or Microsoft SQL Server, you must specify this option when copying across AWS Regions. For more information, see Option Group Considerations in the Amazon RDS User Guide.
+        /// The name of an option group to associate with the copy of the snapshot. Specify this option if you are copying a snapshot from one AWS Region to another, and your DB instance uses a nondefault option group. If your source DB instance uses Transparent Data Encryption for Oracle or Microsoft SQL Server, you must specify this option when copying across AWS Regions. For more information, see Option group considerations in the Amazon RDS User Guide.
         public let optionGroupName: String?
-        /// The URL that contains a Signature Version 4 signed request for the CopyDBSnapshot API action in the source AWS Region that contains the source DB snapshot to copy.  You must specify this parameter when you copy an encrypted DB snapshot from another AWS Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are copying an encrypted DB snapshot in the same AWS Region. The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:     DestinationRegion - The AWS Region that the encrypted DB snapshot is copied to. This AWS Region is the same one where the CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy an encrypted DB snapshot from the us-west-2 AWS Region to the us-east-1 AWS Region, then you call the CopyDBSnapshot action in the us-east-1 AWS Region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 AWS Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 AWS Region.     KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination AWS Region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination AWS Region, and the action contained in the presigned URL.     SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB snapshot from the us-west-2 AWS Region, then your SourceDBSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process.   If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.
+        /// The URL that contains a Signature Version 4 signed request for the CopyDBSnapshot API action in the source AWS Region that contains the source DB snapshot to copy.  You must specify this parameter when you copy an encrypted DB snapshot from another AWS Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are copying an encrypted DB snapshot in the same AWS Region. The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:     DestinationRegion - The AWS Region that the encrypted DB snapshot is copied to. This AWS Region is the same one where the CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy an encrypted DB snapshot from the us-west-2 AWS Region to the us-east-1 AWS Region, then you call the CopyDBSnapshot action in the us-east-1 AWS Region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 AWS Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 AWS Region.     KmsKeyId - The AWS KMS key identifier for the customer master key (CMK) to use to encrypt the copy of the DB snapshot in the destination AWS Region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination AWS Region, and the action contained in the presigned URL.     SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB snapshot from the us-west-2 AWS Region, then your SourceDBSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process.   If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.
         public let preSignedUrl: String?
         /// The identifier for the source DB snapshot. If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805.  If the source snapshot is in a different AWS Region than the copy, specify a valid DB snapshot ARN. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805.  If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot.  If you are copying an encrypted snapshot this parameter must be in the ARN format for the source AWS Region, and must match the SourceDBSnapshotIdentifier in the PreSignedUrl parameter.  Constraints:   Must specify a valid system snapshot in the "available" state.   Example: rds:mydb-2012-04-02-00-01  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
         public let sourceDBSnapshotIdentifier: String
@@ -891,7 +919,7 @@ extension RDS {
         public let engineVersion: String?
         ///  The global cluster ID of an Aurora cluster that becomes the primary cluster in the new global database cluster.
         public let globalClusterIdentifier: String?
-        /// The AWS KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key isn't specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon RDS will use the encryption key used to encrypt the source. Otherwise, Amazon RDS will use your default encryption key.    If the StorageEncrypted parameter is enabled and ReplicationSourceIdentifier isn't specified, then Amazon RDS will use your default encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. If you create a read replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a KMS key ID that is valid in the destination AWS Region. This key is used to encrypt the read replica in that AWS Region.
+        /// The AWS KMS key identifier for an encrypted DB cluster. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). To use a CMK in a different AWS account, specify the key ARN or alias ARN. When a CMK isn't specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon RDS will use the CMK used to encrypt the source. Otherwise, Amazon RDS will use your default CMK.    If the StorageEncrypted parameter is enabled and ReplicationSourceIdentifier isn't specified, then Amazon RDS will use your default CMK.   There is a default CMK for your AWS account. Your AWS account has a different default CMK for each AWS Region. If you create a read replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a AWS KMS key identifier that is valid in the destination AWS Region. This CMK is used to encrypt the read replica in that AWS Region.
         public let kmsKeyId: String?
         /// The name of the master user for the DB cluster. Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String?
@@ -905,7 +933,7 @@ extension RDS {
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
-        /// A URL that contains a Signature Version 4 signed request for the CreateDBCluster action to be called in the source AWS Region where the DB cluster is replicated from. You only need to specify PreSignedUrl when you are performing cross-region replication from an encrypted DB cluster. The pre-signed URL must be a valid request for the CreateDBCluster API action that can be executed in the source AWS Region that contains the encrypted DB cluster to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster in the destination AWS Region. This should refer to the same KMS key for both the CreateDBCluster action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that Aurora read replica will be created in.    ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster from the us-west-2 AWS Region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.
+        /// A URL that contains a Signature Version 4 signed request for the CreateDBCluster action to be called in the source AWS Region where the DB cluster is replicated from. You only need to specify PreSignedUrl when you are performing cross-region replication from an encrypted DB cluster. The pre-signed URL must be a valid request for the CreateDBCluster API action that can be executed in the source AWS Region that contains the encrypted DB cluster to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster in the destination AWS Region. This should refer to the same AWS KMS CMK for both the CreateDBCluster action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that Aurora read replica will be created in.    ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster from the us-west-2 AWS Region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.
         public let preSignedUrl: String?
         /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a read replica.
         public let replicationSourceIdentifier: String?
@@ -1105,7 +1133,7 @@ extension RDS {
         public let dBInstanceClass: String
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
         public let dBInstanceIdentifier: String
-        /// The meaning of this parameter differs according to the database engine you use.  MySQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, the default "postgres" database is created in the DB instance. Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. If you specify null, the default value ORCL is used. You can't specify the string NULL, or any other reserved word, for DBName.  Default: ORCL  Constraints:   Can't be longer than 8 characters    SQL Server  Not applicable. Must be null.  Amazon Aurora  The name of the database to create when the primary instance of the DB cluster is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Can't be a word reserved by the specified database engine
+        /// The meaning of this parameter differs according to the database engine you use.  MySQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. If you specify null, the default value ORCL is used. You can't specify the string NULL, or any other reserved word, for DBName.  Default: ORCL  Constraints:   Can't be longer than 8 characters    SQL Server  Not applicable. Must be null.  Amazon Aurora  The name of the database to create when the primary instance of the DB cluster is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Can't be a word reserved by the specified database engine
         public let dBName: String?
         /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value, then the default DB parameter group for the specified DB engine and version is used. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let dBParameterGroupName: String?
@@ -1123,6 +1151,8 @@ extension RDS {
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Relational Database Service User Guide.  Amazon Aurora  Not applicable. CloudWatch Logs exports are managed by the DB cluster.   MariaDB  Possible values are audit, error, general, and slowquery.   Microsoft SQL Server  Possible values are agent and error.   MySQL  Possible values are audit, error, general, and slowquery.   Oracle  Possible values are alert, audit, listener, and trace.   PostgreSQL  Possible values are postgresql and upgrade.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
+        /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on AWS Outposts in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses in the AWS Outposts User Guide.
+        public let enableCustomerOwnedIp: Bool?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. This setting doesn't apply to Amazon Aurora. Mapping AWS IAM accounts to database accounts is managed by the DB cluster. For more information, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
         /// A value that indicates whether to enable Performance Insights for the DB instance.  For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide.
@@ -1133,7 +1163,7 @@ extension RDS {
         public let engineVersion: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL DB instances, must be a multiple between .5 and 50 of the storage amount for the DB instance. For SQL Server DB instances, must be a multiple between 1 and 50 of the storage amount for the DB instance.
         public let iops: Int?
-        /// The AWS KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  Amazon Aurora  Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// The AWS KMS key identifier for an encrypted DB instance. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). To use a CMK in a different AWS account, specify the key ARN or alias ARN.  Amazon Aurora  Not applicable. The AWS KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS uses your default CMK. There is a default CMK for your AWS account. Your AWS account has a different default CMK for each AWS Region.
         public let kmsKeyId: String?
         /// License model information for this DB instance.  Valid values: license-included | bring-your-own-license | general-public-license
         public let licenseModel: String?
@@ -1153,7 +1183,7 @@ extension RDS {
         public let ncharCharacterSetName: String?
         /// Indicates that the DB instance should be associated with the specified option group. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group. Also, that option group can't be removed from a DB instance once it is associated with a DB instance
         public let optionGroupName: String?
-        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default CMK. There is a default CMK for your AWS account. Your AWS account has a different default CMK for each AWS Region.
         public let performanceInsightsKMSKeyId: String?
         /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
@@ -1187,7 +1217,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1205,6 +1235,7 @@ extension RDS {
             self.domain = domain
             self.domainIAMRoleName = domainIAMRoleName
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
+            self.enableCustomerOwnedIp = enableCustomerOwnedIp
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.enablePerformanceInsights = enablePerformanceInsights
             self.engine = engine
@@ -1255,6 +1286,7 @@ extension RDS {
             case domain = "Domain"
             case domainIAMRoleName = "DomainIAMRoleName"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
+            case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case enablePerformanceInsights = "EnablePerformanceInsights"
             case engine = "Engine"
@@ -1322,7 +1354,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
         public let iops: Int?
-        /// The AWS KMS key ID for an encrypted read replica. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you create an encrypted read replica in the same AWS Region as the source DB instance, then you do not have to specify a value for this parameter. The read replica is encrypted with the same KMS key as the source DB instance. If you create an encrypted read replica in a different AWS Region, then you must specify a KMS key for the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. You can't create an encrypted read replica from an unencrypted DB instance.
+        /// The AWS KMS key identifier for an encrypted read replica. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS CMK. If you create an encrypted read replica in the same AWS Region as the source DB instance, then do not specify a value for this parameter. A read replica in the same Region is always encrypted with the same AWS KMS CMK as the source DB instance. If you create an encrypted read replica in a different AWS Region, then you must specify a AWS KMS key identifier for the destination AWS Region. AWS KMS CMKs are specific to the AWS Region that they are created in, and you can't use CMKs from one AWS Region in another AWS Region. You can't create an encrypted read replica from an unencrypted DB instance.
         public let kmsKeyId: String?
         /// The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.
         public let maxAllocatedStorage: Int?
@@ -1334,7 +1366,7 @@ extension RDS {
         public let multiAZ: Bool?
         /// The option group the DB instance is associated with. If omitted, the option group associated with the source instance is used.  For SQL Server, you must use the option group associated with the source instance.
         public let optionGroupName: String?
-        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default CMK. There is a default CMK for your AWS account. Your AWS account has a different default CMK for each AWS Region.
         public let performanceInsightsKMSKeyId: String?
         /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
@@ -1882,7 +1914,7 @@ extension RDS {
 
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
         public let activityStreamKinesisStreamName: String?
-        /// The AWS KMS key identifier used for encrypting messages in the database activity stream.
+        /// The AWS KMS key identifier used for encrypting messages in the database activity stream. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
         public let activityStreamKmsKeyId: String?
         /// The mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously.
         public let activityStreamMode: ActivityStreamMode?
@@ -1931,7 +1963,7 @@ extension RDS {
         public var dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]?
         /// Specifies the name of the DB cluster parameter group for the DB cluster.
         public let dBClusterParameterGroup: String?
-        /// The AWS Region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB cluster is accessed.
+        /// The AWS Region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS CMK for the DB cluster is accessed.
         public let dbClusterResourceId: String?
         /// Specifies information on the subnet group associated with the DB cluster, including the name, description, and subnets in the subnet group.
         public let dBSubnetGroup: String?
@@ -1965,7 +1997,7 @@ extension RDS {
         public let httpEndpointEnabled: Bool?
         /// A value that indicates whether the mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled.
         public let iAMDatabaseAuthenticationEnabled: Bool?
-        /// If StorageEncrypted is enabled, the AWS KMS key identifier for the encrypted DB cluster.
+        /// If StorageEncrypted is enabled, the AWS KMS key identifier for the encrypted DB cluster. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
         public let latestRestorableTime: Date?
@@ -1973,6 +2005,8 @@ extension RDS {
         public let masterUsername: String?
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
         public let multiAZ: Bool?
+        /// Specifies that changes to the DB cluster are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
+        public let pendingModifiedValues: ClusterPendingModifiedValues?
         /// Specifies the progress of the operation as a percentage.
         public let percentProgress: String?
         /// Specifies the port that the database engine is listening on.
@@ -1999,7 +2033,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
             self.activityStreamMode = activityStreamMode
@@ -2043,6 +2077,7 @@ extension RDS {
             self.latestRestorableTime = latestRestorableTime
             self.masterUsername = masterUsername
             self.multiAZ = multiAZ
+            self.pendingModifiedValues = pendingModifiedValues
             self.percentProgress = percentProgress
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
@@ -2101,6 +2136,7 @@ extension RDS {
             case latestRestorableTime = "LatestRestorableTime"
             case masterUsername = "MasterUsername"
             case multiAZ = "MultiAZ"
+            case pendingModifiedValues = "PendingModifiedValues"
             case percentProgress = "PercentProgress"
             case port = "Port"
             case preferredBackupWindow = "PreferredBackupWindow"
@@ -2453,7 +2489,7 @@ extension RDS {
         public let engineVersion: String?
         /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
-        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB cluster snapshot.
+        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB cluster snapshot. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
         public let kmsKeyId: String?
         /// Provides the license model information for this DB cluster snapshot.
         public let licenseModel: String?
@@ -2702,6 +2738,7 @@ extension RDS {
 
     public struct DBInstance: AWSDecodableShape {
         public struct _AssociatedRolesEncoding: ArrayCoderProperties { public static let member = "DBInstanceRole" }
+        public struct _DBInstanceAutomatedBackupsReplicationsEncoding: ArrayCoderProperties { public static let member = "DBInstanceAutomatedBackupsReplication" }
         public struct _DBParameterGroupsEncoding: ArrayCoderProperties { public static let member = "DBParameterGroup" }
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroup" }
         public struct _DomainMembershipsEncoding: ArrayCoderProperties { public static let member = "DomainMembership" }
@@ -2730,10 +2767,15 @@ extension RDS {
         public let characterSetName: String?
         /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.  Amazon Aurora  Not applicable. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see DBCluster.
         public let copyTagsToSnapshot: Bool?
+        /// Specifies whether a customer-owned IP address (CoIP) is enabled for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on AWS Outposts in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses in the AWS Outposts User Guide.
+        public let customerOwnedIpEnabled: Bool?
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
         public let dBClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) for the DB instance.
         public let dBInstanceArn: String?
+        /// The list of replicated automated backups associated with the DB instance.
+        @OptionalCustomCoding<ArrayCoder<_DBInstanceAutomatedBackupsReplicationsEncoding, DBInstanceAutomatedBackupsReplication>>
+        public var dBInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]?
         /// Contains the name of the compute and memory capacity class of the DB instance.
         public let dBInstanceClass: String?
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
@@ -2742,7 +2784,7 @@ extension RDS {
         public let dbInstancePort: Int?
         /// Specifies the current state of this database. For information about DB instance statuses, see DB Instance Status in the Amazon RDS User Guide.
         public let dBInstanceStatus: String?
-        /// The AWS Region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB instance is accessed.
+        /// The AWS Region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS customer master key (CMK) for the DB instance is accessed.
         public let dbiResourceId: String?
         /// The meaning of this parameter differs according to the database engine you use.  MySQL, MariaDB, SQL Server, PostgreSQL  Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance. Type: String  Oracle  Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance.
         public let dBName: String?
@@ -2776,7 +2818,7 @@ extension RDS {
         public let instanceCreateTime: Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
         public let iops: Int?
-        ///  If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB instance.
+        ///  If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB instance.  The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
         public let latestRestorableTime: Date?
@@ -2803,7 +2845,7 @@ extension RDS {
         public let pendingModifiedValues: PendingModifiedValues?
         /// True if Performance Insights is enabled for the DB instance, and otherwise false.
         public let performanceInsightsEnabled: Bool?
-        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
         public let performanceInsightsKMSKeyId: String?
         /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
@@ -2847,7 +2889,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customerOwnedIpEnabled: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2856,8 +2898,10 @@ extension RDS {
             self.cACertificateIdentifier = cACertificateIdentifier
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
+            self.customerOwnedIpEnabled = customerOwnedIpEnabled
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBInstanceArn = dBInstanceArn
+            self.dBInstanceAutomatedBackupsReplications = dBInstanceAutomatedBackupsReplications
             self.dBInstanceClass = dBInstanceClass
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.dbInstancePort = dbInstancePort
@@ -2920,8 +2964,10 @@ extension RDS {
             case cACertificateIdentifier = "CACertificateIdentifier"
             case characterSetName = "CharacterSetName"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
+            case customerOwnedIpEnabled = "CustomerOwnedIpEnabled"
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBInstanceArn = "DBInstanceArn"
+            case dBInstanceAutomatedBackupsReplications = "DBInstanceAutomatedBackupsReplications"
             case dBInstanceClass = "DBInstanceClass"
             case dBInstanceIdentifier = "DBInstanceIdentifier"
             case dbInstancePort = "DbInstancePort"
@@ -2977,12 +3023,21 @@ extension RDS {
     }
 
     public struct DBInstanceAutomatedBackup: AWSDecodableShape {
+        public struct _DBInstanceAutomatedBackupsReplicationsEncoding: ArrayCoderProperties { public static let member = "DBInstanceAutomatedBackupsReplication" }
+
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
         /// The Availability Zone that the automated backup was created in. For information on AWS Regions and Availability Zones, see Regions and Availability Zones.
         public let availabilityZone: String?
-        /// The Amazon Resource Name (ARN) for the automated backup.
+        /// The retention period for the automated backups.
+        public let backupRetentionPeriod: Int?
+        /// The Amazon Resource Name (ARN) for the automated backups.
         public let dBInstanceArn: String?
+        /// The Amazon Resource Name (ARN) for the replicated automated backups.
+        public let dBInstanceAutomatedBackupsArn: String?
+        /// The list of replications to different AWS Regions associated with the automated backup.
+        @OptionalCustomCoding<ArrayCoder<_DBInstanceAutomatedBackupsReplicationsEncoding, DBInstanceAutomatedBackupsReplication>>
+        public var dBInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]?
         /// The customer id of the instance that is/was associated with the automated backup.
         public let dBInstanceIdentifier: String?
         /// The identifier for the source DB instance, which can't be changed and which is unique to an AWS Region.
@@ -2999,7 +3054,7 @@ extension RDS {
         public let instanceCreateTime: Date?
         /// The IOPS (I/O operations per second) value for the automated backup.
         public let iops: Int?
-        /// The AWS KMS key ID for an automated backup. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
+        /// The AWS KMS key ID for an automated backup. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
         public let kmsKeyId: String?
         /// License model information for the automated backup.
         public let licenseModel: String?
@@ -3024,10 +3079,13 @@ extension RDS {
         /// Provides the VPC ID associated with the DB instance
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dBInstanceArn: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, port: Int? = nil, region: String? = nil, restoreWindow: RestoreWindow? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, dBInstanceArn: String? = nil, dBInstanceAutomatedBackupsArn: String? = nil, dBInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, port: Int? = nil, region: String? = nil, restoreWindow: RestoreWindow? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
+            self.backupRetentionPeriod = backupRetentionPeriod
             self.dBInstanceArn = dBInstanceArn
+            self.dBInstanceAutomatedBackupsArn = dBInstanceAutomatedBackupsArn
+            self.dBInstanceAutomatedBackupsReplications = dBInstanceAutomatedBackupsReplications
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.dbiResourceId = dbiResourceId
             self.encrypted = encrypted
@@ -3053,7 +3111,10 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "AllocatedStorage"
             case availabilityZone = "AvailabilityZone"
+            case backupRetentionPeriod = "BackupRetentionPeriod"
             case dBInstanceArn = "DBInstanceArn"
+            case dBInstanceAutomatedBackupsArn = "DBInstanceAutomatedBackupsArn"
+            case dBInstanceAutomatedBackupsReplications = "DBInstanceAutomatedBackupsReplications"
             case dBInstanceIdentifier = "DBInstanceIdentifier"
             case dbiResourceId = "DbiResourceId"
             case encrypted = "Encrypted"
@@ -3094,6 +3155,19 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case dBInstanceAutomatedBackups = "DBInstanceAutomatedBackups"
             case marker = "Marker"
+        }
+    }
+
+    public struct DBInstanceAutomatedBackupsReplication: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the replicated automated backups.
+        public let dBInstanceAutomatedBackupsArn: String?
+
+        public init(dBInstanceAutomatedBackupsArn: String? = nil) {
+            self.dBInstanceAutomatedBackupsArn = dBInstanceAutomatedBackupsArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstanceAutomatedBackupsArn = "DBInstanceAutomatedBackupsArn"
         }
     }
 
@@ -3511,7 +3585,7 @@ extension RDS {
         public let instanceCreateTime: Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value of the DB instance at the time of the snapshot.
         public let iops: Int?
-        ///  If Encrypted is true, the AWS KMS key identifier for the encrypted DB snapshot.
+        ///  If Encrypted is true, the AWS KMS key identifier for the encrypted DB snapshot.  The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
         public let kmsKeyId: String?
         /// License model information for the restored DB instance.
         public let licenseModel: String?
@@ -3838,14 +3912,18 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceAutomatedBackupMessage: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the automated backups to delete, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE.
+        public let dBInstanceAutomatedBackupsArn: String?
         /// The identifier for the source DB instance, which can't be changed and which is unique to an AWS Region.
-        public let dbiResourceId: String
+        public let dbiResourceId: String?
 
-        public init(dbiResourceId: String) {
+        public init(dBInstanceAutomatedBackupsArn: String? = nil, dbiResourceId: String? = nil) {
+            self.dBInstanceAutomatedBackupsArn = dBInstanceAutomatedBackupsArn
             self.dbiResourceId = dbiResourceId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dBInstanceAutomatedBackupsArn = "DBInstanceAutomatedBackupsArn"
             case dbiResourceId = "DbiResourceId"
         }
     }
@@ -4436,11 +4514,13 @@ extension RDS {
     public struct DescribeDBInstanceAutomatedBackupsMessage: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
+        /// The Amazon Resource Name (ARN) of the replicated automated backups, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE.
+        public let dBInstanceAutomatedBackupsArn: String?
         /// (Optional) The user-supplied instance identifier. If this parameter is specified, it must match the identifier of an existing DB instance. It returns information from the specific DB instance' automated backup. This parameter isn't case-sensitive.
         public let dBInstanceIdentifier: String?
         /// The resource ID of the DB instance that is the source of the automated backup. This parameter isn't case-sensitive.
         public let dbiResourceId: String?
-        /// A filter that specifies which resources to return based on status. Supported filters are the following:    status     active - automated backups for current instances    retained - automated backups for deleted instances    creating - automated backups that are waiting for the first automated snapshot to be available      db-instance-id - Accepts DB instance identifiers and Amazon Resource Names (ARNs) for DB instances. The results list includes only information about the DB instance automated backupss identified by these ARNs.    dbi-resource-id - Accepts DB instance resource identifiers and DB Amazon Resource Names (ARNs) for DB instances. The results list includes only information about the DB instance resources identified by these ARNs.   Returns all resources by default. The status for each resource is specified in the response.
+        /// A filter that specifies which resources to return based on status. Supported filters are the following:    status     active - automated backups for current instances    retained - automated backups for deleted instances and after backup replication is stopped    creating - automated backups that are waiting for the first automated snapshot to be available      db-instance-id - Accepts DB instance identifiers and Amazon Resource Names (ARNs). The results list includes only information about the DB instance automated backups identified by these ARNs.    dbi-resource-id - Accepts DB resource identifiers and Amazon Resource Names (ARNs). The results list includes only information about the DB instance resources identified by these ARNs.   Returns all resources by default. The status for each resource is specified in the response.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The pagination token provided in the previous request. If this parameter is specified the response includes only records beyond the marker, up to MaxRecords.
@@ -4448,7 +4528,8 @@ extension RDS {
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
 
-        public init(dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+        public init(dBInstanceAutomatedBackupsArn: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dBInstanceAutomatedBackupsArn = dBInstanceAutomatedBackupsArn
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.dbiResourceId = dbiResourceId
             self.filters = filters
@@ -4457,6 +4538,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dBInstanceAutomatedBackupsArn = "DBInstanceAutomatedBackupsArn"
             case dBInstanceIdentifier = "DBInstanceIdentifier"
             case dbiResourceId = "DbiResourceId"
             case filters = "Filters"
@@ -5830,7 +5912,7 @@ extension RDS {
         public let failureCause: String?
         /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot.
         public let iamRoleArn: String?
-        /// The ID of the AWS KMS key that is used to encrypt the snapshot when it's exported to Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key. The IAM role used for the snapshot export must have encryption and decryption permissions to use this KMS key.
+        /// The key identifier of the AWS KMS customer master key (CMK) that is used to encrypt the snapshot when it's exported to Amazon S3. The AWS KMS CMK identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the snapshot export must have encryption and decryption permissions to use this AWS KMS CMK.
         public let kmsKeyId: String?
         /// The progress of the snapshot export task as a percentage.
         public let percentProgress: Int?
@@ -5977,7 +6059,7 @@ extension RDS {
         ///  The list of cluster IDs for secondary clusters within the global database cluster. Currently limited to 1 item.
         @OptionalCustomCoding<ArrayCoder<_GlobalClusterMembersEncoding, GlobalClusterMember>>
         public var globalClusterMembers: [GlobalClusterMember]?
-        ///  The AWS Region-unique, immutable identifier for the global database cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB cluster is accessed.
+        ///  The AWS Region-unique, immutable identifier for the global database cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS customer master key (CMK) for the DB cluster is accessed.
         public let globalClusterResourceId: String?
         /// Specifies the current state of this global database cluster.
         public let status: String?
@@ -6511,7 +6593,7 @@ extension RDS {
         /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints:   If supplied, must match existing DBSecurityGroups.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>>
         public var dBSecurityGroups: [String]?
-        /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance isn't in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see Updating the VPC for a DB Instance in the Amazon RDS User Guide.  Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you enable ApplyImmediately.  Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetGroup
+        /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance isn't in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see Working with a DB instance in a VPC in the Amazon RDS User Guide.  Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you enable ApplyImmediately.  Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetGroup
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance.
         public let deletionProtection: Bool?
@@ -6519,6 +6601,8 @@ extension RDS {
         public let domain: String?
         /// The name of the IAM role to use when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
+        /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on AWS Outposts in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses in the AWS Outposts User Guide.
+        public let enableCustomerOwnedIp: Bool?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. This setting doesn't apply to Amazon Aurora. Mapping AWS IAM accounts to database accounts is managed by the DB cluster. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
         /// A value that indicates whether to enable Performance Insights for the DB instance. For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide.
@@ -6543,7 +6627,7 @@ extension RDS {
         public let newDBInstanceIdentifier: String?
         ///  Indicates that the DB instance should be associated with the specified option group. Changing this parameter doesn't result in an outage except in the following case and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
         public let optionGroupName: String?
-        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default CMK. There is a default CMK for your AWS account. Your AWS account has a different default CMK for each AWS Region.
         public let performanceInsightsKMSKeyId: String?
         /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
@@ -6572,7 +6656,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -6591,6 +6675,7 @@ extension RDS {
             self.deletionProtection = deletionProtection
             self.domain = domain
             self.domainIAMRoleName = domainIAMRoleName
+            self.enableCustomerOwnedIp = enableCustomerOwnedIp
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.enablePerformanceInsights = enablePerformanceInsights
             self.engineVersion = engineVersion
@@ -6637,6 +6722,7 @@ extension RDS {
             case deletionProtection = "DeletionProtection"
             case domain = "Domain"
             case domainIAMRoleName = "DomainIAMRoleName"
+            case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case enablePerformanceInsights = "EnablePerformanceInsights"
             case engineVersion = "EngineVersion"
@@ -6838,7 +6924,7 @@ extension RDS {
         public let dBSnapshotIdentifier: String
         /// The engine version to upgrade the DB snapshot to.  The following are the database engines and engine versions that are available when you upgrade a DB snapshot.   MySQL     5.5.46 (supported for 5.1 DB snapshots)    Oracle     12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)    11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)    PostgreSQL  For the list of engine versions that are available for upgrading a DB snapshot, see  Upgrading the PostgreSQL DB Engine for Amazon RDS.
         public let engineVersion: String?
-        /// The option group to identify with the upgraded DB snapshot.  You can specify this parameter when you upgrade an Oracle DB snapshot. The same option group considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more information, see Option Group Considerations in the Amazon RDS User Guide.
+        /// The option group to identify with the upgraded DB snapshot.  You can specify this parameter when you upgrade an Oracle DB snapshot. The same option group considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more information, see Option group considerations in the Amazon RDS User Guide.
         public let optionGroupName: String?
 
         public init(dBSnapshotIdentifier: String, engineVersion: String? = nil, optionGroupName: String? = nil) {
@@ -7685,38 +7771,40 @@ extension RDS {
     public struct PendingModifiedValues: AWSDecodableShape {
         public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
 
-        ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied.
+        /// The allocated storage size for the DB instance specified in gibibytes .
         public let allocatedStorage: Int?
-        /// Specifies the pending number of days for which automated backups are retained.
+        /// The number of days for which automated backups are retained.
         public let backupRetentionPeriod: Int?
-        /// Specifies the identifier of the CA certificate for the DB instance.
+        /// The identifier of the CA certificate for the DB instance.
         public let cACertificateIdentifier: String?
-        ///  Contains the new DBInstanceClass for the DB instance that will be applied or is currently being applied.
+        /// The name of the compute and memory capacity class for the DB instance.
         public let dBInstanceClass: String?
-        ///  Contains the new DBInstanceIdentifier for the DB instance that will be applied or is currently being applied.
+        /// The database identifier for the DB instance.
         public let dBInstanceIdentifier: String?
-        /// The new DB subnet group for the DB instance.
+        /// The DB subnet group for the DB instance.
         public let dBSubnetGroupName: String?
-        /// Indicates the database engine version.
+        /// The database engine version.
         public let engineVersion: String?
-        /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is currently being applied.
+        /// Whether mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled.
+        public let iAMDatabaseAuthenticationEnabled: Bool?
+        /// The Provisioned IOPS value for the DB instance.
         public let iops: Int?
         /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license
         public let licenseModel: String?
-        /// Contains the pending or currently-in-progress change of the master credentials for the DB instance.
+        /// The master credentials for the DB instance.
         public let masterUserPassword: String?
-        /// Indicates that the Single-AZ DB instance is to change to a Multi-AZ deployment.
+        /// Indicates that the Single-AZ DB instance will change to a Multi-AZ deployment.
         public let multiAZ: Bool?
         public let pendingCloudwatchLogsExports: PendingCloudwatchLogsExports?
-        /// Specifies the pending port for the DB instance.
+        /// The port for the DB instance.
         public let port: Int?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.
         @OptionalCustomCoding<ArrayCoder<_ProcessorFeaturesEncoding, ProcessorFeature>>
         public var processorFeatures: [ProcessorFeature]?
-        /// Specifies the storage type to be associated with the DB instance.
+        /// The storage type of the DB instance.
         public let storageType: String?
 
-        public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, storageType: String? = nil) {
+        public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cACertificateIdentifier = cACertificateIdentifier
@@ -7724,6 +7812,7 @@ extension RDS {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.dBSubnetGroupName = dBSubnetGroupName
             self.engineVersion = engineVersion
+            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
             self.iops = iops
             self.licenseModel = licenseModel
             self.masterUserPassword = masterUserPassword
@@ -7742,6 +7831,7 @@ extension RDS {
             case dBInstanceIdentifier = "DBInstanceIdentifier"
             case dBSubnetGroupName = "DBSubnetGroupName"
             case engineVersion = "EngineVersion"
+            case iAMDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
             case iops = "Iops"
             case licenseModel = "LicenseModel"
             case masterUserPassword = "MasterUserPassword"
@@ -8030,7 +8120,7 @@ extension RDS {
         public let dBInstanceIdentifier: String
         /// The name of the feature for the DB instance that the IAM role is to be disassociated from. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String
-        /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB instance, for example arn:aws:iam::123456789012:role/AccessRole.
+        /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB instance, for example, arn:aws:iam::123456789012:role/AccessRole.
         public let roleArn: String
 
         public init(dBInstanceIdentifier: String, featureName: String, roleArn: String) {
@@ -8368,7 +8458,7 @@ extension RDS {
         public let engine: String
         /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7
         public let engineVersion: String?
-        /// The AWS KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// The AWS KMS key identifier for an encrypted DB cluster. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). To use a CMK in a different AWS account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default CMK. There is a default CMK for your AWS account. Your AWS account has a different default CMK for each AWS Region.
         public let kmsKeyId: String?
         /// The name of the master user for the restored DB cluster. Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String
@@ -8518,7 +8608,7 @@ extension RDS {
         public let engineMode: String?
         /// The version of the database engine to use for the new DB cluster. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   If you aren't using the default engine version, then you must specify the engine version.   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7
         public let engineVersion: String?
-        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier isn't encrypted, then the restored DB cluster isn't encrypted.
+        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). To use a CMK in a different AWS account, specify the key ARN or alias ARN. When you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the AWS KMS CMK that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier isn't encrypted, then the restored DB cluster isn't encrypted.
         public let kmsKeyId: String?
         /// The name of the option group to use for the restored DB cluster.
         public let optionGroupName: String?
@@ -8623,7 +8713,7 @@ extension RDS {
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster isn't encrypted, then the restored DB cluster isn't encrypted.   If DBClusterIdentifier refers to a DB cluster that isn't encrypted, then the restore request is rejected.
+        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). To use a CMK in a different AWS account, specify the key ARN or alias ARN. You can restore to a new DB cluster and encrypt the new DB cluster with a AWS KMS CMK that is different than the AWS KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the AWS KMS CMK identified by the KmsKeyId parameter. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the AWS KMS CMK that was used to encrypt the source DB cluster.   If the DB cluster isn't encrypted, then the restored DB cluster isn't encrypted.   If DBClusterIdentifier refers to a DB cluster that isn't encrypted, then the restore request is rejected.
         public let kmsKeyId: String?
         /// The name of the option group for the new DB cluster.
         public let optionGroupName: String?
@@ -8732,6 +8822,8 @@ extension RDS {
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
+        /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on AWS Outposts in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses in the AWS Outposts User Guide.
+        public let enableCustomerOwnedIp: Bool?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source. For example, you can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot. Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
@@ -8765,7 +8857,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSnapshotIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSnapshotIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -8779,6 +8871,7 @@ extension RDS {
             self.domain = domain
             self.domainIAMRoleName = domainIAMRoleName
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
+            self.enableCustomerOwnedIp = enableCustomerOwnedIp
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.engine = engine
             self.iops = iops
@@ -8810,6 +8903,7 @@ extension RDS {
             case domain = "Domain"
             case domainIAMRoleName = "DomainIAMRoleName"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
+            case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case engine = "Engine"
             case iops = "Iops"
@@ -8884,7 +8978,7 @@ extension RDS {
         public let engineVersion: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to allocate initially for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.
         public let iops: Int?
-        /// The AWS KMS key identifier for an encrypted DB instance.  The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// The AWS KMS key identifier for an encrypted DB instance.  The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). To use a CMK in a different AWS account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default CMK. There is a default CMK for your AWS account. Your AWS account has a different default CMK for each AWS Region.
         public let kmsKeyId: String?
         /// The license model for this DB instance. Use general-public-license.
         public let licenseModel: String?
@@ -8902,7 +8996,7 @@ extension RDS {
         public let multiAZ: Bool?
         /// The name of the option group to associate with this DB instance. If this argument is omitted, the default option group for the specified engine is used.
         public let optionGroupName: String?
-        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key.  If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default CMK. There is a default CMK for your AWS account. Your AWS account has a different default CMK for each AWS Region.
         public let performanceInsightsKMSKeyId: String?
         /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
@@ -9075,6 +9169,8 @@ extension RDS {
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
+        /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on AWS Outposts in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses in the AWS Outposts User Guide.
+        public let enableCustomerOwnedIp: Bool?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
@@ -9098,6 +9194,8 @@ extension RDS {
         public let publiclyAccessible: Bool?
         /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Can't be specified if the UseLatestRestorableTime parameter is enabled   Example: 2009-09-07T23:45:00Z
         public let restoreTime: Date?
+        /// The Amazon Resource Name (ARN) of the replicated automated backups from which to restore, for example, arn:aws:rds:useast-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE.
+        public let sourceDBInstanceAutomatedBackupsArn: String?
         /// The identifier of the source DB instance from which to restore. Constraints:   Must match the identifier of an existing DB instance.
         public let sourceDBInstanceIdentifier: String?
         /// The resource ID of the source DB instance from which to restore.
@@ -9120,7 +9218,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -9132,6 +9230,7 @@ extension RDS {
             self.domain = domain
             self.domainIAMRoleName = domainIAMRoleName
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
+            self.enableCustomerOwnedIp = enableCustomerOwnedIp
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.engine = engine
             self.iops = iops
@@ -9143,6 +9242,7 @@ extension RDS {
             self.processorFeatures = processorFeatures
             self.publiclyAccessible = publiclyAccessible
             self.restoreTime = restoreTime
+            self.sourceDBInstanceAutomatedBackupsArn = sourceDBInstanceAutomatedBackupsArn
             self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
             self.sourceDbiResourceId = sourceDbiResourceId
             self.storageType = storageType
@@ -9167,6 +9267,7 @@ extension RDS {
             case domain = "Domain"
             case domainIAMRoleName = "DomainIAMRoleName"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
+            case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case engine = "Engine"
             case iops = "Iops"
@@ -9178,6 +9279,7 @@ extension RDS {
             case processorFeatures = "ProcessorFeatures"
             case publiclyAccessible = "PubliclyAccessible"
             case restoreTime = "RestoreTime"
+            case sourceDBInstanceAutomatedBackupsArn = "SourceDBInstanceAutomatedBackupsArn"
             case sourceDBInstanceIdentifier = "SourceDBInstanceIdentifier"
             case sourceDbiResourceId = "SourceDbiResourceId"
             case storageType = "StorageType"
@@ -9326,17 +9428,21 @@ extension RDS {
         public let regionName: String?
         /// The status of the source AWS Region.
         public let status: String?
+        /// Whether the source AWS Region supports replicating automated backups to the current AWS Region.
+        public let supportsDBInstanceAutomatedBackupsReplication: Bool?
 
-        public init(endpoint: String? = nil, regionName: String? = nil, status: String? = nil) {
+        public init(endpoint: String? = nil, regionName: String? = nil, status: String? = nil, supportsDBInstanceAutomatedBackupsReplication: Bool? = nil) {
             self.endpoint = endpoint
             self.regionName = regionName
             self.status = status
+            self.supportsDBInstanceAutomatedBackupsReplication = supportsDBInstanceAutomatedBackupsReplication
         }
 
         private enum CodingKeys: String, CodingKey {
             case endpoint = "Endpoint"
             case regionName = "RegionName"
             case status = "Status"
+            case supportsDBInstanceAutomatedBackupsReplication = "SupportsDBInstanceAutomatedBackupsReplication"
         }
     }
 
@@ -9363,11 +9469,11 @@ extension RDS {
     public struct StartActivityStreamRequest: AWSEncodableShape {
         /// Specifies whether or not the database activity stream is to start as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
-        /// The AWS KMS key identifier for encrypting messages in the database activity stream. The key identifier can be either a key ID, a key ARN, or a key alias.
+        /// The AWS KMS key identifier for encrypting messages in the database activity stream. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
         public let kmsKeyId: String
         /// Specifies the mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously.
         public let mode: ActivityStreamMode
-        /// The Amazon Resource Name (ARN) of the DB cluster, for example arn:aws:rds:us-east-1:12345667890:cluster:das-cluster.
+        /// The Amazon Resource Name (ARN) of the DB cluster, for example, arn:aws:rds:us-east-1:12345667890:cluster:das-cluster.
         public let resourceArn: String
 
         public init(applyImmediately: Bool? = nil, kmsKeyId: String, mode: ActivityStreamMode, resourceArn: String) {
@@ -9439,6 +9545,43 @@ extension RDS {
         }
     }
 
+    public struct StartDBInstanceAutomatedBackupsReplicationMessage: AWSEncodableShape {
+        /// The retention period for the replicated automated backups.
+        public let backupRetentionPeriod: Int?
+        /// The AWS KMS key identifier for encryption of the replicated automated backups. The KMS key ID is the Amazon Resource Name (ARN) for the KMS encryption key in the destination AWS Region, for example, arn:aws:kms:us-east-1:123456789012:key/AKIAIOSFODNN7EXAMPLE.
+        public let kmsKeyId: String?
+        /// A URL that contains a Signature Version 4 signed request for the StartDBInstanceAutomatedBackupsReplication action to be called in the AWS Region of the source DB instance. The presigned URL must be a valid request for the StartDBInstanceAutomatedBackupsReplication API action that can be executed in the AWS Region that contains the source DB instance.
+        public let preSignedUrl: String?
+        /// The Amazon Resource Name (ARN) of the source DB instance for the replicated automated backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase.
+        public let sourceDBInstanceArn: String
+
+        public init(backupRetentionPeriod: Int? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBInstanceArn: String) {
+            self.backupRetentionPeriod = backupRetentionPeriod
+            self.kmsKeyId = kmsKeyId
+            self.preSignedUrl = preSignedUrl
+            self.sourceDBInstanceArn = sourceDBInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupRetentionPeriod = "BackupRetentionPeriod"
+            case kmsKeyId = "KmsKeyId"
+            case preSignedUrl = "PreSignedUrl"
+            case sourceDBInstanceArn = "SourceDBInstanceArn"
+        }
+    }
+
+    public struct StartDBInstanceAutomatedBackupsReplicationResult: AWSDecodableShape {
+        public let dBInstanceAutomatedBackup: DBInstanceAutomatedBackup?
+
+        public init(dBInstanceAutomatedBackup: DBInstanceAutomatedBackup? = nil) {
+            self.dBInstanceAutomatedBackup = dBInstanceAutomatedBackup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstanceAutomatedBackup = "DBInstanceAutomatedBackup"
+        }
+    }
+
     public struct StartDBInstanceMessage: AWSEncodableShape {
         ///  The user-supplied instance identifier.
         public let dBInstanceIdentifier: String
@@ -9472,7 +9615,7 @@ extension RDS {
         public let exportTaskIdentifier: String
         /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot.
         public let iamRoleArn: String
-        /// The ID of the AWS KMS key to use to encrypt the snapshot exported to Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key. The caller of this operation must be authorized to execute the following operations. These can be set in the KMS key policy:    GrantOperation.Encrypt   GrantOperation.Decrypt   GrantOperation.GenerateDataKey   GrantOperation.GenerateDataKeyWithoutPlaintext   GrantOperation.ReEncryptFrom   GrantOperation.ReEncryptTo   GrantOperation.CreateGrant   GrantOperation.DescribeKey   GrantOperation.RetireGrant
+        /// The ID of the AWS KMS customer master key (CMK) to use to encrypt the snapshot exported to Amazon S3. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK). The caller of this operation must be authorized to execute the following operations. These can be set in the AWS KMS key policy:    GrantOperation.Encrypt   GrantOperation.Decrypt   GrantOperation.GenerateDataKey   GrantOperation.GenerateDataKeyWithoutPlaintext   GrantOperation.ReEncryptFrom   GrantOperation.ReEncryptTo   GrantOperation.CreateGrant   GrantOperation.DescribeKey   GrantOperation.RetireGrant
         public let kmsKeyId: String
         /// The name of the Amazon S3 bucket to export the snapshot to.
         public let s3BucketName: String
@@ -9522,7 +9665,7 @@ extension RDS {
     public struct StopActivityStreamResponse: AWSDecodableShape {
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
         public let kinesisStreamName: String?
-        /// The AWS KMS key identifier used for encrypting messages in the database activity stream.
+        /// The AWS KMS key identifier used for encrypting messages in the database activity stream. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
         public let kmsKeyId: String?
         /// The status of the database activity stream.
         public let status: ActivityStreamStatus?
@@ -9562,6 +9705,31 @@ extension RDS {
 
         private enum CodingKeys: String, CodingKey {
             case dBCluster = "DBCluster"
+        }
+    }
+
+    public struct StopDBInstanceAutomatedBackupsReplicationMessage: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the source DB instance for which to stop replicating automated backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase.
+        public let sourceDBInstanceArn: String
+
+        public init(sourceDBInstanceArn: String) {
+            self.sourceDBInstanceArn = sourceDBInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceDBInstanceArn = "SourceDBInstanceArn"
+        }
+    }
+
+    public struct StopDBInstanceAutomatedBackupsReplicationResult: AWSDecodableShape {
+        public let dBInstanceAutomatedBackup: DBInstanceAutomatedBackup?
+
+        public init(dBInstanceAutomatedBackup: DBInstanceAutomatedBackup? = nil) {
+            self.dBInstanceAutomatedBackup = dBInstanceAutomatedBackup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstanceAutomatedBackup = "DBInstanceAutomatedBackup"
         }
     }
 

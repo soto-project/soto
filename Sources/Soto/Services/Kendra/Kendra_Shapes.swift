@@ -116,6 +116,7 @@ extension Kendra {
         case confluence = "CONFLUENCE"
         case custom = "CUSTOM"
         case database = "DATABASE"
+        case googledrive = "GOOGLEDRIVE"
         case onedrive = "ONEDRIVE"
         case s3 = "S3"
         case salesforce = "SALESFORCE"
@@ -159,6 +160,12 @@ extension Kendra {
         case deleting = "DELETING"
         case failed = "FAILED"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HighlightType: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case thesaurusSynonym = "THESAURUS_SYNONYM"
         public var description: String { return self.rawValue }
     }
 
@@ -277,6 +284,16 @@ extension Kendra {
     public enum SortOrder: String, CustomStringConvertible, Codable {
         case asc = "ASC"
         case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThesaurusStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case activeButUpdateFailed = "ACTIVE_BUT_UPDATE_FAILED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -1254,12 +1271,87 @@ extension Kendra {
         }
     }
 
+    public struct CreateThesaurusRequest: AWSEncodableShape {
+        /// A token that you provide to identify the request to create a thesaurus. Multiple calls to the CreateThesaurus operation with the same client token will create only one index.
+        public let clientToken: String?
+        /// The description for the new thesaurus.
+        public let description: String?
+        /// The unique identifier of the index for the new thesaurus.
+        public let indexId: String
+        /// The name for the new thesaurus.
+        public let name: String
+        /// An AWS Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access thesaurus file specified in SourceS3Path.
+        public let roleArn: String
+        /// The thesaurus file Amazon S3 source path.
+        public let sourceS3Path: S3Path
+        /// A list of key-value pairs that identify the thesaurus. You can use the tags to identify and organize your resources and to control access to resources.
+        public let tags: [Tag]?
+
+        public init(clientToken: String? = CreateThesaurusRequest.idempotencyToken(), description: String? = nil, indexId: String, name: String, roleArn: String, sourceS3Path: S3Path, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.indexId = indexId
+            self.name = name
+            self.roleArn = roleArn
+            self.sourceS3Path = sourceS3Path
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.sourceS3Path.validate(name: "\(name).sourceS3Path")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case indexId = "IndexId"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case sourceS3Path = "SourceS3Path"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateThesaurusResponse: AWSDecodableShape {
+        /// The unique identifier of the thesaurus.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Provides configuration information for connecting to a Confluence data source.
         public let confluenceConfiguration: ConfluenceConfiguration?
         /// Provides information necessary to create a data source connector for a database.
         public let databaseConfiguration: DatabaseConfiguration?
-        /// Provided configuration for data sources that connect to Microsoft OneDrive.
+        /// Provides configuration for data sources that connect to Google Drive.
+        public let googleDriveConfiguration: GoogleDriveConfiguration?
+        /// Provides configuration for data sources that connect to Microsoft OneDrive.
         public let oneDriveConfiguration: OneDriveConfiguration?
         /// Provides information to create a data source connector for a document repository in an Amazon S3 bucket.
         public let s3Configuration: S3DataSourceConfiguration?
@@ -1270,9 +1362,10 @@ extension Kendra {
         /// Provides information necessary to create a data source connector for a Microsoft SharePoint site.
         public let sharePointConfiguration: SharePointConfiguration?
 
-        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
+        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
             self.confluenceConfiguration = confluenceConfiguration
             self.databaseConfiguration = databaseConfiguration
+            self.googleDriveConfiguration = googleDriveConfiguration
             self.oneDriveConfiguration = oneDriveConfiguration
             self.s3Configuration = s3Configuration
             self.salesforceConfiguration = salesforceConfiguration
@@ -1283,6 +1376,7 @@ extension Kendra {
         public func validate(name: String) throws {
             try self.confluenceConfiguration?.validate(name: "\(name).confluenceConfiguration")
             try self.databaseConfiguration?.validate(name: "\(name).databaseConfiguration")
+            try self.googleDriveConfiguration?.validate(name: "\(name).googleDriveConfiguration")
             try self.oneDriveConfiguration?.validate(name: "\(name).oneDriveConfiguration")
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
             try self.salesforceConfiguration?.validate(name: "\(name).salesforceConfiguration")
@@ -1293,6 +1387,7 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case confluenceConfiguration = "ConfluenceConfiguration"
             case databaseConfiguration = "DatabaseConfiguration"
+            case googleDriveConfiguration = "GoogleDriveConfiguration"
             case oneDriveConfiguration = "OneDriveConfiguration"
             case s3Configuration = "S3Configuration"
             case salesforceConfiguration = "SalesforceConfiguration"
@@ -1607,6 +1702,32 @@ extension Kendra {
         }
     }
 
+    public struct DeleteThesaurusRequest: AWSEncodableShape {
+        /// The identifier of the thesaurus to delete.
+        public let id: String
+        /// The identifier of the index associated with the thesaurus to delete.
+        public let indexId: String
+
+        public init(id: String, indexId: String) {
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
+        }
+    }
+
     public struct DescribeDataSourceRequest: AWSEncodableShape {
         /// The unique identifier of the data source to describe.
         public let id: String
@@ -1800,7 +1921,7 @@ extension Kendra {
         public let edition: IndexEdition?
         /// When th eStatus field value is FAILED, the ErrorMessage field contains a message that explains why.
         public let errorMessage: String?
-        /// the name of the index.
+        /// The name of the index.
         public let id: String?
         /// Provides information about the number of FAQ questions and answers and the number of text documents indexed.
         public let indexStatistics: IndexStatistics?
@@ -1853,6 +1974,92 @@ extension Kendra {
             case updatedAt = "UpdatedAt"
             case userContextPolicy = "UserContextPolicy"
             case userTokenConfigurations = "UserTokenConfigurations"
+        }
+    }
+
+    public struct DescribeThesaurusRequest: AWSEncodableShape {
+        /// The identifier of the thesaurus to describe.
+        public let id: String
+        /// The identifier of the index associated with the thesaurus to describe.
+        public let indexId: String
+
+        public init(id: String, indexId: String) {
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct DescribeThesaurusResponse: AWSDecodableShape {
+        /// The Unix datetime that the thesaurus was created.
+        public let createdAt: Date?
+        /// The thesaurus description.
+        public let description: String?
+        /// When the Status field value is FAILED, the ErrorMessage field provides more information.
+        public let errorMessage: String?
+        /// The size of the thesaurus file in bytes.
+        public let fileSizeBytes: Int64?
+        /// The identifier of the thesaurus.
+        public let id: String?
+        /// The identifier of the index associated with the thesaurus to describe.
+        public let indexId: String?
+        /// The thesaurus name.
+        public let name: String?
+        /// An AWS Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access thesaurus file specified in SourceS3Path.
+        public let roleArn: String?
+        public let sourceS3Path: S3Path?
+        /// The current status of the thesaurus. When the value is ACTIVE, queries are able to use the thesaurus. If the Status field value is FAILED, the ErrorMessage field provides more information.  If the status is ACTIVE_BUT_UPDATE_FAILED, it means that Amazon Kendra could not ingest the new thesaurus file. The old thesaurus file is still active.
+        public let status: ThesaurusStatus?
+        /// The number of synonym rules in the thesaurus file.
+        public let synonymRuleCount: Int64?
+        /// The number of unique terms in the thesaurus file. For example, the synonyms a,b,c and a=&gt;d, the term count would be 4.
+        public let termCount: Int64?
+        /// The Unix datetime that the thesaurus was last updated.
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, fileSizeBytes: Int64? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, sourceS3Path: S3Path? = nil, status: ThesaurusStatus? = nil, synonymRuleCount: Int64? = nil, termCount: Int64? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.errorMessage = errorMessage
+            self.fileSizeBytes = fileSizeBytes
+            self.id = id
+            self.indexId = indexId
+            self.name = name
+            self.roleArn = roleArn
+            self.sourceS3Path = sourceS3Path
+            self.status = status
+            self.synonymRuleCount = synonymRuleCount
+            self.termCount = termCount
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case errorMessage = "ErrorMessage"
+            case fileSizeBytes = "FileSizeBytes"
+            case id = "Id"
+            case indexId = "IndexId"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case sourceS3Path = "SourceS3Path"
+            case status = "Status"
+            case synonymRuleCount = "SynonymRuleCount"
+            case termCount = "TermCount"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -2114,6 +2321,87 @@ extension Kendra {
         }
     }
 
+    public struct GoogleDriveConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of MIME types to exclude from the index. All documents matching the specified MIME type are excluded.  For a list of MIME types, see Using a Google Workspace Drive data source.
+        public let excludeMimeTypes: [String]?
+        /// A list of identifiers or shared drives to exclude from the index. All files and folders stored on the shared drive are excluded.
+        public let excludeSharedDrives: [String]?
+        /// A list of email addresses of the users. Documents owned by these users are excluded from the index. Documents shared with excluded users are indexed unless they are excluded in another way.
+        public let excludeUserAccounts: [String]?
+        /// A list of regular expression patterns that apply to the path on Google Drive. Items that match the pattern are excluded from the index from both shared drives and users' My Drives. Items that don't match the pattern are included in the index. If an item matches both an exclusion pattern and an inclusion pattern, it is excluded from the index.
+        public let exclusionPatterns: [String]?
+        /// Defines mapping between a field in the Google Drive and a Amazon Kendra index field. If you are using the console, you can define index fields when creating the mapping. If you are using the API, you must first create the field using the UpdateIndex operation.
+        public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of regular expression patterns that apply to path on Google Drive. Items that match the pattern are included in the index from both shared drives and users' My Drives. Items that don't match the pattern are excluded from the index. If an item matches both an inclusion pattern and an exclusion pattern, it is excluded from the index.
+        public let inclusionPatterns: [String]?
+        /// The Amazon Resource Name (ARN) of a AWS Secrets Manager secret that contains the credentials required to connect to Google Drive. For more information, see Using a Google Workspace Drive data source.
+        public let secretArn: String
+
+        public init(excludeMimeTypes: [String]? = nil, excludeSharedDrives: [String]? = nil, excludeUserAccounts: [String]? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String) {
+            self.excludeMimeTypes = excludeMimeTypes
+            self.excludeSharedDrives = excludeSharedDrives
+            self.excludeUserAccounts = excludeUserAccounts
+            self.exclusionPatterns = exclusionPatterns
+            self.fieldMappings = fieldMappings
+            self.inclusionPatterns = inclusionPatterns
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.excludeMimeTypes?.forEach {
+                try validate($0, name: "excludeMimeTypes[]", parent: name, max: 256)
+                try validate($0, name: "excludeMimeTypes[]", parent: name, min: 1)
+                try validate($0, name: "excludeMimeTypes[]", parent: name, pattern: "^\\P{C}*$")
+            }
+            try self.validate(self.excludeMimeTypes, name: "excludeMimeTypes", parent: name, max: 30)
+            try self.validate(self.excludeMimeTypes, name: "excludeMimeTypes", parent: name, min: 0)
+            try self.excludeSharedDrives?.forEach {
+                try validate($0, name: "excludeSharedDrives[]", parent: name, max: 256)
+                try validate($0, name: "excludeSharedDrives[]", parent: name, min: 1)
+                try validate($0, name: "excludeSharedDrives[]", parent: name, pattern: "^\\P{C}*$")
+            }
+            try self.validate(self.excludeSharedDrives, name: "excludeSharedDrives", parent: name, max: 100)
+            try self.validate(self.excludeSharedDrives, name: "excludeSharedDrives", parent: name, min: 0)
+            try self.excludeUserAccounts?.forEach {
+                try validate($0, name: "excludeUserAccounts[]", parent: name, max: 256)
+                try validate($0, name: "excludeUserAccounts[]", parent: name, min: 1)
+                try validate($0, name: "excludeUserAccounts[]", parent: name, pattern: "^\\P{C}*$")
+            }
+            try self.validate(self.excludeUserAccounts, name: "excludeUserAccounts", parent: name, max: 100)
+            try self.validate(self.excludeUserAccounts, name: "excludeUserAccounts", parent: name, min: 0)
+            try self.exclusionPatterns?.forEach {
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
+            try self.fieldMappings?.forEach {
+                try $0.validate(name: "\(name).fieldMappings[]")
+            }
+            try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
+            try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, min: 0)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeMimeTypes = "ExcludeMimeTypes"
+            case excludeSharedDrives = "ExcludeSharedDrives"
+            case excludeUserAccounts = "ExcludeUserAccounts"
+            case exclusionPatterns = "ExclusionPatterns"
+            case fieldMappings = "FieldMappings"
+            case inclusionPatterns = "InclusionPatterns"
+            case secretArn = "SecretArn"
+        }
+    }
+
     public struct Highlight: AWSDecodableShape {
         /// The zero-based location in the response string where the highlight starts.
         public let beginOffset: Int
@@ -2121,17 +2409,21 @@ extension Kendra {
         public let endOffset: Int
         /// Indicates whether the response is the best response. True if this is the best response; otherwise, false.
         public let topAnswer: Bool?
+        /// The highlight type.
+        public let type: HighlightType?
 
-        public init(beginOffset: Int, endOffset: Int, topAnswer: Bool? = nil) {
+        public init(beginOffset: Int, endOffset: Int, topAnswer: Bool? = nil, type: HighlightType? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.topAnswer = topAnswer
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case beginOffset = "BeginOffset"
             case endOffset = "EndOffset"
             case topAnswer = "TopAnswer"
+            case type = "Type"
         }
     }
 
@@ -2498,6 +2790,54 @@ extension Kendra {
         }
     }
 
+    public struct ListThesauriRequest: AWSEncodableShape {
+        /// The identifier of the index associated with the thesaurus to list.
+        public let indexId: String
+        /// The maximum number of thesauri to return.
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of thesauri (ThesaurusSummaryItems).
+        public let nextToken: String?
+
+        public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.indexId = indexId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexId = "IndexId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListThesauriResponse: AWSDecodableShape {
+        /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of thesauri.
+        public let nextToken: String?
+        /// An array of summary information for one or more thesauruses.
+        public let thesaurusSummaryItems: [ThesaurusSummary]?
+
+        public init(nextToken: String? = nil, thesaurusSummaryItems: [ThesaurusSummary]? = nil) {
+            self.nextToken = nextToken
+            self.thesaurusSummaryItems = thesaurusSummaryItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case thesaurusSummaryItems = "ThesaurusSummaryItems"
+        }
+    }
+
     public struct OneDriveConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A Boolean value that specifies whether local groups are disabled (True) or enabled (False).
         public let disableLocalGroups: Bool?
@@ -2511,7 +2851,7 @@ extension Kendra {
         public let oneDriveUsers: OneDriveUsers
         /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the user name and password to connect to OneDrive. The user namd should be the application ID for the OneDrive application, and the password is the application key for the OneDrive application.
         public let secretArn: String
-        /// Tha Azure Active Directory domain of the organization.
+        /// The Azure Active Directory domain of the organization.
         public let tenantDomain: String
 
         public init(disableLocalGroups: Bool? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, oneDriveUsers: OneDriveUsers, secretArn: String, tenantDomain: String) {
@@ -2638,8 +2978,10 @@ extension Kendra {
         public let sortingConfiguration: SortingConfiguration?
         /// The user context token.
         public let userContext: UserContext?
+        /// Provides an identifier for a specific user. The VisitorId should be a unique identifier, such as a GUID. Don't use personally identifiable information, such as the user's email address, as the VisitorId.
+        public let visitorId: String?
 
-        public init(attributeFilter: AttributeFilter? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, sortingConfiguration: SortingConfiguration? = nil, userContext: UserContext? = nil) {
+        public init(attributeFilter: AttributeFilter? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, sortingConfiguration: SortingConfiguration? = nil, userContext: UserContext? = nil, visitorId: String? = nil) {
             self.attributeFilter = attributeFilter
             self.facets = facets
             self.indexId = indexId
@@ -2650,6 +2992,7 @@ extension Kendra {
             self.requestedDocumentAttributes = requestedDocumentAttributes
             self.sortingConfiguration = sortingConfiguration
             self.userContext = userContext
+            self.visitorId = visitorId
         }
 
         public func validate(name: String) throws {
@@ -2672,6 +3015,9 @@ extension Kendra {
             try self.validate(self.requestedDocumentAttributes, name: "requestedDocumentAttributes", parent: name, min: 1)
             try self.sortingConfiguration?.validate(name: "\(name).sortingConfiguration")
             try self.userContext?.validate(name: "\(name).userContext")
+            try self.validate(self.visitorId, name: "visitorId", parent: name, max: 256)
+            try self.validate(self.visitorId, name: "visitorId", parent: name, min: 1)
+            try self.validate(self.visitorId, name: "visitorId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2685,6 +3031,7 @@ extension Kendra {
             case requestedDocumentAttributes = "RequestedDocumentAttributes"
             case sortingConfiguration = "SortingConfiguration"
             case userContext = "UserContext"
+            case visitorId = "VisitorId"
         }
     }
 
@@ -2726,6 +3073,8 @@ extension Kendra {
         public let documentTitle: TextWithHighlights?
         /// The URI of the original location of the document.
         public let documentURI: String?
+        /// A token that identifies a particular result from a particular query. Use this token to provide click-through feedback for the result. For more information, see  Submitting feedback .
+        public let feedbackToken: String?
         /// The unique identifier for the query result.
         public let id: String?
         /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW. You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result matches the query.
@@ -2733,13 +3082,14 @@ extension Kendra {
         /// The type of document.
         public let type: QueryResultType?
 
-        public init(additionalAttributes: [AdditionalResultAttribute]? = nil, documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, id: String? = nil, scoreAttributes: ScoreAttributes? = nil, type: QueryResultType? = nil) {
+        public init(additionalAttributes: [AdditionalResultAttribute]? = nil, documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, feedbackToken: String? = nil, id: String? = nil, scoreAttributes: ScoreAttributes? = nil, type: QueryResultType? = nil) {
             self.additionalAttributes = additionalAttributes
             self.documentAttributes = documentAttributes
             self.documentExcerpt = documentExcerpt
             self.documentId = documentId
             self.documentTitle = documentTitle
             self.documentURI = documentURI
+            self.feedbackToken = feedbackToken
             self.id = id
             self.scoreAttributes = scoreAttributes
             self.type = type
@@ -2752,6 +3102,7 @@ extension Kendra {
             case documentId = "DocumentId"
             case documentTitle = "DocumentTitle"
             case documentURI = "DocumentURI"
+            case feedbackToken = "FeedbackToken"
             case id = "Id"
             case scoreAttributes = "ScoreAttributes"
             case type = "Type"
@@ -2824,7 +3175,7 @@ extension Kendra {
     }
 
     public struct S3DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Provides the path to the S3 bucket that contains the user context filtering files for the data source.
+        /// Provides the path to the S3 bucket that contains the user context filtering files for the data source. For the format of the file, see Access control for S3 data sources.
         public let accessControlListConfiguration: AccessControlListConfiguration?
         /// The name of the bucket that contains the documents.
         public let bucketName: String
@@ -3624,6 +3975,7 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
             try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
+            try self.validate(self.queryId, name: "queryId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
             try self.relevanceFeedbackItems?.forEach {
                 try $0.validate(name: "\(name).relevanceFeedbackItems[]")
             }
@@ -3723,6 +4075,35 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case highlights = "Highlights"
             case text = "Text"
+        }
+    }
+
+    public struct ThesaurusSummary: AWSDecodableShape {
+        /// The Unix datetime that the thesaurus was created.
+        public let createdAt: Date?
+        /// The identifier of the thesaurus.
+        public let id: String?
+        /// The name of the thesaurus.
+        public let name: String?
+        /// The status of the thesaurus.
+        public let status: ThesaurusStatus?
+        /// The Unix datetime that the thesaurus was last updated.
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, id: String? = nil, name: String? = nil, status: ThesaurusStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.id = id
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case id = "Id"
+            case name = "Name"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -3893,6 +4274,57 @@ extension Kendra {
             case roleArn = "RoleArn"
             case userContextPolicy = "UserContextPolicy"
             case userTokenConfigurations = "UserTokenConfigurations"
+        }
+    }
+
+    public struct UpdateThesaurusRequest: AWSEncodableShape {
+        /// The updated description of the thesaurus.
+        public let description: String?
+        /// The identifier of the thesaurus to update.
+        public let id: String
+        /// The identifier of the index associated with the thesaurus to update.
+        public let indexId: String
+        /// The updated name of the thesaurus.
+        public let name: String?
+        /// The updated role ARN of the thesaurus.
+        public let roleArn: String?
+        public let sourceS3Path: S3Path?
+
+        public init(description: String? = nil, id: String, indexId: String, name: String? = nil, roleArn: String? = nil, sourceS3Path: S3Path? = nil) {
+            self.description = description
+            self.id = id
+            self.indexId = indexId
+            self.name = name
+            self.roleArn = roleArn
+            self.sourceS3Path = sourceS3Path
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.sourceS3Path?.validate(name: "\(name).sourceS3Path")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case indexId = "IndexId"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case sourceS3Path = "SourceS3Path"
         }
     }
 

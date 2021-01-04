@@ -109,7 +109,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CancelAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Cancels an audit that is in progress. The audit can be either scheduled or on-demand. If the audit is not in progress, an "InvalidRequestException" occurs.
+    /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs.
     public func cancelAuditTask(_ input: CancelAuditTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelAuditTaskResponse> {
         return self.client.execute(operation: "CancelAuditTask", path: "/audit/tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -117,6 +117,11 @@ public struct IoT: AWSService {
     /// Cancels a pending transfer for the specified certificate.  Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE.
     @discardableResult public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/{certificateId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Cancels a Device Defender ML Detect mitigation action.
+    public func cancelDetectMitigationActionsTask(_ input: CancelDetectMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelDetectMitigationActionsTaskResponse> {
+        return self.client.execute(operation: "CancelDetectMitigationActionsTask", path: "/detect/mitigationactions/tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Cancels a job.
@@ -157,6 +162,11 @@ public struct IoT: AWSService {
     /// Creates an X.509 certificate using the specified certificate signing request.  Note: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves.   Note: Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr AWS CLI command to create a certificate for the corresponding CSR. The aws iot create-certificate-from-csr part of the command can also be run in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: &gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_} On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: &gt; forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
     public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCertificateFromCsrResponse> {
         return self.client.execute(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Use this API to define a Custom Metric published by your devices to Device Defender.
+    public func createCustomMetric(_ input: CreateCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCustomMetricResponse> {
+        return self.client.execute(operation: "CreateCustomMetric", path: "/custom-metric/{metricName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Create a dimension that you can use to limit the scope of a metric used in a security profile for AWS IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.
@@ -294,6 +304,11 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the ListSecurityProfiles API with metricName set to your custom metric name.   Deletes a Device Defender detect custom metric.
+    public func deleteCustomMetric(_ input: DeleteCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCustomMetricResponse> {
+        return self.client.execute(operation: "DeleteCustomMetric", path: "/custom-metric/{metricName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Removes the specified dimension from your AWS account.
     public func deleteDimension(_ input: DeleteDimensionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDimensionResponse> {
         return self.client.execute(operation: "DeleteDimension", path: "/dimensions/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -414,7 +429,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and when the audit that returned the finding was started.
+    /// Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding.
     public func describeAuditFinding(_ input: DescribeAuditFindingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAuditFindingResponse> {
         return self.client.execute(operation: "DescribeAuditFinding", path: "/audit/findings/{findingId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -454,9 +469,19 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeCertificate", path: "/certificates/{certificateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Gets information about a Device Defender detect custom metric.
+    public func describeCustomMetric(_ input: DescribeCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCustomMetricResponse> {
+        return self.client.execute(operation: "DescribeCustomMetric", path: "/custom-metric/{metricName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes the default authorizer.
     public func describeDefaultAuthorizer(_ input: DescribeDefaultAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDefaultAuthorizerResponse> {
         return self.client.execute(operation: "DescribeDefaultAuthorizer", path: "/default-authorizer", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Gets information about a Device Defender ML Detect mitigation action.
+    public func describeDetectMitigationActionsTask(_ input: DescribeDetectMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDetectMitigationActionsTaskResponse> {
+        return self.client.execute(operation: "DescribeDetectMitigationActionsTask", path: "/detect/mitigationactions/tasks/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides details about a dimension that is defined in your AWS account.
@@ -578,6 +603,11 @@ public struct IoT: AWSService {
     /// Enables the rule.
     @discardableResult public func enableTopicRule(_ input: EnableTopicRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Returns a Device Defender's ML Detect Security Profile training model's status.
+    public func getBehaviorModelTrainingSummaries(_ input: GetBehaviorModelTrainingSummariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBehaviorModelTrainingSummariesResponse> {
+        return self.client.execute(operation: "GetBehaviorModelTrainingSummaries", path: "/behavior-model-training/summaries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the approximate count of unique values that match the query.
@@ -710,6 +740,21 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Lists your Device Defender detect custom metrics.
+    public func listCustomMetrics(_ input: ListCustomMetricsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCustomMetricsResponse> {
+        return self.client.execute(operation: "ListCustomMetrics", path: "/custom-metrics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
+    public func listDetectMitigationActionsExecutions(_ input: ListDetectMitigationActionsExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectMitigationActionsExecutionsResponse> {
+        return self.client.execute(operation: "ListDetectMitigationActionsExecutions", path: "/detect/mitigationactions/executions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  List of Device Defender ML Detect mitigation actions tasks.
+    public func listDetectMitigationActionsTasks(_ input: ListDetectMitigationActionsTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectMitigationActionsTasksResponse> {
+        return self.client.execute(operation: "ListDetectMitigationActionsTasks", path: "/detect/mitigationactions/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// List the set of dimensions that are defined for your AWS account.
     public func listDimensions(_ input: ListDimensionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDimensionsResponse> {
         return self.client.execute(operation: "ListDimensions", path: "/dimensions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -802,7 +847,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListScheduledAudits", path: "/audit/scheduledaudits", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Device Defender security profiles you have created. You can use filters to list only those security profiles associated with a thing group or only those associated with your account.
+    /// Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric.   dimensionName and metricName cannot be used in the same request.
     public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSecurityProfilesResponse> {
         return self.client.execute(operation: "ListSecurityProfiles", path: "/security-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -972,6 +1017,11 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "StartAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Starts a Device Defender ML Detect mitigation actions task.
+    public func startDetectMitigationActionsTask(_ input: StartDetectMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDetectMitigationActionsTaskResponse> {
+        return self.client.execute(operation: "StartDetectMitigationActionsTask", path: "/detect/mitigationactions/tasks/{taskId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts an on-demand Device Defender audit.
     public func startOnDemandAuditTask(_ input: StartOnDemandAuditTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOnDemandAuditTaskResponse> {
         return self.client.execute(operation: "StartOnDemandAuditTask", path: "/audit/tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1042,7 +1092,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and re-create it).
+    /// Updates a Device Defender detect custom metric.
+    public func updateCustomMetric(_ input: UpdateCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCustomMetricResponse> {
+        return self.client.execute(operation: "UpdateCustomMetric", path: "/custom-metric/{metricName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it).
     public func updateDimension(_ input: UpdateDimensionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDimensionResponse> {
         return self.client.execute(operation: "UpdateDimension", path: "/dimensions/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

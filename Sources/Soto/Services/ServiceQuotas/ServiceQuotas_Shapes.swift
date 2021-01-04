@@ -65,11 +65,11 @@ extension ServiceQuotas {
     }
 
     public struct DeleteServiceQuotaIncreaseRequestFromTemplateRequest: AWSEncodableShape {
-        /// Specifies the AWS Region for the quota that you want to delete.
+        /// The AWS Region.
         public let awsRegion: String
-        /// Specifies the code for the quota that you want to delete.
+        /// The quota identifier.
         public let quotaCode: String
-        /// Specifies the code for the service that you want to delete.
+        /// The service identifier.
         public let serviceCode: String
 
         public init(awsRegion: String, quotaCode: String, serviceCode: String) {
@@ -110,9 +110,9 @@ extension ServiceQuotas {
     }
 
     public struct ErrorReason: AWSDecodableShape {
-        /// Service Quotas returns the following error values.   DEPENDENCY_ACCESS_DENIED_ERROR is returned when the caller does not have permission to call the service or service quota. To resolve the error, you need permission to access the service or service quota.  DEPENDENCY_THROTTLING_ERROR is returned when the service being called is throttling Service Quotas.  DEPENDENCY_SERVICE_ERROR is returned when the service being called has availability issues.  SERVICE_QUOTA_NOT_AVAILABLE_ERROR is returned when there was an error in Service Quotas.
+        /// Service Quotas returns the following error values:    DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the service or quota.    DEPENDENCY_THROTTLING_ERROR - The service is throttling Service Quotas.    DEPENDENCY_SERVICE_ERROR - The service is not available.    SERVICE_QUOTA_NOT_AVAILABLE_ERROR - There was an error in Service Quotas.
         public let errorCode: ErrorCode?
-        /// The error message that provides more detail.
+        /// The error message.
         public let errorMessage: String?
 
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil) {
@@ -127,9 +127,9 @@ extension ServiceQuotas {
     }
 
     public struct GetAWSDefaultServiceQuotaRequest: AWSEncodableShape {
-        /// Identifies the service quota you want to select.
+        /// The quota identifier.
         public let quotaCode: String
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String
 
         public init(quotaCode: String, serviceCode: String) {
@@ -153,7 +153,7 @@ extension ServiceQuotas {
     }
 
     public struct GetAWSDefaultServiceQuotaResponse: AWSDecodableShape {
-        /// Returns the ServiceQuota object which contains all values for a quota.
+        /// Information about the quota.
         public let quota: ServiceQuota?
 
         public init(quota: ServiceQuota? = nil) {
@@ -170,7 +170,7 @@ extension ServiceQuotas {
     }
 
     public struct GetAssociationForServiceQuotaTemplateResponse: AWSDecodableShape {
-        /// Specifies whether the template is ASSOCIATED or DISASSOCIATED. If the template is ASSOCIATED, then it requests service quota increases for all new accounts created in your organization.
+        /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new accounts in your organization.
         public let serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus?
 
         public init(serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus? = nil) {
@@ -183,7 +183,7 @@ extension ServiceQuotas {
     }
 
     public struct GetRequestedServiceQuotaChangeRequest: AWSEncodableShape {
-        /// Identifies the quota increase request.
+        /// The ID of the quota increase request.
         public let requestId: String
 
         public init(requestId: String) {
@@ -202,7 +202,7 @@ extension ServiceQuotas {
     }
 
     public struct GetRequestedServiceQuotaChangeResponse: AWSDecodableShape {
-        /// Returns the RequestedServiceQuotaChange object for the specific increase request.
+        /// Information about the quota increase request.
         public let requestedQuota: RequestedServiceQuotaChange?
 
         public init(requestedQuota: RequestedServiceQuotaChange? = nil) {
@@ -215,11 +215,11 @@ extension ServiceQuotas {
     }
 
     public struct GetServiceQuotaIncreaseRequestFromTemplateRequest: AWSEncodableShape {
-        /// Specifies the AWS Region for the quota that you want to use.
+        /// The AWS Region.
         public let awsRegion: String
-        /// Specifies the quota you want.
+        /// The quota identifier.
         public let quotaCode: String
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String
 
         public init(awsRegion: String, quotaCode: String, serviceCode: String) {
@@ -248,7 +248,7 @@ extension ServiceQuotas {
     }
 
     public struct GetServiceQuotaIncreaseRequestFromTemplateResponse: AWSDecodableShape {
-        /// This object contains the details about the quota increase request.
+        /// Information about the quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
 
         public init(serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate? = nil) {
@@ -261,9 +261,9 @@ extension ServiceQuotas {
     }
 
     public struct GetServiceQuotaRequest: AWSEncodableShape {
-        /// Identifies the service quota you want to select.
+        /// The quota identifier.
         public let quotaCode: String
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String
 
         public init(quotaCode: String, serviceCode: String) {
@@ -287,7 +287,7 @@ extension ServiceQuotas {
     }
 
     public struct GetServiceQuotaResponse: AWSDecodableShape {
-        /// Returns the ServiceQuota object which contains all values for a quota.
+        /// Information about the quota.
         public let quota: ServiceQuota?
 
         public init(quota: ServiceQuota? = nil) {
@@ -300,11 +300,11 @@ extension ServiceQuotas {
     }
 
     public struct ListAWSDefaultServiceQuotasRequest: AWSEncodableShape {
-        /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
         public let maxResults: Int?
-        /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
+        /// The token for the next page of results.
         public let nextToken: String?
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
@@ -331,9 +331,9 @@ extension ServiceQuotas {
     }
 
     public struct ListAWSDefaultServiceQuotasResponse: AWSDecodableShape {
-        /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// A list of the quotas in the account with the AWS default values.
+        /// Information about the quotas.
         public let quotas: [ServiceQuota]?
 
         public init(nextToken: String? = nil, quotas: [ServiceQuota]? = nil) {
@@ -348,15 +348,15 @@ extension ServiceQuotas {
     }
 
     public struct ListRequestedServiceQuotaChangeHistoryByQuotaRequest: AWSEncodableShape {
-        /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
         public let maxResults: Int?
-        /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        /// The token for the next page of results.
         public let nextToken: String?
-        /// Specifies the service quota that you want to use
+        /// The quota identifier.
         public let quotaCode: String
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String
-        /// Specifies the status value of the quota increase request.
+        /// The status value of the quota increase request.
         public let status: RequestStatus?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, quotaCode: String, serviceCode: String, status: RequestStatus? = nil) {
@@ -390,9 +390,9 @@ extension ServiceQuotas {
     }
 
     public struct ListRequestedServiceQuotaChangeHistoryByQuotaResponse: AWSDecodableShape {
-        /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// Returns a list of service quota requests.
+        /// Information about the quota increase requests.
         public let requestedQuotas: [RequestedServiceQuotaChange]?
 
         public init(nextToken: String? = nil, requestedQuotas: [RequestedServiceQuotaChange]? = nil) {
@@ -407,13 +407,13 @@ extension ServiceQuotas {
     }
 
     public struct ListRequestedServiceQuotaChangeHistoryRequest: AWSEncodableShape {
-        /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
         public let maxResults: Int?
-        /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        /// The token for the next page of results.
         public let nextToken: String?
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String?
-        /// Specifies the status value of the quota increase request.
+        /// The status of the quota increase request.
         public let status: RequestStatus?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil, status: RequestStatus? = nil) {
@@ -442,9 +442,9 @@ extension ServiceQuotas {
     }
 
     public struct ListRequestedServiceQuotaChangeHistoryResponse: AWSDecodableShape {
-        /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// Returns a list of service quota requests.
+        /// Information about the quota increase requests.
         public let requestedQuotas: [RequestedServiceQuotaChange]?
 
         public init(nextToken: String? = nil, requestedQuotas: [RequestedServiceQuotaChange]? = nil) {
@@ -459,13 +459,13 @@ extension ServiceQuotas {
     }
 
     public struct ListServiceQuotaIncreaseRequestsInTemplateRequest: AWSEncodableShape {
-        /// Specifies the AWS Region for the quota that you want to use.
+        /// The AWS Region.
         public let awsRegion: String?
-        /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
         public let maxResults: Int?
-        /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        /// The token for the next page of results.
         public let nextToken: String?
-        /// The identifier for a service. When performing an operation, use the ServiceCode to specify a particular service.
+        /// The service identifier.
         public let serviceCode: String?
 
         public init(awsRegion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
@@ -497,9 +497,9 @@ extension ServiceQuotas {
     }
 
     public struct ListServiceQuotaIncreaseRequestsInTemplateResponse: AWSDecodableShape {
-        /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// Returns the list of values of the quota increase request in the template.
+        /// Information about the quota increase requests.
         public let serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotaIncreaseRequestInTemplate]?
 
         public init(nextToken: String? = nil, serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotaIncreaseRequestInTemplate]? = nil) {
@@ -514,11 +514,11 @@ extension ServiceQuotas {
     }
 
     public struct ListServiceQuotasRequest: AWSEncodableShape {
-        /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
         public let maxResults: Int?
-        /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        /// The token for the next page of results.
         public let nextToken: String?
-        /// The identifier for a service. When performing an operation, use the ServiceCode to specify a particular service.
+        /// The service identifier.
         public let serviceCode: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
@@ -545,9 +545,9 @@ extension ServiceQuotas {
     }
 
     public struct ListServiceQuotasResponse: AWSDecodableShape {
-        /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// The response information for a quota lists all attribute information for the quota.
+        /// Information about the quotas.
         public let quotas: [ServiceQuota]?
 
         public init(nextToken: String? = nil, quotas: [ServiceQuota]? = nil) {
@@ -562,9 +562,9 @@ extension ServiceQuotas {
     }
 
     public struct ListServicesRequest: AWSEncodableShape {
-        /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
         public let maxResults: Int?
-        /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
+        /// The token for the next page of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -586,9 +586,9 @@ extension ServiceQuotas {
     }
 
     public struct ListServicesResponse: AWSDecodableShape {
-        /// If present in the response, this value indicates there's more output available that what's included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// Returns a list of services.
+        /// Information about the services.
         public let services: [ServiceInfo]?
 
         public init(nextToken: String? = nil, services: [ServiceInfo]? = nil) {
@@ -602,14 +602,46 @@ extension ServiceQuotas {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) for the applied quota for which you want to list tags. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas AWS CLI command or the ListServiceQuotas AWS API operation.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// A complex data type that contains zero or more tag elements.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct MetricInfo: AWSDecodableShape {
-        /// A dimension is a name/value pair that is part of the identity of a metric. Every metric has specific characteristics that describe it, and you can think of dimensions as categories for those characteristics. These dimensions are part of the CloudWatch Metric Identity that measures usage against a particular service quota.
+        /// The metric dimension. This is a name/value pair that is part of the identity of a metric.
         public let metricDimensions: [String: String]?
-        /// The name of the CloudWatch metric that measures usage of a service quota. This is a required field.
+        /// The name of the metric.
         public let metricName: String?
-        /// The namespace of the metric. The namespace is a container for CloudWatch metrics. You can specify a name for the namespace when you create a metric.
+        /// The namespace of the metric.
         public let metricNamespace: String?
-        /// Statistics are metric data aggregations over specified periods of time. This is the recommended statistic to use when comparing usage in the CloudWatch Metric against your Service Quota.
+        /// The metric statistic that we recommend you use when determining quota usage.
         public let metricStatisticRecommendation: String?
 
         public init(metricDimensions: [String: String]? = nil, metricName: String? = nil, metricNamespace: String? = nil, metricStatisticRecommendation: String? = nil) {
@@ -628,13 +660,13 @@ extension ServiceQuotas {
     }
 
     public struct PutServiceQuotaIncreaseRequestIntoTemplateRequest: AWSEncodableShape {
-        /// Specifies the AWS Region for the quota.
+        /// The AWS Region.
         public let awsRegion: String
-        /// Specifies the new, increased value for the quota.
+        /// The new, increased value for the quota.
         public let desiredValue: Double
-        /// Specifies the service quota that you want to use.
+        /// The quota identifier.
         public let quotaCode: String
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String
 
         public init(awsRegion: String, desiredValue: Double, quotaCode: String, serviceCode: String) {
@@ -667,7 +699,7 @@ extension ServiceQuotas {
     }
 
     public struct PutServiceQuotaIncreaseRequestIntoTemplateResponse: AWSDecodableShape {
-        /// A structure that contains information about one service quota increase request.
+        /// Information about the quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
 
         public init(serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate? = nil) {
@@ -680,9 +712,9 @@ extension ServiceQuotas {
     }
 
     public struct QuotaPeriod: AWSDecodableShape {
-        /// The time unit of a period.
+        /// The time unit.
         public let periodUnit: PeriodUnit?
-        /// The value of a period.
+        /// The value.
         public let periodValue: Int?
 
         public init(periodUnit: PeriodUnit? = nil, periodValue: Int? = nil) {
@@ -697,11 +729,11 @@ extension ServiceQuotas {
     }
 
     public struct RequestServiceQuotaIncreaseRequest: AWSEncodableShape {
-        /// Specifies the value submitted in the service quota increase request.
+        /// The new, increased value for the quota.
         public let desiredValue: Double
-        /// Specifies the service quota that you want to use.
+        /// The quota identifier.
         public let quotaCode: String
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String
 
         public init(desiredValue: Double, quotaCode: String, serviceCode: String) {
@@ -729,7 +761,7 @@ extension ServiceQuotas {
     }
 
     public struct RequestServiceQuotaIncreaseResponse: AWSDecodableShape {
-        /// Returns a list of service quota requests.
+        /// Information about the quota increase request.
         public let requestedQuota: RequestedServiceQuotaChange?
 
         public init(requestedQuota: RequestedServiceQuotaChange? = nil) {
@@ -742,33 +774,33 @@ extension ServiceQuotas {
     }
 
     public struct RequestedServiceQuotaChange: AWSDecodableShape {
-        /// The case Id for the service quota increase request.
+        /// The case ID.
         public let caseId: String?
-        /// The date and time when the service quota increase request was received and the case Id was created.
+        /// The date and time when the quota increase request was received and the case ID was created.
         public let created: Date?
-        /// New increased value for the service quota.
+        /// The new, increased value for the quota.
         public let desiredValue: Double?
-        /// Identifies if the quota is global.
+        /// Indicates whether the quota is global.
         public let globalQuota: Bool?
-        /// The unique identifier of a requested service quota change.
+        /// The unique identifier.
         public let id: String?
-        /// The date and time of the most recent change in the service quota increase request.
+        /// The date and time of the most recent change.
         public let lastUpdated: Date?
-        /// The Amazon Resource Name (ARN) of the service quota.
+        /// The Amazon Resource Name (ARN) of the quota.
         public let quotaArn: String?
-        /// Specifies the service quota that you want to use.
+        /// The quota identifier.
         public let quotaCode: String?
-        /// Name of the service quota.
+        /// The quota name.
         public let quotaName: String?
-        /// The IAM identity who submitted the service quota increase request.
+        /// The IAM identity of the requester.
         public let requester: String?
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String?
-        /// The name of the AWS service specified in the increase request.
+        /// The service name.
         public let serviceName: String?
-        /// State of the service quota increase request.
+        /// The state of the quota increase request.
         public let status: RequestStatus?
-        /// Specifies the unit used for the quota.
+        /// The unit of measurement.
         public let unit: String?
 
         public init(caseId: String? = nil, created: Date? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, id: String? = nil, lastUpdated: Date? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaName: String? = nil, requester: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, status: RequestStatus? = nil, unit: String? = nil) {
@@ -807,9 +839,9 @@ extension ServiceQuotas {
     }
 
     public struct ServiceInfo: AWSDecodableShape {
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String?
-        /// The name of the AWS service specified in the increase request.
+        /// The service name.
         public let serviceName: String?
 
         public init(serviceCode: String? = nil, serviceName: String? = nil) {
@@ -824,29 +856,29 @@ extension ServiceQuotas {
     }
 
     public struct ServiceQuota: AWSDecodableShape {
-        /// Specifies if the quota value can be increased.
+        /// Indicates whether the quota value can be increased.
         public let adjustable: Bool?
-        /// Specifies the ErrorCode and ErrorMessage when success isn't achieved.
+        /// The error code and error reason.
         public let errorReason: ErrorReason?
-        /// Specifies if the quota is global.
+        /// Indicates whether the quota is global.
         public let globalQuota: Bool?
-        /// Identifies the unit and value of how time is measured.
+        /// The period of time.
         public let period: QuotaPeriod?
-        /// The Amazon Resource Name (ARN) of the service quota.
+        /// The Amazon Resource Name (ARN) of the quota.
         public let quotaArn: String?
-        /// The code identifier for the service quota specified.
+        /// The quota identifier.
         public let quotaCode: String?
-        /// The name identifier of the service quota.
+        /// The quota name.
         public let quotaName: String?
-        /// Specifies the service that you want to use.
+        /// The service identifier.
         public let serviceCode: String?
-        /// The name of the AWS service specified in the increase request.
+        /// The service name.
         public let serviceName: String?
-        /// The unit of measurement for the value of the service quota.
+        /// The unit of measurement.
         public let unit: String?
-        /// Specifies the details about the measurement.
+        /// Information about the measurement.
         public let usageMetric: MetricInfo?
-        /// The value of service quota.
+        /// The quota value.
         public let value: Double?
 
         public init(adjustable: Bool? = nil, errorReason: ErrorReason? = nil, globalQuota: Bool? = nil, period: QuotaPeriod? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil, usageMetric: MetricInfo? = nil, value: Double? = nil) {
@@ -881,21 +913,21 @@ extension ServiceQuotas {
     }
 
     public struct ServiceQuotaIncreaseRequestInTemplate: AWSDecodableShape {
-        /// The AWS Region where the increase request occurs.
+        /// The AWS Region.
         public let awsRegion: String?
-        /// Identifies the new, increased value of the service quota in the increase request.
+        /// The new, increased value of the quota.
         public let desiredValue: Double?
-        /// Specifies if the quota is a global quota.
+        /// Indicates whether the quota is global.
         public let globalQuota: Bool?
-        /// The code identifier for the service quota specified in the increase request.
+        /// The quota identifier.
         public let quotaCode: String?
-        /// The name of the service quota in the increase request.
+        /// The quota name.
         public let quotaName: String?
-        /// The code identifier for the AWS service specified in the increase request.
+        /// The service identifier.
         public let serviceCode: String?
-        /// The name of the AWS service specified in the increase request.
+        /// The service name.
         public let serviceName: String?
-        /// The unit of measure for the increase request.
+        /// The unit of measurement.
         public let unit: String?
 
         public init(awsRegion: String? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, quotaCode: String? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil) {
@@ -919,5 +951,94 @@ extension ServiceQuotas {
             case serviceName = "ServiceName"
             case unit = "Unit"
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// A string that contains a tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
+        public let key: String
+        /// A string that contains an optional tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) for the applied quota. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas AWS CLI command or the ListServiceQuotas AWS API operation.
+        public let resourceARN: String
+        /// The tags that you want to add to the resource.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) for the applied quota that you want to untag. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas AWS CLI command or the ListServiceQuotas AWS API operation.
+        public let resourceARN: String
+        /// The keys of the tags that you want to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }

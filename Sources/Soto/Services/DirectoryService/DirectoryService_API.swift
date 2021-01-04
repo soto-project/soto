@@ -158,7 +158,7 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "DeleteTrust", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes from the system the certificate that was registered for a secured LDAP connection.
+    /// Deletes from the system the certificate that was registered for secure LDAP or client certificate authentication.
     public func deregisterCertificate(_ input: DeregisterCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterCertificateResult> {
         return self.client.execute(operation: "DeregisterCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -168,7 +168,7 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "DeregisterEventTopic", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Displays information about the certificate registered for a secured LDAP connection.
+    /// Displays information about the certificate registered for secure LDAP or client certificate authentication.
     public func describeCertificate(_ input: DescribeCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCertificateResult> {
         return self.client.execute(operation: "DescribeCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -218,7 +218,7 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "DescribeTrusts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disable client authentication for smart cards.
+    /// Disables alternative client authentication methods for the specified directory.
     public func disableClientAuthentication(_ input: DisableClientAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableClientAuthenticationResult> {
         return self.client.execute(operation: "DisableClientAuthentication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -238,7 +238,7 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "DisableSso", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enable client authentication for smardtcards.
+    /// Enables alternative client authentication methods for the specified directory.
     public func enableClientAuthentication(_ input: EnableClientAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableClientAuthenticationResult> {
         return self.client.execute(operation: "EnableClientAuthentication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -268,7 +268,7 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "GetSnapshotLimits", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// For the specified directory, lists all the certificates registered for a secured LDAP connection.
+    /// For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
     public func listCertificates(_ input: ListCertificatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCertificatesResult> {
         return self.client.execute(operation: "ListCertificates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -293,7 +293,7 @@ public struct DirectoryService: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers a certificate for secured LDAP connection.
+    /// Registers a certificate for a secure LDAP or client certificate authentication.
     public func registerCertificate(_ input: RegisterCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterCertificateResult> {
         return self.client.execute(operation: "RegisterCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

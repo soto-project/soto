@@ -67,6 +67,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "AcceptReservedInstancesExchangeQuote", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Accepts a request to associate subnets with a transit gateway multicast domain.
+    public func acceptTransitGatewayMulticastDomainAssociations(_ input: AcceptTransitGatewayMulticastDomainAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptTransitGatewayMulticastDomainAssociationsResult> {
+        return self.client.execute(operation: "AcceptTransitGatewayMulticastDomainAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Accepts a transit gateway peering attachment request. The peering attachment must be in the pendingAcceptance state.
     public func acceptTransitGatewayPeeringAttachment(_ input: AcceptTransitGatewayPeeringAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptTransitGatewayPeeringAttachmentResult> {
         return self.client.execute(operation: "AcceptTransitGatewayPeeringAttachment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -392,6 +397,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateNetworkAclEntry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze and debug network reachability between two resources in your virtual private cloud (VPC). For more information, see What is Reachability Analyzer.
+    public func createNetworkInsightsPath(_ input: CreateNetworkInsightsPathRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkInsightsPathResult> {
+        return self.client.execute(operation: "CreateNetworkInsightsPath", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a network interface in the specified subnet. For more information about network interfaces, see Elastic Network Interfaces in the Amazon Virtual Private Cloud User Guide.
     public func createNetworkInterface(_ input: CreateNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkInterfaceResult> {
         return self.client.execute(operation: "CreateNetworkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -475,6 +485,16 @@ public struct EC2: AWSService {
     /// Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway. To attach your VPCs, use CreateTransitGatewayVpcAttachment. To attach a VPN connection, use CreateCustomerGateway to create a customer gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to CreateVpnConnection. When you create a transit gateway, we create a default transit gateway route table and use it as the default association route table and the default propagation route table. You can use CreateTransitGatewayRouteTable to create additional transit gateway route tables. If you disable automatic route propagation, we do not create a default transit gateway route table. You can use EnableTransitGatewayRouteTablePropagation to propagate routes from a resource attachment to a transit gateway route table. If you disable automatic associations, you can use AssociateTransitGatewayRouteTable to associate a resource attachment with a transit gateway route table.
     public func createTransitGateway(_ input: CreateTransitGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTransitGatewayResult> {
         return self.client.execute(operation: "CreateTransitGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a Connect attachment from a specified transit gateway attachment. A Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a transit gateway and an appliance. A Connect attachment uses an existing VPC or AWS Direct Connect attachment as the underlying transport mechanism.
+    public func createTransitGatewayConnect(_ input: CreateTransitGatewayConnectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTransitGatewayConnectResult> {
+        return self.client.execute(operation: "CreateTransitGatewayConnect", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a Connect peer for a specified transit gateway Connect attachment between a transit gateway and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). For more information, see Connect peers in the Transit Gateways Guide.
+    public func createTransitGatewayConnectPeer(_ input: CreateTransitGatewayConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTransitGatewayConnectPeerResult> {
+        return self.client.execute(operation: "CreateTransitGatewayConnectPeer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a multicast domain using the specified transit gateway. The transit gateway must be in the available state before you create a domain. Use DescribeTransitGateways to see the state of transit gateway.
@@ -647,6 +667,16 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeleteNetworkAclEntry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the specified network insights analysis.
+    public func deleteNetworkInsightsAnalysis(_ input: DeleteNetworkInsightsAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkInsightsAnalysisResult> {
+        return self.client.execute(operation: "DeleteNetworkInsightsAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified path.
+    public func deleteNetworkInsightsPath(_ input: DeleteNetworkInsightsPathRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkInsightsPathResult> {
+        return self.client.execute(operation: "DeleteNetworkInsightsPath", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the specified network interface. You must detach the network interface before you can delete it.
     @discardableResult public func deleteNetworkInterface(_ input: DeleteNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteNetworkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -725,6 +755,16 @@ public struct EC2: AWSService {
     /// Deletes the specified transit gateway.
     public func deleteTransitGateway(_ input: DeleteTransitGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTransitGatewayResult> {
         return self.client.execute(operation: "DeleteTransitGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified Connect attachment. You must first delete any Connect peers for the attachment.
+    public func deleteTransitGatewayConnect(_ input: DeleteTransitGatewayConnectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTransitGatewayConnectResult> {
+        return self.client.execute(operation: "DeleteTransitGatewayConnect", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified Connect peer.
+    public func deleteTransitGatewayConnectPeer(_ input: DeleteTransitGatewayConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTransitGatewayConnectPeerResult> {
+        return self.client.execute(operation: "DeleteTransitGatewayConnectPeer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified transit gateway multicast domain.
@@ -1132,6 +1172,16 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeNetworkAcls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes one or more of your network insights analyses.
+    public func describeNetworkInsightsAnalyses(_ input: DescribeNetworkInsightsAnalysesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNetworkInsightsAnalysesResult> {
+        return self.client.execute(operation: "DescribeNetworkInsightsAnalyses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes one or more of your paths.
+    public func describeNetworkInsightsPaths(_ input: DescribeNetworkInsightsPathsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNetworkInsightsPathsResult> {
+        return self.client.execute(operation: "DescribeNetworkInsightsPaths", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes a network interface attribute. You can specify only one attribute at a time.
     public func describeNetworkInterfaceAttribute(_ input: DescribeNetworkInterfaceAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNetworkInterfaceAttributeResult> {
         return self.client.execute(operation: "DescribeNetworkInterfaceAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1290,6 +1340,16 @@ public struct EC2: AWSService {
     /// Describes one or more attachments between resources and transit gateways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
     public func describeTransitGatewayAttachments(_ input: DescribeTransitGatewayAttachmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTransitGatewayAttachmentsResult> {
         return self.client.execute(operation: "DescribeTransitGatewayAttachments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes one or more Connect peers.
+    public func describeTransitGatewayConnectPeers(_ input: DescribeTransitGatewayConnectPeersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTransitGatewayConnectPeersResult> {
+        return self.client.execute(operation: "DescribeTransitGatewayConnectPeers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes one or more Connect attachments.
+    public func describeTransitGatewayConnects(_ input: DescribeTransitGatewayConnectsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTransitGatewayConnectsResult> {
+        return self.client.execute(operation: "DescribeTransitGatewayConnects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes one or more transit gateway multicast domains.
@@ -1962,6 +2022,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "RegisterTransitGatewayMulticastGroupSources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Rejects a request to associate cross-account subnets with a transit gateway multicast domain.
+    public func rejectTransitGatewayMulticastDomainAssociations(_ input: RejectTransitGatewayMulticastDomainAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectTransitGatewayMulticastDomainAssociationsResult> {
+        return self.client.execute(operation: "RejectTransitGatewayMulticastDomainAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Rejects a transit gateway peering attachment request.
     public func rejectTransitGatewayPeeringAttachment(_ input: RejectTransitGatewayPeeringAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectTransitGatewayPeeringAttachmentResult> {
         return self.client.execute(operation: "RejectTransitGatewayPeeringAttachment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2125,6 +2190,11 @@ public struct EC2: AWSService {
     /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your Windows instance, Amazon EC2 charges you for a full instance hour. If you stop and restart your Windows instance, a new instance hour begins and Amazon EC2 charges you for another full instance hour even if you are still within the same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. For more information, see Stopping instances in the Amazon Elastic Compute Cloud User Guide.
     public func startInstances(_ input: StartInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartInstancesResult> {
         return self.client.execute(operation: "StartInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts analyzing the specified path. If the path is reachable, the operation returns the shortest feasible path.
+    public func startNetworkInsightsAnalysis(_ input: StartNetworkInsightsAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartNetworkInsightsAnalysisResult> {
+        return self.client.execute(operation: "StartNetworkInsightsAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Initiates the verification process to prove that the service provider owns the private DNS name domain for the endpoint service. The service provider must successfully perform the verification before the consumer can use the name to access the service. Before the service provider runs this command, they must add a record to the DNS server. For more information, see Adding a TXT Record to Your Domain's DNS Server  in the Amazon VPC User Guide.

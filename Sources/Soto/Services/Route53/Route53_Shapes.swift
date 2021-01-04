@@ -122,6 +122,7 @@ extension Route53 {
         case aaaa = "AAAA"
         case caa = "CAA"
         case cname = "CNAME"
+        case ds = "DS"
         case mx = "MX"
         case naptr = "NAPTR"
         case ns = "NS"
@@ -240,6 +241,43 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case type = "Type"
             case value = "Value"
+        }
+    }
+
+    public struct ActivateKeySigningKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+        ]
+
+        /// A unique string used to identify a hosted zone.
+        public let hostedZoneId: String
+        /// An alphanumeric string used to identify a key signing key (KSK).
+        public let name: String
+
+        public init(hostedZoneId: String, name: String) {
+            self.hostedZoneId = hostedZoneId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ActivateKeySigningKeyResponse: AWSDecodableShape {
+        public let changeInfo: ChangeInfo
+
+        public init(changeInfo: ChangeInfo) {
+            self.changeInfo = changeInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
         }
     }
 
@@ -661,6 +699,71 @@ extension Route53 {
         }
     }
 
+    public struct CreateKeySigningKeyRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
+
+        /// A unique string that identifies the request.
+        public let callerReference: String
+        /// The unique string (ID) used to identify a hosted zone.
+        public let hostedZoneId: String
+        /// The Amazon resource name (ARN) for a customer managed key (CMK) in AWS Key Management Service (KMS). The KeyManagementServiceArn must be unique for each key signing key (KSK) in a single hosted zone. To see an example of KeyManagementServiceArn that grants the correct permissions for DNSSEC, scroll down to Example.  You must configure the CMK as follows:  Status  Enabled  Key spec  ECC_NIST_P256  Key usage  Sign and verify  Key policy  The key policy must give permission for the following actions:   DescribeKey   GetPublicKey   Sign   The key policy must also include the Amazon Route 53 service in the principal for your account. Specify the following:    "Service": "api-service.dnssec.route53.aws.internal"      For more information about working with CMK in KMS, see AWS Key Management Service concepts.
+        public let keyManagementServiceArn: String
+        /// An alphanumeric string used to identify a key signing key (KSK). Name must be unique for each key signing key in the same hosted zone.
+        public let name: String
+        /// A string specifying the initial status of the key signing key (KSK). You can set the value to ACTIVE or INACTIVE.
+        public let status: String
+
+        public init(callerReference: String, hostedZoneId: String, keyManagementServiceArn: String, name: String, status: String) {
+            self.callerReference = callerReference
+            self.hostedZoneId = hostedZoneId
+            self.keyManagementServiceArn = keyManagementServiceArn
+            self.name = name
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.callerReference, name: "callerReference", parent: name, max: 128)
+            try self.validate(self.callerReference, name: "callerReference", parent: name, min: 1)
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.status, name: "status", parent: name, max: 150)
+            try self.validate(self.status, name: "status", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callerReference = "CallerReference"
+            case hostedZoneId = "HostedZoneId"
+            case keyManagementServiceArn = "KeyManagementServiceArn"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateKeySigningKeyResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+        ]
+
+        public let changeInfo: ChangeInfo
+        /// The key signing key (KSK) that the request creates.
+        public let keySigningKey: KeySigningKey
+        /// The unique URL representing the new key signing key (KSK).
+        public let location: String
+
+        public init(changeInfo: ChangeInfo, keySigningKey: KeySigningKey, location: String) {
+            self.changeInfo = changeInfo
+            self.keySigningKey = keySigningKey
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
+            case keySigningKey = "KeySigningKey"
+            case location = "Location"
+        }
+    }
+
     public struct CreateQueryLoggingConfigRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
 
@@ -960,6 +1063,60 @@ extension Route53 {
         }
     }
 
+    public struct DNSSECStatus: AWSDecodableShape {
+        /// Indicates your hosted zone signging status: SIGNING, NOT_SIGNING, or INTERNAL_FAILURE. If the status is INTERNAL_FAILURE, see StatusMessage for information about steps that you can take to correct the problem. A status INTERNAL_FAILURE means there was an error during a request. Before you can continue to work with DNSSEC signing, including working with key signing keys (KSKs), you must correct the problem by enabling or disabling DNSSEC signing for the hosted zone.
+        public let serveSignature: String?
+        /// The status message provided for the following DNSSEC signing status: INTERNAL_FAILURE. The status message includes information about what the problem might be and steps that you can take to correct the issue.
+        public let statusMessage: String?
+
+        public init(serveSignature: String? = nil, statusMessage: String? = nil) {
+            self.serveSignature = serveSignature
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serveSignature = "ServeSignature"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct DeactivateKeySigningKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+        ]
+
+        /// A unique string used to identify a hosted zone.
+        public let hostedZoneId: String
+        /// An alphanumeric string used to identify a key signing key (KSK).
+        public let name: String
+
+        public init(hostedZoneId: String, name: String) {
+            self.hostedZoneId = hostedZoneId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeactivateKeySigningKeyResponse: AWSDecodableShape {
+        public let changeInfo: ChangeInfo
+
+        public init(changeInfo: ChangeInfo) {
+            self.changeInfo = changeInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
+        }
+    }
+
     public struct DelegationSet: AWSDecodableShape {
         public struct _NameServersEncoding: ArrayCoderProperties { public static let member = "NameServer" }
 
@@ -1028,6 +1185,43 @@ extension Route53 {
 
     public struct DeleteHostedZoneResponse: AWSDecodableShape {
         /// A complex type that contains the ID, the status, and the date and time of a request to delete a hosted zone.
+        public let changeInfo: ChangeInfo
+
+        public init(changeInfo: ChangeInfo) {
+            self.changeInfo = changeInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
+        }
+    }
+
+    public struct DeleteKeySigningKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "HostedZoneId")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+        ]
+
+        /// A unique string used to identify a hosted zone.
+        public let hostedZoneId: String
+        /// An alphanumeric string used to identify a key signing key (KSK).
+        public let name: String
+
+        public init(hostedZoneId: String, name: String) {
+            self.hostedZoneId = hostedZoneId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteKeySigningKeyResponse: AWSDecodableShape {
         public let changeInfo: ChangeInfo
 
         public init(changeInfo: ChangeInfo) {
@@ -1187,6 +1381,37 @@ extension Route53 {
         }
     }
 
+    public struct DisableHostedZoneDNSSECRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
+        ]
+
+        /// A unique string used to identify a hosted zone.
+        public let hostedZoneId: String
+
+        public init(hostedZoneId: String) {
+            self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisableHostedZoneDNSSECResponse: AWSDecodableShape {
+        public let changeInfo: ChangeInfo
+
+        public init(changeInfo: ChangeInfo) {
+            self.changeInfo = changeInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
+        }
+    }
+
     public struct DisassociateVPCFromHostedZoneRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "https://route53.amazonaws.com/doc/2013-04-01/"
         public static var _encoding = [
@@ -1219,6 +1444,37 @@ extension Route53 {
 
     public struct DisassociateVPCFromHostedZoneResponse: AWSDecodableShape {
         /// A complex type that describes the changes made to the specified private hosted zone.
+        public let changeInfo: ChangeInfo
+
+        public init(changeInfo: ChangeInfo) {
+            self.changeInfo = changeInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
+        }
+    }
+
+    public struct EnableHostedZoneDNSSECRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
+        ]
+
+        /// A unique string used to identify a hosted zone.
+        public let hostedZoneId: String
+
+        public init(hostedZoneId: String) {
+            self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct EnableHostedZoneDNSSECResponse: AWSDecodableShape {
         public let changeInfo: ChangeInfo
 
         public init(changeInfo: ChangeInfo) {
@@ -1372,6 +1628,43 @@ extension Route53 {
 
         private enum CodingKeys: String, CodingKey {
             case checkerIpRanges = "CheckerIpRanges"
+        }
+    }
+
+    public struct GetDNSSECRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostedZoneId", location: .uri(locationName: "Id"))
+        ]
+
+        /// A unique string used to identify a hosted zone.
+        public let hostedZoneId: String
+
+        public init(hostedZoneId: String) {
+            self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDNSSECResponse: AWSDecodableShape {
+        /// The key signing keys (KSKs) in your account.
+        @CustomCoding<StandardArrayCoder>
+        public var keySigningKeys: [KeySigningKey]
+        /// A string repesenting the status of DNSSEC.
+        public let status: DNSSECStatus
+
+        public init(keySigningKeys: [KeySigningKey], status: DNSSECStatus) {
+            self.keySigningKeys = keySigningKeys
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keySigningKeys = "KeySigningKeys"
+            case status = "Status"
         }
     }
 
@@ -2098,6 +2391,79 @@ extension Route53 {
             case hostedZoneId = "HostedZoneId"
             case name = "Name"
             case owner = "Owner"
+        }
+    }
+
+    public struct KeySigningKey: AWSDecodableShape {
+        /// The date when the key signing key (KSK) was created.
+        public let createdDate: Date?
+        /// A string used to represent the delegation signer digest algorithm. This value must follow the guidelines provided by RFC-8624 Section 3.3.
+        public let digestAlgorithmMnemonic: String?
+        /// An integer used to represent the delegation signer digest algorithm. This value must follow the guidelines provided by RFC-8624 Section 3.3.
+        public let digestAlgorithmType: Int?
+        /// A cryptographic digest of a DNSKEY resource record (RR). DNSKEY records are used to publish the public key that resolvers can use to verify DNSSEC signatures that are used to secure certain kinds of information provided by the DNS system.
+        public let digestValue: String?
+        /// A string that represents a DNSKEY record.
+        public let dNSKEYRecord: String?
+        /// A string that represents a delegation signer (DS) record.
+        public let dSRecord: String?
+        /// An integer that specifies how the key is used. For key signing key (KSK), this value is always 257.
+        public let flag: Int?
+        /// An integer used to identify the DNSSEC record for the domain name. The process used to calculate the value is described in RFC-4034 Appendix B.
+        public let keyTag: Int?
+        /// The Amazon resource name (ARN) used to identify the customer managed key (CMK) in AWS Key Management Service (KMS). The KmsArn must be unique for each key signing key (KSK) in a single hosted zone. You must configure the CMK as follows:  Status  Enabled  Key spec  ECC_NIST_P256  Key usage  Sign and verify  Key policy  The key policy must give permission for the following actions:   DescribeKey   GetPublicKey   Sign   The key policy must also include the Amazon Route 53 service in the principal for your account. Specify the following:    "Service": "api-service.dnssec.route53.aws.internal"      For more information about working with the customer managed key (CMK) in KMS, see AWS Key Management Service concepts.
+        public let kmsArn: String?
+        /// The last time that the key signing key (KSK) was changed.
+        public let lastModifiedDate: Date?
+        /// An alphanumeric string used to identify a key signing key (KSK). Name must be unique for each key signing key in the same hosted zone.
+        public let name: String?
+        /// The public key, represented as a Base64 encoding, as required by  RFC-4034 Page 5.
+        public let publicKey: String?
+        /// A string used to represent the signing algorithm. This value must follow the guidelines provided by RFC-8624 Section 3.1.
+        public let signingAlgorithmMnemonic: String?
+        /// An integer used to represent the signing algorithm. This value must follow the guidelines provided by RFC-8624 Section 3.1.
+        public let signingAlgorithmType: Int?
+        /// A string that represents the current key signing key (KSK) status. Status can have one of the following values:  ACTIVE  The KSK is being used for signing.  INACTIVE  The KSK is not being used for signing.  ACTION_NEEDED  There is an error in the KSK that requires you to take action to resolve.  INTERNAL_FAILURE  There was an error during a request. Before you can continue to work with DNSSEC signing, including actions that involve this KSK, you must correct the problem. For example, you may need to activate or deactivate the KSK.
+        public let status: String?
+        /// The status message provided for the following key signing key (KSK) statuses: ACTION_NEEDED or INTERNAL_FAILURE. The status message includes information about what the problem might be and steps that you can take to correct the issue.
+        public let statusMessage: String?
+
+        public init(createdDate: Date? = nil, digestAlgorithmMnemonic: String? = nil, digestAlgorithmType: Int? = nil, digestValue: String? = nil, dNSKEYRecord: String? = nil, dSRecord: String? = nil, flag: Int? = nil, keyTag: Int? = nil, kmsArn: String? = nil, lastModifiedDate: Date? = nil, name: String? = nil, publicKey: String? = nil, signingAlgorithmMnemonic: String? = nil, signingAlgorithmType: Int? = nil, status: String? = nil, statusMessage: String? = nil) {
+            self.createdDate = createdDate
+            self.digestAlgorithmMnemonic = digestAlgorithmMnemonic
+            self.digestAlgorithmType = digestAlgorithmType
+            self.digestValue = digestValue
+            self.dNSKEYRecord = dNSKEYRecord
+            self.dSRecord = dSRecord
+            self.flag = flag
+            self.keyTag = keyTag
+            self.kmsArn = kmsArn
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.publicKey = publicKey
+            self.signingAlgorithmMnemonic = signingAlgorithmMnemonic
+            self.signingAlgorithmType = signingAlgorithmType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "CreatedDate"
+            case digestAlgorithmMnemonic = "DigestAlgorithmMnemonic"
+            case digestAlgorithmType = "DigestAlgorithmType"
+            case digestValue = "DigestValue"
+            case dNSKEYRecord = "DNSKEYRecord"
+            case dSRecord = "DSRecord"
+            case flag = "Flag"
+            case keyTag = "KeyTag"
+            case kmsArn = "KmsArn"
+            case lastModifiedDate = "LastModifiedDate"
+            case name = "Name"
+            case publicKey = "PublicKey"
+            case signingAlgorithmMnemonic = "SigningAlgorithmMnemonic"
+            case signingAlgorithmType = "SigningAlgorithmType"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 

@@ -34,6 +34,14 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResolverDNSSECValidationStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResolverEndpointDirection: String, CustomStringConvertible, Codable {
         case inbound = "INBOUND"
         case outbound = "OUTBOUND"
@@ -109,6 +117,12 @@ extension Route53Resolver {
     public enum SortOrder: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Validation: String, CustomStringConvertible, Codable {
+        case disable = "DISABLE"
+        case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -646,6 +660,37 @@ extension Route53Resolver {
         }
     }
 
+    public struct GetResolverDnssecConfigRequest: AWSEncodableShape {
+        /// The ID of the virtual private cloud (VPC) for the DNSSEC validation status.
+        public let resourceId: String
+
+        public init(resourceId: String) {
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct GetResolverDnssecConfigResponse: AWSDecodableShape {
+        /// The information about a configuration for DNSSEC validation.
+        public let resolverDNSSECConfig: ResolverDnssecConfig?
+
+        public init(resolverDNSSECConfig: ResolverDnssecConfig? = nil) {
+            self.resolverDNSSECConfig = resolverDNSSECConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverDNSSECConfig = "ResolverDNSSECConfig"
+        }
+    }
+
     public struct GetResolverEndpointRequest: AWSEncodableShape {
         /// The ID of the Resolver endpoint that you want to get information about.
         public let resolverEndpointId: String
@@ -802,7 +847,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRulePolicyRequest: AWSEncodableShape {
-        /// The ID of the Resolver rule policy that you want to get information about.
+        /// The ID of the Resolver rule that you want to get the Resolver rule policy for.
         public let arn: String
 
         public init(arn: String) {
@@ -820,7 +865,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRulePolicyResponse: AWSDecodableShape {
-        /// Information about the Resolver rule policy that you specified in a GetResolverRulePolicy request.
+        /// The Resolver rule policy for the rule that you specified in a GetResolverRulePolicy request.
         public let resolverRulePolicy: String?
 
         public init(resolverRulePolicy: String? = nil) {
@@ -951,6 +996,52 @@ extension Route53Resolver {
             case ip = "Ip"
             case ipId = "IpId"
             case subnetId = "SubnetId"
+        }
+    }
+
+    public struct ListResolverDnssecConfigsRequest: AWSEncodableShape {
+        /// An optional specification to return a subset of objects.
+        public let filters: [Filter]?
+        ///  Optional: An integer that specifies the maximum number of DNSSEC configuration results that you want Amazon Route 53 to return. If you don't specify a value for MaxResults, Route 53 returns up to 100 configuration per page.
+        public let maxResults: Int?
+        /// (Optional) If the current AWS account has more than MaxResults DNSSEC configurations, use NextToken to get the second and subsequent pages of results. For the first ListResolverDnssecConfigs request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListResolverDnssecConfigsResponse: AWSDecodableShape {
+        /// If a response includes the last of the DNSSEC configurations that are associated with the current AWS account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another ListResolverDnssecConfigs request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
+        public let nextToken: String?
+        /// An array that contains one ResolverDnssecConfig element for each configuration for DNSSEC validation that is associated with the current AWS account.
+        public let resolverDnssecConfigs: [ResolverDnssecConfig]?
+
+        public init(nextToken: String? = nil, resolverDnssecConfigs: [ResolverDnssecConfig]? = nil) {
+            self.nextToken = nextToken
+            self.resolverDnssecConfigs = resolverDnssecConfigs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resolverDnssecConfigs = "ResolverDnssecConfigs"
         }
     }
 
@@ -1363,9 +1454,9 @@ extension Route53Resolver {
     }
 
     public struct PutResolverRulePolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the account that you want to share rules with.
+        /// The Amazon Resource Name (ARN) of the rule that you want to share with another account.
         public let arn: String
-        /// An AWS Identity and Access Management policy statement that lists the rules that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Actions section of the statement:    route53resolver:GetResolverRule     route53resolver:AssociateResolverRule     route53resolver:DisassociateResolverRule     route53resolver:ListResolverRules     route53resolver:ListResolverRuleAssociations    In the Resource section of the statement, you specify the ARNs for the rules that you want to share with the account that you specified in Arn.
+        /// An AWS Identity and Access Management policy statement that lists the rules that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Action section of the statement:    route53resolver:GetResolverRule     route53resolver:AssociateResolverRule     route53resolver:DisassociateResolverRule     route53resolver:ListResolverRules     route53resolver:ListResolverRuleAssociations    In the Resource section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in Arn.
         public let resolverRulePolicy: String
 
         public init(arn: String, resolverRulePolicy: String) {
@@ -1395,6 +1486,31 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case returnValue = "ReturnValue"
+        }
+    }
+
+    public struct ResolverDnssecConfig: AWSDecodableShape {
+        /// The ID for a configuration for DNSSEC validation.
+        public let id: String?
+        /// The owner account ID of the virtual private cloud (VPC) for a configuration for DNSSEC validation.
+        public let ownerId: String?
+        /// The ID of the virtual private cloud (VPC) that you're configuring the DNSSEC validation status for.
+        public let resourceId: String?
+        /// The validation status for a DNSSEC configuration. The status can be one of the following:    ENABLING: DNSSEC validation is being enabled but is not complete.    ENABLED: DNSSEC validation is enabled.    DISABLING: DNSSEC validation is being disabled but is not complete.    DISABLED DNSSEC validation is disabled.
+        public let validationStatus: ResolverDNSSECValidationStatus?
+
+        public init(id: String? = nil, ownerId: String? = nil, resourceId: String? = nil, validationStatus: ResolverDNSSECValidationStatus? = nil) {
+            self.id = id
+            self.ownerId = ownerId
+            self.resourceId = resourceId
+            self.validationStatus = validationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ownerId = "OwnerId"
+            case resourceId = "ResourceId"
+            case validationStatus = "ValidationStatus"
         }
     }
 
@@ -1778,6 +1894,41 @@ extension Route53Resolver {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateResolverDnssecConfigRequest: AWSEncodableShape {
+        /// The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for.
+        public let resourceId: String
+        /// The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE. Be aware that it can take time for a validation status change to be completed.
+        public let validation: Validation
+
+        public init(resourceId: String, validation: Validation) {
+            self.resourceId = resourceId
+            self.validation = validation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case validation = "Validation"
+        }
+    }
+
+    public struct UpdateResolverDnssecConfigResponse: AWSDecodableShape {
+        /// A complex type that contains settings for the specified DNSSEC configuration.
+        public let resolverDNSSECConfig: ResolverDnssecConfig?
+
+        public init(resolverDNSSECConfig: ResolverDnssecConfig? = nil) {
+            self.resolverDNSSECConfig = resolverDNSSECConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolverDNSSECConfig = "ResolverDNSSECConfig"
+        }
     }
 
     public struct UpdateResolverEndpointRequest: AWSEncodableShape {

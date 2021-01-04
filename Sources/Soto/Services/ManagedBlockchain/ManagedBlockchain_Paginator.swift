@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension ManagedBlockchain {
-    ///  Returns a listing of all invitations for the current AWS account.
+    ///  Returns a list of all invitations for the current AWS account. Applies only to Hyperledger Fabric.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -70,7 +70,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns a listing of the members in a network and properties of their configurations.
+    ///  Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -121,7 +121,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns information about the networks in which the current AWS account has members.
+    ///  Returns information about the networks in which the current AWS account participates. Applies to Hyperledger Fabric and Ethereum.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -172,7 +172,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns information about the nodes within a network.
+    ///  Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -223,7 +223,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns the listing of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.
+    ///  Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -274,7 +274,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns a listing of proposals for the network.
+    ///  Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

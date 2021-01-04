@@ -2576,7 +2576,7 @@ extension QuickSight {
         public let createdTime: Date?
         /// The ID of the dataset.
         public let dataSetId: String?
-        /// Indicates whether you want to import the data into SPICE.
+        /// A value that indicates whether you want to import the data into SPICE.
         public let importMode: DataSetImportMode?
         /// The last time that this dataset was updated.
         public let lastUpdatedTime: Date?
@@ -2682,13 +2682,13 @@ extension QuickSight {
     public struct DataSetSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
-        /// Indicates if the dataset has column level permission configured.
+        /// A value that indicates if the dataset has column level permission configured.
         public let columnLevelPermissionRulesApplied: Bool?
         /// The time that this dataset was created.
         public let createdTime: Date?
         /// The ID of the dataset.
         public let dataSetId: String?
-        /// Indicates whether you want to import the data into SPICE.
+        /// A value that indicates whether you want to import the data into SPICE.
         public let importMode: DataSetImportMode?
         /// The last time that this dataset was updated.
         public let lastUpdatedTime: Date?
@@ -5163,11 +5163,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "userArn", location: .querystring(locationName: "user-arn"))
         ]
 
-        /// A list of one or more dashboard ids that you want to add to a session that includes anonymous authorizations. IdentityType must be set to ANONYMOUS for this to work, because other other identity types authenticate as QuickSight users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
+        /// A list of one or more dashboard IDs that you want to add to a session that includes anonymous users. The IdentityType parameter must be set to ANONYMOUS for this to work, because other identity types authenticate as QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
         public let additionalDashboardIds: [String]?
         /// The ID for the AWS account that contains the dashboard that you're embedding.
         public let awsAccountId: String
-        /// The ID for the dashboard, also added to the IAM policy.
+        /// The ID for the dashboard, also added to the AWS Identity and Access Management (IAM) policy.
         public let dashboardId: String
         /// The authentication method that the user uses to sign in.
         public let identityType: EmbeddingIdentityType
@@ -5177,7 +5177,7 @@ extension QuickSight {
         public let resetDisabled: Bool?
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
-        /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the the subscriber reopens the same dashboard URL. The state is stored in QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
+        /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
         public let statePersistenceEnabled: Bool?
         /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
         public let undoRedoDisabled: Bool?
@@ -5259,7 +5259,7 @@ extension QuickSight {
         public let entryPoint: String?
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
-        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
+        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   AWS Identity and Access Management (IAM) users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
         public let userArn: String?
 
         public init(awsAccountId: String, entryPoint: String? = nil, sessionLifetimeInMinutes: Int64? = nil, userArn: String? = nil) {
@@ -5525,18 +5525,24 @@ extension QuickSight {
     }
 
     public struct JoinInstruction: AWSEncodableShape & AWSDecodableShape {
-        /// Left operand.
+        /// Join key properties of the left operand.
+        public let leftJoinKeyProperties: JoinKeyProperties?
+        /// The operand on the left side of a join.
         public let leftOperand: String
-        /// On Clause.
+        /// The join instructions provided in the ON clause of a join.
         public let onClause: String
-        /// Right operand.
+        /// Join key properties of the right operand.
+        public let rightJoinKeyProperties: JoinKeyProperties?
+        /// The operand on the right side of a join.
         public let rightOperand: String
-        /// Type.
+        /// The type of join that it is.
         public let type: JoinType
 
-        public init(leftOperand: String, onClause: String, rightOperand: String, type: JoinType) {
+        public init(leftJoinKeyProperties: JoinKeyProperties? = nil, leftOperand: String, onClause: String, rightJoinKeyProperties: JoinKeyProperties? = nil, rightOperand: String, type: JoinType) {
+            self.leftJoinKeyProperties = leftJoinKeyProperties
             self.leftOperand = leftOperand
             self.onClause = onClause
+            self.rightJoinKeyProperties = rightJoinKeyProperties
             self.rightOperand = rightOperand
             self.type = type
         }
@@ -5553,10 +5559,25 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case leftJoinKeyProperties = "LeftJoinKeyProperties"
             case leftOperand = "LeftOperand"
             case onClause = "OnClause"
+            case rightJoinKeyProperties = "RightJoinKeyProperties"
             case rightOperand = "RightOperand"
             case type = "Type"
+        }
+    }
+
+    public struct JoinKeyProperties: AWSEncodableShape & AWSDecodableShape {
+        /// A value that indicates that a row in a table is uniquely identified by the columns in a join key. This is used by QuickSight to optimize query performance.
+        public let uniqueKey: Bool?
+
+        public init(uniqueKey: Bool? = nil) {
+            self.uniqueKey = uniqueKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uniqueKey = "UniqueKey"
         }
     }
 
@@ -7415,6 +7436,8 @@ extension QuickSight {
     }
 
     public struct RelationalTable: AWSEncodableShape & AWSDecodableShape {
+        /// The catalog associated with a table.
+        public let catalog: String?
         /// The Amazon Resource Name (ARN) for the data source.
         public let dataSourceArn: String
         /// The column schema of the table.
@@ -7424,7 +7447,8 @@ extension QuickSight {
         /// The schema name. This name applies to certain relational database engines.
         public let schema: String?
 
-        public init(dataSourceArn: String, inputColumns: [InputColumn], name: String, schema: String? = nil) {
+        public init(catalog: String? = nil, dataSourceArn: String, inputColumns: [InputColumn], name: String, schema: String? = nil) {
+            self.catalog = catalog
             self.dataSourceArn = dataSourceArn
             self.inputColumns = inputColumns
             self.name = name
@@ -7432,6 +7456,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 256)
             try self.inputColumns.forEach {
                 try $0.validate(name: "\(name).inputColumns[]")
             }
@@ -7443,6 +7468,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
             case dataSourceArn = "DataSourceArn"
             case inputColumns = "InputColumns"
             case name = "Name"

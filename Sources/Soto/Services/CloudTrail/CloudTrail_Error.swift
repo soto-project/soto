@@ -21,6 +21,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     enum Code: String {
         case cloudTrailARNInvalidException = "CloudTrailARNInvalidException"
         case cloudTrailAccessNotEnabledException = "CloudTrailAccessNotEnabledException"
+        case cloudTrailInvalidClientTokenIdException = "CloudTrailInvalidClientTokenIdException"
         case cloudWatchLogsDeliveryUnavailableException = "CloudWatchLogsDeliveryUnavailableException"
         case insightNotEnabledException = "InsightNotEnabledException"
         case insufficientDependencyServiceAccessPermissionException = "InsufficientDependencyServiceAccessPermissionException"
@@ -85,6 +86,8 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var cloudTrailARNInvalidException: Self { .init(.cloudTrailARNInvalidException) }
     /// This exception is thrown when trusted access has not been enabled between AWS CloudTrail and AWS Organizations. For more information, see Enabling Trusted Access with Other AWS Services and Prepare For Creating a Trail For Your Organization.
     public static var cloudTrailAccessNotEnabledException: Self { .init(.cloudTrailAccessNotEnabledException) }
+    /// This exception is thrown when a call results in the InvalidClientTokenId error code. This can occur when you are creating or updating a trail to send notifications to an Amazon SNS topic that is in a suspended AWS account.
+    public static var cloudTrailInvalidClientTokenIdException: Self { .init(.cloudTrailInvalidClientTokenIdException) }
     /// Cannot set a CloudWatch Logs delivery for this region.
     public static var cloudWatchLogsDeliveryUnavailableException: Self { .init(.cloudWatchLogsDeliveryUnavailableException) }
     /// If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
@@ -103,7 +106,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var invalidCloudWatchLogsRoleArnException: Self { .init(.invalidCloudWatchLogsRoleArnException) }
     /// Occurs if an event category that is not valid is specified as a value of EventCategory.
     public static var invalidEventCategoryException: Self { .init(.invalidEventCategoryException) }
-    /// This exception is thrown when the PutEventSelectors operation is called with a number of event selectors or data resources that is not valid. The combination of event selectors and data resources is not valid. A trail can have up to 5 event selectors. A trail is limited to 250 data resources. These data resources can be distributed across event selectors, but the overall total cannot exceed 250. You can:   Specify a valid number of event selectors (1 to 5) for a trail.   Specify a valid number of data resources (1 to 250) for an event selector. The limit of number of resources on an individual event selector is configurable up to 250. However, this upper limit is allowed only if the total number of data resources does not exceed 250 across all event selectors for a trail.   Specify a valid value for a parameter. For example, specifying the ReadWriteType parameter with a value of read-only is invalid.
+    /// This exception is thrown when the PutEventSelectors operation is called with a number of event selectors, advanced event selectors, or data resources that is not valid. The combination of event selectors or advanced event selectors and data resources is not valid. A trail can have up to 5 event selectors. If a trail uses advanced event selectors, a maximum of 500 total values for all conditions in all advanced event selectors is allowed. A trail is limited to 250 data resources. These data resources can be distributed across event selectors, but the overall total cannot exceed 250. You can:   Specify a valid number of event selectors (1 to 5) for a trail.   Specify a valid number of data resources (1 to 250) for an event selector. The limit of number of resources on an individual event selector is configurable up to 250. However, this upper limit is allowed only if the total number of data resources does not exceed 250 across all event selectors for a trail.   Specify up to 500 values for all conditions in all advanced event selectors for a trail.   Specify a valid value for a parameter. For example, specifying the ReadWriteType parameter with a value of read-only is invalid.
     public static var invalidEventSelectorsException: Self { .init(.invalidEventSelectorsException) }
     /// This exception is thrown when an operation is called on a trail from a region other than the region in which the trail was created.
     public static var invalidHomeRegionException: Self { .init(.invalidHomeRegionException) }
