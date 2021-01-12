@@ -142,3 +142,10 @@ We welcome and encourage contributions from all developers. Please read [CONTRIB
 
 ## License
 Soto is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). See LICENSE for details.
+
+## Backers
+Support development of Soto by becoming a [backer](https://github.com/sponsors/adam-fowler)
+
+<a href="https://github.com/0xTim">
+    <img src="https://avatars1.githubusercontent.com/u/9938337?s=120" width="60px">
+</a>
