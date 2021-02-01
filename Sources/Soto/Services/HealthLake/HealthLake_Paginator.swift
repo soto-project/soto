@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension HealthLake {
-    ///  Lists all FHIR datastores that are in the user’s account, regardless of datastore status.
+    ///  Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -711,6 +711,8 @@ extension SESV2 {
     }
 
     public struct CreateEmailIdentityRequest: AWSEncodableShape {
+        /// The configuration set to use by default when sending from this identity. Note that any configuration set defined in the email sending request takes precedence.
+        public let configurationSetName: String?
         /// If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as opposed to the default method, Easy DKIM. You can only specify this object if the email identity is a domain, as opposed to an address.
         public let dkimSigningAttributes: DkimSigningAttributes?
         /// The email address or domain that you want to verify.
@@ -718,7 +720,8 @@ extension SESV2 {
         /// An array of objects that define the tags (keys and values) that you want to associate with the email identity.
         public let tags: [Tag]?
 
-        public init(dkimSigningAttributes: DkimSigningAttributes? = nil, emailIdentity: String, tags: [Tag]? = nil) {
+        public init(configurationSetName: String? = nil, dkimSigningAttributes: DkimSigningAttributes? = nil, emailIdentity: String, tags: [Tag]? = nil) {
+            self.configurationSetName = configurationSetName
             self.dkimSigningAttributes = dkimSigningAttributes
             self.emailIdentity = emailIdentity
             self.tags = tags
@@ -730,6 +733,7 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
             case dkimSigningAttributes = "DkimSigningAttributes"
             case emailIdentity = "EmailIdentity"
             case tags = "Tags"
@@ -2076,6 +2080,8 @@ extension SESV2 {
     }
 
     public struct GetEmailIdentityResponse: AWSDecodableShape {
+        /// The configuration set used by default when sending from this identity.
+        public let configurationSetName: String?
         /// An object that contains information about the DKIM attributes for the identity.
         public let dkimAttributes: DkimAttributes?
         /// The feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
@@ -2091,7 +2097,8 @@ extension SESV2 {
         /// Specifies whether or not the identity is verified. You can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
 
-        public init(dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, policies: [String: String]? = nil, tags: [Tag]? = nil, verifiedForSendingStatus: Bool? = nil) {
+        public init(configurationSetName: String? = nil, dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, policies: [String: String]? = nil, tags: [Tag]? = nil, verifiedForSendingStatus: Bool? = nil) {
+            self.configurationSetName = configurationSetName
             self.dkimAttributes = dkimAttributes
             self.feedbackForwardingStatus = feedbackForwardingStatus
             self.identityType = identityType
@@ -2102,6 +2109,7 @@ extension SESV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
             case dkimAttributes = "DkimAttributes"
             case feedbackForwardingStatus = "FeedbackForwardingStatus"
             case identityType = "IdentityType"
@@ -3279,6 +3287,34 @@ extension SESV2 {
     }
 
     public struct PutDeliverabilityDashboardOptionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutEmailIdentityConfigurationSetAttributesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "emailIdentity", location: .uri(locationName: "EmailIdentity"))
+        ]
+
+        /// The configuration set that you want to associate with an email identity.
+        public let configurationSetName: String?
+        /// The email address or domain that you want to associate with a configuration set.
+        public let emailIdentity: String
+
+        public init(configurationSetName: String? = nil, emailIdentity: String) {
+            self.configurationSetName = configurationSetName
+            self.emailIdentity = emailIdentity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+        }
+    }
+
+    public struct PutEmailIdentityConfigurationSetAttributesResponse: AWSDecodableShape {
         public init() {}
     }
 

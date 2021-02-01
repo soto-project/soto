@@ -329,13 +329,13 @@ extension Chime {
     public struct AppInstance: AWSDecodableShape {
         /// The ARN of the messaging instance.
         public let appInstanceArn: String?
-        /// The time at which an app instance was created. In epoch milliseconds.
+        /// The time at which an AppInstance was created. In epoch milliseconds.
         public let createdTimestamp: Date?
-        /// The time an app instance was last updated. In epoch milliseconds.
+        /// The time an AppInstance was last updated. In epoch milliseconds.
         public let lastUpdatedTimestamp: Date?
-        /// The metadata of an app instance.
+        /// The metadata of an AppInstance.
         public let metadata: String?
-        /// The name of an app instance.
+        /// The name of an AppInstance.
         public let name: String?
 
         public init(appInstanceArn: String? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
@@ -356,9 +356,9 @@ extension Chime {
     }
 
     public struct AppInstanceAdmin: AWSDecodableShape {
-        /// The name and metadata of the app instance administrator.
+        /// The AppInstanceAdmin data.
         public let admin: Identity?
-        /// The ARN of the app instance administrator.
+        /// The ARN of the AppInstance for which the user is an administrator.
         public let appInstanceArn: String?
         /// The time at which an administrator was created.
         public let createdTimestamp: Date?
@@ -377,7 +377,7 @@ extension Chime {
     }
 
     public struct AppInstanceAdminSummary: AWSDecodableShape {
-        /// The name and metadata of the app instance administrator.
+        /// The details of the AppInstanceAdmin.
         public let admin: Identity?
 
         public init(admin: Identity? = nil) {
@@ -390,7 +390,7 @@ extension Chime {
     }
 
     public struct AppInstanceRetentionSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The length of time in days to retain a channel.
+        /// The length of time in days to retain the messages in a channel.
         public let channelRetentionSettings: ChannelRetentionSettings?
 
         public init(channelRetentionSettings: ChannelRetentionSettings? = nil) {
@@ -407,7 +407,7 @@ extension Chime {
     }
 
     public struct AppInstanceStreamingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The data type of the app instance.
+        /// The type of data to be streamed.
         public let appInstanceDataType: AppInstanceDataType
         /// The resource ARN.
         public let resourceArn: String
@@ -430,11 +430,11 @@ extension Chime {
     }
 
     public struct AppInstanceSummary: AWSDecodableShape {
-        /// The app instance ARN.
+        /// The AppInstance ARN.
         public let appInstanceArn: String?
-        /// The metadata of the app instance summary.
+        /// The metadata of the AppInstance.
         public let metadata: String?
-        /// The name of the app instance summary.
+        /// The name of the AppInstance.
         public let name: String?
 
         public init(appInstanceArn: String? = nil, metadata: String? = nil, name: String? = nil) {
@@ -451,15 +451,15 @@ extension Chime {
     }
 
     public struct AppInstanceUser: AWSDecodableShape {
-        /// The ARN of the app instance user.
+        /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String?
-        /// The time at which the app instance user was created.
+        /// The time at which the AppInstanceUser was created.
         public let createdTimestamp: Date?
-        /// The time at which the app instance user was last updated.
+        /// The time at which the AppInstanceUser was last updated.
         public let lastUpdatedTimestamp: Date?
-        /// The metadata of the app instance user.
+        /// The metadata of the AppInstanceUser.
         public let metadata: String?
-        /// The name of the app instance user.
+        /// The name of the AppInstanceUser.
         public let name: String?
 
         public init(appInstanceUserArn: String? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
@@ -480,9 +480,9 @@ extension Chime {
     }
 
     public struct AppInstanceUserMembershipSummary: AWSDecodableShape {
-        /// The time at which a summary was last read.
+        /// The time at which a message was last read.
         public let readMarkerTimestamp: Date?
-        /// The type of channel summary,
+        /// The type of ChannelMembership.
         public let type: ChannelMembershipType?
 
         public init(readMarkerTimestamp: Date? = nil, type: ChannelMembershipType? = nil) {
@@ -497,11 +497,11 @@ extension Chime {
     }
 
     public struct AppInstanceUserSummary: AWSDecodableShape {
-        /// The ARN of the app instance user.
+        /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String?
-        /// The metadata in an app instance user summary.
+        /// The metadata of the AppInstanceUser.
         public let metadata: String?
-        /// The name in an app instance user summary.
+        /// The name of an AppInstanceUser.
         public let name: String?
 
         public init(appInstanceUserArn: String? = nil, metadata: String? = nil, name: String? = nil) {
@@ -671,7 +671,7 @@ extension Chime {
     public struct Attendee: AWSDecodableShape {
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String?
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. If you create an attendee with the same external user id, the service returns the existing record.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String?
         /// The join token used by the Amazon Chime SDK attendee.
         public let joinToken: String?
@@ -1027,21 +1027,21 @@ extension Chime {
     public struct Channel: AWSDecodableShape {
         /// The ARN of the channel.
         public let channelArn: String?
-        /// The administrator who created the channel.
+        /// The AppInstanceUser who created the channel.
         public let createdBy: Identity?
-        /// The time at which the administrator created the channel.
+        /// The time at which the AppInstanceUser created the channel.
         public let createdTimestamp: Date?
-        /// The time at which a member sent the last message in a session.
+        /// The time at which a member sent the last message in the channel.
         public let lastMessageTimestamp: Date?
         /// The time at which a channel was last updated.
         public let lastUpdatedTimestamp: Date?
-        /// The metadata of the channel.
+        /// The channel's metadata.
         public let metadata: String?
         /// The mode of the channel.
         public let mode: ChannelMode?
         /// The name of the channel.
         public let name: String?
-        /// The channel's privacy setting, PUBLIC or HIDDEN.
+        /// The channel's privacy setting.
         public let privacy: ChannelPrivacy?
 
         public init(channelArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, lastMessageTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
@@ -1072,7 +1072,7 @@ extension Chime {
     public struct ChannelBan: AWSDecodableShape {
         /// The ARN of the channel from which a member is being banned.
         public let channelArn: String?
-        /// The parameter of the action.
+        /// The AppInstanceUser who created the ban.
         public let createdBy: Identity?
         /// The time at which the ban was created.
         public let createdTimestamp: Date?
@@ -1112,7 +1112,7 @@ extension Chime {
         public let channelArn: String?
         /// The time at which the channel membership was created.
         public let createdTimestamp: Date?
-        /// The identifier of the member who invited another member. Taken from the message header.
+        /// The identifier of the member who invited another member.
         public let invitedBy: Identity?
         /// The time at which a channel membership was last updated.
         public let lastUpdatedTimestamp: Date?
@@ -1141,7 +1141,7 @@ extension Chime {
     }
 
     public struct ChannelMembershipForAppInstanceUserSummary: AWSDecodableShape {
-        /// Returns the channel membership data for an app instance.
+        /// Returns the channel membership data for an AppInstance.
         public let appInstanceUserMembershipSummary: AppInstanceUserMembershipSummary?
         public let channelSummary: ChannelSummary?
 
@@ -1184,8 +1184,9 @@ extension Chime {
         public let messageId: String?
         /// The message metadata.
         public let metadata: String?
+        /// The persistence setting for a channel message.
         public let persistence: ChannelMessagePersistenceType?
-        /// Hides the content of a message. The message still exists on the back end, but this action only returns metadata.
+        /// Hides the content of a message.
         public let redacted: Bool?
         /// The message sender.
         public let sender: Identity?
@@ -1222,21 +1223,23 @@ extension Chime {
     }
 
     public struct ChannelMessageSummary: AWSDecodableShape {
-        /// The content of the message summary.
+        /// The content of the message.
         public let content: String?
         /// The time at which the message summary was created.
         public let createdTimestamp: Date?
+        /// The time at which a message was last edited.
         public let lastEditedTimestamp: Date?
+        /// The time at which a message was last updated.
         public let lastUpdatedTimestamp: Date?
-        /// The ID of the message summary.
+        /// The ID of the message.
         public let messageId: String?
-        /// The metadata of the message summary.
+        /// The metadata of the message.
         public let metadata: String?
-        /// Redacts the content of a message summary.
+        /// Indicates whether a message was redacted.
         public let redacted: Bool?
-        /// The sender of the message summary.
+        /// The message sender.
         public let sender: Identity?
-        /// The type of message summary.
+        /// The type of message.
         public let type: ChannelMessageType?
 
         public init(content: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageId: String? = nil, metadata: String? = nil, redacted: Bool? = nil, sender: Identity? = nil, type: ChannelMessageType? = nil) {
@@ -1279,7 +1282,7 @@ extension Chime {
     public struct ChannelModerator: AWSDecodableShape {
         /// The ARN of the moderator's channel.
         public let channelArn: String?
-        /// The member who created the moderator.
+        /// The AppInstanceUser who created the moderator.
         public let createdBy: Identity?
         /// The time at which the moderator was created.
         public let createdTimestamp: Date?
@@ -1315,7 +1318,7 @@ extension Chime {
     }
 
     public struct ChannelRetentionSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The time in days to retain a channel.
+        /// The time in days to retain the messages in a channel.
         public let retentionDays: Int?
 
         public init(retentionDays: Int? = nil) {
@@ -1333,17 +1336,17 @@ extension Chime {
     }
 
     public struct ChannelSummary: AWSDecodableShape {
-        /// The ARN of the channel summary.
+        /// The ARN of the channel.
         public let channelArn: String?
         /// The time at which the last message in a channel was sent.
         public let lastMessageTimestamp: Date?
-        /// The metadata of the channel summary.
+        /// The metadata of the channel.
         public let metadata: String?
-        /// The summary mode of the channel.
+        /// The mode of the channel.
         public let mode: ChannelMode?
-        /// The parameter of the action.
+        /// The name of the channel.
         public let name: String?
-        /// The privacy setting of the channel being summarized, PUBLIC or HIDDEN.
+        /// The privacy setting of the channel.
         public let privacy: ChannelPrivacy?
 
         public init(channelArn: String? = nil, lastMessageTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
@@ -1366,7 +1369,7 @@ extension Chime {
     }
 
     public struct ConversationRetentionSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days for which to retain chat conversation messages.
+        /// The number of days for which to retain conversation messages.
         public let retentionDays: Int?
 
         public init(retentionDays: Int? = nil) {
@@ -1403,6 +1406,7 @@ extension Chime {
     }
 
     public struct CreateAccountResponse: AWSDecodableShape {
+        /// The Amazon Chime account details.
         public let account: Account?
 
         public init(account: Account? = nil) {
@@ -1419,9 +1423,9 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the administrator of the current app instance.
+        /// The ARN of the administrator of the current AppInstance.
         public let appInstanceAdminArn: String
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
@@ -1444,9 +1448,9 @@ extension Chime {
     }
 
     public struct CreateAppInstanceAdminResponse: AWSDecodableShape {
-        /// The name and ARN of the admin for the app instance.
+        /// The name and ARN of the admin for the AppInstance.
         public let appInstanceAdmin: Identity?
-        /// The ARN of the of the admin for the app instance.
+        /// The ARN of the of the admin for the AppInstance.
         public let appInstanceArn: String?
 
         public init(appInstanceAdmin: Identity? = nil, appInstanceArn: String? = nil) {
@@ -1461,17 +1465,20 @@ extension Chime {
     }
 
     public struct CreateAppInstanceRequest: AWSEncodableShape {
-        /// The ClientRequestToken of the app instance.
+        /// The ClientRequestToken of the AppInstance.
         public let clientRequestToken: String
-        /// The metadata of the app instance. Limited to a 1KB string in UTF-8.
+        /// The metadata of the AppInstance. Limited to a 1KB string in UTF-8.
         public let metadata: String?
-        /// The name of the app instance.
+        /// The name of the AppInstance.
         public let name: String
+        /// Tags assigned to the AppInstanceUser.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String = CreateAppInstanceRequest.idempotencyToken(), metadata: String? = nil, name: String) {
+        public init(clientRequestToken: String = CreateAppInstanceRequest.idempotencyToken(), metadata: String? = nil, name: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.metadata = metadata
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1484,17 +1491,23 @@ extension Chime {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case metadata = "Metadata"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
     public struct CreateAppInstanceResponse: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the app instance.
+        /// The Amazon Resource Number (ARN) of the AppInstance.
         public let appInstanceArn: String?
 
         public init(appInstanceArn: String? = nil) {
@@ -1507,23 +1520,26 @@ extension Chime {
     }
 
     public struct CreateAppInstanceUserRequest: AWSEncodableShape {
-        /// The ARN of the app instance request.
+        /// The ARN of the AppInstance request.
         public let appInstanceArn: String
-        /// The user ID of the app instance.
+        /// The user ID of the AppInstance.
         public let appInstanceUserId: String
-        /// The token assigned to the user requesting an app instance.
+        /// The token assigned to the user requesting an AppInstance.
         public let clientRequestToken: String
         /// The request's metadata. Limited to a 1KB string in UTF-8.
         public let metadata: String?
         /// The user's name.
         public let name: String
+        /// Tags assigned to the AppInstanceUser.
+        public let tags: [Tag]?
 
-        public init(appInstanceArn: String, appInstanceUserId: String, clientRequestToken: String = CreateAppInstanceUserRequest.idempotencyToken(), metadata: String? = nil, name: String) {
+        public init(appInstanceArn: String, appInstanceUserId: String, clientRequestToken: String = CreateAppInstanceUserRequest.idempotencyToken(), metadata: String? = nil, name: String, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceUserId = appInstanceUserId
             self.clientRequestToken = clientRequestToken
             self.metadata = metadata
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1542,6 +1558,11 @@ extension Chime {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1550,6 +1571,7 @@ extension Chime {
             case clientRequestToken = "ClientRequestToken"
             case metadata = "Metadata"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -1571,7 +1593,7 @@ extension Chime {
         public let errorCode: String?
         /// The error message.
         public let errorMessage: String?
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. If you create an attendee with the same external user id, the service returns the existing record.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String?
 
         public init(errorCode: String? = nil, errorMessage: String? = nil, externalUserId: String? = nil) {
@@ -1592,7 +1614,7 @@ extension Chime {
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
 
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. If you create an attendee with the same external user id, the service returns the existing record.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
@@ -1623,7 +1645,7 @@ extension Chime {
     }
 
     public struct CreateAttendeeRequestItem: AWSEncodableShape {
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. If you create an attendee with the same external user id, the service returns the existing record. The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String
         /// The tag key-value pairs.
         public let tags: [Tag]?
@@ -1706,16 +1728,20 @@ extension Chime {
 
     public struct CreateChannelBanRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the ban request.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The ARN of the member being banned.
         public let memberArn: String
 
-        public init(channelArn: String, memberArn: String) {
+        public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.memberArn = memberArn
         }
 
@@ -1723,6 +1749,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -1752,18 +1781,22 @@ extension Chime {
 
     public struct CreateChannelMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel to which you're adding users.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The ARN of the member you want to add to the channel.
         public let memberArn: String
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
         public let type: ChannelMembershipType
 
-        public init(channelArn: String, memberArn: String, type: ChannelMembershipType) {
+        public init(channelArn: String, chimeBearer: String? = nil, memberArn: String, type: ChannelMembershipType) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.memberArn = memberArn
             self.type = type
         }
@@ -1772,6 +1805,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -1802,17 +1838,21 @@ extension Chime {
 
     public struct CreateChannelModeratorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the moderator.
         public let channelModeratorArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
 
-        public init(channelArn: String, channelModeratorArn: String) {
+        public init(channelArn: String, channelModeratorArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
+            self.chimeBearer = chimeBearer
         }
 
         public func validate(name: String) throws {
@@ -1822,6 +1862,9 @@ extension Chime {
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, max: 1600)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, min: 5)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1847,8 +1890,14 @@ extension Chime {
     }
 
     public struct CreateChannelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+        ]
+
         /// The ARN of the channel request.
         public let appInstanceArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The client token for the request. An Idempotency token.
         public let clientRequestToken: String
         /// The metadata of the creation request. Limited to 1KB and UTF-8.
@@ -1857,12 +1906,14 @@ extension Chime {
         public let mode: ChannelMode?
         /// The name of the channel.
         public let name: String
-        /// The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't discoverable by users outside the channel. Public channels are discoverable by anyone in the app instance.
+        /// The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't discoverable by users outside the channel. Public channels are discoverable by anyone in the AppInstance.
         public let privacy: ChannelPrivacy?
+        /// The tags for the creation request.
         public let tags: [Tag]?
 
-        public init(appInstanceArn: String, clientRequestToken: String = CreateChannelRequest.idempotencyToken(), metadata: String? = nil, mode: ChannelMode? = nil, name: String, privacy: ChannelPrivacy? = nil, tags: [Tag]? = nil) {
+        public init(appInstanceArn: String, chimeBearer: String? = nil, clientRequestToken: String = CreateChannelRequest.idempotencyToken(), metadata: String? = nil, mode: ChannelMode? = nil, name: String, privacy: ChannelPrivacy? = nil, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
+            self.chimeBearer = chimeBearer
             self.clientRequestToken = clientRequestToken
             self.metadata = metadata
             self.mode = mode
@@ -1875,6 +1926,9 @@ extension Chime {
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
@@ -1922,9 +1976,9 @@ extension Chime {
 
         /// Phone number used as the caller ID when the remote party receives a call.
         public let fromPhoneNumber: String
-        /// Token used by the Amazon Chime SDK attendee. Call the  CreateAttendee API to get a join token.
+        /// Token used by the Amazon Chime SDK attendee. Call the CreateAttendee action to get a join token.
         public let joinToken: String
-        /// The Amazon Chime SDK meeting ID. Type: String Pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} Required: No
+        /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
         /// Phone number called when inviting someone to a meeting.
         public let toPhoneNumber: String
@@ -1970,7 +2024,7 @@ extension Chime {
         public let clientRequestToken: String
         /// The external meeting ID.
         public let externalMeetingId: String?
-        /// The Region in which to create the meeting. Default: us-east-1. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
+        ///  The Region in which to create the meeting. Default: us-east-1.   Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 .
         public let mediaRegion: String?
         /// Reserved.
         public let meetingHostId: String?
@@ -2015,7 +2069,7 @@ extension Chime {
     }
 
     public struct CreateMeetingResponse: AWSDecodableShape {
-        /// The meeting information, including the meeting ID and MediaPlacement.
+        ///  The meeting information, including the meeting ID and MediaPlacement .
         public let meeting: Meeting?
 
         public init(meeting: Meeting? = nil) {
@@ -2034,7 +2088,7 @@ extension Chime {
         public let clientRequestToken: String
         /// The external meeting ID.
         public let externalMeetingId: String?
-        /// The Region in which to create the meeting. Default: us-east-1. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
+        ///  The Region in which to create the meeting. Default: us-east-1 .   Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 .
         public let mediaRegion: String?
         /// Reserved.
         public let meetingHostId: String?
@@ -2308,13 +2362,13 @@ extension Chime {
         ]
 
         /// The phone number that a user calls from.
-        public let fromPhoneNumber: String?
+        public let fromPhoneNumber: String
         /// The ID of the SIP media application.
         public let sipMediaApplicationId: String
-        /// The phone number that the user dials in order to connect to a meeting
-        public let toPhoneNumber: String?
+        /// The phone number that the user dials in order to connect to a meeting.
+        public let toPhoneNumber: String
 
-        public init(fromPhoneNumber: String? = nil, sipMediaApplicationId: String, toPhoneNumber: String? = nil) {
+        public init(fromPhoneNumber: String, sipMediaApplicationId: String, toPhoneNumber: String) {
             self.fromPhoneNumber = fromPhoneNumber
             self.sipMediaApplicationId = sipMediaApplicationId
             self.toPhoneNumber = toPhoneNumber
@@ -2346,14 +2400,14 @@ extension Chime {
     }
 
     public struct CreateSipMediaApplicationRequest: AWSEncodableShape {
-        /// AWS Region assigned to the SIP media application.
+        /// The AWS Region assigned to the SIP media application.
         public let awsRegion: String
         /// List of endpoints (Lambda Amazon Resource Names) specified for the SIP media application. Currently, only one endpoint is supported.
         public let endpoints: [SipMediaApplicationEndpoint]
         /// The SIP media application name.
-        public let name: String?
+        public let name: String
 
-        public init(awsRegion: String, endpoints: [SipMediaApplicationEndpoint], name: String? = nil) {
+        public init(awsRegion: String, endpoints: [SipMediaApplicationEndpoint], name: String) {
             self.awsRegion = awsRegion
             self.endpoints = endpoints
             self.name = name
@@ -2377,7 +2431,7 @@ extension Chime {
     }
 
     public struct CreateSipMediaApplicationResponse: AWSDecodableShape {
-        /// The Sip media application details.
+        /// The SIP media application details.
         public let sipMediaApplication: SipMediaApplication?
 
         public init(sipMediaApplication: SipMediaApplication? = nil) {
@@ -2396,9 +2450,9 @@ extension Chime {
         public let name: String
         /// List of SIP media applications with priority and AWS Region. Only one SIP application per AWS Region can be used.
         public let targetApplications: [SipRuleTargetApplication]
-        /// The type of trigger whose value is assigned to the SIP rule in TriggerValue. Allowed trigger values are RequestUriHostname and ToPhoneNumber.
+        /// The type of trigger assigned to the SIP rule in TriggerValue, currently RequestUriHostname or ToPhoneNumber.
         public let triggerType: SipRuleTriggerType
-        /// If TriggerType is RequestUriHostname then the value can be the outbound host name of an Amazon Chime Voice Connector. If TriggerType is ToPhoneNumber then the value can be a customer-owned phone number in E164 format. SipRule is triggered if the SIP application requests a host name, or a If TriggerType is RequestUriHostname, then the value can be the outbound hostname of an Amazon Chime Voice Connector. If TriggerType is ToPhoneNumber, then the value can be a customer-owned phone number in E164 format. SipRule is triggered if the SIP application requests a host name, or a ToPhoneNumber value matches the incoming SIP request.
+        /// If TriggerType is RequestUriHostname, the value can be the outbound host name of an Amazon Chime Voice Connector. If TriggerType is ToPhoneNumber, the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP request matches the RequestUriHostname, or if the To header in the incoming SIP request matches the ToPhoneNumber value.
         public let triggerValue: String
 
         public init(disabled: Bool? = nil, name: String, targetApplications: [SipRuleTargetApplication], triggerType: SipRuleTriggerType, triggerValue: String) {
@@ -2526,7 +2580,7 @@ extension Chime {
     }
 
     public struct CreateVoiceConnectorRequest: AWSEncodableShape {
-        /// The AWS Region in which the Amazon Chime Voice Connector is created. Default value: us-east-1.
+        ///  The AWS Region in which the Amazon Chime Voice Connector is created. Default value: us-east-1 .
         public let awsRegion: VoiceConnectorAwsRegion?
         /// The name of the Amazon Chime Voice Connector.
         public let name: String
@@ -2637,9 +2691,9 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the app instance's administrator.
+        /// The ARN of the AppInstance's administrator.
         public let appInstanceAdminArn: String
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
@@ -2664,7 +2718,7 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceArn: String) {
@@ -2749,16 +2803,20 @@ extension Chime {
     public struct DeleteChannelBanRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "memberArn", location: .uri(locationName: "memberArn"))
         ]
 
-        /// The ARN of the channel from which the app instance user was banned.
+        /// The ARN of the channel from which the AppInstanceUser was banned.
         public let channelArn: String
-        /// The ARN of the app instance user that you want to reinstate.
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
+        /// The ARN of the AppInstanceUser that you want to reinstate.
         public let memberArn: String
 
-        public init(channelArn: String, memberArn: String) {
+        public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.memberArn = memberArn
         }
 
@@ -2766,6 +2824,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2777,16 +2838,20 @@ extension Chime {
     public struct DeleteChannelMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "memberArn", location: .uri(locationName: "memberArn"))
         ]
 
         /// The ARN of the channel from which you want to remove the user.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The ARN of the member that you're removing from the channel.
         public let memberArn: String
 
-        public init(channelArn: String, memberArn: String) {
+        public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.memberArn = memberArn
         }
 
@@ -2794,6 +2859,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2805,16 +2873,20 @@ extension Chime {
     public struct DeleteChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The ID of the message being deleted.
         public let messageId: String
 
-        public init(channelArn: String, messageId: String) {
+        public init(channelArn: String, chimeBearer: String? = nil, messageId: String) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.messageId = messageId
         }
 
@@ -2822,6 +2894,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "[-_a-zA-Z0-9]*")
@@ -2833,17 +2908,21 @@ extension Chime {
     public struct DeleteChannelModeratorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
-            AWSMemberEncoding(label: "channelModeratorArn", location: .uri(locationName: "channelModeratorArn"))
+            AWSMemberEncoding(label: "channelModeratorArn", location: .uri(locationName: "channelModeratorArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the moderator being deleted.
         public let channelModeratorArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
 
-        public init(channelArn: String, channelModeratorArn: String) {
+        public init(channelArn: String, channelModeratorArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
+            self.chimeBearer = chimeBearer
         }
 
         public func validate(name: String) throws {
@@ -2853,6 +2932,9 @@ extension Chime {
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, max: 1600)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, min: 5)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2860,20 +2942,27 @@ extension Chime {
 
     public struct DeleteChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel being deleted.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
 
-        public init(channelArn: String) {
+        public init(channelArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
         }
 
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3221,9 +3310,9 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the app instance administrator.
+        /// The ARN of the AppInstanceAdmin.
         public let appInstanceAdminArn: String
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
@@ -3244,7 +3333,7 @@ extension Chime {
     }
 
     public struct DescribeAppInstanceAdminResponse: AWSDecodableShape {
-        /// The ARN and name of the app instance user, the ARN of the app instance, and the created and last-updated timestamps. All timestamps use epoch milliseconds.
+        /// The ARN and name of the AppInstanceUser, the ARN of the AppInstance, and the created and last-updated timestamps. All timestamps use epoch milliseconds.
         public let appInstanceAdmin: AppInstanceAdmin?
 
         public init(appInstanceAdmin: AppInstanceAdmin? = nil) {
@@ -3261,7 +3350,7 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceArn: String) {
@@ -3278,7 +3367,7 @@ extension Chime {
     }
 
     public struct DescribeAppInstanceResponse: AWSDecodableShape {
-        /// The ARN, metadata, created and last-updated timestamps, and the name of the app instance. All timestamps use epoch milliseconds.
+        /// The ARN, metadata, created and last-updated timestamps, and the name of the AppInstance. All timestamps use epoch milliseconds.
         public let appInstance: AppInstance?
 
         public init(appInstance: AppInstance? = nil) {
@@ -3295,7 +3384,7 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "appInstanceUserArn"))
         ]
 
-        /// The ARN of the app instance user.
+        /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
 
         public init(appInstanceUserArn: String) {
@@ -3312,7 +3401,7 @@ extension Chime {
     }
 
     public struct DescribeAppInstanceUserResponse: AWSDecodableShape {
-        /// The name of the app instance user.
+        /// The name of the AppInstanceUser.
         public let appInstanceUser: AppInstanceUser?
 
         public init(appInstanceUser: AppInstanceUser? = nil) {
@@ -3327,16 +3416,20 @@ extension Chime {
     public struct DescribeChannelBanRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "memberArn", location: .uri(locationName: "memberArn"))
         ]
 
         /// The ARN of the channel from which the user is banned.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The ARN of the member being banned.
         public let memberArn: String
 
-        public init(channelArn: String, memberArn: String) {
+        public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.memberArn = memberArn
         }
 
@@ -3344,6 +3437,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3368,17 +3464,21 @@ extension Chime {
     public struct DescribeChannelMembershipForAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring(locationName: "app-instance-user-arn")),
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the user in a channel.
         public let appInstanceUserArn: String
         /// The ARN of the channel to which the user belongs.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
 
-        public init(appInstanceUserArn: String, channelArn: String) {
+        public init(appInstanceUserArn: String, channelArn: String, chimeBearer: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
         }
 
         public func validate(name: String) throws {
@@ -3388,6 +3488,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3409,16 +3512,20 @@ extension Chime {
     public struct DescribeChannelMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "memberArn", location: .uri(locationName: "memberArn"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The ARN of the member.
         public let memberArn: String
 
-        public init(channelArn: String, memberArn: String) {
+        public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.memberArn = memberArn
         }
 
@@ -3426,6 +3533,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3450,17 +3560,21 @@ extension Chime {
     public struct DescribeChannelModeratedByAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring(locationName: "app-instance-user-arn")),
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
-        /// The ARN of the app instance user in the moderated channel.
+        /// The ARN of the AppInstanceUser in the moderated channel.
         public let appInstanceUserArn: String
         /// The ARN of the moderated channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
 
-        public init(appInstanceUserArn: String, channelArn: String) {
+        public init(appInstanceUserArn: String, channelArn: String, chimeBearer: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
         }
 
         public func validate(name: String) throws {
@@ -3470,6 +3584,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3491,17 +3608,21 @@ extension Chime {
     public struct DescribeChannelModeratorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
-            AWSMemberEncoding(label: "channelModeratorArn", location: .uri(locationName: "channelModeratorArn"))
+            AWSMemberEncoding(label: "channelModeratorArn", location: .uri(locationName: "channelModeratorArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
         /// The ARN of the channel moderator.
         public let channelModeratorArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
 
-        public init(channelArn: String, channelModeratorArn: String) {
+        public init(channelArn: String, channelModeratorArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
+            self.chimeBearer = chimeBearer
         }
 
         public func validate(name: String) throws {
@@ -3511,6 +3632,9 @@ extension Chime {
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, max: 1600)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, min: 5)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3531,20 +3655,27 @@ extension Chime {
 
     public struct DescribeChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
 
-        public init(channelArn: String) {
+        public init(channelArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
         }
 
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3777,6 +3908,7 @@ extension Chime {
     }
 
     public struct GetAccountResponse: AWSDecodableShape {
+        /// The Amazon Chime account details.
         public let account: Account?
 
         public init(account: Account? = nil) {
@@ -3825,7 +3957,7 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceArn: String) {
@@ -3842,7 +3974,7 @@ extension Chime {
     }
 
     public struct GetAppInstanceRetentionSettingsResponse: AWSDecodableShape {
-        /// The retention settings for the app instance.
+        /// The retention settings for the AppInstance.
         public let appInstanceRetentionSettings: AppInstanceRetentionSettings?
         /// The timestamp representing the time at which the specified items are retained, in Epoch Seconds.
         public let initiateDeletionTimestamp: Date?
@@ -3863,7 +3995,7 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceArn: String) {
@@ -3969,16 +4101,20 @@ extension Chime {
     public struct GetChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The ID of the message.
         public let messageId: String
 
-        public init(channelArn: String, messageId: String) {
+        public init(channelArn: String, chimeBearer: String? = nil, messageId: String) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.messageId = messageId
         }
 
@@ -3986,6 +4122,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "[-_a-zA-Z0-9]*")
@@ -4308,7 +4447,7 @@ extension Chime {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri(locationName: "sipMediaApplicationId"))
         ]
 
-        /// The ID of the SIP media application.
+        /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationId: String) {
@@ -4882,9 +5021,9 @@ extension Chime {
     }
 
     public struct ListAccountsResponse: AWSDecodableShape {
-        /// The list of accounts.
+        /// List of Amazon Chime accounts and account details.
         public let accounts: [Account]?
-        /// The account's user token.
+        /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
         public init(accounts: [Account]? = nil, nextToken: String? = nil) {
@@ -4905,7 +5044,7 @@ extension Chime {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The maximum number of administrators that you want to return.
         public let maxResults: Int?
@@ -4935,7 +5074,7 @@ extension Chime {
     public struct ListAppInstanceAdminsResponse: AWSDecodableShape {
         /// The information for each administrator.
         public let appInstanceAdmins: [AppInstanceAdminSummary]?
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String?
         /// The token returned from previous API requests until the number of administrators is reached.
         public let nextToken: String?
@@ -4960,7 +5099,7 @@ extension Chime {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The maximum number of requests that you want returned.
         public let maxResults: Int?
@@ -4988,9 +5127,9 @@ extension Chime {
     }
 
     public struct ListAppInstanceUsersResponse: AWSDecodableShape {
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String?
-        /// The information for each of the requested app instance users.
+        /// The information for each requested AppInstanceUser.
         public let appInstanceUsers: [AppInstanceUserSummary]?
         /// The token passed by previous API calls until all requested users are returned.
         public let nextToken: String?
@@ -5014,9 +5153,9 @@ extension Chime {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The maximum number of app instances that you want to return.
+        /// The maximum number of AppInstances that you want to return.
         public let maxResults: Int?
-        /// The token passed by previous API requests until you reach the maximum number of app instances.
+        /// The token passed by previous API requests until you reach the maximum number of AppInstances.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -5036,9 +5175,9 @@ extension Chime {
     }
 
     public struct ListAppInstancesResponse: AWSDecodableShape {
-        /// The information for each app instance.
+        /// The information for each AppInstance.
         public let appInstances: [AppInstanceSummary]?
-        /// The token passed by previous API requests until the maximum number of app instances is reached.
+        /// The token passed by previous API requests until the maximum number of AppInstances is reached.
         public let nextToken: String?
 
         public init(appInstances: [AppInstanceSummary]? = nil, nextToken: String? = nil) {
@@ -5184,19 +5323,23 @@ extension Chime {
     public struct ListChannelBansRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The maximum number of bans that you want returned.
         public let maxResults: Int?
         /// The token passed by previous API calls until all requested bans are returned.
         public let nextToken: String?
 
-        public init(channelArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(channelArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5205,6 +5348,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -5239,19 +5385,23 @@ extension Chime {
     public struct ListChannelMembershipsForAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring(locationName: "app-instance-user-arn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
-        /// The ARN of the app instance users
+        /// The ARN of the AppInstanceUsers
         public let appInstanceUserArn: String?
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The maximum number of users that you want returned.
         public let maxResults: Int?
         /// The token returned from previous API requests until the number of channel memberships is reached.
         public let nextToken: String?
 
-        public init(appInstanceUserArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(appInstanceUserArn: String? = nil, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
+            self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5260,6 +5410,9 @@ extension Chime {
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -5290,6 +5443,7 @@ extension Chime {
     public struct ListChannelMembershipsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
             AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
@@ -5297,15 +5451,18 @@ extension Chime {
 
         /// The maximum number of channel memberships that you want returned.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The maximum number of channel memberships that you want returned.
         public let maxResults: Int?
-        /// The token passed by previous API calls until all requested channel memberships are returned..
+        /// The token passed by previous API calls until all requested channel memberships are returned.
         public let nextToken: String?
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
         public let type: ChannelMembershipType?
 
-        public init(channelArn: String, maxResults: Int? = nil, nextToken: String? = nil, type: ChannelMembershipType? = nil) {
+        public init(channelArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.type = type
@@ -5315,6 +5472,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -5349,6 +5509,7 @@ extension Chime {
     public struct ListChannelMessagesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
             AWSMemberEncoding(label: "notAfter", location: .querystring(locationName: "not-after")),
@@ -5358,6 +5519,8 @@ extension Chime {
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The maximum number of messages that you want returned.
         public let maxResults: Int?
         /// The token passed by previous API calls until all requested messages are returned.
@@ -5369,8 +5532,9 @@ extension Chime {
         /// The order in which you want messages sorted. Default is Descending, based on time created.
         public let sortOrder: SortOrder?
 
-        public init(channelArn: String, maxResults: Int? = nil, nextToken: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, sortOrder: SortOrder? = nil) {
+        public init(channelArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, sortOrder: SortOrder? = nil) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.notAfter = notAfter
@@ -5382,6 +5546,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -5395,7 +5562,7 @@ extension Chime {
     public struct ListChannelMessagesResponse: AWSDecodableShape {
         /// The ARN of the channel containing the requested messages.
         public let channelArn: String?
-        /// The information about and content of each requested message.
+        /// The information about, and content of, each requested message.
         public let channelMessages: [ChannelMessageSummary]?
         /// The token passed by previous API calls until all requested messages are returned.
         public let nextToken: String?
@@ -5416,19 +5583,23 @@ extension Chime {
     public struct ListChannelModeratorsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The maximum number of moderators that you want returned.
         public let maxResults: Int?
         /// The token passed by previous API calls until all requested moderators are returned.
         public let nextToken: String?
 
-        public init(channelArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(channelArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5437,6 +5608,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -5471,19 +5645,23 @@ extension Chime {
     public struct ListChannelsModeratedByAppInstanceUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceUserArn", location: .querystring(locationName: "app-instance-user-arn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
         /// The ARN of the user in the moderated channel.
         public let appInstanceUserArn: String?
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The maximum number of channels in the request.
         public let maxResults: Int?
         /// The token returned from previous API requests until the number of channels moderated by the user is reached.
         public let nextToken: String?
 
-        public init(appInstanceUserArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(appInstanceUserArn: String? = nil, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
+            self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5492,6 +5670,9 @@ extension Chime {
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -5522,22 +5703,26 @@ extension Chime {
     public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceArn", location: .querystring(locationName: "app-instance-arn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
             AWSMemberEncoding(label: "privacy", location: .querystring(locationName: "privacy"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The maximum number of channels that you want to return.
         public let maxResults: Int?
         /// The token passed by previous API calls until all requested channels are returned.
         public let nextToken: String?
-        /// The privacy setting. PUBLIC retrieves all the public channels. PRIVATE retrieves private channels. Only an app instance administrator can retrieve private channels.
+        ///  The privacy setting. PUBLIC retrieves all the public channels. PRIVATE retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
         public let privacy: ChannelPrivacy?
 
-        public init(appInstanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, privacy: ChannelPrivacy? = nil) {
+        public init(appInstanceArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.appInstanceArn = appInstanceArn
+            self.chimeBearer = chimeBearer
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.privacy = privacy
@@ -5547,6 +5732,9 @@ extension Chime {
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -6274,7 +6462,7 @@ extension Chime {
         public let externalMeetingId: String?
         /// The media placement for the meeting.
         public let mediaPlacement: MediaPlacement?
-        /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
+        ///  The Region in which you create the meeting. Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 .
         public let mediaRegion: String?
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String?
@@ -6392,7 +6580,7 @@ extension Chime {
     }
 
     public struct MessagingSessionEndpoint: AWSDecodableShape {
-        /// The URL of a meeting session endpoint.
+        /// The endpoint to which you establish a websocket connection.
         public let url: String?
 
         public init(url: String? = nil) {
@@ -6453,7 +6641,7 @@ extension Chime {
         public let priority: Int?
         /// The protocol to use for the origination route. Encryption-enabled Amazon Chime Voice Connectors use TCP protocol by default.
         public let `protocol`: OriginationRouteProtocol?
-        /// The weight associated with the host. If hosts are equal in priority, calls are distributed among them based on their relative weight.
+        /// The weight associated with the host. If hosts are equal in priority, calls are redistributed among them based on their relative weight.
         public let weight: Int?
 
         public init(host: String? = nil, port: Int? = nil, priority: Int? = nil, protocol: OriginationRouteProtocol? = nil, weight: Int? = nil) {
@@ -6636,7 +6824,7 @@ extension Chime {
     }
 
     public struct PhoneNumberOrder: AWSDecodableShape {
-        /// The phone number order creation timestamp, in ISO 8601 format.
+        /// The phone number order creation time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
         /// The ordered phone number details, such as the phone number in E.164 format and the phone number status.
@@ -6647,7 +6835,7 @@ extension Chime {
         public let productType: PhoneNumberProductType?
         /// The status of the phone number order.
         public let status: PhoneNumberOrderStatus?
-        /// The updated phone number order timestamp, in ISO 8601 format.
+        /// The updated phone number order time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
@@ -6698,10 +6886,10 @@ extension Chime {
     public struct ProxySession: AWSDecodableShape {
         /// The proxy session capabilities.
         public let capabilities: [Capability]?
-        /// The created timestamp, in ISO 8601 format.
+        /// The created time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
-        /// The ended timestamp, in ISO 8601 format.
+        /// The ended time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endedTimestamp: Date?
         /// The number of minutes allowed for the proxy session.
@@ -6720,7 +6908,7 @@ extension Chime {
         public let proxySessionId: String?
         /// The status of the proxy session.
         public let status: ProxySessionStatus?
-        /// The updated timestamp, in ISO 8601 format.
+        /// The updated time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
         /// The Amazon Chime voice connector ID.
@@ -6764,7 +6952,7 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The time in days to retain data. Data type: number.
         public let appInstanceRetentionSettings: AppInstanceRetentionSettings
@@ -6808,9 +6996,9 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
-        /// The streaming configurations set for an app instance.
+        /// The streaming configurations set for an AppInstance.
         public let appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]
 
         public init(appInstanceArn: String, appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]) {
@@ -6835,7 +7023,7 @@ extension Chime {
     }
 
     public struct PutAppInstanceStreamingConfigurationsResponse: AWSDecodableShape {
-        /// The streaming configurations of an app instance.
+        /// The streaming configurations of an AppInstance.
         public let appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]?
 
         public init(appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]? = nil) {
@@ -6940,7 +7128,7 @@ extension Chime {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri(locationName: "sipMediaApplicationId"))
         ]
 
-        /// The ID of the specified SIP media application
+        /// The SIP media application ID.
         public let sipMediaApplicationId: String
         /// The actual logging configuration.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
@@ -6960,7 +7148,6 @@ extension Chime {
     }
 
     public struct PutSipMediaApplicationLoggingConfigurationResponse: AWSDecodableShape {
-        /// The actual logging configuration.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
         public init(sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
@@ -7245,16 +7432,20 @@ extension Chime {
     public struct RedactChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
         ]
 
         /// The ARN of the channel containing the messages that you want to redact.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The ID of the message being redacted.
         public let messageId: String
 
-        public init(channelArn: String, messageId: String) {
+        public init(channelArn: String, chimeBearer: String? = nil, messageId: String) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.messageId = messageId
         }
 
@@ -7262,6 +7453,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "[-_a-zA-Z0-9]*")
@@ -7545,7 +7739,7 @@ extension Chime {
     }
 
     public struct RoomRetentionSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days for which to retain chat room messages.
+        /// The number of days for which to retain chat-room messages.
         public let retentionDays: Int?
 
         public init(retentionDays: Int? = nil) {
@@ -7624,11 +7818,14 @@ extension Chime {
 
     public struct SendChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The Idempotency token for each client request.
         public let clientRequestToken: String
         /// The content of the message.
@@ -7640,8 +7837,9 @@ extension Chime {
         /// The type of message, STANDARD or CONTROL.
         public let type: ChannelMessageType
 
-        public init(channelArn: String, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, metadata: String? = nil, persistence: ChannelMessagePersistenceType, type: ChannelMessageType) {
+        public init(channelArn: String, chimeBearer: String? = nil, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, metadata: String? = nil, persistence: ChannelMessagePersistenceType, type: ChannelMessageType) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.clientRequestToken = clientRequestToken
             self.content = content
             self.metadata = metadata
@@ -7653,10 +7851,12 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
-            try self.validate(self.content, name: "content", parent: name, max: 4096)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.content, name: "content", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
@@ -7756,7 +7956,7 @@ extension Chime {
     }
 
     public struct SipMediaApplicationEndpoint: AWSEncodableShape & AWSDecodableShape {
-        /// Valid Amazon Resource Name (ARN) of the Lambda function of the same AWS Region where the SIP media application is created.
+        /// Valid Amazon Resource Name (ARN) of the Lambda function. The function must be created in the same AWS Region as the SIP media application.
         public let lambdaArn: String?
 
         public init(lambdaArn: String? = nil) {
@@ -7787,22 +7987,22 @@ extension Chime {
     }
 
     public struct SipRule: AWSDecodableShape {
-        /// The SIP rule created timestamp, in ISO 8601 format.
+        /// The time at which the SIP rule was created, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
-        /// Indicates if the SIP rule is enabled or disabled. You must disable a rule before you can delete it.
+        /// Indicates whether the SIP rule is enabled or disabled. You must disable a rule before you can delete it.
         public let disabled: Bool?
         /// The name of the SIP rule.
         public let name: String?
         /// The SIP rule ID.
         public let sipRuleId: String?
-        /// List of SIP media applications with priority and AWS Region. You can only use one SIP application per AWS Region and priority combination.
+        /// Target SIP media application and other details, such as priority and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided.
         public let targetApplications: [SipRuleTargetApplication]?
-        /// The type of trigger whose value is assigned to the SIP rule in TriggerValue.
+        /// The type of trigger assigned to the SIP rule in TriggerValue, currently RequestUriHostname or ToPhoneNumber.
         public let triggerType: SipRuleTriggerType?
         /// If TriggerType is RequestUriHostname, then the value can be the outbound host name of the Amazon Chime Voice Connector. If TriggerType is ToPhoneNumber, then the value can be a customer-owned phone number in E164 format. SipRule is triggered when a SIP rule requests host name or ToPhoneNumber matches in the incoming SIP request.
         public let triggerValue: String?
-        /// The SIP rule updated timestamp, in ISO 8601 format.
+        /// The time at which the SIP rule was last updated, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
@@ -7830,7 +8030,7 @@ extension Chime {
     }
 
     public struct SipRuleTargetApplication: AWSEncodableShape & AWSDecodableShape {
-        /// AWS Region of target application.
+        /// The AWS Region of the target application.
         public let awsRegion: String?
         /// Priority of the SIP media application in the target list.
         public let priority: Int?
@@ -8205,6 +8405,7 @@ extension Chime {
     }
 
     public struct UpdateAccountResponse: AWSDecodableShape {
+        /// The updated Amazon Chime account details.
         public let account: Account?
 
         public init(account: Account? = nil) {
@@ -8249,7 +8450,7 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceArn", location: .uri(locationName: "appInstanceArn"))
         ]
 
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The metadata that you want to change.
         public let metadata: String?
@@ -8281,7 +8482,7 @@ extension Chime {
     }
 
     public struct UpdateAppInstanceResponse: AWSDecodableShape {
-        /// The ARN of the app instance.
+        /// The ARN of the AppInstance.
         public let appInstanceArn: String?
 
         public init(appInstanceArn: String? = nil) {
@@ -8298,11 +8499,11 @@ extension Chime {
             AWSMemberEncoding(label: "appInstanceUserArn", location: .uri(locationName: "appInstanceUserArn"))
         ]
 
-        /// The ARN of the app instance user.
+        /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
-        /// The metadata of the app instance user.
+        /// The metadata of the AppInstanceUser.
         public let metadata: String?
-        /// The name of the app instance user.
+        /// The name of the AppInstanceUser.
         public let name: String
 
         public init(appInstanceUserArn: String, metadata: String? = nil, name: String) {
@@ -8330,7 +8531,7 @@ extension Chime {
     }
 
     public struct UpdateAppInstanceUserResponse: AWSDecodableShape {
-        /// The ARN of the app instance user.
+        /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String?
 
         public init(appInstanceUserArn: String? = nil) {
@@ -8387,11 +8588,14 @@ extension Chime {
     public struct UpdateChannelMessageRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer")),
             AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
         /// The content of the message being updated.
         public let content: String?
         /// The ID string of the message being updated.
@@ -8399,8 +8603,9 @@ extension Chime {
         /// The metadata of the message being updated.
         public let metadata: String?
 
-        public init(channelArn: String, content: String? = nil, messageId: String, metadata: String? = nil) {
+        public init(channelArn: String, chimeBearer: String? = nil, content: String? = nil, messageId: String, metadata: String? = nil) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.content = content
             self.messageId = messageId
             self.metadata = metadata
@@ -8410,6 +8615,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.content, name: "content", parent: name, max: 4096)
             try self.validate(self.content, name: "content", parent: name, min: 0)
             try self.validate(self.content, name: "content", parent: name, pattern: "[\\s\\S]*")
@@ -8446,20 +8654,27 @@ extension Chime {
 
     public struct UpdateChannelReadMarkerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
 
-        public init(channelArn: String) {
+        public init(channelArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
         }
 
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8480,20 +8695,24 @@ extension Chime {
 
     public struct UpdateChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn"))
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
         ]
 
         /// The ARN of the channel.
         public let channelArn: String
-        /// The metadata of the channel.
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
+        /// The metadata for the update request.
         public let metadata: String?
         /// The mode of the update request.
         public let mode: ChannelMode
         /// The name of the channel.
         public let name: String
 
-        public init(channelArn: String, metadata: String? = nil, mode: ChannelMode, name: String) {
+        public init(channelArn: String, chimeBearer: String? = nil, metadata: String? = nil, mode: ChannelMode, name: String) {
             self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
             self.metadata = metadata
             self.mode = mode
             self.name = name
@@ -8503,6 +8722,9 @@ extension Chime {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 0)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
@@ -8984,7 +9206,7 @@ extension Chime {
         public let name: String
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String
-        /// The VoiceConnectorItems to associate with the group.
+        ///  The VoiceConnectorItems to associate with the group.
         public let voiceConnectorItems: [VoiceConnectorItem]
 
         public init(name: String, voiceConnectorGroupId: String, voiceConnectorItems: [VoiceConnectorItem]) {
@@ -9162,7 +9384,7 @@ extension Chime {
     }
 
     public struct VoiceConnector: AWSDecodableShape {
-        /// The AWS Region in which the Amazon Chime Voice Connector is created. Default: us-east-1.
+        ///  The AWS Region in which the Amazon Chime Voice Connector is created. Default: us-east-1.
         public let awsRegion: VoiceConnectorAwsRegion?
         /// The Amazon Chime Voice Connector creation timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -9201,12 +9423,12 @@ extension Chime {
     }
 
     public struct VoiceConnectorGroup: AWSDecodableShape {
-        /// The Amazon Chime Voice Connector group creation timestamp, in ISO 8601 format.
+        /// The Amazon Chime Voice Connector group creation time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
         /// The name of the Amazon Chime Voice Connector group.
         public let name: String?
-        /// The updated Amazon Chime Voice Connector group timestamp, in ISO 8601 format.
+        /// The updated Amazon Chime Voice Connector group time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
         /// The Amazon Chime Voice Connector group ID.

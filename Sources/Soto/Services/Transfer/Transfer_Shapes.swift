@@ -20,6 +20,12 @@ import SotoCore
 extension Transfer {
     // MARK: Enums
 
+    public enum Domain: String, CustomStringConvertible, Codable {
+        case efs = "EFS"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EndpointType: String, CustomStringConvertible, Codable {
         case `public` = "PUBLIC"
         case vpc = "VPC"
@@ -61,6 +67,7 @@ extension Transfer {
     public struct CreateServerRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the AWS Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see Request a public certificate in the  AWS Certificate Manager User Guide. To import an existing certificate into ACM, see Importing certificates into ACM in the  AWS Certificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the  AWS Certificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:   2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
         public let certificate: String?
+        public let domain: Domain?
         /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make it accessible only to resources within your VPC, or you can attach Elastic IPs and make it accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public let endpointDetails: EndpointDetails?
         /// The type of VPC endpoint that you want your server to connect to. You can choose to connect to the public internet or a VPC endpoint. With a VPC endpoint, you can restrict access to your server and resources only within your VPC.  It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
@@ -80,8 +87,9 @@ extension Transfer {
         /// Key-value pairs that can be used to group and search for servers.
         public let tags: [Tag]?
 
-        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil) {
+        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil) {
             self.certificate = certificate
+            self.domain = domain
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
             self.hostKey = hostKey
@@ -114,6 +122,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
+            case domain = "Domain"
             case endpointDetails = "EndpointDetails"
             case endpointType = "EndpointType"
             case hostKey = "HostKey"
@@ -148,6 +157,7 @@ extension Transfer {
         public let homeDirectoryType: HomeDirectoryType?
         /// A scope-down policy for your user so you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  For scope-down policies, AWS Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a scope-down policy, see Creating a scope-down policy. For more information, see AssumeRole in the AWS Security Token Service API Reference.
         public let policy: String?
+        public let posixProfile: PosixProfile?
         /// The IAM role that controls your users' access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String
         /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
@@ -159,11 +169,12 @@ extension Transfer {
         /// A unique string that identifies a user and is associated with a as specified by the ServerId. This user name must be a minimum of 3 and a maximum of 100 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign '@'. The user name can't start with a hyphen, period, or at sign.
         public let userName: String
 
-        public init(homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, role: String, serverId: String, sshPublicKeyBody: String? = nil, tags: [Tag]? = nil, userName: String) {
+        public init(homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String, serverId: String, sshPublicKeyBody: String? = nil, tags: [Tag]? = nil, userName: String) {
             self.homeDirectory = homeDirectory
             self.homeDirectoryMappings = homeDirectoryMappings
             self.homeDirectoryType = homeDirectoryType
             self.policy = policy
+            self.posixProfile = posixProfile
             self.role = role
             self.serverId = serverId
             self.sshPublicKeyBody = sshPublicKeyBody
@@ -180,6 +191,7 @@ extension Transfer {
             try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, max: 50)
             try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, max: 2048)
+            try self.posixProfile?.validate(name: "\(name).posixProfile")
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "arn:.*role/.*")
@@ -203,6 +215,7 @@ extension Transfer {
             case homeDirectoryMappings = "HomeDirectoryMappings"
             case homeDirectoryType = "HomeDirectoryType"
             case policy = "Policy"
+            case posixProfile = "PosixProfile"
             case role = "Role"
             case serverId = "ServerId"
             case sshPublicKeyBody = "SshPublicKeyBody"
@@ -450,6 +463,7 @@ extension Transfer {
         public let arn: String
         /// Specifies the ARN of the AWS Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
         public let certificate: String?
+        public let domain: Domain?
         /// Specifies the virtual private cloud (VPC) endpoint settings that you configured for your server.
         public let endpointDetails: EndpointDetails?
         /// Defines the type of endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
@@ -475,9 +489,10 @@ extension Transfer {
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public let userCount: Int?
 
-        public init(arn: String, certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil) {
+        public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil) {
             self.arn = arn
             self.certificate = certificate
+            self.domain = domain
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
             self.hostKeyFingerprint = hostKeyFingerprint
@@ -495,6 +510,7 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case certificate = "Certificate"
+            case domain = "Domain"
             case endpointDetails = "EndpointDetails"
             case endpointType = "EndpointType"
             case hostKeyFingerprint = "HostKeyFingerprint"
@@ -521,6 +537,7 @@ extension Transfer {
         public let homeDirectoryType: HomeDirectoryType?
         /// Specifies the name of the policy in use for the described user.
         public let policy: String?
+        public let posixProfile: PosixProfile?
         /// Specifies the IAM role that controls your users' access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows a server to access your resources when servicing your users' transfer requests.
         public let role: String?
         /// Specifies the public key portion of the Secure Shell (SSH) keys stored for the described user.
@@ -530,12 +547,13 @@ extension Transfer {
         /// Specifies the name of the user that was requested to be described. User names are used for authentication purposes. This is the string that will be used by your user when they log in to your server.
         public let userName: String?
 
-        public init(arn: String, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, role: String? = nil, sshPublicKeys: [SshPublicKey]? = nil, tags: [Tag]? = nil, userName: String? = nil) {
+        public init(arn: String, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String? = nil, sshPublicKeys: [SshPublicKey]? = nil, tags: [Tag]? = nil, userName: String? = nil) {
             self.arn = arn
             self.homeDirectory = homeDirectory
             self.homeDirectoryMappings = homeDirectoryMappings
             self.homeDirectoryType = homeDirectoryType
             self.policy = policy
+            self.posixProfile = posixProfile
             self.role = role
             self.sshPublicKeys = sshPublicKeys
             self.tags = tags
@@ -548,6 +566,7 @@ extension Transfer {
             case homeDirectoryMappings = "HomeDirectoryMappings"
             case homeDirectoryType = "HomeDirectoryType"
             case policy = "Policy"
+            case posixProfile = "PosixProfile"
             case role = "Role"
             case sshPublicKeys = "SshPublicKeys"
             case tags = "Tags"
@@ -885,6 +904,7 @@ extension Transfer {
     public struct ListedServer: AWSDecodableShape {
         /// Specifies the unique Amazon Resource Name (ARN) for a server to be listed.
         public let arn: String
+        public let domain: Domain?
         /// Specifies the type of VPC endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
         public let endpointType: EndpointType?
         /// Specifies the authentication method used to validate a user for a server that was specified. This can include Secure Shell (SSH), user name and password combinations, or your own custom authentication method. Valid values include SERVICE_MANAGED or API_GATEWAY.
@@ -898,8 +918,9 @@ extension Transfer {
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public let userCount: Int?
 
-        public init(arn: String, endpointType: EndpointType? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, userCount: Int? = nil) {
+        public init(arn: String, domain: Domain? = nil, endpointType: EndpointType? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, userCount: Int? = nil) {
             self.arn = arn
+            self.domain = domain
             self.endpointType = endpointType
             self.identityProviderType = identityProviderType
             self.loggingRole = loggingRole
@@ -910,6 +931,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case domain = "Domain"
             case endpointType = "EndpointType"
             case identityProviderType = "IdentityProviderType"
             case loggingRole = "LoggingRole"
@@ -949,6 +971,37 @@ extension Transfer {
             case role = "Role"
             case sshPublicKeyCount = "SshPublicKeyCount"
             case userName = "UserName"
+        }
+    }
+
+    public struct PosixProfile: AWSEncodableShape & AWSDecodableShape {
+        public let gid: Int64
+        public let secondaryGids: [Int64]?
+        public let uid: Int64
+
+        public init(gid: Int64, secondaryGids: [Int64]? = nil, uid: Int64) {
+            self.gid = gid
+            self.secondaryGids = secondaryGids
+            self.uid = uid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gid, name: "gid", parent: name, max: 4_294_967_295)
+            try self.validate(self.gid, name: "gid", parent: name, min: 0)
+            try self.secondaryGids?.forEach {
+                try validate($0, name: "secondaryGids[]", parent: name, max: 4_294_967_295)
+                try validate($0, name: "secondaryGids[]", parent: name, min: 0)
+            }
+            try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 16)
+            try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, min: 0)
+            try self.validate(self.uid, name: "uid", parent: name, max: 4_294_967_295)
+            try self.validate(self.uid, name: "uid", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gid = "Gid"
+            case secondaryGids = "SecondaryGids"
+            case uid = "Uid"
         }
     }
 
@@ -1238,6 +1291,7 @@ extension Transfer {
         public let homeDirectoryType: HomeDirectoryType?
         /// Allows you to supply a scope-down policy for your user so you can use the same IAM role across multiple users. The policy scopes down user access to portions of your Amazon S3 bucket. Variables you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  For scope-down policies, AWS Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a scope-down policy, see Creating a scope-down policy. For more information, see AssumeRole in the AWS Security Token Service API Reference.
         public let policy: String?
+        public let posixProfile: PosixProfile?
         /// The IAM role that controls your users' access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
@@ -1245,11 +1299,12 @@ extension Transfer {
         /// A unique string that identifies a user and is associated with a server as specified by the ServerId. This user name must be a minimum of 3 and a maximum of 100 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign '@'. The user name can't start with a hyphen, period, or at sign.
         public let userName: String
 
-        public init(homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, role: String? = nil, serverId: String, userName: String) {
+        public init(homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String? = nil, serverId: String, userName: String) {
             self.homeDirectory = homeDirectory
             self.homeDirectoryMappings = homeDirectoryMappings
             self.homeDirectoryType = homeDirectoryType
             self.policy = policy
+            self.posixProfile = posixProfile
             self.role = role
             self.serverId = serverId
             self.userName = userName
@@ -1264,6 +1319,7 @@ extension Transfer {
             try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, max: 50)
             try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, max: 2048)
+            try self.posixProfile?.validate(name: "\(name).posixProfile")
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "arn:.*role/.*")
@@ -1280,6 +1336,7 @@ extension Transfer {
             case homeDirectoryMappings = "HomeDirectoryMappings"
             case homeDirectoryType = "HomeDirectoryType"
             case policy = "Policy"
+            case posixProfile = "PosixProfile"
             case role = "Role"
             case serverId = "ServerId"
             case userName = "UserName"

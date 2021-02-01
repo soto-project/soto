@@ -370,6 +370,7 @@ extension CloudWatch.GetMetricDataInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudWatch.GetMetricDataInput {
         return .init(
             endTime: self.endTime,
+            labelOptions: self.labelOptions,
             maxDatapoints: self.maxDatapoints,
             metricDataQueries: self.metricDataQueries,
             nextToken: token,

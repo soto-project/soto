@@ -64,6 +64,19 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExtendedKeyUsageType: String, CustomStringConvertible, Codable {
+        case certificateTransparency = "CERTIFICATE_TRANSPARENCY"
+        case clientAuth = "CLIENT_AUTH"
+        case codeSigning = "CODE_SIGNING"
+        case documentSigning = "DOCUMENT_SIGNING"
+        case emailProtection = "EMAIL_PROTECTION"
+        case ocspSigning = "OCSP_SIGNING"
+        case serverAuth = "SERVER_AUTH"
+        case smartCardLogin = "SMART_CARD_LOGIN"
+        case timeStamping = "TIME_STAMPING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FailureReason: String, CustomStringConvertible, Codable {
         case other = "OTHER"
         case requestTimedOut = "REQUEST_TIMED_OUT"
@@ -76,6 +89,11 @@ extension ACMPCA {
         case ecSecp384R1 = "EC_secp384r1"
         case rsa2048 = "RSA_2048"
         case rsa4096 = "RSA_4096"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyQualifierId: String, CustomStringConvertible, Codable {
+        case cps = "CPS"
         public var description: String { return self.rawValue }
     }
 
@@ -129,7 +147,7 @@ extension ACMPCA {
         public let generationQualifier: String?
         /// First name.
         public let givenName: String?
-        /// Concatenation that typically contains the first letter of the GivenName, the first letter of the middle name if one exists, and the first letter of the SurName.
+        /// Concatenation that typically contains the first letter of the GivenName, the first letter of the middle name if one exists, and the first letter of the Surname.
         public let initials: String?
         /// The locality (such as a city or town) in which the certificate subject is located.
         public let locality: String?
@@ -259,6 +277,27 @@ extension ACMPCA {
         private enum CodingKeys: String, CodingKey {
             case accessMethodType = "AccessMethodType"
             case customObjectIdentifier = "CustomObjectIdentifier"
+        }
+    }
+
+    public struct ApiPassthrough: AWSEncodableShape {
+        /// Specifies X.509 extension information for a certificate.
+        public let extensions: Extensions?
+        public let subject: ASN1Subject?
+
+        public init(extensions: Extensions? = nil, subject: ASN1Subject? = nil) {
+            self.extensions = extensions
+            self.subject = subject
+        }
+
+        public func validate(name: String) throws {
+            try self.extensions?.validate(name: "\(name).extensions")
+            try self.subject?.validate(name: "\(name).subject")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extensions = "Extensions"
+            case subject = "Subject"
         }
     }
 
@@ -404,7 +443,7 @@ extension ACMPCA {
         public let certificateAuthorityConfiguration: CertificateAuthorityConfiguration
         /// The type of the certificate authority.
         public let certificateAuthorityType: CertificateAuthorityType
-        /// Alphanumeric string that can be used to distinguish between calls to CreateCertificateAuthority. For a given token, ACM Private CA creates exactly one CA. If you issue a subsequent call using the same token, ACM Private CA returns the ARN of the existing CA and takes no further action. If you change the idempotency token across multiple calls, ACM Private CA creates a unique CA for each unique token.
+        /// Custom string that can be used to distinguish between calls to the CreateCertificateAuthority action. Idempotency tokens for CreateCertificateAuthority time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within five minutes, ACM Private CA recognizes that you are requesting only certificate authority and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificate authorities.
         public let idempotencyToken: String?
         /// Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM Private CA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the CRL Distribution Points extension of your CA certificate. For more information, see the CrlConfiguration structure.
         public let revocationConfiguration: RevocationConfiguration?
@@ -734,6 +773,71 @@ extension ACMPCA {
         }
     }
 
+    public struct ExtendedKeyUsage: AWSEncodableShape {
+        /// Specifies a custom ExtendedKeyUsage with an object identifier (OID).
+        public let extendedKeyUsageObjectIdentifier: String?
+        /// Specifies a standard ExtendedKeyUsage as defined as in RFC 5280.
+        public let extendedKeyUsageType: ExtendedKeyUsageType?
+
+        public init(extendedKeyUsageObjectIdentifier: String? = nil, extendedKeyUsageType: ExtendedKeyUsageType? = nil) {
+            self.extendedKeyUsageObjectIdentifier = extendedKeyUsageObjectIdentifier
+            self.extendedKeyUsageType = extendedKeyUsageType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.extendedKeyUsageObjectIdentifier, name: "extendedKeyUsageObjectIdentifier", parent: name, max: 64)
+            try self.validate(self.extendedKeyUsageObjectIdentifier, name: "extendedKeyUsageObjectIdentifier", parent: name, min: 0)
+            try self.validate(self.extendedKeyUsageObjectIdentifier, name: "extendedKeyUsageObjectIdentifier", parent: name, pattern: "^([0-2])\\.([0-9]|([0-3][0-9]))((\\.([0-9]+)){0,126})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extendedKeyUsageObjectIdentifier = "ExtendedKeyUsageObjectIdentifier"
+            case extendedKeyUsageType = "ExtendedKeyUsageType"
+        }
+    }
+
+    public struct Extensions: AWSEncodableShape {
+        /// Contains a sequence of one or more policy information terms, each of which consists of an object identifier (OID) and optional qualifiers. For more information, see NIST's definition of Object Identifier (OID). In an end-entity certificate, these terms indicate the policy under which the certificate was issued and the purposes for which it may be used. In a CA certificate, these terms limit the set of policies for certification paths that include this certificate.
+        public let certificatePolicies: [PolicyInformation]?
+        /// Specifies additional purposes for which the certified public key may be used other than basic purposes indicated in the KeyUsage extension.
+        public let extendedKeyUsage: [ExtendedKeyUsage]?
+        public let keyUsage: KeyUsage?
+        /// The subject alternative name extension allows identities to be bound to the subject of the certificate. These identities may be included in addition to or in place of the identity in the subject field of the certificate.
+        public let subjectAlternativeNames: [GeneralName]?
+
+        public init(certificatePolicies: [PolicyInformation]? = nil, extendedKeyUsage: [ExtendedKeyUsage]? = nil, keyUsage: KeyUsage? = nil, subjectAlternativeNames: [GeneralName]? = nil) {
+            self.certificatePolicies = certificatePolicies
+            self.extendedKeyUsage = extendedKeyUsage
+            self.keyUsage = keyUsage
+            self.subjectAlternativeNames = subjectAlternativeNames
+        }
+
+        public func validate(name: String) throws {
+            try self.certificatePolicies?.forEach {
+                try $0.validate(name: "\(name).certificatePolicies[]")
+            }
+            try self.validate(self.certificatePolicies, name: "certificatePolicies", parent: name, max: 20)
+            try self.validate(self.certificatePolicies, name: "certificatePolicies", parent: name, min: 1)
+            try self.extendedKeyUsage?.forEach {
+                try $0.validate(name: "\(name).extendedKeyUsage[]")
+            }
+            try self.validate(self.extendedKeyUsage, name: "extendedKeyUsage", parent: name, max: 20)
+            try self.validate(self.extendedKeyUsage, name: "extendedKeyUsage", parent: name, min: 1)
+            try self.subjectAlternativeNames?.forEach {
+                try $0.validate(name: "\(name).subjectAlternativeNames[]")
+            }
+            try self.validate(self.subjectAlternativeNames, name: "subjectAlternativeNames", parent: name, max: 20)
+            try self.validate(self.subjectAlternativeNames, name: "subjectAlternativeNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificatePolicies = "CertificatePolicies"
+            case extendedKeyUsage = "ExtendedKeyUsage"
+            case keyUsage = "KeyUsage"
+            case subjectAlternativeNames = "SubjectAlternativeNames"
+        }
+    }
+
     public struct GeneralName: AWSEncodableShape & AWSDecodableShape {
         public let directoryName: ASN1Subject?
         /// Represents GeneralName as a DNS name.
@@ -966,29 +1070,36 @@ extension ACMPCA {
     }
 
     public struct IssueCertificateRequest: AWSEncodableShape {
+        /// Specifies X.509 certificate information to be included in the issued certificate. An APIPassthrough or APICSRPassthrough template variant must be selected, or else this parameter is ignored. For more information about using these templates, see Understanding Certificate Templates. If conflicting or duplicate certificate information is supplied during certificate issuance, ACM Private CA applies order of operation rules to determine what information is used.
+        public let apiPassthrough: ApiPassthrough?
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
-        /// The certificate signing request (CSR) for the certificate you want to issue. You can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file, you can use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  Note: A CSR must provide either a subject name or a subject alternative name or the request will be rejected.
+        /// The certificate signing request (CSR) for the certificate you want to issue. As an example, you can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file, you can then use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  Note: A CSR must provide either a subject name or a subject alternative name or the request will be rejected.
         public let csr: Data
-        /// Custom string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens time out after one hour. Therefore, if you call IssueCertificate multiple times with the same idempotency token within 5 minutes, ACM Private CA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
+        /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one minute. Therefore, if you call IssueCertificate multiple times with the same idempotency token within one minute, ACM Private CA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
-        /// The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter used to sign a CSR.
+        /// The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter used to sign a CSR in the CreateCertificateAuthority action.
         public let signingAlgorithm: SigningAlgorithm
-        /// Specifies a custom configuration template to use when issuing a certificate. If this parameter is not provided, ACM Private CA defaults to the EndEntityCertificate/V1 template. For CA certificates, you should choose the shortest path length that meets your needs. The path length is indicated by the PathLenN portion of the ARN, where N is the CA depth. Note: The CA depth configured on a subordinate CA certificate must not exceed the limit set by its parents in the CA hierarchy. The following service-owned TemplateArn values are supported by ACM Private CA:    arn:aws:acm-pca:::template/CodeSigningCertificate/V1   arn:aws:acm-pca:::template/CodeSigningCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/EndEntityCertificate/V1   arn:aws:acm-pca:::template/EndEntityCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/EndEntityClientAuthCertificate/V1   arn:aws:acm-pca:::template/EndEntityClientAuthCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/EndEntityServerAuthCertificate/V1   arn:aws:acm-pca:::template/EndEntityServerAuthCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/OCSPSigningCertificate/V1   arn:aws:acm-pca:::template/OCSPSigningCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/RootCACertificate/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen0/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen1/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen2/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen3/V1   For more information, see Using Templates.
+        /// Specifies a custom configuration template to use when issuing a certificate. If this parameter is not provided, ACM Private CA defaults to the EndEntityCertificate/V1 template. For CA certificates, you should choose the shortest path length that meets your needs. The path length is indicated by the PathLenN portion of the ARN, where N is the CA depth. Note: The CA depth configured on a subordinate CA certificate must not exceed the limit set by its parents in the CA hierarchy. For a list of TemplateArn values supported by ACM Private CA, see Understanding Certificate Templates.
         public let templateArn: String?
-        /// Information describing the validity period of the certificate. When issuing a certificate, ACM Private CA sets the "Not Before" date in the validity field to date and time minus 60 minutes. This is intended to compensate for time inconsistencies across systems of 60 minutes or less.  The validity period configured on a certificate must not exceed the limit set by its parents in the CA hierarchy.
+        /// Information describing the end of the validity period of the certificate. This parameter sets the “Not After” date for the certificate. Certificate validity is the period of time during which a certificate is valid. Validity can be expressed as an explicit date and time when the certificate expires, or as a span of time after issuance, stated in days, months, or years. For more information, see Validity in RFC 5280.  This value is unaffected when ValidityNotBefore is also specified. For example, if Validity is set to 20 days in the future, the certificate will expire 20 days from issuance time regardless of the ValidityNotBefore value. The end of the validity period configured on a certificate must not exceed the limit set on its parents in the CA hierarchy.
         public let validity: Validity
+        /// Information describing the start of the validity period of the certificate. This parameter sets the “Not Before" date for the certificate. By default, when issuing a certificate, ACM Private CA sets the "Not Before" date to the issuance time minus 60 minutes. This compensates for clock inconsistencies across computer systems. The ValidityNotBefore parameter can be used to customize the “Not Before” value.  Unlike the Validity parameter, the ValidityNotBefore parameter is optional. The ValidityNotBefore value is expressed as an explicit date and time, using the Validity type value ABSOLUTE. For more information, see Validity in this API reference and Validity in RFC 5280.
+        public let validityNotBefore: Validity?
 
-        public init(certificateAuthorityArn: String, csr: Data, idempotencyToken: String? = nil, signingAlgorithm: SigningAlgorithm, templateArn: String? = nil, validity: Validity) {
+        public init(apiPassthrough: ApiPassthrough? = nil, certificateAuthorityArn: String, csr: Data, idempotencyToken: String? = nil, signingAlgorithm: SigningAlgorithm, templateArn: String? = nil, validity: Validity, validityNotBefore: Validity? = nil) {
+            self.apiPassthrough = apiPassthrough
             self.certificateAuthorityArn = certificateAuthorityArn
             self.csr = csr
             self.idempotencyToken = idempotencyToken
             self.signingAlgorithm = signingAlgorithm
             self.templateArn = templateArn
             self.validity = validity
+            self.validityNotBefore = validityNotBefore
         }
 
         public func validate(name: String) throws {
+            try self.apiPassthrough?.validate(name: "\(name).apiPassthrough")
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, max: 200)
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, min: 5)
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -1001,15 +1112,18 @@ extension ACMPCA {
             try self.validate(self.templateArn, name: "templateArn", parent: name, min: 5)
             try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
             try self.validity.validate(name: "\(name).validity")
+            try self.validityNotBefore?.validate(name: "\(name).validityNotBefore")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case apiPassthrough = "ApiPassthrough"
             case certificateAuthorityArn = "CertificateAuthorityArn"
             case csr = "Csr"
             case idempotencyToken = "IdempotencyToken"
             case signingAlgorithm = "SigningAlgorithm"
             case templateArn = "TemplateArn"
             case validity = "Validity"
+            case validityNotBefore = "ValidityNotBefore"
         }
     }
 
@@ -1270,8 +1384,57 @@ extension ACMPCA {
         }
     }
 
+    public struct PolicyInformation: AWSEncodableShape {
+        /// Specifies the object identifier (OID) of the certificate policy under which the certificate was issued. For more information, see NIST's definition of Object Identifier (OID).
+        public let certPolicyId: String
+        /// Modifies the given CertPolicyId with a qualifier. ACM Private CA supports the certification practice statement (CPS) qualifier.
+        public let policyQualifiers: [PolicyQualifierInfo]?
+
+        public init(certPolicyId: String, policyQualifiers: [PolicyQualifierInfo]? = nil) {
+            self.certPolicyId = certPolicyId
+            self.policyQualifiers = policyQualifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certPolicyId, name: "certPolicyId", parent: name, max: 64)
+            try self.validate(self.certPolicyId, name: "certPolicyId", parent: name, min: 0)
+            try self.validate(self.certPolicyId, name: "certPolicyId", parent: name, pattern: "^([0-2])\\.([0-9]|([0-3][0-9]))((\\.([0-9]+)){0,126})$")
+            try self.policyQualifiers?.forEach {
+                try $0.validate(name: "\(name).policyQualifiers[]")
+            }
+            try self.validate(self.policyQualifiers, name: "policyQualifiers", parent: name, max: 20)
+            try self.validate(self.policyQualifiers, name: "policyQualifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certPolicyId = "CertPolicyId"
+            case policyQualifiers = "PolicyQualifiers"
+        }
+    }
+
+    public struct PolicyQualifierInfo: AWSEncodableShape {
+        /// Identifies the qualifier modifying a CertPolicyId.
+        public let policyQualifierId: PolicyQualifierId
+        /// Defines the qualifier type. ACM Private CA supports the use of a URI for a CPS qualifier in this field.
+        public let qualifier: Qualifier
+
+        public init(policyQualifierId: PolicyQualifierId, qualifier: Qualifier) {
+            self.policyQualifierId = policyQualifierId
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.qualifier.validate(name: "\(name).qualifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyQualifierId = "PolicyQualifierId"
+            case qualifier = "Qualifier"
+        }
+    }
+
     public struct PutPolicyRequest: AWSEncodableShape {
-        /// The path and filename of a JSON-formatted IAM policy to attach to the specified private CA resource. If this policy does not contain all required statements or if it includes any statement that is not allowed, the PutPolicy action returns an InvalidPolicyException. For information about IAM policy and statement structure, see Overview of JSON Policies.
+        /// The path and file name of a JSON-formatted IAM policy to attach to the specified private CA resource. If this policy does not contain all required statements or if it includes any statement that is not allowed, the PutPolicy action returns an InvalidPolicyException. For information about IAM policy and statement structure, see Overview of JSON Policies.
         public let policy: String
         /// The Amazon Resource Number (ARN) of the private CA to associate with the policy. The ARN of the CA can be found by calling the ListCertificateAuthorities action.
         public let resourceArn: String
@@ -1293,6 +1456,24 @@ extension ACMPCA {
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
             case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct Qualifier: AWSEncodableShape {
+        /// Contains a pointer to a certification practice statement (CPS) published by the CA.
+        public let cpsUri: String
+
+        public init(cpsUri: String) {
+            self.cpsUri = cpsUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cpsUri, name: "cpsUri", parent: name, max: 256)
+            try self.validate(self.cpsUri, name: "cpsUri", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpsUri = "CpsUri"
         }
     }
 
@@ -1472,7 +1653,7 @@ extension ACMPCA {
     }
 
     public struct Validity: AWSEncodableShape {
-        /// Determines how ACM Private CA interprets the Value parameter, an integer. Supported validity types include those listed below. Type definitions with values include a sample input value and the resulting output.   END_DATE: The specific date and time when the certificate will expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime (YYYYMMDDHHMMSS) format. When UTCTime is used, if the year field (YY) is greater than or equal to 50, the year is interpreted as 19YY. If the year field is less than 50, the year is interpreted as 20YY.   Sample input value: 491231235959 (UTCTime format)   Output expiration date/time: 12/31/2049 23:59:59    ABSOLUTE: The specific date and time when the certificate will expire, expressed in seconds since the Unix Epoch.    Sample input value: 2524608000   Output expiration date/time: 01/01/2050 00:00:00    DAYS, MONTHS, YEARS: The relative time from the moment of issuance until the certificate will expire, expressed in days, months, or years.  Example if DAYS, issued on 10/12/2020 at 12:34:54 UTC:   Sample input value: 90   Output expiration date: 01/10/2020 12:34:54 UTC   The minimum validity duration for a certificate using relative time (DAYS) is one day. The minimum validity for a certificate using absolute time (ABSOLUTE or END_DATE) is one second.
+        /// Determines how ACM Private CA interprets the Value parameter, an integer. Supported validity types include those listed below. Type definitions with values include a sample input value and the resulting output.   END_DATE: The specific date and time when the certificate will expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime (YYYYMMDDHHMMSS) format. When UTCTime is used, if the year field (YY) is greater than or equal to 50, the year is interpreted as 19YY. If the year field is less than 50, the year is interpreted as 20YY.   Sample input value: 491231235959 (UTCTime format)   Output expiration date/time: 12/31/2049 23:59:59    ABSOLUTE: The specific date and time when the validity of a certificate will start or expire, expressed in seconds since the Unix Epoch.    Sample input value: 2524608000   Output expiration date/time: 01/01/2050 00:00:00    DAYS, MONTHS, YEARS: The relative time from the moment of issuance until the certificate will expire, expressed in days, months, or years.  Example if DAYS, issued on 10/12/2020 at 12:34:54 UTC:   Sample input value: 90   Output expiration date: 01/10/2020 12:34:54 UTC   The minimum validity duration for a certificate using relative time (DAYS) is one day. The minimum validity for a certificate using absolute time (ABSOLUTE or END_DATE) is one second.
         public let type: ValidityPeriodType
         /// A long integer interpreted according to the value of Type, below.
         public let value: Int64

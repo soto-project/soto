@@ -1447,7 +1447,7 @@ extension SSM {
     }
 
     public struct AutomationExecutionFilter: AWSEncodableShape {
-        /// One or more keys to limit the results. Valid filter keys include the following: DocumentNamePrefix, ExecutionStatus, ExecutionId, ParentExecutionId, CurrentAction, StartTimeBefore, StartTimeAfter, TargetResourceGroup.
+        /// One or more keys to limit the results.
         public let key: AutomationExecutionFilterKey
         /// The values used to limit the execution information associated with the filter's key.
         public let values: [String]
@@ -3728,22 +3728,32 @@ extension SSM {
     }
 
     public struct DescribeDocumentPermissionRequest: AWSEncodableShape {
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
         /// The name of the document for which you are the owner.
         public let name: String
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
         /// The permission type for the document. The permission type can be Share.
         public let permissionType: DocumentPermissionType
 
-        public init(name: String, permissionType: DocumentPermissionType) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil, permissionType: DocumentPermissionType) {
+            self.maxResults = maxResults
             self.name = name
+            self.nextToken = nextToken
             self.permissionType = permissionType
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
             case name = "Name"
+            case nextToken = "NextToken"
             case permissionType = "PermissionType"
         }
     }
@@ -3753,15 +3763,19 @@ extension SSM {
         public let accountIds: [String]?
         /// A list of AWS accounts where the current document is shared and the version shared with each account.
         public let accountSharingInfoList: [AccountSharingInfo]?
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
 
-        public init(accountIds: [String]? = nil, accountSharingInfoList: [AccountSharingInfo]? = nil) {
+        public init(accountIds: [String]? = nil, accountSharingInfoList: [AccountSharingInfo]? = nil, nextToken: String? = nil) {
             self.accountIds = accountIds
             self.accountSharingInfoList = accountSharingInfoList
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "AccountIds"
             case accountSharingInfoList = "AccountSharingInfoList"
+            case nextToken = "NextToken"
         }
     }
 
@@ -6629,7 +6643,7 @@ extension SSM {
         public let nextToken: String?
         /// Filters to limit the request results.  For GetParametersByPath, the following filter Key names are supported: Type, KeyId, Label, and DataType. The following Key values are not supported for GetParametersByPath: tag, Name, Path, and Tier.
         public let parameterFilters: [ParameterStringFilter]?
-        /// The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end with the parameter name. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
+        /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierachy is the parameter name except the last part of the parameter. For the API call to succeeed, the last part of the parameter name cannot be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
         public let path: String
         /// Retrieve all parameters within a hierarchy.  If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a, then the user can also access /a/b. Even if a user has explicitly been denied access in IAM for parameter /a/b, they can still call the GetParametersByPath API action recursively for /a and view /a/b.
         public let recursive: Bool?
@@ -8058,7 +8072,7 @@ extension SSM {
     public struct ListDocumentsRequest: AWSEncodableShape {
         /// This data type is deprecated. Instead, use Filters.
         public let documentFilterList: [DocumentFilter]?
-        /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, DocumentType, and TargetType. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName.
+        /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, DocumentType, and TargetType. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName.  This API action only supports filtering documents by using a single tag key and one or more tag values. For example: Key=tag:tagName,Values=valueName1,valueName2
         public let filters: [DocumentKeyValuesFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -10139,7 +10153,7 @@ extension SSM {
     }
 
     public struct PatchSource: AWSEncodableShape & AWSDecodableShape {
-        /// The value of the yum repo configuration. For example:  [main]   cachedir=/var/cache/yum/$basesearch$releasever   keepcache=0   debuglevel=2
+        /// The value of the yum repo configuration. For example:  [main]   name=MyCustomRepository   baseurl=https://my-custom-repository   enabled=1   For information about other options available for your yum repository configuration, see dnf.conf(5).
         public let configuration: String
         /// The name specified to identify the patch source.
         public let name: String
@@ -10570,7 +10584,7 @@ extension SSM {
         public let priority: Int?
         /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?
         public let serviceRoleArn: String?
-        /// The targets (either instances or maintenance window targets).  One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, AWS Lambda, and AWS Step Functions). For more information about running tasks that do not specify targets, see see Registering maintenance window tasks without targets in the AWS Systems Manager User Guide.  Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;
+        /// The targets (either instances or maintenance window targets).  One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, AWS Lambda, and AWS Step Functions). For more information about running tasks that do not specify targets, see Registering maintenance window tasks without targets in the AWS Systems Manager User Guide.  Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;
         public let targets: [Target]?
         /// The ARN of the task to run.
         public let taskArn: String
@@ -11280,7 +11294,7 @@ extension SSM {
         public let documentHash: String?
         /// Sha256 or Sha1.  Sha1 hashes have been deprecated.
         public let documentHashType: DocumentHashType?
-        /// Required. The name of the Systems Manager document to run. This can be a public document or a custom document.
+        /// The name of the Systems Manager document to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document ARN. For more information about how to use shared documents, see Using shared SSM documents in the AWS Systems Manager User Guide.
         public let documentName: String
         /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the AWS CLI, then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
         public let documentVersion: String?
@@ -11570,7 +11584,7 @@ extension SSM {
     public struct StartAutomationExecutionRequest: AWSEncodableShape {
         /// User-provided idempotency token. The token must be unique, is case insensitive, enforces the UUID format, and can't be reused.
         public let clientToken: String?
-        /// The name of the Automation document to use for this execution.
+        /// The name of the Systems Manager document to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document ARN. For more information about how to use shared documents, see Using shared SSM documents in the AWS Systems Manager User Guide.
         public let documentName: String
         /// The version of the Automation document to use for this execution.
         public let documentVersion: String?
@@ -12612,7 +12626,7 @@ extension SSM {
         public let replace: Bool?
         /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?
         public let serviceRoleArn: String?
-        /// The targets (either instances or tags) to modify. Instances are specified using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using Key=tag_name,Values=tag_value.   One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, AWS Lambda, and AWS Step Functions). For more information about running tasks that do not specify targets, see see Registering maintenance window tasks without targets in the AWS Systems Manager User Guide.
+        /// The targets (either instances or tags) to modify. Instances are specified using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using Key=tag_name,Values=tag_value.   One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, AWS Lambda, and AWS Step Functions). For more information about running tasks that do not specify targets, see Registering maintenance window tasks without targets in the AWS Systems Manager User Guide.
         public let targets: [Target]?
         /// The task ARN to modify.
         public let taskArn: String?

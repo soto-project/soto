@@ -53,7 +53,7 @@ public struct GreengrassV2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-11-30",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com"],
+            serviceEndpoints: ["us-gov-east-1": "greengrass.us-gov-east-1.amazonaws.com", "us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com"],
             errorType: GreengrassV2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -98,7 +98,7 @@ public struct GreengrassV2: AWSService {
         return self.client.execute(operation: "GetComponent", path: "/greengrass/v2/components/{arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the pre-signed URL to a component artifact in an S3 bucket. Core devices can call this operation to identify the URL that they can use to download an artifact to install.
+    /// Gets the pre-signed URL to download a public component artifact. Core devices call this operation to identify the URL that they can use to download an artifact to install.
     public func getComponentVersionArtifact(_ input: GetComponentVersionArtifactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComponentVersionArtifactResponse> {
         return self.client.execute(operation: "GetComponentVersionArtifact", path: "/greengrass/v2/components/{arn}/artifacts/{artifactName+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

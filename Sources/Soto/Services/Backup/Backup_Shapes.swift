@@ -93,7 +93,7 @@ extension Backup {
     public struct AdvancedBackupSetting: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values:  Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a VSS Windows backup.  Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see Creating a VSS-Enabled Windows Backup.
         public let backupOptions: [String: String]?
-        /// The type of AWS resource to be backed up. For VSS Windows backups, the only supported resource type is Amazon EC2. Valid values: EC2.
+        /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows VSS. For an CloudFormation example, see the sample CloudFormation template to enable Windows VSS in the AWS Backup User Guide. Valid values: EC2.
         public let resourceType: String?
 
         public init(backupOptions: [String: String]? = nil, resourceType: String? = nil) {
@@ -140,7 +140,7 @@ extension Backup {
         public let creationDate: Date?
         /// The date and time a job to back up resources is expected to be completed, in Unix format and Coordinated Universal Time (UTC). The value of ExpectedCompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let expectedCompletionDate: Date?
-        /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+        /// Specifies the IAM role ARN used to create the target recovery point. IAM roles other than the default role must include either AWSBackup or AwsBackup in the role name. For example, arn:aws:iam::123456789012:role/AWSBackupRDSAccess. Role names without those strings lack permissions to perform backup jobs.
         public let iamRoleArn: String?
         /// Contains an estimated percentage complete of a job at the time the job status was queried.
         public let percentDone: String?
@@ -322,7 +322,7 @@ extension Backup {
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
         public let copyActions: [CopyAction]?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An array of key-value pair strings that are assigned to resources that are associated with this rule when restored from backup.
         public let recoveryPointTags: [String: String]?
@@ -367,7 +367,7 @@ extension Backup {
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
         public let copyActions: [CopyAction]?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
         public let recoveryPointTags: [String: String]?
@@ -411,7 +411,7 @@ extension Backup {
     public struct BackupSelection: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the IAM role that AWS Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
-        /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "StringEquals": {"ec2:ResourceTag/Department": "accounting".
+        /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "StringEquals": {"ec2:ResourceTag/Department": "accounting". Assigns the backup plan to every resource with at least one matching tag.
         public let listOfTags: [Condition]?
         /// An array of strings that contain Amazon Resource Names (ARNs) of resources to assign to a backup plan.
         public let resources: [String]?
@@ -733,7 +733,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of letters, numbers, and hyphens.
         public let backupVaultName: String
         /// Metadata that you can assign to help organize the resources that you create. Each tag is a key-value pair.
         public let backupVaultTags: [String: String]?
@@ -1103,7 +1103,7 @@ extension Backup {
     public struct DescribeGlobalSettingsOutput: AWSDecodableShape {
         /// A list of resources along with the opt-in preferences for the account.
         public let globalSettings: [String: String]?
-        /// The date and time that the global settings was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that the global settings were last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastUpdateTime: Date?
 
         public init(globalSettings: [String: String]? = nil, lastUpdateTime: Date? = nil) {
@@ -1199,7 +1199,7 @@ extension Backup {
         public let isEncrypted: Bool?
         /// The date and time that a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastRestoreTime: Date?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups that are transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups that are transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
@@ -1673,7 +1673,7 @@ extension Backup {
     }
 
     public struct GetSupportedResourceTypesOutput: AWSDecodableShape {
-        /// Contains a string with the supported AWS resource types:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway
+        /// Contains a string with the supported AWS resource types:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway
         public let resourceTypes: [String]?
 
         public init(resourceTypes: [String]? = nil) {
@@ -1715,7 +1715,7 @@ extension Backup {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID.
+        /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an AWS Organizations management account, passing * returns all jobs across the organization.
         public let byAccountId: String?
         /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let byBackupVaultName: String?
@@ -1725,7 +1725,7 @@ extension Backup {
         public let byCreatedBefore: Date?
         /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
-        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway
+        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway
         public let byResourceType: String?
         /// Returns only backup jobs that are in the specified state.
         public let byState: BackupJobState?
@@ -2014,7 +2014,7 @@ extension Backup {
         public let byDestinationVaultArn: String?
         /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
-        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway
+        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway
         public let byResourceType: String?
         /// Returns only copy jobs that are in the specified state.
         public let byState: CopyJobState?
@@ -2414,7 +2414,7 @@ extension Backup {
         public let isEncrypted: Bool?
         /// The date and time a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastRestoreTime: Date?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
@@ -2592,19 +2592,19 @@ extension Backup {
         public let backupOptions: [String: String]?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
-        /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by AWS Backup. This value is optional.
+        /// A value in minutes during which a successfully started backup must complete, or else AWS Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled.
         public let completeWindowMinutes: Int64?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
         /// A customer chosen string that can be used to distinguish between calls to StartBackupJob.
         public let idempotencyToken: String?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
         public let recoveryPointTags: [String: String]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours.
         public let startWindowMinutes: Int64?
 
         public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
@@ -2643,7 +2643,7 @@ extension Backup {
     public struct StartBackupJobOutput: AWSDecodableShape {
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
-        /// The date and time that a backup job is started, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
@@ -2700,7 +2700,7 @@ extension Backup {
     public struct StartCopyJobOutput: AWSDecodableShape {
         /// Uniquely identifies a copy job.
         public let copyJobId: String?
-        /// The date and time that a copy job is started, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
 
         public init(copyJobId: String? = nil, creationDate: Date? = nil) {
@@ -2719,11 +2719,11 @@ extension Backup {
         public let iamRoleArn: String
         /// A customer chosen string that can be used to distinguish between calls to StartRestoreJob.
         public let idempotencyToken: String?
-        /// A set of metadata key-value pairs. Contains information, such as a resource name, required to restore a recovery point.  You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. You need to specify specific metadata to restore an Amazon Elastic File System (Amazon EFS) instance:    file-system-id: The ID of the Amazon EFS file system that is backed up by AWS Backup. Returned in GetRecoveryPointRestoreMetadata.    Encrypted: A Boolean value that, if true, specifies that the file system is encrypted. If KmsKeyId is specified, Encrypted must be set to true.    KmsKeyId: Specifies the AWS KMS key that is used to encrypt the restored file system. You can specify a key from another AWS account provided that key it is properly shared with your account via AWS KMS.    PerformanceMode: Specifies the throughput mode of the file system.    CreationToken: A user-supplied value that ensures the uniqueness (idempotency) of the request.    newFileSystem: A Boolean value that, if true, specifies that the recovery point is restored to a new Amazon EFS file system.    ItemsToRestore : A serialized list of up to five strings where each string is a file path. Use ItemsToRestore to restore specific files or directories rather than the entire file system. This parameter is optional.
+        /// A set of metadata key-value pairs. Contains information, such as a resource name, required to restore a recovery point.  You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. You need to specify specific metadata to restore an Amazon Elastic File System (Amazon EFS) instance:    file-system-id: The ID of the Amazon EFS file system that is backed up by AWS Backup. Returned in GetRecoveryPointRestoreMetadata.    Encrypted: A Boolean value that, if true, specifies that the file system is encrypted. If KmsKeyId is specified, Encrypted must be set to true.    KmsKeyId: Specifies the AWS KMS key that is used to encrypt the restored file system. You can specify a key from another AWS account provided that key it is properly shared with your account via AWS KMS.    PerformanceMode: Specifies the throughput mode of the file system.    CreationToken: A user-supplied value that ensures the uniqueness (idempotency) of the request.    newFileSystem: A Boolean value that, if true, specifies that the recovery point is restored to a new Amazon EFS file system.    ItemsToRestore : An array of one to five strings where each string is a file path. Use ItemsToRestore to restore specific files or directories rather than the entire file system. This parameter is optional. For example, "itemsToRestore":"[\"/my.test\"]".
         public let metadata: [String: String]
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        /// Starts a job to restore a recovery point for one of the following resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway
+        /// Starts a job to restore a recovery point for one of the following resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway
         public let resourceType: String?
 
         public init(iamRoleArn: String, idempotencyToken: String? = nil, metadata: [String: String], recoveryPointArn: String, resourceType: String? = nil) {
@@ -2914,7 +2914,7 @@ extension Backup {
         public let backupVaultArn: String?
         /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
         public let calculatedLifecycle: CalculatedLifecycle?
-        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
+        /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?

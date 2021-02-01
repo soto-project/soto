@@ -149,6 +149,7 @@ extension RoboMaker {
         case simulationapplicationcrash = "SimulationApplicationCrash"
         case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
         case subnetiplimitexceeded = "SubnetIpLimitExceeded"
+        case uploadcontentmismatcherror = "UploadContentMismatchError"
         case wrongregionrobotapplication = "WrongRegionRobotApplication"
         case wrongregions3bucket = "WrongRegionS3Bucket"
         case wrongregions3output = "WrongRegionS3Output"
@@ -173,6 +174,12 @@ extension RoboMaker {
     public enum SimulationSoftwareSuiteType: String, CustomStringConvertible, Codable {
         case gazebo = "Gazebo"
         case rosbagplay = "RosbagPlay"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UploadBehavior: String, CustomStringConvertible, Codable {
+        case uploadOnTerminate = "UPLOAD_ON_TERMINATE"
+        case uploadRollingAutoRemove = "UPLOAD_ROLLING_AUTO_REMOVE"
         public var description: String { return self.rawValue }
     }
 
@@ -2774,7 +2781,7 @@ extension RoboMaker {
         public let packageName: String
         /// The port forwarding configuration.
         public let portForwardingConfig: PortForwardingConfig?
-        /// Boolean indicating whether a streaming session will be configured for the application. If True, AWS RoboMaker will configure a connection so you can interact with your application as it is running in the simulation. You must configure and luanch the component. It must have a graphical user interface.
+        /// Boolean indicating whether a streaming session will be configured for the application. If True, AWS RoboMaker will configure a connection so you can interact with your application as it is running in the simulation. You must configure and launch the component. It must have a graphical user interface.
         public let streamUI: Bool?
 
         public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String, portForwardingConfig: PortForwardingConfig? = nil, streamUI: Bool? = nil) {
@@ -3665,11 +3672,17 @@ extension RoboMaker {
         public let applicationVersion: String?
         /// The launch configuration for the robot application.
         public let launchConfig: LaunchConfig
+        /// The upload configurations for the robot application.
+        public let uploadConfigurations: [UploadConfiguration]?
+        /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.
+        public let useDefaultUploadConfigurations: Bool?
 
-        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig) {
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultUploadConfigurations: Bool? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
+            self.uploadConfigurations = uploadConfigurations
+            self.useDefaultUploadConfigurations = useDefaultUploadConfigurations
         }
 
         public func validate(name: String) throws {
@@ -3680,12 +3693,19 @@ extension RoboMaker {
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
             try self.launchConfig.validate(name: "\(name).launchConfig")
+            try self.uploadConfigurations?.forEach {
+                try $0.validate(name: "\(name).uploadConfigurations[]")
+            }
+            try self.validate(self.uploadConfigurations, name: "uploadConfigurations", parent: name, max: 10)
+            try self.validate(self.uploadConfigurations, name: "uploadConfigurations", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case application
             case applicationVersion
             case launchConfig
+            case uploadConfigurations
+            case useDefaultUploadConfigurations
         }
     }
 
@@ -3826,13 +3846,19 @@ extension RoboMaker {
         public let applicationVersion: String?
         /// The launch configuration for the simulation application.
         public let launchConfig: LaunchConfig
+        /// Information about upload configurations for the simulation application.
+        public let uploadConfigurations: [UploadConfiguration]?
+        /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.
+        public let useDefaultUploadConfigurations: Bool?
         /// A list of world configurations.
         public let worldConfigs: [WorldConfig]?
 
-        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, worldConfigs: [WorldConfig]? = nil) {
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultUploadConfigurations: Bool? = nil, worldConfigs: [WorldConfig]? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
+            self.uploadConfigurations = uploadConfigurations
+            self.useDefaultUploadConfigurations = useDefaultUploadConfigurations
             self.worldConfigs = worldConfigs
         }
 
@@ -3844,6 +3870,11 @@ extension RoboMaker {
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
             try self.launchConfig.validate(name: "\(name).launchConfig")
+            try self.uploadConfigurations?.forEach {
+                try $0.validate(name: "\(name).uploadConfigurations[]")
+            }
+            try self.validate(self.uploadConfigurations, name: "uploadConfigurations", parent: name, max: 10)
+            try self.validate(self.uploadConfigurations, name: "uploadConfigurations", parent: name, min: 0)
             try self.worldConfigs?.forEach {
                 try $0.validate(name: "\(name).worldConfigs[]")
             }
@@ -3855,6 +3886,8 @@ extension RoboMaker {
             case application
             case applicationVersion
             case launchConfig
+            case uploadConfigurations
+            case useDefaultUploadConfigurations
             case worldConfigs
         }
     }
@@ -4041,7 +4074,7 @@ extension RoboMaker {
         public let simulationApplications: [SimulationApplicationConfig]?
         /// A map that contains tag keys and tag values that are attached to the simulation job request.
         public let tags: [String: String]?
-        /// Boolean indicating whether to use default simulation tool applications.
+        /// A Boolean indicating whether to use default applications in the simulation job. Default applications include Gazebo, rqt, rviz and terminal access.
         public let useDefaultApplications: Bool?
         public let vpcConfig: VPCConfig?
 
@@ -4736,6 +4769,36 @@ extension RoboMaker {
             case createdAt
             case lastUpdatedAt
             case name
+        }
+    }
+
+    public struct UploadConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A prefix that specifies where files will be uploaded in Amazon S3. It is appended to the simulation output location to determine the final path.   For example, if your simulation output location is s3://my-bucket and your upload configuration name is robot-test, your files will be uploaded to s3://my-bucket/&lt;simid&gt;/&lt;runid&gt;/robot-test.
+        public let name: String
+        ///  Specifies the path of the file(s) to upload. Standard Unix glob matching rules are accepted, with the addition of ** as a super asterisk. For example, specifying /var/log/**.log causes all .log files in the /var/log directory tree to be collected. For more examples, see Glob Library.
+        public let path: String
+        /// Specifies how to upload the files:  UPLOAD_ON_TERMINATE  Matching files are uploaded once the simulation enters the TERMINATING state. Matching files are not uploaded until all of your code (including tools) have stopped.  If there is a problem uploading a file, the upload is retried. If problems persist, no further upload attempts will be made.  UPLOAD_ROLLING_AUTO_REMOVE  Matching files are uploaded as they are created. They are deleted after they are uploaded. The specified path is checked every 5 seconds. A final check is made when all of your code (including tools) have stopped.
+        public let uploadBehavior: UploadBehavior
+
+        public init(name: String, path: String, uploadBehavior: UploadBehavior) {
+            self.name = name
+            self.path = path
+            self.uploadBehavior = uploadBehavior
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+            try self.validate(self.path, name: "path", parent: name, max: 1024)
+            try self.validate(self.path, name: "path", parent: name, min: 1)
+            try self.validate(self.path, name: "path", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case path
+            case uploadBehavior
         }
     }
 

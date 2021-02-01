@@ -3591,17 +3591,17 @@ extension Redshift {
     }
 
     public struct Endpoint: AWSDecodableShape {
-        public struct _VpcEndpointsEncoding: ArrayCoderProperties { public static let member = "SpartaProxyVpcEndpoint" }
+        public struct _VpcEndpointsEncoding: ArrayCoderProperties { public static let member = "VpcEndpoint" }
 
         /// The DNS address of the Cluster.
         public let address: String?
         /// The port that the database engine is listening on.
         public let port: Int?
         /// Describes a connection endpoint.
-        @OptionalCustomCoding<ArrayCoder<_VpcEndpointsEncoding, SpartaProxyVpcEndpoint>>
-        public var vpcEndpoints: [SpartaProxyVpcEndpoint]?
+        @OptionalCustomCoding<ArrayCoder<_VpcEndpointsEncoding, VpcEndpoint>>
+        public var vpcEndpoints: [VpcEndpoint]?
 
-        public init(address: String? = nil, port: Int? = nil, vpcEndpoints: [SpartaProxyVpcEndpoint]? = nil) {
+        public init(address: String? = nil, port: Int? = nil, vpcEndpoints: [VpcEndpoint]? = nil) {
             self.address = address
             self.port = port
             self.vpcEndpoints = vpcEndpoints
@@ -6234,19 +6234,6 @@ extension Redshift {
         }
     }
 
-    public struct SpartaProxyVpcEndpoint: AWSDecodableShape {
-        /// The connection endpoint ID for connecting an Amazon Redshift cluster through the proxy.
-        public let vpcEndpointId: String?
-
-        public init(vpcEndpointId: String? = nil) {
-            self.vpcEndpointId = vpcEndpointId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcEndpointId = "VpcEndpointId"
-        }
-    }
-
     public struct Subnet: AWSDecodableShape {
         public let subnetAvailabilityZone: AvailabilityZone?
         /// The identifier of the subnet.
@@ -6543,6 +6530,19 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case usageLimits = "UsageLimits"
+        }
+    }
+
+    public struct VpcEndpoint: AWSDecodableShape {
+        /// The connection endpoint ID for connecting an Amazon Redshift cluster through the proxy.
+        public let vpcEndpointId: String?
+
+        public init(vpcEndpointId: String? = nil) {
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 

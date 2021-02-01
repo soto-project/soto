@@ -122,7 +122,7 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "DescribeCopyJob", path: "/copy-jobs/{copyJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// The current feature settings for the AWS Account.
+    /// Describes the global settings of the AWS account, including whether it is opted in to cross-account backup.
     public func describeGlobalSettings(_ input: DescribeGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGlobalSettingsOutput> {
         return self.client.execute(operation: "DescribeGlobalSettings", path: "/global-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -297,12 +297,12 @@ public struct Backup: AWSService {
         return self.client.execute(operation: "UpdateBackupPlan", path: "/backup/plans/{backupPlanId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the current global settings for the AWS Account. Use the DescribeGlobalSettings API to determine the current settings.
+    /// Updates the current global settings for the AWS account. Use the DescribeGlobalSettings API to determine the current settings.
     @discardableResult public func updateGlobalSettings(_ input: UpdateGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateGlobalSettings", path: "/global-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.
+    /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
     public func updateRecoveryPointLifecycle(_ input: UpdateRecoveryPointLifecycleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecoveryPointLifecycleOutput> {
         return self.client.execute(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -63,7 +63,7 @@ public struct ConnectErrorType: AWSErrorType {
     public static var destinationNotAllowedException: Self { .init(.destinationNotAllowedException) }
     /// A resource with the specified name already exists.
     public static var duplicateResourceException: Self { .init(.duplicateResourceException) }
-    /// Request processing failed due to an error or failure with the service.
+    /// Request processing failed because of an error or failure with the service.
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The contact flow is not valid.
     public static var invalidContactFlowException: Self { .init(.invalidContactFlowException) }

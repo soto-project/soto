@@ -2881,8 +2881,10 @@ extension MediaLive {
         public let state: ChannelState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
+        /// Settings for VPC output
+        public let vpc: VpcOutputSettings?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -2899,6 +2901,7 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+            self.vpc = vpc
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2918,6 +2921,7 @@ extension MediaLive {
             case roleArn
             case state
             case tags
+            case vpc
         }
     }
 
@@ -2964,8 +2968,10 @@ extension MediaLive {
         public let state: ChannelState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
+        /// Settings for VPC output
+        public let vpc: VpcOutputSettings?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -2980,6 +2986,7 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+            self.vpc = vpc
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2997,6 +3004,7 @@ extension MediaLive {
             case roleArn
             case state
             case tags
+            case vpc
         }
     }
 
@@ -3016,8 +3024,9 @@ extension MediaLive {
         public let requestId: String?
         public let roleArn: String?
         public let tags: [String: String]?
+        public let vpc: VpcOutputSettings?
 
-        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.destinations = destinations
@@ -3029,6 +3038,7 @@ extension MediaLive {
             self.requestId = requestId
             self.roleArn = roleArn
             self.tags = tags
+            self.vpc = vpc
         }
 
         public func validate(name: String) throws {
@@ -3053,6 +3063,7 @@ extension MediaLive {
             case requestId
             case roleArn
             case tags
+            case vpc
         }
     }
 
@@ -3278,8 +3289,9 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
+        public let vpc: VpcOutputSettings?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3296,6 +3308,7 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+            self.vpc = vpc
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3315,6 +3328,7 @@ extension MediaLive {
             case roleArn
             case state
             case tags
+            case vpc
         }
     }
 
@@ -3591,8 +3605,9 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
+        public let vpc: VpcOutputSettings?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3609,6 +3624,7 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+            self.vpc = vpc
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3628,6 +3644,7 @@ extension MediaLive {
             case roleArn
             case state
             case tags
+            case vpc
         }
     }
 
@@ -9098,8 +9115,9 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
+        public let vpc: VpcOutputSettings?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -9116,6 +9134,7 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+            self.vpc = vpc
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9135,6 +9154,7 @@ extension MediaLive {
             case roleArn
             case state
             case tags
+            case vpc
         }
     }
 
@@ -9343,8 +9363,9 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
+        public let vpc: VpcOutputSettings?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -9361,6 +9382,7 @@ extension MediaLive {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+            self.vpc = vpc
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9380,6 +9402,7 @@ extension MediaLive {
             case roleArn
             case state
             case tags
+            case vpc
         }
     }
 
@@ -10176,6 +10199,30 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case videoSelectorPid
             case videoSelectorProgramId
+        }
+    }
+
+    public struct VpcOutputSettings: AWSEncodableShape & AWSDecodableShape {
+        /// List of public address allocation ids to associate with ENIs that will be created in Output VPC.
+        /// Must specify one for SINGLE_PIPELINE, two for STANDARD channels
+        public let publicAddressAllocationIds: [String]?
+        /// A list of up to 5 EC2 VPC security group IDs to attach to the Output VPC network interfaces.
+        /// If none are specified then the VPC default security group will be used
+        public let securityGroupIds: [String]?
+        /// A list of VPC subnet IDs from the same VPC.
+        /// If STANDARD channel, subnet IDs must be mapped to two unique availability zones (AZ).
+        public let subnetIds: [String]
+
+        public init(publicAddressAllocationIds: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]) {
+            self.publicAddressAllocationIds = publicAddressAllocationIds
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicAddressAllocationIds
+            case securityGroupIds
+            case subnetIds
         }
     }
 

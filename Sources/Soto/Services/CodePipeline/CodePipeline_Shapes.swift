@@ -100,6 +100,7 @@ extension CodePipeline {
     }
 
     public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "Cancelled"
         case failed = "Failed"
         case inprogress = "InProgress"
         case stopped = "Stopped"
@@ -110,6 +111,7 @@ extension CodePipeline {
     }
 
     public enum StageExecutionStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "Cancelled"
         case failed = "Failed"
         case inprogress = "InProgress"
         case stopped = "Stopped"
@@ -2062,15 +2064,18 @@ extension CodePipeline {
         public let pipelineName: String?
         /// The version number of the pipeline with the specified pipeline execution.
         public let pipelineVersion: Int?
-        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Stopped: The pipeline execution was manually stopped. For more information, see Stopped Executions.   Stopping: The pipeline execution received a request to be manually stopped. Depending on the selected stop mode, the execution is either completing or abandoning in-progress actions. For more information, see Stopped Executions.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead. For more information, see Superseded Executions.   Failed: The pipeline execution was not completed successfully.
+        /// The status of the pipeline execution.   Cancelled: The pipeline’s definition was updated before the pipeline execution could be completed.   InProgress: The pipeline execution is currently running.   Stopped: The pipeline execution was manually stopped. For more information, see Stopped Executions.   Stopping: The pipeline execution received a request to be manually stopped. Depending on the selected stop mode, the execution is either completing or abandoning in-progress actions. For more information, see Stopped Executions.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead. For more information, see Superseded Executions.   Failed: The pipeline execution was not completed successfully.
         public let status: PipelineExecutionStatus?
+        /// A summary that contains a description of the pipeline execution status.
+        public let statusSummary: String?
 
-        public init(artifactRevisions: [ArtifactRevision]? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, status: PipelineExecutionStatus? = nil) {
+        public init(artifactRevisions: [ArtifactRevision]? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, status: PipelineExecutionStatus? = nil, statusSummary: String? = nil) {
             self.artifactRevisions = artifactRevisions
             self.pipelineExecutionId = pipelineExecutionId
             self.pipelineName = pipelineName
             self.pipelineVersion = pipelineVersion
             self.status = status
+            self.statusSummary = statusSummary
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2079,6 +2084,7 @@ extension CodePipeline {
             case pipelineName
             case pipelineVersion
             case status
+            case statusSummary
         }
     }
 
@@ -2704,7 +2710,7 @@ extension CodePipeline {
     public struct StageExecution: AWSDecodableShape {
         /// The ID of the pipeline execution associated with the stage.
         public let pipelineExecutionId: String
-        /// The status of the stage, or for a completed stage, the last status of the stage.
+        /// The status of the stage, or for a completed stage, the last status of the stage.  A status of cancelled means that the pipeline’s definition was updated before the stage execution could be completed.
         public let status: StageExecutionStatus
 
         public init(pipelineExecutionId: String, status: StageExecutionStatus) {

@@ -47,11 +47,11 @@ public struct HealthLakeErrorType: AWSErrorType {
 
     /// Access is denied. Your account is not authorized to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The datastore is in a transition state and the user requested action can not be performed.
+    /// The Data Store is in a transition state and the user requested action can not be performed.
     public static var conflictException: Self { .init(.conflictException) }
     /// Unknown error occurs in the service.
     public static var internalServerException: Self { .init(.internalServerException) }
-    ///  The requested datastore was not found.
+    ///  The requested Data Store was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The user has exceeded their maximum number of allowed calls to the given API.
     public static var throttlingException: Self { .init(.throttlingException) }

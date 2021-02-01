@@ -195,10 +195,12 @@ extension ManagedBlockchain {
         public let memberConfiguration: MemberConfiguration
         /// The name of the network.
         public let name: String
+        /// Tags to assign to the network. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public let tags: [String: String]?
         ///  The voting rules used by the network to determine if a proposal is approved.
         public let votingPolicy: VotingPolicy
 
-        public init(clientRequestToken: String = CreateNetworkInput.idempotencyToken(), description: String? = nil, framework: Framework, frameworkConfiguration: NetworkFrameworkConfiguration? = nil, frameworkVersion: String, memberConfiguration: MemberConfiguration, name: String, votingPolicy: VotingPolicy) {
+        public init(clientRequestToken: String = CreateNetworkInput.idempotencyToken(), description: String? = nil, framework: Framework, frameworkConfiguration: NetworkFrameworkConfiguration? = nil, frameworkVersion: String, memberConfiguration: MemberConfiguration, name: String, tags: [String: String]? = nil, votingPolicy: VotingPolicy) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.framework = framework
@@ -206,6 +208,7 @@ extension ManagedBlockchain {
             self.frameworkVersion = frameworkVersion
             self.memberConfiguration = memberConfiguration
             self.name = name
+            self.tags = tags
             self.votingPolicy = votingPolicy
         }
 
@@ -219,6 +222,12 @@ extension ManagedBlockchain {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
             try self.votingPolicy.validate(name: "\(name).votingPolicy")
         }
 
@@ -230,6 +239,7 @@ extension ManagedBlockchain {
             case frameworkVersion = "FrameworkVersion"
             case memberConfiguration = "MemberConfiguration"
             case name = "Name"
+            case tags = "Tags"
             case votingPolicy = "VotingPolicy"
         }
     }
@@ -264,12 +274,15 @@ extension ManagedBlockchain {
         public let networkId: String
         /// The properties of a node configuration.
         public let nodeConfiguration: NodeConfiguration
+        /// Tags to assign to the node. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public let tags: [String: String]?
 
-        public init(clientRequestToken: String = CreateNodeInput.idempotencyToken(), memberId: String? = nil, networkId: String, nodeConfiguration: NodeConfiguration) {
+        public init(clientRequestToken: String = CreateNodeInput.idempotencyToken(), memberId: String? = nil, networkId: String, nodeConfiguration: NodeConfiguration, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.memberId = memberId
             self.networkId = networkId
             self.nodeConfiguration = nodeConfiguration
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -279,12 +292,19 @@ extension ManagedBlockchain {
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case memberId = "MemberId"
             case nodeConfiguration = "NodeConfiguration"
+            case tags = "Tags"
         }
     }
 
@@ -316,13 +336,16 @@ extension ManagedBlockchain {
         public let memberId: String
         ///  The unique identifier of the network for which the proposal is made.
         public let networkId: String
+        /// Tags to assign to the proposal. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource. If the proposal is for a network invitation, the invitation inherits the tags added to the proposal. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public let tags: [String: String]?
 
-        public init(actions: ProposalActions, clientRequestToken: String = CreateProposalInput.idempotencyToken(), description: String? = nil, memberId: String, networkId: String) {
+        public init(actions: ProposalActions, clientRequestToken: String = CreateProposalInput.idempotencyToken(), description: String? = nil, memberId: String, networkId: String, tags: [String: String]? = nil) {
             self.actions = actions
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.memberId = memberId
             self.networkId = networkId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -334,6 +357,12 @@ extension ManagedBlockchain {
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -341,6 +370,7 @@ extension ManagedBlockchain {
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
             case memberId = "MemberId"
+            case tags = "Tags"
         }
     }
 
@@ -580,6 +610,8 @@ extension ManagedBlockchain {
     }
 
     public struct Invitation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the invitation. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
         /// The date and time that the invitation was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
@@ -592,7 +624,8 @@ extension ManagedBlockchain {
         /// The status of the invitation:    PENDING - The invitee has not created a member to join the network, and the invitation has not yet expired.    ACCEPTING - The invitee has begun creating a member, and creation has not yet completed.    ACCEPTED - The invitee created a member and joined the network using the InvitationID.    REJECTED - The invitee rejected the invitation.    EXPIRED - The invitee neither created a member nor rejected the invitation before the ExpirationDate.
         public let status: InvitationStatus?
 
-        public init(creationDate: Date? = nil, expirationDate: Date? = nil, invitationId: String? = nil, networkSummary: NetworkSummary? = nil, status: InvitationStatus? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, expirationDate: Date? = nil, invitationId: String? = nil, networkSummary: NetworkSummary? = nil, status: InvitationStatus? = nil) {
+            self.arn = arn
             self.creationDate = creationDate
             self.expirationDate = expirationDate
             self.invitationId = invitationId
@@ -601,6 +634,7 @@ extension ManagedBlockchain {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case creationDate = "CreationDate"
             case expirationDate = "ExpirationDate"
             case invitationId = "InvitationId"
@@ -938,6 +972,40 @@ extension ManagedBlockchain {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.+:.+:.+:.+:.+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags assigned to the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct LogConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether logging is enabled.
         public let enabled: Bool?
@@ -965,6 +1033,8 @@ extension ManagedBlockchain {
     }
 
     public struct Member: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
         /// The date and time that the member was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
@@ -982,8 +1052,11 @@ extension ManagedBlockchain {
         public let networkId: String?
         /// The status of a member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.
         public let status: MemberStatus?
+        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public let tags: [String: String]?
 
-        public init(creationDate: Date? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
             self.creationDate = creationDate
             self.description = description
             self.frameworkAttributes = frameworkAttributes
@@ -992,9 +1065,11 @@ extension ManagedBlockchain {
             self.name = name
             self.networkId = networkId
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case creationDate = "CreationDate"
             case description = "Description"
             case frameworkAttributes = "FrameworkAttributes"
@@ -1003,6 +1078,7 @@ extension ManagedBlockchain {
             case name = "Name"
             case networkId = "NetworkId"
             case status = "Status"
+            case tags = "Tags"
         }
     }
 
@@ -1015,12 +1091,15 @@ extension ManagedBlockchain {
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
         /// The name of the member.
         public let name: String
+        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource.
+        public let tags: [String: String]?
 
-        public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String) {
+        public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String, tags: [String: String]? = nil) {
             self.description = description
             self.frameworkConfiguration = frameworkConfiguration
             self.logPublishingConfiguration = logPublishingConfiguration
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1029,6 +1108,12 @@ extension ManagedBlockchain {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!-|[0-9])(?!.*-$)(?!.*?--)[a-zA-Z0-9-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1036,6 +1121,7 @@ extension ManagedBlockchain {
             case frameworkConfiguration = "FrameworkConfiguration"
             case logPublishingConfiguration = "LogPublishingConfiguration"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -1139,6 +1225,8 @@ extension ManagedBlockchain {
     }
 
     public struct MemberSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the member. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
         /// The date and time that the member was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
@@ -1153,7 +1241,8 @@ extension ManagedBlockchain {
         /// The status of the member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.
         public let status: MemberStatus?
 
-        public init(creationDate: Date? = nil, description: String? = nil, id: String? = nil, isOwned: Bool? = nil, name: String? = nil, status: MemberStatus? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, id: String? = nil, isOwned: Bool? = nil, name: String? = nil, status: MemberStatus? = nil) {
+            self.arn = arn
             self.creationDate = creationDate
             self.description = description
             self.id = id
@@ -1163,6 +1252,7 @@ extension ManagedBlockchain {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case creationDate = "CreationDate"
             case description = "Description"
             case id = "Id"
@@ -1173,6 +1263,8 @@ extension ManagedBlockchain {
     }
 
     public struct Network: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
         /// The date and time that the network was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
@@ -1190,12 +1282,15 @@ extension ManagedBlockchain {
         public let name: String?
         /// The current status of the network.
         public let status: NetworkStatus?
+        /// Tags assigned to the network. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public let tags: [String: String]?
         /// The voting rules for the network to decide if a proposal is accepted.
         public let votingPolicy: VotingPolicy?
         /// The VPC endpoint service name of the VPC endpoint service of the network. Members use the VPC endpoint service name to create a VPC endpoint to access network resources.
         public let vpcEndpointServiceName: String?
 
-        public init(creationDate: Date? = nil, description: String? = nil, framework: Framework? = nil, frameworkAttributes: NetworkFrameworkAttributes? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil, votingPolicy: VotingPolicy? = nil, vpcEndpointServiceName: String? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, framework: Framework? = nil, frameworkAttributes: NetworkFrameworkAttributes? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil, tags: [String: String]? = nil, votingPolicy: VotingPolicy? = nil, vpcEndpointServiceName: String? = nil) {
+            self.arn = arn
             self.creationDate = creationDate
             self.description = description
             self.framework = framework
@@ -1204,11 +1299,13 @@ extension ManagedBlockchain {
             self.id = id
             self.name = name
             self.status = status
+            self.tags = tags
             self.votingPolicy = votingPolicy
             self.vpcEndpointServiceName = vpcEndpointServiceName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case creationDate = "CreationDate"
             case description = "Description"
             case framework = "Framework"
@@ -1217,6 +1314,7 @@ extension ManagedBlockchain {
             case id = "Id"
             case name = "Name"
             case status = "Status"
+            case tags = "Tags"
             case votingPolicy = "VotingPolicy"
             case vpcEndpointServiceName = "VpcEndpointServiceName"
         }
@@ -1266,7 +1364,7 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkFrameworkAttributes: AWSDecodableShape {
-        /// Attributes of an Ethereum network for Managed Blockchain resources participating in an Ethereum network.
+        /// Attributes of an Ethereum network for Managed Blockchain resources participating in an Ethereum network. Ethereum on Managed Blockchain is in preview release and is subject to change.
         public let ethereum: NetworkEthereumAttributes?
         /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NetworkFabricAttributes?
@@ -1296,6 +1394,8 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the network. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
         /// The date and time that the network was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
@@ -1312,7 +1412,8 @@ extension ManagedBlockchain {
         /// The current status of the network.
         public let status: NetworkStatus?
 
-        public init(creationDate: Date? = nil, description: String? = nil, framework: Framework? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, framework: Framework? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil) {
+            self.arn = arn
             self.creationDate = creationDate
             self.description = description
             self.framework = framework
@@ -1323,6 +1424,7 @@ extension ManagedBlockchain {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case creationDate = "CreationDate"
             case description = "Description"
             case framework = "Framework"
@@ -1334,7 +1436,9 @@ extension ManagedBlockchain {
     }
 
     public struct Node: AWSDecodableShape {
-        /// The Availability Zone in which the node exists.
+        /// The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
+        /// The Availability Zone in which the node exists. Required for Ethereum nodes. Ethereum on Managed Blockchain is in preview release and is subject to change.
         public let availabilityZone: String?
         /// The date and time that the node was created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1355,8 +1459,11 @@ extension ManagedBlockchain {
         public let stateDB: StateDBType?
         /// The status of the node.
         public let status: NodeStatus?
+        /// Tags assigned to the node. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public let tags: [String: String]?
 
-        public init(availabilityZone: String? = nil, creationDate: Date? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, stateDB: StateDBType? = nil, status: NodeStatus? = nil) {
+        public init(arn: String? = nil, availabilityZone: String? = nil, creationDate: Date? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, stateDB: StateDBType? = nil, status: NodeStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
             self.frameworkAttributes = frameworkAttributes
@@ -1367,9 +1474,11 @@ extension ManagedBlockchain {
             self.networkId = networkId
             self.stateDB = stateDB
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case availabilityZone = "AvailabilityZone"
             case creationDate = "CreationDate"
             case frameworkAttributes = "FrameworkAttributes"
@@ -1380,11 +1489,12 @@ extension ManagedBlockchain {
             case networkId = "NetworkId"
             case stateDB = "StateDB"
             case status = "Status"
+            case tags = "Tags"
         }
     }
 
     public struct NodeConfiguration: AWSEncodableShape {
-        /// The Availability Zone in which the node exists.
+        /// The Availability Zone in which the node exists. Required for Ethereum nodes. Ethereum on Managed Blockchain is in preview release and is subject to change.
         public let availabilityZone: String?
         /// The Amazon Managed Blockchain instance type for the node.
         public let instanceType: String
@@ -1460,7 +1570,7 @@ extension ManagedBlockchain {
     }
 
     public struct NodeFrameworkAttributes: AWSDecodableShape {
-        /// Attributes of Ethereum for a node on a Managed Blockchain network that uses Ethereum.
+        /// Attributes of Ethereum for a node on a Managed Blockchain network that uses Ethereum. Ethereum on Managed Blockchain is in preview release and is subject to change.
         public let ethereum: NodeEthereumAttributes?
         /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NodeFabricAttributes?
@@ -1490,6 +1600,8 @@ extension ManagedBlockchain {
     }
 
     public struct NodeSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
         /// The Availability Zone in which the node exists.
         public let availabilityZone: String?
         /// The date and time that the node was created.
@@ -1502,7 +1614,8 @@ extension ManagedBlockchain {
         /// The status of the node.
         public let status: NodeStatus?
 
-        public init(availabilityZone: String? = nil, creationDate: Date? = nil, id: String? = nil, instanceType: String? = nil, status: NodeStatus? = nil) {
+        public init(arn: String? = nil, availabilityZone: String? = nil, creationDate: Date? = nil, id: String? = nil, instanceType: String? = nil, status: NodeStatus? = nil) {
+            self.arn = arn
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
             self.id = id
@@ -1511,6 +1624,7 @@ extension ManagedBlockchain {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case availabilityZone = "AvailabilityZone"
             case creationDate = "CreationDate"
             case id = "Id"
@@ -1522,6 +1636,8 @@ extension ManagedBlockchain {
     public struct Proposal: AWSDecodableShape {
         /// The actions to perform on the network if the proposal is APPROVED.
         public let actions: ProposalActions?
+        /// The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
         ///  The date and time that the proposal was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
@@ -1544,11 +1660,14 @@ extension ManagedBlockchain {
         public let proposedByMemberName: String?
         /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions are not carried out.    EXPIRED - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions are not carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved could not be completed because of an error. The ACTION_FAILED status occurs even if only one ProposalAction fails and other actions are successful.
         public let status: ProposalStatus?
+        /// Tags assigned to the proposal. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public let tags: [String: String]?
         ///  The current total of YES votes cast on the proposal by members.
         public let yesVoteCount: Int?
 
-        public init(actions: ProposalActions? = nil, creationDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, networkId: String? = nil, noVoteCount: Int? = nil, outstandingVoteCount: Int? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil, yesVoteCount: Int? = nil) {
+        public init(actions: ProposalActions? = nil, arn: String? = nil, creationDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, networkId: String? = nil, noVoteCount: Int? = nil, outstandingVoteCount: Int? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil, tags: [String: String]? = nil, yesVoteCount: Int? = nil) {
             self.actions = actions
+            self.arn = arn
             self.creationDate = creationDate
             self.description = description
             self.expirationDate = expirationDate
@@ -1559,11 +1678,13 @@ extension ManagedBlockchain {
             self.proposedByMemberId = proposedByMemberId
             self.proposedByMemberName = proposedByMemberName
             self.status = status
+            self.tags = tags
             self.yesVoteCount = yesVoteCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
+            case arn = "Arn"
             case creationDate = "CreationDate"
             case description = "Description"
             case expirationDate = "ExpirationDate"
@@ -1574,6 +1695,7 @@ extension ManagedBlockchain {
             case proposedByMemberId = "ProposedByMemberId"
             case proposedByMemberName = "ProposedByMemberName"
             case status = "Status"
+            case tags = "Tags"
             case yesVoteCount = "YesVoteCount"
         }
     }
@@ -1602,6 +1724,8 @@ extension ManagedBlockchain {
     }
 
     public struct ProposalSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the proposal. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
         ///  The date and time that the proposal was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
@@ -1619,7 +1743,8 @@ extension ManagedBlockchain {
         /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions are not carried out.    EXPIRED - Members did not cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions are not carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved could not be completed because of an error.
         public let status: ProposalStatus?
 
-        public init(creationDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil) {
+            self.arn = arn
             self.creationDate = creationDate
             self.description = description
             self.expirationDate = expirationDate
@@ -1630,6 +1755,7 @@ extension ManagedBlockchain {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case creationDate = "CreationDate"
             case description = "Description"
             case expirationDate = "ExpirationDate"
@@ -1680,6 +1806,77 @@ extension ManagedBlockchain {
         private enum CodingKeys: String, CodingKey {
             case memberId = "MemberId"
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let resourceArn: String
+        /// The tags to assign to the specified resource. Tag values can be empty, for example, "MyTagKey" : "". You can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.+:.+:.+:.+:.+")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let resourceArn: String
+        /// The tag keys.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.+:.+:.+:.+:.+")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateMemberInput: AWSEncodableShape {

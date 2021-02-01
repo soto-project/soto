@@ -257,6 +257,12 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpAddressType: String, CustomStringConvertible, Codable {
+        case dualstack
+        case ipv4
+        public var description: String { return self.rawValue }
+    }
+
     public enum LoadBalancerAttributeName: String, CustomStringConvertible, Codable {
         case healthcheckpath = "HealthCheckPath"
         case sessionstickinessLbCookiedurationseconds = "SessionStickiness_LB_CookieDurationSeconds"
@@ -491,6 +497,7 @@ extension Lightsail {
         case releasestaticip = "ReleaseStaticIp"
         case resetdistributioncache = "ResetDistributionCache"
         case sendcontactmethodverification = "SendContactMethodVerification"
+        case setipaddresstype = "SetIpAddressType"
         case startinstance = "StartInstance"
         case startrelationaldatabase = "StartRelationalDatabase"
         case stopinstance = "StopInstance"
@@ -2277,17 +2284,20 @@ extension Lightsail {
         public let defaultCacheBehavior: CacheBehavior
         /// The name for the distribution.
         public let distributionName: String
+        /// The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+        public let ipAddressType: IpAddressType?
         /// An object that describes the origin resource for the distribution, such as a Lightsail instance or load balancer. The distribution pulls, caches, and serves content from the origin.
         public let origin: InputOrigin
         /// The tag keys and optional values to add to the distribution during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
-        public init(bundleId: String, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, defaultCacheBehavior: CacheBehavior, distributionName: String, origin: InputOrigin, tags: [Tag]? = nil) {
+        public init(bundleId: String, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, defaultCacheBehavior: CacheBehavior, distributionName: String, ipAddressType: IpAddressType? = nil, origin: InputOrigin, tags: [Tag]? = nil) {
             self.bundleId = bundleId
             self.cacheBehaviors = cacheBehaviors
             self.cacheBehaviorSettings = cacheBehaviorSettings
             self.defaultCacheBehavior = defaultCacheBehavior
             self.distributionName = distributionName
+            self.ipAddressType = ipAddressType
             self.origin = origin
             self.tags = tags
         }
@@ -2304,6 +2314,7 @@ extension Lightsail {
             case cacheBehaviorSettings
             case defaultCacheBehavior
             case distributionName
+            case ipAddressType
             case origin
             case tags
         }
@@ -2442,6 +2453,8 @@ extension Lightsail {
         public let instanceNames: [String]
         /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots. Constraint:   This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive.
         public let instanceSnapshotName: String?
+        /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+        public let ipAddressType: IpAddressType?
         /// The name for your key pair.
         public let keyPairName: String?
         /// The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.
@@ -2455,13 +2468,14 @@ extension Lightsail {
         /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide.
         public let userData: String?
 
-        public init(addOns: [AddOnRequest]? = nil, attachedDiskMapping: [String: [DiskMap]]? = nil, availabilityZone: String, bundleId: String, instanceNames: [String], instanceSnapshotName: String? = nil, keyPairName: String? = nil, restoreDate: String? = nil, sourceInstanceName: String? = nil, tags: [Tag]? = nil, useLatestRestorableAutoSnapshot: Bool? = nil, userData: String? = nil) {
+        public init(addOns: [AddOnRequest]? = nil, attachedDiskMapping: [String: [DiskMap]]? = nil, availabilityZone: String, bundleId: String, instanceNames: [String], instanceSnapshotName: String? = nil, ipAddressType: IpAddressType? = nil, keyPairName: String? = nil, restoreDate: String? = nil, sourceInstanceName: String? = nil, tags: [Tag]? = nil, useLatestRestorableAutoSnapshot: Bool? = nil, userData: String? = nil) {
             self.addOns = addOns
             self.attachedDiskMapping = attachedDiskMapping
             self.availabilityZone = availabilityZone
             self.bundleId = bundleId
             self.instanceNames = instanceNames
             self.instanceSnapshotName = instanceSnapshotName
+            self.ipAddressType = ipAddressType
             self.keyPairName = keyPairName
             self.restoreDate = restoreDate
             self.sourceInstanceName = sourceInstanceName
@@ -2489,6 +2503,7 @@ extension Lightsail {
             case bundleId
             case instanceNames
             case instanceSnapshotName
+            case ipAddressType
             case keyPairName
             case restoreDate
             case sourceInstanceName
@@ -2522,6 +2537,8 @@ extension Lightsail {
         public let bundleId: String
         /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"]
         public let instanceNames: [String]
+        /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+        public let ipAddressType: IpAddressType?
         /// The name of your key pair.
         public let keyPairName: String?
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
@@ -2529,12 +2546,13 @@ extension Lightsail {
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide.
         public let userData: String?
 
-        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
+        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], ipAddressType: IpAddressType? = nil, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
             self.addOns = addOns
             self.availabilityZone = availabilityZone
             self.blueprintId = blueprintId
             self.bundleId = bundleId
             self.instanceNames = instanceNames
+            self.ipAddressType = ipAddressType
             self.keyPairName = keyPairName
             self.tags = tags
             self.userData = userData
@@ -2555,6 +2573,7 @@ extension Lightsail {
             case blueprintId
             case bundleId
             case instanceNames
+            case ipAddressType
             case keyPairName
             case tags
             case userData
@@ -2631,17 +2650,20 @@ extension Lightsail {
         public let healthCheckPath: String?
         /// The instance port where you're creating your load balancer.
         public let instancePort: Int
+        /// The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+        public let ipAddressType: IpAddressType?
         /// The name of your load balancer.
         public let loadBalancerName: String
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
 
-        public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int, loadBalancerName: String, tags: [Tag]? = nil) {
+        public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int, ipAddressType: IpAddressType? = nil, loadBalancerName: String, tags: [Tag]? = nil) {
             self.certificateAlternativeNames = certificateAlternativeNames
             self.certificateDomainName = certificateDomainName
             self.certificateName = certificateName
             self.healthCheckPath = healthCheckPath
             self.instancePort = instancePort
+            self.ipAddressType = ipAddressType
             self.loadBalancerName = loadBalancerName
             self.tags = tags
         }
@@ -2659,6 +2681,7 @@ extension Lightsail {
             case certificateName
             case healthCheckPath
             case instancePort
+            case ipAddressType
             case loadBalancerName
             case tags
         }
@@ -6266,8 +6289,10 @@ extension Lightsail {
         public let createdAt: Date?
         /// The size of the vCPU and the amount of RAM for the instance.
         public let hardware: InstanceHardware?
-        /// The IPv6 address of the instance.
-        public let ipv6Address: String?
+        /// The IP address type of the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        public let ipAddressType: IpAddressType?
+        /// The IPv6 addresses of the instance.
+        public let ipv6Addresses: [String]?
         /// A Boolean value indicating whether this instance has a static IP assigned to it.
         public let isStaticIp: Bool?
         /// The region name and Availability Zone where the instance is located.
@@ -6293,7 +6318,7 @@ extension Lightsail {
         /// The user name for connecting to the instance (e.g., ec2-user).
         public let username: String?
 
-        public init(addOns: [AddOn]? = nil, arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, hardware: InstanceHardware? = nil, ipv6Address: String? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, hardware: InstanceHardware? = nil, ipAddressType: IpAddressType? = nil, ipv6Addresses: [String]? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.addOns = addOns
             self.arn = arn
             self.blueprintId = blueprintId
@@ -6301,7 +6326,8 @@ extension Lightsail {
             self.bundleId = bundleId
             self.createdAt = createdAt
             self.hardware = hardware
-            self.ipv6Address = ipv6Address
+            self.ipAddressType = ipAddressType
+            self.ipv6Addresses = ipv6Addresses
             self.isStaticIp = isStaticIp
             self.location = location
             self.name = name
@@ -6324,7 +6350,8 @@ extension Lightsail {
             case bundleId
             case createdAt
             case hardware
-            case ipv6Address
+            case ipAddressType
+            case ipv6Addresses
             case isStaticIp
             case location
             case name
@@ -6394,7 +6421,7 @@ extension Lightsail {
         public let availabilityZone: String
         /// The instance type (e.g., t2.micro) to use for the new Amazon EC2 instance.
         public let instanceType: String
-        /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:    DEFAULT - Use the default firewall settings from the Lightsail instance blueprint.    INSTANCE - Use the configured firewall settings from the source Lightsail instance.    NONE - Use the default Amazon EC2 security group.    CLOSED - All ports closed.    If you configured lightsail-connect as a cidrListAliases on your instance, or if you chose to allow the Lightsail browser-based SSH or RDP clients to connect to your instance, that configuration is not carried over to your new Amazon EC2 instance.
+        /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:    DEFAULT - Use the default firewall settings from the Lightsail instance blueprint. If this is specified, then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2.    INSTANCE - Use the configured firewall settings from the source Lightsail instance. If this is specified, the new instance that is created in Amazon EC2 will be configured to match the configuration of the source Lightsail instance. For example, if the source instance is configured for dual-stack (IPv4 and IPv6), then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2. If the source instance is configured for IPv4 only, then only IPv4 will be configured for the new instance that is created in Amazon EC2.    NONE - Use the default Amazon EC2 security group. If this is specified, then only IPv4 will be configured for the new instance that is created in Amazon EC2.    CLOSED - All ports closed. If this is specified, then only IPv4 will be configured for the new instance that is created in Amazon EC2.    If you configured lightsail-connect as a cidrListAliases on your instance, or if you chose to allow the Lightsail browser-based SSH or RDP clients to connect to your instance, that configuration is not carried over to your new Amazon EC2 instance.
         public let portInfoSource: PortInfoSourceType
         /// The name of the export snapshot record, which contains the exported Lightsail instance snapshot that will be used as the source of the new Amazon EC2 instance. Use the get export snapshot records operation to get a list of export snapshot records that you can use to create a CloudFormation stack.
         public let sourceName: String
@@ -6491,18 +6518,20 @@ extension Lightsail {
         public let accessType: PortAccessType?
         /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
         public let cidrListAliases: [String]?
-        /// The IP address, or range of IP addresses in CIDR notation, that are allowed to connect to an instance through the ports, and the protocol. Lightsail supports IPv4 addresses. For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
+        /// The IPv4 address, or range of IPv4 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol.  The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
         public let cidrs: [String]?
         /// The common name of the port information.
         public let commonName: String?
-        /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP type. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.
+        /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP type for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP type for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
         public let fromPort: Int?
+        /// The IPv6 address, or range of IPv6 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol. Only devices with an IPv6 address can connect to an instance through IPv6; otherwise, IPv4 should be used.  The cidrs parameter lists the IPv4 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
+        public let ipv6Cidrs: [String]?
         /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public let `protocol`: NetworkProtocol?
-        /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP code. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.
+        /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP code for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP code for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
         public let toPort: Int?
 
-        public init(accessDirection: AccessDirection? = nil, accessFrom: String? = nil, accessType: PortAccessType? = nil, cidrListAliases: [String]? = nil, cidrs: [String]? = nil, commonName: String? = nil, fromPort: Int? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
+        public init(accessDirection: AccessDirection? = nil, accessFrom: String? = nil, accessType: PortAccessType? = nil, cidrListAliases: [String]? = nil, cidrs: [String]? = nil, commonName: String? = nil, fromPort: Int? = nil, ipv6Cidrs: [String]? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
             self.accessDirection = accessDirection
             self.accessFrom = accessFrom
             self.accessType = accessType
@@ -6510,6 +6539,7 @@ extension Lightsail {
             self.cidrs = cidrs
             self.commonName = commonName
             self.fromPort = fromPort
+            self.ipv6Cidrs = ipv6Cidrs
             self.`protocol` = `protocol`
             self.toPort = toPort
         }
@@ -6522,6 +6552,7 @@ extension Lightsail {
             case cidrs
             case commonName
             case fromPort
+            case ipv6Cidrs
             case `protocol`
             case toPort
         }
@@ -6530,21 +6561,24 @@ extension Lightsail {
     public struct InstancePortState: AWSDecodableShape {
         /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
         public let cidrListAliases: [String]?
-        /// The IP address, or range of IP addresses in CIDR notation, that are allowed to connect to an instance through the ports, and the protocol. Lightsail supports IPv4 addresses. For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
+        /// The IPv4 address, or range of IPv4 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol.  The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
         public let cidrs: [String]?
-        /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP type. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.
+        /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP type for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP type for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
         public let fromPort: Int?
+        /// The IPv6 address, or range of IPv6 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol. Only devices with an IPv6 address can connect to an instance through IPv6; otherwise, IPv4 should be used.  The cidrs parameter lists the IPv4 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
+        public let ipv6Cidrs: [String]?
         /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public let `protocol`: NetworkProtocol?
         /// Specifies whether the instance port is open or closed.  The port state for Lightsail instances is always open.
         public let state: PortState?
-        /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP code. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.
+        /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP code for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP code for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
         public let toPort: Int?
 
-        public init(cidrListAliases: [String]? = nil, cidrs: [String]? = nil, fromPort: Int? = nil, protocol: NetworkProtocol? = nil, state: PortState? = nil, toPort: Int? = nil) {
+        public init(cidrListAliases: [String]? = nil, cidrs: [String]? = nil, fromPort: Int? = nil, ipv6Cidrs: [String]? = nil, protocol: NetworkProtocol? = nil, state: PortState? = nil, toPort: Int? = nil) {
             self.cidrListAliases = cidrListAliases
             self.cidrs = cidrs
             self.fromPort = fromPort
+            self.ipv6Cidrs = ipv6Cidrs
             self.`protocol` = `protocol`
             self.state = state
             self.toPort = toPort
@@ -6554,6 +6588,7 @@ extension Lightsail {
             case cidrListAliases
             case cidrs
             case fromPort
+            case ipv6Cidrs
             case `protocol`
             case state
             case toPort
@@ -6750,6 +6785,8 @@ extension Lightsail {
         public let defaultCacheBehavior: CacheBehavior?
         /// The domain name of the distribution.
         public let domainName: String?
+        /// The IP address type of the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        public let ipAddressType: IpAddressType?
         /// Indicates whether the distribution is enabled.
         public let isEnabled: Bool?
         /// An object that describes the location of the distribution, such as the AWS Region and Availability Zone.  Lightsail distributions are global resources that can reference an origin in any AWS Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
@@ -6769,7 +6806,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: Date? = nil, defaultCacheBehavior: CacheBehavior? = nil, domainName: String? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: Date? = nil, defaultCacheBehavior: CacheBehavior? = nil, domainName: String? = nil, ipAddressType: IpAddressType? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.ableToUpdateBundle = ableToUpdateBundle
             self.alternativeDomainNames = alternativeDomainNames
             self.arn = arn
@@ -6780,6 +6817,7 @@ extension Lightsail {
             self.createdAt = createdAt
             self.defaultCacheBehavior = defaultCacheBehavior
             self.domainName = domainName
+            self.ipAddressType = ipAddressType
             self.isEnabled = isEnabled
             self.location = location
             self.name = name
@@ -6802,6 +6840,7 @@ extension Lightsail {
             case createdAt
             case defaultCacheBehavior
             case domainName
+            case ipAddressType
             case isEnabled
             case location
             case name
@@ -6829,6 +6868,8 @@ extension Lightsail {
         public let instanceHealthSummary: [InstanceHealthSummary]?
         /// The port where the load balancer will direct traffic to your Lightsail instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
         public let instancePort: Int?
+        /// The IP address type of the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        public let ipAddressType: IpAddressType?
         /// The AWS Region where your load balancer was created (e.g., us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
         public let location: ResourceLocation?
         /// The name of the load balancer (e.g., my-load-balancer).
@@ -6848,7 +6889,7 @@ extension Lightsail {
         /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
         public let tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]?
 
-        public init(arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, createdAt: Date? = nil, dnsName: String? = nil, healthCheckPath: String? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, instancePort: Int? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: LoadBalancerProtocol? = nil, publicPorts: [Int]? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil) {
+        public init(arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, createdAt: Date? = nil, dnsName: String? = nil, healthCheckPath: String? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, instancePort: Int? = nil, ipAddressType: IpAddressType? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: LoadBalancerProtocol? = nil, publicPorts: [Int]? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil) {
             self.arn = arn
             self.configurationOptions = configurationOptions
             self.createdAt = createdAt
@@ -6856,6 +6897,7 @@ extension Lightsail {
             self.healthCheckPath = healthCheckPath
             self.instanceHealthSummary = instanceHealthSummary
             self.instancePort = instancePort
+            self.ipAddressType = ipAddressType
             self.location = location
             self.name = name
             self.`protocol` = `protocol`
@@ -6875,6 +6917,7 @@ extension Lightsail {
             case healthCheckPath
             case instanceHealthSummary
             case instancePort
+            case ipAddressType
             case location
             case name
             case `protocol`
@@ -7360,19 +7403,22 @@ extension Lightsail {
     public struct PortInfo: AWSEncodableShape {
         /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
         public let cidrListAliases: [String]?
-        /// The IP address, or range of IP addresses in CIDR notation, that are allowed to connect to an instance through the ports, and the protocol. Lightsail supports IPv4 addresses. Examples:   To allow the IP address 192.0.2.44, specify 192.0.2.44 or 192.0.2.44/32.    To allow the IP addresses 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
+        /// The IPv4 address, or range of IPv4 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol.  The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance.  Examples:   To allow the IP address 192.0.2.44, specify 192.0.2.44 or 192.0.2.44/32.    To allow the IP addresses 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
         public let cidrs: [String]?
-        /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP type. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.
+        /// The first port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP type for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP type for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
         public let fromPort: Int?
+        /// The IPv6 address, or range of IPv6 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol. Only devices with an IPv6 address can connect to an instance through IPv6; otherwise, IPv4 should be used.  The cidrs parameter lists the IPv4 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
+        public let ipv6Cidrs: [String]?
         /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public let `protocol`: NetworkProtocol?
-        /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP code. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.
+        /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP code for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP code for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
         public let toPort: Int?
 
-        public init(cidrListAliases: [String]? = nil, cidrs: [String]? = nil, fromPort: Int? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
+        public init(cidrListAliases: [String]? = nil, cidrs: [String]? = nil, fromPort: Int? = nil, ipv6Cidrs: [String]? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
             self.cidrListAliases = cidrListAliases
             self.cidrs = cidrs
             self.fromPort = fromPort
+            self.ipv6Cidrs = ipv6Cidrs
             self.`protocol` = `protocol`
             self.toPort = toPort
         }
@@ -7388,6 +7434,7 @@ extension Lightsail {
             case cidrListAliases
             case cidrs
             case fromPort
+            case ipv6Cidrs
             case `protocol`
             case toPort
         }
@@ -8162,6 +8209,44 @@ extension Lightsail {
     }
 
     public struct SendContactMethodVerificationResult: AWSDecodableShape {
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations
+        }
+    }
+
+    public struct SetIpAddressTypeRequest: AWSEncodableShape {
+        /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        public let ipAddressType: IpAddressType
+        /// The name of the resource for which to set the IP address type.
+        public let resourceName: String
+        /// The resource type. The possible values are Distribution, Instance, and LoadBalancer.  Distribution-related APIs are available only in the N. Virginia (us-east-1) AWS Region. Set your AWS Region configuration to us-east-1 to create, view, or edit distributions.
+        public let resourceType: ResourceType
+
+        public init(ipAddressType: IpAddressType, resourceName: String, resourceType: ResourceType) {
+            self.ipAddressType = ipAddressType
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddressType
+            case resourceName
+            case resourceType
+        }
+    }
+
+    public struct SetIpAddressTypeResult: AWSDecodableShape {
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 

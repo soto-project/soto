@@ -2961,14 +2961,18 @@ extension ElasticsearchService {
         public let eBSOptions: EBSOptions?
         /// The type and number of instances to instantiate for the domain cluster.
         public let elasticsearchClusterConfig: ElasticsearchClusterConfig?
+        /// Specifies the Encryption At Rest Options.
+        public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
+        /// Specifies the NodeToNodeEncryptionOptions.
+        public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
         /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
         public let snapshotOptions: SnapshotOptions?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -2977,7 +2981,9 @@ extension ElasticsearchService {
             self.domainName = domainName
             self.eBSOptions = eBSOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
+            self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
+            self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
             self.vPCOptions = vPCOptions
         }
@@ -2989,6 +2995,7 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2999,7 +3006,9 @@ extension ElasticsearchService {
             case domainEndpointOptions = "DomainEndpointOptions"
             case eBSOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
+            case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
+            case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
             case vPCOptions = "VPCOptions"
         }

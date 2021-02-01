@@ -64,6 +64,8 @@ extension CostExplorer {
     }
 
     public enum Dimension: String, CustomStringConvertible, Codable {
+        case agreementEndDateTimeAfter = "AGREEMENT_END_DATE_TIME_AFTER"
+        case agreementEndDateTimeBefore = "AGREEMENT_END_DATE_TIME_BEFORE"
         case az = "AZ"
         case billingEntity = "BILLING_ENTITY"
         case cacheEngine = "CACHE_ENGINE"
@@ -118,6 +120,7 @@ extension CostExplorer {
     }
 
     public enum MatchOption: String, CustomStringConvertible, Codable {
+        case absent = "ABSENT"
         case caseInsensitive = "CASE_INSENSITIVE"
         case caseSensitive = "CASE_SENSITIVE"
         case contains = "CONTAINS"
@@ -184,6 +187,20 @@ extension CostExplorer {
     public enum RightsizingType: String, CustomStringConvertible, Codable {
         case modify = "MODIFY"
         case terminate = "TERMINATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SavingsPlansDataType: String, CustomStringConvertible, Codable {
+        case amortizedCommitment = "AMORTIZED_COMMITMENT"
+        case attributes = "ATTRIBUTES"
+        case savings = "SAVINGS"
+        case utilization = "UTILIZATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -536,7 +553,7 @@ extension CostExplorer {
 
     public struct CostCategoryValues: AWSEncodableShape & AWSDecodableShape {
         public let key: String?
-        ///  The match options that you can use to filter your results. MatchOptions is only applicable for only applicable for actions related to cost category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
+        ///  The match options that you can use to filter your results. MatchOptions is only applicable for actions related to cost category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
         /// The specific value of the Cost Category.
         public let values: [String]?
@@ -831,9 +848,9 @@ extension CostExplorer {
     }
 
     public struct DateInterval: AWSEncodableShape & AWSDecodableShape {
-        /// The end of the time period that you want the usage and costs for. The end date is exclusive. For example, if end is 2017-05-01, AWS retrieves cost and usage data from the start date up to, but not including, 2017-05-01.
+        /// The end of the time period. The end date is exclusive. For example, if end is 2017-05-01, AWS retrieves cost and usage data from the start date up to, but not including, 2017-05-01.
         public let end: String
-        /// The beginning of the time period that you want the usage and costs for. The start date is inclusive. For example, if start is 2017-01-01, AWS retrieves cost and usage data starting at 2017-01-01 up to the end date.
+        /// The beginning of the time period. The start date is inclusive. For example, if start is 2017-01-01, AWS retrieves cost and usage data starting at 2017-01-01 up to the end date. The start date must be equal to or no later than the current date to avoid a validation error.
         public let start: String
 
         public init(end: String, start: String) {
@@ -1519,6 +1536,8 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageResponse: AWSDecodableShape {
+        /// The attributes that apply to a specific dimension value. For example, if the value is a linked account, the attribute is that account name.
+        public let dimensionValueAttributes: [DimensionValuesWithAttributes]?
         /// The groups that are specified by the Filter or GroupBy parameters in the request.
         public let groupDefinitions: [GroupDefinition]?
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
@@ -1526,13 +1545,15 @@ extension CostExplorer {
         /// The time period that is covered by the results in the response.
         public let resultsByTime: [ResultByTime]?
 
-        public init(groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
+        public init(dimensionValueAttributes: [DimensionValuesWithAttributes]? = nil, groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
+            self.dimensionValueAttributes = dimensionValueAttributes
             self.groupDefinitions = groupDefinitions
             self.nextPageToken = nextPageToken
             self.resultsByTime = resultsByTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dimensionValueAttributes = "DimensionValueAttributes"
             case groupDefinitions = "GroupDefinitions"
             case nextPageToken = "NextPageToken"
             case resultsByTime = "ResultsByTime"
@@ -1589,6 +1610,8 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageWithResourcesResponse: AWSDecodableShape {
+        /// The attributes that apply to a specific dimension value. For example, if the value is a linked account, the attribute is that account name.
+        public let dimensionValueAttributes: [DimensionValuesWithAttributes]?
         /// The groups that are specified by the Filter or GroupBy parameters in the request.
         public let groupDefinitions: [GroupDefinition]?
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
@@ -1596,16 +1619,99 @@ extension CostExplorer {
         /// The time period that is covered by the results in the response.
         public let resultsByTime: [ResultByTime]?
 
-        public init(groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
+        public init(dimensionValueAttributes: [DimensionValuesWithAttributes]? = nil, groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
+            self.dimensionValueAttributes = dimensionValueAttributes
             self.groupDefinitions = groupDefinitions
             self.nextPageToken = nextPageToken
             self.resultsByTime = resultsByTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dimensionValueAttributes = "DimensionValueAttributes"
             case groupDefinitions = "GroupDefinitions"
             case nextPageToken = "NextPageToken"
             case resultsByTime = "ResultsByTime"
+        }
+    }
+
+    public struct GetCostCategoriesRequest: AWSEncodableShape {
+        public let costCategoryName: String?
+        public let filter: Expression?
+        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter.
+        public let maxResults: Int?
+        /// If the number of objects that are still available for retrieval exceeds the limit, AWS returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the NextPageToken from the prior call in your next request.
+        public let nextPageToken: String?
+        /// The value that you want to search the filter values for. If you do not specify a CostCategoryName, SearchString will be used to filter Cost Category names that match the SearchString pattern. If you do specifiy a CostCategoryName, SearchString will be used to filter Cost Category values that match the SearchString pattern.
+        public let searchString: String?
+        /// The value by which you want to sort the data. The key represents cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When using SortBy, NextPageToken and SearchString are not supported.
+        public let sortBy: [SortDefinition]?
+        public let timePeriod: DateInterval
+
+        public init(costCategoryName: String? = nil, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
+            self.costCategoryName = costCategoryName
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextPageToken = nextPageToken
+            self.searchString = searchString
+            self.sortBy = sortBy
+            self.timePeriod = timePeriod
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, max: 255)
+            try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, min: 1)
+            try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.validate(self.searchString, name: "searchString", parent: name, max: 1024)
+            try self.validate(self.searchString, name: "searchString", parent: name, min: 0)
+            try self.validate(self.searchString, name: "searchString", parent: name, pattern: "[\\S\\s]*")
+            try self.sortBy?.forEach {
+                try $0.validate(name: "\(name).sortBy[]")
+            }
+            try self.timePeriod.validate(name: "\(name).timePeriod")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryName = "CostCategoryName"
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextPageToken = "NextPageToken"
+            case searchString = "SearchString"
+            case sortBy = "SortBy"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetCostCategoriesResponse: AWSDecodableShape {
+        /// The names of the Cost Categories.
+        public let costCategoryNames: [String]?
+        /// The Cost Category values.  CostCategoryValues are not returned if CostCategoryName is not specified in the request.
+        public let costCategoryValues: [String]?
+        /// If the number of objects that are still available for retrieval exceeds the limit, AWS returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+        public let nextPageToken: String?
+        /// The number of objects returned.
+        public let returnSize: Int
+        /// The total number of objects.
+        public let totalSize: Int
+
+        public init(costCategoryNames: [String]? = nil, costCategoryValues: [String]? = nil, nextPageToken: String? = nil, returnSize: Int, totalSize: Int) {
+            self.costCategoryNames = costCategoryNames
+            self.costCategoryValues = costCategoryValues
+            self.nextPageToken = nextPageToken
+            self.returnSize = returnSize
+            self.totalSize = totalSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryNames = "CostCategoryNames"
+            case costCategoryValues = "CostCategoryValues"
+            case nextPageToken = "NextPageToken"
+            case returnSize = "ReturnSize"
+            case totalSize = "TotalSize"
         }
     }
 
@@ -1667,36 +1773,52 @@ extension CostExplorer {
         public let context: Context?
         /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context.
         public let dimension: Dimension
+        public let filter: Expression?
+        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter.
+        public let maxResults: Int?
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The value that you want to search the filter values for.
         public let searchString: String?
+        /// The value by which you want to sort the data. The key represents cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When you specify a SortBy paramater, the context must be COST_AND_USAGE. Further, when using SortBy, NextPageToken and SearchString are not supported.
+        public let sortBy: [SortDefinition]?
         /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(context: Context? = nil, dimension: Dimension, nextPageToken: String? = nil, searchString: String? = nil, timePeriod: DateInterval) {
+        public init(context: Context? = nil, dimension: Dimension, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
             self.context = context
             self.dimension = dimension
+            self.filter = filter
+            self.maxResults = maxResults
             self.nextPageToken = nextPageToken
             self.searchString = searchString
+            self.sortBy = sortBy
             self.timePeriod = timePeriod
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.validate(self.searchString, name: "searchString", parent: name, max: 1024)
             try self.validate(self.searchString, name: "searchString", parent: name, min: 0)
             try self.validate(self.searchString, name: "searchString", parent: name, pattern: "[\\S\\s]*")
+            try self.sortBy?.forEach {
+                try $0.validate(name: "\(name).sortBy[]")
+            }
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
             case context = "Context"
             case dimension = "Dimension"
+            case filter = "Filter"
+            case maxResults = "MaxResults"
             case nextPageToken = "NextPageToken"
             case searchString = "SearchString"
+            case sortBy = "SortBy"
             case timePeriod = "TimePeriod"
         }
     }
@@ -1733,19 +1855,25 @@ extension CostExplorer {
         public let granularity: Granularity?
         /// You can group the data by the following attributes:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   TENANCY
         public let groupBy: [GroupDefinition]?
+        /// The maximum number of objects that you returned for this request. If more objects are available, in the response, AWS provides a NextPageToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
         /// The measurement that you want your reservation coverage reported in. Valid values are Hour, Unit, and Cost. You can use multiple values in a request.
         public let metrics: [String]?
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
+        /// The value by which you want to sort the data. The following values are supported for Key:    OnDemandCost     CoverageHoursPercentage     OnDemandHours     ReservedHours     TotalRunningHours     CoverageNormalizedUnitsPercentage     OnDemandNormalizedUnits     ReservedNormalizedUnits     TotalRunningNormalizedUnits     Time    Supported values for SortOrder are ASCENDING or DESCENDING.
+        public let sortBy: SortDefinition?
         /// The start and end dates of the period that you want to retrieve data about reservation coverage for. You can retrieve data for a maximum of 13 months: the last 12 months and the current month. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
+            self.maxResults = maxResults
             self.metrics = metrics
             self.nextPageToken = nextPageToken
+            self.sortBy = sortBy
             self.timePeriod = timePeriod
         }
 
@@ -1754,6 +1882,7 @@ extension CostExplorer {
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.metrics?.forEach {
                 try validate($0, name: "metrics[]", parent: name, max: 1024)
                 try validate($0, name: "metrics[]", parent: name, min: 0)
@@ -1762,6 +1891,7 @@ extension CostExplorer {
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.sortBy?.validate(name: "\(name).sortBy")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1769,8 +1899,10 @@ extension CostExplorer {
             case filter = "Filter"
             case granularity = "Granularity"
             case groupBy = "GroupBy"
+            case maxResults = "MaxResults"
             case metrics = "Metrics"
             case nextPageToken = "NextPageToken"
+            case sortBy = "SortBy"
             case timePeriod = "TimePeriod"
         }
     }
@@ -1801,6 +1933,7 @@ extension CostExplorer {
         public let accountId: String?
         /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
+        public let filter: Expression?
         /// The number of previous days that you want AWS to consider when it calculates your recommendations.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
         /// The pagination token that indicates the next set of results that you want to retrieve.
@@ -1816,9 +1949,10 @@ extension CostExplorer {
         /// The reservation term that you want recommendations for.
         public let termInYears: TermInYears?
 
-        public init(accountId: String? = nil, accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption? = nil, service: String, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
+        public init(accountId: String? = nil, accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption? = nil, service: String, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
             self.accountId = accountId
             self.accountScope = accountScope
+            self.filter = filter
             self.lookbackPeriodInDays = lookbackPeriodInDays
             self.nextPageToken = nextPageToken
             self.pageSize = pageSize
@@ -1832,6 +1966,7 @@ extension CostExplorer {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 1024)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 0)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "[\\S\\s]*")
+            try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
@@ -1844,6 +1979,7 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case accountScope = "AccountScope"
+            case filter = "Filter"
             case lookbackPeriodInDays = "LookbackPeriodInDays"
             case nextPageToken = "NextPageToken"
             case pageSize = "PageSize"
@@ -1882,16 +2018,22 @@ extension CostExplorer {
         public let granularity: Granularity?
         /// Groups only by SUBSCRIPTION_ID. Metadata is included.
         public let groupBy: [GroupDefinition]?
+        /// The maximum number of objects that you returned for this request. If more objects are available, in the response, AWS provides a NextPageToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
+        /// The value by which you want to sort the data. The following values are supported for Key:    UtilizationPercentage     UtilizationPercentageInUnits     PurchasedHours     PurchasedUnits     TotalActualHours     TotalActualUnits     UnusedHours     UnusedUnits     OnDemandCostOfRIHoursUsed     NetRISavings     TotalPotentialRISavings     AmortizedUpfrontFee     AmortizedRecurringFee     TotalAmortizedFee     RICostForUnusedHours     RealizedSavings     UnrealizedSavings    Supported values for SortOrder are ASCENDING or DESCENDING.
+        public let sortBy: SortDefinition?
         /// Sets the start and end dates for retrieving RI utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
+            self.maxResults = maxResults
             self.nextPageToken = nextPageToken
+            self.sortBy = sortBy
             self.timePeriod = timePeriod
         }
 
@@ -1900,9 +2042,11 @@ extension CostExplorer {
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.sortBy?.validate(name: "\(name).sortBy")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -1910,7 +2054,9 @@ extension CostExplorer {
             case filter = "Filter"
             case granularity = "Granularity"
             case groupBy = "GroupBy"
+            case maxResults = "MaxResults"
             case nextPageToken = "NextPageToken"
+            case sortBy = "SortBy"
             case timePeriod = "TimePeriod"
         }
     }
@@ -2017,16 +2163,19 @@ extension CostExplorer {
         public let metrics: [String]?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
+        /// The value by which you want to sort the data. The following values are supported for Key:    SpendCoveredBySavingsPlan     OnDemandCost     CoveragePercentage     TotalCost     InstanceFamily     Region     Service    Supported values for SortOrder are ASCENDING or DESCENDING.
+        public let sortBy: SortDefinition?
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, metrics: [String]? = nil, nextToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, metrics: [String]? = nil, nextToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
             self.maxResults = maxResults
             self.metrics = metrics
             self.nextToken = nextToken
+            self.sortBy = sortBy
             self.timePeriod = timePeriod
         }
 
@@ -2044,6 +2193,7 @@ extension CostExplorer {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*")
+            try self.sortBy?.validate(name: "\(name).sortBy")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
@@ -2054,6 +2204,7 @@ extension CostExplorer {
             case maxResults = "MaxResults"
             case metrics = "Metrics"
             case nextToken = "NextToken"
+            case sortBy = "SortBy"
             case timePeriod = "TimePeriod"
         }
     }
@@ -2146,19 +2297,25 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansUtilizationDetailsRequest: AWSEncodableShape {
+        /// The data type.
+        public let dataType: [SavingsPlansDataType]?
         /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilizationDetails uses the same Expression object as the other operations, but only AND is supported among each dimension.
         public let filter: Expression?
         /// The number of items to be returned in a response. The default is 20, with a minimum value of 1.
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
+        /// The value by which you want to sort the data. The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings     AmortizedRecurringCommitment     AmortizedUpfrontCommitment    Supported values for SortOrder are ASCENDING or DESCENDING.
+        public let sortBy: SortDefinition?
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, maxResults: Int? = nil, nextToken: String? = nil, timePeriod: DateInterval) {
+        public init(dataType: [SavingsPlansDataType]? = nil, filter: Expression? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
+            self.dataType = dataType
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.sortBy = sortBy
             self.timePeriod = timePeriod
         }
 
@@ -2168,13 +2325,16 @@ extension CostExplorer {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*")
+            try self.sortBy?.validate(name: "\(name).sortBy")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
             case filter = "Filter"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case sortBy = "SortBy"
             case timePeriod = "TimePeriod"
         }
     }
@@ -2208,23 +2368,28 @@ extension CostExplorer {
         public let filter: Expression?
         /// The granularity of the Amazon Web Services utillization data for your Savings Plans. The GetSavingsPlansUtilization operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
+        /// The value by which you want to sort the data. The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings    Supported values for SortOrder are ASCENDING or DESCENDING.
+        public let sortBy: SortDefinition?
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
+            self.sortBy = sortBy
             self.timePeriod = timePeriod
         }
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.sortBy?.validate(name: "\(name).sortBy")
             try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case granularity = "Granularity"
+            case sortBy = "SortBy"
             case timePeriod = "TimePeriod"
         }
     }
@@ -2247,29 +2412,42 @@ extension CostExplorer {
     }
 
     public struct GetTagsRequest: AWSEncodableShape {
+        public let filter: Expression?
+        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter.
+        public let maxResults: Int?
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The value that you want to search for.
         public let searchString: String?
+        /// The value by which you want to sort the data. The key represents cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When using SortBy, NextPageToken and SearchString are not supported.
+        public let sortBy: [SortDefinition]?
         /// The key of the tag that you want to return values for.
         public let tagKey: String?
         /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(nextPageToken: String? = nil, searchString: String? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
+            self.filter = filter
+            self.maxResults = maxResults
             self.nextPageToken = nextPageToken
             self.searchString = searchString
+            self.sortBy = sortBy
             self.tagKey = tagKey
             self.timePeriod = timePeriod
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.validate(self.searchString, name: "searchString", parent: name, max: 1024)
             try self.validate(self.searchString, name: "searchString", parent: name, min: 0)
             try self.validate(self.searchString, name: "searchString", parent: name, pattern: "[\\S\\s]*")
+            try self.sortBy?.forEach {
+                try $0.validate(name: "\(name).sortBy[]")
+            }
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 1024)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 0)
             try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "[\\S\\s]*")
@@ -2277,8 +2455,11 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
             case nextPageToken = "NextPageToken"
             case searchString = "SearchString"
+            case sortBy = "SortBy"
             case tagKey = "TagKey"
             case timePeriod = "TimePeriod"
         }
@@ -2650,6 +2831,10 @@ extension CostExplorer {
         public let purchasedHours: String?
         /// How many Amazon EC2 reservation hours that you purchased, converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
         public let purchasedUnits: String?
+        /// The realized savings due to purchasing and using a reservation.
+        public let realizedSavings: String?
+        /// The cost of unused hours for your reservation.
+        public let rICostForUnusedHours: String?
         /// The total number of reservation hours that you used.
         public let totalActualHours: String?
         /// The total number of Amazon EC2 reservation hours that you used, converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
@@ -2658,6 +2843,8 @@ extension CostExplorer {
         public let totalAmortizedFee: String?
         /// How much you could save if you use your entire reservation.
         public let totalPotentialRISavings: String?
+        /// The unrealized savings due to purchasing and using a reservation.
+        public let unrealizedSavings: String?
         /// The number of reservation hours that you didn't use.
         public let unusedHours: String?
         /// The number of Amazon EC2 reservation hours that you didn't use, converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
@@ -2667,17 +2854,20 @@ extension CostExplorer {
         /// The percentage of Amazon EC2 reservation time that you used, converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
         public let utilizationPercentageInUnits: String?
 
-        public init(amortizedRecurringFee: String? = nil, amortizedUpfrontFee: String? = nil, netRISavings: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, purchasedHours: String? = nil, purchasedUnits: String? = nil, totalActualHours: String? = nil, totalActualUnits: String? = nil, totalAmortizedFee: String? = nil, totalPotentialRISavings: String? = nil, unusedHours: String? = nil, unusedUnits: String? = nil, utilizationPercentage: String? = nil, utilizationPercentageInUnits: String? = nil) {
+        public init(amortizedRecurringFee: String? = nil, amortizedUpfrontFee: String? = nil, netRISavings: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, purchasedHours: String? = nil, purchasedUnits: String? = nil, realizedSavings: String? = nil, rICostForUnusedHours: String? = nil, totalActualHours: String? = nil, totalActualUnits: String? = nil, totalAmortizedFee: String? = nil, totalPotentialRISavings: String? = nil, unrealizedSavings: String? = nil, unusedHours: String? = nil, unusedUnits: String? = nil, utilizationPercentage: String? = nil, utilizationPercentageInUnits: String? = nil) {
             self.amortizedRecurringFee = amortizedRecurringFee
             self.amortizedUpfrontFee = amortizedUpfrontFee
             self.netRISavings = netRISavings
             self.onDemandCostOfRIHoursUsed = onDemandCostOfRIHoursUsed
             self.purchasedHours = purchasedHours
             self.purchasedUnits = purchasedUnits
+            self.realizedSavings = realizedSavings
+            self.rICostForUnusedHours = rICostForUnusedHours
             self.totalActualHours = totalActualHours
             self.totalActualUnits = totalActualUnits
             self.totalAmortizedFee = totalAmortizedFee
             self.totalPotentialRISavings = totalPotentialRISavings
+            self.unrealizedSavings = unrealizedSavings
             self.unusedHours = unusedHours
             self.unusedUnits = unusedUnits
             self.utilizationPercentage = utilizationPercentage
@@ -2691,10 +2881,13 @@ extension CostExplorer {
             case onDemandCostOfRIHoursUsed = "OnDemandCostOfRIHoursUsed"
             case purchasedHours = "PurchasedHours"
             case purchasedUnits = "PurchasedUnits"
+            case realizedSavings = "RealizedSavings"
+            case rICostForUnusedHours = "RICostForUnusedHours"
             case totalActualHours = "TotalActualHours"
             case totalActualUnits = "TotalActualUnits"
             case totalAmortizedFee = "TotalAmortizedFee"
             case totalPotentialRISavings = "TotalPotentialRISavings"
+            case unrealizedSavings = "UnrealizedSavings"
             case unusedHours = "UnusedHours"
             case unusedUnits = "UnusedUnits"
             case utilizationPercentage = "UtilizationPercentage"
@@ -3473,6 +3666,29 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case eC2Specification = "EC2Specification"
+        }
+    }
+
+    public struct SortDefinition: AWSEncodableShape {
+        /// The key by which to sort the data.
+        public let key: String
+        /// The order in which to sort the data.
+        public let sortOrder: SortOrder?
+
+        public init(key: String, sortOrder: SortOrder? = nil) {
+            self.key = key
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, min: 0)
+            try self.validate(self.key, name: "key", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case sortOrder = "SortOrder"
         }
     }
 

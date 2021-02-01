@@ -279,17 +279,21 @@ extension DevOpsGuru {
         public let openProactiveInsights: Int
         ///  An integer that specifies the number of open reactive insights in your AWS account.
         public let openReactiveInsights: Int
+        /// The number of Amazon DevOps Guru resource analysis hours billed to the current AWS account in the last hour.
+        public let resourceHours: Int64
 
-        public init(metricsAnalyzed: Int, openProactiveInsights: Int, openReactiveInsights: Int) {
+        public init(metricsAnalyzed: Int, openProactiveInsights: Int, openReactiveInsights: Int, resourceHours: Int64) {
             self.metricsAnalyzed = metricsAnalyzed
             self.openProactiveInsights = openProactiveInsights
             self.openReactiveInsights = openReactiveInsights
+            self.resourceHours = resourceHours
         }
 
         private enum CodingKeys: String, CodingKey {
             case metricsAnalyzed = "MetricsAnalyzed"
             case openProactiveInsights = "OpenProactiveInsights"
             case openReactiveInsights = "OpenReactiveInsights"
+            case resourceHours = "ResourceHours"
         }
     }
 

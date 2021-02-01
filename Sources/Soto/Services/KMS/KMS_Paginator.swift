@@ -72,7 +72,7 @@ extension KMS {
         )
     }
 
-    ///  Gets a list of all grants for the specified customer master key (CMK).  The GranteePrincipal field in the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, when the grantee principal in the grant is an AWS service, the GranteePrincipal field contains the service principal, which might represent several different grantee principals.   Cross-account use: Yes. To perform this operation on a CMK in a different AWS account, specify the key ARN in the value of the KeyId parameter.  Required permissions: kms:ListGrants (key policy)  Related operations:     CreateGrant     ListRetirableGrants     RetireGrant     RevokeGrant
+    ///  Gets a list of all grants for the specified customer master key (CMK).  You must specify the CMK in all requests. You can filter the grant list by grant ID or grantee principal.  The GranteePrincipal field in the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, when the grantee principal in the grant is an AWS service, the GranteePrincipal field contains the service principal, which might represent several different grantee principals.   Cross-account use: Yes. To perform this operation on a CMK in a different AWS account, specify the key ARN in the value of the KeyId parameter.  Required permissions: kms:ListGrants (key policy)  Related operations:     CreateGrant     ListRetirableGrants     RetireGrant     RevokeGrant
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -245,6 +245,8 @@ extension KMS.ListAliasesRequest: AWSPaginateToken {
 extension KMS.ListGrantsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KMS.ListGrantsRequest {
         return .init(
+            granteePrincipal: self.granteePrincipal,
+            grantId: self.grantId,
             keyId: self.keyId,
             limit: self.limit,
             marker: token

@@ -1087,6 +1087,8 @@ extension CloudWatch {
     public struct GetMetricDataInput: AWSEncodableShape {
         /// The time stamp indicating the latest data to be returned. The value specified is exclusive; results include data points up to the specified time stamp. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the EndTime.
         public let endTime: Date
+        /// This structure includes the Timezone parameter, which you can use to specify your time zone so that the labels of returned data display the correct time for your time zone.
+        public let labelOptions: LabelOptions?
         /// The maximum number of data points the request should return before paginating. If you omit this, the default of 100,800 is used.
         public let maxDatapoints: Int?
         /// The metric queries to be returned. A single GetMetricData call can include as many as 500 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, or a math expression to perform on retrieved data.
@@ -1099,8 +1101,9 @@ extension CloudWatch {
         /// The time stamp indicating the earliest data to be returned. The value specified is inclusive; results include data points with the specified time stamp.  CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.   If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.  For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as StartTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the StartTime.
         public let startTime: Date
 
-        public init(endTime: Date, maxDatapoints: Int? = nil, metricDataQueries: [MetricDataQuery], nextToken: String? = nil, scanBy: ScanBy? = nil, startTime: Date) {
+        public init(endTime: Date, labelOptions: LabelOptions? = nil, maxDatapoints: Int? = nil, metricDataQueries: [MetricDataQuery], nextToken: String? = nil, scanBy: ScanBy? = nil, startTime: Date) {
             self.endTime = endTime
+            self.labelOptions = labelOptions
             self.maxDatapoints = maxDatapoints
             self.metricDataQueries = metricDataQueries
             self.nextToken = nextToken
@@ -1116,6 +1119,7 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
+            case labelOptions = "LabelOptions"
             case maxDatapoints = "MaxDatapoints"
             case metricDataQueries = "MetricDataQueries"
             case nextToken = "NextToken"
@@ -1366,6 +1370,19 @@ extension CloudWatch {
             case sum = "Sum"
             case timestamp = "Timestamp"
             case uniqueContributors = "UniqueContributors"
+        }
+    }
+
+    public struct LabelOptions: AWSEncodableShape {
+        /// The time zone to use for metric data return in this operation. The format is + or - followed by four digits. The first two digits indicate the number of hours ahead or behind of UTC, and the final two digits are the number of minutes. For example, +0130 indicates a time zone that is 1 hour and 30 minutes ahead of UTC. The default is +0000.
+        public let timezone: String?
+
+        public init(timezone: String? = nil) {
+            self.timezone = timezone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timezone = "Timezone"
         }
     }
 
@@ -1674,7 +1691,7 @@ extension CloudWatch {
         public let expression: String?
         /// A short name used to tie this object to the results in the response. This name must be unique within a single call to GetMetricData. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscore. The first character must be a lowercase letter.
         public let id: String
-        /// A human-readable label for this metric or expression. This is especially useful if this is an expression, so that you know what the value represents. If the metric or expression is shown in a CloudWatch dashboard widget, the label is shown. If Label is omitted, CloudWatch generates a default.
+        /// A human-readable label for this metric or expression. This is especially useful if this is an expression, so that you know what the value represents. If the metric or expression is shown in a CloudWatch dashboard widget, the label is shown. If Label is omitted, CloudWatch generates a default. You can put dynamic expressions into a label, so that it is more descriptive. For more information, see Using Dynamic Labels.
         public let label: String?
         /// The metric to be returned, along with statistics, period, and units. Use this parameter only if this object is retrieving a metric and not performing a math expression on returned data. Within one MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let metricStat: MetricStat?

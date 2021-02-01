@@ -182,6 +182,7 @@ extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             metrics: self.metrics,
             nextToken: token,
+            sortBy: self.sortBy,
             timePeriod: self.timePeriod
         )
     }
@@ -190,9 +191,11 @@ extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateToken {
 extension CostExplorer.GetSavingsPlansUtilizationDetailsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CostExplorer.GetSavingsPlansUtilizationDetailsRequest {
         return .init(
+            dataType: self.dataType,
             filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token,
+            sortBy: self.sortBy,
             timePeriod: self.timePeriod
         )
     }

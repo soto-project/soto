@@ -188,7 +188,7 @@ extension Kafka {
         public let brokerAZDistribution: BrokerAZDistribution?
         /// The list of subnets to connect to in the client virtual private cloud (VPC). AWS creates elastic network interfaces inside these subnets. Client applications use elastic network interfaces to produce and consume data. Client subnets can't be in Availability Zone us-east-1e.
         public let clientSubnets: [String]
-        /// The type of Amazon EC2 instances to use for Kafka brokers. The following instance types are allowed: kafka.m5.large, kafka.m5.xlarge, kafka.m5.2xlarge, kafka.m5.4xlarge, kafka.m5.12xlarge, and kafka.m5.24xlarge.
+        /// The type of broker used in the Amazon MSK cluster.
         public let instanceType: String
         /// The AWS security groups to associate with the elastic network interfaces in order to specify who can connect to and communicate with the Amazon MSK cluster. If you don't specify a security group, Amazon MSK uses the default security group associated with the VPC. If you specify security groups that were shared with you, you must ensure that you have permissions to them. Specifically, you need the ec2:DescribeSecurityGroups permission.
         public let securityGroups: [String]?
@@ -308,7 +308,7 @@ extension Kafka {
     public struct ClusterInfo: AWSDecodableShape {
         /// Arn of active cluster operation.
         public let activeOperationArn: String?
-        /// Information about the broker nodes.
+        /// Information about the brokers.
         public let brokerNodeGroupInfo: BrokerNodeGroupInfo?
         /// Includes all client authentication information.
         public let clientAuthentication: ClientAuthentication?
@@ -560,7 +560,7 @@ extension Kafka {
     }
 
     public struct CreateClusterRequest: AWSEncodableShape {
-        /// Information about the broker nodes in the cluster.
+        /// Information about the brokers.
         public let brokerNodeGroupInfo: BrokerNodeGroupInfo
         /// Includes all client authentication related information.
         public let clientAuthentication: ClientAuthentication?
@@ -1458,6 +1458,8 @@ extension Kafka {
         public let configurationInfo: ConfigurationInfo?
         /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon CloudWatch for this cluster.
         public let enhancedMonitoring: EnhancedMonitoring?
+        /// The Amazon MSK broker type that you want all of the brokers in this cluster to be.
+        public let instanceType: String?
         public let kafkaVersion: String?
         /// LoggingInfo details.
         public let loggingInfo: LoggingInfo?
@@ -1467,10 +1469,11 @@ extension Kafka {
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?
 
-        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
+        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil) {
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.configurationInfo = configurationInfo
             self.enhancedMonitoring = enhancedMonitoring
+            self.instanceType = instanceType
             self.kafkaVersion = kafkaVersion
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
@@ -1481,6 +1484,7 @@ extension Kafka {
             case brokerEBSVolumeInfo
             case configurationInfo
             case enhancedMonitoring
+            case instanceType
             case kafkaVersion
             case loggingInfo
             case numberOfBrokerNodes
@@ -1841,6 +1845,46 @@ extension Kafka {
     }
 
     public struct UpdateBrokerStorageResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn
+            case clusterOperationArn
+        }
+    }
+
+    public struct UpdateBrokerTypeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri(locationName: "clusterArn"))
+        ]
+
+        public let clusterArn: String
+        /// The current version of the cluster.
+        public let currentVersion: String
+        /// The Amazon MSK broker type that you want all of the brokers in this cluster to be.
+        public let targetInstanceType: String
+
+        public init(clusterArn: String, currentVersion: String, targetInstanceType: String) {
+            self.clusterArn = clusterArn
+            self.currentVersion = currentVersion
+            self.targetInstanceType = targetInstanceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentVersion
+            case targetInstanceType
+        }
+    }
+
+    public struct UpdateBrokerTypeResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
         /// The Amazon Resource Name (ARN) of the cluster operation.
