@@ -42,8 +42,8 @@ extension KMS {
             input: input,
             initialValue: initialValue,
             command: listAliases,
-            tokenKey: \ListAliasesResponse.nextMarker,
-            moreResultsKey: \ListAliasesResponse.truncated,
+            inputKey: \ListAliasesRequest.marker,
+            outputKey: \ListAliasesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -65,8 +65,8 @@ extension KMS {
         return client.paginate(
             input: input,
             command: listAliases,
-            tokenKey: \ListAliasesResponse.nextMarker,
-            moreResultsKey: \ListAliasesResponse.truncated,
+            inputKey: \ListAliasesRequest.marker,
+            outputKey: \ListAliasesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -95,8 +95,8 @@ extension KMS {
             input: input,
             initialValue: initialValue,
             command: listGrants,
-            tokenKey: \ListGrantsResponse.nextMarker,
-            moreResultsKey: \ListGrantsResponse.truncated,
+            inputKey: \ListGrantsRequest.marker,
+            outputKey: \ListGrantsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -118,8 +118,8 @@ extension KMS {
         return client.paginate(
             input: input,
             command: listGrants,
-            tokenKey: \ListGrantsResponse.nextMarker,
-            moreResultsKey: \ListGrantsResponse.truncated,
+            inputKey: \ListGrantsRequest.marker,
+            outputKey: \ListGrantsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -148,8 +148,8 @@ extension KMS {
             input: input,
             initialValue: initialValue,
             command: listKeyPolicies,
-            tokenKey: \ListKeyPoliciesResponse.nextMarker,
-            moreResultsKey: \ListKeyPoliciesResponse.truncated,
+            inputKey: \ListKeyPoliciesRequest.marker,
+            outputKey: \ListKeyPoliciesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -171,8 +171,8 @@ extension KMS {
         return client.paginate(
             input: input,
             command: listKeyPolicies,
-            tokenKey: \ListKeyPoliciesResponse.nextMarker,
-            moreResultsKey: \ListKeyPoliciesResponse.truncated,
+            inputKey: \ListKeyPoliciesRequest.marker,
+            outputKey: \ListKeyPoliciesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -201,8 +201,8 @@ extension KMS {
             input: input,
             initialValue: initialValue,
             command: listKeys,
-            tokenKey: \ListKeysResponse.nextMarker,
-            moreResultsKey: \ListKeysResponse.truncated,
+            inputKey: \ListKeysRequest.marker,
+            outputKey: \ListKeysResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -224,8 +224,8 @@ extension KMS {
         return client.paginate(
             input: input,
             command: listKeys,
-            tokenKey: \ListKeysResponse.nextMarker,
-            moreResultsKey: \ListKeysResponse.truncated,
+            inputKey: \ListKeysRequest.marker,
+            outputKey: \ListKeysResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )

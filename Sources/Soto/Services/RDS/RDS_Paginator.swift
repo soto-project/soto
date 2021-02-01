@@ -1725,8 +1725,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: downloadDBLogFilePortion,
-            tokenKey: \DownloadDBLogFilePortionDetails.marker,
-            moreResultsKey: \DownloadDBLogFilePortionDetails.additionalDataPending,
+            inputKey: \DownloadDBLogFilePortionMessage.marker,
+            outputKey: \DownloadDBLogFilePortionDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1748,8 +1748,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: downloadDBLogFilePortion,
-            tokenKey: \DownloadDBLogFilePortionDetails.marker,
-            moreResultsKey: \DownloadDBLogFilePortionDetails.additionalDataPending,
+            inputKey: \DownloadDBLogFilePortionMessage.marker,
+            outputKey: \DownloadDBLogFilePortionDetails.marker,
             on: eventLoop,
             onPage: onPage
         )

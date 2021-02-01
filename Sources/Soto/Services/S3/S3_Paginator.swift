@@ -42,8 +42,8 @@ extension S3 {
             input: input,
             initialValue: initialValue,
             command: listMultipartUploads,
-            tokenKey: \ListMultipartUploadsOutput.nextKeyMarker,
-            moreResultsKey: \ListMultipartUploadsOutput.isTruncated,
+            inputKey: \ListMultipartUploadsRequest.keyMarker,
+            outputKey: \ListMultipartUploadsOutput.nextKeyMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -65,8 +65,8 @@ extension S3 {
         return client.paginate(
             input: input,
             command: listMultipartUploads,
-            tokenKey: \ListMultipartUploadsOutput.nextKeyMarker,
-            moreResultsKey: \ListMultipartUploadsOutput.isTruncated,
+            inputKey: \ListMultipartUploadsRequest.keyMarker,
+            outputKey: \ListMultipartUploadsOutput.nextKeyMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -95,8 +95,8 @@ extension S3 {
             input: input,
             initialValue: initialValue,
             command: listObjectVersions,
-            tokenKey: \ListObjectVersionsOutput.nextKeyMarker,
-            moreResultsKey: \ListObjectVersionsOutput.isTruncated,
+            inputKey: \ListObjectVersionsRequest.keyMarker,
+            outputKey: \ListObjectVersionsOutput.nextKeyMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -118,8 +118,8 @@ extension S3 {
         return client.paginate(
             input: input,
             command: listObjectVersions,
-            tokenKey: \ListObjectVersionsOutput.nextKeyMarker,
-            moreResultsKey: \ListObjectVersionsOutput.isTruncated,
+            inputKey: \ListObjectVersionsRequest.keyMarker,
+            outputKey: \ListObjectVersionsOutput.nextKeyMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -148,8 +148,8 @@ extension S3 {
             input: input,
             initialValue: initialValue,
             command: listObjects,
-            tokenKey: \ListObjectsOutput.nextMarker,
-            moreResultsKey: \ListObjectsOutput.isTruncated,
+            inputKey: \ListObjectsRequest.marker,
+            outputKey: \ListObjectsOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -171,8 +171,8 @@ extension S3 {
         return client.paginate(
             input: input,
             command: listObjects,
-            tokenKey: \ListObjectsOutput.nextMarker,
-            moreResultsKey: \ListObjectsOutput.isTruncated,
+            inputKey: \ListObjectsRequest.marker,
+            outputKey: \ListObjectsOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -252,8 +252,8 @@ extension S3 {
             input: input,
             initialValue: initialValue,
             command: listParts,
-            tokenKey: \ListPartsOutput.nextPartNumberMarker,
-            moreResultsKey: \ListPartsOutput.isTruncated,
+            inputKey: \ListPartsRequest.partNumberMarker,
+            outputKey: \ListPartsOutput.nextPartNumberMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -275,8 +275,8 @@ extension S3 {
         return client.paginate(
             input: input,
             command: listParts,
-            tokenKey: \ListPartsOutput.nextPartNumberMarker,
-            moreResultsKey: \ListPartsOutput.isTruncated,
+            inputKey: \ListPartsRequest.partNumberMarker,
+            outputKey: \ListPartsOutput.nextPartNumberMarker,
             on: eventLoop,
             onPage: onPage
         )

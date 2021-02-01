@@ -42,8 +42,8 @@ extension CloudFront {
             input: input,
             initialValue: initialValue,
             command: listCloudFrontOriginAccessIdentities,
-            tokenKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker,
-            moreResultsKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.isTruncated,
+            inputKey: \ListCloudFrontOriginAccessIdentitiesRequest.marker,
+            outputKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -65,8 +65,8 @@ extension CloudFront {
         return client.paginate(
             input: input,
             command: listCloudFrontOriginAccessIdentities,
-            tokenKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker,
-            moreResultsKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.isTruncated,
+            inputKey: \ListCloudFrontOriginAccessIdentitiesRequest.marker,
+            outputKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -95,8 +95,8 @@ extension CloudFront {
             input: input,
             initialValue: initialValue,
             command: listDistributions,
-            tokenKey: \ListDistributionsResult.distributionList?.nextMarker,
-            moreResultsKey: \ListDistributionsResult.distributionList?.isTruncated,
+            inputKey: \ListDistributionsRequest.marker,
+            outputKey: \ListDistributionsResult.distributionList?.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -118,8 +118,8 @@ extension CloudFront {
         return client.paginate(
             input: input,
             command: listDistributions,
-            tokenKey: \ListDistributionsResult.distributionList?.nextMarker,
-            moreResultsKey: \ListDistributionsResult.distributionList?.isTruncated,
+            inputKey: \ListDistributionsRequest.marker,
+            outputKey: \ListDistributionsResult.distributionList?.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -148,8 +148,8 @@ extension CloudFront {
             input: input,
             initialValue: initialValue,
             command: listInvalidations,
-            tokenKey: \ListInvalidationsResult.invalidationList?.nextMarker,
-            moreResultsKey: \ListInvalidationsResult.invalidationList?.isTruncated,
+            inputKey: \ListInvalidationsRequest.marker,
+            outputKey: \ListInvalidationsResult.invalidationList?.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -171,8 +171,8 @@ extension CloudFront {
         return client.paginate(
             input: input,
             command: listInvalidations,
-            tokenKey: \ListInvalidationsResult.invalidationList?.nextMarker,
-            moreResultsKey: \ListInvalidationsResult.invalidationList?.isTruncated,
+            inputKey: \ListInvalidationsRequest.marker,
+            outputKey: \ListInvalidationsResult.invalidationList?.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -201,8 +201,8 @@ extension CloudFront {
             input: input,
             initialValue: initialValue,
             command: listStreamingDistributions,
-            tokenKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker,
-            moreResultsKey: \ListStreamingDistributionsResult.streamingDistributionList?.isTruncated,
+            inputKey: \ListStreamingDistributionsRequest.marker,
+            outputKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -224,8 +224,8 @@ extension CloudFront {
         return client.paginate(
             input: input,
             command: listStreamingDistributions,
-            tokenKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker,
-            moreResultsKey: \ListStreamingDistributionsResult.streamingDistributionList?.isTruncated,
+            inputKey: \ListStreamingDistributionsRequest.marker,
+            outputKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker,
             on: eventLoop,
             onPage: onPage
         )

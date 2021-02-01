@@ -42,8 +42,8 @@ extension ImportExport {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsOutput.jobs?.last?.jobId,
-            moreResultsKey: \ListJobsOutput.isTruncated,
+            inputKey: \ListJobsInput.marker,
+            outputKey: \ListJobsOutput.jobs?.last?.jobId,
             on: eventLoop,
             onPage: onPage
         )
@@ -65,8 +65,8 @@ extension ImportExport {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsOutput.jobs?.last?.jobId,
-            moreResultsKey: \ListJobsOutput.isTruncated,
+            inputKey: \ListJobsInput.marker,
+            outputKey: \ListJobsOutput.jobs?.last?.jobId,
             on: eventLoop,
             onPage: onPage
         )

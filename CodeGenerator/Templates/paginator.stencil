@@ -33,9 +33,10 @@ extension {{name}} {
         return client.paginate(
             input: input,
             initialValue: initialValue,
-            command: {{page.operation.funcName}},
-            tokenKey: \{{page.operation.outputShape}}.{{page.output}}{%if page.moreResults %},
-            moreResultsKey: \{{page.operation.outputShape}}.{{page.moreResults}}{%endif %},
+            command: {{page.operation.funcName}}{%if page.inputKey %},
+            inputKey: \{{page.operation.inputShape}}.{{page.inputKey}},
+            outputKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%else %},
+            tokenKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%endif %},
             on: eventLoop,
             onPage: onPage
         )
@@ -58,9 +59,10 @@ extension {{name}} {
     ) -> EventLoopFuture<Void> {
         return client.paginate(
             input: input,
-            command: {{page.operation.funcName}},
-            tokenKey: \{{page.operation.outputShape}}.{{page.output}}{%if page.moreResults %},
-            moreResultsKey: \{{page.operation.outputShape}}.{{page.moreResults}}{%endif %},
+            command: {{page.operation.funcName}}{%if page.inputKey %},
+            inputKey: \{{page.operation.inputShape}}.{{page.inputKey}},
+            outputKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%else %},
+            tokenKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%endif %},
             on: eventLoop,
             onPage: onPage
         )

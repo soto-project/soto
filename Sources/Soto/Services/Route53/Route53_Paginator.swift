@@ -42,8 +42,8 @@ extension Route53 {
             input: input,
             initialValue: initialValue,
             command: listHealthChecks,
-            tokenKey: \ListHealthChecksResponse.nextMarker,
-            moreResultsKey: \ListHealthChecksResponse.isTruncated,
+            inputKey: \ListHealthChecksRequest.marker,
+            outputKey: \ListHealthChecksResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -65,8 +65,8 @@ extension Route53 {
         return client.paginate(
             input: input,
             command: listHealthChecks,
-            tokenKey: \ListHealthChecksResponse.nextMarker,
-            moreResultsKey: \ListHealthChecksResponse.isTruncated,
+            inputKey: \ListHealthChecksRequest.marker,
+            outputKey: \ListHealthChecksResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -95,8 +95,8 @@ extension Route53 {
             input: input,
             initialValue: initialValue,
             command: listHostedZones,
-            tokenKey: \ListHostedZonesResponse.nextMarker,
-            moreResultsKey: \ListHostedZonesResponse.isTruncated,
+            inputKey: \ListHostedZonesRequest.marker,
+            outputKey: \ListHostedZonesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -118,8 +118,8 @@ extension Route53 {
         return client.paginate(
             input: input,
             command: listHostedZones,
-            tokenKey: \ListHostedZonesResponse.nextMarker,
-            moreResultsKey: \ListHostedZonesResponse.isTruncated,
+            inputKey: \ListHostedZonesRequest.marker,
+            outputKey: \ListHostedZonesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -199,8 +199,8 @@ extension Route53 {
             input: input,
             initialValue: initialValue,
             command: listResourceRecordSets,
-            tokenKey: \ListResourceRecordSetsResponse.nextRecordName,
-            moreResultsKey: \ListResourceRecordSetsResponse.isTruncated,
+            inputKey: \ListResourceRecordSetsRequest.startRecordName,
+            outputKey: \ListResourceRecordSetsResponse.nextRecordName,
             on: eventLoop,
             onPage: onPage
         )
@@ -222,8 +222,8 @@ extension Route53 {
         return client.paginate(
             input: input,
             command: listResourceRecordSets,
-            tokenKey: \ListResourceRecordSetsResponse.nextRecordName,
-            moreResultsKey: \ListResourceRecordSetsResponse.isTruncated,
+            inputKey: \ListResourceRecordSetsRequest.startRecordName,
+            outputKey: \ListResourceRecordSetsResponse.nextRecordName,
             on: eventLoop,
             onPage: onPage
         )
