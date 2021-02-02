@@ -232,7 +232,7 @@ extension S3 {
                     // if error is MultipartUploadError then we have completed uploading some parts and should include that in the error
                     if let error = error as? MultipartUploadError {
                         throw S3ErrorType.multipart.abortedUpload(
-                            resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts:error.completedParts),
+                            resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts: error.completedParts),
                             error: error.error
                         )
                     } else {
