@@ -41,6 +41,13 @@ extension S3 {
     public struct ResumeMultipartUploadRequest {
         let uploadRequest: CreateMultipartUploadRequest
         public let uploadId: String
+        public let completedParts: [S3.CompletedPart]
+    }
+
+    /// error thrown during upload of parts
+    private struct MultipartUploadError: Swift.Error {
+        let error: Swift.Error
+        let completedParts: [S3.CompletedPart]
     }
 
     /// Multipart download of a file from S3.
@@ -217,9 +224,24 @@ extension S3 {
                     requestPayer: input.requestPayer,
                     uploadId: uploadId
                 )
-                return self.completeMultipartUpload(request, logger: logger, on: eventLoop)
+                return self.completeMultipartUpload(request, logger: logger, on: eventLoop).flatMapErrorThrowing { error in
+                    throw MultipartUploadError(error: error, completedParts: parts)
+                }
             }.flatMapErrorThrowing { error in
-                guard abortOnFail else { throw S3ErrorType.multipart.abortedUpload(resumeRequest: .init(uploadRequest: input, uploadId: uploadId), error: error) }
+                guard abortOnFail else {
+                    // if error is MultipartUploadError then we have completed uploading some parts and should include that in the error
+                    if let error = error as? MultipartUploadError {
+                        throw S3ErrorType.multipart.abortedUpload(
+                            resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts: error.completedParts),
+                            error: error.error
+                        )
+                    } else {
+                        throw S3ErrorType.multipart.abortedUpload(
+                            resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts: []),
+                            error: error
+                        )
+                    }
+                }
                 // if failure then abort the multipart upload
                 let request = S3.AbortMultipartUploadRequest(
                     bucket: input.bucket,
@@ -351,49 +373,36 @@ extension S3 {
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         let uploadRequest = input.uploadRequest
-        var completedParts: [S3.CompletedPart] = []
-        let listPartsRequest = ListPartsRequest(
-            bucket: uploadRequest.bucket,
-            key: uploadRequest.key,
-            requestPayer: uploadRequest.requestPayer,
-            uploadId: input.uploadId
-        )
-        return listPartsPaginator(listPartsRequest, logger: logger, on: eventLoop) { output, eventLoop in
-            if let parts = output.parts {
-                completedParts += parts.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber) }
-            }
-            return eventLoop.makeSucceededFuture(true)
-        }.flatMap { _ in
-            // upload all the parts
-            return self.multipartUploadParts(
-                uploadRequest,
-                uploadId: input.uploadId,
-                parts: completedParts,
-                logger: logger,
-                on: eventLoop,
-                inputStream: inputStream,
-                skipStream: skipStream
-            ).flatMap { parts -> EventLoopFuture<CompleteMultipartUploadOutput> in
-                let request = S3.CompleteMultipartUploadRequest(
-                    bucket: uploadRequest.bucket,
-                    key: uploadRequest.key,
-                    multipartUpload: S3.CompletedMultipartUpload(parts: parts),
-                    requestPayer: uploadRequest.requestPayer,
-                    uploadId: input.uploadId
-                )
-                return self.completeMultipartUpload(request, logger: logger, on: eventLoop)
-            }.flatMapErrorThrowing { error in
-                guard abortOnFail else { throw S3ErrorType.multipart.abortedUpload(resumeRequest: input, error: error) }
-                // if failure then abort the multipart upload
-                let request = S3.AbortMultipartUploadRequest(
-                    bucket: uploadRequest.bucket,
-                    key: uploadRequest.key,
-                    requestPayer: uploadRequest.requestPayer,
-                    uploadId: input.uploadId
-                )
-                _ = self.abortMultipartUpload(request, logger: logger, on: eventLoop)
-                throw error
-            }
+
+        // upload all the parts
+        return self.multipartUploadParts(
+            uploadRequest,
+            uploadId: input.uploadId,
+            parts: input.completedParts,
+            logger: logger,
+            on: eventLoop,
+            inputStream: inputStream,
+            skipStream: skipStream
+        ).flatMap { parts -> EventLoopFuture<CompleteMultipartUploadOutput> in
+            let request = S3.CompleteMultipartUploadRequest(
+                bucket: uploadRequest.bucket,
+                key: uploadRequest.key,
+                multipartUpload: S3.CompletedMultipartUpload(parts: parts),
+                requestPayer: uploadRequest.requestPayer,
+                uploadId: input.uploadId
+            )
+            return self.completeMultipartUpload(request, logger: logger, on: eventLoop)
+        }.flatMapErrorThrowing { error in
+            guard abortOnFail else { throw S3ErrorType.multipart.abortedUpload(resumeRequest: input, error: error) }
+            // if failure then abort the multipart upload
+            let request = S3.AbortMultipartUploadRequest(
+                bucket: uploadRequest.bucket,
+                key: uploadRequest.key,
+                requestPayer: uploadRequest.requestPayer,
+                uploadId: input.uploadId
+            )
+            _ = self.abortMultipartUpload(request, logger: logger, on: eventLoop)
+            throw error
         }
     }
 
@@ -706,7 +715,9 @@ extension S3 {
         // Multipart uploads part numbers start at 1 not 0
         multipartUploadPart(partNumber: 1, uploadId: uploadId)
 
-        return promise.futureResult
+        return promise.futureResult.flatMapErrorThrowing { error in
+            throw MultipartUploadError(error: error, completedParts: completedParts)
+        }
     }
 
     // from bucket, key and version id from a copySource string
