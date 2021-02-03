@@ -738,7 +738,7 @@ extension ECS {
         public let entryPoint: [String]?
         /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run.  We do not recommend using plaintext environment variables for sensitive information, such as credential data.
         public let environment: [KeyValuePair]?
-        /// A list of files containing the environment variables to pass to a container. This parameter maps to the --env-file option to docker run. You can specify up to ten environment files. The file must have a .env file extension. Each line in an environment file should contain an environment variable in VARIABLE=VALUE format. Lines beginning with # are treated as comments and are ignored. For more information on the environment variable file syntax, see Declare default environment variables in file. If there are environment variables specified using the environment parameter in a container definition, they take precedence over the variables contained within an environment file. If multiple environment files are specified that contain the same variable, they are processed from the top down. It is recommended to use unique variable names. For more information, see Specifying Environment Variables in the Amazon Elastic Container Service Developer Guide. This field is not valid for containers in tasks using the Fargate launch type.
+        /// A list of files containing the environment variables to pass to a container. This parameter maps to the --env-file option to docker run. You can specify up to ten environment files. The file must have a .env file extension. Each line in an environment file should contain an environment variable in VARIABLE=VALUE format. Lines beginning with # are treated as comments and are ignored. For more information on the environment variable file syntax, see Declare default environment variables in file. If there are environment variables specified using the environment parameter in a container definition, they take precedence over the variables contained within an environment file. If multiple environment files are specified that contain the same variable, they are processed from the top down. It is recommended to use unique variable names. For more information, see Specifying Environment Variables in the Amazon Elastic Container Service Developer Guide.
         public let environmentFiles: [EnvironmentFile]?
         /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, then its failure does not affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All tasks must have at least one essential container. If you have an application that is composed of multiple containers, you should group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see Application Architecture in the Amazon Elastic Container Service Developer Guide.
         public let essential: Bool?
@@ -4184,6 +4184,8 @@ extension ECS {
         public let containerDefinitions: [ContainerDefinition]?
         /// The number of cpu units used by the task. If you are using the EC2 launch type, this field is optional and any value can be used. If you are using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of valid values for the memory parameter:   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
         public let cpu: String?
+        /// The Unix timestamp for when the task definition was deregistered.
+        public let deregisteredAt: Date?
         /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make AWS API calls on your behalf. The task execution IAM role is required depending on the requirements of your task. For more information, see Amazon ECS task execution IAM role in the Amazon Elastic Container Service Developer Guide.
         public let executionRoleArn: String?
         /// The name of a family that this task definition is registered to. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. A family groups multiple versions of a task definition. Amazon ECS gives the first task definition that you registered to a family a revision number of 1. Amazon ECS gives sequential revision numbers to each task definition that you add.
@@ -4202,6 +4204,10 @@ extension ECS {
         public let placementConstraints: [TaskDefinitionPlacementConstraint]?
         /// The configuration details for the App Mesh proxy. Your Amazon ECS container instances require at least version 1.26.0 of the container agent and at least version 1.26.0-1 of the ecs-init package to enable a proxy configuration. If your container instances are launched from the Amazon ECS-optimized AMI version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide.
         public let proxyConfiguration: ProxyConfiguration?
+        /// The Unix timestamp for when the task definition was registered.
+        public let registeredAt: Date?
+        /// The principal that registered the task definition.
+        public let registeredBy: String?
         /// The container instance attributes required by your task. This field is not valid if you are using the Fargate launch type for your task.
         public let requiresAttributes: [Attribute]?
         /// The launch type the task requires. If no value is specified, it will default to EC2. Valid values include EC2 and FARGATE.
@@ -4217,10 +4223,11 @@ extension ECS {
         /// The list of volume definitions for the task. If your tasks are using the Fargate launch type, the host and sourcePath parameters are not supported. For more information about volume definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon Elastic Container Service Developer Guide.
         public let volumes: [Volume]?
 
-        public init(compatibilities: [Compatibility]? = nil, containerDefinitions: [ContainerDefinition]? = nil, cpu: String? = nil, executionRoleArn: String? = nil, family: String? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresAttributes: [Attribute]? = nil, requiresCompatibilities: [Compatibility]? = nil, revision: Int? = nil, status: TaskDefinitionStatus? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+        public init(compatibilities: [Compatibility]? = nil, containerDefinitions: [ContainerDefinition]? = nil, cpu: String? = nil, deregisteredAt: Date? = nil, executionRoleArn: String? = nil, family: String? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, requiresAttributes: [Attribute]? = nil, requiresCompatibilities: [Compatibility]? = nil, revision: Int? = nil, status: TaskDefinitionStatus? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.compatibilities = compatibilities
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
+            self.deregisteredAt = deregisteredAt
             self.executionRoleArn = executionRoleArn
             self.family = family
             self.inferenceAccelerators = inferenceAccelerators
@@ -4230,6 +4237,8 @@ extension ECS {
             self.pidMode = pidMode
             self.placementConstraints = placementConstraints
             self.proxyConfiguration = proxyConfiguration
+            self.registeredAt = registeredAt
+            self.registeredBy = registeredBy
             self.requiresAttributes = requiresAttributes
             self.requiresCompatibilities = requiresCompatibilities
             self.revision = revision
@@ -4243,6 +4252,7 @@ extension ECS {
             case compatibilities
             case containerDefinitions
             case cpu
+            case deregisteredAt
             case executionRoleArn
             case family
             case inferenceAccelerators
@@ -4252,6 +4262,8 @@ extension ECS {
             case pidMode
             case placementConstraints
             case proxyConfiguration
+            case registeredAt
+            case registeredBy
             case requiresAttributes
             case requiresCompatibilities
             case revision
@@ -4485,9 +4497,9 @@ extension ECS {
     }
 
     public struct UpdateCapacityProviderRequest: AWSEncodableShape {
-        /// The name of the capacity provider to update.
-        public let autoScalingGroupProvider: AutoScalingGroupProviderUpdate
         /// An object representing the parameters to update for the Auto Scaling group capacity provider.
+        public let autoScalingGroupProvider: AutoScalingGroupProviderUpdate
+        /// The name of the capacity provider to update.
         public let name: String
 
         public init(autoScalingGroupProvider: AutoScalingGroupProviderUpdate, name: String) {

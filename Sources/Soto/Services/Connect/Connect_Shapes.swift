@@ -109,6 +109,17 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum HoursOfOperationDays: String, CustomStringConvertible, Codable {
+        case friday = "FRIDAY"
+        case monday = "MONDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceAttributeType: String, CustomStringConvertible, Codable {
         case autoResolveBestVoices = "AUTO_RESOLVE_BEST_VOICES"
         case contactLens = "CONTACT_LENS"
@@ -395,6 +406,12 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum QueueStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QueueType: String, CustomStringConvertible, Codable {
         case agent = "AGENT"
         case standard = "STANDARD"
@@ -577,6 +594,37 @@ extension Connect {
         }
     }
 
+    public struct AssociateQueueQuickConnectsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the queue.
+        public let queueId: String
+        /// The quick connects to associate with this queue.
+        public let quickConnectIds: [String]
+
+        public init(instanceId: String, queueId: String, quickConnectIds: [String]) {
+            self.instanceId = instanceId
+            self.queueId = queueId
+            self.quickConnectIds = quickConnectIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, max: 50)
+            try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quickConnectIds = "QuickConnectIds"
+        }
+    }
+
     public struct AssociateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -671,7 +719,7 @@ extension Connect {
     public struct ChatMessage: AWSEncodableShape {
         /// The content of the chat message.
         public let content: String
-        /// The type of the content. Supported types are text/plain.
+        /// The type of the content. Supported types are text and plain.
         public let contentType: String
 
         public init(content: String, contentType: String) {
@@ -826,11 +874,11 @@ extension Connect {
         public let directoryId: String?
         /// The type of identity management for your Amazon Connect users.
         public let identityManagementType: DirectoryType
-        /// Whether your contact center handles incoming contacts.
+        /// Your contact center handles incoming contacts.
         public let inboundCallsEnabled: Bool
         /// The name for your instance.
         public let instanceAlias: String?
-        /// Whether your contact center allows outbound calls.
+        /// Your contact center allows outbound calls.
         public let outboundCallsEnabled: Bool
 
         public init(clientToken: String? = nil, directoryId: String? = nil, identityManagementType: DirectoryType, inboundCallsEnabled: Bool, instanceAlias: String? = nil, outboundCallsEnabled: Bool) {
@@ -942,6 +990,86 @@ extension Connect {
         }
     }
 
+    public struct CreateQueueRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The description of the queue.
+        public let description: String?
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of contacts that can be in the queue before it is considered full.
+        public let maxContacts: Int?
+        /// The name of the queue.
+        public let name: String
+        /// The outbound caller ID name, number, and outbound whisper flow.
+        public let outboundCallerConfig: OutboundCallerConfig?
+        /// The quick connects available to agents who are working the queue.
+        public let quickConnectIds: [String]?
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, hoursOfOperationId: String, instanceId: String, maxContacts: Int? = nil, name: String, outboundCallerConfig: OutboundCallerConfig? = nil, quickConnectIds: [String]? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.hoursOfOperationId = hoursOfOperationId
+            self.instanceId = instanceId
+            self.maxContacts = maxContacts
+            self.name = name
+            self.outboundCallerConfig = outboundCallerConfig
+            self.quickConnectIds = quickConnectIds
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxContacts, name: "maxContacts", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.outboundCallerConfig?.validate(name: "\(name).outboundCallerConfig")
+            try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, max: 50)
+            try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case hoursOfOperationId = "HoursOfOperationId"
+            case maxContacts = "MaxContacts"
+            case name = "Name"
+            case outboundCallerConfig = "OutboundCallerConfig"
+            case quickConnectIds = "QuickConnectIds"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateQueueResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the queue.
+        public let queueArn: String?
+        /// The identifier for the queue.
+        public let queueId: String?
+
+        public init(queueArn: String? = nil, queueId: String? = nil) {
+            self.queueArn = queueArn
+            self.queueId = queueId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queueArn = "QueueArn"
+            case queueId = "QueueId"
+        }
+    }
+
     public struct CreateQuickConnectRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
@@ -1018,11 +1146,11 @@ extension Connect {
         public let description: String
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
+        /// The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
         public let mediaConcurrencies: [MediaConcurrency]
         /// The name of the routing profile. Must not be more than 127 characters.
         public let name: String
-        /// The inbound queues associated with the routing profile. If no queue is added, the agent can only make outbound calls.
+        /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls.
         public let queueConfigs: [RoutingProfileQueueConfig]?
         /// One or more tags.
         public let tags: [String: String]?
@@ -1532,6 +1660,43 @@ extension Connect {
         }
     }
 
+    public struct DescribeHoursOfOperationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hoursOfOperationId", location: .uri(locationName: "HoursOfOperationId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        public init(hoursOfOperationId: String, instanceId: String) {
+            self.hoursOfOperationId = hoursOfOperationId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeHoursOfOperationResponse: AWSDecodableShape {
+        /// The hours of operation.
+        public let hoursOfOperation: HoursOfOperation?
+
+        public init(hoursOfOperation: HoursOfOperation? = nil) {
+            self.hoursOfOperation = hoursOfOperation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hoursOfOperation = "HoursOfOperation"
+        }
+    }
+
     public struct DescribeInstanceAttributeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "AttributeType")),
@@ -1642,6 +1807,43 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case storageConfig = "StorageConfig"
+        }
+    }
+
+    public struct DescribeQueueRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the queue.
+        public let queueId: String
+
+        public init(instanceId: String, queueId: String) {
+            self.instanceId = instanceId
+            self.queueId = queueId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeQueueResponse: AWSDecodableShape {
+        /// The name of the queue.
+        public let queue: Queue?
+
+        public init(queue: Queue? = nil) {
+            self.queue = queue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queue = "Queue"
         }
     }
 
@@ -1954,6 +2156,37 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DisassociateQueueQuickConnectsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the queue.
+        public let queueId: String
+        /// The quick connects to disassociate from the queue.
+        public let quickConnectIds: [String]
+
+        public init(instanceId: String, queueId: String, quickConnectIds: [String]) {
+            self.instanceId = instanceId
+            self.queueId = queueId
+            self.quickConnectIds = quickConnectIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, max: 50)
+            try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quickConnectIds = "QuickConnectIds"
+        }
+    }
+
     public struct DisassociateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -2043,7 +2276,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.channels, name: "channels", parent: name, max: 3)
+            try self.validate(self.channels, name: "channels", parent: name, max: 1)
             try self.validate(self.queues, name: "queues", parent: name, max: 100)
             try self.validate(self.queues, name: "queues", parent: name, min: 1)
         }
@@ -2106,7 +2339,7 @@ extension Connect {
         public let groupings: [Grouping]?
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
         public let nextToken: String?
@@ -2207,7 +2440,7 @@ extension Connect {
         public let historicalMetrics: [HistoricalMetric]
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2492,6 +2725,64 @@ extension Connect {
         }
     }
 
+    public struct HoursOfOperation: AWSDecodableShape {
+        /// Configuration information for the hours of operation.
+        public let config: [HoursOfOperationConfig]?
+        /// The description for the hours of operation.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) for the hours of operation.
+        public let hoursOfOperationArn: String?
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String?
+        /// The name for the hours of operation.
+        public let name: String?
+        /// One or more tags.
+        public let tags: [String: String]?
+        /// The time zone for the hours of operation.
+        public let timeZone: String?
+
+        public init(config: [HoursOfOperationConfig]? = nil, description: String? = nil, hoursOfOperationArn: String? = nil, hoursOfOperationId: String? = nil, name: String? = nil, tags: [String: String]? = nil, timeZone: String? = nil) {
+            self.config = config
+            self.description = description
+            self.hoursOfOperationArn = hoursOfOperationArn
+            self.hoursOfOperationId = hoursOfOperationId
+            self.name = name
+            self.tags = tags
+            self.timeZone = timeZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case config = "Config"
+            case description = "Description"
+            case hoursOfOperationArn = "HoursOfOperationArn"
+            case hoursOfOperationId = "HoursOfOperationId"
+            case name = "Name"
+            case tags = "Tags"
+            case timeZone = "TimeZone"
+        }
+    }
+
+    public struct HoursOfOperationConfig: AWSDecodableShape {
+        /// The day that the hours of operation applies to.
+        public let day: HoursOfOperationDays?
+        /// The end time that your contact center is closes.
+        public let endTime: HoursOfOperationTimeSlice?
+        /// The start time that your contact center is open.
+        public let startTime: HoursOfOperationTimeSlice?
+
+        public init(day: HoursOfOperationDays? = nil, endTime: HoursOfOperationTimeSlice? = nil, startTime: HoursOfOperationTimeSlice? = nil) {
+            self.day = day
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case day = "Day"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
     public struct HoursOfOperationSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the hours of operation.
         public let arn: String?
@@ -2510,6 +2801,23 @@ extension Connect {
             case arn = "Arn"
             case id = "Id"
             case name = "Name"
+        }
+    }
+
+    public struct HoursOfOperationTimeSlice: AWSDecodableShape {
+        /// The hours.
+        public let hours: Int?
+        /// The minutes.
+        public let minutes: Int?
+
+        public init(hours: Int? = nil, minutes: Int? = nil) {
+            self.hours = hours
+            self.minutes = minutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hours = "Hours"
+            case minutes = "Minutes"
         }
     }
 
@@ -2584,7 +2892,7 @@ extension Connect {
         public let kinesisStreamConfig: KinesisStreamConfig?
         /// The configuration of the Kinesis video stream.
         public let kinesisVideoStreamConfig: KinesisVideoStreamConfig?
-        /// The S3 configuration.
+        /// The S3 bucket configuration.
         public let s3Config: S3Config?
         /// A valid storage type.
         public let storageType: StorageType
@@ -2757,7 +3065,7 @@ extension Connect {
     }
 
     public struct LexBot: AWSEncodableShape & AWSDecodableShape {
-        /// The Region the Amazon Lex bot was created in.
+        /// The Region that the Amazon Lex bot was created in.
         public let lexRegion: String?
         /// The name of the Amazon Lex bot.
         public let name: String?
@@ -2787,7 +3095,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2837,7 +3145,7 @@ extension Connect {
         public let contactFlowTypes: [ContactFlowType]?
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2886,7 +3194,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2933,7 +3241,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2981,7 +3289,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3028,7 +3336,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3072,7 +3380,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3119,7 +3427,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3166,7 +3474,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3188,7 +3496,7 @@ extension Connect {
     }
 
     public struct ListLexBotsResponse: AWSDecodableShape {
-        /// The the names and regions of the Amazon Lex bots associated with the specified instance.
+        /// The names and Regions of the Amazon Lex bots associated with the specified instance.
         public let lexBots: [LexBot]?
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -3215,7 +3523,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3308,6 +3616,57 @@ extension Connect {
         }
     }
 
+    public struct ListQueueQuickConnectsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The identifier for the queue.
+        public let queueId: String
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queueId = queueId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListQueueQuickConnectsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the quick connects.
+        public let quickConnectSummaryList: [QuickConnectSummary]?
+
+        public init(nextToken: String? = nil, quickConnectSummaryList: [QuickConnectSummary]? = nil) {
+            self.nextToken = nextToken
+            self.quickConnectSummaryList = quickConnectSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case quickConnectSummaryList = "QuickConnectSummaryList"
+        }
+    }
+
     public struct ListQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -3318,7 +3677,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3370,7 +3729,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3422,7 +3781,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3472,7 +3831,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3519,7 +3878,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3566,7 +3925,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3644,7 +4003,7 @@ extension Connect {
         public let instanceId: String
         /// The identifier for the integration association.
         public let integrationAssociationId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3694,7 +4053,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3741,7 +4100,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -3798,6 +4157,33 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case channel = "Channel"
             case concurrency = "Concurrency"
+        }
+    }
+
+    public struct OutboundCallerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The caller ID name.
+        public let outboundCallerIdName: String?
+        /// The caller ID number.
+        public let outboundCallerIdNumberId: String?
+        /// The outbound whisper flow to be used during an outbound call.
+        public let outboundFlowId: String?
+
+        public init(outboundCallerIdName: String? = nil, outboundCallerIdNumberId: String? = nil, outboundFlowId: String? = nil) {
+            self.outboundCallerIdName = outboundCallerIdName
+            self.outboundCallerIdNumberId = outboundCallerIdNumberId
+            self.outboundFlowId = outboundFlowId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outboundCallerIdName, name: "outboundCallerIdName", parent: name, max: 255)
+            try self.validate(self.outboundCallerIdName, name: "outboundCallerIdName", parent: name, min: 1)
+            try self.validate(self.outboundFlowId, name: "outboundFlowId", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outboundCallerIdName = "OutboundCallerIdName"
+            case outboundCallerIdNumberId = "OutboundCallerIdNumberId"
+            case outboundFlowId = "OutboundFlowId"
         }
     }
 
@@ -3882,10 +4268,55 @@ extension Connect {
         }
     }
 
+    public struct Queue: AWSDecodableShape {
+        /// The description of the queue.
+        public let description: String?
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String?
+        /// The maximum number of contacts that can be in the queue before it is considered full.
+        public let maxContacts: Int?
+        /// The name of the queue.
+        public let name: String?
+        /// The outbound caller ID name, number, and outbound whisper flow.
+        public let outboundCallerConfig: OutboundCallerConfig?
+        /// The Amazon Resource Name (ARN) for the queue.
+        public let queueArn: String?
+        /// The identifier for the queue.
+        public let queueId: String?
+        /// The status of the queue.
+        public let status: QueueStatus?
+        /// One or more tags.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, hoursOfOperationId: String? = nil, maxContacts: Int? = nil, name: String? = nil, outboundCallerConfig: OutboundCallerConfig? = nil, queueArn: String? = nil, queueId: String? = nil, status: QueueStatus? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.hoursOfOperationId = hoursOfOperationId
+            self.maxContacts = maxContacts
+            self.name = name
+            self.outboundCallerConfig = outboundCallerConfig
+            self.queueArn = queueArn
+            self.queueId = queueId
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case hoursOfOperationId = "HoursOfOperationId"
+            case maxContacts = "MaxContacts"
+            case name = "Name"
+            case outboundCallerConfig = "OutboundCallerConfig"
+            case queueArn = "QueueArn"
+            case queueId = "QueueId"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
     public struct QueueQuickConnectConfig: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the contact flow.
         public let contactFlowId: String
-        /// The identifier of the queue.
+        /// The identifier for the queue.
         public let queueId: String
 
         public init(contactFlowId: String, queueId: String) {
@@ -4009,11 +4440,11 @@ extension Connect {
     }
 
     public struct QuickConnectSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) of the quick connect.
         public let arn: String?
         /// The identifier for the quick connect.
         public let id: String?
-        /// The name.
+        /// The name of the quick connect.
         public let name: String?
         /// The type of quick connect. In the Amazon Connect console, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
         public let quickConnectType: QuickConnectType?
@@ -4036,7 +4467,7 @@ extension Connect {
     public struct Reference: AWSEncodableShape {
         /// A valid URL.
         public let type: ReferenceType
-        /// A formatted URL that will be shown to an agent in the Contact Control Panel (CCP)
+        /// A formatted URL that displays to an agent in the Contact Control Panel (CCP)
         public let value: String
 
         public init(type: ReferenceType, value: String) {
@@ -4167,7 +4598,7 @@ extension Connect {
         public let priority: Int
         /// The Amazon Resource Name (ARN) of the queue.
         public let queueArn: String
-        /// The identifier of the queue.
+        /// The identifier for the queue.
         public let queueId: String
         /// The name of the queue.
         public let queueName: String
@@ -4194,7 +4625,7 @@ extension Connect {
     public struct RoutingProfileQueueReference: AWSEncodableShape {
         /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
         public let channel: Channel
-        /// The identifier of the queue.
+        /// The identifier for the queue.
         public let queueId: String
 
         public init(channel: Channel, queueId: String) {
@@ -4234,7 +4665,7 @@ extension Connect {
         public let bucketName: String
         /// The S3 bucket prefix.
         public let bucketPrefix: String
-        /// The S3 encryption configuration.
+        /// The Amazon S3 encryption configuration.
         public let encryptionConfig: EncryptionConfig?
 
         public init(bucketName: String, bucketPrefix: String, encryptionConfig: EncryptionConfig? = nil) {
@@ -4301,7 +4732,7 @@ extension Connect {
     }
 
     public struct StartChatContactRequest: AWSEncodableShape {
-        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in contact flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -4376,7 +4807,7 @@ extension Connect {
         public let initialContactId: String
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// Who is being recorded.
+        /// The person being recorded.
         public let voiceRecordingConfiguration: VoiceRecordingConfiguration
 
         public init(contactId: String, initialContactId: String, instanceId: String, voiceRecordingConfiguration: VoiceRecordingConfiguration) {
@@ -4888,6 +5319,161 @@ extension Connect {
         }
     }
 
+    public struct UpdateQueueHoursOfOperationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+        ]
+
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the queue.
+        public let queueId: String
+
+        public init(hoursOfOperationId: String, instanceId: String, queueId: String) {
+            self.hoursOfOperationId = hoursOfOperationId
+            self.instanceId = instanceId
+            self.queueId = queueId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hoursOfOperationId = "HoursOfOperationId"
+        }
+    }
+
+    public struct UpdateQueueMaxContactsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of contacts that can be in the queue before it is considered full.
+        public let maxContacts: Int
+        /// The identifier for the queue.
+        public let queueId: String
+
+        public init(instanceId: String, maxContacts: Int, queueId: String) {
+            self.instanceId = instanceId
+            self.maxContacts = maxContacts
+            self.queueId = queueId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxContacts, name: "maxContacts", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxContacts = "MaxContacts"
+        }
+    }
+
+    public struct UpdateQueueNameRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+        ]
+
+        /// The description of the queue.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the queue.
+        public let name: String?
+        /// The identifier for the queue.
+        public let queueId: String
+
+        public init(description: String? = nil, instanceId: String, name: String? = nil, queueId: String) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.queueId = queueId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateQueueOutboundCallerConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The outbound caller ID name, number, and outbound whisper flow.
+        public let outboundCallerConfig: OutboundCallerConfig
+        /// The identifier for the queue.
+        public let queueId: String
+
+        public init(instanceId: String, outboundCallerConfig: OutboundCallerConfig, queueId: String) {
+            self.instanceId = instanceId
+            self.outboundCallerConfig = outboundCallerConfig
+            self.queueId = queueId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.outboundCallerConfig.validate(name: "\(name).outboundCallerConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outboundCallerConfig = "OutboundCallerConfig"
+        }
+    }
+
+    public struct UpdateQueueStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The identifier for the queue.
+        public let queueId: String
+        /// The status of the queue.
+        public let status: QueueStatus
+
+        public init(instanceId: String, queueId: String, status: QueueStatus) {
+            self.instanceId = instanceId
+            self.queueId = queueId
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct UpdateQuickConnectConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
@@ -4963,7 +5549,7 @@ extension Connect {
 
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The channels agents can handle in the Contact Control Panel (CCP).
+        /// The channels that agents can handle in the Contact Control Panel (CCP).
         public let mediaConcurrencies: [MediaConcurrency]
         /// The identifier of the routing profile.
         public let routingProfileId: String

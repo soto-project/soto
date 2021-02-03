@@ -91,6 +91,8 @@ extension CloudSearch {
     }
 
     public enum PartitionInstanceType: String, CustomStringConvertible, Codable {
+        case search2Xlarge = "search.2xlarge"
+        case searchLarge = "search.large"
         case searchM1Large = "search.m1.large"
         case searchM1Small = "search.m1.small"
         case searchM22Xlarge = "search.m2.2xlarge"
@@ -99,6 +101,9 @@ extension CloudSearch {
         case searchM3Large = "search.m3.large"
         case searchM3Medium = "search.m3.medium"
         case searchM3Xlarge = "search.m3.xlarge"
+        case searchMedium = "search.medium"
+        case searchSmall = "search.small"
+        case searchXlarge = "search.xlarge"
         public var description: String { return self.rawValue }
     }
 

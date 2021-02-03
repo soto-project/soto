@@ -28,6 +28,7 @@ public struct ManagedBlockchainErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
         case resourceNotReadyException = "ResourceNotReadyException"
         case throttlingException = "ThrottlingException"
+        case tooManyTagsException = "TooManyTagsException"
     }
 
     private let error: Code
@@ -59,12 +60,13 @@ public struct ManagedBlockchainErrorType: AWSErrorType {
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// The maximum number of resources of that type already exist. Ensure the resources requested are within the boundaries of the service edition and your account limits.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
-    /// A requested resource does not exist on the network. It may have been deleted or referenced inaccurately.
+    /// A requested resource does not exist. It may have been deleted or referenced inaccurately.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The requested resource exists but is not in a status that can complete the operation.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
     /// The request or operation could not be performed because a service is throttling requests. The most common source of throttling errors is launching EC2 instances such that your service limit for EC2 instances is exceeded. Request a limit increase or delete unused resources if possible.
     public static var throttlingException: Self { .init(.throttlingException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 
 extension ManagedBlockchainErrorType: Equatable {

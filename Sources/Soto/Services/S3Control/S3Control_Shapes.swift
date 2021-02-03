@@ -480,13 +480,13 @@ extension S3Control {
         public let description: String?
         /// Configuration parameters for the manifest.
         public let manifest: JobManifest
-        /// The operation that you want this job to perform on each object listed in the manifest. For more information about the available operations, see Operations in the Amazon Simple Storage Service Developer Guide.
+        /// The operation that you want this job to perform on every object listed in the manifest. For more information about the available operations, see Operations in the Amazon Simple Storage Service Developer Guide.
         public let operation: JobOperation
         /// The numerical priority for this job. Higher numbers indicate higher priority.
         public let priority: Int
         /// Configuration parameters for the optional job-completion report.
         public let report: JobReport
-        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role that Batch Operations will use to run this job's operation on each object in the manifest.
+        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role that Batch Operations will use to run this job's operation on every object in the manifest.
         public let roleArn: String
         /// A set of tags to associate with the S3 Batch Operations job. This is an optional parameter.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -1499,7 +1499,7 @@ extension S3Control {
         public let description: String?
         /// The ID for the specified job.
         public let jobId: String?
-        /// The operation that the specified job is configured to run on each object listed in the manifest.
+        /// The operation that the specified job is configured to run on every object listed in the manifest.
         public let operation: OperationName?
         /// The current priority for the specified job.
         public let priority: Int?
@@ -1604,17 +1604,17 @@ extension S3Control {
     }
 
     public struct JobOperation: AWSEncodableShape & AWSDecodableShape {
-        /// Directs the specified job to invoke an AWS Lambda function on each object in the manifest.
+        /// Directs the specified job to invoke an AWS Lambda function on every object in the manifest.
         public let lambdaInvoke: LambdaInvokeOperation?
-        /// Directs the specified job to run an Initiate Glacier Restore call on each object in the manifest.
+        /// Directs the specified job to initiate restore requests for every archived object in the manifest.
         public let s3InitiateRestoreObject: S3InitiateRestoreObjectOperation?
-        /// Directs the specified job to run a PUT Object acl call on each object in the manifest.
+        /// Directs the specified job to run a PUT Object acl call on every object in the manifest.
         public let s3PutObjectAcl: S3SetObjectAclOperation?
-        /// Directs the specified job to run a PUT Copy object call on each object in the manifest.
+        /// Directs the specified job to run a PUT Copy object call on every object in the manifest.
         public let s3PutObjectCopy: S3CopyObjectOperation?
         public let s3PutObjectLegalHold: S3SetObjectLegalHoldOperation?
         public let s3PutObjectRetention: S3SetObjectRetentionOperation?
-        /// Directs the specified job to run a PUT Object tagging call on each object in the manifest.
+        /// Directs the specified job to run a PUT Object tagging call on every object in the manifest.
         public let s3PutObjectTagging: S3SetObjectTaggingOperation?
 
         public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil) {
@@ -1702,7 +1702,7 @@ extension S3Control {
     }
 
     public struct LambdaInvokeOperation: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the AWS Lambda function that the specified job will invoke for each object in the manifest.
+        /// The Amazon Resource Name (ARN) for the AWS Lambda function that the specified job will invoke on every object in the manifest.
         public let functionArn: String?
 
         public init(functionArn: String? = nil) {
@@ -2731,7 +2731,9 @@ extension S3Control {
     }
 
     public struct S3InitiateRestoreObjectOperation: AWSEncodableShape & AWSDecodableShape {
+        /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive object remains available in Amazon S3. S3 Initiate Restore Object jobs that target S3 Glacier and S3 Glacier Deep Archive objects require ExpirationInDays set to 1 or greater. Conversely, do not set ExpirationInDays when creating S3 Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive Access and Deep Archive Access tier objects. Objects in S3 Intelligent-Tiering archive access tiers are not subject to restore expiry, so specifying ExpirationInDays results in restore request failure. S3 Batch Operations jobs can operate either on S3 Glacier and S3 Glacier Deep Archive storage class objects or on S3 Intelligent-Tiering Archive Access and Deep Archive Access storage tier objects, but not both types in the same job. If you need to restore objects of both types you must create separate Batch Operations jobs.
         public let expirationInDays: Int?
+        /// S3 Batch Operations supports STANDARD and BULK retrieval tiers, but not the EXPEDITED retrieval tier.
         public let glacierJobTier: S3GlacierJobTier?
 
         public init(expirationInDays: Int? = nil, glacierJobTier: S3GlacierJobTier? = nil) {

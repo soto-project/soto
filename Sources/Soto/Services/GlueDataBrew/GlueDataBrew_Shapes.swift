@@ -107,9 +107,9 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The name of the recipe to be modified.
+        /// The name of the recipe whose versions are to be deleted.
         public let name: String
-        /// An array of version identifiers to be deleted.
+        /// An array of version identifiers, for the recipe versions to be deleted. You can specify numeric versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
         public let recipeVersions: [String]
 
         public init(name: String, recipeVersions: [String]) {
@@ -134,7 +134,7 @@ extension GlueDataBrew {
     }
 
     public struct BatchDeleteRecipeVersionResponse: AWSDecodableShape {
-        /// Errors, if any, that were encountered when deleting the recipe versions.
+        /// Errors, if any, that occurred while attempting to delete the recipe versions.
         public let errors: [RecipeVersionErrorDetail]?
         /// The name of the recipe that was modified.
         public let name: String
@@ -153,7 +153,7 @@ extension GlueDataBrew {
     public struct ConditionExpression: AWSEncodableShape & AWSDecodableShape {
         /// A specific condition to apply to a recipe action. For more information, see Recipe structure in the AWS Glue DataBrew Developer Guide.
         public let condition: String
-        /// A column to apply this condition to, within an AWS Glue DataBrew dataset.
+        /// A column to apply this condition to.
         public let targetColumn: String
         /// A value that the condition must evaluate to for the condition to succeed.
         public let value: String?
@@ -183,7 +183,7 @@ extension GlueDataBrew {
     public struct CreateDatasetRequest: AWSEncodableShape {
         public let formatOptions: FormatOptions?
         public let input: Input
-        /// The name of the dataset to be created.
+        /// The name of the dataset to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
         /// Metadata tags to apply to this dataset.
         public let tags: [String: String]?
@@ -235,16 +235,16 @@ extension GlueDataBrew {
         public let encryptionKeyArn: String?
         /// The encryption mode for the job, which can be one of the following:    SSE-KMS - para&gt;SSE-KMS - server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
-        /// A value that enables or disables Amazon CloudWatch logging for the current AWS account. If logging is enabled, CloudWatch writes one log stream for each job run.
+        /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?
         /// The maximum number of nodes that DataBrew can use when the job processes data.
         public let maxCapacity: Int?
         /// The maximum number of times to retry the job after a job run fails.
         public let maxRetries: Int?
-        /// The name of the job to be created.
+        /// The name of the job to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
         public let outputLocation: S3Location
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String
         /// Metadata tags to apply to this job.
         public let tags: [String: String]?
@@ -313,9 +313,9 @@ extension GlueDataBrew {
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
-        /// The name of the dataset to associate this project with.
+        /// The name of an existing dataset to associate this project with.
         public let datasetName: String
-        /// A unique name for the new project.
+        /// A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
         /// The name of an existing recipe to associate with the project.
         public let recipeName: String
@@ -381,22 +381,22 @@ extension GlueDataBrew {
         public let encryptionKeyArn: String?
         /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
-        /// A value that enables or disables Amazon CloudWatch logging for the current AWS account. If logging is enabled, CloudWatch writes one log stream for each job run.
+        /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?
         /// The maximum number of nodes that DataBrew can consume when the job processes data.
         public let maxCapacity: Int?
         /// The maximum number of times to retry the job after a job run fails.
         public let maxRetries: Int?
-        /// A unique name for the job.
+        /// A unique name for the job. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
         /// One or more artifacts that represent the output from running the job.
         public let outputs: [Output]
         /// Either the name of an existing project, or a combination of a recipe and a dataset to associate with the recipe.
         public let projectName: String?
         public let recipeReference: RecipeReference?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String
-        /// Metadata tags to apply to this job dataset.
+        /// Metadata tags to apply to this job.
         public let tags: [String: String]?
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
@@ -475,7 +475,7 @@ extension GlueDataBrew {
     public struct CreateRecipeRequest: AWSEncodableShape {
         /// A description for the recipe.
         public let description: String?
-        /// A unique name for the recipe.
+        /// A unique name for the recipe. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
         /// An array containing the steps to be performed by the recipe. Each recipe step consists of one recipe action and (optionally) an array of condition expressions.
         public let steps: [RecipeStep]
@@ -525,11 +525,11 @@ extension GlueDataBrew {
     }
 
     public struct CreateScheduleRequest: AWSEncodableShape {
-        /// The date or dates and time or times, in cron format, when the jobs are to be run.
+        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
         public let cronExpression: String
         /// The name or names of one or more jobs to be run.
         public let jobNames: [String]?
-        /// A unique name for the schedule.
+        /// A unique name for the schedule. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
         /// Metadata tags to apply to this schedule.
         public let tags: [String: String]?
@@ -579,6 +579,42 @@ extension GlueDataBrew {
         }
     }
 
+    public struct CsvOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A single character that specifies the delimiter being used in the Csv file.
+        public let delimiter: String?
+
+        public init(delimiter: String? = nil) {
+            self.delimiter = delimiter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delimiter = "Delimiter"
+        }
+    }
+
+    public struct CsvOutputOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A single character that specifies the delimiter used to create Csv job output.
+        public let delimiter: String?
+
+        public init(delimiter: String? = nil) {
+            self.delimiter = delimiter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delimiter = "Delimiter"
+        }
+    }
+
     public struct DataCatalogInputDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier of the AWS account that holds the Data Catalog that stores the data.
         public let catalogId: String?
@@ -619,13 +655,13 @@ extension GlueDataBrew {
         public let accountId: String?
         /// The date and time that the dataset was created.
         public let createDate: Date?
-        /// The identifier (the user name) of the user who created the dataset.
+        /// The Amazon Resource Name (ARN) of the user who created the dataset.
         public let createdBy: String?
         /// Options that define how DataBrew interprets the data in the dataset.
         public let formatOptions: FormatOptions?
         /// Information on how DataBrew can find the dataset, in either the AWS Glue Data Catalog or Amazon S3.
         public let input: Input
-        /// The identifier (the user name) of the user who last modified the dataset.
+        /// The Amazon Resource Name (ARN) of the user who last modified the dataset.
         public let lastModifiedBy: String?
         /// The last modification date and time of the dataset.
         public let lastModifiedDate: Date?
@@ -772,9 +808,9 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "recipeVersion", location: .uri(locationName: "recipeVersion"))
         ]
 
-        /// The name of the recipe to be deleted.
+        /// The name of the recipe.
         public let name: String
-        /// The version of the recipe to be deleted.
+        /// The version of the recipe to be deleted. You can specify a numeric versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
         public let recipeVersion: String
 
         public init(name: String, recipeVersion: String) {
@@ -944,9 +980,9 @@ extension GlueDataBrew {
         public let lastModifiedBy: String?
         /// The date and time that the job was last modified.
         public let lastModifiedDate: Date?
-        /// A value that indicates whether Amazon CloudWatch logging is enabled for this job.
+        /// Indicates whether Amazon CloudWatch logging is enabled for this job.
         public let logSubscription: LogSubscription?
-        /// The maximum number of nodes that AWS Glue DataBrew can consume when the job processes data.
+        /// The maximum number of compute nodes that DataBrew can consume when the job processes data.
         public let maxCapacity: Int?
         /// The maximum number of times to retry the job after a job run fails.
         public let maxRetries: Int?
@@ -959,7 +995,7 @@ extension GlueDataBrew {
         public let recipeReference: RecipeReference?
         /// The Amazon Resource Name (ARN) of the job.
         public let resourceArn: String?
-        /// The ARN of the AWS Identity and Access Management (IAM) role that was assumed for this request.
+        /// The ARN of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String?
         /// Metadata tags associated with this job.
         public let tags: [String: String]?
@@ -1054,7 +1090,7 @@ extension GlueDataBrew {
         public let recipeName: String?
         /// The Amazon Resource Name (ARN) of the project.
         public let resourceArn: String?
-        /// The ARN of the AWS Identity and Access Management (IAM) role that was assumed for this request.
+        /// The ARN of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String?
         public let sample: Sample?
         /// Describes the current state of the session:    PROVISIONING - allocating resources for the session.    INITIALIZING - getting the session ready for first use.    ASSIGNED - the session is ready for use.
@@ -1209,7 +1245,7 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The identifier (user name) of the user who created the schedule.
         public let createdBy: String?
-        /// The date or dates and time or times, in cron format, when the jobs are to be run for the schedule.
+        /// The date or dates and time or times when the jobs are to be run for the schedule. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
         public let cronExpression: String?
         /// The name or names of one or more jobs to be run by using the schedule.
         public let jobNames: [String]?
@@ -1282,21 +1318,26 @@ extension GlueDataBrew {
     }
 
     public struct FormatOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Options that define how Csv input is to be interpreted by DataBrew.
+        public let csv: CsvOptions?
         /// Options that define how Excel input is to be interpreted by DataBrew.
         public let excel: ExcelOptions?
         /// Options that define how JSON input is to be interpreted by DataBrew.
         public let json: JsonOptions?
 
-        public init(excel: ExcelOptions? = nil, json: JsonOptions? = nil) {
+        public init(csv: CsvOptions? = nil, excel: ExcelOptions? = nil, json: JsonOptions? = nil) {
+            self.csv = csv
             self.excel = excel
             self.json = json
         }
 
         public func validate(name: String) throws {
+            try self.csv?.validate(name: "\(name).csv")
             try self.excel?.validate(name: "\(name).excel")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case csv = "Csv"
             case excel = "Excel"
             case json = "Json"
         }
@@ -1329,15 +1370,15 @@ extension GlueDataBrew {
         public let accountId: String?
         /// The date and time that the job was created.
         public let createDate: Date?
-        /// The identifier (the user name) of the user who created the job.
+        /// The Amazon Resource Name (ARN) of the user who created the job.
         public let createdBy: String?
         /// A dataset that the job is to process.
         public let datasetName: String?
-        /// The Amazon Resource Name (ARN) of an encryption key that is used to protect a job.
+        /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job output. For more information, see Encrypting data written by DataBrew jobs
         public let encryptionKeyArn: String?
         /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
-        /// The identifier (the user name) of the user who last modified the job.
+        /// The Amazon Resource Name (ARN) of the user who last modified the job.
         public let lastModifiedBy: String?
         /// The modification date and time of the job.
         public let lastModifiedDate: Date?
@@ -1436,7 +1477,7 @@ extension GlueDataBrew {
         public let recipeReference: RecipeReference?
         /// The unique identifier of the job run.
         public let runId: String?
-        /// The identifier (the user name) of the user who initiated the job run.
+        /// The Amazon Resource Name (ARN) of the user who initiated the job run.
         public let startedBy: String?
         /// The date and time when the job run began.
         public let startedOn: Date?
@@ -1499,7 +1540,7 @@ extension GlueDataBrew {
 
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
-        /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call.
+        /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1518,9 +1559,9 @@ extension GlueDataBrew {
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
-        /// A list of datasets that are defined in the current AWS account.
+        /// A list of datasets that are defined.
         public let datasets: [Dataset]
-        /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
 
         public init(datasets: [Dataset], nextToken: String? = nil) {
@@ -1545,7 +1586,7 @@ extension GlueDataBrew {
         public let maxResults: Int?
         /// The name of the job.
         public let name: String
-        /// A token generated by AWS Glue DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call.
+        /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
@@ -1569,7 +1610,7 @@ extension GlueDataBrew {
     public struct ListJobRunsResponse: AWSDecodableShape {
         /// A list of job runs that have occurred for the specified job.
         public let jobRuns: [JobRun]
-        /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
 
         public init(jobRuns: [JobRun], nextToken: String? = nil) {
@@ -1622,9 +1663,9 @@ extension GlueDataBrew {
     }
 
     public struct ListJobsResponse: AWSDecodableShape {
-        /// A list of jobs that are defined in the current AWS account.
+        /// A list of jobs that are defined.
         public let jobs: [Job]
-        /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
 
         public init(jobs: [Job], nextToken: String? = nil) {
@@ -1646,7 +1687,7 @@ extension GlueDataBrew {
 
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
-        /// A pagination token that can be used in a subsequent request.
+        /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1665,9 +1706,9 @@ extension GlueDataBrew {
     }
 
     public struct ListProjectsResponse: AWSDecodableShape {
-        /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call.
+        /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
-        /// A list of projects that are defined in the current AWS account.
+        /// A list of projects that are defined .
         public let projects: [Project]
 
         public init(nextToken: String? = nil, projects: [Project]) {
@@ -1692,7 +1733,7 @@ extension GlueDataBrew {
         public let maxResults: Int?
         /// The name of the recipe for which to return version information.
         public let name: String
-        /// A pagination token that can be used in a subsequent request.
+        /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
@@ -1714,7 +1755,7 @@ extension GlueDataBrew {
     }
 
     public struct ListRecipeVersionsResponse: AWSDecodableShape {
-        /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call.
+        /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
         /// A list of versions for the specified recipe.
         public let recipes: [Recipe]
@@ -1739,9 +1780,9 @@ extension GlueDataBrew {
 
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
-        /// A pagination token that can be used in a subsequent request.
+        /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
-        /// A version identifier. Using this parameter indicates to return only those recipes that have this version identifier.
+        /// Return only those recipes with a version identifier of LATEST_WORKING or LATEST_PUBLISHED. If RecipeVersion is omitted, ListRecipes returns all of the LATEST_PUBLISHED recipe versions. Valid values: LATEST_WORKING | LATEST_PUBLISHED
         public let recipeVersion: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, recipeVersion: String? = nil) {
@@ -1763,9 +1804,9 @@ extension GlueDataBrew {
     }
 
     public struct ListRecipesResponse: AWSDecodableShape {
-        /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call.
+        /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
-        /// A list of recipes that are defined in the current AWS account.
+        /// A list of recipes that are defined.
         public let recipes: [Recipe]
 
         public init(nextToken: String? = nil, recipes: [Recipe]) {
@@ -1790,7 +1831,7 @@ extension GlueDataBrew {
         public let jobName: String?
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
-        /// A pagination token that can be used in a subsequent request.
+        /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
         public init(jobName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1812,9 +1853,9 @@ extension GlueDataBrew {
     }
 
     public struct ListSchedulesResponse: AWSDecodableShape {
-        /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call.
+        /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
-        /// A list of schedules in the current AWS account.
+        /// A list of schedules that are defined.
         public let schedules: [Schedule]
 
         public init(nextToken: String? = nil, schedules: [Schedule]) {
@@ -1866,6 +1907,8 @@ extension GlueDataBrew {
         public let compressionFormat: CompressionFormat?
         /// The data format of the output of the job.
         public let format: OutputFormat?
+        /// Options that define how DataBrew formats job output files.
+        public let formatOptions: OutputFormatOptions?
         /// The location in Amazon S3 where the job writes its output.
         public let location: S3Location
         /// A value that, if true, means that any data in the location specified for output is overwritten with new output.
@@ -1873,15 +1916,17 @@ extension GlueDataBrew {
         /// The names of one or more partition columns for the output of the job.
         public let partitionColumns: [String]?
 
-        public init(compressionFormat: CompressionFormat? = nil, format: OutputFormat? = nil, location: S3Location, overwrite: Bool? = nil, partitionColumns: [String]? = nil) {
+        public init(compressionFormat: CompressionFormat? = nil, format: OutputFormat? = nil, formatOptions: OutputFormatOptions? = nil, location: S3Location, overwrite: Bool? = nil, partitionColumns: [String]? = nil) {
             self.compressionFormat = compressionFormat
             self.format = format
+            self.formatOptions = formatOptions
             self.location = location
             self.overwrite = overwrite
             self.partitionColumns = partitionColumns
         }
 
         public func validate(name: String) throws {
+            try self.formatOptions?.validate(name: "\(name).formatOptions")
             try self.location.validate(name: "\(name).location")
             try self.partitionColumns?.forEach {
                 try validate($0, name: "partitionColumns[]", parent: name, max: 255)
@@ -1893,9 +1938,27 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case compressionFormat = "CompressionFormat"
             case format = "Format"
+            case formatOptions = "FormatOptions"
             case location = "Location"
             case overwrite = "Overwrite"
             case partitionColumns = "PartitionColumns"
+        }
+    }
+
+    public struct OutputFormatOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Options that define how DataBrew writes Csv output.
+        public let csv: CsvOutputOptions?
+
+        public init(csv: CsvOutputOptions? = nil) {
+            self.csv = csv
+        }
+
+        public func validate(name: String) throws {
+            try self.csv?.validate(name: "\(name).csv")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv = "Csv"
         }
     }
 
@@ -1904,11 +1967,11 @@ extension GlueDataBrew {
         public let accountId: String?
         /// The date and time that the project was created.
         public let createDate: Date?
-        /// The identifier (the user name) of the user who crated the project.
+        /// The Amazon Resource Name (ARN) of the user who crated the project.
         public let createdBy: String?
         /// The dataset that the project is to act upon.
         public let datasetName: String?
-        /// The identifier (user name) of the user who last modified the project.
+        /// The Amazon Resource Name (ARN) of the user who last modified the project.
         public let lastModifiedBy: String?
         /// The last modification date and time for the project.
         public let lastModifiedDate: Date?
@@ -1916,7 +1979,7 @@ extension GlueDataBrew {
         public let name: String
         /// The date and time when the project was opened.
         public let openDate: Date?
-        /// The identifier (the user name) of the user that opened the project for use.
+        /// The Amazon Resource Name (ARN) of the user that opened the project for use.
         public let openedBy: String?
         /// The name of a recipe that will be developed during a project session.
         public let recipeName: String
@@ -2006,11 +2069,11 @@ extension GlueDataBrew {
     public struct Recipe: AWSDecodableShape {
         /// The date and time that the recipe was created.
         public let createDate: Date?
-        /// The identifier (the user name) of the user who created the recipe.
+        /// The Amazon Resource Name (ARN) of the user who created the recipe.
         public let createdBy: String?
         /// The description of the recipe.
         public let description: String?
-        /// The identifier (user name) of the user who last modified the recipe.
+        /// The Amazon Resource Name (ARN) of the user who last modified the recipe.
         public let lastModifiedBy: String?
         /// The last modification date and time of the recipe.
         public let lastModifiedDate: Date?
@@ -2018,11 +2081,11 @@ extension GlueDataBrew {
         public let name: String
         /// The name of the project that the recipe is associated with.
         public let projectName: String?
-        /// The identifier (the user name) of the user who published the recipe.
+        /// The Amazon Resource Name (ARN) of the user who published the recipe.
         public let publishedBy: String?
         /// The date and time when the recipe was published.
         public let publishedDate: Date?
-        /// The identifier for the version for the recipe.
+        /// The identifier for the version for the recipe. Must be one of the following:   Numeric version (X.Y) - X and Y stand for major and minor version numbers. The maximum length of each is 6 digits, and neither can be negative values. Both X and Y are required, and "0.0" is not a valid version.    LATEST_WORKING - the most recent valid version being developed in a DataBrew project.    LATEST_PUBLISHED - the most recent published version.
         public let recipeVersion: String?
         /// The Amazon Resource Name (ARN) for the recipe.
         public let resourceArn: String?
@@ -2214,13 +2277,13 @@ extension GlueDataBrew {
         public let accountId: String?
         /// The date and time that the schedule was created.
         public let createDate: Date?
-        /// The identifier (the user name) of the user who created the schedule.
+        /// The Amazon Resource Name (ARN) of the user who created the schedule.
         public let createdBy: String?
-        /// The date(s) and time(s), in cron format, when the job will run.
+        /// The date(s) and time(s) when the job will run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
         public let cronExpression: String?
         /// A list of jobs to be run, according to the schedule.
         public let jobNames: [String]?
-        /// The identifier (the user name) of the user who last modified the schedule.
+        /// The Amazon Resource Name (ARN) of the user who last modified the schedule.
         public let lastModifiedBy: String?
         /// The date and time when the schedule was last modified.
         public let lastModifiedDate: Date?
@@ -2267,7 +2330,7 @@ extension GlueDataBrew {
         public let clientSessionId: String?
         /// The name of the project to apply the action to.
         public let name: String
-        /// Returns the result of the recipe step, without applying it. The result isn't added to the view frame stack.
+        /// If true, the result of the recipe step will be returned, but not applied.
         public let preview: Bool?
         public let recipeStep: RecipeStep?
         /// The index from which to preview a step. This index is used to preview the result of steps that have already been applied, so that the resulting view frame is from earlier in the view frame stack.
@@ -2478,7 +2541,7 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
-        /// An DataBrew resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN).
+        /// A DataBrew resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN).
         public let resourceArn: String
         /// The tag keys (names) of one or more tags to be removed.
         public let tagKeys: [String]
@@ -2557,16 +2620,16 @@ extension GlueDataBrew {
         public let encryptionKeyArn: String?
         /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
-        /// A value that enables or disables Amazon CloudWatch logging for the current AWS account. If logging is enabled, CloudWatch writes one log stream for each job run.
+        /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?
-        /// The maximum number of nodes that DataBrew can use when the job processes data.
+        /// The maximum number of compute nodes that DataBrew can use when the job processes data.
         public let maxCapacity: Int?
         /// The maximum number of times to retry the job after a job run fails.
         public let maxRetries: Int?
         /// The name of the job to be updated.
         public let name: String
         public let outputLocation: S3Location
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
@@ -2677,7 +2740,7 @@ extension GlueDataBrew {
         public let encryptionKeyArn: String?
         /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
-        /// A value that enables or disables Amazon CloudWatch logging for the current AWS account. If logging is enabled, CloudWatch writes one log stream for each job run.
+        /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?
         /// The maximum number of nodes that DataBrew can consume when the job processes data.
         public let maxCapacity: Int?
@@ -2687,7 +2750,7 @@ extension GlueDataBrew {
         public let name: String
         /// One or more artifacts that represent the output from running the job.
         public let outputs: [Output]
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
@@ -2795,7 +2858,7 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The date or dates and time or times, in cron format, when the jobs are to be run.
+        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
         public let cronExpression: String
         /// The name or names of one or more jobs to be run for this schedule.
         public let jobNames: [String]?

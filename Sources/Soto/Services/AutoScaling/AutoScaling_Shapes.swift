@@ -493,7 +493,7 @@ extension AutoScaling {
         public let launchConfigurationName: String?
         /// The launch template for the instance.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The lifecycle state for the instance.
+        /// The lifecycle state for the instance. The Quarantined state is not used. For information about lifecycle states, see Instance lifecycle in the Amazon EC2 Auto Scaling User Guide.  Valid Values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminated | Detaching | Detached | EnteringStandby | Standby
         public let lifecycleState: String
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
@@ -923,7 +923,7 @@ extension AutoScaling {
         public let instanceId: String?
         /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. The default value is true (enabled).  When detailed monitoring is enabled, Amazon CloudWatch generates metrics every minute and your account is charged a fee. When you disable detailed monitoring, CloudWatch generates metrics every 5 minutes. For more information, see Configure Monitoring for Auto Scaling Instances in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMonitoring: InstanceMonitoring?
-        /// Specifies the instance type of the EC2 instance. For information about available instance types, see Available Instance Types in the Amazon EC2 User Guide for Linux Instances.  If you do not specify InstanceId, you must specify InstanceType.
+        /// Specifies the instance type of the EC2 instance. For information about available instance types, see Available Instance Types in the Amazon EC2 User Guide for Linux Instances. If you do not specify InstanceId, you must specify InstanceType.
         public let instanceType: String?
         /// The ID of the kernel associated with the AMI.
         public let kernelId: String?
@@ -942,7 +942,7 @@ extension AutoScaling {
         public var securityGroups: [String]?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Requesting Spot Instances in the Amazon EC2 Auto Scaling User Guide.  When you change your maximum price by creating a new launch configuration, running instances will continue to run as long as the maximum price for those running instances is higher than the current Spot price.
         public let spotPrice: String?
-        /// The Base64-encoded user data to make available to the launched EC2 instances. For more information, see Instance metadata and user data in the Amazon EC2 User Guide for Linux Instances.
+        /// The user data to make available to the launched EC2 instances. For more information, see Instance metadata and user data (Linux) and Instance metadata and user data (Windows). If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
         public let userData: String?
 
         public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchConfigurationName: String, metadataOptions: InstanceMetadataOptions? = nil, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
@@ -2198,7 +2198,7 @@ extension AutoScaling {
         public let launchConfigurationName: String?
         /// The launch template for the instance.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// A description of the current lifecycle state. The Quarantined state is not used.
+        /// A description of the current lifecycle state. The Quarantined state is not used. For information about lifecycle states, see Instance lifecycle in the Amazon EC2 Auto Scaling User Guide.
         public let lifecycleState: LifecycleState
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
@@ -2233,7 +2233,7 @@ extension AutoScaling {
     public struct InstanceMetadataOptions: AWSEncodableShape & AWSDecodableShape {
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.
         public let httpEndpoint: InstanceMetadataEndpointState?
-        /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1 Possible values: Integers from 1 to 64
+        /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1
         public let httpPutResponseHopLimit: Int?
         /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credentials always returns the version 2.0 credentials; the version 1.0 credentials are not available.
         public let httpTokens: InstanceMetadataHttpTokensState?
@@ -2392,7 +2392,7 @@ extension AutoScaling {
         public var securityGroups: [String]?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Requesting Spot Instances in the Amazon EC2 Auto Scaling User Guide.
         public let spotPrice: String?
-        /// The Base64-encoded user data to make available to the launched EC2 instances. For more information, see Instance metadata and user data in the Amazon EC2 User Guide for Linux Instances.
+        /// The user data to make available to the launched EC2 instances. For more information, see Instance metadata and user data (Linux) and Instance metadata and user data (Windows). If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
         public let userData: String?
 
         public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, classicLinkVPCId: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, createdTime: Date, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String, instanceMonitoring: InstanceMonitoring? = nil, instanceType: String, kernelId: String? = nil, keyName: String? = nil, launchConfigurationARN: String? = nil, launchConfigurationName: String, metadataOptions: InstanceMetadataOptions? = nil, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {

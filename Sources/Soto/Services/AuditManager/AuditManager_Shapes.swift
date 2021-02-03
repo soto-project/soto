@@ -424,6 +424,8 @@ extension AuditManager {
     }
 
     public struct AssessmentFrameworkMetadata: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the framework.
+        public let arn: String?
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
         public let complianceType: String?
         ///  The number of controls associated with the specified framework.
@@ -445,7 +447,8 @@ extension AuditManager {
         ///  The framework type, such as standard or custom.
         public let type: FrameworkType?
 
-        public init(complianceType: String? = nil, controlsCount: Int? = nil, controlSetsCount: Int? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, logo: String? = nil, name: String? = nil, type: FrameworkType? = nil) {
+        public init(arn: String? = nil, complianceType: String? = nil, controlsCount: Int? = nil, controlSetsCount: Int? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, logo: String? = nil, name: String? = nil, type: FrameworkType? = nil) {
+            self.arn = arn
             self.complianceType = complianceType
             self.controlsCount = controlsCount
             self.controlSetsCount = controlSetsCount
@@ -459,6 +462,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn
             case complianceType
             case controlsCount
             case controlSetsCount
@@ -982,7 +986,7 @@ extension AuditManager {
     public struct BatchImportEvidenceToAssessmentControlError: AWSDecodableShape {
         ///  The error code returned by the BatchImportEvidenceToAssessmentControl API.
         public let errorCode: String?
-        ///  The error message returned by the BatchImportEvidenceToAssessmentControlError API.
+        ///  The error message returned by the BatchImportEvidenceToAssessmentControl API.
         public let errorMessage: String?
         ///  Manual evidence that cannot be collected automatically by AWS Audit Manager.
         public let manualEvidence: ManualEvidence?
@@ -1096,7 +1100,7 @@ extension AuditManager {
         public let arn: String?
         ///  The data mapping sources for the specified control.
         public let controlMappingSources: [ControlMappingSource]?
-        ///  The data mapping sources for the specified control.
+        ///  The data source that determines from where AWS Audit Manager collects evidence for the control.
         public let controlSources: String?
         ///  Specifies when the control was created.
         public let createdAt: Date?
@@ -1339,12 +1343,15 @@ extension AuditManager {
         public let description: String?
         ///  The name of the new custom framework.
         public let name: String
+        ///  The tags associated with the framework.
+        public let tags: [String: String]?
 
-        public init(complianceType: String? = nil, controlSets: [CreateAssessmentFrameworkControlSet], description: String? = nil, name: String) {
+        public init(complianceType: String? = nil, controlSets: [CreateAssessmentFrameworkControlSet], description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.complianceType = complianceType
             self.controlSets = controlSets
             self.description = description
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1360,6 +1367,14 @@ extension AuditManager {
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: ".{0,255}")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1367,6 +1382,7 @@ extension AuditManager {
             case controlSets
             case description
             case name
+            case tags
         }
     }
 
@@ -1554,7 +1570,7 @@ extension AuditManager {
         public let actionPlanInstructions: String?
         ///  The title of the action plan for remediating the control.
         public let actionPlanTitle: String?
-        ///  The data source that determines from where AWS Audit Manager collects evidence for the control.
+        ///  The data mapping sources for the specified control.
         public let controlMappingSources: [CreateControlMappingSource]
         ///  The description of the control.
         public let description: String?
@@ -2025,10 +2041,12 @@ extension AuditManager {
         public let logo: String?
         ///  The name of the specified framework.
         public let name: String?
+        ///  The tags associated with the framework.
+        public let tags: [String: String]?
         ///  The framework type, such as custom or standard.
         public let type: FrameworkType?
 
-        public init(arn: String? = nil, complianceType: String? = nil, controlSets: [ControlSet]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, logo: String? = nil, name: String? = nil, type: FrameworkType? = nil) {
+        public init(arn: String? = nil, complianceType: String? = nil, controlSets: [ControlSet]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, logo: String? = nil, name: String? = nil, tags: [String: String]? = nil, type: FrameworkType? = nil) {
             self.arn = arn
             self.complianceType = complianceType
             self.controlSets = controlSets
@@ -2041,6 +2059,7 @@ extension AuditManager {
             self.lastUpdatedBy = lastUpdatedBy
             self.logo = logo
             self.name = name
+            self.tags = tags
             self.type = type
         }
 
@@ -2057,6 +2076,7 @@ extension AuditManager {
             case lastUpdatedBy
             case logo
             case name
+            case tags
             case type
         }
     }
@@ -3704,7 +3724,7 @@ extension AuditManager {
         public let actionPlanTitle: String?
         ///  The identifier for the specified control.
         public let controlId: String
-        ///  The data source that determines from where AWS Audit Manager collects evidence for the control.
+        ///  The data mapping sources for the specified control.
         public let controlMappingSources: [ControlMappingSource]
         ///  The optional description of the control.
         public let description: String?

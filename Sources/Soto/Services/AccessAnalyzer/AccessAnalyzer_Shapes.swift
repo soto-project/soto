@@ -68,6 +68,7 @@ extension AccessAnalyzer {
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsLambdaLayerversion = "AWS::Lambda::LayerVersion"
         case awsS3Bucket = "AWS::S3::Bucket"
+        case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
         case awsSqsQueue = "AWS::SQS::Queue"
         public var description: String { return self.rawValue }
     }
@@ -170,7 +171,7 @@ extension AccessAnalyzer {
         public var lastResourceAnalyzedAt: Date?
         /// The name of the analyzer.
         public let name: String
-        /// The status of the analyzer. An Active analyzer successfully monitors supported resources and generates new findings. The analyzer is Disabled when a user action, such as removing trusted access for IAM Access Analyzer from AWS Organizations, causes the analyzer to stop generating new findings. The status is Creating when the analyzer creation is in progress and Failed when the analyzer creation has failed.
+        /// The status of the analyzer. An Active analyzer successfully monitors supported resources and generates new findings. The analyzer is Disabled when a user action, such as removing trusted access for AWS IAM Access Analyzer from AWS Organizations, causes the analyzer to stop generating new findings. The status is Creating when the analyzer creation is in progress and Failed when the analyzer creation has failed.
         public let status: AnalyzerStatus
         /// The statusReason provides more details about the current status of the analyzer. For example, if the creation for the analyzer fails, a Failed status is displayed. For an analyzer with organization as the type, this failure can be due to an issue with creating the service-linked roles required in the member accounts of the AWS organization.
         public let statusReason: StatusReason?
@@ -268,7 +269,7 @@ extension AccessAnalyzer {
         public let clientToken: String?
         /// The tags to apply to the analyzer.
         public let tags: [String: String]?
-        /// The type of analyzer to create. Only ACCOUNT analyzers are supported. You can create only one analyzer per account per Region.
+        /// The type of analyzer to create. Only ACCOUNT and ORGANIZATION analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
         public let type: `Type`
 
         public init(analyzerName: String, archiveRules: [InlineArchiveRule]? = nil, clientToken: String? = CreateAnalyzerRequest.idempotencyToken(), tags: [String: String]? = nil, type: `Type`) {

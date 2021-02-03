@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension GlueDataBrew {
-    ///  Lists all of the AWS Glue DataBrew datasets for the current AWS account.
+    ///  Lists all of the DataBrew datasets.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -70,7 +70,7 @@ extension GlueDataBrew {
         )
     }
 
-    ///  Lists all of the previous runs of a particular AWS Glue DataBrew job in the current AWS account.
+    ///  Lists all of the previous runs of a particular DataBrew job.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -121,7 +121,7 @@ extension GlueDataBrew {
         )
     }
 
-    ///  Lists the AWS Glue DataBrew jobs in the current AWS account.
+    ///  Lists all of the DataBrew jobs that are defined.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -172,7 +172,7 @@ extension GlueDataBrew {
         )
     }
 
-    ///  Lists all of the DataBrew projects in the current AWS account.
+    ///  Lists all of the DataBrew projects that are defined.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -223,7 +223,7 @@ extension GlueDataBrew {
         )
     }
 
-    ///  Lists all of the versions of a particular AWS Glue DataBrew recipe in the current AWS account.
+    ///  Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -274,7 +274,7 @@ extension GlueDataBrew {
         )
     }
 
-    ///  Lists all of the AWS Glue DataBrew recipes in the current AWS account.
+    ///  Lists all of the DataBrew recipes that are defined.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -325,7 +325,7 @@ extension GlueDataBrew {
         )
     }
 
-    ///  Lists the AWS Glue DataBrew schedules in the current AWS account.
+    ///  Lists the DataBrew schedules that are defined.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

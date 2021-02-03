@@ -471,9 +471,9 @@ extension CustomerProfiles {
         /// The unique name of the domain.
         public let domainName: String
         /// The URI of the S3 bucket or any other type of data source.
-        public let uri: String?
+        public let uri: String
 
-        public init(domainName: String, uri: String? = nil) {
+        public init(domainName: String, uri: String) {
             self.domainName = domainName
             self.uri = uri
         }
@@ -788,9 +788,9 @@ extension CustomerProfiles {
         /// The unique name of the domain.
         public let domainName: String
         /// The URI of the S3 bucket or any other type of data source.
-        public let uri: String?
+        public let uri: String
 
-        public init(domainName: String, uri: String? = nil) {
+        public init(domainName: String, uri: String) {
             self.domainName = domainName
             self.uri = uri
         }

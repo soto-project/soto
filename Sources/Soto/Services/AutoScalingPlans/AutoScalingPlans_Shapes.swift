@@ -153,9 +153,9 @@ extension AutoScalingPlans {
     }
 
     public struct CreateScalingPlanRequest: AWSEncodableShape {
-        /// A CloudFormation stack or set of tags. You can create one scaling plan per application source.
+        /// A CloudFormation stack or set of tags. You can create one scaling plan per application source. For more information, see ApplicationSource in the AWS Auto Scaling API Reference.
         public let applicationSource: ApplicationSource
-        /// The scaling instructions.
+        /// The scaling instructions. For more information, see ScalingInstruction in the AWS Auto Scaling API Reference.
         public let scalingInstructions: [ScalingInstruction]
         /// The name of the scaling plan. Names cannot contain vertical bars, colons, or forward slashes.
         public let scalingPlanName: String
@@ -184,7 +184,7 @@ extension AutoScalingPlans {
     }
 
     public struct CreateScalingPlanResponse: AWSDecodableShape {
-        /// The version number of the scaling plan. This value is always 1. Currently, you cannot specify multiple scaling plan versions.
+        /// The version number of the scaling plan. This value is always 1. Currently, you cannot have multiple scaling plan versions.
         public let scalingPlanVersion: Int64
 
         public init(scalingPlanVersion: Int64) {
@@ -203,7 +203,7 @@ extension AutoScalingPlans {
         public let metricName: String
         /// The namespace of the metric.
         public let namespace: String
-        /// The statistic of the metric. Currently, the value must always be Sum.
+        /// The statistic of the metric. The only valid value is Sum.
         public let statistic: MetricStatistic
         /// The unit of the metric.
         public let unit: String?
@@ -274,7 +274,7 @@ extension AutoScalingPlans {
     public struct DeleteScalingPlanRequest: AWSEncodableShape {
         /// The name of the scaling plan.
         public let scalingPlanName: String
-        /// The version number of the scaling plan.
+        /// The version number of the scaling plan. Currently, the only valid value is 1.
         public let scalingPlanVersion: Int64
 
         public init(scalingPlanName: String, scalingPlanVersion: Int64) {
@@ -305,7 +305,7 @@ extension AutoScalingPlans {
         public let nextToken: String?
         /// The name of the scaling plan.
         public let scalingPlanName: String
-        /// The version number of the scaling plan.
+        /// The version number of the scaling plan. Currently, the only valid value is 1.
         public let scalingPlanVersion: Int64
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, scalingPlanName: String, scalingPlanVersion: Int64) {
@@ -355,7 +355,7 @@ extension AutoScalingPlans {
         public let nextToken: String?
         /// The names of the scaling plans (up to 10). If you specify application sources, you cannot specify scaling plan names.
         public let scalingPlanNames: [String]?
-        /// The version number of the scaling plan. If you specify a scaling plan version, you must also specify a scaling plan name.
+        /// The version number of the scaling plan. Currently, the only valid value is 1.  If you specify a scaling plan version, you must also specify a scaling plan name.
         public let scalingPlanVersion: Int64?
 
         public init(applicationSources: [ApplicationSource]? = nil, maxResults: Int? = nil, nextToken: String? = nil, scalingPlanNames: [String]? = nil, scalingPlanVersion: Int64? = nil) {
@@ -408,15 +408,15 @@ extension AutoScalingPlans {
         public let endTime: Date
         /// The type of forecast data to get.    LoadForecast: The load metric forecast.     CapacityForecast: The capacity forecast.     ScheduledActionMinCapacity: The minimum capacity for each scheduled scaling action. This data is calculated as the larger of two values: the capacity forecast or the minimum capacity in the scaling instruction.    ScheduledActionMaxCapacity: The maximum capacity for each scheduled scaling action. The calculation used is determined by the predictive scaling maximum capacity behavior setting in the scaling instruction.
         public let forecastDataType: ForecastDataType
-        /// The ID of the resource. This string consists of the resource type and unique identifier.    Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.
+        /// The ID of the resource. This string consists of a prefix (autoScalingGroup) followed by the name of a specified Auto Scaling group (my-asg). Example: autoScalingGroup/my-asg.
         public let resourceId: String
-        /// The scalable dimension for the resource.
+        /// The scalable dimension for the resource. The only valid value is autoscaling:autoScalingGroup:DesiredCapacity.
         public let scalableDimension: ScalableDimension
         /// The name of the scaling plan.
         public let scalingPlanName: String
-        /// The version number of the scaling plan.
+        /// The version number of the scaling plan. Currently, the only valid value is 1.
         public let scalingPlanVersion: Int64
-        /// The namespace of the AWS service.
+        /// The namespace of the AWS service. The only valid value is autoscaling.
         public let serviceNamespace: ServiceNamespace
         /// The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time.
         public let startTime: Date
@@ -484,7 +484,7 @@ extension AutoScalingPlans {
     public struct PredefinedLoadMetricSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The metric type.
         public let predefinedLoadMetricType: LoadMetricType
-        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group for an Application Load Balancer attached to the Auto Scaling group. The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN.   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.
+        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBTargetGroupRequestCount and there is a target group for an Application Load Balancer attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   This is an example: app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
         public init(predefinedLoadMetricType: LoadMetricType, resourceLabel: String? = nil) {
@@ -506,7 +506,7 @@ extension AutoScalingPlans {
     public struct PredefinedScalingMetricSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Auto Scaling groups, Spot Fleet requests, and ECS services.
         public let predefinedScalingMetricType: ScalingMetricType
-        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group for an Application Load Balancer attached to the Auto Scaling group, Spot Fleet request, or ECS service. The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN.   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.
+        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group for an Application Load Balancer attached to the Auto Scaling group, Spot Fleet request, or ECS service. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   This is an example: app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
         public init(predefinedScalingMetricType: ScalingMetricType, resourceLabel: String? = nil) {
@@ -552,7 +552,7 @@ extension AutoScalingPlans {
         public let scheduledActionBufferTime: Int?
         /// The namespace of the AWS service.
         public let serviceNamespace: ServiceNamespace
-        /// The structure that defines new target tracking configurations (up to 10). Each of these structures includes a specific scaling metric and a target value for the metric, along with various parameters to use with dynamic scaling.  With predictive scaling and dynamic scaling, the resource scales based on the target tracking configuration that provides the largest capacity for both scale in and scale out.  Condition: The scaling metric must be unique across target tracking configurations.
+        /// The target tracking configurations (up to 10). Each of these structures must specify a unique scaling metric and a target value for the metric.
         public let targetTrackingConfigurations: [TargetTrackingConfiguration]
 
         public init(customizedLoadMetricSpecification: CustomizedLoadMetricSpecification? = nil, disableDynamicScaling: Bool? = nil, maxCapacity: Int, minCapacity: Int, predefinedLoadMetricSpecification: PredefinedLoadMetricSpecification? = nil, predictiveScalingMaxCapacityBehavior: PredictiveScalingMaxCapacityBehavior? = nil, predictiveScalingMaxCapacityBuffer: Int? = nil, predictiveScalingMode: PredictiveScalingMode? = nil, resourceId: String, scalableDimension: ScalableDimension, scalingPolicyUpdateBehavior: ScalingPolicyUpdateBehavior? = nil, scheduledActionBufferTime: Int? = nil, serviceNamespace: ServiceNamespace, targetTrackingConfigurations: [TargetTrackingConfiguration]) {
@@ -602,7 +602,7 @@ extension AutoScalingPlans {
     }
 
     public struct ScalingPlan: AWSDecodableShape {
-        /// The application source.
+        /// A CloudFormation stack or a set of tags. You can create one scaling plan per application source.
         public let applicationSource: ApplicationSource
         /// The Unix time stamp when the scaling plan was created.
         public let creationTime: Date?
@@ -741,11 +741,11 @@ extension AutoScalingPlans {
         public let estimatedInstanceWarmup: Int?
         /// A predefined metric. You can specify either a predefined metric or a customized metric.
         public let predefinedScalingMetricSpecification: PredefinedScalingMetricSpecification?
-        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. This value is not used if the scalable resource is an Auto Scaling group. The cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale-out policy during the cooldown period after a scale-in, AWS Auto Scaling scales out your scalable target immediately.
+        /// The amount of time, in seconds, after a scale-in activity completes before another scale-in activity can start. This property is not used if the scalable resource is an Auto Scaling group. With the scale-in cooldown period, the intention is to scale in conservatively to protect your application’s availability, so scale-in activities are blocked until the cooldown period has expired. However, if another alarm triggers a scale-out activity during the scale-in cooldown period, Auto Scaling scales out the target immediately. In this case, the scale-in cooldown period stops and doesn't complete.
         public let scaleInCooldown: Int?
-        /// The amount of time, in seconds, after a scale-out activity completes before another scale-out activity can start. This value is not used if the scalable resource is an Auto Scaling group. While the cooldown period is in effect, the capacity that has been added by the previous scale-out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out.
+        /// The amount of time, in seconds, to wait for a previous scale-out activity to take effect. This property is not used if the scalable resource is an Auto Scaling group. With the scale-out cooldown period, the intention is to continuously (but not excessively) scale out. After Auto Scaling successfully scales out using a target tracking scaling policy, it starts to calculate the cooldown time. The scaling policy won't increase the desired capacity again unless either a larger scale out is triggered or the cooldown period ends.
         public let scaleOutCooldown: Int?
-        /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
+        /// The target value for the metric. Although this property accepts numbers of type Double, it won't accept values that are either too small or too large. Values must be in the range of -2^360 to 2^360.
         public let targetValue: Double
 
         public init(customizedScalingMetricSpecification: CustomizedScalingMetricSpecification? = nil, disableScaleIn: Bool? = nil, estimatedInstanceWarmup: Int? = nil, predefinedScalingMetricSpecification: PredefinedScalingMetricSpecification? = nil, scaleInCooldown: Int? = nil, scaleOutCooldown: Int? = nil, targetValue: Double) {
@@ -774,13 +774,13 @@ extension AutoScalingPlans {
     }
 
     public struct UpdateScalingPlanRequest: AWSEncodableShape {
-        /// A CloudFormation stack or set of tags.
+        /// A CloudFormation stack or set of tags. For more information, see ApplicationSource in the AWS Auto Scaling API Reference.
         public let applicationSource: ApplicationSource?
-        /// The scaling instructions.
+        /// The scaling instructions. For more information, see ScalingInstruction in the AWS Auto Scaling API Reference.
         public let scalingInstructions: [ScalingInstruction]?
         /// The name of the scaling plan.
         public let scalingPlanName: String
-        /// The version number of the scaling plan.
+        /// The version number of the scaling plan. The only valid value is 1. Currently, you cannot have multiple scaling plan versions.
         public let scalingPlanVersion: Int64
 
         public init(applicationSource: ApplicationSource? = nil, scalingInstructions: [ScalingInstruction]? = nil, scalingPlanName: String, scalingPlanVersion: Int64) {

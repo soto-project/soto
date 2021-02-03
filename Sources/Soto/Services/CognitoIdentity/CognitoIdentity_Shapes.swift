@@ -91,7 +91,7 @@ extension CognitoIdentity {
         public let identityPoolName: String
         /// Tags to assign to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria.
         public let identityPoolTags: [String: String]?
-        /// A list of OpendID Connect provider ARNs.
+        /// The Amazon Resource Names (ARN) of the OpenID Connect providers.
         public let openIdConnectProviderARNs: [String]?
         /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
         public let samlProviderARNs: [String]?
@@ -279,7 +279,7 @@ extension CognitoIdentity {
         public let customRoleArn: String?
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String
-        /// A set of optional name-value pairs that map provider names to provider tokens. The name-value pair will follow the syntax "provider_name": "provider_user_identifier". Logins should not be specified when trying to get credentials for an unauthenticated identity. The Logins parameter is required when using identities associated with external identity providers such as FaceBook. For examples of Logins maps, see the code examples in the External Identity Providers section of the Amazon Cognito Developer Guide.
+        /// A set of optional name-value pairs that map provider names to provider tokens. The name-value pair will follow the syntax "provider_name": "provider_user_identifier". Logins should not be specified when trying to get credentials for an unauthenticated identity. The Logins parameter is required when using identities associated with external identity providers such as Facebook. For examples of Logins maps, see the code examples in the External Identity Providers section of the Amazon Cognito Developer Guide.
         public let logins: [String: String]?
 
         public init(customRoleArn: String? = nil, identityId: String, logins: [String: String]? = nil) {
@@ -422,13 +422,16 @@ extension CognitoIdentity {
         public let identityPoolId: String
         /// A set of optional name-value pairs that map provider names to provider tokens. Each name-value pair represents a user from a public provider or developer provider. If the user is from a developer provider, the name-value pair will follow the syntax "developer_provider_name": "developer_user_identifier". The developer provider is the "domain" by which Cognito will refer to your users; you provided this domain while creating/updating the identity pool. The developer user identifier is an identifier from your backend that uniquely identifies a user. When you create an identity pool, you can specify the supported logins.
         public let logins: [String: String]
+        /// Use this operation to configure attribute mappings for custom providers.
+        public let principalTags: [String: String]?
         /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.  Please provide for a small grace period, usually no more than 5 minutes, to account for clock skew.
         public let tokenDuration: Int64?
 
-        public init(identityId: String? = nil, identityPoolId: String, logins: [String: String], tokenDuration: Int64? = nil) {
+        public init(identityId: String? = nil, identityPoolId: String, logins: [String: String], principalTags: [String: String]? = nil, tokenDuration: Int64? = nil) {
             self.identityId = identityId
             self.identityPoolId = identityPoolId
             self.logins = logins
+            self.principalTags = principalTags
             self.tokenDuration = tokenDuration
         }
 
@@ -445,6 +448,12 @@ extension CognitoIdentity {
                 try validate($0.value, name: "logins[\"\($0.key)\"]", parent: name, max: 50000)
                 try validate($0.value, name: "logins[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.principalTags?.forEach {
+                try validate($0.key, name: "principalTags.key", parent: name, max: 128)
+                try validate($0.key, name: "principalTags.key", parent: name, min: 1)
+                try validate($0.value, name: "principalTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "principalTags[\"\($0.key)\"]", parent: name, min: 1)
+            }
             try self.validate(self.tokenDuration, name: "tokenDuration", parent: name, max: 86400)
             try self.validate(self.tokenDuration, name: "tokenDuration", parent: name, min: 1)
         }
@@ -453,6 +462,7 @@ extension CognitoIdentity {
             case identityId = "IdentityId"
             case identityPoolId = "IdentityPoolId"
             case logins = "Logins"
+            case principalTags = "PrincipalTags"
             case tokenDuration = "TokenDuration"
         }
     }
@@ -477,7 +487,7 @@ extension CognitoIdentity {
     public struct GetOpenIdTokenInput: AWSEncodableShape {
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String
-        /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenId Connect provider, always include the id_token.
+        /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenID Connect provider, always include the id_token.
         public let logins: [String: String]?
 
         public init(identityId: String, logins: [String: String]? = nil) {
@@ -517,6 +527,56 @@ extension CognitoIdentity {
         private enum CodingKeys: String, CodingKey {
             case identityId = "IdentityId"
             case token = "Token"
+        }
+    }
+
+    public struct GetPrincipalTagAttributeMapInput: AWSEncodableShape {
+        /// You can use this operation to get the ID of the Identity Pool you setup attribute mappings for.
+        public let identityPoolId: String
+        /// You can use this operation to get the provider name.
+        public let identityProviderName: String
+
+        public init(identityPoolId: String, identityProviderName: String) {
+            self.identityPoolId = identityPoolId
+            self.identityProviderName = identityProviderName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, max: 55)
+            try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, min: 1)
+            try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try self.validate(self.identityProviderName, name: "identityProviderName", parent: name, max: 128)
+            try self.validate(self.identityProviderName, name: "identityProviderName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case identityProviderName = "IdentityProviderName"
+        }
+    }
+
+    public struct GetPrincipalTagAttributeMapResponse: AWSDecodableShape {
+        /// You can use this operation to get the ID of the Identity Pool you setup attribute mappings for.
+        public let identityPoolId: String?
+        /// You can use this operation to get the provider name.
+        public let identityProviderName: String?
+        /// You can use this operation to add principal tags. The PrincipalTagsoperation enables you to reference user attributes in your IAM permissions policy.
+        public let principalTags: [String: String]?
+        /// You can use this operation to list
+        public let useDefaults: Bool?
+
+        public init(identityPoolId: String? = nil, identityProviderName: String? = nil, principalTags: [String: String]? = nil, useDefaults: Bool? = nil) {
+            self.identityPoolId = identityPoolId
+            self.identityProviderName = identityProviderName
+            self.principalTags = principalTags
+            self.useDefaults = useDefaults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case identityProviderName = "IdentityProviderName"
+            case principalTags = "PrincipalTags"
+            case useDefaults = "UseDefaults"
         }
     }
 
@@ -560,7 +620,7 @@ extension CognitoIdentity {
         public let identityPoolName: String
         /// The tags that are assigned to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria.
         public let identityPoolTags: [String: String]?
-        /// A list of OpendID Connect provider ARNs.
+        /// The ARNs of the OpenID Connect providers.
         public let openIdConnectProviderARNs: [String]?
         /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
         public let samlProviderARNs: [String]?
@@ -978,7 +1038,7 @@ extension CognitoIdentity {
     public struct SetIdentityPoolRolesInput: AWSEncodableShape {
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
-        /// How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id". Up to 25 rules can be specified per identity provider.
+        /// How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id". Up to 25 rules can be specified per identity provider.
         public let roleMappings: [String: RoleMapping]?
         /// The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN.
         public let roles: [String: String]
@@ -1014,8 +1074,72 @@ extension CognitoIdentity {
         }
     }
 
+    public struct SetPrincipalTagAttributeMapInput: AWSEncodableShape {
+        /// The ID of the Identity Pool you want to set attribute mappings for.
+        public let identityPoolId: String
+        /// The provider name you want to use for attribute mappings.
+        public let identityProviderName: String
+        /// You can use this operation to add principal tags.
+        public let principalTags: [String: String]?
+        /// You can use this operation to use default (username and clientID) attribute mappings.
+        public let useDefaults: Bool?
+
+        public init(identityPoolId: String, identityProviderName: String, principalTags: [String: String]? = nil, useDefaults: Bool? = nil) {
+            self.identityPoolId = identityPoolId
+            self.identityProviderName = identityProviderName
+            self.principalTags = principalTags
+            self.useDefaults = useDefaults
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, max: 55)
+            try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, min: 1)
+            try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try self.validate(self.identityProviderName, name: "identityProviderName", parent: name, max: 128)
+            try self.validate(self.identityProviderName, name: "identityProviderName", parent: name, min: 1)
+            try self.principalTags?.forEach {
+                try validate($0.key, name: "principalTags.key", parent: name, max: 128)
+                try validate($0.key, name: "principalTags.key", parent: name, min: 1)
+                try validate($0.value, name: "principalTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "principalTags[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case identityProviderName = "IdentityProviderName"
+            case principalTags = "PrincipalTags"
+            case useDefaults = "UseDefaults"
+        }
+    }
+
+    public struct SetPrincipalTagAttributeMapResponse: AWSDecodableShape {
+        /// The ID of the Identity Pool you want to set attribute mappings for.
+        public let identityPoolId: String?
+        /// The provider name you want to use for attribute mappings.
+        public let identityProviderName: String?
+        /// You can use this operation to add principal tags. The PrincipalTagsoperation enables you to reference user attributes in your IAM permissions policy.
+        public let principalTags: [String: String]?
+        /// You can use this operation to select default (username and clientID) attribute mappings.
+        public let useDefaults: Bool?
+
+        public init(identityPoolId: String? = nil, identityProviderName: String? = nil, principalTags: [String: String]? = nil, useDefaults: Bool? = nil) {
+            self.identityPoolId = identityPoolId
+            self.identityProviderName = identityProviderName
+            self.principalTags = principalTags
+            self.useDefaults = useDefaults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case identityProviderName = "IdentityProviderName"
+            case principalTags = "PrincipalTags"
+            case useDefaults = "UseDefaults"
+        }
+    }
+
     public struct TagResourceInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the identity pool to assign the tags to.
+        /// The Amazon Resource Name (ARN) of the identity pool.
         public let resourceArn: String
         /// The tags to assign to the identity pool.
         public let tags: [String: String]
@@ -1140,7 +1264,7 @@ extension CognitoIdentity {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
+        /// The Amazon Resource Name (ARN) of the identity pool.
         public let resourceArn: String
         /// The keys of the tags to remove from the user pool.
         public let tagKeys: [String]

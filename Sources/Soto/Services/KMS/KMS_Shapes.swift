@@ -168,11 +168,9 @@ extension KMS {
         public let aliasArn: String?
         /// String that contains the alias. This value begins with alias/.
         public let aliasName: String?
-        /// Date and time that the alias was most recently created in the account and Region. Formatted as Unix time.
         public let creationDate: Date?
-        /// Date and time that the alias was most recently associated with a CMK in the account and Region. Formatted as Unix time.
         public let lastUpdatedDate: Date?
-        /// String that contains the key identifier of the CMK associated with the alias.
+        /// String that contains the key identifier referred to by the alias.
         public let targetKeyId: String?
 
         public init(aliasArn: String? = nil, aliasName: String? = nil, creationDate: Date? = nil, lastUpdatedDate: Date? = nil, targetKeyId: String? = nil) {
@@ -377,7 +375,7 @@ extension KMS {
     }
 
     public struct CreateGrantResponse: AWSDecodableShape {
-        /// The unique identifier for the grant. You can use the GrantId in a subsequent RetireGrant or RevokeGrant operation.
+        /// The unique identifier for the grant. You can use the GrantId in a ListGrants, RetireGrant, or RevokeGrant operation.
         public let grantId: String?
         /// The grant token. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantToken: String?
@@ -1596,20 +1594,31 @@ extension KMS {
     }
 
     public struct ListGrantsRequest: AWSEncodableShape {
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Returns only grants where the specified principal is the grantee principal for the grant.
+        public let granteePrincipal: String?
+        /// Returns only the grant with the specified grant ID. The grant ID uniquely identifies the grant.
+        public let grantId: String?
+        /// Returns only grants for the specified customer master key (CMK). This parameter is required. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
         public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
-        public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
+        public init(granteePrincipal: String? = nil, grantId: String? = nil, keyId: String, limit: Int? = nil, marker: String? = nil) {
+            self.granteePrincipal = granteePrincipal
+            self.grantId = grantId
             self.keyId = keyId
             self.limit = limit
             self.marker = marker
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, max: 256)
+            try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, min: 1)
+            try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try self.validate(self.grantId, name: "grantId", parent: name, max: 128)
+            try self.validate(self.grantId, name: "grantId", parent: name, min: 1)
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
             try self.validate(self.limit, name: "limit", parent: name, max: 1000)
@@ -1620,6 +1629,8 @@ extension KMS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case granteePrincipal = "GranteePrincipal"
+            case grantId = "GrantId"
             case keyId = "KeyId"
             case limit = "Limit"
             case marker = "Marker"

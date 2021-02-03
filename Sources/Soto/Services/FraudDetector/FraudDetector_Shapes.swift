@@ -78,6 +78,7 @@ extension FraudDetector {
     public enum ModelVersionStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
+        case trainingCancelled = "TRAINING_CANCELLED"
         public var description: String { return self.rawValue }
     }
 

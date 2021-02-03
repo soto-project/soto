@@ -200,7 +200,7 @@ extension Personalize {
     }
 
     public struct BatchInferenceJobConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A string to string map specifying the inference hyperparameters you wish to use for hyperparameter optimization. See customizing-solution-config-hpo.
+        /// A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. See native-recipe-new-item-USER_PERSONALIZATION.
         public let itemExplorationConfig: [String: String]?
 
         public init(itemExplorationConfig: [String: String]? = nil) {
@@ -339,7 +339,7 @@ extension Personalize {
     }
 
     public struct CampaignConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A string to string map specifying the inference hyperparameters you wish to use for hyperparameter optimization. See customizing-solution-config-hpo.
+        /// A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the User-Personalization recipe.
         public let itemExplorationConfig: [String: String]?
 
         public init(itemExplorationConfig: [String: String]? = nil) {
@@ -781,7 +781,7 @@ extension Personalize {
     public struct CreateFilterRequest: AWSEncodableShape {
         /// The ARN of the dataset group that the filter will belong to.
         public let datasetGroupArn: String
-        /// The filter expression that designates the interaction types that the filter will filter out. A filter expression must follow the following format:  EXCLUDE itemId WHERE INTERACTIONS.event_type in ("EVENT_TYPE")  Where "EVENT_TYPE" is the type of event to filter out. To filter out all items with any interactions history, set "*" as the EVENT_TYPE. For more information, see Using Filters with Amazon Personalize.
+        /// The filter expression defines which items are included or excluded from recommendations. Filter expression must follow specific format rules. For information about filter expression structure and syntax, see filter-expressions.
         public let filterExpression: String
         /// The name of the filter to create.
         public let name: String
@@ -862,7 +862,7 @@ extension Personalize {
     public struct CreateSolutionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the dataset group that provides the training data.
         public let datasetGroupArn: String
-        /// When your have multiple event types (using an EVENT_TYPE schema field), this parameter specifies which event type (for example, 'click' or 'like') is used for training the model.
+        /// When your have multiple event types (using an EVENT_TYPE schema field), this parameter specifies which event type (for example, 'click' or 'like') is used for training the model. If you do not provide an eventType, Amazon Personalize will use all interactions for training with equal weight regardless of type.
         public let eventType: String?
         /// The name for the solution.
         public let name: String
@@ -872,7 +872,7 @@ extension Personalize {
         public let performHPO: Bool?
         /// The ARN of the recipe to use for model training. Only specified when performAutoML is false.
         public let recipeArn: String?
-        /// The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.
+        /// The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.  Amazon Personalize doesn't support configuring the hpoObjective at this time.
         public let solutionConfig: SolutionConfig?
 
         public init(datasetGroupArn: String, eventType: String? = nil, name: String, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionConfig: SolutionConfig? = nil) {
@@ -924,7 +924,7 @@ extension Personalize {
     public struct CreateSolutionVersionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
         public let solutionArn: String
-        /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the native-recipe-hrnn-coldstart recipe.
+        /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the User-Personalization recipe or the HRNN-Coldstart recipe.
         public let trainingMode: TrainingMode?
 
         public init(solutionArn: String, trainingMode: TrainingMode? = nil) {
@@ -1986,7 +1986,7 @@ extension Personalize {
         public let failureReason: String?
         /// The ARN of the filter.
         public let filterArn: String?
-        /// Specifies the type of item interactions to filter out of recommendation results. The filter expression must follow the following format:  EXCLUDE itemId WHERE INTERACTIONS.event_type in ("EVENT_TYPE")  Where "EVENT_TYPE" is the type of event to filter out. For more information, see Using Filters with Amazon Personalize.
+        /// Specifies the type of item interactions to filter out of recommendation results. The filter expression must follow specific format rules. For information about filter expression structure and syntax, see filter-expressions.
         public let filterExpression: String?
         /// The time at which the filter was last updated.
         public let lastUpdatedDateTime: Date?
@@ -2093,7 +2093,7 @@ extension Personalize {
     public struct HPOConfig: AWSEncodableShape & AWSDecodableShape {
         /// The hyperparameters and their allowable ranges.
         public let algorithmHyperParameterRanges: HyperParameterRanges?
-        /// The metric to optimize during HPO.
+        /// The metric to optimize during HPO.  Amazon Personalize doesn't support configuring the hpoObjective at this time.
         public let hpoObjective: HPOObjective?
         /// Describes the resource configuration for HPO.
         public let hpoResourceConfig: HPOResourceConfig?
@@ -2823,7 +2823,7 @@ extension Personalize {
         public let creationDateTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that provides the training data.
         public let datasetGroupArn: String?
-        /// The event type (for example, 'click' or 'like') that is used for training the model.
+        /// The event type (for example, 'click' or 'like') that is used for training the model. If no eventType is provided, Amazon Personalize uses all interactions for training with equal weight regardless of type.
         public let eventType: String?
         /// The date and time (in Unix time) that the solution was last updated.
         public let lastUpdatedDateTime: Date?
@@ -2976,7 +2976,7 @@ extension Personalize {
         public let status: String?
         /// The time used to train the model. You are billed for the time it takes to train a model. This field is visible only after Amazon Personalize successfully trains a model.
         public let trainingHours: Double?
-        /// The scope of training used to create the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the training data that has changed since the creation of the last solution version. Choose UPDATE when you want to start recommending items added to the dataset without retraining the model.  The UPDATE option can only be used after you've created a solution version with the FULL option and the training solution uses the native-recipe-hrnn-coldstart.
+        /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the User-Personalization recipe or the HRNN-Coldstart recipe.
         public let trainingMode: TrainingMode?
         /// If hyperparameter optimization was performed, contains the hyperparameter values of the best performing model.
         public let tunedHPOParams: TunedHPOParams?

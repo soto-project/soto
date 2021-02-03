@@ -48,6 +48,11 @@ extension TranscribeStreamingService {
         public var description: String { return self.rawValue }
     }
 
+    public enum MedicalContentIdentificationType: String, CustomStringConvertible, Codable {
+        case phi = "PHI"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Specialty: String, CustomStringConvertible, Codable {
         case cardiology = "CARDIOLOGY"
         case neurology = "NEUROLOGY"
@@ -91,7 +96,7 @@ extension TranscribeStreamingService {
     }
 
     public struct AudioEvent: AWSEncodableShape {
-        /// An audio blob that contains the next part of the audio that you want to transcribe.
+        /// An audio blob that contains the next part of the audio that you want to transcribe. The maximum audio chunk size is 32 KB.
         public let audioChunk: Data?
 
         public init(audioChunk: Data? = nil) {
@@ -104,7 +109,7 @@ extension TranscribeStreamingService {
     }
 
     public struct AudioStream: AWSEncodableShape {
-        /// A blob of audio from your application. You audio stream consists of one or more audio events.
+        /// A blob of audio from your application. You audio stream consists of one or more audio events. For information on audio encoding formats, see input. For more information on stream encoding, see event-stream.
         public let audioEvent: AudioEvent?
 
         public init(audioEvent: AudioEvent? = nil) {
@@ -198,19 +203,52 @@ extension TranscribeStreamingService {
     }
 
     public struct MedicalAlternative: AWSDecodableShape {
+        /// Contains the medical entities identified as personal health information in the transcription output.
+        public let entities: [MedicalEntity]?
         /// A list of objects that contains words and punctuation marks that represents one or more interpretations of the input audio.
         public let items: [MedicalItem]?
         /// The text that was transcribed from the audio.
         public let transcript: String?
 
-        public init(items: [MedicalItem]? = nil, transcript: String? = nil) {
+        public init(entities: [MedicalEntity]? = nil, items: [MedicalItem]? = nil, transcript: String? = nil) {
+            self.entities = entities
             self.items = items
             self.transcript = transcript
         }
 
         private enum CodingKeys: String, CodingKey {
+            case entities = "Entities"
             case items = "Items"
             case transcript = "Transcript"
+        }
+    }
+
+    public struct MedicalEntity: AWSDecodableShape {
+        /// The type of personal health information of the medical entity.
+        public let category: String?
+        /// A value between zero and one that Amazon Transcribe Medical assigned to the personal health information that it identified in the source audio. Larger values indicate that Amazon Transcribe Medical has higher confidence in the personal health information that it identified.
+        public let confidence: Double?
+        /// The word or words in the transcription output that have been identified as a medical entity.
+        public let content: String?
+        /// The end time of the speech that was identified as a medical entity.
+        public let endTime: Double?
+        /// The start time of the speech that was identified as a medical entity.
+        public let startTime: Double?
+
+        public init(category: String? = nil, confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, startTime: Double? = nil) {
+            self.category = category
+            self.confidence = confidence
+            self.content = content
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case confidence = "Confidence"
+            case content = "Content"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
         }
     }
 
@@ -384,6 +422,7 @@ extension TranscribeStreamingService {
         public static let _payloadPath: String = "audioStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")),
+            AWSMemberEncoding(label: "contentIdentificationType", location: .header(locationName: "x-amzn-transcribe-content-identification-type")),
             AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
             AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
@@ -397,6 +436,8 @@ extension TranscribeStreamingService {
         ]
 
         public let audioStream: AudioStream
+        /// Set this field to PHI to identify personal health information in the transcription output.
+        public let contentIdentificationType: MedicalContentIdentificationType?
         /// When true, instructs Amazon Transcribe Medical to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe Medical also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions. You can't set both ShowSpeakerLabel and EnableChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let enableChannelIdentification: Bool?
         ///  Indicates the source language used in the input audio stream. For Amazon Transcribe Medical, this is US English (en-US).
@@ -418,8 +459,9 @@ extension TranscribeStreamingService {
         /// The name of the medical custom vocabulary to use when processing the real-time stream.
         public let vocabularyName: String?
 
-        public init(audioStream: AudioStream, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty, type: `Type`, vocabularyName: String? = nil) {
+        public init(audioStream: AudioStream, contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty, type: `Type`, vocabularyName: String? = nil) {
             self.audioStream = audioStream
+            self.contentIdentificationType = contentIdentificationType
             self.enableChannelIdentification = enableChannelIdentification
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
@@ -453,6 +495,7 @@ extension TranscribeStreamingService {
         /// The key for the payload
         public static let _payloadPath: String = "transcriptResultStream"
         public static var _encoding = [
+            AWSMemberEncoding(label: "contentIdentificationType", location: .header(locationName: "x-amzn-transcribe-content-identification-type")),
             AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
             AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
@@ -467,6 +510,8 @@ extension TranscribeStreamingService {
             AWSMemberEncoding(label: "vocabularyName", location: .header(locationName: "x-amzn-transcribe-vocabulary-name"))
         ]
 
+        /// If the value is PHI, indicates that you've configured your stream to identify personal health information.
+        public let contentIdentificationType: MedicalContentIdentificationType?
         /// Shows whether channel identification has been enabled in the stream.
         public let enableChannelIdentification: Bool?
         /// The language code for the response transcript. For Amazon Transcribe Medical, this is US English (en-US).
@@ -492,7 +537,8 @@ extension TranscribeStreamingService {
         /// The name of the vocabulary used when processing the stream.
         public let vocabularyName: String?
 
-        public init(enableChannelIdentification: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty? = nil, transcriptResultStream: MedicalTranscriptResultStream? = nil, type: `Type`? = nil, vocabularyName: String? = nil) {
+        public init(contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty? = nil, transcriptResultStream: MedicalTranscriptResultStream? = nil, type: `Type`? = nil, vocabularyName: String? = nil) {
+            self.contentIdentificationType = contentIdentificationType
             self.enableChannelIdentification = enableChannelIdentification
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
@@ -508,6 +554,7 @@ extension TranscribeStreamingService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contentIdentificationType = "x-amzn-transcribe-content-identification-type"
             case enableChannelIdentification = "x-amzn-transcribe-enable-channel-identification"
             case languageCode = "x-amzn-transcribe-language-code"
             case mediaEncoding = "x-amzn-transcribe-media-encoding"

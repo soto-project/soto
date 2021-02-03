@@ -137,6 +137,7 @@ extension Macie2 {
         case lt = "LT"
         case lte = "LTE"
         case ne = "NE"
+        case startsWith = "STARTS_WITH"
         public var description: String { return self.rawValue }
     }
 
@@ -207,6 +208,7 @@ extension Macie2 {
     public enum ScopeFilterKey: String, CustomStringConvertible, Codable {
         case bucketCreationDate = "BUCKET_CREATION_DATE"
         case objectExtension = "OBJECT_EXTENSION"
+        case objectKey = "OBJECT_KEY"
         case objectLastModifiedDate = "OBJECT_LAST_MODIFIED_DATE"
         case objectSize = "OBJECT_SIZE"
         case tag = "TAG"
@@ -2973,10 +2975,10 @@ extension Macie2 {
     }
 
     public struct S3BucketDefinitionForJob: AWSEncodableShape & AWSDecodableShape {
-        public let accountId: String?
-        public let buckets: [String]?
+        public let accountId: String
+        public let buckets: [String]
 
-        public init(accountId: String? = nil, buckets: [String]? = nil) {
+        public init(accountId: String, buckets: [String]) {
             self.accountId = accountId
             self.buckets = buckets
         }

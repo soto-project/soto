@@ -110,19 +110,19 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetComplianceSummaryInput: AWSEncodableShape {
-        /// A list of attributes to group the counts of noncompliant resources by. If supplied, the counts are sorted by those attributes.
+        /// Specifies a list of attributes to group the counts of noncompliant resources by. If supplied, the counts are sorted by those attributes.
         public let groupBy: [GroupByAttribute]?
-        /// A limit that restricts the number of results that are returned per page.
+        /// Specifies the maximum number of results to be returned in each page. A query can return fewer than this maximum, even if there are more results still to return. You should always check the PaginationToken response value to see if there are more results. You can specify a minimum of 1 and a maximum value of 100.
         public let maxResults: Int?
-        /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
+        /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
         public let paginationToken: String?
-        /// A list of Regions to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources in the specified Regions.
+        /// Specifies a list of AWS Regions to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources in the specified Regions.
         public let regionFilters: [String]?
-        /// The constraints on the resources that you want returned. The format of each resource type is service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances.  The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the AWS General Reference for the following:   For a list of service name strings, see AWS Service Namespaces.   For resource type strings, see Example ARNs.   For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.   You can specify multiple resource types by using an array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter.
+        /// Specifies that you want the response to include information for only resources of the specified types. The format of each resource type is service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances.  The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the AWS General Reference for the following:   For a list of service name strings, see AWS Service Namespaces.   For resource type strings, see Example ARNs.   For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.   You can specify multiple resource types by using a comma separated array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter.
         public let resourceTypeFilters: [String]?
-        /// A list of tag keys to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources that have the specified tag keys.
+        /// Specifies that you want the response to include information for only resources that have tags with the specified tag keys. If you use this parameter, the count of returned noncompliant resources includes only resources that have the specified tag keys.
         public let tagKeyFilters: [String]?
-        /// The target identifiers (usually, specific account IDs) to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources with the specified target IDs.
+        /// Specifies target identifiers (usually, specific account IDs) to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources with the specified target IDs.
         public let targetIdFilters: [String]?
 
         public init(groupBy: [GroupByAttribute]? = nil, maxResults: Int? = nil, paginationToken: String? = nil, regionFilters: [String]? = nil, resourceTypeFilters: [String]? = nil, tagKeyFilters: [String]? = nil, targetIdFilters: [String]? = nil) {
@@ -181,7 +181,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetComplianceSummaryOutput: AWSDecodableShape {
-        /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
+        /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
         /// A table that shows counts of noncompliant resources.
         public let summaryList: [Summary]?
@@ -202,21 +202,24 @@ extension ResourceGroupsTaggingAPI {
         public let excludeCompliantResources: Bool?
         /// Specifies whether to include details regarding the compliance with the effective tag policy. Set this to true to determine whether resources are compliant with the tag policy and to get details.
         public let includeComplianceDetails: Bool?
-        /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
+        /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
         public let paginationToken: String?
-        /// A limit that restricts the number of resources returned by GetResources in paginated output. You can set ResourcesPerPage to a minimum of 1 item and the maximum of 100 items.
+        /// Specifies a list of ARNs of resources for which you want to retrieve tag data. You can't specify both this parameter and any of the pagination parameters (ResourcesPerPage, TagsPerPage, PaginationToken) in the same request. If you specify both, you get an Invalid Parameter exception. If a resource specified by this parameter doesn't exist, it doesn't generate an error; it simply isn't included in the response. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let resourceARNList: [String]?
+        /// Specifies the maximum number of results to be returned in each page. A query can return fewer than this maximum, even if there are more results still to return. You should always check the PaginationToken response value to see if there are more results. You can specify a minimum of 1 and a maximum value of 100.
         public let resourcesPerPage: Int?
-        /// The constraints on the resources that you want returned. The format of each resource type is service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances.  The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the AWS General Reference for the following:   For a list of service name strings, see AWS Service Namespaces.   For resource type strings, see Example ARNs.   For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.   You can specify multiple resource types by using an array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter.
+        /// Specifies the resource types that you want included in the response. The format of each resource type is service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance returns only EC2 instances.  The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). Consult the AWS General Reference for the following: For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. You can specify multiple resource types by using an array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter.
         public let resourceTypeFilters: [String]?
-        /// A list of TagFilters (keys and values). Each TagFilter specified must contain a key with values as optional. A request can include up to 50 keys, and each key can include up to 20 values.  Note the following when deciding how to use TagFilters:   If you do specify a TagFilter, the response returns only those resources that are currently associated with the specified tag.    If you don't specify a TagFilter, the response includes all resources that were ever associated with tags. Resources that currently don't have associated tags are shown with an empty tag set, like this: "Tags": [].   If you specify more than one filter in a single request, the response returns only those resources that satisfy all specified filters.   If you specify a filter that contains more than one value for a key, the response returns resources that match any of the specified values for that key.   If you don't specify any values for a key, the response returns resources that are tagged with that key irrespective of the value. For example, for filters: filter1 = {key1, {value1}}, filter2 = {key2, {value2,value3,value4}} , filter3 = {key3}:   GetResources( {filter1} ) returns resources tagged with key1=value1   GetResources( {filter2} ) returns resources tagged with key2=value2 or key2=value3 or key2=value4   GetResources( {filter3} ) returns resources tagged with any tag containing key3 as its tag key, irrespective of its value   GetResources( {filter1,filter2,filter3} ) returns resources tagged with ( key1=value1) and ( key2=value2 or key2=value3 or key2=value4) and (key3, irrespective of the value)
+        /// Specifies a list of TagFilters (keys and values) to restrict the output to only those resources that have the specified tag and, if included, the specified value. Each TagFilter must contain a key with values optional. A request can include up to 50 keys, and each key can include up to 20 values.  Note the following when deciding how to use TagFilters:   If you don't specify a TagFilter, the response includes all resources that are currently tagged or ever had a tag. Resources that currently don't have tags are shown with an empty tag set, like this: "Tags": [].   If you specify more than one filter in a single request, the response returns only those resources that satisfy all filters.   If you specify a filter that contains more than one value for a key, the response returns resources that match any of the specified values for that key.   If you don't specify any values for a key, the response returns resources that are tagged with that key and any or no value. For example, for the following filters: filter1= {keyA,{value1}}, filter2={keyB,{value2,value3,value4}}, filter3= {keyC}:    GetResources({filter1}) returns resources tagged with key1=value1     GetResources({filter2}) returns resources tagged with key2=value2 or key2=value3 or key2=value4     GetResources({filter3}) returns resources tagged with any tag with the key key3, and with any or no value    GetResources({filter1,filter2,filter3}) returns resources tagged with (key1=value1) and (key2=value2 or key2=value3 or key2=value4) and (key3, any or no value)
         public let tagFilters: [TagFilter]?
-        /// AWS recommends using ResourcesPerPage instead of this parameter. A limit that restricts the number of tags (key and value pairs) returned by GetResources in paginated output. A resource with no tags is counted as having one tag (one key and value pair).  GetResources does not split a resource and its associated tags across pages. If the specified TagsPerPage would cause such a break, a PaginationToken is returned in place of the affected resource and its tags. Use that token in another request to get the remaining data. For example, if you specify a TagsPerPage of 100 and the account has 22 resources with 10 tags each (meaning that each resource has 10 key and value pairs), the output will consist of three pages. The first page displays the first 10 resources, each with its 10 tags. The second page displays the next 10 resources, each with its 10 tags. The third page displays the remaining 2 resources, each with its 10 tags. You can set TagsPerPage to a minimum of 100 items and the maximum of 500 items.
+        /// AWS recommends using ResourcesPerPage instead of this parameter. A limit that restricts the number of tags (key and value pairs) returned by GetResources in paginated output. A resource with no tags is counted as having one tag (one key and value pair).  GetResources does not split a resource and its associated tags across pages. If the specified TagsPerPage would cause such a break, a PaginationToken is returned in place of the affected resource and its tags. Use that token in another request to get the remaining data. For example, if you specify a TagsPerPage of 100 and the account has 22 resources with 10 tags each (meaning that each resource has 10 key and value pairs), the output will consist of three pages. The first page displays the first 10 resources, each with its 10 tags. The second page displays the next 10 resources, each with its 10 tags. The third page displays the remaining 2 resources, each with its 10 tags. You can set TagsPerPage to a minimum of 100 items up to a maximum of 500 items.
         public let tagsPerPage: Int?
 
-        public init(excludeCompliantResources: Bool? = nil, includeComplianceDetails: Bool? = nil, paginationToken: String? = nil, resourcesPerPage: Int? = nil, resourceTypeFilters: [String]? = nil, tagFilters: [TagFilter]? = nil, tagsPerPage: Int? = nil) {
+        public init(excludeCompliantResources: Bool? = nil, includeComplianceDetails: Bool? = nil, paginationToken: String? = nil, resourceARNList: [String]? = nil, resourcesPerPage: Int? = nil, resourceTypeFilters: [String]? = nil, tagFilters: [TagFilter]? = nil, tagsPerPage: Int? = nil) {
             self.excludeCompliantResources = excludeCompliantResources
             self.includeComplianceDetails = includeComplianceDetails
             self.paginationToken = paginationToken
+            self.resourceARNList = resourceARNList
             self.resourcesPerPage = resourcesPerPage
             self.resourceTypeFilters = resourceTypeFilters
             self.tagFilters = tagFilters
@@ -227,6 +230,13 @@ extension ResourceGroupsTaggingAPI {
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, max: 2048)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, min: 0)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\s\\S]*")
+            try self.resourceARNList?.forEach {
+                try validate($0, name: "resourceARNList[]", parent: name, max: 1011)
+                try validate($0, name: "resourceARNList[]", parent: name, min: 1)
+                try validate($0, name: "resourceARNList[]", parent: name, pattern: "[\\s\\S]*")
+            }
+            try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, max: 100)
+            try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, min: 1)
             try self.resourceTypeFilters?.forEach {
                 try validate($0, name: "resourceTypeFilters[]", parent: name, max: 256)
                 try validate($0, name: "resourceTypeFilters[]", parent: name, min: 0)
@@ -243,6 +253,7 @@ extension ResourceGroupsTaggingAPI {
             case excludeCompliantResources = "ExcludeCompliantResources"
             case includeComplianceDetails = "IncludeComplianceDetails"
             case paginationToken = "PaginationToken"
+            case resourceARNList = "ResourceARNList"
             case resourcesPerPage = "ResourcesPerPage"
             case resourceTypeFilters = "ResourceTypeFilters"
             case tagFilters = "TagFilters"
@@ -251,9 +262,9 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetResourcesOutput: AWSDecodableShape {
-        /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
+        /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
-        /// A list of resource ARNs and the tags (keys and values) associated with each.
+        /// A list of resource ARNs and the tags (keys and values) associated with those ARNs.
         public let resourceTagMappingList: [ResourceTagMapping]?
 
         public init(paginationToken: String? = nil, resourceTagMappingList: [ResourceTagMapping]? = nil) {
@@ -268,7 +279,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagKeysInput: AWSEncodableShape {
-        /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
+        /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
         public let paginationToken: String?
 
         public init(paginationToken: String? = nil) {
@@ -287,7 +298,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagKeysOutput: AWSDecodableShape {
-        /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
+        /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
         /// A list of all tag keys in the AWS account.
         public let tagKeys: [String]?
@@ -304,9 +315,9 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagValuesInput: AWSEncodableShape {
-        /// The key for which you want to list all existing values in the specified Region for the AWS account.
+        /// Specifies the tag key for which you want to list all existing values that are currently used in the specified AWS Region for the calling AWS account.
         public let key: String
-        /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
+        /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
         public let paginationToken: String?
 
         public init(key: String, paginationToken: String? = nil) {
@@ -330,9 +341,9 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagValuesOutput: AWSDecodableShape {
-        /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
+        /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
-        /// A list of all tag values for the specified key in the AWS account.
+        /// A list of all tag values for the specified key currently used in the specified AWS Region for the calling AWS account.
         public let tagValues: [String]?
 
         public init(paginationToken: String? = nil, tagValues: [String]? = nil) {
@@ -471,9 +482,9 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct TagResourcesInput: AWSEncodableShape {
-        /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
-        /// The tags that you want to add to the specified resources. A tag consists of a key and a value that you define.
+        /// Specifies a list of tags that you want to add to the specified resources. A tag consists of a key and a value that you define.
         public let tags: [String: String]
 
         public init(resourceARNList: [String], tags: [String: String]) {
@@ -519,9 +530,9 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct UntagResourcesInput: AWSEncodableShape {
-        /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// Specifies a list of ARNs of the resources that you want to remove tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
-        /// A list of the tag keys that you want to remove from the specified resources.
+        /// Specifies a list of tag keys that you want to remove from the specified resources.
         public let tagKeys: [String]
 
         public init(resourceARNList: [String], tagKeys: [String]) {
@@ -553,7 +564,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct UntagResourcesOutput: AWSDecodableShape {
-        /// Details of resources that could not be untagged. An error code, status code, and error message are returned for each failed item.
+        /// A map containing a key-value pair for each failed item that couldn't be untagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
         public let failedResourcesMap: [String: FailureInfo]?
 
         public init(failedResourcesMap: [String: FailureInfo]? = nil) {

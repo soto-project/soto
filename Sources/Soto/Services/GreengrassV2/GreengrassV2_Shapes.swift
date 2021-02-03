@@ -650,7 +650,7 @@ extension GreengrassV2 {
     }
 
     public struct DeploymentComponentUpdatePolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Whether or not to notify components and wait for components to become safe to update. Choose from the following options:    NOTIFY_COMPONENTS – The deployment notifies each component before it stops and updates that component. Components can use the SubscribeToComponentUpdates IPC operation to receive these notifications. Then, components can respond with the DeferComponentUpdate IPC operation. For more information, see the Create deployments in the AWS IoT Greengrass V2 Developer Guide.    SKIP_NOTIFY_COMPONENTS – The deployment doesn't notify components or wait for them to be safe to update.   Default: NOTIFY_COMPONENTS
+        /// Whether or not to notify components and wait for components to become safe to update. Choose from the following options:    NOTIFY_COMPONENTS – The deployment notifies each component before it stops and updates that component. Components can use the SubscribeToComponentUpdates IPC operation to receive these notifications. Then, components can respond with the DeferComponentUpdate IPC operation. For more information, see Create deployments in the AWS IoT Greengrass V2 Developer Guide.    SKIP_NOTIFY_COMPONENTS – The deployment doesn't notify components or wait for them to be safe to update.   Default: NOTIFY_COMPONENTS
         public let action: DeploymentComponentUpdatePolicyAction?
         /// The amount of time in seconds that each component on a device has to report that it's safe to update. If the component waits for longer than this timeout, then the deployment proceeds on the device. Default: 60
         public let timeoutInSeconds: Int?
@@ -889,9 +889,9 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "artifactName", location: .uri(locationName: "artifactName"))
         ]
 
-        /// The ARN of the component version.
+        /// The ARN of the component version. Specify the ARN of a public component version.
         public let arn: String
-        /// The name of the artifact.
+        /// The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the artifact URI greengrass:SomeArtifact.zip, the artifact name is SomeArtifact.zip.
         public let artifactName: String
 
         public init(arn: String, artifactName: String) {
@@ -908,7 +908,7 @@ extension GreengrassV2 {
     }
 
     public struct GetComponentVersionArtifactResponse: AWSDecodableShape {
-        /// The URL to the artifact.
+        /// The URL of the artifact.
         public let preSignedUrl: String
 
         public init(preSignedUrl: String) {
