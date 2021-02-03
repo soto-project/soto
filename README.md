@@ -134,6 +134,7 @@ Additional user guides for specific elements of Soto are available
 - [Streaming Payloads](https://soto.codes/user-guides/streaming-payloads.html)
 - [DynamoDB and Codable](https://soto.codes/user-guides/dynamodb-and-codable.html)
 - [S3 Multipart Upload](https://soto.codes/user-guides/s3-multipart-upload.html)
+- [Using Soto on AWS Lambda](https://soto.codes/user-guides/using-soto-on-aws-lambda.html)
 - [Using Soto with Vapor 4](https://soto.codes/user-guides/using-soto-with-vapor.html)
 
 ## Contributing
