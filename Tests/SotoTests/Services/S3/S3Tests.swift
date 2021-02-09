@@ -527,6 +527,9 @@ class S3Tests: XCTestCase {
     }
 
     func testSignedURL() {
+        // doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
+
         let name = TestEnvironment.generateResourceName()
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
         defer { XCTAssertNoThrow(try httpClient.syncShutdown()) }
