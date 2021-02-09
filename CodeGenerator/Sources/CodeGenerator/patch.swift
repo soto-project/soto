@@ -59,6 +59,9 @@ extension API {
             AddDictionaryPatch(PatchKeyPath1(\.shapes), key: "SotoCore.Region", value: Shape(type: .stub, name: "SotoCore.Region")),
             ReplacePatch(PatchKeyPath4(\.shapes["ListFunctionsRequest"], \.type.structure, \.members["MasterRegion"], \.shapeName), value: "SotoCore.Region", originalValue: "MasterRegion"),
         ],
+        "RDSDataService": [
+            ReplacePatch(PatchKeyPath3(\.shapes["Arn"], \.type.string, \.max), value: 2048, originalValue: 100),
+        ],
         "Route53": [
             RemovePatch(PatchKeyPath3(\.shapes["ListHealthChecksResponse"], \.type.structure, \.required), value: "Marker"),
             RemovePatch(PatchKeyPath3(\.shapes["ListHostedZonesResponse"], \.type.structure, \.required), value: "Marker"),
