@@ -25,6 +25,11 @@ protocol Patchable: AnyObject {}
 
 extension API {
     static let servicePatches: [String: [Patch]] = [
+        "Amplify": [
+            RemovePatch(PatchKeyPath3(\.shapes["App"], \.type.structure, \.required), value: "description"),
+            RemovePatch(PatchKeyPath3(\.shapes["App"], \.type.structure, \.required), value: "environmentVariables"),
+            RemovePatch(PatchKeyPath3(\.shapes["App"], \.type.structure, \.required), value: "repository"),
+        ],
         "CloudFront": [
             ReplacePatch(PatchKeyPath3(\.shapes["HttpVersion"], \.type.enum, \.cases[0]), value: "HTTP1_1", originalValue: "http1.1"),
             ReplacePatch(PatchKeyPath3(\.shapes["HttpVersion"], \.type.enum, \.cases[1]), value: "HTTP2", originalValue: "http2"),

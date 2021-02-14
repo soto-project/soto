@@ -89,7 +89,7 @@ extension Amplify {
         ///  The default domain for the Amplify app.
         public let defaultDomain: String
         ///  The description for the Amplify app.
-        public let description: String
+        public let description: String?
         ///  Enables automated branch creation for the Amplify app.
         public let enableAutoBranchCreation: Bool?
         ///  Enables basic authorization for the Amplify app's branches.
@@ -99,7 +99,7 @@ extension Amplify {
         ///  Automatically disconnect a branch in the Amplify Console when you delete a branch from your Git repository.
         public let enableBranchAutoDeletion: Bool?
         ///  The environment variables for the Amplify app.
-        public let environmentVariables: [String: String]
+        public let environmentVariables: [String: String]?
         ///  The AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) of the Amplify app.
         public let iamServiceRoleArn: String?
         ///  The name for the Amplify app.
@@ -109,13 +109,13 @@ extension Amplify {
         ///  Describes the information about a production branch of the Amplify app.
         public let productionBranch: ProductionBranch?
         ///  The repository for the Amplify app.
-        public let repository: String
+        public let repository: String?
         ///  The tag for the Amplify app.
         public let tags: [String: String]?
         ///  Updates the date and time for the Amplify app.
         public let updateTime: Date
 
-        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String], iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String, tags: [String: String]? = nil, updateTime: Date) {
+        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.appArn = appArn
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
