@@ -42,6 +42,9 @@ extension API {
         "ComprehendMedical": [
             AddPatch(PatchKeyPath3(\.shapes["EntitySubType"], \.type.enum, \.cases), value: "DX_NAME"),
         ],
+        "CognitoIdentityProvider": [
+            AddPatch(PatchKeyPath3(\.shapes["UserStatusType"], \.type.enum, \.cases), value: "EXTERNAL_PROVIDER"),
+        ],
         "DynamoDB": [
             ReplacePatch(PatchKeyPath3(\.shapes["AttributeValue"], \.type.structure, \.isEnum), value: true, originalValue: false),
             ReplacePatch(PatchKeyPath3(\.shapes["TransactWriteItem"], \.type.structure, \.isEnum), value: true, originalValue: false),

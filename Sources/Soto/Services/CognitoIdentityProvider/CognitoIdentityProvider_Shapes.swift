@@ -261,6 +261,7 @@ extension CognitoIdentityProvider {
         case archived = "ARCHIVED"
         case compromised = "COMPROMISED"
         case confirmed = "CONFIRMED"
+        case externalProvider = "EXTERNAL_PROVIDER"
         case forceChangePassword = "FORCE_CHANGE_PASSWORD"
         case resetRequired = "RESET_REQUIRED"
         case unconfirmed = "UNCONFIRMED"
