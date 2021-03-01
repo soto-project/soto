@@ -72,7 +72,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
+    ///  Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you do not provide an integration ARN, then the results include all of the available product integrations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -617,7 +617,8 @@ extension SecurityHub.DescribeProductsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityHub.DescribeProductsRequest {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            productArn: self.productArn
         )
     }
 }

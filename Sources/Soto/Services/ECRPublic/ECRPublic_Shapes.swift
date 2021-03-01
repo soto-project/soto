@@ -240,10 +240,13 @@ extension ECRPublic {
         public let catalogData: RepositoryCatalogDataInput?
         /// The name to use for the repository. This appears publicly in the Amazon ECR Public Gallery. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
         public let repositoryName: String
+        /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let tags: [Tag]?
 
-        public init(catalogData: RepositoryCatalogDataInput? = nil, repositoryName: String) {
+        public init(catalogData: RepositoryCatalogDataInput? = nil, repositoryName: String, tags: [Tag]? = nil) {
             self.catalogData = catalogData
             self.repositoryName = repositoryName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -251,11 +254,17 @@ extension ECRPublic {
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 205)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogData
             case repositoryName
+            case tags
         }
     }
 
@@ -904,6 +913,32 @@ extension ECRPublic {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resource is an Amazon ECR Public repository.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags for the resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
     public struct PutImageRequest: AWSEncodableShape {
         /// The image digest of the image manifest corresponding to the image.
         public let imageDigest: String?
@@ -1301,6 +1336,89 @@ extension ECRPublic {
             case registryId
             case repositoryName
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
+        public let key: String?
+        /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resource is an Amazon ECR Public repository.
+        public let resourceArn: String
+        /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case tags
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resource is an Amazon ECR Public repository.
+        public let resourceArn: String
+        /// The keys of the tags to be removed.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case tagKeys
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UploadLayerPartRequest: AWSEncodableShape {

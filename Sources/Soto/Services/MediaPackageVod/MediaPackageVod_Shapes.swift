@@ -156,6 +156,51 @@ extension MediaPackageVod {
         }
     }
 
+    public struct ConfigureLogsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
+        ]
+
+        public let egressAccessLogs: EgressAccessLogs?
+        public let id: String
+
+        public init(egressAccessLogs: EgressAccessLogs? = nil, id: String) {
+            self.egressAccessLogs = egressAccessLogs
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressAccessLogs
+        }
+    }
+
+    public struct ConfigureLogsResponse: AWSDecodableShape {
+        public let arn: String?
+        public let authorization: Authorization?
+        public let domainName: String?
+        public let egressAccessLogs: EgressAccessLogs?
+        public let id: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.authorization = authorization
+            self.domainName = domainName
+            self.egressAccessLogs = egressAccessLogs
+            self.id = id
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case authorization
+            case domainName
+            case egressAccessLogs
+            case id
+            case tags
+        }
+    }
+
     public struct CreateAssetRequest: AWSEncodableShape {
         public let id: String
         public let packagingGroupId: String
@@ -284,17 +329,20 @@ extension MediaPackageVod {
 
     public struct CreatePackagingGroupRequest: AWSEncodableShape {
         public let authorization: Authorization?
+        public let egressAccessLogs: EgressAccessLogs?
         public let id: String
         public let tags: [String: String]?
 
-        public init(authorization: Authorization? = nil, id: String, tags: [String: String]? = nil) {
+        public init(authorization: Authorization? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String, tags: [String: String]? = nil) {
             self.authorization = authorization
+            self.egressAccessLogs = egressAccessLogs
             self.id = id
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case authorization
+            case egressAccessLogs
             case id
             case tags
         }
@@ -304,13 +352,15 @@ extension MediaPackageVod {
         public let arn: String?
         public let authorization: Authorization?
         public let domainName: String?
+        public let egressAccessLogs: EgressAccessLogs?
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authorization = authorization
             self.domainName = domainName
+            self.egressAccessLogs = egressAccessLogs
             self.id = id
             self.tags = tags
         }
@@ -319,6 +369,7 @@ extension MediaPackageVod {
             case arn
             case authorization
             case domainName
+            case egressAccessLogs
             case id
             case tags
         }
@@ -565,13 +616,15 @@ extension MediaPackageVod {
         public let arn: String?
         public let authorization: Authorization?
         public let domainName: String?
+        public let egressAccessLogs: EgressAccessLogs?
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authorization = authorization
             self.domainName = domainName
+            self.egressAccessLogs = egressAccessLogs
             self.id = id
             self.tags = tags
         }
@@ -580,8 +633,22 @@ extension MediaPackageVod {
             case arn
             case authorization
             case domainName
+            case egressAccessLogs
             case id
             case tags
+        }
+    }
+
+    public struct EgressAccessLogs: AWSEncodableShape & AWSDecodableShape {
+        /// Customize the log group name.
+        public let logGroupName: String?
+
+        public init(logGroupName: String? = nil) {
+            self.logGroupName = logGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName
         }
     }
 
@@ -926,14 +993,16 @@ extension MediaPackageVod {
         public let authorization: Authorization?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public let domainName: String?
+        public let egressAccessLogs: EgressAccessLogs?
         /// The ID of the PackagingGroup.
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authorization = authorization
             self.domainName = domainName
+            self.egressAccessLogs = egressAccessLogs
             self.id = id
             self.tags = tags
         }
@@ -942,6 +1011,7 @@ extension MediaPackageVod {
             case arn
             case authorization
             case domainName
+            case egressAccessLogs
             case id
             case tags
         }
@@ -1047,13 +1117,15 @@ extension MediaPackageVod {
         public let arn: String?
         public let authorization: Authorization?
         public let domainName: String?
+        public let egressAccessLogs: EgressAccessLogs?
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authorization = authorization
             self.domainName = domainName
+            self.egressAccessLogs = egressAccessLogs
             self.id = id
             self.tags = tags
         }
@@ -1062,6 +1134,7 @@ extension MediaPackageVod {
             case arn
             case authorization
             case domainName
+            case egressAccessLogs
             case id
             case tags
         }

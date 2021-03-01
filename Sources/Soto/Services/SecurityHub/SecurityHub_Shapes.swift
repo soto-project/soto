@@ -6581,7 +6581,7 @@ extension SecurityHub {
     }
 
     public struct AwsSecurityFinding: AWSEncodableShape & AWSDecodableShape {
-        /// Provides details about an action that was detected for the finding.
+        /// Provides details about an action that affects or that was taken on a resource.
         public let action: Action?
         /// The AWS account ID that a finding is generated in.
         public let awsAccountId: String
@@ -8462,22 +8462,27 @@ extension SecurityHub {
     public struct DescribeProductsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "productArn", location: .querystring(locationName: "ProductArn"))
         ]
 
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
+        /// The ARN of the integration to return.
+        public let productArn: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, productArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.productArn = productArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.productArn, name: "productArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: CodingKey {}

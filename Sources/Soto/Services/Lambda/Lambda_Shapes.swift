@@ -107,6 +107,7 @@ extension Lambda {
         case nodejs
         case nodejs10X = "nodejs10.x"
         case nodejs12X = "nodejs12.x"
+        case nodejs14X = "nodejs14.x"
         case nodejs43 = "nodejs4.3"
         case nodejs43Edge = "nodejs4.3-edge"
         case nodejs610 = "nodejs6.10"
@@ -617,7 +618,7 @@ extension Lambda {
         public let startingPositionTimestamp: Date?
         /// The name of the Kafka topic.
         public let topics: [String]?
-        /// (Streams) The duration of a processing window in seconds. The range is between 1 second up to 15 minutes.
+        /// (Streams) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
         public let tumblingWindowInSeconds: Int?
 
         public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
@@ -671,7 +672,7 @@ extension Lambda {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
             try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 22)
-            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, min: 1)
+            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, min: 0)
             try self.topics?.forEach {
                 try validate($0, name: "topics[]", parent: name, max: 249)
                 try validate($0, name: "topics[]", parent: name, min: 1)
@@ -722,7 +723,7 @@ extension Lambda {
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
         public let handler: String?
-        /// Configuration values that override the container image Dockerfile.
+        ///  Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
         /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.
         public let kMSKeyArn: String?
@@ -1176,7 +1177,7 @@ extension Lambda {
         public let stateTransitionReason: String?
         /// The name of the Kafka topic.
         public let topics: [String]?
-        /// (Streams) The duration of a processing window in seconds. The range is between 1 second up to 15 minutes.
+        /// (Streams) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
         public let tumblingWindowInSeconds: Int?
         /// The identifier of the event source mapping.
         public let uuid: String?
@@ -3325,7 +3326,7 @@ extension Lambda {
     }
 
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication protocol or the VPC components for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (MQ) The Secrets Manager secret that stores your broker credentials.    VPC_SUBNET - The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your Kafka cluster.    VPC_SECURITY_GROUP - The VPC security group used to manage access to your Kafka brokers.    SASL_SCRAM_256_AUTH - The ARN of your secret key used for SASL SCRAM-256 authentication of your Kafka brokers.    SASL_SCRAM_512_AUTH - The ARN of your secret key used for SASL SCRAM-512 authentication of your Kafka brokers.
+        /// The type of authentication protocol or the VPC components for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (MQ) The Secrets Manager secret that stores your broker credentials.    VPC_SUBNET - The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your Self-Managed Apache Kafka cluster.    VPC_SECURITY_GROUP - The VPC security group used to manage access to your Self-Managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your Self-Managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your Self-Managed Apache Kafka brokers.
         public let type: SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?
@@ -3547,7 +3548,7 @@ extension Lambda {
         public let parallelizationFactor: Int?
         /// An array of the authentication protocol, or the VPC components to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
-        /// (Streams) The duration of a processing window in seconds. The range is between 1 second up to 15 minutes.
+        /// (Streams) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
         public let tumblingWindowInSeconds: Int?
         /// The identifier of the event source mapping.
         public let uuid: String
@@ -3589,7 +3590,7 @@ extension Lambda {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
             try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 22)
-            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, min: 1)
+            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, min: 0)
             try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, max: 900)
             try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, min: 0)
         }
@@ -3688,7 +3689,7 @@ extension Lambda {
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
         public let handler: String?
-        /// Configuration values that override the container image Dockerfile.
+        ///  Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
         /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.
         public let kMSKeyArn: String?

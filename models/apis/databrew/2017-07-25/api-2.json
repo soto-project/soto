@@ -211,6 +211,19 @@
         {"shape":"ValidationException"}
       ]
     },
+    "DescribeJobRun":{
+      "name":"DescribeJobRun",
+      "http":{
+        "method":"GET",
+        "requestUri":"/jobs/{name}/jobRun/{runId}"
+      },
+      "input":{"shape":"DescribeJobRunRequest"},
+      "output":{"shape":"DescribeJobRunResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ValidationException"}
+      ]
+    },
     "DescribeProject":{
       "name":"DescribeProject",
       "http":{
@@ -662,6 +675,7 @@
       ],
       "members":{
         "Name":{"shape":"DatasetName"},
+        "Format":{"shape":"InputFormat"},
         "FormatOptions":{"shape":"FormatOptions"},
         "Input":{"shape":"Input"},
         "Tags":{"shape":"TagMap"}
@@ -693,7 +707,8 @@
         "OutputLocation":{"shape":"S3Location"},
         "RoleArn":{"shape":"Arn"},
         "Tags":{"shape":"TagMap"},
-        "Timeout":{"shape":"Timeout"}
+        "Timeout":{"shape":"Timeout"},
+        "JobSample":{"shape":"JobSample"}
       }
     },
     "CreateProfileJobResponse":{
@@ -806,7 +821,8 @@
     "CsvOptions":{
       "type":"structure",
       "members":{
-        "Delimiter":{"shape":"Delimiter"}
+        "Delimiter":{"shape":"Delimiter"},
+        "HeaderRow":{"shape":"HeaderRow"}
       }
     },
     "CsvOutputOptions":{
@@ -844,6 +860,7 @@
         "CreatedBy":{"shape":"CreatedBy"},
         "CreateDate":{"shape":"Date"},
         "Name":{"shape":"DatasetName"},
+        "Format":{"shape":"InputFormat"},
         "FormatOptions":{"shape":"FormatOptions"},
         "Input":{"shape":"Input"},
         "LastModifiedDate":{"shape":"Date"},
@@ -991,6 +1008,7 @@
         "CreatedBy":{"shape":"CreatedBy"},
         "CreateDate":{"shape":"Date"},
         "Name":{"shape":"DatasetName"},
+        "Format":{"shape":"InputFormat"},
         "FormatOptions":{"shape":"FormatOptions"},
         "Input":{"shape":"Input"},
         "LastModifiedDate":{"shape":"Date"},
@@ -1033,7 +1051,48 @@
         "ResourceArn":{"shape":"Arn"},
         "RoleArn":{"shape":"Arn"},
         "Tags":{"shape":"TagMap"},
-        "Timeout":{"shape":"Timeout"}
+        "Timeout":{"shape":"Timeout"},
+        "JobSample":{"shape":"JobSample"}
+      }
+    },
+    "DescribeJobRunRequest":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "RunId"
+      ],
+      "members":{
+        "Name":{
+          "shape":"JobName",
+          "location":"uri",
+          "locationName":"name"
+        },
+        "RunId":{
+          "shape":"JobRunId",
+          "location":"uri",
+          "locationName":"runId"
+        }
+      }
+    },
+    "DescribeJobRunResponse":{
+      "type":"structure",
+      "required":["JobName"],
+      "members":{
+        "Attempt":{"shape":"Attempt"},
+        "CompletedOn":{"shape":"Date"},
+        "DatasetName":{"shape":"DatasetName"},
+        "ErrorMessage":{"shape":"JobRunErrorMessage"},
+        "ExecutionTime":{"shape":"ExecutionTime"},
+        "JobName":{"shape":"JobName"},
+        "RunId":{"shape":"JobRunId"},
+        "State":{"shape":"JobRunState"},
+        "LogSubscription":{"shape":"LogSubscription"},
+        "LogGroupName":{"shape":"LogGroupName"},
+        "Outputs":{"shape":"OutputList"},
+        "RecipeReference":{"shape":"RecipeReference"},
+        "StartedBy":{"shape":"StartedBy"},
+        "StartedOn":{"shape":"Date"},
+        "JobSample":{"shape":"JobSample"}
       }
     },
     "DescribeProjectRequest":{
@@ -1148,7 +1207,8 @@
       "type":"structure",
       "members":{
         "SheetNames":{"shape":"SheetNameList"},
-        "SheetIndexes":{"shape":"SheetIndexList"}
+        "SheetIndexes":{"shape":"SheetIndexList"},
+        "HeaderRow":{"shape":"HeaderRow"}
       }
     },
     "ExecutionTime":{"type":"integer"},
@@ -1160,6 +1220,7 @@
         "Csv":{"shape":"CsvOptions"}
       }
     },
+    "HeaderRow":{"type":"boolean"},
     "HiddenColumnList":{
       "type":"list",
       "member":{"shape":"ColumnName"}
@@ -1170,6 +1231,15 @@
         "S3InputDefinition":{"shape":"S3Location"},
         "DataCatalogInputDefinition":{"shape":"DataCatalogInputDefinition"}
       }
+    },
+    "InputFormat":{
+      "type":"string",
+      "enum":[
+        "CSV",
+        "JSON",
+        "PARQUET",
+        "EXCEL"
+      ]
     },
     "InternalServerException":{
       "type":"structure",
@@ -1202,7 +1272,8 @@
         "ResourceArn":{"shape":"Arn"},
         "RoleArn":{"shape":"Arn"},
         "Timeout":{"shape":"Timeout"},
-        "Tags":{"shape":"TagMap"}
+        "Tags":{"shape":"TagMap"},
+        "JobSample":{"shape":"JobSample"}
       }
     },
     "JobList":{
@@ -1235,7 +1306,8 @@
         "Outputs":{"shape":"OutputList"},
         "RecipeReference":{"shape":"RecipeReference"},
         "StartedBy":{"shape":"StartedBy"},
-        "StartedOn":{"shape":"Date"}
+        "StartedOn":{"shape":"Date"},
+        "JobSample":{"shape":"JobSample"}
       }
     },
     "JobRunErrorMessage":{"type":"string"},
@@ -1260,6 +1332,14 @@
         "TIMEOUT"
       ]
     },
+    "JobSample":{
+      "type":"structure",
+      "members":{
+        "Mode":{"shape":"SampleMode"},
+        "Size":{"shape":"JobSize"}
+      }
+    },
+    "JobSize":{"type":"long"},
     "JobType":{
       "type":"string",
       "enum":[
@@ -1574,7 +1654,7 @@
     },
     "ParameterValue":{
       "type":"string",
-      "max":8192,
+      "max":12288,
       "min":1
     },
     "Preview":{"type":"boolean"},
@@ -1738,6 +1818,13 @@
         "Size":{"shape":"SampleSize"},
         "Type":{"shape":"SampleType"}
       }
+    },
+    "SampleMode":{
+      "type":"string",
+      "enum":[
+        "FULL_DATASET",
+        "CUSTOM_ROWS"
+      ]
     },
     "SampleSize":{
       "type":"integer",
@@ -2019,6 +2106,7 @@
           "location":"uri",
           "locationName":"name"
         },
+        "Format":{"shape":"InputFormat"},
         "FormatOptions":{"shape":"FormatOptions"},
         "Input":{"shape":"Input"}
       }
@@ -2050,7 +2138,8 @@
         "MaxRetries":{"shape":"MaxRetries"},
         "OutputLocation":{"shape":"S3Location"},
         "RoleArn":{"shape":"Arn"},
-        "Timeout":{"shape":"Timeout"}
+        "Timeout":{"shape":"Timeout"},
+        "JobSample":{"shape":"JobSample"}
       }
     },
     "UpdateProfileJobResponse":{

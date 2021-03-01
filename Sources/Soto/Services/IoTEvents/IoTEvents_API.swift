@@ -87,6 +87,11 @@ public struct IoTEvents: AWSService {
         return self.client.execute(operation: "DescribeDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves execution information about a detector model analysis
+    public func describeDetectorModelAnalysis(_ input: DescribeDetectorModelAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDetectorModelAnalysisResponse> {
+        return self.client.execute(operation: "DescribeDetectorModelAnalysis", path: "/analysis/detector-models/{analysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes an input.
     public func describeInput(_ input: DescribeInputRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInputResponse> {
         return self.client.execute(operation: "DescribeInput", path: "/inputs/{inputName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -95,6 +100,11 @@ public struct IoTEvents: AWSService {
     /// Retrieves the current settings of the AWS IoT Events logging options.
     public func describeLoggingOptions(_ input: DescribeLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLoggingOptionsResponse> {
         return self.client.execute(operation: "DescribeLoggingOptions", path: "/logging", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves one or more analysis results of the detector model.
+    public func getDetectorModelAnalysisResults(_ input: GetDetectorModelAnalysisResultsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDetectorModelAnalysisResultsResponse> {
+        return self.client.execute(operation: "GetDetectorModelAnalysisResults", path: "/analysis/detector-models/{analysisId}/results", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all the versions of a detector model. Only the metadata associated with each detector model version is returned.
@@ -120,6 +130,11 @@ public struct IoTEvents: AWSService {
     /// Sets or updates the AWS IoT Events logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. If you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
     @discardableResult public func putLoggingOptions(_ input: PutLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "PutLoggingOptions", path: "/logging", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Performs an analysis of your detector model. For more information, see Running detector model analyses in the AWS IoT Events Developer Guide.
+    public func startDetectorModelAnalysis(_ input: StartDetectorModelAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDetectorModelAnalysisResponse> {
+        return self.client.execute(operation: "StartDetectorModelAnalysis", path: "/analysis/detector-models/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.

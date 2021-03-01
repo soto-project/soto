@@ -27,6 +27,12 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum CallAs: String, CustomStringConvertible, Codable {
+        case delegatedAdmin = "DELEGATED_ADMIN"
+        case `self` = "SELF"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Capability: String, CustomStringConvertible, Codable {
         case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
         case capabilityIam = "CAPABILITY_IAM"
@@ -576,7 +582,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. AWS CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
         public let templateBody: String?
-        /// The location of the file that contains the revised template. The URL must point to a template (max size: 460,800 bytes) that is located in an S3 bucket. AWS CloudFormation generates the change set by comparing this template with the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
+        /// The location of the file that contains the revised template. The URL must point to a template (max size: 460,800 bytes) that is located in an S3 bucket or a Systems Manager document. AWS CloudFormation generates the change set by comparing this template with the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
         public let templateURL: String?
         /// Whether to reuse the template that is associated with the stack to create the change set.
         public let usePreviousTemplate: Bool?
@@ -706,7 +712,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateBody: String?
-        /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, go to the Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+        /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. For more information, go to the Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
         /// The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
         public let timeoutInMinutes: Int?
@@ -782,6 +788,8 @@ extension CloudFormation {
         /// [Self-managed permissions] The names of one or more AWS accounts that you want to create stack instances in the specified Region(s) for. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCustomCoding<StandardArrayCoder>
         public var accounts: [String]?
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// [Service-managed permissions] The AWS Organizations accounts for which to create stack instances in the specified Regions. You can specify Accounts or DeploymentTargets, but not both.
         public let deploymentTargets: DeploymentTargets?
         /// The unique identifier for this stack set operation.  The operation ID also functions as an idempotency token, to ensure that AWS CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that AWS CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.  Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED.
@@ -797,8 +805,9 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to create stack instances from.
         public let stackSetName: String
 
-        public init(accounts: [String]? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = CreateStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String], stackSetName: String) {
+        public init(accounts: [String]? = nil, callAs: CallAs? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = CreateStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String], stackSetName: String) {
             self.accounts = accounts
+            self.callAs = callAs
             self.deploymentTargets = deploymentTargets
             self.operationId = operationId
             self.operationPreferences = operationPreferences
@@ -823,6 +832,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case accounts = "Accounts"
+            case callAs = "CallAs"
             case deploymentTargets = "DeploymentTargets"
             case operationId = "OperationId"
             case operationPreferences = "OperationPreferences"
@@ -863,6 +873,8 @@ extension CloudFormation {
         public let administrationRoleARN: String?
         /// Describes whether StackSets automatically deploys to AWS Organizations accounts that are added to the target organization or organizational unit (OU). Specify only if PermissionModel is SERVICE_MANAGED.
         public let autoDeployment: AutoDeployment?
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   To create a stack set with service-managed permissions while signed in to the management account, specify SELF.   To create a stack set with service-managed permissions while signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated admin in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.   Stack sets with service-managed permissions are created in the management account, including stack sets that are created by delegated administrators.
+        public let callAs: CallAs?
         /// In some cases, you must explicitly acknowledge that your stack set template contains certain capabilities in order for AWS CloudFormation to create the stack set and related stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stack sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates contain macros. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  Stack sets do not currently support macros in stack templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.) Even if you specify this capability, if you include a macro in your template the stack set operation will fail.
         @OptionalCustomCoding<StandardArrayCoder>
         public var capabilities: [Capability]?
@@ -884,12 +896,13 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateBody: String?
-        /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that's located in an Amazon S3 bucket. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+        /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
 
-        public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, capabilities: [Capability]? = nil, clientRequestToken: String? = CreateStackSetInput.idempotencyToken(), description: String? = nil, executionRoleName: String? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil) {
+        public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, callAs: CallAs? = nil, capabilities: [Capability]? = nil, clientRequestToken: String? = CreateStackSetInput.idempotencyToken(), description: String? = nil, executionRoleName: String? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil) {
             self.administrationRoleARN = administrationRoleARN
             self.autoDeployment = autoDeployment
+            self.callAs = callAs
             self.capabilities = capabilities
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -925,6 +938,7 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case administrationRoleARN = "AdministrationRoleARN"
             case autoDeployment = "AutoDeployment"
+            case callAs = "CallAs"
             case capabilities = "Capabilities"
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
@@ -1018,6 +1032,8 @@ extension CloudFormation {
         /// [Self-managed permissions] The names of the AWS accounts that you want to delete stack instances for. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCustomCoding<StandardArrayCoder>
         public var accounts: [String]?
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// [Service-managed permissions] The AWS Organizations accounts from which to delete stack instances. You can specify Accounts or DeploymentTargets, but not both.
         public let deploymentTargets: DeploymentTargets?
         /// The unique identifier for this stack set operation.  If you don't specify an operation ID, the SDK generates one automatically.  The operation ID also functions as an idempotency token, to ensure that AWS CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You can retry stack set operation requests to ensure that AWS CloudFormation successfully received them. Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED.
@@ -1032,8 +1048,9 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to delete stack instances for.
         public let stackSetName: String
 
-        public init(accounts: [String]? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = DeleteStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, regions: [String], retainStacks: Bool, stackSetName: String) {
+        public init(accounts: [String]? = nil, callAs: CallAs? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = DeleteStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, regions: [String], retainStacks: Bool, stackSetName: String) {
             self.accounts = accounts
+            self.callAs = callAs
             self.deploymentTargets = deploymentTargets
             self.operationId = operationId
             self.operationPreferences = operationPreferences
@@ -1058,6 +1075,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case accounts = "Accounts"
+            case callAs = "CallAs"
             case deploymentTargets = "DeploymentTargets"
             case operationId = "OperationId"
             case operationPreferences = "OperationPreferences"
@@ -1081,14 +1099,18 @@ extension CloudFormation {
     }
 
     public struct DeleteStackSetInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// The name or unique ID of the stack set that you're deleting. You can obtain this value by running ListStackSets.
         public let stackSetName: String
 
-        public init(stackSetName: String) {
+        public init(callAs: CallAs? = nil, stackSetName: String) {
+            self.callAs = callAs
             self.stackSetName = stackSetName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case stackSetName = "StackSetName"
         }
     }
@@ -1126,13 +1148,13 @@ extension CloudFormation {
     }
 
     public struct DeregisterTypeInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
-        /// The kind of type. Currently the only valid value is RESOURCE. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The kind of extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let type: RegistryType?
-        /// The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The name of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
-        /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
+        /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered.
         public let versionId: String?
 
         public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
@@ -1418,6 +1440,8 @@ extension CloudFormation {
     }
 
     public struct DescribeStackInstanceInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// The ID of an AWS account that's associated with this stack instance.
         public let stackInstanceAccount: String
         /// The name of a Region that's associated with this stack instance.
@@ -1425,7 +1449,8 @@ extension CloudFormation {
         /// The name or the unique stack ID of the stack set that you want to get stack instance information for.
         public let stackSetName: String
 
-        public init(stackInstanceAccount: String, stackInstanceRegion: String, stackSetName: String) {
+        public init(callAs: CallAs? = nil, stackInstanceAccount: String, stackInstanceRegion: String, stackSetName: String) {
+            self.callAs = callAs
             self.stackInstanceAccount = stackInstanceAccount
             self.stackInstanceRegion = stackInstanceRegion
             self.stackSetName = stackSetName
@@ -1437,6 +1462,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case stackInstanceAccount = "StackInstanceAccount"
             case stackInstanceRegion = "StackInstanceRegion"
             case stackSetName = "StackSetName"
@@ -1577,25 +1603,32 @@ extension CloudFormation {
     }
 
     public struct DescribeStackSetInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// The name or unique ID of the stack set whose description you want.
         public let stackSetName: String
 
-        public init(stackSetName: String) {
+        public init(callAs: CallAs? = nil, stackSetName: String) {
+            self.callAs = callAs
             self.stackSetName = stackSetName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case stackSetName = "StackSetName"
         }
     }
 
     public struct DescribeStackSetOperationInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// The unique ID of the stack set operation.
         public let operationId: String
         /// The name or the unique stack ID of the stack set for the stack operation.
         public let stackSetName: String
 
-        public init(operationId: String, stackSetName: String) {
+        public init(callAs: CallAs? = nil, operationId: String, stackSetName: String) {
+            self.callAs = callAs
             self.operationId = operationId
             self.stackSetName = stackSetName
         }
@@ -1607,6 +1640,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case operationId = "OperationId"
             case stackSetName = "StackSetName"
         }
@@ -1679,13 +1713,13 @@ extension CloudFormation {
     }
 
     public struct DescribeTypeInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
-        /// The kind of type.  Currently the only valid value is RESOURCE. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The kind of extension.  Conditional: You must specify either TypeName and Type, or Arn.
         public let type: RegistryType?
-        /// The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The name of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
-        /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered. If you specify a VersionId, DescribeType returns information about that specific type version. Otherwise, it returns information about the default type version.
+        /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered. If you specify a VersionId, DescribeType returns information about that specific extension version. Otherwise, it returns information about the default extension version.
         public let versionId: String?
 
         public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
@@ -1715,37 +1749,37 @@ extension CloudFormation {
     }
 
     public struct DescribeTypeOutput: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the type.
+        /// The Amazon Resource Name (ARN) of the extension.
         public let arn: String?
-        /// The ID of the default version of the type. The default version is used when the type version is not specified. To set the default version of a type, use  SetTypeDefaultVersion .
+        /// The ID of the default version of the extension. The default version is used when the extension version is not specified. To set the default version of an extension, use  SetTypeDefaultVersion .
         public let defaultVersionId: String?
-        /// The deprecation status of the type. Valid values include:    LIVE: The type is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The type has been deregistered and can no longer be used in CloudFormation operations.
+        /// The deprecation status of the extension version. Valid values include:    LIVE: The extension is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The extension has been deregistered and can no longer be used in CloudFormation operations.
         public let deprecatedStatus: DeprecatedStatus?
-        /// The description of the registered type.
+        /// The description of the registered extension.
         public let description: String?
-        /// The URL of a page providing detailed documentation for this type.
+        /// The URL of a page providing detailed documentation for this extension.
         public let documentationUrl: String?
-        /// The Amazon Resource Name (ARN) of the IAM execution role used to register the type. If your resource type calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your resource type with the appropriate credentials.
+        /// The Amazon Resource Name (ARN) of the IAM execution role used to register the extension. If your resource type calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your extension with the appropriate credentials.
         public let executionRoleArn: String?
-        /// Whether the specified type version is set as the default version.
+        /// Whether the specified extension version is set as the default version.
         public let isDefaultVersion: Bool?
-        /// When the specified type version was registered.
+        /// When the specified extension version was registered.
         public let lastUpdated: Date?
-        /// Contains logging configuration information for a type.
+        /// Contains logging configuration information for an extension.
         public let loggingConfig: LoggingConfig?
-        /// The provisioning behavior of the type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The type does not include an update handler, so the type cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The type does not include all of the following handlers, and therefore cannot actually be provisioned.   create   read   delete
+        /// The provisioning behavior of the extension. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The extension includes an update handler to process updates to the extension during stack update operations.    IMMUTABLE: The extension does not include an update handler, so the extension cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The extension does not include all of the following handlers, and therefore cannot actually be provisioned.   create   read   delete
         public let provisioningType: ProvisioningType?
-        /// The schema that defines the type. For more information on type schemas, see Resource Provider Schema in the CloudFormation CLI User Guide.
+        /// The schema that defines the extension. For more information on extension schemas, see Resource Provider Schema in the CloudFormation CLI User Guide.
         public let schema: String?
-        /// The URL of the source code for the type.
+        /// The URL of the source code for the extension.
         public let sourceUrl: String?
-        /// When the specified type version was registered.
+        /// When the specified extension version was registered.
         public let timeCreated: Date?
-        /// The kind of type.  Currently the only valid value is RESOURCE.
+        /// The kind of extension.
         public let type: RegistryType?
-        /// The name of the registered type.
+        /// The name of the registered extension.
         public let typeName: String?
-        /// The scope at which the type is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The type is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you register as PRIVATE.    PUBLIC: The type is publically visible and usable within any Amazon account.
+        /// The scope at which the extension is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The extension is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you register as PRIVATE.    PUBLIC: The extension is publically visible and usable within any Amazon account.
         public let visibility: Visibility?
 
         public init(arn: String? = nil, defaultVersionId: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, description: String? = nil, documentationUrl: String? = nil, executionRoleArn: String? = nil, isDefaultVersion: Bool? = nil, lastUpdated: Date? = nil, loggingConfig: LoggingConfig? = nil, provisioningType: ProvisioningType? = nil, schema: String? = nil, sourceUrl: String? = nil, timeCreated: Date? = nil, type: RegistryType? = nil, typeName: String? = nil, visibility: Visibility? = nil) {
@@ -1807,13 +1841,13 @@ extension CloudFormation {
     }
 
     public struct DescribeTypeRegistrationOutput: AWSDecodableShape {
-        /// The description of the type registration request.
+        /// The description of the extension registration request.
         public let description: String?
-        /// The current status of the type registration request.
+        /// The current status of the extension registration request.
         public let progressStatus: RegistrationStatus?
-        /// The Amazon Resource Name (ARN) of the type being registered. For registration requests with a ProgressStatus of other than COMPLETE, this will be null.
+        /// The Amazon Resource Name (ARN) of the extension being registered. For registration requests with a ProgressStatus of other than COMPLETE, this will be null.
         public let typeArn: String?
-        /// The Amazon Resource Name (ARN) of this specific version of the type being registered. For registration requests with a ProgressStatus of other than COMPLETE, this will be null.
+        /// The Amazon Resource Name (ARN) of this specific version of the extension being registered. For registration requests with a ProgressStatus of other than COMPLETE, this will be null.
         public let typeVersionArn: String?
 
         public init(description: String? = nil, progressStatus: RegistrationStatus? = nil, typeArn: String? = nil, typeVersionArn: String? = nil) {
@@ -1905,13 +1939,16 @@ extension CloudFormation {
     }
 
     public struct DetectStackSetDriftInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         ///  The ID of the stack set operation.
         public let operationId: String?
         public let operationPreferences: StackSetOperationPreferences?
         /// The name of the stack set on which to perform the drift detection operation.
         public let stackSetName: String
 
-        public init(operationId: String? = DetectStackSetDriftInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, stackSetName: String) {
+        public init(callAs: CallAs? = nil, operationId: String? = DetectStackSetDriftInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, stackSetName: String) {
+            self.callAs = callAs
             self.operationId = operationId
             self.operationPreferences = operationPreferences
             self.stackSetName = stackSetName
@@ -1926,6 +1963,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case operationId = "OperationId"
             case operationPreferences = "OperationPreferences"
             case stackSetName = "StackSetName"
@@ -1951,7 +1989,7 @@ extension CloudFormation {
         public var parameters: [Parameter]?
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. (For more information, go to Template Anatomy in the AWS CloudFormation User Guide.) Conditional: You must pass TemplateBody or TemplateURL. If both are passed, only TemplateBody is used.
         public let templateBody: String?
-        /// Location of file containing the template body. The URL must point to a template that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+        /// Location of file containing the template body. The URL must point to a template that is located in an Amazon S3 bucket or a Systems Manager document. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateURL: String?
 
         public init(parameters: [Parameter]? = nil, templateBody: String? = nil, templateURL: String? = nil) {
@@ -2121,7 +2159,7 @@ extension CloudFormation {
         public let stackSetName: String?
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information about templates, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let templateBody: String?
-        /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information about templates, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
+        /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. For more information about templates, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let templateURL: String?
 
         public init(stackName: String? = nil, stackSetName: String? = nil, templateBody: String? = nil, templateURL: String? = nil) {
@@ -2317,6 +2355,8 @@ extension CloudFormation {
     }
 
     public struct ListStackInstancesInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// The status that stack instances are filtered by.
         @OptionalCustomCoding<StandardArrayCoder>
         public var filters: [StackInstanceFilter]?
@@ -2331,7 +2371,8 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to list stack instances for.
         public let stackSetName: String
 
-        public init(filters: [StackInstanceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackInstanceAccount: String? = nil, stackInstanceRegion: String? = nil, stackSetName: String) {
+        public init(callAs: CallAs? = nil, filters: [StackInstanceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackInstanceAccount: String? = nil, stackInstanceRegion: String? = nil, stackSetName: String) {
+            self.callAs = callAs
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2354,6 +2395,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -2422,6 +2464,8 @@ extension CloudFormation {
     }
 
     public struct ListStackSetOperationResultsInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
         /// If the previous request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -2431,7 +2475,8 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to get operation results for.
         public let stackSetName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, operationId: String, stackSetName: String) {
+        public init(callAs: CallAs? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationId: String, stackSetName: String) {
+            self.callAs = callAs
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.operationId = operationId
@@ -2449,6 +2494,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case operationId = "OperationId"
@@ -2475,6 +2521,8 @@ extension CloudFormation {
     }
 
     public struct ListStackSetOperationsInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperations again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -2482,7 +2530,8 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to get operation summaries for.
         public let stackSetName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, stackSetName: String) {
+        public init(callAs: CallAs? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackSetName: String) {
+            self.callAs = callAs
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stackSetName = stackSetName
@@ -2496,6 +2545,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case stackSetName = "StackSetName"
@@ -2521,6 +2571,8 @@ extension CloudFormation {
     }
 
     public struct ListStackSetsInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSets again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -2528,7 +2580,8 @@ extension CloudFormation {
         /// The status of the stack sets that you want to get summary information about.
         public let status: StackSetStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, status: StackSetStatus? = nil) {
+        public init(callAs: CallAs? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: StackSetStatus? = nil) {
+            self.callAs = callAs
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
@@ -2542,6 +2595,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case status = "Status"
@@ -2612,13 +2666,13 @@ extension CloudFormation {
         public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
-        /// The current status of the type registration request. The default is IN_PROGRESS.
+        /// The current status of the extension registration request. The default is IN_PROGRESS.
         public let registrationStatusFilter: RegistrationStatus?
-        /// The kind of type. Currently the only valid value is RESOURCE. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The kind of extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let type: RegistryType?
-        /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeArn: String?
-        /// The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The name of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, registrationStatusFilter: RegistrationStatus? = nil, type: RegistryType? = nil, typeArn: String? = nil, typeName: String? = nil) {
@@ -2655,7 +2709,7 @@ extension CloudFormation {
     public struct ListTypeRegistrationsOutput: AWSDecodableShape {
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
-        ///  A list of type registration tokens. Use  DescribeTypeRegistration  to return detailed information about a type registration request.
+        ///  A list of extension registration tokens. Use  DescribeTypeRegistration  to return detailed information about a type registration request.
         @OptionalCustomCoding<StandardArrayCoder>
         public var registrationTokenList: [String]?
 
@@ -2671,17 +2725,17 @@ extension CloudFormation {
     }
 
     public struct ListTypeVersionsInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The Amazon Resource Name (ARN) of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
-        /// The deprecation status of the type versions that you want to get summary information about. Valid values include:    LIVE: The type version is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The type version has been deregistered and can no longer be used in CloudFormation operations.    The default is LIVE.
+        /// The deprecation status of the extension versions that you want to get summary information about. Valid values include:    LIVE: The extension version is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The extension version has been deregistered and can no longer be used in CloudFormation operations.    The default is LIVE.
         public let deprecatedStatus: DeprecatedStatus?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
-        /// The kind of the type. Currently the only valid value is RESOURCE. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The kind of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let type: RegistryType?
-        /// The name of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The name of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
 
         public init(arn: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, type: RegistryType? = nil, typeName: String? = nil) {
@@ -2718,7 +2772,7 @@ extension CloudFormation {
     public struct ListTypeVersionsOutput: AWSDecodableShape {
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
-        /// A list of TypeVersionSummary structures that contain information about the specified type's versions.
+        /// A list of TypeVersionSummary structures that contain information about the specified extension's versions.
         @OptionalCustomCoding<StandardArrayCoder>
         public var typeVersionSummaries: [TypeVersionSummary]?
 
@@ -2734,17 +2788,17 @@ extension CloudFormation {
     }
 
     public struct ListTypesInput: AWSEncodableShape {
-        /// The deprecation status of the types that you want to get summary information about. Valid values include:    LIVE: The type is registered for use in CloudFormation operations.    DEPRECATED: The type has been deregistered and can no longer be used in CloudFormation operations.
+        /// The deprecation status of the extension that you want to get summary information about. Valid values include:    LIVE: The extension is registered for use in CloudFormation operations.    DEPRECATED: The extension has been deregistered and can no longer be used in CloudFormation operations.
         public let deprecatedStatus: DeprecatedStatus?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
-        /// The provisioning behavior of the type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The type does not include an update handler, so the type cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The type does not include create, read, and delete handlers, and therefore cannot actually be provisioned.
+        /// The provisioning behavior of the type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The extension includes an update handler to process updates to the extension during stack update operations.    IMMUTABLE: The extension does not include an update handler, so the extension cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The extension does not include create, read, and delete handlers, and therefore cannot actually be provisioned.
         public let provisioningType: ProvisioningType?
         /// The type of extension.
         public let type: RegistryType?
-        /// The scope at which the type is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The type is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you create as PRIVATE.    PUBLIC: The type is publically visible and usable within any Amazon account.   The default is PRIVATE.
+        /// The scope at which the extension is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The extension is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any extension you create as PRIVATE.    PUBLIC: The extension is publically visible and usable within any Amazon account.   The default is PRIVATE.
         public let visibility: Visibility?
 
         public init(deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, provisioningType: ProvisioningType? = nil, type: RegistryType? = nil, visibility: Visibility? = nil) {
@@ -2776,7 +2830,7 @@ extension CloudFormation {
     public struct ListTypesOutput: AWSDecodableShape {
         /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
-        /// A list of TypeSummary structures that contain information about the specified types.
+        /// A list of TypeSummary structures that contain information about the specified extensions.
         @OptionalCustomCoding<StandardArrayCoder>
         public var typeSummaries: [TypeSummary]?
 
@@ -3026,17 +3080,17 @@ extension CloudFormation {
     }
 
     public struct RegisterTypeInput: AWSEncodableShape {
-        /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of a type from the same registeration request, even if the request is submitted multiple times.
+        /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of an extension from the same registeration request, even if the request is submitted multiple times.
         public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the resource provider. If your resource type calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource provider handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource provider handler, thereby supplying your resource provider with the appropriate credentials.
+        /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. If your extension calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. When CloudFormation needs to invoke the extension handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the extension handler, thereby supplying your extension with the appropriate credentials.
         public let executionRoleArn: String?
-        /// Specifies logging configuration information for a type.
+        /// Specifies logging configuration information for an extension.
         public let loggingConfig: LoggingConfig?
-        /// A url to the S3 bucket containing the schema handler package that contains the schema, event handlers, and associated files for the type you want to register. For information on generating a schema handler package for the type you want to register, see submit in the CloudFormation CLI User Guide.  The user registering the resource provider type must be able to access the the schema handler package in the S3 bucket. That is, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Amazon S3 in the AWS Identity and Access Management User Guide.
+        /// A url to the S3 bucket containing the extension project package that contains the neccessary files for the extension you want to register. For information on generating a schema handler package for the extension you want to register, see submit in the CloudFormation CLI User Guide.  The user registering the extension must be able to access the package in the S3 bucket. That is, the user needs to have GetObject permissions for the schema handler package. For more information, see Actions, Resources, and Condition Keys for Amazon S3 in the AWS Identity and Access Management User Guide.
         public let schemaHandlerPackage: String
-        /// The kind of type. Currently, the only valid value is RESOURCE.
+        /// The kind of extension.
         public let type: RegistryType?
-        /// The name of the type being registered. We recommend that type names adhere to the following pattern: company_or_organization::service::type.  The following organization namespaces are reserved and cannot be used in your resource type names:    Alexa     AMZN     Amazon     AWS     Custom     Dev
+        /// The name of the extension being registered. We recommend that extension names adhere to the following pattern: company_or_organization::service::type.  The following organization namespaces are reserved and cannot be used in your extension names:    Alexa     AMZN     Amazon     AWS     Custom     Dev
         public let typeName: String
 
         public init(clientRequestToken: String? = nil, executionRoleArn: String? = nil, loggingConfig: LoggingConfig? = nil, schemaHandlerPackage: String, type: RegistryType? = nil, typeName: String) {
@@ -3074,7 +3128,7 @@ extension CloudFormation {
     }
 
     public struct RegisterTypeOutput: AWSDecodableShape {
-        /// The identifier for this registration request. Use this registration token when calling  DescribeTypeRegistration , which returns information about the status and IDs of the type registration.
+        /// The identifier for this registration request. Use this registration token when calling  DescribeTypeRegistration , which returns information about the status and IDs of the extension registration.
         public let registrationToken: String?
 
         public init(registrationToken: String? = nil) {
@@ -3305,13 +3359,13 @@ extension CloudFormation {
     }
 
     public struct SetTypeDefaultVersionInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The Amazon Resource Name (ARN) of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
-        /// The kind of type. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The kind of extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let type: RegistryType?
-        /// The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
+        /// The name of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
-        /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
+        /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered.
         public let versionId: String?
 
         public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
@@ -4313,12 +4367,15 @@ extension CloudFormation {
     }
 
     public struct StopStackSetOperationInput: AWSEncodableShape {
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// The ID of the stack operation.
         public let operationId: String
         /// The name or unique ID of the stack set that you want to stop the operation for.
         public let stackSetName: String
 
-        public init(operationId: String, stackSetName: String) {
+        public init(callAs: CallAs? = nil, operationId: String, stackSetName: String) {
+            self.callAs = callAs
             self.operationId = operationId
             self.stackSetName = stackSetName
         }
@@ -4330,6 +4387,7 @@ extension CloudFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAs = "CallAs"
             case operationId = "OperationId"
             case stackSetName = "StackSetName"
         }
@@ -4492,7 +4550,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. (For more information, go to Template Anatomy in the AWS CloudFormation User Guide.) Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let templateBody: String?
-        /// Location of file containing the template body. The URL must point to a template that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+        /// Location of file containing the template body. The URL must point to a template that is located in an Amazon S3 bucket or a Systems Manager document. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let templateURL: String?
         /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
@@ -4569,6 +4627,8 @@ extension CloudFormation {
         /// [Self-managed permissions] The names of one or more AWS accounts for which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and Regions. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCustomCoding<StandardArrayCoder>
         public var accounts: [String]?
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// [Service-managed permissions] The AWS Organizations accounts for which you want to update parameter values for stack instances. If your update targets OUs, the overridden parameter values only apply to the accounts that are currently in the target OUs and their child OUs. Accounts added to the target OUs and their child OUs in the future won't use the overridden values. You can specify Accounts or DeploymentTargets, but not both.
         public let deploymentTargets: DeploymentTargets?
         /// The unique identifier for this stack set operation.  The operation ID also functions as an idempotency token, to ensure that AWS CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that AWS CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.
@@ -4584,8 +4644,9 @@ extension CloudFormation {
         /// The name or unique ID of the stack set associated with the stack instances.
         public let stackSetName: String
 
-        public init(accounts: [String]? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = UpdateStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String], stackSetName: String) {
+        public init(accounts: [String]? = nil, callAs: CallAs? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = UpdateStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String], stackSetName: String) {
             self.accounts = accounts
+            self.callAs = callAs
             self.deploymentTargets = deploymentTargets
             self.operationId = operationId
             self.operationPreferences = operationPreferences
@@ -4611,6 +4672,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case accounts = "Accounts"
+            case callAs = "CallAs"
             case deploymentTargets = "DeploymentTargets"
             case operationId = "OperationId"
             case operationPreferences = "OperationPreferences"
@@ -4654,6 +4716,8 @@ extension CloudFormation {
         public let administrationRoleARN: String?
         /// [Service-managed permissions] Describes whether StackSets automatically deploys to AWS Organizations accounts that are added to a target organization or organizational unit (OU). If you specify AutoDeployment, do not specify DeploymentTargets or Regions.
         public let autoDeployment: AutoDeployment?
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the AWS CloudFormation User Guide.
+        public let callAs: CallAs?
         /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to update the stack set and its associated stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates contain macros. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  Stack sets do not currently support macros in stack templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.) Even if you specify this capability, if you include a macro in your template the stack set operation will fail.
         @OptionalCustomCoding<StandardArrayCoder>
         public var capabilities: [Capability]?
@@ -4682,15 +4746,16 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let templateBody: String?
-        /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
+        /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let templateURL: String?
         /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
 
-        public init(accounts: [String]? = nil, administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, capabilities: [Capability]? = nil, deploymentTargets: DeploymentTargets? = nil, description: String? = nil, executionRoleName: String? = nil, operationId: String? = UpdateStackSetInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, regions: [String]? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
+        public init(accounts: [String]? = nil, administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, callAs: CallAs? = nil, capabilities: [Capability]? = nil, deploymentTargets: DeploymentTargets? = nil, description: String? = nil, executionRoleName: String? = nil, operationId: String? = UpdateStackSetInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, regions: [String]? = nil, stackSetName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.accounts = accounts
             self.administrationRoleARN = administrationRoleARN
             self.autoDeployment = autoDeployment
+            self.callAs = callAs
             self.capabilities = capabilities
             self.deploymentTargets = deploymentTargets
             self.description = description
@@ -4739,6 +4804,7 @@ extension CloudFormation {
             case accounts = "Accounts"
             case administrationRoleARN = "AdministrationRoleARN"
             case autoDeployment = "AutoDeployment"
+            case callAs = "CallAs"
             case capabilities = "Capabilities"
             case deploymentTargets = "DeploymentTargets"
             case description = "Description"
@@ -4807,7 +4873,7 @@ extension CloudFormation {
     public struct ValidateTemplateInput: AWSEncodableShape {
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateBody: String?
-        /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+        /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateURL: String?
 
         public init(templateBody: String? = nil, templateURL: String? = nil) {

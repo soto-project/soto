@@ -549,6 +549,108 @@ extension QuickSight {
         )
     }
 
+    ///  Lists all the versions of the themes in the current AWS account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listThemeVersionsPaginator<Result>(
+        _ input: ListThemeVersionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListThemeVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listThemeVersions,
+            tokenKey: \ListThemeVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listThemeVersionsPaginator(
+        _ input: ListThemeVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListThemeVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listThemeVersions,
+            tokenKey: \ListThemeVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists all the themes in the current AWS account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listThemesPaginator<Result>(
+        _ input: ListThemesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListThemesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listThemes,
+            tokenKey: \ListThemesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listThemesPaginator(
+        _ input: ListThemesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListThemesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listThemes,
+            tokenKey: \ListThemesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Searches for analyses that belong to the user specified in the filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -756,6 +858,28 @@ extension QuickSight.ListTemplatesRequest: AWSPaginateToken {
             awsAccountId: self.awsAccountId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListThemeVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListThemeVersionsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            themeId: self.themeId
+        )
+    }
+}
+
+extension QuickSight.ListThemesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListThemesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            type: self.type
         )
     }
 }

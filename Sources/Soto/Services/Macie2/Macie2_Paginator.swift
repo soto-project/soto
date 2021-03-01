@@ -390,7 +390,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the accounts that are associated with an Amazon Macie master account.
+    ///  Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -514,7 +514,8 @@ extension Macie2.GetUsageStatisticsRequest: AWSPaginateToken {
             filterBy: self.filterBy,
             maxResults: self.maxResults,
             nextToken: token,
-            sortBy: self.sortBy
+            sortBy: self.sortBy,
+            timeRange: self.timeRange
         )
     }
 }

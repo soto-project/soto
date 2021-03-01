@@ -1928,7 +1928,7 @@ extension LocationService {
     }
 
     public struct MapConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the map style selected from an available data provider. Valid styles: VectorEsriLightGrayCanvas, VectorEsriLight, VectorEsriStreets, VectorEsriNavigation, VectorEsriDarkGrayCanvas, VectorEsriLightGrayCanvas, VectorHereBerlin   When using HERE as your data provider, and selecting the Style VectorHereBerlin, you may not use HERE Maps for Asset Management. See the AWS Service Terms for Amazon Location Service.
+        /// Specifies the map style selected from an available data provider. Valid styles: VectorEsriStreets, VectorEsriTopographic, VectorEsriNavigation, VectorEsriDarkGrayCanvas, VectorEsriLightGrayCanvas, VectorHereBerlin.  When using HERE as your data provider, and selecting the Style VectorHereBerlin, you may not use HERE Maps for Asset Management. See the AWS Service Terms for Amazon Location Service.
         public let style: String
 
         public init(style: String) {

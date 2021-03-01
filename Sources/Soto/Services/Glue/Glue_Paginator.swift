@@ -1675,6 +1675,7 @@ extension Glue.GetPartitionsRequest: AWSPaginateToken {
         return .init(
             catalogId: self.catalogId,
             databaseName: self.databaseName,
+            excludeColumnSchema: self.excludeColumnSchema,
             expression: self.expression,
             maxResults: self.maxResults,
             nextToken: token,

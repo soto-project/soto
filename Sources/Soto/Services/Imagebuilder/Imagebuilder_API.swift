@@ -222,6 +222,11 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "ListImageBuildVersions", path: "/ListImageBuildVersions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// List the Packages that are associated with an Image Build Version, as determined by AWS Systems Manager Inventory at build time.
+    public func listImagePackages(_ input: ListImagePackagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagePackagesResponse> {
+        return self.client.execute(operation: "ListImagePackages", path: "/ListImagePackages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Returns a list of images created by the specified pipeline.
     public func listImagePipelineImages(_ input: ListImagePipelineImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagePipelineImagesResponse> {
         return self.client.execute(operation: "ListImagePipelineImages", path: "/ListImagePipelineImages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

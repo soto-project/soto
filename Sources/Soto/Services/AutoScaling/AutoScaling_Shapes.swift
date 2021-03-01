@@ -120,8 +120,12 @@ extension AutoScaling {
     public struct Activity: AWSDecodableShape {
         /// The ID of the activity.
         public let activityId: String
+        /// The Amazon Resource Name (ARN) of the Auto Scaling group.
+        public let autoScalingGroupARN: String?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
+        /// The state of the Auto Scaling group, which is either InService or Deleted.
+        public let autoScalingGroupState: String?
         /// The reason the activity began.
         public let cause: String
         /// A friendly, more verbose description of the activity.
@@ -139,9 +143,11 @@ extension AutoScaling {
         /// A friendly, more verbose description of the activity status.
         public let statusMessage: String?
 
-        public init(activityId: String, autoScalingGroupName: String, cause: String, description: String? = nil, details: String? = nil, endTime: Date? = nil, progress: Int? = nil, startTime: Date, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
+        public init(activityId: String, autoScalingGroupARN: String? = nil, autoScalingGroupName: String, autoScalingGroupState: String? = nil, cause: String, description: String? = nil, details: String? = nil, endTime: Date? = nil, progress: Int? = nil, startTime: Date, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
             self.activityId = activityId
+            self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
+            self.autoScalingGroupState = autoScalingGroupState
             self.cause = cause
             self.description = description
             self.details = details
@@ -154,7 +160,9 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case activityId = "ActivityId"
+            case autoScalingGroupARN = "AutoScalingGroupARN"
             case autoScalingGroupName = "AutoScalingGroupName"
+            case autoScalingGroupState = "AutoScalingGroupState"
             case cause = "Cause"
             case description = "Description"
             case details = "Details"
@@ -1652,14 +1660,17 @@ extension AutoScaling {
         public var activityIds: [String]?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
+        /// Indicates whether to include scaling activity from deleted Auto Scaling groups.
+        public let includeDeletedGroups: Bool?
         /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(activityIds: [String]? = nil, autoScalingGroupName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+        public init(activityIds: [String]? = nil, autoScalingGroupName: String? = nil, includeDeletedGroups: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
             self.activityIds = activityIds
             self.autoScalingGroupName = autoScalingGroupName
+            self.includeDeletedGroups = includeDeletedGroups
             self.maxRecords = maxRecords
             self.nextToken = nextToken
         }
@@ -1677,6 +1688,7 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case activityIds = "ActivityIds"
             case autoScalingGroupName = "AutoScalingGroupName"
+            case includeDeletedGroups = "IncludeDeletedGroups"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
         }

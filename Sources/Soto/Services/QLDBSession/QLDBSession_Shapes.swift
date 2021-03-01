@@ -205,9 +205,9 @@ extension QLDBSession {
     }
 
     public struct IOUsage: AWSDecodableShape {
-        /// The number of read I/O requests that the command performed.
+        /// The number of read I/O requests that the command made.
         public let readIOs: Int64?
-        /// The number of write I/O requests that the command performed.
+        /// The number of write I/O requests that the command made.
         public let writeIOs: Int64?
 
         public init(readIOs: Int64? = nil, writeIOs: Int64? = nil) {
@@ -384,7 +384,7 @@ extension QLDBSession {
     }
 
     public struct TimingInformation: AWSDecodableShape {
-        /// The amount of time that was taken for the command to finish processing, measured in milliseconds.
+        /// The amount of time that QLDB spent on processing the command, measured in milliseconds.
         public let processingTimeMilliseconds: Int64?
 
         public init(processingTimeMilliseconds: Int64? = nil) {

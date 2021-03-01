@@ -62,6 +62,11 @@ public struct MediaPackageVod: AWSService {
 
     // MARK: API Calls
 
+    /// Changes the packaging group's properities to configure log subscription
+    public func configureLogs(_ input: ConfigureLogsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigureLogsResponse> {
+        return self.client.execute(operation: "ConfigureLogs", path: "/packaging_groups/{id}/configure_logs", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new MediaPackage VOD Asset resource.
     public func createAsset(_ input: CreateAssetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAssetResponse> {
         return self.client.execute(operation: "CreateAsset", path: "/assets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

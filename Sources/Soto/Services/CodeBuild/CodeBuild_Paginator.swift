@@ -284,7 +284,7 @@ extension CodeBuild {
         )
     }
 
-    ///  Gets a list of build IDs for the specified build project, with each build ID representing a single build.
+    ///  Gets a list of build identifiers for the specified build project, with each build identifier representing a single build.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

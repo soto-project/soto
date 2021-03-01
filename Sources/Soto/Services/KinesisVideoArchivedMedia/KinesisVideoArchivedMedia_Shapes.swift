@@ -222,7 +222,7 @@ extension KinesisVideoArchivedMedia {
         public func validate(name: String) throws {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -296,7 +296,7 @@ extension KinesisVideoArchivedMedia {
             try self.validate(self.maxManifestFragmentResults, name: "maxManifestFragmentResults", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -366,7 +366,7 @@ extension KinesisVideoArchivedMedia {
             try self.validate(self.maxMediaPlaylistFragmentResults, name: "maxMediaPlaylistFragmentResults", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -401,11 +401,14 @@ extension KinesisVideoArchivedMedia {
     public struct GetMediaForFragmentListInput: AWSEncodableShape {
         /// A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments.
         public let fragments: [String]
-        /// The name of the stream from which to retrieve fragment media.
-        public let streamName: String
+        /// The Amazon Resource Name (ARN) of the stream from which to retrieve fragment media. Specify either this parameter or the StreamName parameter.
+        public let streamARN: String?
+        /// The name of the stream from which to retrieve fragment media. Specify either this parameter or the StreamARN parameter.
+        public let streamName: String?
 
-        public init(fragments: [String], streamName: String) {
+        public init(fragments: [String], streamARN: String? = nil, streamName: String? = nil) {
             self.fragments = fragments
+            self.streamARN = streamARN
             self.streamName = streamName
         }
 
@@ -417,6 +420,9 @@ extension KinesisVideoArchivedMedia {
             }
             try self.validate(self.fragments, name: "fragments", parent: name, max: 1000)
             try self.validate(self.fragments, name: "fragments", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -424,6 +430,7 @@ extension KinesisVideoArchivedMedia {
 
         private enum CodingKeys: String, CodingKey {
             case fragments = "Fragments"
+            case streamARN = "StreamARN"
             case streamName = "StreamName"
         }
     }
@@ -494,13 +501,16 @@ extension KinesisVideoArchivedMedia {
         public let maxResults: Int64?
         /// A token to specify where to start paginating. This is the ListFragmentsOutput$NextToken from a previously truncated response.
         public let nextToken: String?
-        /// The name of the stream from which to retrieve a fragment list.
-        public let streamName: String
+        /// The Amazon Resource Name (ARN) of the stream from which to retrieve a fragment list. Specify either this parameter or the StreamName parameter.
+        public let streamARN: String?
+        /// The name of the stream from which to retrieve a fragment list. Specify either this parameter or the StreamARN parameter.
+        public let streamName: String?
 
-        public init(fragmentSelector: FragmentSelector? = nil, maxResults: Int64? = nil, nextToken: String? = nil, streamName: String) {
+        public init(fragmentSelector: FragmentSelector? = nil, maxResults: Int64? = nil, nextToken: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.fragmentSelector = fragmentSelector
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.streamARN = streamARN
             self.streamName = streamName
         }
 
@@ -510,6 +520,9 @@ extension KinesisVideoArchivedMedia {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/]+={0,2}")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -519,6 +532,7 @@ extension KinesisVideoArchivedMedia {
             case fragmentSelector = "FragmentSelector"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case streamARN = "StreamARN"
             case streamName = "StreamName"
         }
     }

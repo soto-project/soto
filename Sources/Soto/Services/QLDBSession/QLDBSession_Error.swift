@@ -20,6 +20,7 @@ import SotoCore
 public struct QLDBSessionErrorType: AWSErrorType {
     enum Code: String {
         case badRequestException = "BadRequestException"
+        case capacityExceededException = "CapacityExceededException"
         case invalidSessionException = "InvalidSessionException"
         case limitExceededException = "LimitExceededException"
         case occConflictException = "OccConflictException"
@@ -46,6 +47,8 @@ public struct QLDBSessionErrorType: AWSErrorType {
 
     /// Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Returned when the request exceeds the processing capacity of the ledger.
+    public static var capacityExceededException: Self { .init(.capacityExceededException) }
     /// Returned if the session doesn't exist anymore because it timed out or expired.
     public static var invalidSessionException: Self { .init(.invalidSessionException) }
     /// Returned if a resource limit such as number of active sessions is exceeded.

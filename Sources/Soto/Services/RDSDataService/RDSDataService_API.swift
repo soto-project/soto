@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS RDSDataService service.
 ///
-/// Amazon RDS Data Service Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora Serverless DB cluster. To run these statements, you work with the Data Service API. For more information about the Data Service API, see Using the Data API for Aurora Serverless in the Amazon Aurora User Guide.  If you have questions or comments related to the Data API, send email to Rds-data-api-feedback@amazon.com.
+/// Amazon RDS Data Service Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora Serverless DB cluster. To run these statements, you work with the Data Service API. For more information about the Data Service API, see Using the Data API for Aurora Serverless in the Amazon Aurora User Guide.
 public struct RDSDataService: AWSService {
     // MARK: Member variables
 

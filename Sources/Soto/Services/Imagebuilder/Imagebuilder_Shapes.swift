@@ -43,6 +43,7 @@ extension Imagebuilder {
 
     public enum EbsVolumeType: String, CustomStringConvertible, Codable {
         case gp2
+        case gp3
         case io1
         case io2
         case sc1
@@ -2161,6 +2162,23 @@ extension Imagebuilder {
         }
     }
 
+    public struct ImagePackage: AWSDecodableShape {
+        /// The name of the package as reported to the operating system package manager.
+        public let packageName: String?
+        /// The version of the package as reported to the operating system package manager.
+        public let packageVersion: String?
+
+        public init(packageName: String? = nil, packageVersion: String? = nil) {
+            self.packageName = packageName
+            self.packageVersion = packageVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageName
+            case packageVersion
+        }
+    }
+
     public struct ImagePipeline: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the image pipeline.
         public let arn: String?
@@ -2646,6 +2664,10 @@ extension Imagebuilder {
         public let dateUpdated: String?
         /// The description of the infrastructure configuration.
         public let description: String?
+        /// The instance profile of the infrastructure configuration.
+        public let instanceProfileName: String?
+        /// The instance types of the infrastructure configuration.
+        public let instanceTypes: [String]?
         /// The name of the infrastructure configuration.
         public let name: String?
         /// The tags attached to the image created by Image Builder.
@@ -2653,11 +2675,13 @@ extension Imagebuilder {
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, name: String? = nil, resourceTags: [String: String]? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, name: String? = nil, resourceTags: [String: String]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
             self.description = description
+            self.instanceProfileName = instanceProfileName
+            self.instanceTypes = instanceTypes
             self.name = name
             self.resourceTags = resourceTags
             self.tags = tags
@@ -2668,6 +2692,8 @@ extension Imagebuilder {
             case dateCreated
             case dateUpdated
             case description
+            case instanceProfileName
+            case instanceTypes
             case name
             case resourceTags
             case tags
@@ -3016,6 +3042,56 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case imageSummaryList
+            case nextToken
+            case requestId
+        }
+    }
+
+    public struct ListImagePackagesRequest: AWSEncodableShape {
+        /// Filter results for the ListImagePackages request by the Image Build Version ARN
+        public let imageBuildVersionArn: String
+        /// The maxiumum number of results to return from the ListImagePackages request.
+        public let maxResults: Int?
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
+        public let nextToken: String?
+
+        public init(imageBuildVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.imageBuildVersionArn = imageBuildVersionArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageBuildVersionArn
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListImagePackagesResponse: AWSDecodableShape {
+        /// The list of Image Packages returned in the response.
+        public let imagePackageList: [ImagePackage]?
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
+        public let nextToken: String?
+        /// The request ID that uniquely identifies this request.
+        public let requestId: String?
+
+        public init(imagePackageList: [ImagePackage]? = nil, nextToken: String? = nil, requestId: String? = nil) {
+            self.imagePackageList = imagePackageList
+            self.nextToken = nextToken
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imagePackageList
             case nextToken
             case requestId
         }
@@ -3567,20 +3643,27 @@ extension Imagebuilder {
         public let pipelineExecutionStartCondition: PipelineExecutionStartCondition?
         /// The cron expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition. For information on how to format a cron expression in Image Builder, see Use cron expressions in EC2 Image Builder.
         public let scheduleExpression: String?
+        /// The timezone that applies to the scheduling expression. For example, "Etc/UTC", "America/Los_Angeles" in the IANA timezone format. If not specified this defaults to UTC.
+        public let timezone: String?
 
-        public init(pipelineExecutionStartCondition: PipelineExecutionStartCondition? = nil, scheduleExpression: String? = nil) {
+        public init(pipelineExecutionStartCondition: PipelineExecutionStartCondition? = nil, scheduleExpression: String? = nil, timezone: String? = nil) {
             self.pipelineExecutionStartCondition = pipelineExecutionStartCondition
             self.scheduleExpression = scheduleExpression
+            self.timezone = timezone
         }
 
         public func validate(name: String) throws {
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 1024)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.validate(self.timezone, name: "timezone", parent: name, max: 100)
+            try self.validate(self.timezone, name: "timezone", parent: name, min: 3)
+            try self.validate(self.timezone, name: "timezone", parent: name, pattern: "[a-zA-Z0-9]{2,}(?:\\/[a-zA-z0-9-_+]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case pipelineExecutionStartCondition
             case scheduleExpression
+            case timezone
         }
     }
 

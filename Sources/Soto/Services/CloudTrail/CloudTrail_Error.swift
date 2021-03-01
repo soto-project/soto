@@ -23,6 +23,7 @@ public struct CloudTrailErrorType: AWSErrorType {
         case cloudTrailAccessNotEnabledException = "CloudTrailAccessNotEnabledException"
         case cloudTrailInvalidClientTokenIdException = "CloudTrailInvalidClientTokenIdException"
         case cloudWatchLogsDeliveryUnavailableException = "CloudWatchLogsDeliveryUnavailableException"
+        case conflictException = "ConflictException"
         case insightNotEnabledException = "InsightNotEnabledException"
         case insufficientDependencyServiceAccessPermissionException = "InsufficientDependencyServiceAccessPermissionException"
         case insufficientEncryptionPolicyException = "InsufficientEncryptionPolicyException"
@@ -90,6 +91,8 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var cloudTrailInvalidClientTokenIdException: Self { .init(.cloudTrailInvalidClientTokenIdException) }
     /// Cannot set a CloudWatch Logs delivery for this region.
     public static var cloudWatchLogsDeliveryUnavailableException: Self { .init(.cloudWatchLogsDeliveryUnavailableException) }
+    /// This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a trail before CloudTrail has time to fully load the trail. If this exception occurs, wait a few minutes, and then try the operation again.
+    public static var conflictException: Self { .init(.conflictException) }
     /// If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
     public static var insightNotEnabledException: Self { .init(.insightNotEnabledException) }
     /// This exception is thrown when the IAM user or role that is used to create the organization trail is lacking one or more required permissions for creating an organization trail in a required service. For more information, see Prepare For Creating a Trail For Your Organization.

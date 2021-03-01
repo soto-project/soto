@@ -1066,7 +1066,6 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try self.parameters?.validate(name: "\(name).parameters")
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
@@ -1194,7 +1193,6 @@ extension QuickSight {
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try self.parameters?.validate(name: "\(name).parameters")
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
@@ -1273,6 +1271,8 @@ extension QuickSight {
         public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
         /// An ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
         public let dataSetId: String
+        /// The folder that contains fields and nested subfolders for your dataset.
+        public let fieldFolders: [String: FieldFolder]?
         /// Indicates whether you want to import the data into SPICE.
         public let importMode: DataSetImportMode
         /// Configures the combination and transformation of the data from the physical tables.
@@ -1288,11 +1288,12 @@ extension QuickSight {
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
         public let tags: [Tag]?
 
-        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, tags: [Tag]? = nil) {
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, tags: [Tag]? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
             self.dataSetId = dataSetId
+            self.fieldFolders = fieldFolders
             self.importMode = importMode
             self.logicalTableMap = logicalTableMap
             self.name = name
@@ -1315,6 +1316,11 @@ extension QuickSight {
                 try $0.validate(name: "\(name).columnLevelPermissionRules[]")
             }
             try self.validate(self.columnLevelPermissionRules, name: "columnLevelPermissionRules", parent: name, min: 1)
+            try self.fieldFolders?.forEach {
+                try validate($0.key, name: "fieldFolders.key", parent: name, max: 1000)
+                try validate($0.key, name: "fieldFolders.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).fieldFolders[\"\($0.key)\"]")
+            }
             try self.logicalTableMap?.forEach {
                 try validate($0.key, name: "logicalTableMap.key", parent: name, max: 64)
                 try validate($0.key, name: "logicalTableMap.key", parent: name, min: 1)
@@ -1346,6 +1352,7 @@ extension QuickSight {
             case columnGroups = "ColumnGroups"
             case columnLevelPermissionRules = "ColumnLevelPermissionRules"
             case dataSetId = "DataSetId"
+            case fieldFolders = "FieldFolders"
             case importMode = "ImportMode"
             case logicalTableMap = "LogicalTableMap"
             case name = "Name"
@@ -1414,7 +1421,7 @@ extension QuickSight {
         public let sslProperties: SslProperties?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the data source.
         public let tags: [Tag]?
-        /// The type of the data source. Currently, the supported types for this operation are: ATHENA, AURORA, AURORA_POSTGRESQL, MARIADB, MYSQL, POSTGRESQL, PRESTO, REDSHIFT, S3, SNOWFLAKE, SPARK, SQLSERVER, TERADATA. Use ListDataSources to return a list of all data sources.
+        /// The type of the data source. Currently, the supported types for this operation are: ATHENA, AURORA, AURORA_POSTGRESQL, AMAZON_ELASTICSEARCH, MARIADB, MYSQL, POSTGRESQL, PRESTO, REDSHIFT, S3, SNOWFLAKE, SPARK, SQLSERVER, TERADATA. Use ListDataSources to return a list of all data sources.  AMAZON_ELASTICSEARCH is for Amazon managed Elasticsearch Service.
         public let type: DataSourceType
         /// Use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
@@ -1965,7 +1972,6 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
             }
@@ -2576,6 +2582,8 @@ extension QuickSight {
         public let createdTime: Date?
         /// The ID of the dataset.
         public let dataSetId: String?
+        /// The folder that contains fields and nested subfolders for your dataset.
+        public let fieldFolders: [String: FieldFolder]?
         /// A value that indicates whether you want to import the data into SPICE.
         public let importMode: DataSetImportMode?
         /// The last time that this dataset was updated.
@@ -2591,13 +2599,14 @@ extension QuickSight {
         /// The row-level security configuration for the dataset.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
 
-        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
             self.arn = arn
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
             self.consumedSpiceCapacityInBytes = consumedSpiceCapacityInBytes
             self.createdTime = createdTime
             self.dataSetId = dataSetId
+            self.fieldFolders = fieldFolders
             self.importMode = importMode
             self.lastUpdatedTime = lastUpdatedTime
             self.logicalTableMap = logicalTableMap
@@ -2614,6 +2623,7 @@ extension QuickSight {
             case consumedSpiceCapacityInBytes = "ConsumedSpiceCapacityInBytes"
             case createdTime = "CreatedTime"
             case dataSetId = "DataSetId"
+            case fieldFolders = "FieldFolders"
             case importMode = "ImportMode"
             case lastUpdatedTime = "LastUpdatedTime"
             case logicalTableMap = "LogicalTableMap"
@@ -5096,6 +5106,28 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct FieldFolder: AWSEncodableShape & AWSDecodableShape {
+        /// A folder has a list of columns. A column can only be in one folder.
+        public let columns: [String]?
+        /// The description for a field folder.
+        public let description: String?
+
+        public init(columns: [String]? = nil, description: String? = nil) {
+            self.columns = columns
+            self.description = description
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columns, name: "columns", parent: name, max: 5000)
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns
+            case description
         }
     }
 
@@ -7599,11 +7631,11 @@ extension QuickSight {
     }
 
     public struct RowLevelPermissionDataSet: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the permission dataset.
+        /// The Amazon Resource Name (ARN) of the dataset that contains permissions for RLS.
         public let arn: String
-        /// The namespace associated with the row-level permissions dataset.
+        /// The namespace associated with the dataset that contains permissions for RLS.
         public let namespace: String?
-        /// Permission policy.
+        /// The type of permissions to use when interpretting the permissions for RLS. DENY_ACCESS is included for backward compatibility only.
         public let permissionPolicy: RowLevelPermissionPolicy
 
         public init(arn: String, namespace: String? = nil, permissionPolicy: RowLevelPermissionPolicy) {
@@ -7642,7 +7674,7 @@ extension QuickSight {
     }
 
     public struct S3Source: AWSEncodableShape & AWSDecodableShape {
-        /// The amazon Resource Name (ARN) for the data source.
+        /// The Amazon Resource Name (ARN) for the data source.
         public let dataSourceArn: String
         /// A physical table type for as S3 data source.
         public let inputColumns: [InputColumn]
@@ -7697,6 +7729,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -7763,6 +7796,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9027,7 +9061,6 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try self.parameters?.validate(name: "\(name).parameters")
             try self.sourceEntity.validate(name: "\(name).sourceEntity")
         }
@@ -9256,7 +9289,6 @@ extension QuickSight {
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try self.parameters?.validate(name: "\(name).parameters")
             try self.sourceEntity.validate(name: "\(name).sourceEntity")
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
@@ -9393,6 +9425,8 @@ extension QuickSight {
         public let columnLevelPermissionRules: [ColumnLevelPermissionRule]?
         /// The ID for the dataset that you want to update. This ID is unique per AWS Region for each AWS account.
         public let dataSetId: String
+        /// The folder that contains fields and nested subfolders for your dataset.
+        public let fieldFolders: [String: FieldFolder]?
         /// Indicates whether you want to import the data into SPICE.
         public let importMode: DataSetImportMode
         /// Configures the combination and transformation of the data from the physical tables.
@@ -9404,11 +9438,12 @@ extension QuickSight {
         /// The row-level security configuration for the data you want to create.
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
 
-        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
             self.dataSetId = dataSetId
+            self.fieldFolders = fieldFolders
             self.importMode = importMode
             self.logicalTableMap = logicalTableMap
             self.name = name
@@ -9429,6 +9464,11 @@ extension QuickSight {
                 try $0.validate(name: "\(name).columnLevelPermissionRules[]")
             }
             try self.validate(self.columnLevelPermissionRules, name: "columnLevelPermissionRules", parent: name, min: 1)
+            try self.fieldFolders?.forEach {
+                try validate($0.key, name: "fieldFolders.key", parent: name, max: 1000)
+                try validate($0.key, name: "fieldFolders.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).fieldFolders[\"\($0.key)\"]")
+            }
             try self.logicalTableMap?.forEach {
                 try validate($0.key, name: "logicalTableMap.key", parent: name, max: 64)
                 try validate($0.key, name: "logicalTableMap.key", parent: name, min: 1)
@@ -9449,6 +9489,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case columnGroups = "ColumnGroups"
             case columnLevelPermissionRules = "ColumnLevelPermissionRules"
+            case fieldFolders = "FieldFolders"
             case importMode = "ImportMode"
             case logicalTableMap = "LogicalTableMap"
             case name = "Name"
@@ -9977,7 +10018,6 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try self.sourceEntity.validate(name: "\(name).sourceEntity")
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)

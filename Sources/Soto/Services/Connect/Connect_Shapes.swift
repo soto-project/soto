@@ -4150,7 +4150,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.concurrency, name: "concurrency", parent: name, max: 5)
+            try self.validate(self.concurrency, name: "concurrency", parent: name, max: 10)
             try self.validate(self.concurrency, name: "concurrency", parent: name, min: 1)
         }
 

@@ -255,6 +255,21 @@
           "us-west-2" : { }
         }
       },
+      "amplifybackend" : {
+        "endpoints" : {
+          "ap-northeast-2" : { },
+          "ap-south-1" : { },
+          "ap-southeast-1" : { },
+          "ap-southeast-2" : { },
+          "eu-central-1" : { },
+          "eu-south-1" : { },
+          "eu-west-1" : { },
+          "eu-west-2" : { },
+          "us-east-1" : { },
+          "us-east-2" : { },
+          "us-west-2" : { }
+        }
+      },
       "api.detective" : {
         "defaults" : {
           "protocols" : [ "https" ]
@@ -1448,6 +1463,12 @@
             },
             "hostname" : "cognito-idp-fips.us-east-2.amazonaws.com"
           },
+          "fips-us-west-1" : {
+            "credentialScope" : {
+              "region" : "us-west-1"
+            },
+            "hostname" : "cognito-idp-fips.us-west-1.amazonaws.com"
+          },
           "fips-us-west-2" : {
             "credentialScope" : {
               "region" : "us-west-2"
@@ -1603,7 +1624,10 @@
       },
       "contact-lens" : {
         "endpoints" : {
+          "ap-northeast-1" : { },
           "ap-southeast-2" : { },
+          "eu-central-1" : { },
+          "eu-west-2" : { },
           "us-east-1" : { },
           "us-west-2" : { }
         }
@@ -6328,6 +6352,7 @@
       },
       "transfer" : {
         "endpoints" : {
+          "ap-east-1" : { },
           "ap-northeast-1" : { },
           "ap-northeast-2" : { },
           "ap-south-1" : { },
@@ -6369,6 +6394,7 @@
             },
             "hostname" : "transfer-fips.us-west-2.amazonaws.com"
           },
+          "me-south-1" : { },
           "sa-east-1" : { },
           "us-east-1" : { },
           "us-east-2" : { },
@@ -7165,6 +7191,16 @@
         },
         "isRegionalized" : true
       },
+      "guardduty" : {
+        "defaults" : {
+          "protocols" : [ "https" ]
+        },
+        "endpoints" : {
+          "cn-north-1" : { },
+          "cn-northwest-1" : { }
+        },
+        "isRegionalized" : true
+      },
       "health" : {
         "endpoints" : {
           "cn-north-1" : { },
@@ -7958,6 +7994,11 @@
           "us-gov-west-1" : { }
         }
       },
+      "connect" : {
+        "endpoints" : {
+          "us-gov-west-1" : { }
+        }
+      },
       "data.iot" : {
         "defaults" : {
           "credentialScope" : {
@@ -8566,6 +8607,22 @@
           "us-gov-west-1" : { }
         }
       },
+      "models.lex" : {
+        "defaults" : {
+          "credentialScope" : {
+            "service" : "lex"
+          }
+        },
+        "endpoints" : {
+          "us-gov-west-1" : { },
+          "us-gov-west-1-fips" : {
+            "credentialScope" : {
+              "region" : "us-gov-west-1"
+            },
+            "hostname" : "models-fips.lex.us-gov-west-1.amazonaws.com"
+          }
+        }
+      },
       "monitoring" : {
         "endpoints" : {
           "fips-us-gov-east-1" : {
@@ -8759,9 +8816,31 @@
           "us-gov-west-1" : { }
         }
       },
+      "runtime.lex" : {
+        "defaults" : {
+          "credentialScope" : {
+            "service" : "lex"
+          }
+        },
+        "endpoints" : {
+          "us-gov-west-1" : { },
+          "us-gov-west-1-fips" : {
+            "credentialScope" : {
+              "region" : "us-gov-west-1"
+            },
+            "hostname" : "runtime-fips.lex.us-gov-west-1.amazonaws.com"
+          }
+        }
+      },
       "runtime.sagemaker" : {
         "endpoints" : {
-          "us-gov-west-1" : { }
+          "us-gov-west-1" : { },
+          "us-gov-west-1-fips" : {
+            "credentialScope" : {
+              "region" : "us-gov-west-1"
+            },
+            "hostname" : "runtime.sagemaker.us-gov-west-1.amazonaws.com"
+          }
         }
       },
       "s3" : {
@@ -9418,6 +9497,11 @@
         }
       },
       "monitoring" : {
+        "endpoints" : {
+          "us-iso-east-1" : { }
+        }
+      },
+      "outposts" : {
         "endpoints" : {
           "us-iso-east-1" : { }
         }

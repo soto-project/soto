@@ -1125,9 +1125,9 @@ extension EMR {
     public struct CreateStudioInput: AWSEncodableShape {
         /// Specifies whether the Studio authenticates users using single sign-on (SSO) or IAM. Amazon EMR Studio currently only supports SSO authentication.
         public let authMode: AuthMode
-        /// The default Amazon S3 location to back up EMR Studio Workspaces and notebook files. A Studio user can select an alternative Amazon S3 location when creating a Workspace.
-        public let defaultS3Location: String?
-        /// A detailed description of the Studio.
+        /// The default Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files. A Studio user can select an alternative Amazon S3 location when creating a Workspace.
+        public let defaultS3Location: String
+        /// A detailed description of the Amazon EMR Studio.
         public let description: String?
         /// The ID of the Amazon EMR Studio Engine security group. The Engine security group allows inbound network traffic from the Workspace security group, and it must be in the same VPC specified by VpcId.
         public let engineSecurityGroupId: String
@@ -1135,18 +1135,18 @@ extension EMR {
         public let name: String
         /// The IAM role that will be assumed by the Amazon EMR Studio. The service role provides a way for Amazon EMR Studio to interoperate with other AWS services.
         public let serviceRole: String
-        /// A list of subnet IDs to associate with the Studio. The subnets must belong to the VPC specified by VpcId. Studio users can create a Workspace in any of the specified subnets.
+        /// A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can have a maximum of 5 subnets. The subnets must belong to the VPC specified by VpcId. Studio users can create a Workspace in any of the specified subnets.
         public let subnetIds: [String]
-        /// A list of tags to associate with the Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
+        /// A list of tags to associate with the Amazon EMR Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
         public let tags: [Tag]?
-        /// The IAM user role that will be assumed by users and groups logged in to a Studio. The permissions attached to this IAM role can be scoped down for each user or group using session policies.
+        /// The IAM user role that will be assumed by users and groups logged in to an Amazon EMR Studio. The permissions attached to this IAM role can be scoped down for each user or group using session policies.
         public let userRole: String
         /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio.
         public let vpcId: String
         /// The ID of the Amazon EMR Studio Workspace security group. The Workspace security group allows outbound network traffic to resources in the Engine security group, and it must be in the same VPC specified by VpcId.
         public let workspaceSecurityGroupId: String
 
-        public init(authMode: AuthMode, defaultS3Location: String? = nil, description: String? = nil, engineSecurityGroupId: String, name: String, serviceRole: String, subnetIds: [String], tags: [Tag]? = nil, userRole: String, vpcId: String, workspaceSecurityGroupId: String) {
+        public init(authMode: AuthMode, defaultS3Location: String, description: String? = nil, engineSecurityGroupId: String, name: String, serviceRole: String, subnetIds: [String], tags: [Tag]? = nil, userRole: String, vpcId: String, workspaceSecurityGroupId: String) {
             self.authMode = authMode
             self.defaultS3Location = defaultS3Location
             self.description = description
@@ -1224,7 +1224,7 @@ extension EMR {
         public let identityId: String?
         /// The name of the user or group. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityName: String?
-        /// Specifies whether the identity to map to the Studio is a user or a group.
+        /// Specifies whether the identity to map to the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType
         /// The Amazon Resource Name (ARN) for the session policy that will be applied to the user or group. Session policies refine Studio user permissions without the need to use multiple IAM user roles.
         public let sessionPolicyArn: String
@@ -1308,9 +1308,9 @@ extension EMR {
     public struct DeleteStudioSessionMappingInput: AWSEncodableShape {
         /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
-        /// The name of the user name or group to remove from the Studio. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityName: String?
-        /// Specifies whether the identity to delete from the Studio is a user or a group.
+        /// Specifies whether the identity to delete from the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType
         /// The ID of the Amazon EMR Studio.
         public let studioId: String
@@ -1824,7 +1824,7 @@ extension EMR {
         public let jar: String
         /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a Main-Class in its manifest file.
         public let mainClass: String?
-        /// A list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function.
+        /// A list of Java properties that are set when the step runs. You can use these properties to pass key-value pairs to your main function.
         public let properties: [KeyValue]?
 
         public init(args: [String]? = nil, jar: String, mainClass: String? = nil, properties: [KeyValue]? = nil) {
@@ -1960,7 +1960,7 @@ extension EMR {
         public let status: InstanceFleetStatus?
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand Instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand Instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand Instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedOnDemandCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only Spot Instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
         public let targetOnDemandCapacity: Int?
-        /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedSpotCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
+        /// The target capacity of Spot units for the instance fleet, which determines how many Spot Instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot Instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedSpotCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only On-Demand Instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
         public let targetSpotCapacity: Int?
 
         public init(id: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, provisionedOnDemandCapacity: Int? = nil, provisionedSpotCapacity: Int? = nil, status: InstanceFleetStatus? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
@@ -1991,7 +1991,7 @@ extension EMR {
     }
 
     public struct InstanceFleetConfig: AWSEncodableShape {
-        /// The node type that the instance fleet hosts. Valid values are MASTER,CORE,and TASK.
+        /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, and TASK.
         public let instanceFleetType: InstanceFleetType
         /// The instance type configurations that define the EC2 instances in the instance fleet.
         public let instanceTypeConfigs: [InstanceTypeConfig]?
@@ -2221,7 +2221,7 @@ extension EMR {
     public struct InstanceGroupConfig: AWSEncodableShape {
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicy?
-        /// The bid price for each EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        /// The bid price for each EC2 Spot Instance as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
@@ -2277,7 +2277,7 @@ extension EMR {
     }
 
     public struct InstanceGroupDetail: AWSDecodableShape {
-        /// The bid price for each EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        /// The bid price for each EC2 Spot Instance as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         /// The date/time the instance group was created.
         public let creationDateTime: Date
@@ -3318,7 +3318,7 @@ extension EMR {
     public struct ListStudioSessionMappingsOutput: AWSDecodableShape {
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
-        /// A list of session mapping summary objects. Each object includes session mapping details such as creation time, identity type (user or group), and Studio ID.
+        /// A list of session mapping summary objects. Each object includes session mapping details such as creation time, identity type (user or group), and Amazon EMR Studio ID.
         public let sessionMappings: [SessionMappingSummary]?
 
         public init(marker: String? = nil, sessionMappings: [SessionMappingSummary]? = nil) {
@@ -3670,7 +3670,7 @@ extension EMR {
     public struct PutAutoScalingPolicyOutput: AWSDecodableShape {
         /// The automatic scaling policy definition.
         public let autoScalingPolicy: AutoScalingPolicyDescription?
-        /// The Amazon Resource Name of the cluster.
+        /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
         public let clusterId: String?
@@ -3824,7 +3824,7 @@ extension EMR {
         public let managedScalingPolicy: ManagedScalingPolicy?
         /// The name of the job flow.
         public let name: String
-        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.
+        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analytics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.
         public let newSupportedProducts: [SupportedProductConfig]?
         /// The specified placement group configuration for an Amazon EMR cluster.
         public let placementGroupConfigs: [PlacementGroupConfig]?
@@ -3963,9 +3963,9 @@ extension EMR {
     }
 
     public struct RunJobFlowOutput: AWSDecodableShape {
-        /// The Amazon Resource Name of the cluster.
+        /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
-        /// An unique identifier for the job flow.
+        /// A unique identifier for the job flow.
         public let jobFlowId: String?
 
         public init(clusterArn: String? = nil, jobFlowId: String? = nil) {
@@ -4111,7 +4111,7 @@ extension EMR {
         public let identityId: String?
         /// The name of the user or group. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference.
         public let identityName: String?
-        /// Specifies whether the identity mapped to the Studio is a user or a group.
+        /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType?
         /// The time the session mapping was last modified.
         public let lastModifiedTime: Date?
@@ -4148,7 +4148,7 @@ extension EMR {
         public let identityId: String?
         /// The name of the user or group. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference.
         public let identityName: String?
-        /// Specifies whether the identity mapped to the Studio is a user or a group.
+        /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType?
         /// The Amazon Resource Name (ARN) of the session policy associated with the user or group.
         public let sessionPolicyArn: String?
@@ -4265,7 +4265,7 @@ extension EMR {
     public struct SpotProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies the strategy to use in launching Spot Instance fleets. Currently, the only option is capacity-optimized (the default), which launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public let allocationStrategy: SpotProvisioningAllocationStrategy?
-        /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates.
+        /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot Instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates.
         public let blockDurationMinutes: Int?
         /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired; that is, when all Spot Instances could not be provisioned within the Spot provisioning timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot Instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
         public let timeoutAction: SpotProvisioningTimeoutAction
@@ -4583,23 +4583,23 @@ extension EMR {
     }
 
     public struct Studio: AWSDecodableShape {
-        /// Specifies whether the Studio authenticates users using single sign-on (SSO) or IAM.
+        /// Specifies whether the Amazon EMR Studio authenticates users using single sign-on (SSO) or IAM.
         public let authMode: AuthMode?
         /// The time the Amazon EMR Studio was created.
         public let creationTime: Date?
         /// The default Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
         public let defaultS3Location: String?
-        /// The detailed description of the EMR Studio.
+        /// The detailed description of the Amazon EMR Studio.
         public let description: String?
         /// The ID of the Engine security group associated with the Amazon EMR Studio. The Engine security group allows inbound network traffic from resources in the Workspace security group.
         public let engineSecurityGroupId: String?
-        /// The name of the EMR Studio.
+        /// The name of the Amazon EMR Studio.
         public let name: String?
         /// The name of the IAM role assumed by the Amazon EMR Studio.
         public let serviceRole: String?
-        /// The Amazon Resource Name (ARN) of the EMR Studio.
+        /// The Amazon Resource Name (ARN) of the Amazon EMR Studio.
         public let studioArn: String?
-        /// The ID of the EMR Studio.
+        /// The ID of the Amazon EMR Studio.
         public let studioId: String?
         /// The list of IDs of the subnets associated with the Amazon EMR Studio.
         public let subnetIds: [String]?
@@ -4609,7 +4609,7 @@ extension EMR {
         public let url: String?
         /// The name of the IAM role assumed by users logged in to the Amazon EMR Studio.
         public let userRole: String?
-        /// The ID of the VPC associated with the EMR Studio.
+        /// The ID of the VPC associated with the Amazon EMR Studio.
         public let vpcId: String?
         /// The ID of the Workspace security group associated with the Amazon EMR Studio. The Workspace security group allows outbound network traffic to resources in the Engine security group and to the internet.
         public let workspaceSecurityGroupId: String?
@@ -4654,7 +4654,7 @@ extension EMR {
     public struct StudioSummary: AWSDecodableShape {
         /// The time when the Amazon EMR Studio was created.
         public let creationTime: Date?
-        /// The detailed description of the EMR Studio.
+        /// The detailed description of the Amazon EMR Studio.
         public let description: String?
         /// The name of the Amazon EMR Studio.
         public let name: String?
@@ -4750,6 +4750,50 @@ extension EMR {
         }
     }
 
+    public struct UpdateStudioInput: AWSEncodableShape {
+        /// A default Amazon S3 location to back up Workspaces and notebook files for the Amazon EMR Studio. A Studio user can select an alternative Amazon S3 location when creating a Workspace.
+        public let defaultS3Location: String?
+        /// A detailed description to assign to the Amazon EMR Studio.
+        public let description: String?
+        /// A descriptive name for the Amazon EMR Studio.
+        public let name: String?
+        /// The ID of the Amazon EMR Studio to update.
+        public let studioId: String
+        /// A list of subnet IDs to associate with the Amazon EMR Studio. The list can include new subnet IDs, but must also include all of the subnet IDs previously associated with the Studio. The list order does not matter. A Studio can have a maximum of 5 subnets. The subnets must belong to the same VPC as the Studio.
+        public let subnetIds: [String]?
+
+        public init(defaultS3Location: String? = nil, description: String? = nil, name: String? = nil, studioId: String, subnetIds: [String]? = nil) {
+            self.defaultS3Location = defaultS3Location
+            self.description = description
+            self.name = name
+            self.studioId = studioId
+            self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultS3Location, name: "defaultS3Location", parent: name, max: 10280)
+            try self.validate(self.defaultS3Location, name: "defaultS3Location", parent: name, min: 0)
+            try self.validate(self.defaultS3Location, name: "defaultS3Location", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.studioId, name: "studioId", parent: name, max: 256)
+            try self.validate(self.studioId, name: "studioId", parent: name, min: 0)
+            try self.validate(self.studioId, name: "studioId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultS3Location = "DefaultS3Location"
+            case description = "Description"
+            case name = "Name"
+            case studioId = "StudioId"
+            case subnetIds = "SubnetIds"
+        }
+    }
+
     public struct UpdateStudioSessionMappingInput: AWSEncodableShape {
         /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
@@ -4759,7 +4803,7 @@ extension EMR {
         public let identityType: IdentityType
         /// The Amazon Resource Name (ARN) of the session policy to associate with the specified user or group.
         public let sessionPolicyArn: String
-        /// The ID of the EMR Studio.
+        /// The ID of the Amazon EMR Studio.
         public let studioId: String
 
         public init(identityId: String? = nil, identityName: String? = nil, identityType: IdentityType, sessionPolicyArn: String, studioId: String) {

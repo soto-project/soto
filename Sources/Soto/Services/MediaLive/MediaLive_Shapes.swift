@@ -3240,6 +3240,39 @@ extension MediaLive {
         }
     }
 
+    public struct CreatePartnerInputRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "inputId", location: .uri(locationName: "inputId"))
+        ]
+
+        public let inputId: String
+        public let requestId: String?
+        public let tags: [String: String]?
+
+        public init(inputId: String, requestId: String? = CreatePartnerInputRequest.idempotencyToken(), tags: [String: String]? = nil) {
+            self.inputId = inputId
+            self.requestId = requestId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId
+            case tags
+        }
+    }
+
+    public struct CreatePartnerInputResponse: AWSDecodableShape {
+        public let input: Input?
+
+        public init(input: Input? = nil) {
+            self.input = input
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input
+        }
+    }
+
     public struct CreateTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn"))
@@ -3780,6 +3813,7 @@ extension MediaLive {
         public let id: String?
         public let inputClass: InputClass?
         public let inputDevices: [InputDeviceSettings]?
+        public let inputPartnerIds: [String]?
         public let inputSourceType: InputSourceType?
         public let mediaConnectFlows: [MediaConnectFlow]?
         public let name: String?
@@ -3790,13 +3824,14 @@ extension MediaLive {
         public let tags: [String: String]?
         public let type: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
             self.id = id
             self.inputClass = inputClass
             self.inputDevices = inputDevices
+            self.inputPartnerIds = inputPartnerIds
             self.inputSourceType = inputSourceType
             self.mediaConnectFlows = mediaConnectFlows
             self.name = name
@@ -3815,6 +3850,7 @@ extension MediaLive {
             case id
             case inputClass
             case inputDevices
+            case inputPartnerIds
             case inputSourceType
             case mediaConnectFlows
             case name
@@ -4707,6 +4743,10 @@ extension MediaLive {
         }
     }
 
+    public struct FrameCaptureHlsSettings: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct FrameCaptureOutputSettings: AWSEncodableShape & AWSDecodableShape {
         /// Required if the output group contains more than one output. This modifier forms part of the output file name.
         public let nameModifier: String?
@@ -4722,11 +4762,11 @@ extension MediaLive {
 
     public struct FrameCaptureSettings: AWSEncodableShape & AWSDecodableShape {
         /// The frequency at which to capture frames for inclusion in the output. May be specified in either seconds or milliseconds, as specified by captureIntervalUnits.
-        public let captureInterval: Int
+        public let captureInterval: Int?
         /// Unit for the frame capture interval.
         public let captureIntervalUnits: FrameCaptureIntervalUnit?
 
-        public init(captureInterval: Int, captureIntervalUnits: FrameCaptureIntervalUnit? = nil) {
+        public init(captureInterval: Int? = nil, captureIntervalUnits: FrameCaptureIntervalUnit? = nil) {
             self.captureInterval = captureInterval
             self.captureIntervalUnits = captureIntervalUnits
         }
@@ -5702,11 +5742,13 @@ extension MediaLive {
     public struct HlsSettings: AWSEncodableShape & AWSDecodableShape {
         public let audioOnlyHlsSettings: AudioOnlyHlsSettings?
         public let fmp4HlsSettings: Fmp4HlsSettings?
+        public let frameCaptureHlsSettings: FrameCaptureHlsSettings?
         public let standardHlsSettings: StandardHlsSettings?
 
-        public init(audioOnlyHlsSettings: AudioOnlyHlsSettings? = nil, fmp4HlsSettings: Fmp4HlsSettings? = nil, standardHlsSettings: StandardHlsSettings? = nil) {
+        public init(audioOnlyHlsSettings: AudioOnlyHlsSettings? = nil, fmp4HlsSettings: Fmp4HlsSettings? = nil, frameCaptureHlsSettings: FrameCaptureHlsSettings? = nil, standardHlsSettings: StandardHlsSettings? = nil) {
             self.audioOnlyHlsSettings = audioOnlyHlsSettings
             self.fmp4HlsSettings = fmp4HlsSettings
+            self.frameCaptureHlsSettings = frameCaptureHlsSettings
             self.standardHlsSettings = standardHlsSettings
         }
 
@@ -5717,6 +5759,7 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case audioOnlyHlsSettings
             case fmp4HlsSettings
+            case frameCaptureHlsSettings
             case standardHlsSettings
         }
     }
@@ -5790,6 +5833,8 @@ extension MediaLive {
         public let inputClass: InputClass?
         /// Settings for the input devices.
         public let inputDevices: [InputDeviceSettings]?
+        /// A list of IDs for all Inputs which are partners of this one.
+        public let inputPartnerIds: [String]?
         /// Certain pull input sources can be dynamic, meaning that they can have their URL's dynamically changes
         /// during input switch actions. Presently, this functionality only works with MP4_FILE inputs.
         public let inputSourceType: InputSourceType?
@@ -5808,13 +5853,14 @@ extension MediaLive {
         public let tags: [String: String]?
         public let type: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
             self.id = id
             self.inputClass = inputClass
             self.inputDevices = inputDevices
+            self.inputPartnerIds = inputPartnerIds
             self.inputSourceType = inputSourceType
             self.mediaConnectFlows = mediaConnectFlows
             self.name = name
@@ -5833,6 +5879,7 @@ extension MediaLive {
             case id
             case inputClass
             case inputDevices
+            case inputPartnerIds
             case inputSourceType
             case mediaConnectFlows
             case name

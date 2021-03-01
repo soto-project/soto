@@ -42,10 +42,22 @@ extension DLM {
         public var description: String { return self.rawValue }
     }
 
+    public enum LocationValues: String, CustomStringConvertible, Codable {
+        case cloud = "CLOUD"
+        case outpostLocal = "OUTPOST_LOCAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PolicyTypeValues: String, CustomStringConvertible, Codable {
         case ebsSnapshotManagement = "EBS_SNAPSHOT_MANAGEMENT"
         case eventBasedPolicy = "EVENT_BASED_POLICY"
         case imageManagement = "IMAGE_MANAGEMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceLocationValues: String, CustomStringConvertible, Codable {
+        case cloud = "CLOUD"
+        case outpost = "OUTPOST"
         public var description: String { return self.rawValue }
     }
 
@@ -165,13 +177,16 @@ extension DLM {
         public let interval: Int?
         /// The interval unit.
         public let intervalUnit: IntervalUnitValues?
+        /// Specifies the destination for snapshots created by the policy. To create snapshots in the same Region as the source resource, specify CLOUD. To create snapshots on the same Outpost as the source resource, specify OUTPOST_LOCAL. If you omit this parameter, CLOUD is used by default. If the policy targets resources in an AWS Region, then you must create snapshots in the same Region as the source resource.  If the policy targets resources on an Outpost, then you can create snapshots on the same Outpost as the source resource, or in the Region of that Outpost.
+        public let location: LocationValues?
         /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time. If you do not specify a time, Amazon DLM selects a time within the next 24 hours.
         public let times: [String]?
 
-        public init(cronExpression: String? = nil, interval: Int? = nil, intervalUnit: IntervalUnitValues? = nil, times: [String]? = nil) {
+        public init(cronExpression: String? = nil, interval: Int? = nil, intervalUnit: IntervalUnitValues? = nil, location: LocationValues? = nil, times: [String]? = nil) {
             self.cronExpression = cronExpression
             self.interval = interval
             self.intervalUnit = intervalUnit
+            self.location = location
             self.times = times
         }
 
@@ -192,6 +207,7 @@ extension DLM {
             case cronExpression = "CronExpression"
             case interval = "Interval"
             case intervalUnit = "IntervalUnit"
+            case location = "Location"
             case times = "Times"
         }
     }
@@ -212,9 +228,9 @@ extension DLM {
         public func validate(name: String) throws {
             try self.encryptionConfiguration.validate(name: "\(name).encryptionConfiguration")
             try self.retainRule?.validate(name: "\(name).retainRule")
-            try self.validate(self.target, name: "target", parent: name, max: 16)
+            try self.validate(self.target, name: "target", parent: name, max: 2048)
             try self.validate(self.target, name: "target", parent: name, min: 0)
-            try self.validate(self.target, name: "target", parent: name, pattern: "^[\\\\w:\\\\-\\\\/\\\\*]+$")
+            try self.validate(self.target, name: "target", parent: name, pattern: "^[\\w:\\-\\/\\*]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -254,14 +270,17 @@ extension DLM {
         public let encrypted: Bool
         /// The retention rule.
         public let retainRule: CrossRegionCopyRetainRule?
-        /// The target Region.
-        public let targetRegion: String
+        /// The Amazon Resource Name (ARN) of the target AWS Outpost for the snapshot copies. If you specify an ARN, you must omit TargetRegion. You cannot specify a target Region and a target Outpost in the same rule.
+        public let target: String?
+        /// The target Region for the snapshot copies. If you specify a target Region, you must omit Target. You cannot specify a target Region and a target Outpost in the same rule.
+        public let targetRegion: String?
 
-        public init(cmkArn: String? = nil, copyTags: Bool? = nil, encrypted: Bool, retainRule: CrossRegionCopyRetainRule? = nil, targetRegion: String) {
+        public init(cmkArn: String? = nil, copyTags: Bool? = nil, encrypted: Bool, retainRule: CrossRegionCopyRetainRule? = nil, target: String? = nil, targetRegion: String? = nil) {
             self.cmkArn = cmkArn
             self.copyTags = copyTags
             self.encrypted = encrypted
             self.retainRule = retainRule
+            self.target = target
             self.targetRegion = targetRegion
         }
 
@@ -270,6 +289,9 @@ extension DLM {
             try self.validate(self.cmkArn, name: "cmkArn", parent: name, min: 0)
             try self.validate(self.cmkArn, name: "cmkArn", parent: name, pattern: "arn:aws(-[a-z]{1,3}){0,2}:kms:([a-z]+-){2,3}\\d:\\d+:key/.*")
             try self.retainRule?.validate(name: "\(name).retainRule")
+            try self.validate(self.target, name: "target", parent: name, max: 2048)
+            try self.validate(self.target, name: "target", parent: name, min: 0)
+            try self.validate(self.target, name: "target", parent: name, pattern: "^[\\w:\\-\\/\\*]+$")
             try self.validate(self.targetRegion, name: "targetRegion", parent: name, max: 16)
             try self.validate(self.targetRegion, name: "targetRegion", parent: name, min: 0)
             try self.validate(self.targetRegion, name: "targetRegion", parent: name, pattern: "([a-z]+-){2,3}\\d")
@@ -280,6 +302,7 @@ extension DLM {
             case copyTags = "CopyTags"
             case encrypted = "Encrypted"
             case retainRule = "RetainRule"
+            case target = "Target"
             case targetRegion = "TargetRegion"
         }
     }
@@ -667,6 +690,8 @@ extension DLM {
         public let parameters: Parameters?
         /// The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. Specify EVENT_BASED_POLICY  to create an event-based policy that performs specific actions when a defined event occurs in your AWS account. The default is EBS_SNAPSHOT_MANAGEMENT.
         public let policyType: PolicyTypeValues?
+        /// The location of the resources to backup. If the source resources are located in an AWS Region, specify CLOUD. If the source resources are located on an AWS Outpost in your account, specify OUTPOST.  If you specify OUTPOST, Amazon Data Lifecycle Manager backs up all resources of the specified type with matching target tags across all of the Outposts in your account.
+        public let resourceLocations: [ResourceLocationValues]?
         /// The target resource type for snapshot and AMI lifecycle policies. Use VOLUME to create snapshots of individual volumes or use INSTANCE to create multi-volume snapshots from the volumes for an instance. This parameter is required for snapshot and AMI policies only. If you are creating an event-based policy, omit this parameter.
         public let resourceTypes: [ResourceTypeValues]?
         /// The schedules of policy-defined actions for snapshot and AMI lifecycle policies. A policy can have up to four schedules—one mandatory schedule and up to three optional schedules. This parameter is required for snapshot and AMI policies only. If you are creating an event-based policy, omit this parameter.
@@ -674,11 +699,12 @@ extension DLM {
         /// The single tag that identifies targeted resources for this policy. This parameter is required for snapshot and AMI policies only. If you are creating an event-based policy, omit this parameter.
         public let targetTags: [Tag]?
 
-        public init(actions: [Action]? = nil, eventSource: EventSource? = nil, parameters: Parameters? = nil, policyType: PolicyTypeValues? = nil, resourceTypes: [ResourceTypeValues]? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
+        public init(actions: [Action]? = nil, eventSource: EventSource? = nil, parameters: Parameters? = nil, policyType: PolicyTypeValues? = nil, resourceLocations: [ResourceLocationValues]? = nil, resourceTypes: [ResourceTypeValues]? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
             self.actions = actions
             self.eventSource = eventSource
             self.parameters = parameters
             self.policyType = policyType
+            self.resourceLocations = resourceLocations
             self.resourceTypes = resourceTypes
             self.schedules = schedules
             self.targetTags = targetTags
@@ -691,6 +717,8 @@ extension DLM {
             try self.validate(self.actions, name: "actions", parent: name, max: 1)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
             try self.eventSource?.validate(name: "\(name).eventSource")
+            try self.validate(self.resourceLocations, name: "resourceLocations", parent: name, max: 1)
+            try self.validate(self.resourceLocations, name: "resourceLocations", parent: name, min: 1)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 1)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
             try self.schedules?.forEach {
@@ -710,6 +738,7 @@ extension DLM {
             case eventSource = "EventSource"
             case parameters = "Parameters"
             case policyType = "PolicyType"
+            case resourceLocations = "ResourceLocations"
             case resourceTypes = "ResourceTypes"
             case schedules = "Schedules"
             case targetTags = "TargetTags"
@@ -748,7 +777,7 @@ extension DLM {
         public let copyTags: Bool?
         /// The creation rule.
         public let createRule: CreateRule?
-        /// The rule for cross-Region snapshot copies.
+        /// The rule for cross-Region snapshot copies. You can only specify cross-Region copy rules for policies that create snapshots in a Region. If the policy creates snapshots on an Outpost, then you cannot copy the snapshots to a Region or to an Outpost. If the policy creates snapshots in a Region, then snapshots can be copied to up to three Regions or Outposts.
         public let crossRegionCopyRules: [CrossRegionCopyRule]?
         /// The rule for enabling fast snapshot restore.
         public let fastRestoreRule: FastRestoreRule?

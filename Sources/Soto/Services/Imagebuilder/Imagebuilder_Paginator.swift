@@ -284,6 +284,57 @@ extension Imagebuilder {
         )
     }
 
+    ///  List the Packages that are associated with an Image Build Version, as determined by AWS Systems Manager Inventory at build time.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listImagePackagesPaginator<Result>(
+        _ input: ListImagePackagesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListImagePackagesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listImagePackages,
+            tokenKey: \ListImagePackagesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listImagePackagesPaginator(
+        _ input: ListImagePackagesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListImagePackagesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listImagePackages,
+            tokenKey: \ListImagePackagesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///   Returns a list of images created by the specified pipeline.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -598,6 +649,16 @@ extension Imagebuilder.ListImageBuildVersionsRequest: AWSPaginateToken {
         return .init(
             filters: self.filters,
             imageVersionArn: self.imageVersionArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Imagebuilder.ListImagePackagesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListImagePackagesRequest {
+        return .init(
+            imageBuildVersionArn: self.imageBuildVersionArn,
             maxResults: self.maxResults,
             nextToken: token
         )

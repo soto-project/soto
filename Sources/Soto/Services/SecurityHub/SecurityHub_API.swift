@@ -142,7 +142,7 @@ public struct SecurityHub: AWSService {
         return self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/organization/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
+    /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you do not provide an integration ARN, then the results include all of the available product integrations.
     public func describeProducts(_ input: DescribeProductsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProductsResponse> {
         return self.client.execute(operation: "DescribeProducts", path: "/products", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

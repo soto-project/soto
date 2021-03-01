@@ -27,6 +27,7 @@ public struct ECRPublicErrorType: AWSErrorType {
         case invalidLayerException = "InvalidLayerException"
         case invalidLayerPartException = "InvalidLayerPartException"
         case invalidParameterException = "InvalidParameterException"
+        case invalidTagParameterException = "InvalidTagParameterException"
         case layerAlreadyExistsException = "LayerAlreadyExistsException"
         case layerPartTooSmallException = "LayerPartTooSmallException"
         case layersNotFoundException = "LayersNotFoundException"
@@ -38,6 +39,7 @@ public struct ECRPublicErrorType: AWSErrorType {
         case repositoryNotFoundException = "RepositoryNotFoundException"
         case repositoryPolicyNotFoundException = "RepositoryPolicyNotFoundException"
         case serverException = "ServerException"
+        case tooManyTagsException = "TooManyTagsException"
         case unsupportedCommandException = "UnsupportedCommandException"
         case uploadNotFoundException = "UploadNotFoundException"
     }
@@ -76,6 +78,8 @@ public struct ECRPublicErrorType: AWSErrorType {
     public static var invalidLayerPartException: Self { .init(.invalidLayerPartException) }
     /// The specified parameter is invalid. Review the available parameters for the API request.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// An invalid parameter has been specified. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    public static var invalidTagParameterException: Self { .init(.invalidTagParameterException) }
     /// The image layer already exists in the associated repository.
     public static var layerAlreadyExistsException: Self { .init(.layerAlreadyExistsException) }
     /// Layer parts must be at least 5 MiB in size.
@@ -98,6 +102,8 @@ public struct ECRPublicErrorType: AWSErrorType {
     public static var repositoryPolicyNotFoundException: Self { .init(.repositoryPolicyNotFoundException) }
     /// These errors are usually caused by a server-side issue.
     public static var serverException: Self { .init(.serverException) }
+    /// The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The action is not supported in this Region.
     public static var unsupportedCommandException: Self { .init(.unsupportedCommandException) }
     /// The upload could not be found, or the specified upload ID is not valid for this repository.

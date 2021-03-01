@@ -866,7 +866,8 @@ extension IVS {
         /// URL of the video master manifest, required by the video player to play the HLS stream.
         public let playbackUrl: String?
         /// ISO-8601 formatted timestamp of the stream’s start.
-        public let startTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
         /// The stream’s state.
         public let state: StreamState?
         /// Number of current viewers of the stream.
@@ -943,7 +944,8 @@ extension IVS {
         /// The stream’s health.
         public let health: StreamHealth?
         /// ISO-8601 formatted timestamp of the stream’s start.
-        public let startTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
         /// The stream’s state.
         public let state: StreamState?
         /// Number of current viewers of the stream.

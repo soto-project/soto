@@ -93,12 +93,12 @@ public struct EMR: AWSService {
         return self.client.execute(operation: "CreateSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Creates a new Amazon EMR Studio.
+    /// Creates a new Amazon EMR Studio.
     public func createStudio(_ input: CreateStudioInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStudioOutput> {
         return self.client.execute(operation: "CreateStudio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a session policy to refine Studio permissions for that user or group.
+    /// Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a session policy to refine Studio permissions for that user or group.
     @discardableResult public func createStudioSessionMapping(_ input: CreateStudioSessionMappingInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "CreateStudioSessionMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -108,12 +108,12 @@ public struct EMR: AWSService {
         return self.client.execute(operation: "DeleteSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Removes an Amazon EMR Studio from the Studio metadata store.
+    /// Removes an Amazon EMR Studio from the Studio metadata store.
     @discardableResult public func deleteStudio(_ input: DeleteStudioInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteStudio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Removes a user or group from an Amazon EMR Studio.
+    /// Removes a user or group from an Amazon EMR Studio.
     @discardableResult public func deleteStudioSessionMapping(_ input: DeleteStudioSessionMappingInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteStudioSessionMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -144,7 +144,7 @@ public struct EMR: AWSService {
         return self.client.execute(operation: "DescribeStep", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns details for the specified Amazon EMR Studio including ID, Name, VPC, Studio access URL, and so on.
+    /// Returns details for the specified Amazon EMR Studio including ID, Name, VPC, Studio access URL, and so on.
     public func describeStudio(_ input: DescribeStudioInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStudioOutput> {
         return self.client.execute(operation: "DescribeStudio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -159,7 +159,7 @@ public struct EMR: AWSService {
         return self.client.execute(operation: "GetManagedScalingPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Fetches mapping details for the specified Amazon EMR Studio and identity (user or group).
+    /// Fetches mapping details for the specified Amazon EMR Studio and identity (user or group).
     public func getStudioSessionMapping(_ input: GetStudioSessionMappingInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStudioSessionMappingOutput> {
         return self.client.execute(operation: "GetStudioSessionMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -199,17 +199,17 @@ public struct EMR: AWSService {
         return self.client.execute(operation: "ListSecurityConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request of filter by StepStates. You can specify a maximum of ten stepIDs.
+    /// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request of filter by StepStates. You can specify a maximum of 10 stepIDs.
     public func listSteps(_ input: ListStepsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStepsOutput> {
         return self.client.execute(operation: "ListSteps", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns a list of all user or group session mappings for the EMR Studio specified by StudioId.
+    /// Returns a list of all user or group session mappings for the Amazon EMR Studio specified by StudioId.
     public func listStudioSessionMappings(_ input: ListStudioSessionMappingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStudioSessionMappingsOutput> {
         return self.client.execute(operation: "ListStudioSessionMappings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns a list of all Amazon EMR Studios associated with the AWS account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.
+    /// Returns a list of all Amazon EMR Studios associated with the AWS account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.
     public func listStudios(_ input: ListStudiosInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStudiosOutput> {
         return self.client.execute(operation: "ListStudios", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -289,7 +289,12 @@ public struct EMR: AWSService {
         return self.client.execute(operation: "TerminateJobFlows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
+    /// Updates an Amazon EMR Studio configuration, including attributes such as name, description, and subnets.
+    @discardableResult public func updateStudio(_ input: UpdateStudioInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateStudio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
     @discardableResult public func updateStudioSessionMapping(_ input: UpdateStudioSessionMappingInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateStudioSessionMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

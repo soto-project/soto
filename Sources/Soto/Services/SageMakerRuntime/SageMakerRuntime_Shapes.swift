@@ -33,6 +33,7 @@ extension SageMakerRuntime {
             AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")),
             AWSMemberEncoding(label: "endpointName", location: .uri(locationName: "EndpointName")),
             AWSMemberEncoding(label: "inferenceId", location: .header(locationName: "X-Amzn-SageMaker-Inference-Id")),
+            AWSMemberEncoding(label: "targetContainerHostname", location: .header(locationName: "X-Amzn-SageMaker-Target-Container-Hostname")),
             AWSMemberEncoding(label: "targetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model")),
             AWSMemberEncoding(label: "targetVariant", location: .header(locationName: "X-Amzn-SageMaker-Target-Variant"))
         ]
@@ -49,18 +50,21 @@ extension SageMakerRuntime {
         public let endpointName: String
         /// If you provide a value, it is added to the captured data when you enable data capture on the endpoint. For information about data capture, see Capture Data.
         public let inferenceId: String?
+        /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
+        public let targetContainerHostname: String?
         /// The model to request for inference when invoking a multi-model endpoint.
         public let targetModel: String?
         /// Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights. For information about how to use variant targeting to perform a/b testing, see Test models in production
         public let targetVariant: String?
 
-        public init(accept: String? = nil, body: AWSPayload, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceId: String? = nil, targetModel: String? = nil, targetVariant: String? = nil) {
+        public init(accept: String? = nil, body: AWSPayload, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceId: String? = nil, targetContainerHostname: String? = nil, targetModel: String? = nil, targetVariant: String? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
             self.customAttributes = customAttributes
             self.endpointName = endpointName
             self.inferenceId = inferenceId
+            self.targetContainerHostname = targetContainerHostname
             self.targetModel = targetModel
             self.targetVariant = targetVariant
         }
@@ -78,6 +82,8 @@ extension SageMakerRuntime {
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, max: 64)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, min: 1)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, pattern: "\\A\\S[\\p{Print}]*\\z")
+            try self.validate(self.targetContainerHostname, name: "targetContainerHostname", parent: name, max: 63)
+            try self.validate(self.targetContainerHostname, name: "targetContainerHostname", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try self.validate(self.targetModel, name: "targetModel", parent: name, max: 1024)
             try self.validate(self.targetModel, name: "targetModel", parent: name, min: 1)
             try self.validate(self.targetModel, name: "targetModel", parent: name, pattern: "\\A\\S[\\p{Print}]*\\z")

@@ -87,12 +87,12 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "CreateFindingsFilter", path: "/findingsfilters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Sends an Amazon Macie membership invitation to one or more accounts.
+    /// Sends an Amazon Macie membership invitation to one or more accounts.
     public func createInvitations(_ input: CreateInvitationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInvitationsResponse> {
         return self.client.execute(operation: "CreateInvitations", path: "/invitations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Associates an account with an Amazon Macie master account.
+    /// Associates an account with an Amazon Macie administrator account.
     public func createMember(_ input: CreateMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMemberResponse> {
         return self.client.execute(operation: "CreateMember", path: "/members", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -122,7 +122,7 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "DeleteInvitations", path: "/invitations/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the association between an Amazon Macie master account and an account.
+    /// Deletes the association between an Amazon Macie administrator account and an account.
     public func deleteMember(_ input: DeleteMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMemberResponse> {
         return self.client.execute(operation: "DeleteMember", path: "/members/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -152,12 +152,17 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "DisableOrganizationAdminAccount", path: "/admin", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates a member account from its Amazon Macie master account.
+    /// Disassociates a member account from its Amazon Macie administrator account.
+    public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFromAdministratorAccountResponse> {
+        return self.client.execute(operation: "DisassociateFromAdministratorAccount", path: "/administrator/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
     public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFromMasterAccountResponse> {
         return self.client.execute(operation: "DisassociateFromMasterAccount", path: "/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates an Amazon Macie master account from a member account.
+    /// Disassociates an Amazon Macie administrator account from a member account.
     public func disassociateMember(_ input: DisassociateMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMemberResponse> {
         return self.client.execute(operation: "DisassociateMember", path: "/members/disassociate/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -170,6 +175,11 @@ public struct Macie2: AWSService {
     /// Designates an account as the delegated Amazon Macie administrator account for an AWS organization.
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableOrganizationAdminAccountResponse> {
         return self.client.execute(operation: "EnableOrganizationAdminAccount", path: "/admin", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information about the Amazon Macie administrator account for an account.
+    public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAdministratorAccountResponse> {
+        return self.client.execute(operation: "GetAdministratorAccount", path: "/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves (queries) aggregated statistical data for all the S3 buckets that Amazon Macie monitors and analyzes.
@@ -212,12 +222,12 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "GetMacieSession", path: "/macie", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about the Amazon Macie master account for an account.
+    /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
     public func getMasterAccount(_ input: GetMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMasterAccountResponse> {
         return self.client.execute(operation: "GetMasterAccount", path: "/master", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about a member account that's associated with an Amazon Macie master account.
+    /// Retrieves information about an account that's associated with an Amazon Macie administrator account.
     public func getMember(_ input: GetMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMemberResponse> {
         return self.client.execute(operation: "GetMember", path: "/members/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -257,7 +267,7 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about the accounts that are associated with an Amazon Macie master account.
+    /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
     public func listMembers(_ input: ListMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMembersResponse> {
         return self.client.execute(operation: "ListMembers", path: "/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -307,7 +317,7 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "UpdateMacieSession", path: "/macie", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Enables an Amazon Macie master account to suspend or re-enable a member account.
+    /// Enables an Amazon Macie administrator to suspend or re-enable a member account.
     public func updateMemberSession(_ input: UpdateMemberSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMemberSessionResponse> {
         return self.client.execute(operation: "UpdateMemberSession", path: "/macie/members/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

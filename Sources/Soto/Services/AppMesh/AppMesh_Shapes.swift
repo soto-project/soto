@@ -271,6 +271,8 @@ extension AppMesh {
     }
 
     public struct ClientPolicyTls: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents a client's TLS certificate.
+        public let certificate: ClientTlsCertificate?
         /// Whether the policy is enforced. The default is True, if a value isn't specified.
         public let enforce: Bool?
         /// One or more ports that the policy is enforced for.
@@ -278,13 +280,15 @@ extension AppMesh {
         /// A reference to an object that represents a TLS validation context.
         public let validation: TlsValidationContext
 
-        public init(enforce: Bool? = nil, ports: [Int]? = nil, validation: TlsValidationContext) {
+        public init(certificate: ClientTlsCertificate? = nil, enforce: Bool? = nil, ports: [Int]? = nil, validation: TlsValidationContext) {
+            self.certificate = certificate
             self.enforce = enforce
             self.ports = ports
             self.validation = validation
         }
 
         public func validate(name: String) throws {
+            try self.certificate?.validate(name: "\(name).certificate")
             try self.ports?.forEach {
                 try validate($0, name: "ports[]", parent: name, max: 65535)
                 try validate($0, name: "ports[]", parent: name, min: 1)
@@ -293,9 +297,30 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificate
             case enforce
             case ports
             case validation
+        }
+    }
+
+    public struct ClientTlsCertificate: AWSEncodableShape & AWSDecodableShape {
+        public let file: ListenerTlsFileCertificate?
+        /// A reference to an object that represents a client's TLS Secret Discovery Service certificate.
+        public let sds: ListenerTlsSdsCertificate?
+
+        public init(file: ListenerTlsFileCertificate? = nil, sds: ListenerTlsSdsCertificate? = nil) {
+            self.file = file
+            self.sds = sds
+        }
+
+        public func validate(name: String) throws {
+            try self.file?.validate(name: "\(name).file")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case file
+            case sds
         }
     }
 
@@ -2725,23 +2750,28 @@ extension AppMesh {
     }
 
     public struct ListenerTls: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents a listener's TLS certificate.
+        /// A reference to an object that represents a listener's Transport Layer Security (TLS) certificate.
         public let certificate: ListenerTlsCertificate
         /// Specify one of the following modes.    STRICT – Listener only accepts connections with TLS enabled.     PERMISSIVE – Listener accepts connections with or without TLS enabled.    DISABLED – Listener only accepts connections without TLS.
         public let mode: ListenerTlsMode
+        /// A reference to an object that represents a listener's Transport Layer Security (TLS) validation context.
+        public let validation: ListenerTlsValidationContext?
 
-        public init(certificate: ListenerTlsCertificate, mode: ListenerTlsMode) {
+        public init(certificate: ListenerTlsCertificate, mode: ListenerTlsMode, validation: ListenerTlsValidationContext? = nil) {
             self.certificate = certificate
             self.mode = mode
+            self.validation = validation
         }
 
         public func validate(name: String) throws {
             try self.certificate.validate(name: "\(name).certificate")
+            try self.validation?.validate(name: "\(name).validation")
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificate
             case mode
+            case validation
         }
     }
 
@@ -2763,10 +2793,13 @@ extension AppMesh {
         public let acm: ListenerTlsAcmCertificate?
         /// A reference to an object that represents a local file certificate.
         public let file: ListenerTlsFileCertificate?
+        /// A reference to an object that represents a listener's Secret Discovery Service certificate.
+        public let sds: ListenerTlsSdsCertificate?
 
-        public init(acm: ListenerTlsAcmCertificate? = nil, file: ListenerTlsFileCertificate? = nil) {
+        public init(acm: ListenerTlsAcmCertificate? = nil, file: ListenerTlsFileCertificate? = nil, sds: ListenerTlsSdsCertificate? = nil) {
             self.acm = acm
             self.file = file
+            self.sds = sds
         }
 
         public func validate(name: String) throws {
@@ -2776,6 +2809,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case acm
             case file
+            case sds
         }
     }
 
@@ -2800,6 +2834,61 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case certificateChain
             case privateKey
+        }
+    }
+
+    public struct ListenerTlsSdsCertificate: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents the name of the secret requested from the Secret Discovery Service provider representing Transport Layer Security (TLS) materials like a certificate or certificate chain.
+        public let secretName: String
+
+        public init(secretName: String) {
+            self.secretName = secretName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretName
+        }
+    }
+
+    public struct ListenerTlsValidationContext: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents the SANs for a listener's Transport Layer Security (TLS) validation context.
+        public let subjectAlternativeNames: SubjectAlternativeNames?
+        /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
+        public let trust: ListenerTlsValidationContextTrust
+
+        public init(subjectAlternativeNames: SubjectAlternativeNames? = nil, trust: ListenerTlsValidationContextTrust) {
+            self.subjectAlternativeNames = subjectAlternativeNames
+            self.trust = trust
+        }
+
+        public func validate(name: String) throws {
+            try self.subjectAlternativeNames?.validate(name: "\(name).subjectAlternativeNames")
+            try self.trust.validate(name: "\(name).trust")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subjectAlternativeNames
+            case trust
+        }
+    }
+
+    public struct ListenerTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
+        public let file: TlsValidationContextFileTrust?
+        /// A reference to an object that represents a listener's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
+        public let sds: TlsValidationContextSdsTrust?
+
+        public init(file: TlsValidationContextFileTrust? = nil, sds: TlsValidationContextSdsTrust? = nil) {
+            self.file = file
+            self.sds = sds
+        }
+
+        public func validate(name: String) throws {
+            try self.file?.validate(name: "\(name).file")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case file
+            case sds
         }
     }
 
@@ -3167,6 +3256,43 @@ extension AppMesh {
         }
     }
 
+    public struct SubjectAlternativeNameMatchers: AWSEncodableShape & AWSDecodableShape {
+        /// The values sent must match the specified values exactly.
+        public let exact: [String]
+
+        public init(exact: [String]) {
+            self.exact = exact
+        }
+
+        public func validate(name: String) throws {
+            try self.exact.forEach {
+                try validate($0, name: "exact[]", parent: name, max: 254)
+                try validate($0, name: "exact[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exact
+        }
+    }
+
+    public struct SubjectAlternativeNames: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents the criteria for determining a SANs match.
+        public let match: SubjectAlternativeNameMatchers
+
+        public init(match: SubjectAlternativeNameMatchers) {
+            self.match = match
+        }
+
+        public func validate(name: String) throws {
+            try self.match.validate(name: "\(name).match")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case match
+        }
+    }
+
     public struct TagRef: AWSEncodableShape & AWSDecodableShape {
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
@@ -3284,18 +3410,23 @@ extension AppMesh {
     }
 
     public struct TlsValidationContext: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents a TLS validation context trust.
+        /// A reference to an object that represents the SANs for a Transport Layer Security (TLS) validation context.
+        public let subjectAlternativeNames: SubjectAlternativeNames?
+        /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
         public let trust: TlsValidationContextTrust
 
-        public init(trust: TlsValidationContextTrust) {
+        public init(subjectAlternativeNames: SubjectAlternativeNames? = nil, trust: TlsValidationContextTrust) {
+            self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
         }
 
         public func validate(name: String) throws {
+            try self.subjectAlternativeNames?.validate(name: "\(name).subjectAlternativeNames")
             try self.trust.validate(name: "\(name).trust")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case subjectAlternativeNames
             case trust
         }
     }
@@ -3336,15 +3467,31 @@ extension AppMesh {
         }
     }
 
-    public struct TlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM) certificate.
-        public let acm: TlsValidationContextAcmTrust?
-        /// An object that represents a TLS validation context trust for a local file.
-        public let file: TlsValidationContextFileTrust?
+    public struct TlsValidationContextSdsTrust: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents the name of the secret for a Transport Layer Security (TLS) Secret Discovery Service validation context trust.
+        public let secretName: String
 
-        public init(acm: TlsValidationContextAcmTrust? = nil, file: TlsValidationContextFileTrust? = nil) {
+        public init(secretName: String) {
+            self.secretName = secretName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretName
+        }
+    }
+
+    public struct TlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an AWS Certicate Manager (ACM) certificate.
+        public let acm: TlsValidationContextAcmTrust?
+        /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
+        public let file: TlsValidationContextFileTrust?
+        /// A reference to an object that represents a Transport Layer Security (TLS) Secret Discovery Service validation context trust.
+        public let sds: TlsValidationContextSdsTrust?
+
+        public init(acm: TlsValidationContextAcmTrust? = nil, file: TlsValidationContextFileTrust? = nil, sds: TlsValidationContextSdsTrust? = nil) {
             self.acm = acm
             self.file = file
+            self.sds = sds
         }
 
         public func validate(name: String) throws {
@@ -3355,6 +3502,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case acm
             case file
+            case sds
         }
     }
 
@@ -3845,20 +3993,24 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayClientPolicyTls: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents a virtual gateway's client's Transport Layer Security (TLS) certificate.
+        public let certificate: VirtualGatewayClientTlsCertificate?
         /// Whether the policy is enforced. The default is True, if a value isn't specified.
         public let enforce: Bool?
         /// One or more ports that the policy is enforced for.
         public let ports: [Int]?
-        /// A reference to an object that represents a TLS validation context.
+        /// A reference to an object that represents a Transport Layer Security (TLS) validation context.
         public let validation: VirtualGatewayTlsValidationContext
 
-        public init(enforce: Bool? = nil, ports: [Int]? = nil, validation: VirtualGatewayTlsValidationContext) {
+        public init(certificate: VirtualGatewayClientTlsCertificate? = nil, enforce: Bool? = nil, ports: [Int]? = nil, validation: VirtualGatewayTlsValidationContext) {
+            self.certificate = certificate
             self.enforce = enforce
             self.ports = ports
             self.validation = validation
         }
 
         public func validate(name: String) throws {
+            try self.certificate?.validate(name: "\(name).certificate")
             try self.ports?.forEach {
                 try validate($0, name: "ports[]", parent: name, max: 65535)
                 try validate($0, name: "ports[]", parent: name, min: 1)
@@ -3867,9 +4019,30 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificate
             case enforce
             case ports
             case validation
+        }
+    }
+
+    public struct VirtualGatewayClientTlsCertificate: AWSEncodableShape & AWSDecodableShape {
+        public let file: VirtualGatewayListenerTlsFileCertificate?
+        /// A reference to an object that represents a virtual gateway's client's Secret Discovery Service certificate.
+        public let sds: VirtualGatewayListenerTlsSdsCertificate?
+
+        public init(file: VirtualGatewayListenerTlsFileCertificate? = nil, sds: VirtualGatewayListenerTlsSdsCertificate? = nil) {
+            self.file = file
+            self.sds = sds
+        }
+
+        public func validate(name: String) throws {
+            try self.file?.validate(name: "\(name).file")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case file
+            case sds
         }
     }
 
@@ -4089,19 +4262,24 @@ extension AppMesh {
         public let certificate: VirtualGatewayListenerTlsCertificate
         /// Specify one of the following modes.    STRICT – Listener only accepts connections with TLS enabled.     PERMISSIVE – Listener accepts connections with or without TLS enabled.    DISABLED – Listener only accepts connections without TLS.
         public let mode: VirtualGatewayListenerTlsMode
+        /// A reference to an object that represents a virtual gateway's listener's Transport Layer Security (TLS) validation context.
+        public let validation: VirtualGatewayListenerTlsValidationContext?
 
-        public init(certificate: VirtualGatewayListenerTlsCertificate, mode: VirtualGatewayListenerTlsMode) {
+        public init(certificate: VirtualGatewayListenerTlsCertificate, mode: VirtualGatewayListenerTlsMode, validation: VirtualGatewayListenerTlsValidationContext? = nil) {
             self.certificate = certificate
             self.mode = mode
+            self.validation = validation
         }
 
         public func validate(name: String) throws {
             try self.certificate.validate(name: "\(name).certificate")
+            try self.validation?.validate(name: "\(name).validation")
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificate
             case mode
+            case validation
         }
     }
 
@@ -4123,10 +4301,13 @@ extension AppMesh {
         public let acm: VirtualGatewayListenerTlsAcmCertificate?
         /// A reference to an object that represents a local file certificate.
         public let file: VirtualGatewayListenerTlsFileCertificate?
+        /// A reference to an object that represents a virtual gateway's listener's Secret Discovery Service certificate.
+        public let sds: VirtualGatewayListenerTlsSdsCertificate?
 
-        public init(acm: VirtualGatewayListenerTlsAcmCertificate? = nil, file: VirtualGatewayListenerTlsFileCertificate? = nil) {
+        public init(acm: VirtualGatewayListenerTlsAcmCertificate? = nil, file: VirtualGatewayListenerTlsFileCertificate? = nil, sds: VirtualGatewayListenerTlsSdsCertificate? = nil) {
             self.acm = acm
             self.file = file
+            self.sds = sds
         }
 
         public func validate(name: String) throws {
@@ -4136,6 +4317,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case acm
             case file
+            case sds
         }
     }
 
@@ -4160,6 +4342,61 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case certificateChain
             case privateKey
+        }
+    }
+
+    public struct VirtualGatewayListenerTlsSdsCertificate: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents the name of the secret secret requested from the Secret Discovery Service provider representing Transport Layer Security (TLS) materials like a certificate or certificate chain.
+        public let secretName: String
+
+        public init(secretName: String) {
+            self.secretName = secretName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretName
+        }
+    }
+
+    public struct VirtualGatewayListenerTlsValidationContext: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents the SANs for a virtual gateway listener's Transport Layer Security (TLS) validation context.
+        public let subjectAlternativeNames: SubjectAlternativeNames?
+        /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
+        public let trust: VirtualGatewayListenerTlsValidationContextTrust
+
+        public init(subjectAlternativeNames: SubjectAlternativeNames? = nil, trust: VirtualGatewayListenerTlsValidationContextTrust) {
+            self.subjectAlternativeNames = subjectAlternativeNames
+            self.trust = trust
+        }
+
+        public func validate(name: String) throws {
+            try self.subjectAlternativeNames?.validate(name: "\(name).subjectAlternativeNames")
+            try self.trust.validate(name: "\(name).trust")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subjectAlternativeNames
+            case trust
+        }
+    }
+
+    public struct VirtualGatewayListenerTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
+        public let file: VirtualGatewayTlsValidationContextFileTrust?
+        /// A reference to an object that represents a virtual gateway's listener's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
+        public let sds: VirtualGatewayTlsValidationContextSdsTrust?
+
+        public init(file: VirtualGatewayTlsValidationContextFileTrust? = nil, sds: VirtualGatewayTlsValidationContextSdsTrust? = nil) {
+            self.file = file
+            self.sds = sds
+        }
+
+        public func validate(name: String) throws {
+            try self.file?.validate(name: "\(name).file")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case file
+            case sds
         }
     }
 
@@ -4287,18 +4524,23 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayTlsValidationContext: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents a TLS validation context trust.
+        /// A reference to an object that represents the SANs for a virtual gateway's listener's Transport Layer Security (TLS) validation context.
+        public let subjectAlternativeNames: SubjectAlternativeNames?
+        /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
         public let trust: VirtualGatewayTlsValidationContextTrust
 
-        public init(trust: VirtualGatewayTlsValidationContextTrust) {
+        public init(subjectAlternativeNames: SubjectAlternativeNames? = nil, trust: VirtualGatewayTlsValidationContextTrust) {
+            self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
         }
 
         public func validate(name: String) throws {
+            try self.subjectAlternativeNames?.validate(name: "\(name).subjectAlternativeNames")
             try self.trust.validate(name: "\(name).trust")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case subjectAlternativeNames
             case trust
         }
     }
@@ -4339,15 +4581,31 @@ extension AppMesh {
         }
     }
 
-    public struct VirtualGatewayTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents a TLS validation context trust for an AWS Certicate Manager (ACM) certificate.
-        public let acm: VirtualGatewayTlsValidationContextAcmTrust?
-        /// An object that represents a TLS validation context trust for a local file.
-        public let file: VirtualGatewayTlsValidationContextFileTrust?
+    public struct VirtualGatewayTlsValidationContextSdsTrust: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents the name of the secret for a virtual gateway's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
+        public let secretName: String
 
-        public init(acm: VirtualGatewayTlsValidationContextAcmTrust? = nil, file: VirtualGatewayTlsValidationContextFileTrust? = nil) {
+        public init(secretName: String) {
+            self.secretName = secretName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretName
+        }
+    }
+
+    public struct VirtualGatewayTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an AWS Certicate Manager (ACM) certificate.
+        public let acm: VirtualGatewayTlsValidationContextAcmTrust?
+        /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
+        public let file: VirtualGatewayTlsValidationContextFileTrust?
+        /// A reference to an object that represents a virtual gateway's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
+        public let sds: VirtualGatewayTlsValidationContextSdsTrust?
+
+        public init(acm: VirtualGatewayTlsValidationContextAcmTrust? = nil, file: VirtualGatewayTlsValidationContextFileTrust? = nil, sds: VirtualGatewayTlsValidationContextSdsTrust? = nil) {
             self.acm = acm
             self.file = file
+            self.sds = sds
         }
 
         public func validate(name: String) throws {
@@ -4358,6 +4616,7 @@ extension AppMesh {
         private enum CodingKeys: String, CodingKey {
             case acm
             case file
+            case sds
         }
     }
 

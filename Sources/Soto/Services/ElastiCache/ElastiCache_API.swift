@@ -162,7 +162,7 @@ public struct ElastiCache: AWSService {
         return self.client.execute(operation: "DeleteCacheSecurityGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a cache subnet group.  You cannot delete a cache subnet group if it is associated with any clusters.
+    /// Deletes a cache subnet group.  You cannot delete a default cache subnet group or one that is associated with any clusters.
     @discardableResult public func deleteCacheSubnetGroup(_ input: DeleteCacheSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteCacheSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -332,7 +332,7 @@ public struct ElastiCache: AWSService {
         return self.client.execute(operation: "ModifyReplicationGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among exisiting shards.
+    /// Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among existing shards.
     public func modifyReplicationGroupShardConfiguration(_ input: ModifyReplicationGroupShardConfigurationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyReplicationGroupShardConfigurationResult> {
         return self.client.execute(operation: "ModifyReplicationGroupShardConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

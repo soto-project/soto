@@ -96,13 +96,16 @@ extension Detective {
     public struct CreateMembersRequest: AWSEncodableShape {
         /// The list of AWS accounts to invite to become member accounts in the behavior graph. For each invited account, the account list contains the account identifier and the AWS account root user email address.
         public let accounts: [Account]
+        /// if set to true, then the member accounts do not receive email notifications. By default, this is set to false, and the member accounts receive email notifications.
+        public let disableEmailNotification: Bool?
         /// The ARN of the behavior graph to invite the member accounts to contribute their data to.
         public let graphArn: String
         /// Customized message text to include in the invitation email message to the invited member accounts.
         public let message: String?
 
-        public init(accounts: [Account], graphArn: String, message: String? = nil) {
+        public init(accounts: [Account], disableEmailNotification: Bool? = nil, graphArn: String, message: String? = nil) {
             self.accounts = accounts
+            self.disableEmailNotification = disableEmailNotification
             self.graphArn = graphArn
             self.message = message
         }
@@ -120,6 +123,7 @@ extension Detective {
 
         private enum CodingKeys: String, CodingKey {
             case accounts = "Accounts"
+            case disableEmailNotification = "DisableEmailNotification"
             case graphArn = "GraphArn"
             case message = "Message"
         }
@@ -270,7 +274,8 @@ extension Detective {
         /// The ARN of the behavior graph.
         public let arn: String?
         /// The date and time that the behavior graph was created. The value is in milliseconds since the epoch.
-        public let createdTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTime: Date?
 
         public init(arn: String? = nil, createdTime: Date? = nil) {
             self.arn = arn
@@ -308,7 +313,7 @@ extension Detective {
     }
 
     public struct ListGraphsResponse: AWSDecodableShape {
-        /// A list of behavior graphs that the account is a master for.
+        /// A list of behavior graphs that the account is an administrator account for.
         public let graphList: [Graph]?
         /// If there are more behavior graphs remaining in the results, then this is the pagination token to use to request the next page of behavior graphs.
         public let nextToken: String?
@@ -414,6 +419,8 @@ extension Detective {
     public struct MemberDetail: AWSDecodableShape {
         /// The AWS account identifier for the member account.
         public let accountId: String?
+        /// The AWS account identifier of the administrator account for the behavior graph.
+        public let administratorId: String?
         /// For member accounts with a status of ACCEPTED_BUT_DISABLED, the reason that the member account is not enabled. The reason can have one of the following values:    VOLUME_TOO_HIGH - Indicates that adding the member account would cause the data volume for the behavior graph to be too high.    VOLUME_UNKNOWN - Indicates that Detective is unable to verify the data volume for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
         public let disabledReason: MemberDisabledReason?
         /// The AWS account root user email address for the member account.
@@ -421,25 +428,26 @@ extension Detective {
         /// The ARN of the behavior graph that the member account was invited to.
         public let graphArn: String?
         /// The date and time that Detective sent the invitation to the member account. The value is in milliseconds since the epoch.
-        public let invitedTime: Date?
-        /// The AWS account identifier of the master account for the behavior graph.
-        public let masterId: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var invitedTime: Date?
         /// The member account data volume as a percentage of the maximum allowed data volume. 0 indicates 0 percent, and 100 indicates 100 percent. Note that this is not the percentage of the behavior graph data volume. For example, the data volume for the behavior graph is 80 GB per day. The maximum data volume is 160 GB per day. If the data volume for the member account is 40 GB per day, then PercentOfGraphUtilization is 25. It represents 25% of the maximum allowed data volume.
         public let percentOfGraphUtilization: Double?
         /// The date and time when the graph utilization percentage was last updated.
-        public let percentOfGraphUtilizationUpdatedTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var percentOfGraphUtilizationUpdatedTime: Date?
         /// The current membership status of the member account. The status can have one of the following values:    INVITED - Indicates that the member was sent an invitation but has not yet responded.    VERIFICATION_IN_PROGRESS - Indicates that Detective is verifying that the account identifier and email address provided for the member account match. If they do match, then Detective sends the invitation. If the email address and account identifier don't match, then the member cannot be added to the behavior graph.    VERIFICATION_FAILED - Indicates that the account and email address provided for the member account do not match, and Detective did not send an invitation to the account.    ENABLED - Indicates that the member account accepted the invitation to contribute to the behavior graph.    ACCEPTED_BUT_DISABLED - Indicates that the member account accepted the invitation but is prevented from contributing data to the behavior graph. DisabledReason provides the reason why the member account is not enabled.   Member accounts that declined an invitation or that were removed from the behavior graph are not included.
         public let status: MemberStatus?
         /// The date and time that the member account was last updated. The value is in milliseconds since the epoch.
-        public let updatedTime: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTime: Date?
 
-        public init(accountId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: Date? = nil, masterId: String? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil) {
+        public init(accountId: String? = nil, administratorId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: Date? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil) {
             self.accountId = accountId
+            self.administratorId = administratorId
             self.disabledReason = disabledReason
             self.emailAddress = emailAddress
             self.graphArn = graphArn
             self.invitedTime = invitedTime
-            self.masterId = masterId
             self.percentOfGraphUtilization = percentOfGraphUtilization
             self.percentOfGraphUtilizationUpdatedTime = percentOfGraphUtilizationUpdatedTime
             self.status = status
@@ -448,11 +456,11 @@ extension Detective {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+            case administratorId = "AdministratorId"
             case disabledReason = "DisabledReason"
             case emailAddress = "EmailAddress"
             case graphArn = "GraphArn"
             case invitedTime = "InvitedTime"
-            case masterId = "MasterId"
             case percentOfGraphUtilization = "PercentOfGraphUtilization"
             case percentOfGraphUtilizationUpdatedTime = "PercentOfGraphUtilizationUpdatedTime"
             case status = "Status"

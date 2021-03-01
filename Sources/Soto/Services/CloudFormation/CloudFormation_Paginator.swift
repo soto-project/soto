@@ -602,7 +602,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns summary information about stack sets that are associated with the user.
+    ///  Returns summary information about stack sets that are associated with the user.   [Self-managed permissions] If you set the CallAs parameter to SELF while signed in to your AWS account, ListStackSets returns all self-managed stack sets in your AWS account.   [Service-managed permissions] If you set the CallAs parameter to SELF while signed in to the organization's management account, ListStackSets returns all stack sets in the management account.   [Service-managed permissions] If you set the CallAs parameter to DELEGATED_ADMIN while signed in to your member account, ListStackSets returns all stack sets with service-managed permissions in the management account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -708,7 +708,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns a list of registration tokens for the specified type(s).
+    ///  Returns a list of registration tokens for the specified extension(s).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -761,7 +761,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns summary information about the versions of a type.
+    ///  Returns summary information about the versions of an extension.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -814,7 +814,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns summary information about types that have been registered with CloudFormation.
+    ///  Returns summary information about extension that have been registered with CloudFormation.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -934,6 +934,7 @@ extension CloudFormation.ListImportsInput: AWSPaginateToken {
 extension CloudFormation.ListStackInstancesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackInstancesInput {
         return .init(
+            callAs: self.callAs,
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
@@ -956,6 +957,7 @@ extension CloudFormation.ListStackResourcesInput: AWSPaginateToken {
 extension CloudFormation.ListStackSetOperationResultsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackSetOperationResultsInput {
         return .init(
+            callAs: self.callAs,
             maxResults: self.maxResults,
             nextToken: token,
             operationId: self.operationId,
@@ -967,6 +969,7 @@ extension CloudFormation.ListStackSetOperationResultsInput: AWSPaginateToken {
 extension CloudFormation.ListStackSetOperationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackSetOperationsInput {
         return .init(
+            callAs: self.callAs,
             maxResults: self.maxResults,
             nextToken: token,
             stackSetName: self.stackSetName
@@ -977,6 +980,7 @@ extension CloudFormation.ListStackSetOperationsInput: AWSPaginateToken {
 extension CloudFormation.ListStackSetsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListStackSetsInput {
         return .init(
+            callAs: self.callAs,
             maxResults: self.maxResults,
             nextToken: token,
             status: self.status

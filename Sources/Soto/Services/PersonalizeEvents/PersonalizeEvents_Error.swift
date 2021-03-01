@@ -20,6 +20,7 @@ import SotoCore
 public struct PersonalizeEventsErrorType: AWSErrorType {
     enum Code: String {
         case invalidInputException = "InvalidInputException"
+        case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
     }
 
@@ -43,6 +44,8 @@ public struct PersonalizeEventsErrorType: AWSErrorType {
 
     /// Provide a valid value for the field or parameter.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// The specified resource is in use.
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// Could not find the specified resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }

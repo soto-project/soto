@@ -20,6 +20,20 @@ import SotoCore
 extension IoTEvents {
     // MARK: Enums
 
+    public enum AnalysisResultLevel: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case info = "INFO"
+        case warning = "WARNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalysisStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DetectorModelVersionStatus: String, CustomStringConvertible, Codable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
@@ -63,9 +77,9 @@ extension IoTEvents {
     public struct Action: AWSEncodableShape & AWSDecodableShape {
         /// Information needed to clear the timer.
         public let clearTimer: ClearTimerAction?
-        /// Writes to the DynamoDB table that you created. The default action payload contains all attribute-value pairs that have the information about the detector model instance and the event that triggered the action. You can also customize the payload. One column of the DynamoDB table receives all attribute-value pairs in the payload that you specify. For more information, see Actions in AWS IoT Events Developer Guide.
+        /// Writes to the DynamoDB table that you created. The default action payload contains all attribute-value pairs that have the information about the detector model instance and the event that triggered the action. You can customize the payload. One column of the DynamoDB table receives all attribute-value pairs in the payload that you specify. For more information, see Actions in AWS IoT Events Developer Guide.
         public let dynamoDB: DynamoDBAction?
-        /// Writes to the DynamoDB table that you created. The default action payload contains all attribute-value pairs that have the information about the detector model instance and the event that triggered the action. You can also customize the payload. A separate column of the DynamoDB table receives one attribute-value pair in the payload that you specify. For more information, see Actions in AWS IoT Events Developer Guide.
+        /// Writes to the DynamoDB table that you created. The default action payload contains all attribute-value pairs that have the information about the detector model instance and the event that triggered the action. You can customize the payload. A separate column of the DynamoDB table receives one attribute-value pair in the payload that you specify. For more information, see Actions in AWS IoT Events Developer Guide.
         public let dynamoDBv2: DynamoDBv2Action?
         /// Sends information about the detector model instance and the event that triggered the action to an Amazon Kinesis Data Firehose delivery stream.
         public let firehose: FirehoseAction?
@@ -136,10 +150,48 @@ extension IoTEvents {
         }
     }
 
+    public struct AnalysisResult: AWSDecodableShape {
+        /// The severity level of the analysis result. Analysis results fall into three general categories based on the severity level:    INFO - An information result informs you about a significant field in your detector model. This type of result usually doesn't require immediate action.    WARNING - A warning result draws special attention to fields that are potentially damaging to your detector model. We recommend that you review warnings and take necessary actions before you use your detetor model in production environments. Otherwise, the detector model may not fully function as expected.    ERROR - An error result notifies you about a problem found in your detector model. You must fix all errors before you can publish your detector model.
+        public let level: AnalysisResultLevel?
+        /// Contains one or more locations that you can use to locate the fields in your detector model that the analysis result references.
+        public let locations: [AnalysisResultLocation]?
+        /// Contains additional information about the analysis result.
+        public let message: String?
+        /// The type of the analysis result. Analyses fall into the following types based on the validators used to generate the analysis result:    supported-actions - You must specify AWS IoT Events supported actions that work with other AWS services in a supported AWS Region.    service-limits - Resources or operations can't exceed service limits. Update your detector model or request a limit adjust.    structure - The detector model must follow a structure that AWS IoT Events supports.     expression-syntax - Your expression must follow the required syntax.    data-type - Data types referenced in the detector model must be compatible.    referenced-data - You must define the data referenced in your detector model before you can use the data.    referenced-resource - Resources that the detector model uses must be available.   For more information, see Running detector model analyses in the AWS IoT Events Developer Guide.
+        public let type: String?
+
+        public init(level: AnalysisResultLevel? = nil, locations: [AnalysisResultLocation]? = nil, message: String? = nil, type: String? = nil) {
+            self.level = level
+            self.locations = locations
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case level
+            case locations
+            case message
+            case type
+        }
+    }
+
+    public struct AnalysisResultLocation: AWSDecodableShape {
+        /// A JsonPath expression that identifies the error field in your detector model.
+        public let path: String?
+
+        public init(path: String? = nil) {
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path
+        }
+    }
+
     public struct AssetPropertyTimestamp: AWSEncodableShape & AWSDecodableShape {
-        /// The nanosecond offset converted from timeInSeconds. The valid range is between 0-999999999. You can also specify an expression.
+        /// The nanosecond offset converted from timeInSeconds. The valid range is between 0-999999999.
         public let offsetInNanos: String?
-        /// The timestamp, in seconds, in the Unix epoch format. The valid range is between 1-31556889864403199. You can also specify an expression.
+        /// The timestamp, in seconds, in the Unix epoch format. The valid range is between 1-31556889864403199.
         public let timeInSeconds: String
 
         public init(offsetInNanos: String? = nil, timeInSeconds: String) {
@@ -154,7 +206,7 @@ extension IoTEvents {
     }
 
     public struct AssetPropertyValue: AWSEncodableShape & AWSDecodableShape {
-        /// The quality of the asset property value. The value must be GOOD, BAD, or UNCERTAIN. You can also specify an expression.
+        /// The quality of the asset property value. The value must be 'GOOD', 'BAD', or 'UNCERTAIN'.
         public let quality: String?
         /// The timestamp associated with the asset property value. The default is the current event time.
         public let timestamp: AssetPropertyTimestamp?
@@ -175,13 +227,13 @@ extension IoTEvents {
     }
 
     public struct AssetPropertyVariant: AWSEncodableShape & AWSDecodableShape {
-        /// The asset property value is a Boolean value that must be TRUE or FALSE. You can also specify an expression. If you use an expression, the evaluated result should be a Boolean value.
+        /// The asset property value is a Boolean value that must be 'TRUE' or 'FALSE'. You must use an expression, and the evaluated result should be a Boolean value.
         public let booleanValue: String?
-        /// The asset property value is a double. You can also specify an expression. If you use an expression, the evaluated result should be a double.
+        /// The asset property value is a double. You must use an expression, and the evaluated result should be a double.
         public let doubleValue: String?
-        /// The asset property value is an integer. You can also specify an expression. If you use an expression, the evaluated result should be an integer.
+        /// The asset property value is an integer. You must use an expression, and the evaluated result should be an integer.
         public let integerValue: String?
-        /// The asset property value is a string. You can also specify an expression. If you use an expression, the evaluated result should be a string.
+        /// The asset property value is a string. You must use an expression, and the evaluated result should be a string.
         public let stringValue: String?
 
         public init(booleanValue: String? = nil, doubleValue: String? = nil, integerValue: String? = nil, stringValue: String? = nil) {
@@ -399,6 +451,34 @@ extension IoTEvents {
 
     public struct DeleteInputResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DescribeDetectorModelAnalysisRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "analysisId"))
+        ]
+
+        /// The ID of the analysis result that you want to retrieve.
+        public let analysisId: String
+
+        public init(analysisId: String) {
+            self.analysisId = analysisId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDetectorModelAnalysisResponse: AWSDecodableShape {
+        /// The status of the analysis activity. The status can be one of the following values:    RUNNING - AWS IoT Events is analyzing your detector model. This process can take several minutes to complete.    COMPLETE - AWS IoT Events finished analyzing your detector model .    FAILED - AWS IoT Events couldn't analyze your detector model. Try again later.
+        public let status: AnalysisStatus?
+
+        public init(status: AnalysisStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status
+        }
     }
 
     public struct DescribeDetectorModelRequest: AWSEncodableShape {
@@ -673,24 +753,24 @@ extension IoTEvents {
     }
 
     public struct DynamoDBAction: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the hash key (also called the partition key).
+        /// The name of the hash key (also called the partition key). The hashKeyField value must match the partition key of the target DynamoDB table.
         public let hashKeyField: String
-        /// The data type for the hash key (also called the partition key). You can specify the following values:    STRING - The hash key is a string.    NUMBER - The hash key is a number.   If you don't specify hashKeyType, the default value is STRING.
+        /// The data type for the hash key (also called the partition key). You can specify the following values:    'STRING' - The hash key is a string.    'NUMBER' - The hash key is a number.   If you don't specify hashKeyType, the default value is 'STRING'.
         public let hashKeyType: String?
         /// The value of the hash key (also called the partition key).
         public let hashKeyValue: String
-        /// The type of operation to perform. You can specify the following values:     INSERT - Insert data as a new item into the DynamoDB table. This item uses the specified hash key as a partition key. If you specified a range key, the item uses the range key as a sort key.    UPDATE - Update an existing item of the DynamoDB table with new data. This item's partition key must match the specified hash key. If you specified a range key, the range key must match the item's sort key.    DELETE - Delete an existing item of the DynamoDB table. This item's partition key must match the specified hash key. If you specified a range key, the range key must match the item's sort key.   If you don't specify this parameter, AWS IoT Events triggers the INSERT operation.
+        /// The type of operation to perform. You can specify the following values:     'INSERT' - Insert data as a new item into the DynamoDB table. This item uses the specified hash key as a partition key. If you specified a range key, the item uses the range key as a sort key.    'UPDATE' - Update an existing item of the DynamoDB table with new data. This item's partition key must match the specified hash key. If you specified a range key, the range key must match the item's sort key.    'DELETE' - Delete an existing item of the DynamoDB table. This item's partition key must match the specified hash key. If you specified a range key, the range key must match the item's sort key.   If you don't specify this parameter, AWS IoT Events triggers the 'INSERT' operation.
         public let operation: String?
         public let payload: Payload?
         /// The name of the DynamoDB column that receives the action payload. If you don't specify this parameter, the name of the DynamoDB column is payload.
         public let payloadField: String?
-        /// The name of the range key (also called the sort key).
+        /// The name of the range key (also called the sort key). The rangeKeyField value must match the sort key of the target DynamoDB table.
         public let rangeKeyField: String?
-        /// The data type for the range key (also called the sort key), You can specify the following values:    STRING - The range key is a string.    NUMBER - The range key is number.   If you don't specify rangeKeyField, the default value is STRING.
+        /// The data type for the range key (also called the sort key), You can specify the following values:    'STRING' - The range key is a string.    'NUMBER' - The range key is number.   If you don't specify rangeKeyField, the default value is 'STRING'.
         public let rangeKeyType: String?
         /// The value of the range key (also called the sort key).
         public let rangeKeyValue: String?
-        /// The name of the DynamoDB table.
+        /// The name of the DynamoDB table. The tableName value must match the table name of the target DynamoDB table.
         public let tableName: String
 
         public init(hashKeyField: String, hashKeyType: String? = nil, hashKeyValue: String, operation: String? = nil, payload: Payload? = nil, payloadField: String? = nil, rangeKeyField: String? = nil, rangeKeyType: String? = nil, rangeKeyValue: String? = nil, tableName: String) {
@@ -796,6 +876,46 @@ extension IoTEvents {
             case deliveryStreamName
             case payload
             case separator
+        }
+    }
+
+    public struct GetDetectorModelAnalysisResultsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "analysisId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The ID of the analysis result that you want to retrieve.
+        public let analysisId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token that you can use to return the next set of results.
+        public let nextToken: String?
+
+        public init(analysisId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.analysisId = analysisId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDetectorModelAnalysisResultsResponse: AWSDecodableShape {
+        /// Contains information about one or more analysis results.
+        public let analysisResults: [AnalysisResult]?
+        /// The token that you can use to return the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(analysisResults: [AnalysisResult]? = nil, nextToken: String? = nil) {
+            self.analysisResults = analysisResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisResults
+            case nextToken
         }
     }
 
@@ -928,13 +1048,13 @@ extension IoTEvents {
     }
 
     public struct IotSiteWiseAction: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the asset that has the specified property. You can specify an expression.
+        /// The ID of the asset that has the specified property.
         public let assetId: String?
-        /// A unique identifier for this entry. You can use the entry ID to track which data entry causes an error in case of failure. The default is a new unique identifier. You can also specify an expression.
+        /// A unique identifier for this entry. You can use the entry ID to track which data entry causes an error in case of failure. The default is a new unique identifier.
         public let entryId: String?
-        /// The alias of the asset property. You can also specify an expression.
+        /// The alias of the asset property.
         public let propertyAlias: String?
-        /// The ID of the asset property. You can specify an expression.
+        /// The ID of the asset property.
         public let propertyId: String?
         /// The value to send to the asset property. This value contains timestamp, quality, and value (TQV) information.
         public let propertyValue: AssetPropertyValue
@@ -1011,9 +1131,9 @@ extension IoTEvents {
 
         /// The name of the detector model whose versions are returned.
         public let detectorModelName: String
-        /// The maximum number of results to return at one time.
+        /// The maximum number of results to be returned per request.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
         public init(detectorModelName: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1036,7 +1156,7 @@ extension IoTEvents {
     public struct ListDetectorModelVersionsResponse: AWSDecodableShape {
         /// Summary information about the detector model versions.
         public let detectorModelVersionSummaries: [DetectorModelVersionSummary]?
-        /// A token to retrieve the next set of results, or null if there are no additional results.
+        /// The token that you can use to return the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(detectorModelVersionSummaries: [DetectorModelVersionSummary]? = nil, nextToken: String? = nil) {
@@ -1056,9 +1176,9 @@ extension IoTEvents {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results to return at one time.
+        /// The maximum number of results to be returned per request.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1077,7 +1197,7 @@ extension IoTEvents {
     public struct ListDetectorModelsResponse: AWSDecodableShape {
         /// Summary information about the detector models.
         public let detectorModelSummaries: [DetectorModelSummary]?
-        /// A token to retrieve the next set of results, or null if there are no additional results.
+        /// The token that you can use to return the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(detectorModelSummaries: [DetectorModelSummary]? = nil, nextToken: String? = nil) {
@@ -1097,9 +1217,9 @@ extension IoTEvents {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results to return at one time.
+        /// The maximum number of results to be returned per request.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1118,7 +1238,7 @@ extension IoTEvents {
     public struct ListInputsResponse: AWSDecodableShape {
         /// Summary information about the inputs.
         public let inputSummaries: [InputSummary]?
-        /// A token to retrieve the next set of results, or null if there are no additional results.
+        /// The token that you can use to return the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(inputSummaries: [InputSummary]? = nil, nextToken: String? = nil) {
@@ -1413,6 +1533,35 @@ extension IoTEvents {
             case payload
             case queueUrl
             case useBase64
+        }
+    }
+
+    public struct StartDetectorModelAnalysisRequest: AWSEncodableShape {
+        public let detectorModelDefinition: DetectorModelDefinition
+
+        public init(detectorModelDefinition: DetectorModelDefinition) {
+            self.detectorModelDefinition = detectorModelDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.detectorModelDefinition.validate(name: "\(name).detectorModelDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorModelDefinition
+        }
+    }
+
+    public struct StartDetectorModelAnalysisResponse: AWSDecodableShape {
+        /// The ID that you can use to retrieve the analysis result.
+        public let analysisId: String?
+
+        public init(analysisId: String? = nil) {
+            self.analysisId = analysisId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId
         }
     }
 

@@ -108,7 +108,7 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "GetDataCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a database object for the specfied database and data catalog.
+    /// Returns a database object for the specified database and data catalog.
     public func getDatabase(_ input: GetDatabaseInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDatabaseOutput> {
         return self.client.execute(operation: "GetDatabase", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -146,6 +146,11 @@ public struct Athena: AWSService {
     /// Lists the databases in the specified data catalog.
     public func listDatabases(_ input: ListDatabasesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatabasesOutput> {
         return self.client.execute(operation: "ListDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of engine versions that are available to choose from, including the Auto option.
+    public func listEngineVersions(_ input: ListEngineVersionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEngineVersionsOutput> {
+        return self.client.execute(operation: "ListEngineVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.

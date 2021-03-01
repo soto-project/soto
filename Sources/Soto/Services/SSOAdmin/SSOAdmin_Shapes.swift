@@ -875,7 +875,7 @@ extension SSOAdmin {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -927,7 +927,7 @@ extension SSOAdmin {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -983,7 +983,7 @@ extension SSOAdmin {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -1042,7 +1042,7 @@ extension SSOAdmin {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -1089,7 +1089,7 @@ extension SSOAdmin {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1139,7 +1139,7 @@ extension SSOAdmin {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -1194,7 +1194,7 @@ extension SSOAdmin {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1250,7 +1250,7 @@ extension SSOAdmin {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1300,7 +1300,7 @@ extension SSOAdmin {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1346,7 +1346,7 @@ extension SSOAdmin {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:sso:([a-zA-Z0-9-]+)?:(\\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+")

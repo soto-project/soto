@@ -2906,6 +2906,25 @@ extension IoTSiteWise {
         }
     }
 
+    public struct IAMRoleIdentity: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the IAM role. For more information, see IAM ARNs in the IAM User Guide.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1600)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+        }
+    }
+
     public struct IAMUserIdentity: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the IAM user. For more information, see IAM ARNs in the IAM User Guide.  If you delete the IAM user, access policies that contain this identity include an empty arn. You can delete the access policy for the IAM user that no longer exists.
         public let arn: String
@@ -2928,25 +2947,30 @@ extension IoTSiteWise {
     public struct Identity: AWSEncodableShape & AWSDecodableShape {
         /// An AWS SSO group identity.
         public let group: GroupIdentity?
+        /// An IAM role identity.
+        public let iamRole: IAMRoleIdentity?
         /// An IAM user identity.
         public let iamUser: IAMUserIdentity?
         /// An AWS SSO user identity.
         public let user: UserIdentity?
 
-        public init(group: GroupIdentity? = nil, iamUser: IAMUserIdentity? = nil, user: UserIdentity? = nil) {
+        public init(group: GroupIdentity? = nil, iamRole: IAMRoleIdentity? = nil, iamUser: IAMUserIdentity? = nil, user: UserIdentity? = nil) {
             self.group = group
+            self.iamRole = iamRole
             self.iamUser = iamUser
             self.user = user
         }
 
         public func validate(name: String) throws {
             try self.group?.validate(name: "\(name).group")
+            try self.iamRole?.validate(name: "\(name).iamRole")
             try self.iamUser?.validate(name: "\(name).iamUser")
             try self.user?.validate(name: "\(name).user")
         }
 
         private enum CodingKeys: String, CodingKey {
             case group
+            case iamRole
             case iamUser
             case user
         }
