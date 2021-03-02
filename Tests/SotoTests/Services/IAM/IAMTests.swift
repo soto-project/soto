@@ -126,8 +126,8 @@ class IAMTests: XCTestCase {
                 return Self.iam.getUserPolicy(request, logger: TestEnvironment.logger)
             }
             .map { response in
-                let responsePolicyDocument = response.policyDocument.removingPercentEncoding?.filter { $0 != " " && $0 != "\n" }
-                XCTAssertEqual(responsePolicyDocument, policyDocument.filter { $0 != " " && $0 != "\n" })
+                let responsePolicyDocument = response.policyDocument.removingPercentEncoding
+                XCTAssertEqual(responsePolicyDocument, policyDocument)
             }
             .flatAlways { _ in
                 return self.deleteUser(userName: username)

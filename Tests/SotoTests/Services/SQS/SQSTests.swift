@@ -92,7 +92,7 @@ class SQSTests: XCTestCase {
 
     func testSendReceiveAndDelete() {
         let name = TestEnvironment.generateResourceName()
-        let response = self.testSendReceiveAndDelete(name: name, messageBody: "Testing, testing,1,2,1,2")
+        let response = self.testSendReceiveAndDelete(name: name, messageBody: "Testing, testing\n,1,2,1,2")
         XCTAssertNoThrow(try response.wait())
     }
 
@@ -118,7 +118,7 @@ class SQSTests: XCTestCase {
         // tests decoding of empty xml arrays
         let name = TestEnvironment.generateResourceName()
         let response = self.testQueue(name: name) { queueUrl in
-            let messageBody = "Testing, testing,1,2,1,2"
+            let messageBody = "Testing, testing\n,1,2,1,2"
             let request = SQS.SendMessageBatchRequest(entries: [.init(id: "msg1", messageBody: messageBody)], queueUrl: queueUrl)
             return Self.sqs.sendMessageBatch(request).map { _ in }
         }
