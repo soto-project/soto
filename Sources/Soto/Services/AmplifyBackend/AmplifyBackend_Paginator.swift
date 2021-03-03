@@ -42,7 +42,8 @@ extension AmplifyBackend {
             input: input,
             initialValue: initialValue,
             command: listBackendJobs,
-            tokenKey: \ListBackendJobsResponse.nextToken,
+            inputKey: \ListBackendJobsRequest.nextToken,
+            outputKey: \ListBackendJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension AmplifyBackend {
         return client.paginate(
             input: input,
             command: listBackendJobs,
-            tokenKey: \ListBackendJobsResponse.nextToken,
+            inputKey: \ListBackendJobsRequest.nextToken,
+            outputKey: \ListBackendJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

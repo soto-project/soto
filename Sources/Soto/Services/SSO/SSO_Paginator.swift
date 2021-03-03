@@ -42,7 +42,8 @@ extension SSO {
             input: input,
             initialValue: initialValue,
             command: listAccountRoles,
-            tokenKey: \ListAccountRolesResponse.nextToken,
+            inputKey: \ListAccountRolesRequest.nextToken,
+            outputKey: \ListAccountRolesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SSO {
         return client.paginate(
             input: input,
             command: listAccountRoles,
-            tokenKey: \ListAccountRolesResponse.nextToken,
+            inputKey: \ListAccountRolesRequest.nextToken,
+            outputKey: \ListAccountRolesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SSO {
             input: input,
             initialValue: initialValue,
             command: listAccounts,
-            tokenKey: \ListAccountsResponse.nextToken,
+            inputKey: \ListAccountsRequest.nextToken,
+            outputKey: \ListAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SSO {
         return client.paginate(
             input: input,
             command: listAccounts,
-            tokenKey: \ListAccountsResponse.nextToken,
+            inputKey: \ListAccountsRequest.nextToken,
+            outputKey: \ListAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

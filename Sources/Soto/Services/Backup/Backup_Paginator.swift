@@ -42,7 +42,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listBackupJobs,
-            tokenKey: \ListBackupJobsOutput.nextToken,
+            inputKey: \ListBackupJobsInput.nextToken,
+            outputKey: \ListBackupJobsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listBackupJobs,
-            tokenKey: \ListBackupJobsOutput.nextToken,
+            inputKey: \ListBackupJobsInput.nextToken,
+            outputKey: \ListBackupJobsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listBackupPlanTemplates,
-            tokenKey: \ListBackupPlanTemplatesOutput.nextToken,
+            inputKey: \ListBackupPlanTemplatesInput.nextToken,
+            outputKey: \ListBackupPlanTemplatesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listBackupPlanTemplates,
-            tokenKey: \ListBackupPlanTemplatesOutput.nextToken,
+            inputKey: \ListBackupPlanTemplatesInput.nextToken,
+            outputKey: \ListBackupPlanTemplatesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listBackupPlanVersions,
-            tokenKey: \ListBackupPlanVersionsOutput.nextToken,
+            inputKey: \ListBackupPlanVersionsInput.nextToken,
+            outputKey: \ListBackupPlanVersionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listBackupPlanVersions,
-            tokenKey: \ListBackupPlanVersionsOutput.nextToken,
+            inputKey: \ListBackupPlanVersionsInput.nextToken,
+            outputKey: \ListBackupPlanVersionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listBackupPlans,
-            tokenKey: \ListBackupPlansOutput.nextToken,
+            inputKey: \ListBackupPlansInput.nextToken,
+            outputKey: \ListBackupPlansOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listBackupPlans,
-            tokenKey: \ListBackupPlansOutput.nextToken,
+            inputKey: \ListBackupPlansInput.nextToken,
+            outputKey: \ListBackupPlansOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listBackupSelections,
-            tokenKey: \ListBackupSelectionsOutput.nextToken,
+            inputKey: \ListBackupSelectionsInput.nextToken,
+            outputKey: \ListBackupSelectionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listBackupSelections,
-            tokenKey: \ListBackupSelectionsOutput.nextToken,
+            inputKey: \ListBackupSelectionsInput.nextToken,
+            outputKey: \ListBackupSelectionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listBackupVaults,
-            tokenKey: \ListBackupVaultsOutput.nextToken,
+            inputKey: \ListBackupVaultsInput.nextToken,
+            outputKey: \ListBackupVaultsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listBackupVaults,
-            tokenKey: \ListBackupVaultsOutput.nextToken,
+            inputKey: \ListBackupVaultsInput.nextToken,
+            outputKey: \ListBackupVaultsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listCopyJobs,
-            tokenKey: \ListCopyJobsOutput.nextToken,
+            inputKey: \ListCopyJobsInput.nextToken,
+            outputKey: \ListCopyJobsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listCopyJobs,
-            tokenKey: \ListCopyJobsOutput.nextToken,
+            inputKey: \ListCopyJobsInput.nextToken,
+            outputKey: \ListCopyJobsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listProtectedResources,
-            tokenKey: \ListProtectedResourcesOutput.nextToken,
+            inputKey: \ListProtectedResourcesInput.nextToken,
+            outputKey: \ListProtectedResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listProtectedResources,
-            tokenKey: \ListProtectedResourcesOutput.nextToken,
+            inputKey: \ListProtectedResourcesInput.nextToken,
+            outputKey: \ListProtectedResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listRecoveryPointsByBackupVault,
-            tokenKey: \ListRecoveryPointsByBackupVaultOutput.nextToken,
+            inputKey: \ListRecoveryPointsByBackupVaultInput.nextToken,
+            outputKey: \ListRecoveryPointsByBackupVaultOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listRecoveryPointsByBackupVault,
-            tokenKey: \ListRecoveryPointsByBackupVaultOutput.nextToken,
+            inputKey: \ListRecoveryPointsByBackupVaultInput.nextToken,
+            outputKey: \ListRecoveryPointsByBackupVaultOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listRecoveryPointsByResource,
-            tokenKey: \ListRecoveryPointsByResourceOutput.nextToken,
+            inputKey: \ListRecoveryPointsByResourceInput.nextToken,
+            outputKey: \ListRecoveryPointsByResourceOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listRecoveryPointsByResource,
-            tokenKey: \ListRecoveryPointsByResourceOutput.nextToken,
+            inputKey: \ListRecoveryPointsByResourceInput.nextToken,
+            outputKey: \ListRecoveryPointsByResourceOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listRestoreJobs,
-            tokenKey: \ListRestoreJobsOutput.nextToken,
+            inputKey: \ListRestoreJobsInput.nextToken,
+            outputKey: \ListRestoreJobsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listRestoreJobs,
-            tokenKey: \ListRestoreJobsOutput.nextToken,
+            inputKey: \ListRestoreJobsInput.nextToken,
+            outputKey: \ListRestoreJobsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension Backup {
             input: input,
             initialValue: initialValue,
             command: listTags,
-            tokenKey: \ListTagsOutput.nextToken,
+            inputKey: \ListTagsInput.nextToken,
+            outputKey: \ListTagsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension Backup {
         return client.paginate(
             input: input,
             command: listTags,
-            tokenKey: \ListTagsOutput.nextToken,
+            inputKey: \ListTagsInput.nextToken,
+            outputKey: \ListTagsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

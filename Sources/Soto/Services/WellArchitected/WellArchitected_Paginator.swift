@@ -42,7 +42,8 @@ extension WellArchitected {
             input: input,
             initialValue: initialValue,
             command: listAnswers,
-            tokenKey: \ListAnswersOutput.nextToken,
+            inputKey: \ListAnswersInput.nextToken,
+            outputKey: \ListAnswersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension WellArchitected {
         return client.paginate(
             input: input,
             command: listAnswers,
-            tokenKey: \ListAnswersOutput.nextToken,
+            inputKey: \ListAnswersInput.nextToken,
+            outputKey: \ListAnswersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension WellArchitected {
             input: input,
             initialValue: initialValue,
             command: listLensReviewImprovements,
-            tokenKey: \ListLensReviewImprovementsOutput.nextToken,
+            inputKey: \ListLensReviewImprovementsInput.nextToken,
+            outputKey: \ListLensReviewImprovementsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension WellArchitected {
         return client.paginate(
             input: input,
             command: listLensReviewImprovements,
-            tokenKey: \ListLensReviewImprovementsOutput.nextToken,
+            inputKey: \ListLensReviewImprovementsInput.nextToken,
+            outputKey: \ListLensReviewImprovementsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension WellArchitected {
             input: input,
             initialValue: initialValue,
             command: listLensReviews,
-            tokenKey: \ListLensReviewsOutput.nextToken,
+            inputKey: \ListLensReviewsInput.nextToken,
+            outputKey: \ListLensReviewsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension WellArchitected {
         return client.paginate(
             input: input,
             command: listLensReviews,
-            tokenKey: \ListLensReviewsOutput.nextToken,
+            inputKey: \ListLensReviewsInput.nextToken,
+            outputKey: \ListLensReviewsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension WellArchitected {
             input: input,
             initialValue: initialValue,
             command: listLenses,
-            tokenKey: \ListLensesOutput.nextToken,
+            inputKey: \ListLensesInput.nextToken,
+            outputKey: \ListLensesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension WellArchitected {
         return client.paginate(
             input: input,
             command: listLenses,
-            tokenKey: \ListLensesOutput.nextToken,
+            inputKey: \ListLensesInput.nextToken,
+            outputKey: \ListLensesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension WellArchitected {
             input: input,
             initialValue: initialValue,
             command: listMilestones,
-            tokenKey: \ListMilestonesOutput.nextToken,
+            inputKey: \ListMilestonesInput.nextToken,
+            outputKey: \ListMilestonesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension WellArchitected {
         return client.paginate(
             input: input,
             command: listMilestones,
-            tokenKey: \ListMilestonesOutput.nextToken,
+            inputKey: \ListMilestonesInput.nextToken,
+            outputKey: \ListMilestonesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension WellArchitected {
             input: input,
             initialValue: initialValue,
             command: listNotifications,
-            tokenKey: \ListNotificationsOutput.nextToken,
+            inputKey: \ListNotificationsInput.nextToken,
+            outputKey: \ListNotificationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension WellArchitected {
         return client.paginate(
             input: input,
             command: listNotifications,
-            tokenKey: \ListNotificationsOutput.nextToken,
+            inputKey: \ListNotificationsInput.nextToken,
+            outputKey: \ListNotificationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension WellArchitected {
             input: input,
             initialValue: initialValue,
             command: listShareInvitations,
-            tokenKey: \ListShareInvitationsOutput.nextToken,
+            inputKey: \ListShareInvitationsInput.nextToken,
+            outputKey: \ListShareInvitationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension WellArchitected {
         return client.paginate(
             input: input,
             command: listShareInvitations,
-            tokenKey: \ListShareInvitationsOutput.nextToken,
+            inputKey: \ListShareInvitationsInput.nextToken,
+            outputKey: \ListShareInvitationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension WellArchitected {
             input: input,
             initialValue: initialValue,
             command: listWorkloadShares,
-            tokenKey: \ListWorkloadSharesOutput.nextToken,
+            inputKey: \ListWorkloadSharesInput.nextToken,
+            outputKey: \ListWorkloadSharesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension WellArchitected {
         return client.paginate(
             input: input,
             command: listWorkloadShares,
-            tokenKey: \ListWorkloadSharesOutput.nextToken,
+            inputKey: \ListWorkloadSharesInput.nextToken,
+            outputKey: \ListWorkloadSharesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension WellArchitected {
             input: input,
             initialValue: initialValue,
             command: listWorkloads,
-            tokenKey: \ListWorkloadsOutput.nextToken,
+            inputKey: \ListWorkloadsInput.nextToken,
+            outputKey: \ListWorkloadsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension WellArchitected {
         return client.paginate(
             input: input,
             command: listWorkloads,
-            tokenKey: \ListWorkloadsOutput.nextToken,
+            inputKey: \ListWorkloadsInput.nextToken,
+            outputKey: \ListWorkloadsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension OpsWorks {
             input: input,
             initialValue: initialValue,
             command: describeEcsClusters,
-            tokenKey: \DescribeEcsClustersResult.nextToken,
+            inputKey: \DescribeEcsClustersRequest.nextToken,
+            outputKey: \DescribeEcsClustersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension OpsWorks {
         return client.paginate(
             input: input,
             command: describeEcsClusters,
-            tokenKey: \DescribeEcsClustersResult.nextToken,
+            inputKey: \DescribeEcsClustersRequest.nextToken,
+            outputKey: \DescribeEcsClustersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

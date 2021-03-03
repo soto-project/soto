@@ -42,7 +42,8 @@ extension S3Outposts {
             input: input,
             initialValue: initialValue,
             command: listEndpoints,
-            tokenKey: \ListEndpointsResult.nextToken,
+            inputKey: \ListEndpointsRequest.nextToken,
+            outputKey: \ListEndpointsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension S3Outposts {
         return client.paginate(
             input: input,
             command: listEndpoints,
-            tokenKey: \ListEndpointsResult.nextToken,
+            inputKey: \ListEndpointsRequest.nextToken,
+            outputKey: \ListEndpointsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

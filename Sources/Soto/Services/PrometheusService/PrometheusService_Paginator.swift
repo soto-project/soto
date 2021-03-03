@@ -42,7 +42,8 @@ extension PrometheusService {
             input: input,
             initialValue: initialValue,
             command: listWorkspaces,
-            tokenKey: \ListWorkspacesResponse.nextToken,
+            inputKey: \ListWorkspacesRequest.nextToken,
+            outputKey: \ListWorkspacesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension PrometheusService {
         return client.paginate(
             input: input,
             command: listWorkspaces,
-            tokenKey: \ListWorkspacesResponse.nextToken,
+            inputKey: \ListWorkspacesRequest.nextToken,
+            outputKey: \ListWorkspacesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

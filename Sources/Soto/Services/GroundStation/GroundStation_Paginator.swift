@@ -42,7 +42,8 @@ extension GroundStation {
             input: input,
             initialValue: initialValue,
             command: listConfigs,
-            tokenKey: \ListConfigsResponse.nextToken,
+            inputKey: \ListConfigsRequest.nextToken,
+            outputKey: \ListConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension GroundStation {
         return client.paginate(
             input: input,
             command: listConfigs,
-            tokenKey: \ListConfigsResponse.nextToken,
+            inputKey: \ListConfigsRequest.nextToken,
+            outputKey: \ListConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension GroundStation {
             input: input,
             initialValue: initialValue,
             command: listContacts,
-            tokenKey: \ListContactsResponse.nextToken,
+            inputKey: \ListContactsRequest.nextToken,
+            outputKey: \ListContactsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension GroundStation {
         return client.paginate(
             input: input,
             command: listContacts,
-            tokenKey: \ListContactsResponse.nextToken,
+            inputKey: \ListContactsRequest.nextToken,
+            outputKey: \ListContactsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension GroundStation {
             input: input,
             initialValue: initialValue,
             command: listDataflowEndpointGroups,
-            tokenKey: \ListDataflowEndpointGroupsResponse.nextToken,
+            inputKey: \ListDataflowEndpointGroupsRequest.nextToken,
+            outputKey: \ListDataflowEndpointGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension GroundStation {
         return client.paginate(
             input: input,
             command: listDataflowEndpointGroups,
-            tokenKey: \ListDataflowEndpointGroupsResponse.nextToken,
+            inputKey: \ListDataflowEndpointGroupsRequest.nextToken,
+            outputKey: \ListDataflowEndpointGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension GroundStation {
             input: input,
             initialValue: initialValue,
             command: listGroundStations,
-            tokenKey: \ListGroundStationsResponse.nextToken,
+            inputKey: \ListGroundStationsRequest.nextToken,
+            outputKey: \ListGroundStationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension GroundStation {
         return client.paginate(
             input: input,
             command: listGroundStations,
-            tokenKey: \ListGroundStationsResponse.nextToken,
+            inputKey: \ListGroundStationsRequest.nextToken,
+            outputKey: \ListGroundStationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension GroundStation {
             input: input,
             initialValue: initialValue,
             command: listMissionProfiles,
-            tokenKey: \ListMissionProfilesResponse.nextToken,
+            inputKey: \ListMissionProfilesRequest.nextToken,
+            outputKey: \ListMissionProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension GroundStation {
         return client.paginate(
             input: input,
             command: listMissionProfiles,
-            tokenKey: \ListMissionProfilesResponse.nextToken,
+            inputKey: \ListMissionProfilesRequest.nextToken,
+            outputKey: \ListMissionProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension GroundStation {
             input: input,
             initialValue: initialValue,
             command: listSatellites,
-            tokenKey: \ListSatellitesResponse.nextToken,
+            inputKey: \ListSatellitesRequest.nextToken,
+            outputKey: \ListSatellitesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension GroundStation {
         return client.paginate(
             input: input,
             command: listSatellites,
-            tokenKey: \ListSatellitesResponse.nextToken,
+            inputKey: \ListSatellitesRequest.nextToken,
+            outputKey: \ListSatellitesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

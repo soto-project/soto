@@ -42,7 +42,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: describeInboundCrossClusterSearchConnections,
-            tokenKey: \DescribeInboundCrossClusterSearchConnectionsResponse.nextToken,
+            inputKey: \DescribeInboundCrossClusterSearchConnectionsRequest.nextToken,
+            outputKey: \DescribeInboundCrossClusterSearchConnectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: describeInboundCrossClusterSearchConnections,
-            tokenKey: \DescribeInboundCrossClusterSearchConnectionsResponse.nextToken,
+            inputKey: \DescribeInboundCrossClusterSearchConnectionsRequest.nextToken,
+            outputKey: \DescribeInboundCrossClusterSearchConnectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: describeOutboundCrossClusterSearchConnections,
-            tokenKey: \DescribeOutboundCrossClusterSearchConnectionsResponse.nextToken,
+            inputKey: \DescribeOutboundCrossClusterSearchConnectionsRequest.nextToken,
+            outputKey: \DescribeOutboundCrossClusterSearchConnectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: describeOutboundCrossClusterSearchConnections,
-            tokenKey: \DescribeOutboundCrossClusterSearchConnectionsResponse.nextToken,
+            inputKey: \DescribeOutboundCrossClusterSearchConnectionsRequest.nextToken,
+            outputKey: \DescribeOutboundCrossClusterSearchConnectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: describePackages,
-            tokenKey: \DescribePackagesResponse.nextToken,
+            inputKey: \DescribePackagesRequest.nextToken,
+            outputKey: \DescribePackagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: describePackages,
-            tokenKey: \DescribePackagesResponse.nextToken,
+            inputKey: \DescribePackagesRequest.nextToken,
+            outputKey: \DescribePackagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: describeReservedElasticsearchInstanceOfferings,
-            tokenKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken,
+            inputKey: \DescribeReservedElasticsearchInstanceOfferingsRequest.nextToken,
+            outputKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: describeReservedElasticsearchInstanceOfferings,
-            tokenKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken,
+            inputKey: \DescribeReservedElasticsearchInstanceOfferingsRequest.nextToken,
+            outputKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: describeReservedElasticsearchInstances,
-            tokenKey: \DescribeReservedElasticsearchInstancesResponse.nextToken,
+            inputKey: \DescribeReservedElasticsearchInstancesRequest.nextToken,
+            outputKey: \DescribeReservedElasticsearchInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: describeReservedElasticsearchInstances,
-            tokenKey: \DescribeReservedElasticsearchInstancesResponse.nextToken,
+            inputKey: \DescribeReservedElasticsearchInstancesRequest.nextToken,
+            outputKey: \DescribeReservedElasticsearchInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: getPackageVersionHistory,
-            tokenKey: \GetPackageVersionHistoryResponse.nextToken,
+            inputKey: \GetPackageVersionHistoryRequest.nextToken,
+            outputKey: \GetPackageVersionHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: getPackageVersionHistory,
-            tokenKey: \GetPackageVersionHistoryResponse.nextToken,
+            inputKey: \GetPackageVersionHistoryRequest.nextToken,
+            outputKey: \GetPackageVersionHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: getUpgradeHistory,
-            tokenKey: \GetUpgradeHistoryResponse.nextToken,
+            inputKey: \GetUpgradeHistoryRequest.nextToken,
+            outputKey: \GetUpgradeHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: getUpgradeHistory,
-            tokenKey: \GetUpgradeHistoryResponse.nextToken,
+            inputKey: \GetUpgradeHistoryRequest.nextToken,
+            outputKey: \GetUpgradeHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: listDomainsForPackage,
-            tokenKey: \ListDomainsForPackageResponse.nextToken,
+            inputKey: \ListDomainsForPackageRequest.nextToken,
+            outputKey: \ListDomainsForPackageResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: listDomainsForPackage,
-            tokenKey: \ListDomainsForPackageResponse.nextToken,
+            inputKey: \ListDomainsForPackageRequest.nextToken,
+            outputKey: \ListDomainsForPackageResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: listElasticsearchInstanceTypes,
-            tokenKey: \ListElasticsearchInstanceTypesResponse.nextToken,
+            inputKey: \ListElasticsearchInstanceTypesRequest.nextToken,
+            outputKey: \ListElasticsearchInstanceTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: listElasticsearchInstanceTypes,
-            tokenKey: \ListElasticsearchInstanceTypesResponse.nextToken,
+            inputKey: \ListElasticsearchInstanceTypesRequest.nextToken,
+            outputKey: \ListElasticsearchInstanceTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: listElasticsearchVersions,
-            tokenKey: \ListElasticsearchVersionsResponse.nextToken,
+            inputKey: \ListElasticsearchVersionsRequest.nextToken,
+            outputKey: \ListElasticsearchVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: listElasticsearchVersions,
-            tokenKey: \ListElasticsearchVersionsResponse.nextToken,
+            inputKey: \ListElasticsearchVersionsRequest.nextToken,
+            outputKey: \ListElasticsearchVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: listPackagesForDomain,
-            tokenKey: \ListPackagesForDomainResponse.nextToken,
+            inputKey: \ListPackagesForDomainRequest.nextToken,
+            outputKey: \ListPackagesForDomainResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: listPackagesForDomain,
-            tokenKey: \ListPackagesForDomainResponse.nextToken,
+            inputKey: \ListPackagesForDomainRequest.nextToken,
+            outputKey: \ListPackagesForDomainResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

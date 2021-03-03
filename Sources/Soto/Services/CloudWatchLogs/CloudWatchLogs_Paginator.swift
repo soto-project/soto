@@ -42,7 +42,8 @@ extension CloudWatchLogs {
             input: input,
             initialValue: initialValue,
             command: describeDestinations,
-            tokenKey: \DescribeDestinationsResponse.nextToken,
+            inputKey: \DescribeDestinationsRequest.nextToken,
+            outputKey: \DescribeDestinationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CloudWatchLogs {
         return client.paginate(
             input: input,
             command: describeDestinations,
-            tokenKey: \DescribeDestinationsResponse.nextToken,
+            inputKey: \DescribeDestinationsRequest.nextToken,
+            outputKey: \DescribeDestinationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CloudWatchLogs {
             input: input,
             initialValue: initialValue,
             command: describeLogGroups,
-            tokenKey: \DescribeLogGroupsResponse.nextToken,
+            inputKey: \DescribeLogGroupsRequest.nextToken,
+            outputKey: \DescribeLogGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CloudWatchLogs {
         return client.paginate(
             input: input,
             command: describeLogGroups,
-            tokenKey: \DescribeLogGroupsResponse.nextToken,
+            inputKey: \DescribeLogGroupsRequest.nextToken,
+            outputKey: \DescribeLogGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CloudWatchLogs {
             input: input,
             initialValue: initialValue,
             command: describeLogStreams,
-            tokenKey: \DescribeLogStreamsResponse.nextToken,
+            inputKey: \DescribeLogStreamsRequest.nextToken,
+            outputKey: \DescribeLogStreamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CloudWatchLogs {
         return client.paginate(
             input: input,
             command: describeLogStreams,
-            tokenKey: \DescribeLogStreamsResponse.nextToken,
+            inputKey: \DescribeLogStreamsRequest.nextToken,
+            outputKey: \DescribeLogStreamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CloudWatchLogs {
             input: input,
             initialValue: initialValue,
             command: describeMetricFilters,
-            tokenKey: \DescribeMetricFiltersResponse.nextToken,
+            inputKey: \DescribeMetricFiltersRequest.nextToken,
+            outputKey: \DescribeMetricFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CloudWatchLogs {
         return client.paginate(
             input: input,
             command: describeMetricFilters,
-            tokenKey: \DescribeMetricFiltersResponse.nextToken,
+            inputKey: \DescribeMetricFiltersRequest.nextToken,
+            outputKey: \DescribeMetricFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension CloudWatchLogs {
             input: input,
             initialValue: initialValue,
             command: describeSubscriptionFilters,
-            tokenKey: \DescribeSubscriptionFiltersResponse.nextToken,
+            inputKey: \DescribeSubscriptionFiltersRequest.nextToken,
+            outputKey: \DescribeSubscriptionFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension CloudWatchLogs {
         return client.paginate(
             input: input,
             command: describeSubscriptionFilters,
-            tokenKey: \DescribeSubscriptionFiltersResponse.nextToken,
+            inputKey: \DescribeSubscriptionFiltersRequest.nextToken,
+            outputKey: \DescribeSubscriptionFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension CloudWatchLogs {
             input: input,
             initialValue: initialValue,
             command: filterLogEvents,
-            tokenKey: \FilterLogEventsResponse.nextToken,
+            inputKey: \FilterLogEventsRequest.nextToken,
+            outputKey: \FilterLogEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension CloudWatchLogs {
         return client.paginate(
             input: input,
             command: filterLogEvents,
-            tokenKey: \FilterLogEventsResponse.nextToken,
+            inputKey: \FilterLogEventsRequest.nextToken,
+            outputKey: \FilterLogEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension CloudWatchLogs {
             input: input,
             initialValue: initialValue,
             command: getLogEvents,
-            tokenKey: \GetLogEventsResponse.nextForwardToken,
+            inputKey: \GetLogEventsRequest.nextToken,
+            outputKey: \GetLogEventsResponse.nextForwardToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension CloudWatchLogs {
         return client.paginate(
             input: input,
             command: getLogEvents,
-            tokenKey: \GetLogEventsResponse.nextForwardToken,
+            inputKey: \GetLogEventsRequest.nextToken,
+            outputKey: \GetLogEventsResponse.nextForwardToken,
             on: eventLoop,
             onPage: onPage
         )

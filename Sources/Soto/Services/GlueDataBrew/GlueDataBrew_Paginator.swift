@@ -42,7 +42,8 @@ extension GlueDataBrew {
             input: input,
             initialValue: initialValue,
             command: listDatasets,
-            tokenKey: \ListDatasetsResponse.nextToken,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension GlueDataBrew {
         return client.paginate(
             input: input,
             command: listDatasets,
-            tokenKey: \ListDatasetsResponse.nextToken,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension GlueDataBrew {
             input: input,
             initialValue: initialValue,
             command: listJobRuns,
-            tokenKey: \ListJobRunsResponse.nextToken,
+            inputKey: \ListJobRunsRequest.nextToken,
+            outputKey: \ListJobRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension GlueDataBrew {
         return client.paginate(
             input: input,
             command: listJobRuns,
-            tokenKey: \ListJobRunsResponse.nextToken,
+            inputKey: \ListJobRunsRequest.nextToken,
+            outputKey: \ListJobRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension GlueDataBrew {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension GlueDataBrew {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension GlueDataBrew {
             input: input,
             initialValue: initialValue,
             command: listProjects,
-            tokenKey: \ListProjectsResponse.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension GlueDataBrew {
         return client.paginate(
             input: input,
             command: listProjects,
-            tokenKey: \ListProjectsResponse.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension GlueDataBrew {
             input: input,
             initialValue: initialValue,
             command: listRecipeVersions,
-            tokenKey: \ListRecipeVersionsResponse.nextToken,
+            inputKey: \ListRecipeVersionsRequest.nextToken,
+            outputKey: \ListRecipeVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension GlueDataBrew {
         return client.paginate(
             input: input,
             command: listRecipeVersions,
-            tokenKey: \ListRecipeVersionsResponse.nextToken,
+            inputKey: \ListRecipeVersionsRequest.nextToken,
+            outputKey: \ListRecipeVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension GlueDataBrew {
             input: input,
             initialValue: initialValue,
             command: listRecipes,
-            tokenKey: \ListRecipesResponse.nextToken,
+            inputKey: \ListRecipesRequest.nextToken,
+            outputKey: \ListRecipesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension GlueDataBrew {
         return client.paginate(
             input: input,
             command: listRecipes,
-            tokenKey: \ListRecipesResponse.nextToken,
+            inputKey: \ListRecipesRequest.nextToken,
+            outputKey: \ListRecipesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension GlueDataBrew {
             input: input,
             initialValue: initialValue,
             command: listSchedules,
-            tokenKey: \ListSchedulesResponse.nextToken,
+            inputKey: \ListSchedulesRequest.nextToken,
+            outputKey: \ListSchedulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension GlueDataBrew {
         return client.paginate(
             input: input,
             command: listSchedules,
-            tokenKey: \ListSchedulesResponse.nextToken,
+            inputKey: \ListSchedulesRequest.nextToken,
+            outputKey: \ListSchedulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

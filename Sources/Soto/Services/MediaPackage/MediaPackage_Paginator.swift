@@ -42,7 +42,8 @@ extension MediaPackage {
             input: input,
             initialValue: initialValue,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MediaPackage {
         return client.paginate(
             input: input,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MediaPackage {
             input: input,
             initialValue: initialValue,
             command: listHarvestJobs,
-            tokenKey: \ListHarvestJobsResponse.nextToken,
+            inputKey: \ListHarvestJobsRequest.nextToken,
+            outputKey: \ListHarvestJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MediaPackage {
         return client.paginate(
             input: input,
             command: listHarvestJobs,
-            tokenKey: \ListHarvestJobsResponse.nextToken,
+            inputKey: \ListHarvestJobsRequest.nextToken,
+            outputKey: \ListHarvestJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension MediaPackage {
             input: input,
             initialValue: initialValue,
             command: listOriginEndpoints,
-            tokenKey: \ListOriginEndpointsResponse.nextToken,
+            inputKey: \ListOriginEndpointsRequest.nextToken,
+            outputKey: \ListOriginEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension MediaPackage {
         return client.paginate(
             input: input,
             command: listOriginEndpoints,
-            tokenKey: \ListOriginEndpointsResponse.nextToken,
+            inputKey: \ListOriginEndpointsRequest.nextToken,
+            outputKey: \ListOriginEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

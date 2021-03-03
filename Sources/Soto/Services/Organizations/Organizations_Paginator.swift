@@ -42,7 +42,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listAWSServiceAccessForOrganization,
-            tokenKey: \ListAWSServiceAccessForOrganizationResponse.nextToken,
+            inputKey: \ListAWSServiceAccessForOrganizationRequest.nextToken,
+            outputKey: \ListAWSServiceAccessForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listAWSServiceAccessForOrganization,
-            tokenKey: \ListAWSServiceAccessForOrganizationResponse.nextToken,
+            inputKey: \ListAWSServiceAccessForOrganizationRequest.nextToken,
+            outputKey: \ListAWSServiceAccessForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listAccounts,
-            tokenKey: \ListAccountsResponse.nextToken,
+            inputKey: \ListAccountsRequest.nextToken,
+            outputKey: \ListAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listAccounts,
-            tokenKey: \ListAccountsResponse.nextToken,
+            inputKey: \ListAccountsRequest.nextToken,
+            outputKey: \ListAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listAccountsForParent,
-            tokenKey: \ListAccountsForParentResponse.nextToken,
+            inputKey: \ListAccountsForParentRequest.nextToken,
+            outputKey: \ListAccountsForParentResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listAccountsForParent,
-            tokenKey: \ListAccountsForParentResponse.nextToken,
+            inputKey: \ListAccountsForParentRequest.nextToken,
+            outputKey: \ListAccountsForParentResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listChildren,
-            tokenKey: \ListChildrenResponse.nextToken,
+            inputKey: \ListChildrenRequest.nextToken,
+            outputKey: \ListChildrenResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listChildren,
-            tokenKey: \ListChildrenResponse.nextToken,
+            inputKey: \ListChildrenRequest.nextToken,
+            outputKey: \ListChildrenResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listCreateAccountStatus,
-            tokenKey: \ListCreateAccountStatusResponse.nextToken,
+            inputKey: \ListCreateAccountStatusRequest.nextToken,
+            outputKey: \ListCreateAccountStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listCreateAccountStatus,
-            tokenKey: \ListCreateAccountStatusResponse.nextToken,
+            inputKey: \ListCreateAccountStatusRequest.nextToken,
+            outputKey: \ListCreateAccountStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listDelegatedAdministrators,
-            tokenKey: \ListDelegatedAdministratorsResponse.nextToken,
+            inputKey: \ListDelegatedAdministratorsRequest.nextToken,
+            outputKey: \ListDelegatedAdministratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listDelegatedAdministrators,
-            tokenKey: \ListDelegatedAdministratorsResponse.nextToken,
+            inputKey: \ListDelegatedAdministratorsRequest.nextToken,
+            outputKey: \ListDelegatedAdministratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listDelegatedServicesForAccount,
-            tokenKey: \ListDelegatedServicesForAccountResponse.nextToken,
+            inputKey: \ListDelegatedServicesForAccountRequest.nextToken,
+            outputKey: \ListDelegatedServicesForAccountResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listDelegatedServicesForAccount,
-            tokenKey: \ListDelegatedServicesForAccountResponse.nextToken,
+            inputKey: \ListDelegatedServicesForAccountRequest.nextToken,
+            outputKey: \ListDelegatedServicesForAccountResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listHandshakesForAccount,
-            tokenKey: \ListHandshakesForAccountResponse.nextToken,
+            inputKey: \ListHandshakesForAccountRequest.nextToken,
+            outputKey: \ListHandshakesForAccountResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listHandshakesForAccount,
-            tokenKey: \ListHandshakesForAccountResponse.nextToken,
+            inputKey: \ListHandshakesForAccountRequest.nextToken,
+            outputKey: \ListHandshakesForAccountResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listHandshakesForOrganization,
-            tokenKey: \ListHandshakesForOrganizationResponse.nextToken,
+            inputKey: \ListHandshakesForOrganizationRequest.nextToken,
+            outputKey: \ListHandshakesForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listHandshakesForOrganization,
-            tokenKey: \ListHandshakesForOrganizationResponse.nextToken,
+            inputKey: \ListHandshakesForOrganizationRequest.nextToken,
+            outputKey: \ListHandshakesForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listOrganizationalUnitsForParent,
-            tokenKey: \ListOrganizationalUnitsForParentResponse.nextToken,
+            inputKey: \ListOrganizationalUnitsForParentRequest.nextToken,
+            outputKey: \ListOrganizationalUnitsForParentResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listOrganizationalUnitsForParent,
-            tokenKey: \ListOrganizationalUnitsForParentResponse.nextToken,
+            inputKey: \ListOrganizationalUnitsForParentRequest.nextToken,
+            outputKey: \ListOrganizationalUnitsForParentResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listParents,
-            tokenKey: \ListParentsResponse.nextToken,
+            inputKey: \ListParentsRequest.nextToken,
+            outputKey: \ListParentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listParents,
-            tokenKey: \ListParentsResponse.nextToken,
+            inputKey: \ListParentsRequest.nextToken,
+            outputKey: \ListParentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listPolicies,
-            tokenKey: \ListPoliciesResponse.nextToken,
+            inputKey: \ListPoliciesRequest.nextToken,
+            outputKey: \ListPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listPolicies,
-            tokenKey: \ListPoliciesResponse.nextToken,
+            inputKey: \ListPoliciesRequest.nextToken,
+            outputKey: \ListPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listPoliciesForTarget,
-            tokenKey: \ListPoliciesForTargetResponse.nextToken,
+            inputKey: \ListPoliciesForTargetRequest.nextToken,
+            outputKey: \ListPoliciesForTargetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listPoliciesForTarget,
-            tokenKey: \ListPoliciesForTargetResponse.nextToken,
+            inputKey: \ListPoliciesForTargetRequest.nextToken,
+            outputKey: \ListPoliciesForTargetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listRoots,
-            tokenKey: \ListRootsResponse.nextToken,
+            inputKey: \ListRootsRequest.nextToken,
+            outputKey: \ListRootsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listRoots,
-            tokenKey: \ListRootsResponse.nextToken,
+            inputKey: \ListRootsRequest.nextToken,
+            outputKey: \ListRootsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension Organizations {
             input: input,
             initialValue: initialValue,
             command: listTargetsForPolicy,
-            tokenKey: \ListTargetsForPolicyResponse.nextToken,
+            inputKey: \ListTargetsForPolicyRequest.nextToken,
+            outputKey: \ListTargetsForPolicyResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension Organizations {
         return client.paginate(
             input: input,
             command: listTargetsForPolicy,
-            tokenKey: \ListTargetsForPolicyResponse.nextToken,
+            inputKey: \ListTargetsForPolicyRequest.nextToken,
+            outputKey: \ListTargetsForPolicyResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

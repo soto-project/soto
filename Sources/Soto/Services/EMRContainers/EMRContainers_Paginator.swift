@@ -42,7 +42,8 @@ extension EMRContainers {
             input: input,
             initialValue: initialValue,
             command: listJobRuns,
-            tokenKey: \ListJobRunsResponse.nextToken,
+            inputKey: \ListJobRunsRequest.nextToken,
+            outputKey: \ListJobRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension EMRContainers {
         return client.paginate(
             input: input,
             command: listJobRuns,
-            tokenKey: \ListJobRunsResponse.nextToken,
+            inputKey: \ListJobRunsRequest.nextToken,
+            outputKey: \ListJobRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension EMRContainers {
             input: input,
             initialValue: initialValue,
             command: listManagedEndpoints,
-            tokenKey: \ListManagedEndpointsResponse.nextToken,
+            inputKey: \ListManagedEndpointsRequest.nextToken,
+            outputKey: \ListManagedEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension EMRContainers {
         return client.paginate(
             input: input,
             command: listManagedEndpoints,
-            tokenKey: \ListManagedEndpointsResponse.nextToken,
+            inputKey: \ListManagedEndpointsRequest.nextToken,
+            outputKey: \ListManagedEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension EMRContainers {
             input: input,
             initialValue: initialValue,
             command: listVirtualClusters,
-            tokenKey: \ListVirtualClustersResponse.nextToken,
+            inputKey: \ListVirtualClustersRequest.nextToken,
+            outputKey: \ListVirtualClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension EMRContainers {
         return client.paginate(
             input: input,
             command: listVirtualClusters,
-            tokenKey: \ListVirtualClustersResponse.nextToken,
+            inputKey: \ListVirtualClustersRequest.nextToken,
+            outputKey: \ListVirtualClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

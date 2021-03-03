@@ -42,7 +42,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: getChangeLogs,
-            tokenKey: \GetChangeLogsResponse.nextToken,
+            inputKey: \GetChangeLogsRequest.nextToken,
+            outputKey: \GetChangeLogsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: getChangeLogs,
-            tokenKey: \GetChangeLogsResponse.nextToken,
+            inputKey: \GetChangeLogsRequest.nextToken,
+            outputKey: \GetChangeLogsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: getDelegations,
-            tokenKey: \GetDelegationsResponse.nextToken,
+            inputKey: \GetDelegationsRequest.nextToken,
+            outputKey: \GetDelegationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: getDelegations,
-            tokenKey: \GetDelegationsResponse.nextToken,
+            inputKey: \GetDelegationsRequest.nextToken,
+            outputKey: \GetDelegationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: getEvidenceByEvidenceFolder,
-            tokenKey: \GetEvidenceByEvidenceFolderResponse.nextToken,
+            inputKey: \GetEvidenceByEvidenceFolderRequest.nextToken,
+            outputKey: \GetEvidenceByEvidenceFolderResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: getEvidenceByEvidenceFolder,
-            tokenKey: \GetEvidenceByEvidenceFolderResponse.nextToken,
+            inputKey: \GetEvidenceByEvidenceFolderRequest.nextToken,
+            outputKey: \GetEvidenceByEvidenceFolderResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: getEvidenceFoldersByAssessment,
-            tokenKey: \GetEvidenceFoldersByAssessmentResponse.nextToken,
+            inputKey: \GetEvidenceFoldersByAssessmentRequest.nextToken,
+            outputKey: \GetEvidenceFoldersByAssessmentResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: getEvidenceFoldersByAssessment,
-            tokenKey: \GetEvidenceFoldersByAssessmentResponse.nextToken,
+            inputKey: \GetEvidenceFoldersByAssessmentRequest.nextToken,
+            outputKey: \GetEvidenceFoldersByAssessmentResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: getEvidenceFoldersByAssessmentControl,
-            tokenKey: \GetEvidenceFoldersByAssessmentControlResponse.nextToken,
+            inputKey: \GetEvidenceFoldersByAssessmentControlRequest.nextToken,
+            outputKey: \GetEvidenceFoldersByAssessmentControlResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: getEvidenceFoldersByAssessmentControl,
-            tokenKey: \GetEvidenceFoldersByAssessmentControlResponse.nextToken,
+            inputKey: \GetEvidenceFoldersByAssessmentControlRequest.nextToken,
+            outputKey: \GetEvidenceFoldersByAssessmentControlResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: listAssessmentFrameworks,
-            tokenKey: \ListAssessmentFrameworksResponse.nextToken,
+            inputKey: \ListAssessmentFrameworksRequest.nextToken,
+            outputKey: \ListAssessmentFrameworksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: listAssessmentFrameworks,
-            tokenKey: \ListAssessmentFrameworksResponse.nextToken,
+            inputKey: \ListAssessmentFrameworksRequest.nextToken,
+            outputKey: \ListAssessmentFrameworksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: listAssessmentReports,
-            tokenKey: \ListAssessmentReportsResponse.nextToken,
+            inputKey: \ListAssessmentReportsRequest.nextToken,
+            outputKey: \ListAssessmentReportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: listAssessmentReports,
-            tokenKey: \ListAssessmentReportsResponse.nextToken,
+            inputKey: \ListAssessmentReportsRequest.nextToken,
+            outputKey: \ListAssessmentReportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: listAssessments,
-            tokenKey: \ListAssessmentsResponse.nextToken,
+            inputKey: \ListAssessmentsRequest.nextToken,
+            outputKey: \ListAssessmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: listAssessments,
-            tokenKey: \ListAssessmentsResponse.nextToken,
+            inputKey: \ListAssessmentsRequest.nextToken,
+            outputKey: \ListAssessmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: listControls,
-            tokenKey: \ListControlsResponse.nextToken,
+            inputKey: \ListControlsRequest.nextToken,
+            outputKey: \ListControlsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: listControls,
-            tokenKey: \ListControlsResponse.nextToken,
+            inputKey: \ListControlsRequest.nextToken,
+            outputKey: \ListControlsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: listKeywordsForDataSource,
-            tokenKey: \ListKeywordsForDataSourceResponse.nextToken,
+            inputKey: \ListKeywordsForDataSourceRequest.nextToken,
+            outputKey: \ListKeywordsForDataSourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: listKeywordsForDataSource,
-            tokenKey: \ListKeywordsForDataSourceResponse.nextToken,
+            inputKey: \ListKeywordsForDataSourceRequest.nextToken,
+            outputKey: \ListKeywordsForDataSourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension AuditManager {
             input: input,
             initialValue: initialValue,
             command: listNotifications,
-            tokenKey: \ListNotificationsResponse.nextToken,
+            inputKey: \ListNotificationsRequest.nextToken,
+            outputKey: \ListNotificationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension AuditManager {
         return client.paginate(
             input: input,
             command: listNotifications,
-            tokenKey: \ListNotificationsResponse.nextToken,
+            inputKey: \ListNotificationsRequest.nextToken,
+            outputKey: \ListNotificationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

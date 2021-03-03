@@ -42,7 +42,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: getBehaviorModelTrainingSummaries,
-            tokenKey: \GetBehaviorModelTrainingSummariesResponse.nextToken,
+            inputKey: \GetBehaviorModelTrainingSummariesRequest.nextToken,
+            outputKey: \GetBehaviorModelTrainingSummariesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: getBehaviorModelTrainingSummaries,
-            tokenKey: \GetBehaviorModelTrainingSummariesResponse.nextToken,
+            inputKey: \GetBehaviorModelTrainingSummariesRequest.nextToken,
+            outputKey: \GetBehaviorModelTrainingSummariesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listActiveViolations,
-            tokenKey: \ListActiveViolationsResponse.nextToken,
+            inputKey: \ListActiveViolationsRequest.nextToken,
+            outputKey: \ListActiveViolationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listActiveViolations,
-            tokenKey: \ListActiveViolationsResponse.nextToken,
+            inputKey: \ListActiveViolationsRequest.nextToken,
+            outputKey: \ListActiveViolationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listAttachedPolicies,
-            tokenKey: \ListAttachedPoliciesResponse.nextMarker,
+            inputKey: \ListAttachedPoliciesRequest.marker,
+            outputKey: \ListAttachedPoliciesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listAttachedPolicies,
-            tokenKey: \ListAttachedPoliciesResponse.nextMarker,
+            inputKey: \ListAttachedPoliciesRequest.marker,
+            outputKey: \ListAttachedPoliciesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listAuditFindings,
-            tokenKey: \ListAuditFindingsResponse.nextToken,
+            inputKey: \ListAuditFindingsRequest.nextToken,
+            outputKey: \ListAuditFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listAuditFindings,
-            tokenKey: \ListAuditFindingsResponse.nextToken,
+            inputKey: \ListAuditFindingsRequest.nextToken,
+            outputKey: \ListAuditFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listAuditMitigationActionsExecutions,
-            tokenKey: \ListAuditMitigationActionsExecutionsResponse.nextToken,
+            inputKey: \ListAuditMitigationActionsExecutionsRequest.nextToken,
+            outputKey: \ListAuditMitigationActionsExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listAuditMitigationActionsExecutions,
-            tokenKey: \ListAuditMitigationActionsExecutionsResponse.nextToken,
+            inputKey: \ListAuditMitigationActionsExecutionsRequest.nextToken,
+            outputKey: \ListAuditMitigationActionsExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listAuditMitigationActionsTasks,
-            tokenKey: \ListAuditMitigationActionsTasksResponse.nextToken,
+            inputKey: \ListAuditMitigationActionsTasksRequest.nextToken,
+            outputKey: \ListAuditMitigationActionsTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listAuditMitigationActionsTasks,
-            tokenKey: \ListAuditMitigationActionsTasksResponse.nextToken,
+            inputKey: \ListAuditMitigationActionsTasksRequest.nextToken,
+            outputKey: \ListAuditMitigationActionsTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listAuditSuppressions,
-            tokenKey: \ListAuditSuppressionsResponse.nextToken,
+            inputKey: \ListAuditSuppressionsRequest.nextToken,
+            outputKey: \ListAuditSuppressionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listAuditSuppressions,
-            tokenKey: \ListAuditSuppressionsResponse.nextToken,
+            inputKey: \ListAuditSuppressionsRequest.nextToken,
+            outputKey: \ListAuditSuppressionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listAuditTasks,
-            tokenKey: \ListAuditTasksResponse.nextToken,
+            inputKey: \ListAuditTasksRequest.nextToken,
+            outputKey: \ListAuditTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listAuditTasks,
-            tokenKey: \ListAuditTasksResponse.nextToken,
+            inputKey: \ListAuditTasksRequest.nextToken,
+            outputKey: \ListAuditTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listAuthorizers,
-            tokenKey: \ListAuthorizersResponse.nextMarker,
+            inputKey: \ListAuthorizersRequest.marker,
+            outputKey: \ListAuthorizersResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listAuthorizers,
-            tokenKey: \ListAuthorizersResponse.nextMarker,
+            inputKey: \ListAuthorizersRequest.marker,
+            outputKey: \ListAuthorizersResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listBillingGroups,
-            tokenKey: \ListBillingGroupsResponse.nextToken,
+            inputKey: \ListBillingGroupsRequest.nextToken,
+            outputKey: \ListBillingGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listBillingGroups,
-            tokenKey: \ListBillingGroupsResponse.nextToken,
+            inputKey: \ListBillingGroupsRequest.nextToken,
+            outputKey: \ListBillingGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listCACertificates,
-            tokenKey: \ListCACertificatesResponse.nextMarker,
+            inputKey: \ListCACertificatesRequest.marker,
+            outputKey: \ListCACertificatesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listCACertificates,
-            tokenKey: \ListCACertificatesResponse.nextMarker,
+            inputKey: \ListCACertificatesRequest.marker,
+            outputKey: \ListCACertificatesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listCertificates,
-            tokenKey: \ListCertificatesResponse.nextMarker,
+            inputKey: \ListCertificatesRequest.marker,
+            outputKey: \ListCertificatesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listCertificates,
-            tokenKey: \ListCertificatesResponse.nextMarker,
+            inputKey: \ListCertificatesRequest.marker,
+            outputKey: \ListCertificatesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listCertificatesByCA,
-            tokenKey: \ListCertificatesByCAResponse.nextMarker,
+            inputKey: \ListCertificatesByCARequest.marker,
+            outputKey: \ListCertificatesByCAResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listCertificatesByCA,
-            tokenKey: \ListCertificatesByCAResponse.nextMarker,
+            inputKey: \ListCertificatesByCARequest.marker,
+            outputKey: \ListCertificatesByCAResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listCustomMetrics,
-            tokenKey: \ListCustomMetricsResponse.nextToken,
+            inputKey: \ListCustomMetricsRequest.nextToken,
+            outputKey: \ListCustomMetricsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listCustomMetrics,
-            tokenKey: \ListCustomMetricsResponse.nextToken,
+            inputKey: \ListCustomMetricsRequest.nextToken,
+            outputKey: \ListCustomMetricsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listDetectMitigationActionsExecutions,
-            tokenKey: \ListDetectMitigationActionsExecutionsResponse.nextToken,
+            inputKey: \ListDetectMitigationActionsExecutionsRequest.nextToken,
+            outputKey: \ListDetectMitigationActionsExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listDetectMitigationActionsExecutions,
-            tokenKey: \ListDetectMitigationActionsExecutionsResponse.nextToken,
+            inputKey: \ListDetectMitigationActionsExecutionsRequest.nextToken,
+            outputKey: \ListDetectMitigationActionsExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listDetectMitigationActionsTasks,
-            tokenKey: \ListDetectMitigationActionsTasksResponse.nextToken,
+            inputKey: \ListDetectMitigationActionsTasksRequest.nextToken,
+            outputKey: \ListDetectMitigationActionsTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listDetectMitigationActionsTasks,
-            tokenKey: \ListDetectMitigationActionsTasksResponse.nextToken,
+            inputKey: \ListDetectMitigationActionsTasksRequest.nextToken,
+            outputKey: \ListDetectMitigationActionsTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listDimensions,
-            tokenKey: \ListDimensionsResponse.nextToken,
+            inputKey: \ListDimensionsRequest.nextToken,
+            outputKey: \ListDimensionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listDimensions,
-            tokenKey: \ListDimensionsResponse.nextToken,
+            inputKey: \ListDimensionsRequest.nextToken,
+            outputKey: \ListDimensionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listDomainConfigurations,
-            tokenKey: \ListDomainConfigurationsResponse.nextMarker,
+            inputKey: \ListDomainConfigurationsRequest.marker,
+            outputKey: \ListDomainConfigurationsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listDomainConfigurations,
-            tokenKey: \ListDomainConfigurationsResponse.nextMarker,
+            inputKey: \ListDomainConfigurationsRequest.marker,
+            outputKey: \ListDomainConfigurationsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listIndices,
-            tokenKey: \ListIndicesResponse.nextToken,
+            inputKey: \ListIndicesRequest.nextToken,
+            outputKey: \ListIndicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listIndices,
-            tokenKey: \ListIndicesResponse.nextToken,
+            inputKey: \ListIndicesRequest.nextToken,
+            outputKey: \ListIndicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1049,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listJobExecutionsForJob,
-            tokenKey: \ListJobExecutionsForJobResponse.nextToken,
+            inputKey: \ListJobExecutionsForJobRequest.nextToken,
+            outputKey: \ListJobExecutionsForJobResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1072,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listJobExecutionsForJob,
-            tokenKey: \ListJobExecutionsForJobResponse.nextToken,
+            inputKey: \ListJobExecutionsForJobRequest.nextToken,
+            outputKey: \ListJobExecutionsForJobResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1062,7 +1102,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listJobExecutionsForThing,
-            tokenKey: \ListJobExecutionsForThingResponse.nextToken,
+            inputKey: \ListJobExecutionsForThingRequest.nextToken,
+            outputKey: \ListJobExecutionsForThingResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1084,7 +1125,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listJobExecutionsForThing,
-            tokenKey: \ListJobExecutionsForThingResponse.nextToken,
+            inputKey: \ListJobExecutionsForThingRequest.nextToken,
+            outputKey: \ListJobExecutionsForThingResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,7 +1155,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1135,7 +1178,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1164,7 +1208,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listMitigationActions,
-            tokenKey: \ListMitigationActionsResponse.nextToken,
+            inputKey: \ListMitigationActionsRequest.nextToken,
+            outputKey: \ListMitigationActionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1186,7 +1231,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listMitigationActions,
-            tokenKey: \ListMitigationActionsResponse.nextToken,
+            inputKey: \ListMitigationActionsRequest.nextToken,
+            outputKey: \ListMitigationActionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1215,7 +1261,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listOTAUpdates,
-            tokenKey: \ListOTAUpdatesResponse.nextToken,
+            inputKey: \ListOTAUpdatesRequest.nextToken,
+            outputKey: \ListOTAUpdatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1237,7 +1284,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listOTAUpdates,
-            tokenKey: \ListOTAUpdatesResponse.nextToken,
+            inputKey: \ListOTAUpdatesRequest.nextToken,
+            outputKey: \ListOTAUpdatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1266,7 +1314,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listOutgoingCertificates,
-            tokenKey: \ListOutgoingCertificatesResponse.nextMarker,
+            inputKey: \ListOutgoingCertificatesRequest.marker,
+            outputKey: \ListOutgoingCertificatesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1288,7 +1337,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listOutgoingCertificates,
-            tokenKey: \ListOutgoingCertificatesResponse.nextMarker,
+            inputKey: \ListOutgoingCertificatesRequest.marker,
+            outputKey: \ListOutgoingCertificatesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1317,7 +1367,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listPolicies,
-            tokenKey: \ListPoliciesResponse.nextMarker,
+            inputKey: \ListPoliciesRequest.marker,
+            outputKey: \ListPoliciesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1339,7 +1390,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listPolicies,
-            tokenKey: \ListPoliciesResponse.nextMarker,
+            inputKey: \ListPoliciesRequest.marker,
+            outputKey: \ListPoliciesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1369,7 +1421,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listPolicyPrincipals,
-            tokenKey: \ListPolicyPrincipalsResponse.nextMarker,
+            inputKey: \ListPolicyPrincipalsRequest.marker,
+            outputKey: \ListPolicyPrincipalsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1392,7 +1445,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listPolicyPrincipals,
-            tokenKey: \ListPolicyPrincipalsResponse.nextMarker,
+            inputKey: \ListPolicyPrincipalsRequest.marker,
+            outputKey: \ListPolicyPrincipalsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1422,7 +1476,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listPrincipalPolicies,
-            tokenKey: \ListPrincipalPoliciesResponse.nextMarker,
+            inputKey: \ListPrincipalPoliciesRequest.marker,
+            outputKey: \ListPrincipalPoliciesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1445,7 +1500,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listPrincipalPolicies,
-            tokenKey: \ListPrincipalPoliciesResponse.nextMarker,
+            inputKey: \ListPrincipalPoliciesRequest.marker,
+            outputKey: \ListPrincipalPoliciesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1474,7 +1530,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listPrincipalThings,
-            tokenKey: \ListPrincipalThingsResponse.nextToken,
+            inputKey: \ListPrincipalThingsRequest.nextToken,
+            outputKey: \ListPrincipalThingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1496,7 +1553,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listPrincipalThings,
-            tokenKey: \ListPrincipalThingsResponse.nextToken,
+            inputKey: \ListPrincipalThingsRequest.nextToken,
+            outputKey: \ListPrincipalThingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1525,7 +1583,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listProvisioningTemplateVersions,
-            tokenKey: \ListProvisioningTemplateVersionsResponse.nextToken,
+            inputKey: \ListProvisioningTemplateVersionsRequest.nextToken,
+            outputKey: \ListProvisioningTemplateVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1547,7 +1606,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listProvisioningTemplateVersions,
-            tokenKey: \ListProvisioningTemplateVersionsResponse.nextToken,
+            inputKey: \ListProvisioningTemplateVersionsRequest.nextToken,
+            outputKey: \ListProvisioningTemplateVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1576,7 +1636,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listProvisioningTemplates,
-            tokenKey: \ListProvisioningTemplatesResponse.nextToken,
+            inputKey: \ListProvisioningTemplatesRequest.nextToken,
+            outputKey: \ListProvisioningTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1598,7 +1659,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listProvisioningTemplates,
-            tokenKey: \ListProvisioningTemplatesResponse.nextToken,
+            inputKey: \ListProvisioningTemplatesRequest.nextToken,
+            outputKey: \ListProvisioningTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1627,7 +1689,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listRoleAliases,
-            tokenKey: \ListRoleAliasesResponse.nextMarker,
+            inputKey: \ListRoleAliasesRequest.marker,
+            outputKey: \ListRoleAliasesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1649,7 +1712,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listRoleAliases,
-            tokenKey: \ListRoleAliasesResponse.nextMarker,
+            inputKey: \ListRoleAliasesRequest.marker,
+            outputKey: \ListRoleAliasesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1678,7 +1742,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listScheduledAudits,
-            tokenKey: \ListScheduledAuditsResponse.nextToken,
+            inputKey: \ListScheduledAuditsRequest.nextToken,
+            outputKey: \ListScheduledAuditsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1700,7 +1765,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listScheduledAudits,
-            tokenKey: \ListScheduledAuditsResponse.nextToken,
+            inputKey: \ListScheduledAuditsRequest.nextToken,
+            outputKey: \ListScheduledAuditsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1729,7 +1795,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listSecurityProfiles,
-            tokenKey: \ListSecurityProfilesResponse.nextToken,
+            inputKey: \ListSecurityProfilesRequest.nextToken,
+            outputKey: \ListSecurityProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1751,7 +1818,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listSecurityProfiles,
-            tokenKey: \ListSecurityProfilesResponse.nextToken,
+            inputKey: \ListSecurityProfilesRequest.nextToken,
+            outputKey: \ListSecurityProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1780,7 +1848,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listSecurityProfilesForTarget,
-            tokenKey: \ListSecurityProfilesForTargetResponse.nextToken,
+            inputKey: \ListSecurityProfilesForTargetRequest.nextToken,
+            outputKey: \ListSecurityProfilesForTargetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1802,7 +1871,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listSecurityProfilesForTarget,
-            tokenKey: \ListSecurityProfilesForTargetResponse.nextToken,
+            inputKey: \ListSecurityProfilesForTargetRequest.nextToken,
+            outputKey: \ListSecurityProfilesForTargetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1831,7 +1901,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listStreams,
-            tokenKey: \ListStreamsResponse.nextToken,
+            inputKey: \ListStreamsRequest.nextToken,
+            outputKey: \ListStreamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1853,7 +1924,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listStreams,
-            tokenKey: \ListStreamsResponse.nextToken,
+            inputKey: \ListStreamsRequest.nextToken,
+            outputKey: \ListStreamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1882,7 +1954,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1904,7 +1977,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1933,7 +2007,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listTargetsForPolicy,
-            tokenKey: \ListTargetsForPolicyResponse.nextMarker,
+            inputKey: \ListTargetsForPolicyRequest.marker,
+            outputKey: \ListTargetsForPolicyResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1955,7 +2030,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listTargetsForPolicy,
-            tokenKey: \ListTargetsForPolicyResponse.nextMarker,
+            inputKey: \ListTargetsForPolicyRequest.marker,
+            outputKey: \ListTargetsForPolicyResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1984,7 +2060,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listTargetsForSecurityProfile,
-            tokenKey: \ListTargetsForSecurityProfileResponse.nextToken,
+            inputKey: \ListTargetsForSecurityProfileRequest.nextToken,
+            outputKey: \ListTargetsForSecurityProfileResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2006,7 +2083,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listTargetsForSecurityProfile,
-            tokenKey: \ListTargetsForSecurityProfileResponse.nextToken,
+            inputKey: \ListTargetsForSecurityProfileRequest.nextToken,
+            outputKey: \ListTargetsForSecurityProfileResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2035,7 +2113,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listThingGroups,
-            tokenKey: \ListThingGroupsResponse.nextToken,
+            inputKey: \ListThingGroupsRequest.nextToken,
+            outputKey: \ListThingGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2057,7 +2136,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listThingGroups,
-            tokenKey: \ListThingGroupsResponse.nextToken,
+            inputKey: \ListThingGroupsRequest.nextToken,
+            outputKey: \ListThingGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2086,7 +2166,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listThingGroupsForThing,
-            tokenKey: \ListThingGroupsForThingResponse.nextToken,
+            inputKey: \ListThingGroupsForThingRequest.nextToken,
+            outputKey: \ListThingGroupsForThingResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2108,7 +2189,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listThingGroupsForThing,
-            tokenKey: \ListThingGroupsForThingResponse.nextToken,
+            inputKey: \ListThingGroupsForThingRequest.nextToken,
+            outputKey: \ListThingGroupsForThingResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2137,7 +2219,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listThingPrincipals,
-            tokenKey: \ListThingPrincipalsResponse.nextToken,
+            inputKey: \ListThingPrincipalsRequest.nextToken,
+            outputKey: \ListThingPrincipalsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2159,7 +2242,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listThingPrincipals,
-            tokenKey: \ListThingPrincipalsResponse.nextToken,
+            inputKey: \ListThingPrincipalsRequest.nextToken,
+            outputKey: \ListThingPrincipalsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2188,7 +2272,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listThingRegistrationTaskReports,
-            tokenKey: \ListThingRegistrationTaskReportsResponse.nextToken,
+            inputKey: \ListThingRegistrationTaskReportsRequest.nextToken,
+            outputKey: \ListThingRegistrationTaskReportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2210,7 +2295,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listThingRegistrationTaskReports,
-            tokenKey: \ListThingRegistrationTaskReportsResponse.nextToken,
+            inputKey: \ListThingRegistrationTaskReportsRequest.nextToken,
+            outputKey: \ListThingRegistrationTaskReportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2239,7 +2325,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listThingRegistrationTasks,
-            tokenKey: \ListThingRegistrationTasksResponse.nextToken,
+            inputKey: \ListThingRegistrationTasksRequest.nextToken,
+            outputKey: \ListThingRegistrationTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2261,7 +2348,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listThingRegistrationTasks,
-            tokenKey: \ListThingRegistrationTasksResponse.nextToken,
+            inputKey: \ListThingRegistrationTasksRequest.nextToken,
+            outputKey: \ListThingRegistrationTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2290,7 +2378,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listThingTypes,
-            tokenKey: \ListThingTypesResponse.nextToken,
+            inputKey: \ListThingTypesRequest.nextToken,
+            outputKey: \ListThingTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2312,7 +2401,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listThingTypes,
-            tokenKey: \ListThingTypesResponse.nextToken,
+            inputKey: \ListThingTypesRequest.nextToken,
+            outputKey: \ListThingTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2341,7 +2431,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listThings,
-            tokenKey: \ListThingsResponse.nextToken,
+            inputKey: \ListThingsRequest.nextToken,
+            outputKey: \ListThingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2363,7 +2454,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listThings,
-            tokenKey: \ListThingsResponse.nextToken,
+            inputKey: \ListThingsRequest.nextToken,
+            outputKey: \ListThingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2392,7 +2484,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listThingsInBillingGroup,
-            tokenKey: \ListThingsInBillingGroupResponse.nextToken,
+            inputKey: \ListThingsInBillingGroupRequest.nextToken,
+            outputKey: \ListThingsInBillingGroupResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2414,7 +2507,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listThingsInBillingGroup,
-            tokenKey: \ListThingsInBillingGroupResponse.nextToken,
+            inputKey: \ListThingsInBillingGroupRequest.nextToken,
+            outputKey: \ListThingsInBillingGroupResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2443,7 +2537,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listThingsInThingGroup,
-            tokenKey: \ListThingsInThingGroupResponse.nextToken,
+            inputKey: \ListThingsInThingGroupRequest.nextToken,
+            outputKey: \ListThingsInThingGroupResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2465,7 +2560,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listThingsInThingGroup,
-            tokenKey: \ListThingsInThingGroupResponse.nextToken,
+            inputKey: \ListThingsInThingGroupRequest.nextToken,
+            outputKey: \ListThingsInThingGroupResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2494,7 +2590,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listTopicRuleDestinations,
-            tokenKey: \ListTopicRuleDestinationsResponse.nextToken,
+            inputKey: \ListTopicRuleDestinationsRequest.nextToken,
+            outputKey: \ListTopicRuleDestinationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2516,7 +2613,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listTopicRuleDestinations,
-            tokenKey: \ListTopicRuleDestinationsResponse.nextToken,
+            inputKey: \ListTopicRuleDestinationsRequest.nextToken,
+            outputKey: \ListTopicRuleDestinationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2545,7 +2643,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listTopicRules,
-            tokenKey: \ListTopicRulesResponse.nextToken,
+            inputKey: \ListTopicRulesRequest.nextToken,
+            outputKey: \ListTopicRulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2567,7 +2666,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listTopicRules,
-            tokenKey: \ListTopicRulesResponse.nextToken,
+            inputKey: \ListTopicRulesRequest.nextToken,
+            outputKey: \ListTopicRulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2596,7 +2696,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listV2LoggingLevels,
-            tokenKey: \ListV2LoggingLevelsResponse.nextToken,
+            inputKey: \ListV2LoggingLevelsRequest.nextToken,
+            outputKey: \ListV2LoggingLevelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2618,7 +2719,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listV2LoggingLevels,
-            tokenKey: \ListV2LoggingLevelsResponse.nextToken,
+            inputKey: \ListV2LoggingLevelsRequest.nextToken,
+            outputKey: \ListV2LoggingLevelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2647,7 +2749,8 @@ extension IoT {
             input: input,
             initialValue: initialValue,
             command: listViolationEvents,
-            tokenKey: \ListViolationEventsResponse.nextToken,
+            inputKey: \ListViolationEventsRequest.nextToken,
+            outputKey: \ListViolationEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2669,7 +2772,8 @@ extension IoT {
         return client.paginate(
             input: input,
             command: listViolationEvents,
-            tokenKey: \ListViolationEventsResponse.nextToken,
+            inputKey: \ListViolationEventsRequest.nextToken,
+            outputKey: \ListViolationEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

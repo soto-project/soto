@@ -42,7 +42,8 @@ extension ResourceGroupsTaggingAPI {
             input: input,
             initialValue: initialValue,
             command: getComplianceSummary,
-            tokenKey: \GetComplianceSummaryOutput.paginationToken,
+            inputKey: \GetComplianceSummaryInput.paginationToken,
+            outputKey: \GetComplianceSummaryOutput.paginationToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ResourceGroupsTaggingAPI {
         return client.paginate(
             input: input,
             command: getComplianceSummary,
-            tokenKey: \GetComplianceSummaryOutput.paginationToken,
+            inputKey: \GetComplianceSummaryInput.paginationToken,
+            outputKey: \GetComplianceSummaryOutput.paginationToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ResourceGroupsTaggingAPI {
             input: input,
             initialValue: initialValue,
             command: getResources,
-            tokenKey: \GetResourcesOutput.paginationToken,
+            inputKey: \GetResourcesInput.paginationToken,
+            outputKey: \GetResourcesOutput.paginationToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ResourceGroupsTaggingAPI {
         return client.paginate(
             input: input,
             command: getResources,
-            tokenKey: \GetResourcesOutput.paginationToken,
+            inputKey: \GetResourcesInput.paginationToken,
+            outputKey: \GetResourcesOutput.paginationToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ResourceGroupsTaggingAPI {
             input: input,
             initialValue: initialValue,
             command: getTagKeys,
-            tokenKey: \GetTagKeysOutput.paginationToken,
+            inputKey: \GetTagKeysInput.paginationToken,
+            outputKey: \GetTagKeysOutput.paginationToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ResourceGroupsTaggingAPI {
         return client.paginate(
             input: input,
             command: getTagKeys,
-            tokenKey: \GetTagKeysOutput.paginationToken,
+            inputKey: \GetTagKeysInput.paginationToken,
+            outputKey: \GetTagKeysOutput.paginationToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ResourceGroupsTaggingAPI {
             input: input,
             initialValue: initialValue,
             command: getTagValues,
-            tokenKey: \GetTagValuesOutput.paginationToken,
+            inputKey: \GetTagValuesInput.paginationToken,
+            outputKey: \GetTagValuesOutput.paginationToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ResourceGroupsTaggingAPI {
         return client.paginate(
             input: input,
             command: getTagValues,
-            tokenKey: \GetTagValuesOutput.paginationToken,
+            inputKey: \GetTagValuesInput.paginationToken,
+            outputKey: \GetTagValuesOutput.paginationToken,
             on: eventLoop,
             onPage: onPage
         )

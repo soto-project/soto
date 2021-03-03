@@ -42,7 +42,8 @@ extension SimpleDB {
             input: input,
             initialValue: initialValue,
             command: listDomains,
-            tokenKey: \ListDomainsResult.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SimpleDB {
         return client.paginate(
             input: input,
             command: listDomains,
-            tokenKey: \ListDomainsResult.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SimpleDB {
             input: input,
             initialValue: initialValue,
             command: select,
-            tokenKey: \SelectResult.nextToken,
+            inputKey: \SelectRequest.nextToken,
+            outputKey: \SelectResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SimpleDB {
         return client.paginate(
             input: input,
             command: select,
-            tokenKey: \SelectResult.nextToken,
+            inputKey: \SelectRequest.nextToken,
+            outputKey: \SelectResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension OpsWorksCM {
             input: input,
             initialValue: initialValue,
             command: describeBackups,
-            tokenKey: \DescribeBackupsResponse.nextToken,
+            inputKey: \DescribeBackupsRequest.nextToken,
+            outputKey: \DescribeBackupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension OpsWorksCM {
         return client.paginate(
             input: input,
             command: describeBackups,
-            tokenKey: \DescribeBackupsResponse.nextToken,
+            inputKey: \DescribeBackupsRequest.nextToken,
+            outputKey: \DescribeBackupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension OpsWorksCM {
             input: input,
             initialValue: initialValue,
             command: describeEvents,
-            tokenKey: \DescribeEventsResponse.nextToken,
+            inputKey: \DescribeEventsRequest.nextToken,
+            outputKey: \DescribeEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension OpsWorksCM {
         return client.paginate(
             input: input,
             command: describeEvents,
-            tokenKey: \DescribeEventsResponse.nextToken,
+            inputKey: \DescribeEventsRequest.nextToken,
+            outputKey: \DescribeEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension OpsWorksCM {
             input: input,
             initialValue: initialValue,
             command: describeServers,
-            tokenKey: \DescribeServersResponse.nextToken,
+            inputKey: \DescribeServersRequest.nextToken,
+            outputKey: \DescribeServersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension OpsWorksCM {
         return client.paginate(
             input: input,
             command: describeServers,
-            tokenKey: \DescribeServersResponse.nextToken,
+            inputKey: \DescribeServersRequest.nextToken,
+            outputKey: \DescribeServersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension OpsWorksCM {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension OpsWorksCM {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

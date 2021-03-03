@@ -42,7 +42,8 @@ extension MarketplaceCatalog {
             input: input,
             initialValue: initialValue,
             command: listChangeSets,
-            tokenKey: \ListChangeSetsResponse.nextToken,
+            inputKey: \ListChangeSetsRequest.nextToken,
+            outputKey: \ListChangeSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MarketplaceCatalog {
         return client.paginate(
             input: input,
             command: listChangeSets,
-            tokenKey: \ListChangeSetsResponse.nextToken,
+            inputKey: \ListChangeSetsRequest.nextToken,
+            outputKey: \ListChangeSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MarketplaceCatalog {
             input: input,
             initialValue: initialValue,
             command: listEntities,
-            tokenKey: \ListEntitiesResponse.nextToken,
+            inputKey: \ListEntitiesRequest.nextToken,
+            outputKey: \ListEntitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MarketplaceCatalog {
         return client.paginate(
             input: input,
             command: listEntities,
-            tokenKey: \ListEntitiesResponse.nextToken,
+            inputKey: \ListEntitiesRequest.nextToken,
+            outputKey: \ListEntitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

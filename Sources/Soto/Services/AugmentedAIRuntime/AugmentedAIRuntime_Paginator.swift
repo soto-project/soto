@@ -42,7 +42,8 @@ extension AugmentedAIRuntime {
             input: input,
             initialValue: initialValue,
             command: listHumanLoops,
-            tokenKey: \ListHumanLoopsResponse.nextToken,
+            inputKey: \ListHumanLoopsRequest.nextToken,
+            outputKey: \ListHumanLoopsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension AugmentedAIRuntime {
         return client.paginate(
             input: input,
             command: listHumanLoops,
-            tokenKey: \ListHumanLoopsResponse.nextToken,
+            inputKey: \ListHumanLoopsRequest.nextToken,
+            outputKey: \ListHumanLoopsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeByoipCidrs,
-            tokenKey: \DescribeByoipCidrsResult.nextToken,
+            inputKey: \DescribeByoipCidrsRequest.nextToken,
+            outputKey: \DescribeByoipCidrsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeByoipCidrs,
-            tokenKey: \DescribeByoipCidrsResult.nextToken,
+            inputKey: \DescribeByoipCidrsRequest.nextToken,
+            outputKey: \DescribeByoipCidrsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeCapacityReservations,
-            tokenKey: \DescribeCapacityReservationsResult.nextToken,
+            inputKey: \DescribeCapacityReservationsRequest.nextToken,
+            outputKey: \DescribeCapacityReservationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeCapacityReservations,
-            tokenKey: \DescribeCapacityReservationsResult.nextToken,
+            inputKey: \DescribeCapacityReservationsRequest.nextToken,
+            outputKey: \DescribeCapacityReservationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeCarrierGateways,
-            tokenKey: \DescribeCarrierGatewaysResult.nextToken,
+            inputKey: \DescribeCarrierGatewaysRequest.nextToken,
+            outputKey: \DescribeCarrierGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeCarrierGateways,
-            tokenKey: \DescribeCarrierGatewaysResult.nextToken,
+            inputKey: \DescribeCarrierGatewaysRequest.nextToken,
+            outputKey: \DescribeCarrierGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeClassicLinkInstances,
-            tokenKey: \DescribeClassicLinkInstancesResult.nextToken,
+            inputKey: \DescribeClassicLinkInstancesRequest.nextToken,
+            outputKey: \DescribeClassicLinkInstancesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeClassicLinkInstances,
-            tokenKey: \DescribeClassicLinkInstancesResult.nextToken,
+            inputKey: \DescribeClassicLinkInstancesRequest.nextToken,
+            outputKey: \DescribeClassicLinkInstancesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeClientVpnAuthorizationRules,
-            tokenKey: \DescribeClientVpnAuthorizationRulesResult.nextToken,
+            inputKey: \DescribeClientVpnAuthorizationRulesRequest.nextToken,
+            outputKey: \DescribeClientVpnAuthorizationRulesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeClientVpnAuthorizationRules,
-            tokenKey: \DescribeClientVpnAuthorizationRulesResult.nextToken,
+            inputKey: \DescribeClientVpnAuthorizationRulesRequest.nextToken,
+            outputKey: \DescribeClientVpnAuthorizationRulesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeClientVpnConnections,
-            tokenKey: \DescribeClientVpnConnectionsResult.nextToken,
+            inputKey: \DescribeClientVpnConnectionsRequest.nextToken,
+            outputKey: \DescribeClientVpnConnectionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeClientVpnConnections,
-            tokenKey: \DescribeClientVpnConnectionsResult.nextToken,
+            inputKey: \DescribeClientVpnConnectionsRequest.nextToken,
+            outputKey: \DescribeClientVpnConnectionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeClientVpnEndpoints,
-            tokenKey: \DescribeClientVpnEndpointsResult.nextToken,
+            inputKey: \DescribeClientVpnEndpointsRequest.nextToken,
+            outputKey: \DescribeClientVpnEndpointsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeClientVpnEndpoints,
-            tokenKey: \DescribeClientVpnEndpointsResult.nextToken,
+            inputKey: \DescribeClientVpnEndpointsRequest.nextToken,
+            outputKey: \DescribeClientVpnEndpointsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeClientVpnRoutes,
-            tokenKey: \DescribeClientVpnRoutesResult.nextToken,
+            inputKey: \DescribeClientVpnRoutesRequest.nextToken,
+            outputKey: \DescribeClientVpnRoutesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeClientVpnRoutes,
-            tokenKey: \DescribeClientVpnRoutesResult.nextToken,
+            inputKey: \DescribeClientVpnRoutesRequest.nextToken,
+            outputKey: \DescribeClientVpnRoutesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeClientVpnTargetNetworks,
-            tokenKey: \DescribeClientVpnTargetNetworksResult.nextToken,
+            inputKey: \DescribeClientVpnTargetNetworksRequest.nextToken,
+            outputKey: \DescribeClientVpnTargetNetworksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeClientVpnTargetNetworks,
-            tokenKey: \DescribeClientVpnTargetNetworksResult.nextToken,
+            inputKey: \DescribeClientVpnTargetNetworksRequest.nextToken,
+            outputKey: \DescribeClientVpnTargetNetworksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeCoipPools,
-            tokenKey: \DescribeCoipPoolsResult.nextToken,
+            inputKey: \DescribeCoipPoolsRequest.nextToken,
+            outputKey: \DescribeCoipPoolsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeCoipPools,
-            tokenKey: \DescribeCoipPoolsResult.nextToken,
+            inputKey: \DescribeCoipPoolsRequest.nextToken,
+            outputKey: \DescribeCoipPoolsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeDhcpOptions,
-            tokenKey: \DescribeDhcpOptionsResult.nextToken,
+            inputKey: \DescribeDhcpOptionsRequest.nextToken,
+            outputKey: \DescribeDhcpOptionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeDhcpOptions,
-            tokenKey: \DescribeDhcpOptionsResult.nextToken,
+            inputKey: \DescribeDhcpOptionsRequest.nextToken,
+            outputKey: \DescribeDhcpOptionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeEgressOnlyInternetGateways,
-            tokenKey: \DescribeEgressOnlyInternetGatewaysResult.nextToken,
+            inputKey: \DescribeEgressOnlyInternetGatewaysRequest.nextToken,
+            outputKey: \DescribeEgressOnlyInternetGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeEgressOnlyInternetGateways,
-            tokenKey: \DescribeEgressOnlyInternetGatewaysResult.nextToken,
+            inputKey: \DescribeEgressOnlyInternetGatewaysRequest.nextToken,
+            outputKey: \DescribeEgressOnlyInternetGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeExportImageTasks,
-            tokenKey: \DescribeExportImageTasksResult.nextToken,
+            inputKey: \DescribeExportImageTasksRequest.nextToken,
+            outputKey: \DescribeExportImageTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeExportImageTasks,
-            tokenKey: \DescribeExportImageTasksResult.nextToken,
+            inputKey: \DescribeExportImageTasksRequest.nextToken,
+            outputKey: \DescribeExportImageTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeFastSnapshotRestores,
-            tokenKey: \DescribeFastSnapshotRestoresResult.nextToken,
+            inputKey: \DescribeFastSnapshotRestoresRequest.nextToken,
+            outputKey: \DescribeFastSnapshotRestoresResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeFastSnapshotRestores,
-            tokenKey: \DescribeFastSnapshotRestoresResult.nextToken,
+            inputKey: \DescribeFastSnapshotRestoresRequest.nextToken,
+            outputKey: \DescribeFastSnapshotRestoresResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeFleets,
-            tokenKey: \DescribeFleetsResult.nextToken,
+            inputKey: \DescribeFleetsRequest.nextToken,
+            outputKey: \DescribeFleetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeFleets,
-            tokenKey: \DescribeFleetsResult.nextToken,
+            inputKey: \DescribeFleetsRequest.nextToken,
+            outputKey: \DescribeFleetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeFlowLogs,
-            tokenKey: \DescribeFlowLogsResult.nextToken,
+            inputKey: \DescribeFlowLogsRequest.nextToken,
+            outputKey: \DescribeFlowLogsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeFlowLogs,
-            tokenKey: \DescribeFlowLogsResult.nextToken,
+            inputKey: \DescribeFlowLogsRequest.nextToken,
+            outputKey: \DescribeFlowLogsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeFpgaImages,
-            tokenKey: \DescribeFpgaImagesResult.nextToken,
+            inputKey: \DescribeFpgaImagesRequest.nextToken,
+            outputKey: \DescribeFpgaImagesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeFpgaImages,
-            tokenKey: \DescribeFpgaImagesResult.nextToken,
+            inputKey: \DescribeFpgaImagesRequest.nextToken,
+            outputKey: \DescribeFpgaImagesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeHostReservationOfferings,
-            tokenKey: \DescribeHostReservationOfferingsResult.nextToken,
+            inputKey: \DescribeHostReservationOfferingsRequest.nextToken,
+            outputKey: \DescribeHostReservationOfferingsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeHostReservationOfferings,
-            tokenKey: \DescribeHostReservationOfferingsResult.nextToken,
+            inputKey: \DescribeHostReservationOfferingsRequest.nextToken,
+            outputKey: \DescribeHostReservationOfferingsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeHostReservations,
-            tokenKey: \DescribeHostReservationsResult.nextToken,
+            inputKey: \DescribeHostReservationsRequest.nextToken,
+            outputKey: \DescribeHostReservationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeHostReservations,
-            tokenKey: \DescribeHostReservationsResult.nextToken,
+            inputKey: \DescribeHostReservationsRequest.nextToken,
+            outputKey: \DescribeHostReservationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1049,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeHosts,
-            tokenKey: \DescribeHostsResult.nextToken,
+            inputKey: \DescribeHostsRequest.nextToken,
+            outputKey: \DescribeHostsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1072,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeHosts,
-            tokenKey: \DescribeHostsResult.nextToken,
+            inputKey: \DescribeHostsRequest.nextToken,
+            outputKey: \DescribeHostsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1062,7 +1102,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeIamInstanceProfileAssociations,
-            tokenKey: \DescribeIamInstanceProfileAssociationsResult.nextToken,
+            inputKey: \DescribeIamInstanceProfileAssociationsRequest.nextToken,
+            outputKey: \DescribeIamInstanceProfileAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1084,7 +1125,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeIamInstanceProfileAssociations,
-            tokenKey: \DescribeIamInstanceProfileAssociationsResult.nextToken,
+            inputKey: \DescribeIamInstanceProfileAssociationsRequest.nextToken,
+            outputKey: \DescribeIamInstanceProfileAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,7 +1155,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeImportImageTasks,
-            tokenKey: \DescribeImportImageTasksResult.nextToken,
+            inputKey: \DescribeImportImageTasksRequest.nextToken,
+            outputKey: \DescribeImportImageTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1135,7 +1178,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeImportImageTasks,
-            tokenKey: \DescribeImportImageTasksResult.nextToken,
+            inputKey: \DescribeImportImageTasksRequest.nextToken,
+            outputKey: \DescribeImportImageTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1164,7 +1208,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeImportSnapshotTasks,
-            tokenKey: \DescribeImportSnapshotTasksResult.nextToken,
+            inputKey: \DescribeImportSnapshotTasksRequest.nextToken,
+            outputKey: \DescribeImportSnapshotTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1186,7 +1231,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeImportSnapshotTasks,
-            tokenKey: \DescribeImportSnapshotTasksResult.nextToken,
+            inputKey: \DescribeImportSnapshotTasksRequest.nextToken,
+            outputKey: \DescribeImportSnapshotTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1215,7 +1261,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeInstanceCreditSpecifications,
-            tokenKey: \DescribeInstanceCreditSpecificationsResult.nextToken,
+            inputKey: \DescribeInstanceCreditSpecificationsRequest.nextToken,
+            outputKey: \DescribeInstanceCreditSpecificationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1237,7 +1284,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeInstanceCreditSpecifications,
-            tokenKey: \DescribeInstanceCreditSpecificationsResult.nextToken,
+            inputKey: \DescribeInstanceCreditSpecificationsRequest.nextToken,
+            outputKey: \DescribeInstanceCreditSpecificationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1266,7 +1314,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeInstanceStatus,
-            tokenKey: \DescribeInstanceStatusResult.nextToken,
+            inputKey: \DescribeInstanceStatusRequest.nextToken,
+            outputKey: \DescribeInstanceStatusResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1288,7 +1337,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeInstanceStatus,
-            tokenKey: \DescribeInstanceStatusResult.nextToken,
+            inputKey: \DescribeInstanceStatusRequest.nextToken,
+            outputKey: \DescribeInstanceStatusResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1317,7 +1367,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeInstanceTypeOfferings,
-            tokenKey: \DescribeInstanceTypeOfferingsResult.nextToken,
+            inputKey: \DescribeInstanceTypeOfferingsRequest.nextToken,
+            outputKey: \DescribeInstanceTypeOfferingsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1339,7 +1390,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeInstanceTypeOfferings,
-            tokenKey: \DescribeInstanceTypeOfferingsResult.nextToken,
+            inputKey: \DescribeInstanceTypeOfferingsRequest.nextToken,
+            outputKey: \DescribeInstanceTypeOfferingsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1368,7 +1420,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeInstanceTypes,
-            tokenKey: \DescribeInstanceTypesResult.nextToken,
+            inputKey: \DescribeInstanceTypesRequest.nextToken,
+            outputKey: \DescribeInstanceTypesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1390,7 +1443,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeInstanceTypes,
-            tokenKey: \DescribeInstanceTypesResult.nextToken,
+            inputKey: \DescribeInstanceTypesRequest.nextToken,
+            outputKey: \DescribeInstanceTypesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1419,7 +1473,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeInstances,
-            tokenKey: \DescribeInstancesResult.nextToken,
+            inputKey: \DescribeInstancesRequest.nextToken,
+            outputKey: \DescribeInstancesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1441,7 +1496,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeInstances,
-            tokenKey: \DescribeInstancesResult.nextToken,
+            inputKey: \DescribeInstancesRequest.nextToken,
+            outputKey: \DescribeInstancesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1470,7 +1526,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeInternetGateways,
-            tokenKey: \DescribeInternetGatewaysResult.nextToken,
+            inputKey: \DescribeInternetGatewaysRequest.nextToken,
+            outputKey: \DescribeInternetGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1492,7 +1549,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeInternetGateways,
-            tokenKey: \DescribeInternetGatewaysResult.nextToken,
+            inputKey: \DescribeInternetGatewaysRequest.nextToken,
+            outputKey: \DescribeInternetGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1521,7 +1579,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeIpv6Pools,
-            tokenKey: \DescribeIpv6PoolsResult.nextToken,
+            inputKey: \DescribeIpv6PoolsRequest.nextToken,
+            outputKey: \DescribeIpv6PoolsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1543,7 +1602,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeIpv6Pools,
-            tokenKey: \DescribeIpv6PoolsResult.nextToken,
+            inputKey: \DescribeIpv6PoolsRequest.nextToken,
+            outputKey: \DescribeIpv6PoolsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1572,7 +1632,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeLaunchTemplateVersions,
-            tokenKey: \DescribeLaunchTemplateVersionsResult.nextToken,
+            inputKey: \DescribeLaunchTemplateVersionsRequest.nextToken,
+            outputKey: \DescribeLaunchTemplateVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1594,7 +1655,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeLaunchTemplateVersions,
-            tokenKey: \DescribeLaunchTemplateVersionsResult.nextToken,
+            inputKey: \DescribeLaunchTemplateVersionsRequest.nextToken,
+            outputKey: \DescribeLaunchTemplateVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1623,7 +1685,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeLaunchTemplates,
-            tokenKey: \DescribeLaunchTemplatesResult.nextToken,
+            inputKey: \DescribeLaunchTemplatesRequest.nextToken,
+            outputKey: \DescribeLaunchTemplatesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1645,7 +1708,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeLaunchTemplates,
-            tokenKey: \DescribeLaunchTemplatesResult.nextToken,
+            inputKey: \DescribeLaunchTemplatesRequest.nextToken,
+            outputKey: \DescribeLaunchTemplatesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1674,7 +1738,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations,
-            tokenKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult.nextToken,
+            inputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest.nextToken,
+            outputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1696,7 +1761,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations,
-            tokenKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult.nextToken,
+            inputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest.nextToken,
+            outputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1725,7 +1791,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeLocalGatewayRouteTableVpcAssociations,
-            tokenKey: \DescribeLocalGatewayRouteTableVpcAssociationsResult.nextToken,
+            inputKey: \DescribeLocalGatewayRouteTableVpcAssociationsRequest.nextToken,
+            outputKey: \DescribeLocalGatewayRouteTableVpcAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1747,7 +1814,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeLocalGatewayRouteTableVpcAssociations,
-            tokenKey: \DescribeLocalGatewayRouteTableVpcAssociationsResult.nextToken,
+            inputKey: \DescribeLocalGatewayRouteTableVpcAssociationsRequest.nextToken,
+            outputKey: \DescribeLocalGatewayRouteTableVpcAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1776,7 +1844,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeLocalGatewayRouteTables,
-            tokenKey: \DescribeLocalGatewayRouteTablesResult.nextToken,
+            inputKey: \DescribeLocalGatewayRouteTablesRequest.nextToken,
+            outputKey: \DescribeLocalGatewayRouteTablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1798,7 +1867,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeLocalGatewayRouteTables,
-            tokenKey: \DescribeLocalGatewayRouteTablesResult.nextToken,
+            inputKey: \DescribeLocalGatewayRouteTablesRequest.nextToken,
+            outputKey: \DescribeLocalGatewayRouteTablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1827,7 +1897,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeLocalGatewayVirtualInterfaceGroups,
-            tokenKey: \DescribeLocalGatewayVirtualInterfaceGroupsResult.nextToken,
+            inputKey: \DescribeLocalGatewayVirtualInterfaceGroupsRequest.nextToken,
+            outputKey: \DescribeLocalGatewayVirtualInterfaceGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1849,7 +1920,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeLocalGatewayVirtualInterfaceGroups,
-            tokenKey: \DescribeLocalGatewayVirtualInterfaceGroupsResult.nextToken,
+            inputKey: \DescribeLocalGatewayVirtualInterfaceGroupsRequest.nextToken,
+            outputKey: \DescribeLocalGatewayVirtualInterfaceGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1878,7 +1950,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeLocalGatewayVirtualInterfaces,
-            tokenKey: \DescribeLocalGatewayVirtualInterfacesResult.nextToken,
+            inputKey: \DescribeLocalGatewayVirtualInterfacesRequest.nextToken,
+            outputKey: \DescribeLocalGatewayVirtualInterfacesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1900,7 +1973,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeLocalGatewayVirtualInterfaces,
-            tokenKey: \DescribeLocalGatewayVirtualInterfacesResult.nextToken,
+            inputKey: \DescribeLocalGatewayVirtualInterfacesRequest.nextToken,
+            outputKey: \DescribeLocalGatewayVirtualInterfacesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1929,7 +2003,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeLocalGateways,
-            tokenKey: \DescribeLocalGatewaysResult.nextToken,
+            inputKey: \DescribeLocalGatewaysRequest.nextToken,
+            outputKey: \DescribeLocalGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1951,7 +2026,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeLocalGateways,
-            tokenKey: \DescribeLocalGatewaysResult.nextToken,
+            inputKey: \DescribeLocalGatewaysRequest.nextToken,
+            outputKey: \DescribeLocalGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1980,7 +2056,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeManagedPrefixLists,
-            tokenKey: \DescribeManagedPrefixListsResult.nextToken,
+            inputKey: \DescribeManagedPrefixListsRequest.nextToken,
+            outputKey: \DescribeManagedPrefixListsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2002,7 +2079,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeManagedPrefixLists,
-            tokenKey: \DescribeManagedPrefixListsResult.nextToken,
+            inputKey: \DescribeManagedPrefixListsRequest.nextToken,
+            outputKey: \DescribeManagedPrefixListsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2031,7 +2109,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeMovingAddresses,
-            tokenKey: \DescribeMovingAddressesResult.nextToken,
+            inputKey: \DescribeMovingAddressesRequest.nextToken,
+            outputKey: \DescribeMovingAddressesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2053,7 +2132,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeMovingAddresses,
-            tokenKey: \DescribeMovingAddressesResult.nextToken,
+            inputKey: \DescribeMovingAddressesRequest.nextToken,
+            outputKey: \DescribeMovingAddressesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2082,7 +2162,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeNatGateways,
-            tokenKey: \DescribeNatGatewaysResult.nextToken,
+            inputKey: \DescribeNatGatewaysRequest.nextToken,
+            outputKey: \DescribeNatGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2104,7 +2185,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeNatGateways,
-            tokenKey: \DescribeNatGatewaysResult.nextToken,
+            inputKey: \DescribeNatGatewaysRequest.nextToken,
+            outputKey: \DescribeNatGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2133,7 +2215,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeNetworkAcls,
-            tokenKey: \DescribeNetworkAclsResult.nextToken,
+            inputKey: \DescribeNetworkAclsRequest.nextToken,
+            outputKey: \DescribeNetworkAclsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2155,7 +2238,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeNetworkAcls,
-            tokenKey: \DescribeNetworkAclsResult.nextToken,
+            inputKey: \DescribeNetworkAclsRequest.nextToken,
+            outputKey: \DescribeNetworkAclsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2184,7 +2268,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeNetworkInsightsAnalyses,
-            tokenKey: \DescribeNetworkInsightsAnalysesResult.nextToken,
+            inputKey: \DescribeNetworkInsightsAnalysesRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsAnalysesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2206,7 +2291,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeNetworkInsightsAnalyses,
-            tokenKey: \DescribeNetworkInsightsAnalysesResult.nextToken,
+            inputKey: \DescribeNetworkInsightsAnalysesRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsAnalysesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2235,7 +2321,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeNetworkInsightsPaths,
-            tokenKey: \DescribeNetworkInsightsPathsResult.nextToken,
+            inputKey: \DescribeNetworkInsightsPathsRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsPathsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2257,7 +2344,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeNetworkInsightsPaths,
-            tokenKey: \DescribeNetworkInsightsPathsResult.nextToken,
+            inputKey: \DescribeNetworkInsightsPathsRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsPathsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2286,7 +2374,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeNetworkInterfacePermissions,
-            tokenKey: \DescribeNetworkInterfacePermissionsResult.nextToken,
+            inputKey: \DescribeNetworkInterfacePermissionsRequest.nextToken,
+            outputKey: \DescribeNetworkInterfacePermissionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2308,7 +2397,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeNetworkInterfacePermissions,
-            tokenKey: \DescribeNetworkInterfacePermissionsResult.nextToken,
+            inputKey: \DescribeNetworkInterfacePermissionsRequest.nextToken,
+            outputKey: \DescribeNetworkInterfacePermissionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2337,7 +2427,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeNetworkInterfaces,
-            tokenKey: \DescribeNetworkInterfacesResult.nextToken,
+            inputKey: \DescribeNetworkInterfacesRequest.nextToken,
+            outputKey: \DescribeNetworkInterfacesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2359,7 +2450,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeNetworkInterfaces,
-            tokenKey: \DescribeNetworkInterfacesResult.nextToken,
+            inputKey: \DescribeNetworkInterfacesRequest.nextToken,
+            outputKey: \DescribeNetworkInterfacesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2388,7 +2480,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describePrefixLists,
-            tokenKey: \DescribePrefixListsResult.nextToken,
+            inputKey: \DescribePrefixListsRequest.nextToken,
+            outputKey: \DescribePrefixListsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2410,7 +2503,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describePrefixLists,
-            tokenKey: \DescribePrefixListsResult.nextToken,
+            inputKey: \DescribePrefixListsRequest.nextToken,
+            outputKey: \DescribePrefixListsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2439,7 +2533,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describePrincipalIdFormat,
-            tokenKey: \DescribePrincipalIdFormatResult.nextToken,
+            inputKey: \DescribePrincipalIdFormatRequest.nextToken,
+            outputKey: \DescribePrincipalIdFormatResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2461,7 +2556,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describePrincipalIdFormat,
-            tokenKey: \DescribePrincipalIdFormatResult.nextToken,
+            inputKey: \DescribePrincipalIdFormatRequest.nextToken,
+            outputKey: \DescribePrincipalIdFormatResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2490,7 +2586,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describePublicIpv4Pools,
-            tokenKey: \DescribePublicIpv4PoolsResult.nextToken,
+            inputKey: \DescribePublicIpv4PoolsRequest.nextToken,
+            outputKey: \DescribePublicIpv4PoolsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2512,7 +2609,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describePublicIpv4Pools,
-            tokenKey: \DescribePublicIpv4PoolsResult.nextToken,
+            inputKey: \DescribePublicIpv4PoolsRequest.nextToken,
+            outputKey: \DescribePublicIpv4PoolsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2541,7 +2639,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeReservedInstancesModifications,
-            tokenKey: \DescribeReservedInstancesModificationsResult.nextToken,
+            inputKey: \DescribeReservedInstancesModificationsRequest.nextToken,
+            outputKey: \DescribeReservedInstancesModificationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2563,7 +2662,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeReservedInstancesModifications,
-            tokenKey: \DescribeReservedInstancesModificationsResult.nextToken,
+            inputKey: \DescribeReservedInstancesModificationsRequest.nextToken,
+            outputKey: \DescribeReservedInstancesModificationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2592,7 +2692,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeReservedInstancesOfferings,
-            tokenKey: \DescribeReservedInstancesOfferingsResult.nextToken,
+            inputKey: \DescribeReservedInstancesOfferingsRequest.nextToken,
+            outputKey: \DescribeReservedInstancesOfferingsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2614,7 +2715,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeReservedInstancesOfferings,
-            tokenKey: \DescribeReservedInstancesOfferingsResult.nextToken,
+            inputKey: \DescribeReservedInstancesOfferingsRequest.nextToken,
+            outputKey: \DescribeReservedInstancesOfferingsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2643,7 +2745,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeRouteTables,
-            tokenKey: \DescribeRouteTablesResult.nextToken,
+            inputKey: \DescribeRouteTablesRequest.nextToken,
+            outputKey: \DescribeRouteTablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2665,7 +2768,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeRouteTables,
-            tokenKey: \DescribeRouteTablesResult.nextToken,
+            inputKey: \DescribeRouteTablesRequest.nextToken,
+            outputKey: \DescribeRouteTablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2694,7 +2798,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeScheduledInstanceAvailability,
-            tokenKey: \DescribeScheduledInstanceAvailabilityResult.nextToken,
+            inputKey: \DescribeScheduledInstanceAvailabilityRequest.nextToken,
+            outputKey: \DescribeScheduledInstanceAvailabilityResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2716,7 +2821,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeScheduledInstanceAvailability,
-            tokenKey: \DescribeScheduledInstanceAvailabilityResult.nextToken,
+            inputKey: \DescribeScheduledInstanceAvailabilityRequest.nextToken,
+            outputKey: \DescribeScheduledInstanceAvailabilityResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2745,7 +2851,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeScheduledInstances,
-            tokenKey: \DescribeScheduledInstancesResult.nextToken,
+            inputKey: \DescribeScheduledInstancesRequest.nextToken,
+            outputKey: \DescribeScheduledInstancesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2767,7 +2874,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeScheduledInstances,
-            tokenKey: \DescribeScheduledInstancesResult.nextToken,
+            inputKey: \DescribeScheduledInstancesRequest.nextToken,
+            outputKey: \DescribeScheduledInstancesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2796,7 +2904,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeSecurityGroups,
-            tokenKey: \DescribeSecurityGroupsResult.nextToken,
+            inputKey: \DescribeSecurityGroupsRequest.nextToken,
+            outputKey: \DescribeSecurityGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2818,7 +2927,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeSecurityGroups,
-            tokenKey: \DescribeSecurityGroupsResult.nextToken,
+            inputKey: \DescribeSecurityGroupsRequest.nextToken,
+            outputKey: \DescribeSecurityGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2847,7 +2957,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeSnapshots,
-            tokenKey: \DescribeSnapshotsResult.nextToken,
+            inputKey: \DescribeSnapshotsRequest.nextToken,
+            outputKey: \DescribeSnapshotsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2869,7 +2980,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeSnapshots,
-            tokenKey: \DescribeSnapshotsResult.nextToken,
+            inputKey: \DescribeSnapshotsRequest.nextToken,
+            outputKey: \DescribeSnapshotsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2898,7 +3010,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeSpotFleetRequests,
-            tokenKey: \DescribeSpotFleetRequestsResponse.nextToken,
+            inputKey: \DescribeSpotFleetRequestsRequest.nextToken,
+            outputKey: \DescribeSpotFleetRequestsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2920,7 +3033,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeSpotFleetRequests,
-            tokenKey: \DescribeSpotFleetRequestsResponse.nextToken,
+            inputKey: \DescribeSpotFleetRequestsRequest.nextToken,
+            outputKey: \DescribeSpotFleetRequestsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2949,7 +3063,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeSpotInstanceRequests,
-            tokenKey: \DescribeSpotInstanceRequestsResult.nextToken,
+            inputKey: \DescribeSpotInstanceRequestsRequest.nextToken,
+            outputKey: \DescribeSpotInstanceRequestsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2971,7 +3086,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeSpotInstanceRequests,
-            tokenKey: \DescribeSpotInstanceRequestsResult.nextToken,
+            inputKey: \DescribeSpotInstanceRequestsRequest.nextToken,
+            outputKey: \DescribeSpotInstanceRequestsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3000,7 +3116,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeSpotPriceHistory,
-            tokenKey: \DescribeSpotPriceHistoryResult.nextToken,
+            inputKey: \DescribeSpotPriceHistoryRequest.nextToken,
+            outputKey: \DescribeSpotPriceHistoryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3022,7 +3139,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeSpotPriceHistory,
-            tokenKey: \DescribeSpotPriceHistoryResult.nextToken,
+            inputKey: \DescribeSpotPriceHistoryRequest.nextToken,
+            outputKey: \DescribeSpotPriceHistoryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3051,7 +3169,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeStaleSecurityGroups,
-            tokenKey: \DescribeStaleSecurityGroupsResult.nextToken,
+            inputKey: \DescribeStaleSecurityGroupsRequest.nextToken,
+            outputKey: \DescribeStaleSecurityGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3073,7 +3192,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeStaleSecurityGroups,
-            tokenKey: \DescribeStaleSecurityGroupsResult.nextToken,
+            inputKey: \DescribeStaleSecurityGroupsRequest.nextToken,
+            outputKey: \DescribeStaleSecurityGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3102,7 +3222,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeSubnets,
-            tokenKey: \DescribeSubnetsResult.nextToken,
+            inputKey: \DescribeSubnetsRequest.nextToken,
+            outputKey: \DescribeSubnetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3124,7 +3245,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeSubnets,
-            tokenKey: \DescribeSubnetsResult.nextToken,
+            inputKey: \DescribeSubnetsRequest.nextToken,
+            outputKey: \DescribeSubnetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3153,7 +3275,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTags,
-            tokenKey: \DescribeTagsResult.nextToken,
+            inputKey: \DescribeTagsRequest.nextToken,
+            outputKey: \DescribeTagsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3175,7 +3298,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTags,
-            tokenKey: \DescribeTagsResult.nextToken,
+            inputKey: \DescribeTagsRequest.nextToken,
+            outputKey: \DescribeTagsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3204,7 +3328,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTrafficMirrorFilters,
-            tokenKey: \DescribeTrafficMirrorFiltersResult.nextToken,
+            inputKey: \DescribeTrafficMirrorFiltersRequest.nextToken,
+            outputKey: \DescribeTrafficMirrorFiltersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3226,7 +3351,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTrafficMirrorFilters,
-            tokenKey: \DescribeTrafficMirrorFiltersResult.nextToken,
+            inputKey: \DescribeTrafficMirrorFiltersRequest.nextToken,
+            outputKey: \DescribeTrafficMirrorFiltersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3255,7 +3381,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTrafficMirrorSessions,
-            tokenKey: \DescribeTrafficMirrorSessionsResult.nextToken,
+            inputKey: \DescribeTrafficMirrorSessionsRequest.nextToken,
+            outputKey: \DescribeTrafficMirrorSessionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3277,7 +3404,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTrafficMirrorSessions,
-            tokenKey: \DescribeTrafficMirrorSessionsResult.nextToken,
+            inputKey: \DescribeTrafficMirrorSessionsRequest.nextToken,
+            outputKey: \DescribeTrafficMirrorSessionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3306,7 +3434,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTrafficMirrorTargets,
-            tokenKey: \DescribeTrafficMirrorTargetsResult.nextToken,
+            inputKey: \DescribeTrafficMirrorTargetsRequest.nextToken,
+            outputKey: \DescribeTrafficMirrorTargetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3328,7 +3457,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTrafficMirrorTargets,
-            tokenKey: \DescribeTrafficMirrorTargetsResult.nextToken,
+            inputKey: \DescribeTrafficMirrorTargetsRequest.nextToken,
+            outputKey: \DescribeTrafficMirrorTargetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3357,7 +3487,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTransitGatewayAttachments,
-            tokenKey: \DescribeTransitGatewayAttachmentsResult.nextToken,
+            inputKey: \DescribeTransitGatewayAttachmentsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayAttachmentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3379,7 +3510,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTransitGatewayAttachments,
-            tokenKey: \DescribeTransitGatewayAttachmentsResult.nextToken,
+            inputKey: \DescribeTransitGatewayAttachmentsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayAttachmentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3408,7 +3540,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTransitGatewayConnectPeers,
-            tokenKey: \DescribeTransitGatewayConnectPeersResult.nextToken,
+            inputKey: \DescribeTransitGatewayConnectPeersRequest.nextToken,
+            outputKey: \DescribeTransitGatewayConnectPeersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3430,7 +3563,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTransitGatewayConnectPeers,
-            tokenKey: \DescribeTransitGatewayConnectPeersResult.nextToken,
+            inputKey: \DescribeTransitGatewayConnectPeersRequest.nextToken,
+            outputKey: \DescribeTransitGatewayConnectPeersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3459,7 +3593,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTransitGatewayConnects,
-            tokenKey: \DescribeTransitGatewayConnectsResult.nextToken,
+            inputKey: \DescribeTransitGatewayConnectsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayConnectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3481,7 +3616,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTransitGatewayConnects,
-            tokenKey: \DescribeTransitGatewayConnectsResult.nextToken,
+            inputKey: \DescribeTransitGatewayConnectsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayConnectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3510,7 +3646,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTransitGatewayMulticastDomains,
-            tokenKey: \DescribeTransitGatewayMulticastDomainsResult.nextToken,
+            inputKey: \DescribeTransitGatewayMulticastDomainsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayMulticastDomainsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3532,7 +3669,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTransitGatewayMulticastDomains,
-            tokenKey: \DescribeTransitGatewayMulticastDomainsResult.nextToken,
+            inputKey: \DescribeTransitGatewayMulticastDomainsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayMulticastDomainsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3561,7 +3699,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTransitGatewayPeeringAttachments,
-            tokenKey: \DescribeTransitGatewayPeeringAttachmentsResult.nextToken,
+            inputKey: \DescribeTransitGatewayPeeringAttachmentsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayPeeringAttachmentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3583,7 +3722,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTransitGatewayPeeringAttachments,
-            tokenKey: \DescribeTransitGatewayPeeringAttachmentsResult.nextToken,
+            inputKey: \DescribeTransitGatewayPeeringAttachmentsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayPeeringAttachmentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3612,7 +3752,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTransitGatewayRouteTables,
-            tokenKey: \DescribeTransitGatewayRouteTablesResult.nextToken,
+            inputKey: \DescribeTransitGatewayRouteTablesRequest.nextToken,
+            outputKey: \DescribeTransitGatewayRouteTablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3634,7 +3775,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTransitGatewayRouteTables,
-            tokenKey: \DescribeTransitGatewayRouteTablesResult.nextToken,
+            inputKey: \DescribeTransitGatewayRouteTablesRequest.nextToken,
+            outputKey: \DescribeTransitGatewayRouteTablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3663,7 +3805,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTransitGatewayVpcAttachments,
-            tokenKey: \DescribeTransitGatewayVpcAttachmentsResult.nextToken,
+            inputKey: \DescribeTransitGatewayVpcAttachmentsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayVpcAttachmentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3685,7 +3828,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTransitGatewayVpcAttachments,
-            tokenKey: \DescribeTransitGatewayVpcAttachmentsResult.nextToken,
+            inputKey: \DescribeTransitGatewayVpcAttachmentsRequest.nextToken,
+            outputKey: \DescribeTransitGatewayVpcAttachmentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3714,7 +3858,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeTransitGateways,
-            tokenKey: \DescribeTransitGatewaysResult.nextToken,
+            inputKey: \DescribeTransitGatewaysRequest.nextToken,
+            outputKey: \DescribeTransitGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3736,7 +3881,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeTransitGateways,
-            tokenKey: \DescribeTransitGatewaysResult.nextToken,
+            inputKey: \DescribeTransitGatewaysRequest.nextToken,
+            outputKey: \DescribeTransitGatewaysResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3765,7 +3911,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVolumeStatus,
-            tokenKey: \DescribeVolumeStatusResult.nextToken,
+            inputKey: \DescribeVolumeStatusRequest.nextToken,
+            outputKey: \DescribeVolumeStatusResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3787,7 +3934,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVolumeStatus,
-            tokenKey: \DescribeVolumeStatusResult.nextToken,
+            inputKey: \DescribeVolumeStatusRequest.nextToken,
+            outputKey: \DescribeVolumeStatusResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3816,7 +3964,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVolumes,
-            tokenKey: \DescribeVolumesResult.nextToken,
+            inputKey: \DescribeVolumesRequest.nextToken,
+            outputKey: \DescribeVolumesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3838,7 +3987,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVolumes,
-            tokenKey: \DescribeVolumesResult.nextToken,
+            inputKey: \DescribeVolumesRequest.nextToken,
+            outputKey: \DescribeVolumesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3867,7 +4017,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVolumesModifications,
-            tokenKey: \DescribeVolumesModificationsResult.nextToken,
+            inputKey: \DescribeVolumesModificationsRequest.nextToken,
+            outputKey: \DescribeVolumesModificationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3889,7 +4040,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVolumesModifications,
-            tokenKey: \DescribeVolumesModificationsResult.nextToken,
+            inputKey: \DescribeVolumesModificationsRequest.nextToken,
+            outputKey: \DescribeVolumesModificationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3918,7 +4070,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVpcClassicLinkDnsSupport,
-            tokenKey: \DescribeVpcClassicLinkDnsSupportResult.nextToken,
+            inputKey: \DescribeVpcClassicLinkDnsSupportRequest.nextToken,
+            outputKey: \DescribeVpcClassicLinkDnsSupportResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3940,7 +4093,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVpcClassicLinkDnsSupport,
-            tokenKey: \DescribeVpcClassicLinkDnsSupportResult.nextToken,
+            inputKey: \DescribeVpcClassicLinkDnsSupportRequest.nextToken,
+            outputKey: \DescribeVpcClassicLinkDnsSupportResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3969,7 +4123,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVpcEndpointConnectionNotifications,
-            tokenKey: \DescribeVpcEndpointConnectionNotificationsResult.nextToken,
+            inputKey: \DescribeVpcEndpointConnectionNotificationsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointConnectionNotificationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3991,7 +4146,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVpcEndpointConnectionNotifications,
-            tokenKey: \DescribeVpcEndpointConnectionNotificationsResult.nextToken,
+            inputKey: \DescribeVpcEndpointConnectionNotificationsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointConnectionNotificationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4020,7 +4176,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVpcEndpointConnections,
-            tokenKey: \DescribeVpcEndpointConnectionsResult.nextToken,
+            inputKey: \DescribeVpcEndpointConnectionsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointConnectionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4042,7 +4199,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVpcEndpointConnections,
-            tokenKey: \DescribeVpcEndpointConnectionsResult.nextToken,
+            inputKey: \DescribeVpcEndpointConnectionsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointConnectionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4071,7 +4229,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVpcEndpointServiceConfigurations,
-            tokenKey: \DescribeVpcEndpointServiceConfigurationsResult.nextToken,
+            inputKey: \DescribeVpcEndpointServiceConfigurationsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointServiceConfigurationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4093,7 +4252,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVpcEndpointServiceConfigurations,
-            tokenKey: \DescribeVpcEndpointServiceConfigurationsResult.nextToken,
+            inputKey: \DescribeVpcEndpointServiceConfigurationsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointServiceConfigurationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4122,7 +4282,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVpcEndpointServicePermissions,
-            tokenKey: \DescribeVpcEndpointServicePermissionsResult.nextToken,
+            inputKey: \DescribeVpcEndpointServicePermissionsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointServicePermissionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4144,7 +4305,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVpcEndpointServicePermissions,
-            tokenKey: \DescribeVpcEndpointServicePermissionsResult.nextToken,
+            inputKey: \DescribeVpcEndpointServicePermissionsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointServicePermissionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4173,7 +4335,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVpcEndpoints,
-            tokenKey: \DescribeVpcEndpointsResult.nextToken,
+            inputKey: \DescribeVpcEndpointsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4195,7 +4358,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVpcEndpoints,
-            tokenKey: \DescribeVpcEndpointsResult.nextToken,
+            inputKey: \DescribeVpcEndpointsRequest.nextToken,
+            outputKey: \DescribeVpcEndpointsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4224,7 +4388,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVpcPeeringConnections,
-            tokenKey: \DescribeVpcPeeringConnectionsResult.nextToken,
+            inputKey: \DescribeVpcPeeringConnectionsRequest.nextToken,
+            outputKey: \DescribeVpcPeeringConnectionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4246,7 +4411,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVpcPeeringConnections,
-            tokenKey: \DescribeVpcPeeringConnectionsResult.nextToken,
+            inputKey: \DescribeVpcPeeringConnectionsRequest.nextToken,
+            outputKey: \DescribeVpcPeeringConnectionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4275,7 +4441,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeVpcs,
-            tokenKey: \DescribeVpcsResult.nextToken,
+            inputKey: \DescribeVpcsRequest.nextToken,
+            outputKey: \DescribeVpcsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4297,7 +4464,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeVpcs,
-            tokenKey: \DescribeVpcsResult.nextToken,
+            inputKey: \DescribeVpcsRequest.nextToken,
+            outputKey: \DescribeVpcsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4326,7 +4494,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: getAssociatedIpv6PoolCidrs,
-            tokenKey: \GetAssociatedIpv6PoolCidrsResult.nextToken,
+            inputKey: \GetAssociatedIpv6PoolCidrsRequest.nextToken,
+            outputKey: \GetAssociatedIpv6PoolCidrsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4348,7 +4517,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: getAssociatedIpv6PoolCidrs,
-            tokenKey: \GetAssociatedIpv6PoolCidrsResult.nextToken,
+            inputKey: \GetAssociatedIpv6PoolCidrsRequest.nextToken,
+            outputKey: \GetAssociatedIpv6PoolCidrsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4377,7 +4547,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: getGroupsForCapacityReservation,
-            tokenKey: \GetGroupsForCapacityReservationResult.nextToken,
+            inputKey: \GetGroupsForCapacityReservationRequest.nextToken,
+            outputKey: \GetGroupsForCapacityReservationResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4399,7 +4570,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: getGroupsForCapacityReservation,
-            tokenKey: \GetGroupsForCapacityReservationResult.nextToken,
+            inputKey: \GetGroupsForCapacityReservationRequest.nextToken,
+            outputKey: \GetGroupsForCapacityReservationResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4428,7 +4600,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: getManagedPrefixListAssociations,
-            tokenKey: \GetManagedPrefixListAssociationsResult.nextToken,
+            inputKey: \GetManagedPrefixListAssociationsRequest.nextToken,
+            outputKey: \GetManagedPrefixListAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4450,7 +4623,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: getManagedPrefixListAssociations,
-            tokenKey: \GetManagedPrefixListAssociationsResult.nextToken,
+            inputKey: \GetManagedPrefixListAssociationsRequest.nextToken,
+            outputKey: \GetManagedPrefixListAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4479,7 +4653,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: getManagedPrefixListEntries,
-            tokenKey: \GetManagedPrefixListEntriesResult.nextToken,
+            inputKey: \GetManagedPrefixListEntriesRequest.nextToken,
+            outputKey: \GetManagedPrefixListEntriesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4501,7 +4676,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: getManagedPrefixListEntries,
-            tokenKey: \GetManagedPrefixListEntriesResult.nextToken,
+            inputKey: \GetManagedPrefixListEntriesRequest.nextToken,
+            outputKey: \GetManagedPrefixListEntriesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4530,7 +4706,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: getTransitGatewayAttachmentPropagations,
-            tokenKey: \GetTransitGatewayAttachmentPropagationsResult.nextToken,
+            inputKey: \GetTransitGatewayAttachmentPropagationsRequest.nextToken,
+            outputKey: \GetTransitGatewayAttachmentPropagationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4552,7 +4729,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: getTransitGatewayAttachmentPropagations,
-            tokenKey: \GetTransitGatewayAttachmentPropagationsResult.nextToken,
+            inputKey: \GetTransitGatewayAttachmentPropagationsRequest.nextToken,
+            outputKey: \GetTransitGatewayAttachmentPropagationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4581,7 +4759,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: getTransitGatewayMulticastDomainAssociations,
-            tokenKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken,
+            inputKey: \GetTransitGatewayMulticastDomainAssociationsRequest.nextToken,
+            outputKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4603,7 +4782,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: getTransitGatewayMulticastDomainAssociations,
-            tokenKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken,
+            inputKey: \GetTransitGatewayMulticastDomainAssociationsRequest.nextToken,
+            outputKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4632,7 +4812,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: getTransitGatewayPrefixListReferences,
-            tokenKey: \GetTransitGatewayPrefixListReferencesResult.nextToken,
+            inputKey: \GetTransitGatewayPrefixListReferencesRequest.nextToken,
+            outputKey: \GetTransitGatewayPrefixListReferencesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4654,7 +4835,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: getTransitGatewayPrefixListReferences,
-            tokenKey: \GetTransitGatewayPrefixListReferencesResult.nextToken,
+            inputKey: \GetTransitGatewayPrefixListReferencesRequest.nextToken,
+            outputKey: \GetTransitGatewayPrefixListReferencesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4683,7 +4865,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: getTransitGatewayRouteTableAssociations,
-            tokenKey: \GetTransitGatewayRouteTableAssociationsResult.nextToken,
+            inputKey: \GetTransitGatewayRouteTableAssociationsRequest.nextToken,
+            outputKey: \GetTransitGatewayRouteTableAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4705,7 +4888,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: getTransitGatewayRouteTableAssociations,
-            tokenKey: \GetTransitGatewayRouteTableAssociationsResult.nextToken,
+            inputKey: \GetTransitGatewayRouteTableAssociationsRequest.nextToken,
+            outputKey: \GetTransitGatewayRouteTableAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4734,7 +4918,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: getTransitGatewayRouteTablePropagations,
-            tokenKey: \GetTransitGatewayRouteTablePropagationsResult.nextToken,
+            inputKey: \GetTransitGatewayRouteTablePropagationsRequest.nextToken,
+            outputKey: \GetTransitGatewayRouteTablePropagationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4756,7 +4941,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: getTransitGatewayRouteTablePropagations,
-            tokenKey: \GetTransitGatewayRouteTablePropagationsResult.nextToken,
+            inputKey: \GetTransitGatewayRouteTablePropagationsRequest.nextToken,
+            outputKey: \GetTransitGatewayRouteTablePropagationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4785,7 +4971,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: searchLocalGatewayRoutes,
-            tokenKey: \SearchLocalGatewayRoutesResult.nextToken,
+            inputKey: \SearchLocalGatewayRoutesRequest.nextToken,
+            outputKey: \SearchLocalGatewayRoutesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4807,7 +4994,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: searchLocalGatewayRoutes,
-            tokenKey: \SearchLocalGatewayRoutesResult.nextToken,
+            inputKey: \SearchLocalGatewayRoutesRequest.nextToken,
+            outputKey: \SearchLocalGatewayRoutesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4836,7 +5024,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: searchTransitGatewayMulticastGroups,
-            tokenKey: \SearchTransitGatewayMulticastGroupsResult.nextToken,
+            inputKey: \SearchTransitGatewayMulticastGroupsRequest.nextToken,
+            outputKey: \SearchTransitGatewayMulticastGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -4858,7 +5047,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: searchTransitGatewayMulticastGroups,
-            tokenKey: \SearchTransitGatewayMulticastGroupsResult.nextToken,
+            inputKey: \SearchTransitGatewayMulticastGroupsRequest.nextToken,
+            outputKey: \SearchTransitGatewayMulticastGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

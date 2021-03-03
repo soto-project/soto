@@ -42,7 +42,8 @@ extension MediaStoreData {
             input: input,
             initialValue: initialValue,
             command: listItems,
-            tokenKey: \ListItemsResponse.nextToken,
+            inputKey: \ListItemsRequest.nextToken,
+            outputKey: \ListItemsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MediaStoreData {
         return client.paginate(
             input: input,
             command: listItems,
-            tokenKey: \ListItemsResponse.nextToken,
+            inputKey: \ListItemsRequest.nextToken,
+            outputKey: \ListItemsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension AccessAnalyzer {
             input: input,
             initialValue: initialValue,
             command: listAnalyzedResources,
-            tokenKey: \ListAnalyzedResourcesResponse.nextToken,
+            inputKey: \ListAnalyzedResourcesRequest.nextToken,
+            outputKey: \ListAnalyzedResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension AccessAnalyzer {
         return client.paginate(
             input: input,
             command: listAnalyzedResources,
-            tokenKey: \ListAnalyzedResourcesResponse.nextToken,
+            inputKey: \ListAnalyzedResourcesRequest.nextToken,
+            outputKey: \ListAnalyzedResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension AccessAnalyzer {
             input: input,
             initialValue: initialValue,
             command: listAnalyzers,
-            tokenKey: \ListAnalyzersResponse.nextToken,
+            inputKey: \ListAnalyzersRequest.nextToken,
+            outputKey: \ListAnalyzersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension AccessAnalyzer {
         return client.paginate(
             input: input,
             command: listAnalyzers,
-            tokenKey: \ListAnalyzersResponse.nextToken,
+            inputKey: \ListAnalyzersRequest.nextToken,
+            outputKey: \ListAnalyzersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension AccessAnalyzer {
             input: input,
             initialValue: initialValue,
             command: listArchiveRules,
-            tokenKey: \ListArchiveRulesResponse.nextToken,
+            inputKey: \ListArchiveRulesRequest.nextToken,
+            outputKey: \ListArchiveRulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension AccessAnalyzer {
         return client.paginate(
             input: input,
             command: listArchiveRules,
-            tokenKey: \ListArchiveRulesResponse.nextToken,
+            inputKey: \ListArchiveRulesRequest.nextToken,
+            outputKey: \ListArchiveRulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension AccessAnalyzer {
             input: input,
             initialValue: initialValue,
             command: listFindings,
-            tokenKey: \ListFindingsResponse.nextToken,
+            inputKey: \ListFindingsRequest.nextToken,
+            outputKey: \ListFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension AccessAnalyzer {
         return client.paginate(
             input: input,
             command: listFindings,
-            tokenKey: \ListFindingsResponse.nextToken,
+            inputKey: \ListFindingsRequest.nextToken,
+            outputKey: \ListFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

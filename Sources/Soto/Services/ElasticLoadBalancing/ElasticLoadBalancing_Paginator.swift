@@ -42,7 +42,8 @@ extension ElasticLoadBalancing {
             input: input,
             initialValue: initialValue,
             command: describeLoadBalancers,
-            tokenKey: \DescribeAccessPointsOutput.nextMarker,
+            inputKey: \DescribeAccessPointsInput.marker,
+            outputKey: \DescribeAccessPointsOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ElasticLoadBalancing {
         return client.paginate(
             input: input,
             command: describeLoadBalancers,
-            tokenKey: \DescribeAccessPointsOutput.nextMarker,
+            inputKey: \DescribeAccessPointsInput.marker,
+            outputKey: \DescribeAccessPointsOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )

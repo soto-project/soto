@@ -42,7 +42,8 @@ extension Support {
             input: input,
             initialValue: initialValue,
             command: describeCases,
-            tokenKey: \DescribeCasesResponse.nextToken,
+            inputKey: \DescribeCasesRequest.nextToken,
+            outputKey: \DescribeCasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Support {
         return client.paginate(
             input: input,
             command: describeCases,
-            tokenKey: \DescribeCasesResponse.nextToken,
+            inputKey: \DescribeCasesRequest.nextToken,
+            outputKey: \DescribeCasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Support {
             input: input,
             initialValue: initialValue,
             command: describeCommunications,
-            tokenKey: \DescribeCommunicationsResponse.nextToken,
+            inputKey: \DescribeCommunicationsRequest.nextToken,
+            outputKey: \DescribeCommunicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Support {
         return client.paginate(
             input: input,
             command: describeCommunications,
-            tokenKey: \DescribeCommunicationsResponse.nextToken,
+            inputKey: \DescribeCommunicationsRequest.nextToken,
+            outputKey: \DescribeCommunicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

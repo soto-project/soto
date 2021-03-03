@@ -42,7 +42,8 @@ extension EBS {
             input: input,
             initialValue: initialValue,
             command: listChangedBlocks,
-            tokenKey: \ListChangedBlocksResponse.nextToken,
+            inputKey: \ListChangedBlocksRequest.nextToken,
+            outputKey: \ListChangedBlocksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension EBS {
         return client.paginate(
             input: input,
             command: listChangedBlocks,
-            tokenKey: \ListChangedBlocksResponse.nextToken,
+            inputKey: \ListChangedBlocksRequest.nextToken,
+            outputKey: \ListChangedBlocksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension EBS {
             input: input,
             initialValue: initialValue,
             command: listSnapshotBlocks,
-            tokenKey: \ListSnapshotBlocksResponse.nextToken,
+            inputKey: \ListSnapshotBlocksRequest.nextToken,
+            outputKey: \ListSnapshotBlocksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension EBS {
         return client.paginate(
             input: input,
             command: listSnapshotBlocks,
-            tokenKey: \ListSnapshotBlocksResponse.nextToken,
+            inputKey: \ListSnapshotBlocksRequest.nextToken,
+            outputKey: \ListSnapshotBlocksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

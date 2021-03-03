@@ -42,7 +42,8 @@ extension SecretsManager {
             input: input,
             initialValue: initialValue,
             command: listSecretVersionIds,
-            tokenKey: \ListSecretVersionIdsResponse.nextToken,
+            inputKey: \ListSecretVersionIdsRequest.nextToken,
+            outputKey: \ListSecretVersionIdsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SecretsManager {
         return client.paginate(
             input: input,
             command: listSecretVersionIds,
-            tokenKey: \ListSecretVersionIdsResponse.nextToken,
+            inputKey: \ListSecretVersionIdsRequest.nextToken,
+            outputKey: \ListSecretVersionIdsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SecretsManager {
             input: input,
             initialValue: initialValue,
             command: listSecrets,
-            tokenKey: \ListSecretsResponse.nextToken,
+            inputKey: \ListSecretsRequest.nextToken,
+            outputKey: \ListSecretsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SecretsManager {
         return client.paginate(
             input: input,
             command: listSecrets,
-            tokenKey: \ListSecretsResponse.nextToken,
+            inputKey: \ListSecretsRequest.nextToken,
+            outputKey: \ListSecretsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

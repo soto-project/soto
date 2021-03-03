@@ -42,7 +42,8 @@ extension ElasticLoadBalancingv2 {
             input: input,
             initialValue: initialValue,
             command: describeListeners,
-            tokenKey: \DescribeListenersOutput.nextMarker,
+            inputKey: \DescribeListenersInput.marker,
+            outputKey: \DescribeListenersOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ElasticLoadBalancingv2 {
         return client.paginate(
             input: input,
             command: describeListeners,
-            tokenKey: \DescribeListenersOutput.nextMarker,
+            inputKey: \DescribeListenersInput.marker,
+            outputKey: \DescribeListenersOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ElasticLoadBalancingv2 {
             input: input,
             initialValue: initialValue,
             command: describeLoadBalancers,
-            tokenKey: \DescribeLoadBalancersOutput.nextMarker,
+            inputKey: \DescribeLoadBalancersInput.marker,
+            outputKey: \DescribeLoadBalancersOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ElasticLoadBalancingv2 {
         return client.paginate(
             input: input,
             command: describeLoadBalancers,
-            tokenKey: \DescribeLoadBalancersOutput.nextMarker,
+            inputKey: \DescribeLoadBalancersInput.marker,
+            outputKey: \DescribeLoadBalancersOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ElasticLoadBalancingv2 {
             input: input,
             initialValue: initialValue,
             command: describeTargetGroups,
-            tokenKey: \DescribeTargetGroupsOutput.nextMarker,
+            inputKey: \DescribeTargetGroupsInput.marker,
+            outputKey: \DescribeTargetGroupsOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ElasticLoadBalancingv2 {
         return client.paginate(
             input: input,
             command: describeTargetGroups,
-            tokenKey: \DescribeTargetGroupsOutput.nextMarker,
+            inputKey: \DescribeTargetGroupsInput.marker,
+            outputKey: \DescribeTargetGroupsOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension CodePipeline {
             input: input,
             initialValue: initialValue,
             command: listActionExecutions,
-            tokenKey: \ListActionExecutionsOutput.nextToken,
+            inputKey: \ListActionExecutionsInput.nextToken,
+            outputKey: \ListActionExecutionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CodePipeline {
         return client.paginate(
             input: input,
             command: listActionExecutions,
-            tokenKey: \ListActionExecutionsOutput.nextToken,
+            inputKey: \ListActionExecutionsInput.nextToken,
+            outputKey: \ListActionExecutionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CodePipeline {
             input: input,
             initialValue: initialValue,
             command: listActionTypes,
-            tokenKey: \ListActionTypesOutput.nextToken,
+            inputKey: \ListActionTypesInput.nextToken,
+            outputKey: \ListActionTypesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CodePipeline {
         return client.paginate(
             input: input,
             command: listActionTypes,
-            tokenKey: \ListActionTypesOutput.nextToken,
+            inputKey: \ListActionTypesInput.nextToken,
+            outputKey: \ListActionTypesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CodePipeline {
             input: input,
             initialValue: initialValue,
             command: listPipelineExecutions,
-            tokenKey: \ListPipelineExecutionsOutput.nextToken,
+            inputKey: \ListPipelineExecutionsInput.nextToken,
+            outputKey: \ListPipelineExecutionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CodePipeline {
         return client.paginate(
             input: input,
             command: listPipelineExecutions,
-            tokenKey: \ListPipelineExecutionsOutput.nextToken,
+            inputKey: \ListPipelineExecutionsInput.nextToken,
+            outputKey: \ListPipelineExecutionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CodePipeline {
             input: input,
             initialValue: initialValue,
             command: listPipelines,
-            tokenKey: \ListPipelinesOutput.nextToken,
+            inputKey: \ListPipelinesInput.nextToken,
+            outputKey: \ListPipelinesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CodePipeline {
         return client.paginate(
             input: input,
             command: listPipelines,
-            tokenKey: \ListPipelinesOutput.nextToken,
+            inputKey: \ListPipelinesInput.nextToken,
+            outputKey: \ListPipelinesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension CodePipeline {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceOutput.nextToken,
+            inputKey: \ListTagsForResourceInput.nextToken,
+            outputKey: \ListTagsForResourceOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension CodePipeline {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceOutput.nextToken,
+            inputKey: \ListTagsForResourceInput.nextToken,
+            outputKey: \ListTagsForResourceOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension CodePipeline {
             input: input,
             initialValue: initialValue,
             command: listWebhooks,
-            tokenKey: \ListWebhooksOutput.nextToken,
+            inputKey: \ListWebhooksInput.nextToken,
+            outputKey: \ListWebhooksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension CodePipeline {
         return client.paginate(
             input: input,
             command: listWebhooks,
-            tokenKey: \ListWebhooksOutput.nextToken,
+            inputKey: \ListWebhooksInput.nextToken,
+            outputKey: \ListWebhooksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

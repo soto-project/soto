@@ -95,7 +95,8 @@ extension Kinesis {
             input: input,
             initialValue: initialValue,
             command: listStreamConsumers,
-            tokenKey: \ListStreamConsumersOutput.nextToken,
+            inputKey: \ListStreamConsumersInput.nextToken,
+            outputKey: \ListStreamConsumersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -117,7 +118,8 @@ extension Kinesis {
         return client.paginate(
             input: input,
             command: listStreamConsumers,
-            tokenKey: \ListStreamConsumersOutput.nextToken,
+            inputKey: \ListStreamConsumersInput.nextToken,
+            outputKey: \ListStreamConsumersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

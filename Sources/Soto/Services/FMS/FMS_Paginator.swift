@@ -42,7 +42,8 @@ extension FMS {
             input: input,
             initialValue: initialValue,
             command: listComplianceStatus,
-            tokenKey: \ListComplianceStatusResponse.nextToken,
+            inputKey: \ListComplianceStatusRequest.nextToken,
+            outputKey: \ListComplianceStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension FMS {
         return client.paginate(
             input: input,
             command: listComplianceStatus,
-            tokenKey: \ListComplianceStatusResponse.nextToken,
+            inputKey: \ListComplianceStatusRequest.nextToken,
+            outputKey: \ListComplianceStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension FMS {
             input: input,
             initialValue: initialValue,
             command: listMemberAccounts,
-            tokenKey: \ListMemberAccountsResponse.nextToken,
+            inputKey: \ListMemberAccountsRequest.nextToken,
+            outputKey: \ListMemberAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension FMS {
         return client.paginate(
             input: input,
             command: listMemberAccounts,
-            tokenKey: \ListMemberAccountsResponse.nextToken,
+            inputKey: \ListMemberAccountsRequest.nextToken,
+            outputKey: \ListMemberAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension FMS {
             input: input,
             initialValue: initialValue,
             command: listPolicies,
-            tokenKey: \ListPoliciesResponse.nextToken,
+            inputKey: \ListPoliciesRequest.nextToken,
+            outputKey: \ListPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension FMS {
         return client.paginate(
             input: input,
             command: listPolicies,
-            tokenKey: \ListPoliciesResponse.nextToken,
+            inputKey: \ListPoliciesRequest.nextToken,
+            outputKey: \ListPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

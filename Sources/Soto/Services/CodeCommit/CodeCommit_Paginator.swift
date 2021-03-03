@@ -42,7 +42,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: describeMergeConflicts,
-            tokenKey: \DescribeMergeConflictsOutput.nextToken,
+            inputKey: \DescribeMergeConflictsInput.nextToken,
+            outputKey: \DescribeMergeConflictsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: describeMergeConflicts,
-            tokenKey: \DescribeMergeConflictsOutput.nextToken,
+            inputKey: \DescribeMergeConflictsInput.nextToken,
+            outputKey: \DescribeMergeConflictsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: describePullRequestEvents,
-            tokenKey: \DescribePullRequestEventsOutput.nextToken,
+            inputKey: \DescribePullRequestEventsInput.nextToken,
+            outputKey: \DescribePullRequestEventsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: describePullRequestEvents,
-            tokenKey: \DescribePullRequestEventsOutput.nextToken,
+            inputKey: \DescribePullRequestEventsInput.nextToken,
+            outputKey: \DescribePullRequestEventsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: getCommentReactions,
-            tokenKey: \GetCommentReactionsOutput.nextToken,
+            inputKey: \GetCommentReactionsInput.nextToken,
+            outputKey: \GetCommentReactionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: getCommentReactions,
-            tokenKey: \GetCommentReactionsOutput.nextToken,
+            inputKey: \GetCommentReactionsInput.nextToken,
+            outputKey: \GetCommentReactionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: getCommentsForComparedCommit,
-            tokenKey: \GetCommentsForComparedCommitOutput.nextToken,
+            inputKey: \GetCommentsForComparedCommitInput.nextToken,
+            outputKey: \GetCommentsForComparedCommitOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: getCommentsForComparedCommit,
-            tokenKey: \GetCommentsForComparedCommitOutput.nextToken,
+            inputKey: \GetCommentsForComparedCommitInput.nextToken,
+            outputKey: \GetCommentsForComparedCommitOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: getCommentsForPullRequest,
-            tokenKey: \GetCommentsForPullRequestOutput.nextToken,
+            inputKey: \GetCommentsForPullRequestInput.nextToken,
+            outputKey: \GetCommentsForPullRequestOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: getCommentsForPullRequest,
-            tokenKey: \GetCommentsForPullRequestOutput.nextToken,
+            inputKey: \GetCommentsForPullRequestInput.nextToken,
+            outputKey: \GetCommentsForPullRequestOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: getDifferences,
-            tokenKey: \GetDifferencesOutput.nextToken,
+            inputKey: \GetDifferencesInput.nextToken,
+            outputKey: \GetDifferencesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: getDifferences,
-            tokenKey: \GetDifferencesOutput.nextToken,
+            inputKey: \GetDifferencesInput.nextToken,
+            outputKey: \GetDifferencesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: getMergeConflicts,
-            tokenKey: \GetMergeConflictsOutput.nextToken,
+            inputKey: \GetMergeConflictsInput.nextToken,
+            outputKey: \GetMergeConflictsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: getMergeConflicts,
-            tokenKey: \GetMergeConflictsOutput.nextToken,
+            inputKey: \GetMergeConflictsInput.nextToken,
+            outputKey: \GetMergeConflictsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: listApprovalRuleTemplates,
-            tokenKey: \ListApprovalRuleTemplatesOutput.nextToken,
+            inputKey: \ListApprovalRuleTemplatesInput.nextToken,
+            outputKey: \ListApprovalRuleTemplatesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: listApprovalRuleTemplates,
-            tokenKey: \ListApprovalRuleTemplatesOutput.nextToken,
+            inputKey: \ListApprovalRuleTemplatesInput.nextToken,
+            outputKey: \ListApprovalRuleTemplatesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: listAssociatedApprovalRuleTemplatesForRepository,
-            tokenKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken,
+            inputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryInput.nextToken,
+            outputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: listAssociatedApprovalRuleTemplatesForRepository,
-            tokenKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken,
+            inputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryInput.nextToken,
+            outputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: listBranches,
-            tokenKey: \ListBranchesOutput.nextToken,
+            inputKey: \ListBranchesInput.nextToken,
+            outputKey: \ListBranchesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: listBranches,
-            tokenKey: \ListBranchesOutput.nextToken,
+            inputKey: \ListBranchesInput.nextToken,
+            outputKey: \ListBranchesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: listPullRequests,
-            tokenKey: \ListPullRequestsOutput.nextToken,
+            inputKey: \ListPullRequestsInput.nextToken,
+            outputKey: \ListPullRequestsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: listPullRequests,
-            tokenKey: \ListPullRequestsOutput.nextToken,
+            inputKey: \ListPullRequestsInput.nextToken,
+            outputKey: \ListPullRequestsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: listRepositories,
-            tokenKey: \ListRepositoriesOutput.nextToken,
+            inputKey: \ListRepositoriesInput.nextToken,
+            outputKey: \ListRepositoriesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: listRepositories,
-            tokenKey: \ListRepositoriesOutput.nextToken,
+            inputKey: \ListRepositoriesInput.nextToken,
+            outputKey: \ListRepositoriesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension CodeCommit {
             input: input,
             initialValue: initialValue,
             command: listRepositoriesForApprovalRuleTemplate,
-            tokenKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken,
+            inputKey: \ListRepositoriesForApprovalRuleTemplateInput.nextToken,
+            outputKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension CodeCommit {
         return client.paginate(
             input: input,
             command: listRepositoriesForApprovalRuleTemplate,
-            tokenKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken,
+            inputKey: \ListRepositoriesForApprovalRuleTemplateInput.nextToken,
+            outputKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

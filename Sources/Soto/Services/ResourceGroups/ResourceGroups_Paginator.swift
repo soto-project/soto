@@ -42,7 +42,8 @@ extension ResourceGroups {
             input: input,
             initialValue: initialValue,
             command: listGroupResources,
-            tokenKey: \ListGroupResourcesOutput.nextToken,
+            inputKey: \ListGroupResourcesInput.nextToken,
+            outputKey: \ListGroupResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ResourceGroups {
         return client.paginate(
             input: input,
             command: listGroupResources,
-            tokenKey: \ListGroupResourcesOutput.nextToken,
+            inputKey: \ListGroupResourcesInput.nextToken,
+            outputKey: \ListGroupResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ResourceGroups {
             input: input,
             initialValue: initialValue,
             command: listGroups,
-            tokenKey: \ListGroupsOutput.nextToken,
+            inputKey: \ListGroupsInput.nextToken,
+            outputKey: \ListGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ResourceGroups {
         return client.paginate(
             input: input,
             command: listGroups,
-            tokenKey: \ListGroupsOutput.nextToken,
+            inputKey: \ListGroupsInput.nextToken,
+            outputKey: \ListGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ResourceGroups {
             input: input,
             initialValue: initialValue,
             command: searchResources,
-            tokenKey: \SearchResourcesOutput.nextToken,
+            inputKey: \SearchResourcesInput.nextToken,
+            outputKey: \SearchResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ResourceGroups {
         return client.paginate(
             input: input,
             command: searchResources,
-            tokenKey: \SearchResourcesOutput.nextToken,
+            inputKey: \SearchResourcesInput.nextToken,
+            outputKey: \SearchResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

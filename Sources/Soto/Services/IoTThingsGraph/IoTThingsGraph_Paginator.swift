@@ -42,7 +42,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: getFlowTemplateRevisions,
-            tokenKey: \GetFlowTemplateRevisionsResponse.nextToken,
+            inputKey: \GetFlowTemplateRevisionsRequest.nextToken,
+            outputKey: \GetFlowTemplateRevisionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: getFlowTemplateRevisions,
-            tokenKey: \GetFlowTemplateRevisionsResponse.nextToken,
+            inputKey: \GetFlowTemplateRevisionsRequest.nextToken,
+            outputKey: \GetFlowTemplateRevisionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: getSystemTemplateRevisions,
-            tokenKey: \GetSystemTemplateRevisionsResponse.nextToken,
+            inputKey: \GetSystemTemplateRevisionsRequest.nextToken,
+            outputKey: \GetSystemTemplateRevisionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: getSystemTemplateRevisions,
-            tokenKey: \GetSystemTemplateRevisionsResponse.nextToken,
+            inputKey: \GetSystemTemplateRevisionsRequest.nextToken,
+            outputKey: \GetSystemTemplateRevisionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: listFlowExecutionMessages,
-            tokenKey: \ListFlowExecutionMessagesResponse.nextToken,
+            inputKey: \ListFlowExecutionMessagesRequest.nextToken,
+            outputKey: \ListFlowExecutionMessagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: listFlowExecutionMessages,
-            tokenKey: \ListFlowExecutionMessagesResponse.nextToken,
+            inputKey: \ListFlowExecutionMessagesRequest.nextToken,
+            outputKey: \ListFlowExecutionMessagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: searchEntities,
-            tokenKey: \SearchEntitiesResponse.nextToken,
+            inputKey: \SearchEntitiesRequest.nextToken,
+            outputKey: \SearchEntitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: searchEntities,
-            tokenKey: \SearchEntitiesResponse.nextToken,
+            inputKey: \SearchEntitiesRequest.nextToken,
+            outputKey: \SearchEntitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: searchFlowExecutions,
-            tokenKey: \SearchFlowExecutionsResponse.nextToken,
+            inputKey: \SearchFlowExecutionsRequest.nextToken,
+            outputKey: \SearchFlowExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: searchFlowExecutions,
-            tokenKey: \SearchFlowExecutionsResponse.nextToken,
+            inputKey: \SearchFlowExecutionsRequest.nextToken,
+            outputKey: \SearchFlowExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: searchFlowTemplates,
-            tokenKey: \SearchFlowTemplatesResponse.nextToken,
+            inputKey: \SearchFlowTemplatesRequest.nextToken,
+            outputKey: \SearchFlowTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: searchFlowTemplates,
-            tokenKey: \SearchFlowTemplatesResponse.nextToken,
+            inputKey: \SearchFlowTemplatesRequest.nextToken,
+            outputKey: \SearchFlowTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: searchSystemInstances,
-            tokenKey: \SearchSystemInstancesResponse.nextToken,
+            inputKey: \SearchSystemInstancesRequest.nextToken,
+            outputKey: \SearchSystemInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: searchSystemInstances,
-            tokenKey: \SearchSystemInstancesResponse.nextToken,
+            inputKey: \SearchSystemInstancesRequest.nextToken,
+            outputKey: \SearchSystemInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: searchSystemTemplates,
-            tokenKey: \SearchSystemTemplatesResponse.nextToken,
+            inputKey: \SearchSystemTemplatesRequest.nextToken,
+            outputKey: \SearchSystemTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: searchSystemTemplates,
-            tokenKey: \SearchSystemTemplatesResponse.nextToken,
+            inputKey: \SearchSystemTemplatesRequest.nextToken,
+            outputKey: \SearchSystemTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension IoTThingsGraph {
             input: input,
             initialValue: initialValue,
             command: searchThings,
-            tokenKey: \SearchThingsResponse.nextToken,
+            inputKey: \SearchThingsRequest.nextToken,
+            outputKey: \SearchThingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension IoTThingsGraph {
         return client.paginate(
             input: input,
             command: searchThings,
-            tokenKey: \SearchThingsResponse.nextToken,
+            inputKey: \SearchThingsRequest.nextToken,
+            outputKey: \SearchThingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

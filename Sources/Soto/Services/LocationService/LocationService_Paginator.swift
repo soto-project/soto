@@ -42,7 +42,8 @@ extension LocationService {
             input: input,
             initialValue: initialValue,
             command: getDevicePositionHistory,
-            tokenKey: \GetDevicePositionHistoryResponse.nextToken,
+            inputKey: \GetDevicePositionHistoryRequest.nextToken,
+            outputKey: \GetDevicePositionHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension LocationService {
         return client.paginate(
             input: input,
             command: getDevicePositionHistory,
-            tokenKey: \GetDevicePositionHistoryResponse.nextToken,
+            inputKey: \GetDevicePositionHistoryRequest.nextToken,
+            outputKey: \GetDevicePositionHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension LocationService {
             input: input,
             initialValue: initialValue,
             command: listGeofenceCollections,
-            tokenKey: \ListGeofenceCollectionsResponse.nextToken,
+            inputKey: \ListGeofenceCollectionsRequest.nextToken,
+            outputKey: \ListGeofenceCollectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension LocationService {
         return client.paginate(
             input: input,
             command: listGeofenceCollections,
-            tokenKey: \ListGeofenceCollectionsResponse.nextToken,
+            inputKey: \ListGeofenceCollectionsRequest.nextToken,
+            outputKey: \ListGeofenceCollectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension LocationService {
             input: input,
             initialValue: initialValue,
             command: listGeofences,
-            tokenKey: \ListGeofencesResponse.nextToken,
+            inputKey: \ListGeofencesRequest.nextToken,
+            outputKey: \ListGeofencesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension LocationService {
         return client.paginate(
             input: input,
             command: listGeofences,
-            tokenKey: \ListGeofencesResponse.nextToken,
+            inputKey: \ListGeofencesRequest.nextToken,
+            outputKey: \ListGeofencesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension LocationService {
             input: input,
             initialValue: initialValue,
             command: listMaps,
-            tokenKey: \ListMapsResponse.nextToken,
+            inputKey: \ListMapsRequest.nextToken,
+            outputKey: \ListMapsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension LocationService {
         return client.paginate(
             input: input,
             command: listMaps,
-            tokenKey: \ListMapsResponse.nextToken,
+            inputKey: \ListMapsRequest.nextToken,
+            outputKey: \ListMapsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension LocationService {
             input: input,
             initialValue: initialValue,
             command: listPlaceIndexes,
-            tokenKey: \ListPlaceIndexesResponse.nextToken,
+            inputKey: \ListPlaceIndexesRequest.nextToken,
+            outputKey: \ListPlaceIndexesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension LocationService {
         return client.paginate(
             input: input,
             command: listPlaceIndexes,
-            tokenKey: \ListPlaceIndexesResponse.nextToken,
+            inputKey: \ListPlaceIndexesRequest.nextToken,
+            outputKey: \ListPlaceIndexesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension LocationService {
             input: input,
             initialValue: initialValue,
             command: listTrackerConsumers,
-            tokenKey: \ListTrackerConsumersResponse.nextToken,
+            inputKey: \ListTrackerConsumersRequest.nextToken,
+            outputKey: \ListTrackerConsumersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension LocationService {
         return client.paginate(
             input: input,
             command: listTrackerConsumers,
-            tokenKey: \ListTrackerConsumersResponse.nextToken,
+            inputKey: \ListTrackerConsumersRequest.nextToken,
+            outputKey: \ListTrackerConsumersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension LocationService {
             input: input,
             initialValue: initialValue,
             command: listTrackers,
-            tokenKey: \ListTrackersResponse.nextToken,
+            inputKey: \ListTrackersRequest.nextToken,
+            outputKey: \ListTrackersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension LocationService {
         return client.paginate(
             input: input,
             command: listTrackers,
-            tokenKey: \ListTrackersResponse.nextToken,
+            inputKey: \ListTrackersRequest.nextToken,
+            outputKey: \ListTrackersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

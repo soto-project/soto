@@ -42,7 +42,8 @@ extension DirectoryService {
             input: input,
             initialValue: initialValue,
             command: describeDomainControllers,
-            tokenKey: \DescribeDomainControllersResult.nextToken,
+            inputKey: \DescribeDomainControllersRequest.nextToken,
+            outputKey: \DescribeDomainControllersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension DirectoryService {
         return client.paginate(
             input: input,
             command: describeDomainControllers,
-            tokenKey: \DescribeDomainControllersResult.nextToken,
+            inputKey: \DescribeDomainControllersRequest.nextToken,
+            outputKey: \DescribeDomainControllersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

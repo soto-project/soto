@@ -42,7 +42,8 @@ extension SMS {
             input: input,
             initialValue: initialValue,
             command: getConnectors,
-            tokenKey: \GetConnectorsResponse.nextToken,
+            inputKey: \GetConnectorsRequest.nextToken,
+            outputKey: \GetConnectorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SMS {
         return client.paginate(
             input: input,
             command: getConnectors,
-            tokenKey: \GetConnectorsResponse.nextToken,
+            inputKey: \GetConnectorsRequest.nextToken,
+            outputKey: \GetConnectorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SMS {
             input: input,
             initialValue: initialValue,
             command: getReplicationJobs,
-            tokenKey: \GetReplicationJobsResponse.nextToken,
+            inputKey: \GetReplicationJobsRequest.nextToken,
+            outputKey: \GetReplicationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SMS {
         return client.paginate(
             input: input,
             command: getReplicationJobs,
-            tokenKey: \GetReplicationJobsResponse.nextToken,
+            inputKey: \GetReplicationJobsRequest.nextToken,
+            outputKey: \GetReplicationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension SMS {
             input: input,
             initialValue: initialValue,
             command: getReplicationRuns,
-            tokenKey: \GetReplicationRunsResponse.nextToken,
+            inputKey: \GetReplicationRunsRequest.nextToken,
+            outputKey: \GetReplicationRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension SMS {
         return client.paginate(
             input: input,
             command: getReplicationRuns,
-            tokenKey: \GetReplicationRunsResponse.nextToken,
+            inputKey: \GetReplicationRunsRequest.nextToken,
+            outputKey: \GetReplicationRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension SMS {
             input: input,
             initialValue: initialValue,
             command: getServers,
-            tokenKey: \GetServersResponse.nextToken,
+            inputKey: \GetServersRequest.nextToken,
+            outputKey: \GetServersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension SMS {
         return client.paginate(
             input: input,
             command: getServers,
-            tokenKey: \GetServersResponse.nextToken,
+            inputKey: \GetServersRequest.nextToken,
+            outputKey: \GetServersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension TimestreamWrite {
             input: input,
             initialValue: initialValue,
             command: listDatabases,
-            tokenKey: \ListDatabasesResponse.nextToken,
+            inputKey: \ListDatabasesRequest.nextToken,
+            outputKey: \ListDatabasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension TimestreamWrite {
         return client.paginate(
             input: input,
             command: listDatabases,
-            tokenKey: \ListDatabasesResponse.nextToken,
+            inputKey: \ListDatabasesRequest.nextToken,
+            outputKey: \ListDatabasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension TimestreamWrite {
             input: input,
             initialValue: initialValue,
             command: listTables,
-            tokenKey: \ListTablesResponse.nextToken,
+            inputKey: \ListTablesRequest.nextToken,
+            outputKey: \ListTablesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension TimestreamWrite {
         return client.paginate(
             input: input,
             command: listTables,
-            tokenKey: \ListTablesResponse.nextToken,
+            inputKey: \ListTablesRequest.nextToken,
+            outputKey: \ListTablesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

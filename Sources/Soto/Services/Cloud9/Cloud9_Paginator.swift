@@ -42,7 +42,8 @@ extension Cloud9 {
             input: input,
             initialValue: initialValue,
             command: describeEnvironmentMemberships,
-            tokenKey: \DescribeEnvironmentMembershipsResult.nextToken,
+            inputKey: \DescribeEnvironmentMembershipsRequest.nextToken,
+            outputKey: \DescribeEnvironmentMembershipsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Cloud9 {
         return client.paginate(
             input: input,
             command: describeEnvironmentMemberships,
-            tokenKey: \DescribeEnvironmentMembershipsResult.nextToken,
+            inputKey: \DescribeEnvironmentMembershipsRequest.nextToken,
+            outputKey: \DescribeEnvironmentMembershipsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Cloud9 {
             input: input,
             initialValue: initialValue,
             command: listEnvironments,
-            tokenKey: \ListEnvironmentsResult.nextToken,
+            inputKey: \ListEnvironmentsRequest.nextToken,
+            outputKey: \ListEnvironmentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Cloud9 {
         return client.paginate(
             input: input,
             command: listEnvironments,
-            tokenKey: \ListEnvironmentsResult.nextToken,
+            inputKey: \ListEnvironmentsRequest.nextToken,
+            outputKey: \ListEnvironmentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

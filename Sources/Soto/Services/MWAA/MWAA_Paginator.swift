@@ -42,7 +42,8 @@ extension MWAA {
             input: input,
             initialValue: initialValue,
             command: listEnvironments,
-            tokenKey: \ListEnvironmentsOutput.nextToken,
+            inputKey: \ListEnvironmentsInput.nextToken,
+            outputKey: \ListEnvironmentsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MWAA {
         return client.paginate(
             input: input,
             command: listEnvironments,
-            tokenKey: \ListEnvironmentsOutput.nextToken,
+            inputKey: \ListEnvironmentsInput.nextToken,
+            outputKey: \ListEnvironmentsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

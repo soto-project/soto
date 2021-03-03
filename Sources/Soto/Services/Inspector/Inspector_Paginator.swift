@@ -42,7 +42,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: getExclusionsPreview,
-            tokenKey: \GetExclusionsPreviewResponse.nextToken,
+            inputKey: \GetExclusionsPreviewRequest.nextToken,
+            outputKey: \GetExclusionsPreviewResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: getExclusionsPreview,
-            tokenKey: \GetExclusionsPreviewResponse.nextToken,
+            inputKey: \GetExclusionsPreviewRequest.nextToken,
+            outputKey: \GetExclusionsPreviewResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: listAssessmentRunAgents,
-            tokenKey: \ListAssessmentRunAgentsResponse.nextToken,
+            inputKey: \ListAssessmentRunAgentsRequest.nextToken,
+            outputKey: \ListAssessmentRunAgentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: listAssessmentRunAgents,
-            tokenKey: \ListAssessmentRunAgentsResponse.nextToken,
+            inputKey: \ListAssessmentRunAgentsRequest.nextToken,
+            outputKey: \ListAssessmentRunAgentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: listAssessmentRuns,
-            tokenKey: \ListAssessmentRunsResponse.nextToken,
+            inputKey: \ListAssessmentRunsRequest.nextToken,
+            outputKey: \ListAssessmentRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: listAssessmentRuns,
-            tokenKey: \ListAssessmentRunsResponse.nextToken,
+            inputKey: \ListAssessmentRunsRequest.nextToken,
+            outputKey: \ListAssessmentRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: listAssessmentTargets,
-            tokenKey: \ListAssessmentTargetsResponse.nextToken,
+            inputKey: \ListAssessmentTargetsRequest.nextToken,
+            outputKey: \ListAssessmentTargetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: listAssessmentTargets,
-            tokenKey: \ListAssessmentTargetsResponse.nextToken,
+            inputKey: \ListAssessmentTargetsRequest.nextToken,
+            outputKey: \ListAssessmentTargetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: listAssessmentTemplates,
-            tokenKey: \ListAssessmentTemplatesResponse.nextToken,
+            inputKey: \ListAssessmentTemplatesRequest.nextToken,
+            outputKey: \ListAssessmentTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: listAssessmentTemplates,
-            tokenKey: \ListAssessmentTemplatesResponse.nextToken,
+            inputKey: \ListAssessmentTemplatesRequest.nextToken,
+            outputKey: \ListAssessmentTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: listEventSubscriptions,
-            tokenKey: \ListEventSubscriptionsResponse.nextToken,
+            inputKey: \ListEventSubscriptionsRequest.nextToken,
+            outputKey: \ListEventSubscriptionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: listEventSubscriptions,
-            tokenKey: \ListEventSubscriptionsResponse.nextToken,
+            inputKey: \ListEventSubscriptionsRequest.nextToken,
+            outputKey: \ListEventSubscriptionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: listExclusions,
-            tokenKey: \ListExclusionsResponse.nextToken,
+            inputKey: \ListExclusionsRequest.nextToken,
+            outputKey: \ListExclusionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: listExclusions,
-            tokenKey: \ListExclusionsResponse.nextToken,
+            inputKey: \ListExclusionsRequest.nextToken,
+            outputKey: \ListExclusionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: listFindings,
-            tokenKey: \ListFindingsResponse.nextToken,
+            inputKey: \ListFindingsRequest.nextToken,
+            outputKey: \ListFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: listFindings,
-            tokenKey: \ListFindingsResponse.nextToken,
+            inputKey: \ListFindingsRequest.nextToken,
+            outputKey: \ListFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: listRulesPackages,
-            tokenKey: \ListRulesPackagesResponse.nextToken,
+            inputKey: \ListRulesPackagesRequest.nextToken,
+            outputKey: \ListRulesPackagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: listRulesPackages,
-            tokenKey: \ListRulesPackagesResponse.nextToken,
+            inputKey: \ListRulesPackagesRequest.nextToken,
+            outputKey: \ListRulesPackagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Inspector {
             input: input,
             initialValue: initialValue,
             command: previewAgents,
-            tokenKey: \PreviewAgentsResponse.nextToken,
+            inputKey: \PreviewAgentsRequest.nextToken,
+            outputKey: \PreviewAgentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Inspector {
         return client.paginate(
             input: input,
             command: previewAgents,
-            tokenKey: \PreviewAgentsResponse.nextToken,
+            inputKey: \PreviewAgentsRequest.nextToken,
+            outputKey: \PreviewAgentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

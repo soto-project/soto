@@ -42,7 +42,8 @@ extension CloudWatch {
             input: input,
             initialValue: initialValue,
             command: describeAlarmHistory,
-            tokenKey: \DescribeAlarmHistoryOutput.nextToken,
+            inputKey: \DescribeAlarmHistoryInput.nextToken,
+            outputKey: \DescribeAlarmHistoryOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CloudWatch {
         return client.paginate(
             input: input,
             command: describeAlarmHistory,
-            tokenKey: \DescribeAlarmHistoryOutput.nextToken,
+            inputKey: \DescribeAlarmHistoryInput.nextToken,
+            outputKey: \DescribeAlarmHistoryOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CloudWatch {
             input: input,
             initialValue: initialValue,
             command: describeAlarms,
-            tokenKey: \DescribeAlarmsOutput.nextToken,
+            inputKey: \DescribeAlarmsInput.nextToken,
+            outputKey: \DescribeAlarmsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CloudWatch {
         return client.paginate(
             input: input,
             command: describeAlarms,
-            tokenKey: \DescribeAlarmsOutput.nextToken,
+            inputKey: \DescribeAlarmsInput.nextToken,
+            outputKey: \DescribeAlarmsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CloudWatch {
             input: input,
             initialValue: initialValue,
             command: describeInsightRules,
-            tokenKey: \DescribeInsightRulesOutput.nextToken,
+            inputKey: \DescribeInsightRulesInput.nextToken,
+            outputKey: \DescribeInsightRulesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CloudWatch {
         return client.paginate(
             input: input,
             command: describeInsightRules,
-            tokenKey: \DescribeInsightRulesOutput.nextToken,
+            inputKey: \DescribeInsightRulesInput.nextToken,
+            outputKey: \DescribeInsightRulesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CloudWatch {
             input: input,
             initialValue: initialValue,
             command: getMetricData,
-            tokenKey: \GetMetricDataOutput.nextToken,
+            inputKey: \GetMetricDataInput.nextToken,
+            outputKey: \GetMetricDataOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CloudWatch {
         return client.paginate(
             input: input,
             command: getMetricData,
-            tokenKey: \GetMetricDataOutput.nextToken,
+            inputKey: \GetMetricDataInput.nextToken,
+            outputKey: \GetMetricDataOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension CloudWatch {
             input: input,
             initialValue: initialValue,
             command: listDashboards,
-            tokenKey: \ListDashboardsOutput.nextToken,
+            inputKey: \ListDashboardsInput.nextToken,
+            outputKey: \ListDashboardsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension CloudWatch {
         return client.paginate(
             input: input,
             command: listDashboards,
-            tokenKey: \ListDashboardsOutput.nextToken,
+            inputKey: \ListDashboardsInput.nextToken,
+            outputKey: \ListDashboardsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension CloudWatch {
             input: input,
             initialValue: initialValue,
             command: listMetrics,
-            tokenKey: \ListMetricsOutput.nextToken,
+            inputKey: \ListMetricsInput.nextToken,
+            outputKey: \ListMetricsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension CloudWatch {
         return client.paginate(
             input: input,
             command: listMetrics,
-            tokenKey: \ListMetricsOutput.nextToken,
+            inputKey: \ListMetricsInput.nextToken,
+            outputKey: \ListMetricsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

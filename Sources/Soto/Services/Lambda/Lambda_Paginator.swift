@@ -42,7 +42,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listAliases,
-            tokenKey: \ListAliasesResponse.nextMarker,
+            inputKey: \ListAliasesRequest.marker,
+            outputKey: \ListAliasesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listAliases,
-            tokenKey: \ListAliasesResponse.nextMarker,
+            inputKey: \ListAliasesRequest.marker,
+            outputKey: \ListAliasesResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listCodeSigningConfigs,
-            tokenKey: \ListCodeSigningConfigsResponse.nextMarker,
+            inputKey: \ListCodeSigningConfigsRequest.marker,
+            outputKey: \ListCodeSigningConfigsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listCodeSigningConfigs,
-            tokenKey: \ListCodeSigningConfigsResponse.nextMarker,
+            inputKey: \ListCodeSigningConfigsRequest.marker,
+            outputKey: \ListCodeSigningConfigsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listEventSourceMappings,
-            tokenKey: \ListEventSourceMappingsResponse.nextMarker,
+            inputKey: \ListEventSourceMappingsRequest.marker,
+            outputKey: \ListEventSourceMappingsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listEventSourceMappings,
-            tokenKey: \ListEventSourceMappingsResponse.nextMarker,
+            inputKey: \ListEventSourceMappingsRequest.marker,
+            outputKey: \ListEventSourceMappingsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listFunctionEventInvokeConfigs,
-            tokenKey: \ListFunctionEventInvokeConfigsResponse.nextMarker,
+            inputKey: \ListFunctionEventInvokeConfigsRequest.marker,
+            outputKey: \ListFunctionEventInvokeConfigsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listFunctionEventInvokeConfigs,
-            tokenKey: \ListFunctionEventInvokeConfigsResponse.nextMarker,
+            inputKey: \ListFunctionEventInvokeConfigsRequest.marker,
+            outputKey: \ListFunctionEventInvokeConfigsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listFunctions,
-            tokenKey: \ListFunctionsResponse.nextMarker,
+            inputKey: \ListFunctionsRequest.marker,
+            outputKey: \ListFunctionsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listFunctions,
-            tokenKey: \ListFunctionsResponse.nextMarker,
+            inputKey: \ListFunctionsRequest.marker,
+            outputKey: \ListFunctionsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listFunctionsByCodeSigningConfig,
-            tokenKey: \ListFunctionsByCodeSigningConfigResponse.nextMarker,
+            inputKey: \ListFunctionsByCodeSigningConfigRequest.marker,
+            outputKey: \ListFunctionsByCodeSigningConfigResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listFunctionsByCodeSigningConfig,
-            tokenKey: \ListFunctionsByCodeSigningConfigResponse.nextMarker,
+            inputKey: \ListFunctionsByCodeSigningConfigRequest.marker,
+            outputKey: \ListFunctionsByCodeSigningConfigResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listLayerVersions,
-            tokenKey: \ListLayerVersionsResponse.nextMarker,
+            inputKey: \ListLayerVersionsRequest.marker,
+            outputKey: \ListLayerVersionsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listLayerVersions,
-            tokenKey: \ListLayerVersionsResponse.nextMarker,
+            inputKey: \ListLayerVersionsRequest.marker,
+            outputKey: \ListLayerVersionsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listLayers,
-            tokenKey: \ListLayersResponse.nextMarker,
+            inputKey: \ListLayersRequest.marker,
+            outputKey: \ListLayersResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listLayers,
-            tokenKey: \ListLayersResponse.nextMarker,
+            inputKey: \ListLayersRequest.marker,
+            outputKey: \ListLayersResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listProvisionedConcurrencyConfigs,
-            tokenKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker,
+            inputKey: \ListProvisionedConcurrencyConfigsRequest.marker,
+            outputKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listProvisionedConcurrencyConfigs,
-            tokenKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker,
+            inputKey: \ListProvisionedConcurrencyConfigsRequest.marker,
+            outputKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Lambda {
             input: input,
             initialValue: initialValue,
             command: listVersionsByFunction,
-            tokenKey: \ListVersionsByFunctionResponse.nextMarker,
+            inputKey: \ListVersionsByFunctionRequest.marker,
+            outputKey: \ListVersionsByFunctionResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Lambda {
         return client.paginate(
             input: input,
             command: listVersionsByFunction,
-            tokenKey: \ListVersionsByFunctionResponse.nextMarker,
+            inputKey: \ListVersionsByFunctionRequest.marker,
+            outputKey: \ListVersionsByFunctionResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )

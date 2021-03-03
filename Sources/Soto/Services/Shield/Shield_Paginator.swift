@@ -42,7 +42,8 @@ extension Shield {
             input: input,
             initialValue: initialValue,
             command: listAttacks,
-            tokenKey: \ListAttacksResponse.nextToken,
+            inputKey: \ListAttacksRequest.nextToken,
+            outputKey: \ListAttacksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Shield {
         return client.paginate(
             input: input,
             command: listAttacks,
-            tokenKey: \ListAttacksResponse.nextToken,
+            inputKey: \ListAttacksRequest.nextToken,
+            outputKey: \ListAttacksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Shield {
             input: input,
             initialValue: initialValue,
             command: listProtectionGroups,
-            tokenKey: \ListProtectionGroupsResponse.nextToken,
+            inputKey: \ListProtectionGroupsRequest.nextToken,
+            outputKey: \ListProtectionGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Shield {
         return client.paginate(
             input: input,
             command: listProtectionGroups,
-            tokenKey: \ListProtectionGroupsResponse.nextToken,
+            inputKey: \ListProtectionGroupsRequest.nextToken,
+            outputKey: \ListProtectionGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Shield {
             input: input,
             initialValue: initialValue,
             command: listProtections,
-            tokenKey: \ListProtectionsResponse.nextToken,
+            inputKey: \ListProtectionsRequest.nextToken,
+            outputKey: \ListProtectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Shield {
         return client.paginate(
             input: input,
             command: listProtections,
-            tokenKey: \ListProtectionsResponse.nextToken,
+            inputKey: \ListProtectionsRequest.nextToken,
+            outputKey: \ListProtectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Shield {
             input: input,
             initialValue: initialValue,
             command: listResourcesInProtectionGroup,
-            tokenKey: \ListResourcesInProtectionGroupResponse.nextToken,
+            inputKey: \ListResourcesInProtectionGroupRequest.nextToken,
+            outputKey: \ListResourcesInProtectionGroupResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Shield {
         return client.paginate(
             input: input,
             command: listResourcesInProtectionGroup,
-            tokenKey: \ListResourcesInProtectionGroupResponse.nextToken,
+            inputKey: \ListResourcesInProtectionGroupRequest.nextToken,
+            outputKey: \ListResourcesInProtectionGroupResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension AppConfig {
             input: input,
             initialValue: initialValue,
             command: listApplications,
-            tokenKey: \Applications.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \Applications.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension AppConfig {
         return client.paginate(
             input: input,
             command: listApplications,
-            tokenKey: \Applications.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \Applications.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension AppConfig {
             input: input,
             initialValue: initialValue,
             command: listConfigurationProfiles,
-            tokenKey: \ConfigurationProfiles.nextToken,
+            inputKey: \ListConfigurationProfilesRequest.nextToken,
+            outputKey: \ConfigurationProfiles.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension AppConfig {
         return client.paginate(
             input: input,
             command: listConfigurationProfiles,
-            tokenKey: \ConfigurationProfiles.nextToken,
+            inputKey: \ListConfigurationProfilesRequest.nextToken,
+            outputKey: \ConfigurationProfiles.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension AppConfig {
             input: input,
             initialValue: initialValue,
             command: listDeploymentStrategies,
-            tokenKey: \DeploymentStrategies.nextToken,
+            inputKey: \ListDeploymentStrategiesRequest.nextToken,
+            outputKey: \DeploymentStrategies.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension AppConfig {
         return client.paginate(
             input: input,
             command: listDeploymentStrategies,
-            tokenKey: \DeploymentStrategies.nextToken,
+            inputKey: \ListDeploymentStrategiesRequest.nextToken,
+            outputKey: \DeploymentStrategies.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension AppConfig {
             input: input,
             initialValue: initialValue,
             command: listDeployments,
-            tokenKey: \Deployments.nextToken,
+            inputKey: \ListDeploymentsRequest.nextToken,
+            outputKey: \Deployments.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension AppConfig {
         return client.paginate(
             input: input,
             command: listDeployments,
-            tokenKey: \Deployments.nextToken,
+            inputKey: \ListDeploymentsRequest.nextToken,
+            outputKey: \Deployments.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension AppConfig {
             input: input,
             initialValue: initialValue,
             command: listEnvironments,
-            tokenKey: \Environments.nextToken,
+            inputKey: \ListEnvironmentsRequest.nextToken,
+            outputKey: \Environments.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension AppConfig {
         return client.paginate(
             input: input,
             command: listEnvironments,
-            tokenKey: \Environments.nextToken,
+            inputKey: \ListEnvironmentsRequest.nextToken,
+            outputKey: \Environments.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension AppConfig {
             input: input,
             initialValue: initialValue,
             command: listHostedConfigurationVersions,
-            tokenKey: \HostedConfigurationVersions.nextToken,
+            inputKey: \ListHostedConfigurationVersionsRequest.nextToken,
+            outputKey: \HostedConfigurationVersions.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension AppConfig {
         return client.paginate(
             input: input,
             command: listHostedConfigurationVersions,
-            tokenKey: \HostedConfigurationVersions.nextToken,
+            inputKey: \ListHostedConfigurationVersionsRequest.nextToken,
+            outputKey: \HostedConfigurationVersions.nextToken,
             on: eventLoop,
             onPage: onPage
         )

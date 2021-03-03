@@ -42,7 +42,8 @@ extension NetworkManager {
             input: input,
             initialValue: initialValue,
             command: describeGlobalNetworks,
-            tokenKey: \DescribeGlobalNetworksResponse.nextToken,
+            inputKey: \DescribeGlobalNetworksRequest.nextToken,
+            outputKey: \DescribeGlobalNetworksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension NetworkManager {
         return client.paginate(
             input: input,
             command: describeGlobalNetworks,
-            tokenKey: \DescribeGlobalNetworksResponse.nextToken,
+            inputKey: \DescribeGlobalNetworksRequest.nextToken,
+            outputKey: \DescribeGlobalNetworksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension NetworkManager {
             input: input,
             initialValue: initialValue,
             command: getConnections,
-            tokenKey: \GetConnectionsResponse.nextToken,
+            inputKey: \GetConnectionsRequest.nextToken,
+            outputKey: \GetConnectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension NetworkManager {
         return client.paginate(
             input: input,
             command: getConnections,
-            tokenKey: \GetConnectionsResponse.nextToken,
+            inputKey: \GetConnectionsRequest.nextToken,
+            outputKey: \GetConnectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension NetworkManager {
             input: input,
             initialValue: initialValue,
             command: getCustomerGatewayAssociations,
-            tokenKey: \GetCustomerGatewayAssociationsResponse.nextToken,
+            inputKey: \GetCustomerGatewayAssociationsRequest.nextToken,
+            outputKey: \GetCustomerGatewayAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension NetworkManager {
         return client.paginate(
             input: input,
             command: getCustomerGatewayAssociations,
-            tokenKey: \GetCustomerGatewayAssociationsResponse.nextToken,
+            inputKey: \GetCustomerGatewayAssociationsRequest.nextToken,
+            outputKey: \GetCustomerGatewayAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension NetworkManager {
             input: input,
             initialValue: initialValue,
             command: getDevices,
-            tokenKey: \GetDevicesResponse.nextToken,
+            inputKey: \GetDevicesRequest.nextToken,
+            outputKey: \GetDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension NetworkManager {
         return client.paginate(
             input: input,
             command: getDevices,
-            tokenKey: \GetDevicesResponse.nextToken,
+            inputKey: \GetDevicesRequest.nextToken,
+            outputKey: \GetDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension NetworkManager {
             input: input,
             initialValue: initialValue,
             command: getLinkAssociations,
-            tokenKey: \GetLinkAssociationsResponse.nextToken,
+            inputKey: \GetLinkAssociationsRequest.nextToken,
+            outputKey: \GetLinkAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension NetworkManager {
         return client.paginate(
             input: input,
             command: getLinkAssociations,
-            tokenKey: \GetLinkAssociationsResponse.nextToken,
+            inputKey: \GetLinkAssociationsRequest.nextToken,
+            outputKey: \GetLinkAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension NetworkManager {
             input: input,
             initialValue: initialValue,
             command: getLinks,
-            tokenKey: \GetLinksResponse.nextToken,
+            inputKey: \GetLinksRequest.nextToken,
+            outputKey: \GetLinksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension NetworkManager {
         return client.paginate(
             input: input,
             command: getLinks,
-            tokenKey: \GetLinksResponse.nextToken,
+            inputKey: \GetLinksRequest.nextToken,
+            outputKey: \GetLinksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension NetworkManager {
             input: input,
             initialValue: initialValue,
             command: getSites,
-            tokenKey: \GetSitesResponse.nextToken,
+            inputKey: \GetSitesRequest.nextToken,
+            outputKey: \GetSitesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension NetworkManager {
         return client.paginate(
             input: input,
             command: getSites,
-            tokenKey: \GetSitesResponse.nextToken,
+            inputKey: \GetSitesRequest.nextToken,
+            outputKey: \GetSitesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension NetworkManager {
             input: input,
             initialValue: initialValue,
             command: getTransitGatewayConnectPeerAssociations,
-            tokenKey: \GetTransitGatewayConnectPeerAssociationsResponse.nextToken,
+            inputKey: \GetTransitGatewayConnectPeerAssociationsRequest.nextToken,
+            outputKey: \GetTransitGatewayConnectPeerAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension NetworkManager {
         return client.paginate(
             input: input,
             command: getTransitGatewayConnectPeerAssociations,
-            tokenKey: \GetTransitGatewayConnectPeerAssociationsResponse.nextToken,
+            inputKey: \GetTransitGatewayConnectPeerAssociationsRequest.nextToken,
+            outputKey: \GetTransitGatewayConnectPeerAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension NetworkManager {
             input: input,
             initialValue: initialValue,
             command: getTransitGatewayRegistrations,
-            tokenKey: \GetTransitGatewayRegistrationsResponse.nextToken,
+            inputKey: \GetTransitGatewayRegistrationsRequest.nextToken,
+            outputKey: \GetTransitGatewayRegistrationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension NetworkManager {
         return client.paginate(
             input: input,
             command: getTransitGatewayRegistrations,
-            tokenKey: \GetTransitGatewayRegistrationsResponse.nextToken,
+            inputKey: \GetTransitGatewayRegistrationsRequest.nextToken,
+            outputKey: \GetTransitGatewayRegistrationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

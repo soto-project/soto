@@ -148,7 +148,8 @@ extension Route53 {
             input: input,
             initialValue: initialValue,
             command: listQueryLoggingConfigs,
-            tokenKey: \ListQueryLoggingConfigsResponse.nextToken,
+            inputKey: \ListQueryLoggingConfigsRequest.nextToken,
+            outputKey: \ListQueryLoggingConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -170,7 +171,8 @@ extension Route53 {
         return client.paginate(
             input: input,
             command: listQueryLoggingConfigs,
-            tokenKey: \ListQueryLoggingConfigsResponse.nextToken,
+            inputKey: \ListQueryLoggingConfigsRequest.nextToken,
+            outputKey: \ListQueryLoggingConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

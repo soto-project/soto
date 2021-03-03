@@ -42,7 +42,8 @@ extension LookoutforVision {
             input: input,
             initialValue: initialValue,
             command: listDatasetEntries,
-            tokenKey: \ListDatasetEntriesResponse.nextToken,
+            inputKey: \ListDatasetEntriesRequest.nextToken,
+            outputKey: \ListDatasetEntriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension LookoutforVision {
         return client.paginate(
             input: input,
             command: listDatasetEntries,
-            tokenKey: \ListDatasetEntriesResponse.nextToken,
+            inputKey: \ListDatasetEntriesRequest.nextToken,
+            outputKey: \ListDatasetEntriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension LookoutforVision {
             input: input,
             initialValue: initialValue,
             command: listModels,
-            tokenKey: \ListModelsResponse.nextToken,
+            inputKey: \ListModelsRequest.nextToken,
+            outputKey: \ListModelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension LookoutforVision {
         return client.paginate(
             input: input,
             command: listModels,
-            tokenKey: \ListModelsResponse.nextToken,
+            inputKey: \ListModelsRequest.nextToken,
+            outputKey: \ListModelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension LookoutforVision {
             input: input,
             initialValue: initialValue,
             command: listProjects,
-            tokenKey: \ListProjectsResponse.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension LookoutforVision {
         return client.paginate(
             input: input,
             command: listProjects,
-            tokenKey: \ListProjectsResponse.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

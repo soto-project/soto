@@ -42,7 +42,8 @@ extension ApplicationDiscoveryService {
             input: input,
             initialValue: initialValue,
             command: describeContinuousExports,
-            tokenKey: \DescribeContinuousExportsResponse.nextToken,
+            inputKey: \DescribeContinuousExportsRequest.nextToken,
+            outputKey: \DescribeContinuousExportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ApplicationDiscoveryService {
         return client.paginate(
             input: input,
             command: describeContinuousExports,
-            tokenKey: \DescribeContinuousExportsResponse.nextToken,
+            inputKey: \DescribeContinuousExportsRequest.nextToken,
+            outputKey: \DescribeContinuousExportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ApplicationDiscoveryService {
             input: input,
             initialValue: initialValue,
             command: describeImportTasks,
-            tokenKey: \DescribeImportTasksResponse.nextToken,
+            inputKey: \DescribeImportTasksRequest.nextToken,
+            outputKey: \DescribeImportTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ApplicationDiscoveryService {
         return client.paginate(
             input: input,
             command: describeImportTasks,
-            tokenKey: \DescribeImportTasksResponse.nextToken,
+            inputKey: \DescribeImportTasksRequest.nextToken,
+            outputKey: \DescribeImportTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

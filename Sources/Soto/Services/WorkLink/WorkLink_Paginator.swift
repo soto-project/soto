@@ -42,7 +42,8 @@ extension WorkLink {
             input: input,
             initialValue: initialValue,
             command: listDevices,
-            tokenKey: \ListDevicesResponse.nextToken,
+            inputKey: \ListDevicesRequest.nextToken,
+            outputKey: \ListDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension WorkLink {
         return client.paginate(
             input: input,
             command: listDevices,
-            tokenKey: \ListDevicesResponse.nextToken,
+            inputKey: \ListDevicesRequest.nextToken,
+            outputKey: \ListDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension WorkLink {
             input: input,
             initialValue: initialValue,
             command: listDomains,
-            tokenKey: \ListDomainsResponse.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension WorkLink {
         return client.paginate(
             input: input,
             command: listDomains,
-            tokenKey: \ListDomainsResponse.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension WorkLink {
             input: input,
             initialValue: initialValue,
             command: listFleets,
-            tokenKey: \ListFleetsResponse.nextToken,
+            inputKey: \ListFleetsRequest.nextToken,
+            outputKey: \ListFleetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension WorkLink {
         return client.paginate(
             input: input,
             command: listFleets,
-            tokenKey: \ListFleetsResponse.nextToken,
+            inputKey: \ListFleetsRequest.nextToken,
+            outputKey: \ListFleetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension WorkLink {
             input: input,
             initialValue: initialValue,
             command: listWebsiteAuthorizationProviders,
-            tokenKey: \ListWebsiteAuthorizationProvidersResponse.nextToken,
+            inputKey: \ListWebsiteAuthorizationProvidersRequest.nextToken,
+            outputKey: \ListWebsiteAuthorizationProvidersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension WorkLink {
         return client.paginate(
             input: input,
             command: listWebsiteAuthorizationProviders,
-            tokenKey: \ListWebsiteAuthorizationProvidersResponse.nextToken,
+            inputKey: \ListWebsiteAuthorizationProvidersRequest.nextToken,
+            outputKey: \ListWebsiteAuthorizationProvidersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension WorkLink {
             input: input,
             initialValue: initialValue,
             command: listWebsiteCertificateAuthorities,
-            tokenKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken,
+            inputKey: \ListWebsiteCertificateAuthoritiesRequest.nextToken,
+            outputKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension WorkLink {
         return client.paginate(
             input: input,
             command: listWebsiteCertificateAuthorities,
-            tokenKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken,
+            inputKey: \ListWebsiteCertificateAuthoritiesRequest.nextToken,
+            outputKey: \ListWebsiteCertificateAuthoritiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: getOfferingStatus,
-            tokenKey: \GetOfferingStatusResult.nextToken,
+            inputKey: \GetOfferingStatusRequest.nextToken,
+            outputKey: \GetOfferingStatusResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: getOfferingStatus,
-            tokenKey: \GetOfferingStatusResult.nextToken,
+            inputKey: \GetOfferingStatusRequest.nextToken,
+            outputKey: \GetOfferingStatusResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listArtifacts,
-            tokenKey: \ListArtifactsResult.nextToken,
+            inputKey: \ListArtifactsRequest.nextToken,
+            outputKey: \ListArtifactsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listArtifacts,
-            tokenKey: \ListArtifactsResult.nextToken,
+            inputKey: \ListArtifactsRequest.nextToken,
+            outputKey: \ListArtifactsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listDevicePools,
-            tokenKey: \ListDevicePoolsResult.nextToken,
+            inputKey: \ListDevicePoolsRequest.nextToken,
+            outputKey: \ListDevicePoolsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listDevicePools,
-            tokenKey: \ListDevicePoolsResult.nextToken,
+            inputKey: \ListDevicePoolsRequest.nextToken,
+            outputKey: \ListDevicePoolsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listDevices,
-            tokenKey: \ListDevicesResult.nextToken,
+            inputKey: \ListDevicesRequest.nextToken,
+            outputKey: \ListDevicesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listDevices,
-            tokenKey: \ListDevicesResult.nextToken,
+            inputKey: \ListDevicesRequest.nextToken,
+            outputKey: \ListDevicesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsResult.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsResult.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listOfferingTransactions,
-            tokenKey: \ListOfferingTransactionsResult.nextToken,
+            inputKey: \ListOfferingTransactionsRequest.nextToken,
+            outputKey: \ListOfferingTransactionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listOfferingTransactions,
-            tokenKey: \ListOfferingTransactionsResult.nextToken,
+            inputKey: \ListOfferingTransactionsRequest.nextToken,
+            outputKey: \ListOfferingTransactionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listOfferings,
-            tokenKey: \ListOfferingsResult.nextToken,
+            inputKey: \ListOfferingsRequest.nextToken,
+            outputKey: \ListOfferingsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listOfferings,
-            tokenKey: \ListOfferingsResult.nextToken,
+            inputKey: \ListOfferingsRequest.nextToken,
+            outputKey: \ListOfferingsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listProjects,
-            tokenKey: \ListProjectsResult.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listProjects,
-            tokenKey: \ListProjectsResult.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listRuns,
-            tokenKey: \ListRunsResult.nextToken,
+            inputKey: \ListRunsRequest.nextToken,
+            outputKey: \ListRunsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listRuns,
-            tokenKey: \ListRunsResult.nextToken,
+            inputKey: \ListRunsRequest.nextToken,
+            outputKey: \ListRunsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listSamples,
-            tokenKey: \ListSamplesResult.nextToken,
+            inputKey: \ListSamplesRequest.nextToken,
+            outputKey: \ListSamplesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listSamples,
-            tokenKey: \ListSamplesResult.nextToken,
+            inputKey: \ListSamplesRequest.nextToken,
+            outputKey: \ListSamplesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listSuites,
-            tokenKey: \ListSuitesResult.nextToken,
+            inputKey: \ListSuitesRequest.nextToken,
+            outputKey: \ListSuitesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listSuites,
-            tokenKey: \ListSuitesResult.nextToken,
+            inputKey: \ListSuitesRequest.nextToken,
+            outputKey: \ListSuitesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listTestGridProjects,
-            tokenKey: \ListTestGridProjectsResult.nextToken,
+            inputKey: \ListTestGridProjectsRequest.nextToken,
+            outputKey: \ListTestGridProjectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listTestGridProjects,
-            tokenKey: \ListTestGridProjectsResult.nextToken,
+            inputKey: \ListTestGridProjectsRequest.nextToken,
+            outputKey: \ListTestGridProjectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listTestGridSessionActions,
-            tokenKey: \ListTestGridSessionActionsResult.nextToken,
+            inputKey: \ListTestGridSessionActionsRequest.nextToken,
+            outputKey: \ListTestGridSessionActionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listTestGridSessionActions,
-            tokenKey: \ListTestGridSessionActionsResult.nextToken,
+            inputKey: \ListTestGridSessionActionsRequest.nextToken,
+            outputKey: \ListTestGridSessionActionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listTestGridSessionArtifacts,
-            tokenKey: \ListTestGridSessionArtifactsResult.nextToken,
+            inputKey: \ListTestGridSessionArtifactsRequest.nextToken,
+            outputKey: \ListTestGridSessionArtifactsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listTestGridSessionArtifacts,
-            tokenKey: \ListTestGridSessionArtifactsResult.nextToken,
+            inputKey: \ListTestGridSessionArtifactsRequest.nextToken,
+            outputKey: \ListTestGridSessionArtifactsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listTestGridSessions,
-            tokenKey: \ListTestGridSessionsResult.nextToken,
+            inputKey: \ListTestGridSessionsRequest.nextToken,
+            outputKey: \ListTestGridSessionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listTestGridSessions,
-            tokenKey: \ListTestGridSessionsResult.nextToken,
+            inputKey: \ListTestGridSessionsRequest.nextToken,
+            outputKey: \ListTestGridSessionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listTests,
-            tokenKey: \ListTestsResult.nextToken,
+            inputKey: \ListTestsRequest.nextToken,
+            outputKey: \ListTestsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listTests,
-            tokenKey: \ListTestsResult.nextToken,
+            inputKey: \ListTestsRequest.nextToken,
+            outputKey: \ListTestsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listUniqueProblems,
-            tokenKey: \ListUniqueProblemsResult.nextToken,
+            inputKey: \ListUniqueProblemsRequest.nextToken,
+            outputKey: \ListUniqueProblemsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listUniqueProblems,
-            tokenKey: \ListUniqueProblemsResult.nextToken,
+            inputKey: \ListUniqueProblemsRequest.nextToken,
+            outputKey: \ListUniqueProblemsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension DeviceFarm {
             input: input,
             initialValue: initialValue,
             command: listUploads,
-            tokenKey: \ListUploadsResult.nextToken,
+            inputKey: \ListUploadsRequest.nextToken,
+            outputKey: \ListUploadsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension DeviceFarm {
         return client.paginate(
             input: input,
             command: listUploads,
-            tokenKey: \ListUploadsResult.nextToken,
+            inputKey: \ListUploadsRequest.nextToken,
+            outputKey: \ListUploadsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

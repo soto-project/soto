@@ -42,7 +42,8 @@ extension CloudTrail {
             input: input,
             initialValue: initialValue,
             command: listPublicKeys,
-            tokenKey: \ListPublicKeysResponse.nextToken,
+            inputKey: \ListPublicKeysRequest.nextToken,
+            outputKey: \ListPublicKeysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CloudTrail {
         return client.paginate(
             input: input,
             command: listPublicKeys,
-            tokenKey: \ListPublicKeysResponse.nextToken,
+            inputKey: \ListPublicKeysRequest.nextToken,
+            outputKey: \ListPublicKeysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CloudTrail {
             input: input,
             initialValue: initialValue,
             command: listTags,
-            tokenKey: \ListTagsResponse.nextToken,
+            inputKey: \ListTagsRequest.nextToken,
+            outputKey: \ListTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CloudTrail {
         return client.paginate(
             input: input,
             command: listTags,
-            tokenKey: \ListTagsResponse.nextToken,
+            inputKey: \ListTagsRequest.nextToken,
+            outputKey: \ListTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CloudTrail {
             input: input,
             initialValue: initialValue,
             command: listTrails,
-            tokenKey: \ListTrailsResponse.nextToken,
+            inputKey: \ListTrailsRequest.nextToken,
+            outputKey: \ListTrailsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CloudTrail {
         return client.paginate(
             input: input,
             command: listTrails,
-            tokenKey: \ListTrailsResponse.nextToken,
+            inputKey: \ListTrailsRequest.nextToken,
+            outputKey: \ListTrailsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CloudTrail {
             input: input,
             initialValue: initialValue,
             command: lookupEvents,
-            tokenKey: \LookupEventsResponse.nextToken,
+            inputKey: \LookupEventsRequest.nextToken,
+            outputKey: \LookupEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CloudTrail {
         return client.paginate(
             input: input,
             command: lookupEvents,
-            tokenKey: \LookupEventsResponse.nextToken,
+            inputKey: \LookupEventsRequest.nextToken,
+            outputKey: \LookupEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension ConnectParticipant {
             input: input,
             initialValue: initialValue,
             command: getTranscript,
-            tokenKey: \GetTranscriptResponse.nextToken,
+            inputKey: \GetTranscriptRequest.nextToken,
+            outputKey: \GetTranscriptResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ConnectParticipant {
         return client.paginate(
             input: input,
             command: getTranscript,
-            tokenKey: \GetTranscriptResponse.nextToken,
+            inputKey: \GetTranscriptRequest.nextToken,
+            outputKey: \GetTranscriptResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

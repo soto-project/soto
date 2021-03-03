@@ -42,7 +42,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeFleetAttributes,
-            tokenKey: \DescribeFleetAttributesOutput.nextToken,
+            inputKey: \DescribeFleetAttributesInput.nextToken,
+            outputKey: \DescribeFleetAttributesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeFleetAttributes,
-            tokenKey: \DescribeFleetAttributesOutput.nextToken,
+            inputKey: \DescribeFleetAttributesInput.nextToken,
+            outputKey: \DescribeFleetAttributesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeFleetCapacity,
-            tokenKey: \DescribeFleetCapacityOutput.nextToken,
+            inputKey: \DescribeFleetCapacityInput.nextToken,
+            outputKey: \DescribeFleetCapacityOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeFleetCapacity,
-            tokenKey: \DescribeFleetCapacityOutput.nextToken,
+            inputKey: \DescribeFleetCapacityInput.nextToken,
+            outputKey: \DescribeFleetCapacityOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeFleetEvents,
-            tokenKey: \DescribeFleetEventsOutput.nextToken,
+            inputKey: \DescribeFleetEventsInput.nextToken,
+            outputKey: \DescribeFleetEventsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeFleetEvents,
-            tokenKey: \DescribeFleetEventsOutput.nextToken,
+            inputKey: \DescribeFleetEventsInput.nextToken,
+            outputKey: \DescribeFleetEventsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeFleetUtilization,
-            tokenKey: \DescribeFleetUtilizationOutput.nextToken,
+            inputKey: \DescribeFleetUtilizationInput.nextToken,
+            outputKey: \DescribeFleetUtilizationOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeFleetUtilization,
-            tokenKey: \DescribeFleetUtilizationOutput.nextToken,
+            inputKey: \DescribeFleetUtilizationInput.nextToken,
+            outputKey: \DescribeFleetUtilizationOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeGameServerInstances,
-            tokenKey: \DescribeGameServerInstancesOutput.nextToken,
+            inputKey: \DescribeGameServerInstancesInput.nextToken,
+            outputKey: \DescribeGameServerInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeGameServerInstances,
-            tokenKey: \DescribeGameServerInstancesOutput.nextToken,
+            inputKey: \DescribeGameServerInstancesInput.nextToken,
+            outputKey: \DescribeGameServerInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeGameSessionDetails,
-            tokenKey: \DescribeGameSessionDetailsOutput.nextToken,
+            inputKey: \DescribeGameSessionDetailsInput.nextToken,
+            outputKey: \DescribeGameSessionDetailsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeGameSessionDetails,
-            tokenKey: \DescribeGameSessionDetailsOutput.nextToken,
+            inputKey: \DescribeGameSessionDetailsInput.nextToken,
+            outputKey: \DescribeGameSessionDetailsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeGameSessionQueues,
-            tokenKey: \DescribeGameSessionQueuesOutput.nextToken,
+            inputKey: \DescribeGameSessionQueuesInput.nextToken,
+            outputKey: \DescribeGameSessionQueuesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeGameSessionQueues,
-            tokenKey: \DescribeGameSessionQueuesOutput.nextToken,
+            inputKey: \DescribeGameSessionQueuesInput.nextToken,
+            outputKey: \DescribeGameSessionQueuesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeGameSessions,
-            tokenKey: \DescribeGameSessionsOutput.nextToken,
+            inputKey: \DescribeGameSessionsInput.nextToken,
+            outputKey: \DescribeGameSessionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeGameSessions,
-            tokenKey: \DescribeGameSessionsOutput.nextToken,
+            inputKey: \DescribeGameSessionsInput.nextToken,
+            outputKey: \DescribeGameSessionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeInstances,
-            tokenKey: \DescribeInstancesOutput.nextToken,
+            inputKey: \DescribeInstancesInput.nextToken,
+            outputKey: \DescribeInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeInstances,
-            tokenKey: \DescribeInstancesOutput.nextToken,
+            inputKey: \DescribeInstancesInput.nextToken,
+            outputKey: \DescribeInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeMatchmakingConfigurations,
-            tokenKey: \DescribeMatchmakingConfigurationsOutput.nextToken,
+            inputKey: \DescribeMatchmakingConfigurationsInput.nextToken,
+            outputKey: \DescribeMatchmakingConfigurationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeMatchmakingConfigurations,
-            tokenKey: \DescribeMatchmakingConfigurationsOutput.nextToken,
+            inputKey: \DescribeMatchmakingConfigurationsInput.nextToken,
+            outputKey: \DescribeMatchmakingConfigurationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeMatchmakingRuleSets,
-            tokenKey: \DescribeMatchmakingRuleSetsOutput.nextToken,
+            inputKey: \DescribeMatchmakingRuleSetsInput.nextToken,
+            outputKey: \DescribeMatchmakingRuleSetsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeMatchmakingRuleSets,
-            tokenKey: \DescribeMatchmakingRuleSetsOutput.nextToken,
+            inputKey: \DescribeMatchmakingRuleSetsInput.nextToken,
+            outputKey: \DescribeMatchmakingRuleSetsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describePlayerSessions,
-            tokenKey: \DescribePlayerSessionsOutput.nextToken,
+            inputKey: \DescribePlayerSessionsInput.nextToken,
+            outputKey: \DescribePlayerSessionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describePlayerSessions,
-            tokenKey: \DescribePlayerSessionsOutput.nextToken,
+            inputKey: \DescribePlayerSessionsInput.nextToken,
+            outputKey: \DescribePlayerSessionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: describeScalingPolicies,
-            tokenKey: \DescribeScalingPoliciesOutput.nextToken,
+            inputKey: \DescribeScalingPoliciesInput.nextToken,
+            outputKey: \DescribeScalingPoliciesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: describeScalingPolicies,
-            tokenKey: \DescribeScalingPoliciesOutput.nextToken,
+            inputKey: \DescribeScalingPoliciesInput.nextToken,
+            outputKey: \DescribeScalingPoliciesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: listAliases,
-            tokenKey: \ListAliasesOutput.nextToken,
+            inputKey: \ListAliasesInput.nextToken,
+            outputKey: \ListAliasesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: listAliases,
-            tokenKey: \ListAliasesOutput.nextToken,
+            inputKey: \ListAliasesInput.nextToken,
+            outputKey: \ListAliasesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: listBuilds,
-            tokenKey: \ListBuildsOutput.nextToken,
+            inputKey: \ListBuildsInput.nextToken,
+            outputKey: \ListBuildsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: listBuilds,
-            tokenKey: \ListBuildsOutput.nextToken,
+            inputKey: \ListBuildsInput.nextToken,
+            outputKey: \ListBuildsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: listFleets,
-            tokenKey: \ListFleetsOutput.nextToken,
+            inputKey: \ListFleetsInput.nextToken,
+            outputKey: \ListFleetsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: listFleets,
-            tokenKey: \ListFleetsOutput.nextToken,
+            inputKey: \ListFleetsInput.nextToken,
+            outputKey: \ListFleetsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: listGameServerGroups,
-            tokenKey: \ListGameServerGroupsOutput.nextToken,
+            inputKey: \ListGameServerGroupsInput.nextToken,
+            outputKey: \ListGameServerGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: listGameServerGroups,
-            tokenKey: \ListGameServerGroupsOutput.nextToken,
+            inputKey: \ListGameServerGroupsInput.nextToken,
+            outputKey: \ListGameServerGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: listGameServers,
-            tokenKey: \ListGameServersOutput.nextToken,
+            inputKey: \ListGameServersInput.nextToken,
+            outputKey: \ListGameServersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: listGameServers,
-            tokenKey: \ListGameServersOutput.nextToken,
+            inputKey: \ListGameServersInput.nextToken,
+            outputKey: \ListGameServersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: listScripts,
-            tokenKey: \ListScriptsOutput.nextToken,
+            inputKey: \ListScriptsInput.nextToken,
+            outputKey: \ListScriptsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: listScripts,
-            tokenKey: \ListScriptsOutput.nextToken,
+            inputKey: \ListScriptsInput.nextToken,
+            outputKey: \ListScriptsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1049,8 @@ extension GameLift {
             input: input,
             initialValue: initialValue,
             command: searchGameSessions,
-            tokenKey: \SearchGameSessionsOutput.nextToken,
+            inputKey: \SearchGameSessionsInput.nextToken,
+            outputKey: \SearchGameSessionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1072,8 @@ extension GameLift {
         return client.paginate(
             input: input,
             command: searchGameSessions,
-            tokenKey: \SearchGameSessionsOutput.nextToken,
+            inputKey: \SearchGameSessionsInput.nextToken,
+            outputKey: \SearchGameSessionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

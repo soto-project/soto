@@ -143,6 +143,7 @@ extension AWSService {
         let operation: OperationContext
         let inputKey: String?
         let outputKey: String
+        let moreResultsKey: String?
         let initParams: [String]
         let paginatorProtocol: String
         let tokenType: String
@@ -419,7 +420,7 @@ extension AWSService {
             let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(self.api.serviceName)
 
             // process input tokens
-            let processedInputTokens = inputTokens.map { (token) -> String in
+            var processedInputTokens = inputTokens.map { (token) -> String in
                 return self.toKeyPath(token: token, type: inputStructure)
             }
 
@@ -427,8 +428,19 @@ extension AWSService {
             let processedOutputTokens = outputTokens.map { (token) -> String in
                 return self.toKeyPath(token: token, type: outputStructure)
             }
-            let moreResultsKey = paginator.value.moreResults.map { self.toKeyPath(token: $0, type: outputStructure) }
+            var moreResultsKey = paginator.value.moreResults.map { self.toKeyPath(token: $0, type: outputStructure) }
 
+            // S3 uses moreResultKey, everything else uses inputToken
+            if self.api.serviceName == "S3" {
+                if moreResultsKey != nil {
+                    processedInputTokens = []
+                }
+            } else {
+                moreResultsKey = nil
+            }
+            if self.api.serviceName == "DynamoDB" {
+                processedInputTokens = []
+            }
             var initParams: [String: String] = [:]
             for member in inputStructure.members {
                 initParams[member.key.toSwiftLabelCase()] = "self.\(member.key.toSwiftLabelCase())"
@@ -438,8 +450,9 @@ extension AWSService {
             paginatorContexts.append(
                 PaginatorContext(
                     operation: self.generateOperationContext(operation, name: paginator.key, streaming: false),
-                    inputKey: moreResultsKey != nil ? processedInputTokens[0] : nil,
+                    inputKey: processedInputTokens.first,
                     outputKey: processedOutputTokens[0],
+                    moreResultsKey: moreResultsKey,
                     initParams: initParamsArray,
                     paginatorProtocol: paginatorProtocol,
                     tokenType: tokenType

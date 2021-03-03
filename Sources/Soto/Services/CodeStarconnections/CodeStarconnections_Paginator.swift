@@ -42,7 +42,8 @@ extension CodeStarconnections {
             input: input,
             initialValue: initialValue,
             command: listConnections,
-            tokenKey: \ListConnectionsOutput.nextToken,
+            inputKey: \ListConnectionsInput.nextToken,
+            outputKey: \ListConnectionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CodeStarconnections {
         return client.paginate(
             input: input,
             command: listConnections,
-            tokenKey: \ListConnectionsOutput.nextToken,
+            inputKey: \ListConnectionsInput.nextToken,
+            outputKey: \ListConnectionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CodeStarconnections {
             input: input,
             initialValue: initialValue,
             command: listHosts,
-            tokenKey: \ListHostsOutput.nextToken,
+            inputKey: \ListHostsInput.nextToken,
+            outputKey: \ListHostsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CodeStarconnections {
         return client.paginate(
             input: input,
             command: listHosts,
-            tokenKey: \ListHostsOutput.nextToken,
+            inputKey: \ListHostsInput.nextToken,
+            outputKey: \ListHostsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

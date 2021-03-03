@@ -42,7 +42,8 @@ extension SQS {
             input: input,
             initialValue: initialValue,
             command: listDeadLetterSourceQueues,
-            tokenKey: \ListDeadLetterSourceQueuesResult.nextToken,
+            inputKey: \ListDeadLetterSourceQueuesRequest.nextToken,
+            outputKey: \ListDeadLetterSourceQueuesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SQS {
         return client.paginate(
             input: input,
             command: listDeadLetterSourceQueues,
-            tokenKey: \ListDeadLetterSourceQueuesResult.nextToken,
+            inputKey: \ListDeadLetterSourceQueuesRequest.nextToken,
+            outputKey: \ListDeadLetterSourceQueuesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SQS {
             input: input,
             initialValue: initialValue,
             command: listQueues,
-            tokenKey: \ListQueuesResult.nextToken,
+            inputKey: \ListQueuesRequest.nextToken,
+            outputKey: \ListQueuesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SQS {
         return client.paginate(
             input: input,
             command: listQueues,
-            tokenKey: \ListQueuesResult.nextToken,
+            inputKey: \ListQueuesRequest.nextToken,
+            outputKey: \ListQueuesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

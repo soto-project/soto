@@ -42,7 +42,8 @@ extension ECR {
             input: input,
             initialValue: initialValue,
             command: describeImageScanFindings,
-            tokenKey: \DescribeImageScanFindingsResponse.nextToken,
+            inputKey: \DescribeImageScanFindingsRequest.nextToken,
+            outputKey: \DescribeImageScanFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ECR {
         return client.paginate(
             input: input,
             command: describeImageScanFindings,
-            tokenKey: \DescribeImageScanFindingsResponse.nextToken,
+            inputKey: \DescribeImageScanFindingsRequest.nextToken,
+            outputKey: \DescribeImageScanFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ECR {
             input: input,
             initialValue: initialValue,
             command: describeImages,
-            tokenKey: \DescribeImagesResponse.nextToken,
+            inputKey: \DescribeImagesRequest.nextToken,
+            outputKey: \DescribeImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ECR {
         return client.paginate(
             input: input,
             command: describeImages,
-            tokenKey: \DescribeImagesResponse.nextToken,
+            inputKey: \DescribeImagesRequest.nextToken,
+            outputKey: \DescribeImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ECR {
             input: input,
             initialValue: initialValue,
             command: describeRepositories,
-            tokenKey: \DescribeRepositoriesResponse.nextToken,
+            inputKey: \DescribeRepositoriesRequest.nextToken,
+            outputKey: \DescribeRepositoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ECR {
         return client.paginate(
             input: input,
             command: describeRepositories,
-            tokenKey: \DescribeRepositoriesResponse.nextToken,
+            inputKey: \DescribeRepositoriesRequest.nextToken,
+            outputKey: \DescribeRepositoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ECR {
             input: input,
             initialValue: initialValue,
             command: getLifecyclePolicyPreview,
-            tokenKey: \GetLifecyclePolicyPreviewResponse.nextToken,
+            inputKey: \GetLifecyclePolicyPreviewRequest.nextToken,
+            outputKey: \GetLifecyclePolicyPreviewResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ECR {
         return client.paginate(
             input: input,
             command: getLifecyclePolicyPreview,
-            tokenKey: \GetLifecyclePolicyPreviewResponse.nextToken,
+            inputKey: \GetLifecyclePolicyPreviewRequest.nextToken,
+            outputKey: \GetLifecyclePolicyPreviewResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ECR {
             input: input,
             initialValue: initialValue,
             command: listImages,
-            tokenKey: \ListImagesResponse.nextToken,
+            inputKey: \ListImagesRequest.nextToken,
+            outputKey: \ListImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ECR {
         return client.paginate(
             input: input,
             command: listImages,
-            tokenKey: \ListImagesResponse.nextToken,
+            inputKey: \ListImagesRequest.nextToken,
+            outputKey: \ListImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

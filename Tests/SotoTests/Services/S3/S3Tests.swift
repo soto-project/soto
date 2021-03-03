@@ -368,7 +368,7 @@ class S3Tests: XCTestCase {
                 }
             }
             .flatMap { _ in
-                // test both types of paginator
+                // test both types of paginator and both listObjects
                 return Self.s3.listObjectsV2Paginator(.init(bucket: name, maxKeys: 5), []) { list, result, eventLoop in
                     return eventLoop.makeSucceededFuture((true, list + (result.contents ?? [])))
                 }

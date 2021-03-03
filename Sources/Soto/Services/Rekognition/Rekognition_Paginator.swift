@@ -42,7 +42,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: describeProjectVersions,
-            tokenKey: \DescribeProjectVersionsResponse.nextToken,
+            inputKey: \DescribeProjectVersionsRequest.nextToken,
+            outputKey: \DescribeProjectVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: describeProjectVersions,
-            tokenKey: \DescribeProjectVersionsResponse.nextToken,
+            inputKey: \DescribeProjectVersionsRequest.nextToken,
+            outputKey: \DescribeProjectVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: describeProjects,
-            tokenKey: \DescribeProjectsResponse.nextToken,
+            inputKey: \DescribeProjectsRequest.nextToken,
+            outputKey: \DescribeProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: describeProjects,
-            tokenKey: \DescribeProjectsResponse.nextToken,
+            inputKey: \DescribeProjectsRequest.nextToken,
+            outputKey: \DescribeProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: getCelebrityRecognition,
-            tokenKey: \GetCelebrityRecognitionResponse.nextToken,
+            inputKey: \GetCelebrityRecognitionRequest.nextToken,
+            outputKey: \GetCelebrityRecognitionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: getCelebrityRecognition,
-            tokenKey: \GetCelebrityRecognitionResponse.nextToken,
+            inputKey: \GetCelebrityRecognitionRequest.nextToken,
+            outputKey: \GetCelebrityRecognitionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: getContentModeration,
-            tokenKey: \GetContentModerationResponse.nextToken,
+            inputKey: \GetContentModerationRequest.nextToken,
+            outputKey: \GetContentModerationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: getContentModeration,
-            tokenKey: \GetContentModerationResponse.nextToken,
+            inputKey: \GetContentModerationRequest.nextToken,
+            outputKey: \GetContentModerationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: getFaceDetection,
-            tokenKey: \GetFaceDetectionResponse.nextToken,
+            inputKey: \GetFaceDetectionRequest.nextToken,
+            outputKey: \GetFaceDetectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: getFaceDetection,
-            tokenKey: \GetFaceDetectionResponse.nextToken,
+            inputKey: \GetFaceDetectionRequest.nextToken,
+            outputKey: \GetFaceDetectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: getFaceSearch,
-            tokenKey: \GetFaceSearchResponse.nextToken,
+            inputKey: \GetFaceSearchRequest.nextToken,
+            outputKey: \GetFaceSearchResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: getFaceSearch,
-            tokenKey: \GetFaceSearchResponse.nextToken,
+            inputKey: \GetFaceSearchRequest.nextToken,
+            outputKey: \GetFaceSearchResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: getLabelDetection,
-            tokenKey: \GetLabelDetectionResponse.nextToken,
+            inputKey: \GetLabelDetectionRequest.nextToken,
+            outputKey: \GetLabelDetectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: getLabelDetection,
-            tokenKey: \GetLabelDetectionResponse.nextToken,
+            inputKey: \GetLabelDetectionRequest.nextToken,
+            outputKey: \GetLabelDetectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: getPersonTracking,
-            tokenKey: \GetPersonTrackingResponse.nextToken,
+            inputKey: \GetPersonTrackingRequest.nextToken,
+            outputKey: \GetPersonTrackingResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: getPersonTracking,
-            tokenKey: \GetPersonTrackingResponse.nextToken,
+            inputKey: \GetPersonTrackingRequest.nextToken,
+            outputKey: \GetPersonTrackingResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: getSegmentDetection,
-            tokenKey: \GetSegmentDetectionResponse.nextToken,
+            inputKey: \GetSegmentDetectionRequest.nextToken,
+            outputKey: \GetSegmentDetectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: getSegmentDetection,
-            tokenKey: \GetSegmentDetectionResponse.nextToken,
+            inputKey: \GetSegmentDetectionRequest.nextToken,
+            outputKey: \GetSegmentDetectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: getTextDetection,
-            tokenKey: \GetTextDetectionResponse.nextToken,
+            inputKey: \GetTextDetectionRequest.nextToken,
+            outputKey: \GetTextDetectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: getTextDetection,
-            tokenKey: \GetTextDetectionResponse.nextToken,
+            inputKey: \GetTextDetectionRequest.nextToken,
+            outputKey: \GetTextDetectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: listCollections,
-            tokenKey: \ListCollectionsResponse.nextToken,
+            inputKey: \ListCollectionsRequest.nextToken,
+            outputKey: \ListCollectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: listCollections,
-            tokenKey: \ListCollectionsResponse.nextToken,
+            inputKey: \ListCollectionsRequest.nextToken,
+            outputKey: \ListCollectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: listFaces,
-            tokenKey: \ListFacesResponse.nextToken,
+            inputKey: \ListFacesRequest.nextToken,
+            outputKey: \ListFacesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: listFaces,
-            tokenKey: \ListFacesResponse.nextToken,
+            inputKey: \ListFacesRequest.nextToken,
+            outputKey: \ListFacesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension Rekognition {
             input: input,
             initialValue: initialValue,
             command: listStreamProcessors,
-            tokenKey: \ListStreamProcessorsResponse.nextToken,
+            inputKey: \ListStreamProcessorsRequest.nextToken,
+            outputKey: \ListStreamProcessorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension Rekognition {
         return client.paginate(
             input: input,
             command: listStreamProcessors,
-            tokenKey: \ListStreamProcessorsResponse.nextToken,
+            inputKey: \ListStreamProcessorsRequest.nextToken,
+            outputKey: \ListStreamProcessorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

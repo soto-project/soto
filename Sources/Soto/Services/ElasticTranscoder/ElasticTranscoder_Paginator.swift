@@ -42,7 +42,8 @@ extension ElasticTranscoder {
             input: input,
             initialValue: initialValue,
             command: listJobsByPipeline,
-            tokenKey: \ListJobsByPipelineResponse.nextPageToken,
+            inputKey: \ListJobsByPipelineRequest.pageToken,
+            outputKey: \ListJobsByPipelineResponse.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ElasticTranscoder {
         return client.paginate(
             input: input,
             command: listJobsByPipeline,
-            tokenKey: \ListJobsByPipelineResponse.nextPageToken,
+            inputKey: \ListJobsByPipelineRequest.pageToken,
+            outputKey: \ListJobsByPipelineResponse.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ElasticTranscoder {
             input: input,
             initialValue: initialValue,
             command: listJobsByStatus,
-            tokenKey: \ListJobsByStatusResponse.nextPageToken,
+            inputKey: \ListJobsByStatusRequest.pageToken,
+            outputKey: \ListJobsByStatusResponse.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ElasticTranscoder {
         return client.paginate(
             input: input,
             command: listJobsByStatus,
-            tokenKey: \ListJobsByStatusResponse.nextPageToken,
+            inputKey: \ListJobsByStatusRequest.pageToken,
+            outputKey: \ListJobsByStatusResponse.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ElasticTranscoder {
             input: input,
             initialValue: initialValue,
             command: listPipelines,
-            tokenKey: \ListPipelinesResponse.nextPageToken,
+            inputKey: \ListPipelinesRequest.pageToken,
+            outputKey: \ListPipelinesResponse.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ElasticTranscoder {
         return client.paginate(
             input: input,
             command: listPipelines,
-            tokenKey: \ListPipelinesResponse.nextPageToken,
+            inputKey: \ListPipelinesRequest.pageToken,
+            outputKey: \ListPipelinesResponse.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ElasticTranscoder {
             input: input,
             initialValue: initialValue,
             command: listPresets,
-            tokenKey: \ListPresetsResponse.nextPageToken,
+            inputKey: \ListPresetsRequest.pageToken,
+            outputKey: \ListPresetsResponse.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ElasticTranscoder {
         return client.paginate(
             input: input,
             command: listPresets,
-            tokenKey: \ListPresetsResponse.nextPageToken,
+            inputKey: \ListPresetsRequest.pageToken,
+            outputKey: \ListPresetsResponse.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )

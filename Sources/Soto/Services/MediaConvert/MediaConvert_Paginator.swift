@@ -42,7 +42,8 @@ extension MediaConvert {
             input: input,
             initialValue: initialValue,
             command: describeEndpoints,
-            tokenKey: \DescribeEndpointsResponse.nextToken,
+            inputKey: \DescribeEndpointsRequest.nextToken,
+            outputKey: \DescribeEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MediaConvert {
         return client.paginate(
             input: input,
             command: describeEndpoints,
-            tokenKey: \DescribeEndpointsResponse.nextToken,
+            inputKey: \DescribeEndpointsRequest.nextToken,
+            outputKey: \DescribeEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MediaConvert {
             input: input,
             initialValue: initialValue,
             command: listJobTemplates,
-            tokenKey: \ListJobTemplatesResponse.nextToken,
+            inputKey: \ListJobTemplatesRequest.nextToken,
+            outputKey: \ListJobTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MediaConvert {
         return client.paginate(
             input: input,
             command: listJobTemplates,
-            tokenKey: \ListJobTemplatesResponse.nextToken,
+            inputKey: \ListJobTemplatesRequest.nextToken,
+            outputKey: \ListJobTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension MediaConvert {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension MediaConvert {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension MediaConvert {
             input: input,
             initialValue: initialValue,
             command: listPresets,
-            tokenKey: \ListPresetsResponse.nextToken,
+            inputKey: \ListPresetsRequest.nextToken,
+            outputKey: \ListPresetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension MediaConvert {
         return client.paginate(
             input: input,
             command: listPresets,
-            tokenKey: \ListPresetsResponse.nextToken,
+            inputKey: \ListPresetsRequest.nextToken,
+            outputKey: \ListPresetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension MediaConvert {
             input: input,
             initialValue: initialValue,
             command: listQueues,
-            tokenKey: \ListQueuesResponse.nextToken,
+            inputKey: \ListQueuesRequest.nextToken,
+            outputKey: \ListQueuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension MediaConvert {
         return client.paginate(
             input: input,
             command: listQueues,
-            tokenKey: \ListQueuesResponse.nextToken,
+            inputKey: \ListQueuesRequest.nextToken,
+            outputKey: \ListQueuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

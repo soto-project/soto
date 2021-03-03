@@ -42,7 +42,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeClusterDbRevisions,
-            tokenKey: \ClusterDbRevisionsMessage.marker,
+            inputKey: \DescribeClusterDbRevisionsMessage.marker,
+            outputKey: \ClusterDbRevisionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeClusterDbRevisions,
-            tokenKey: \ClusterDbRevisionsMessage.marker,
+            inputKey: \DescribeClusterDbRevisionsMessage.marker,
+            outputKey: \ClusterDbRevisionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeClusterParameterGroups,
-            tokenKey: \ClusterParameterGroupsMessage.marker,
+            inputKey: \DescribeClusterParameterGroupsMessage.marker,
+            outputKey: \ClusterParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeClusterParameterGroups,
-            tokenKey: \ClusterParameterGroupsMessage.marker,
+            inputKey: \DescribeClusterParameterGroupsMessage.marker,
+            outputKey: \ClusterParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeClusterParameters,
-            tokenKey: \ClusterParameterGroupDetails.marker,
+            inputKey: \DescribeClusterParametersMessage.marker,
+            outputKey: \ClusterParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeClusterParameters,
-            tokenKey: \ClusterParameterGroupDetails.marker,
+            inputKey: \DescribeClusterParametersMessage.marker,
+            outputKey: \ClusterParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeClusterSecurityGroups,
-            tokenKey: \ClusterSecurityGroupMessage.marker,
+            inputKey: \DescribeClusterSecurityGroupsMessage.marker,
+            outputKey: \ClusterSecurityGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeClusterSecurityGroups,
-            tokenKey: \ClusterSecurityGroupMessage.marker,
+            inputKey: \DescribeClusterSecurityGroupsMessage.marker,
+            outputKey: \ClusterSecurityGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeClusterSnapshots,
-            tokenKey: \SnapshotMessage.marker,
+            inputKey: \DescribeClusterSnapshotsMessage.marker,
+            outputKey: \SnapshotMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeClusterSnapshots,
-            tokenKey: \SnapshotMessage.marker,
+            inputKey: \DescribeClusterSnapshotsMessage.marker,
+            outputKey: \SnapshotMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeClusterSubnetGroups,
-            tokenKey: \ClusterSubnetGroupMessage.marker,
+            inputKey: \DescribeClusterSubnetGroupsMessage.marker,
+            outputKey: \ClusterSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeClusterSubnetGroups,
-            tokenKey: \ClusterSubnetGroupMessage.marker,
+            inputKey: \DescribeClusterSubnetGroupsMessage.marker,
+            outputKey: \ClusterSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeClusterTracks,
-            tokenKey: \TrackListMessage.marker,
+            inputKey: \DescribeClusterTracksMessage.marker,
+            outputKey: \TrackListMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeClusterTracks,
-            tokenKey: \TrackListMessage.marker,
+            inputKey: \DescribeClusterTracksMessage.marker,
+            outputKey: \TrackListMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeClusterVersions,
-            tokenKey: \ClusterVersionsMessage.marker,
+            inputKey: \DescribeClusterVersionsMessage.marker,
+            outputKey: \ClusterVersionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeClusterVersions,
-            tokenKey: \ClusterVersionsMessage.marker,
+            inputKey: \DescribeClusterVersionsMessage.marker,
+            outputKey: \ClusterVersionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeClusters,
-            tokenKey: \ClustersMessage.marker,
+            inputKey: \DescribeClustersMessage.marker,
+            outputKey: \ClustersMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeClusters,
-            tokenKey: \ClustersMessage.marker,
+            inputKey: \DescribeClustersMessage.marker,
+            outputKey: \ClustersMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeDefaultClusterParameters,
-            tokenKey: \DescribeDefaultClusterParametersResult.defaultClusterParameters?.marker,
+            inputKey: \DescribeDefaultClusterParametersMessage.marker,
+            outputKey: \DescribeDefaultClusterParametersResult.defaultClusterParameters?.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeDefaultClusterParameters,
-            tokenKey: \DescribeDefaultClusterParametersResult.defaultClusterParameters?.marker,
+            inputKey: \DescribeDefaultClusterParametersMessage.marker,
+            outputKey: \DescribeDefaultClusterParametersResult.defaultClusterParameters?.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeEventSubscriptions,
-            tokenKey: \EventSubscriptionsMessage.marker,
+            inputKey: \DescribeEventSubscriptionsMessage.marker,
+            outputKey: \EventSubscriptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeEventSubscriptions,
-            tokenKey: \EventSubscriptionsMessage.marker,
+            inputKey: \DescribeEventSubscriptionsMessage.marker,
+            outputKey: \EventSubscriptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeHsmClientCertificates,
-            tokenKey: \HsmClientCertificateMessage.marker,
+            inputKey: \DescribeHsmClientCertificatesMessage.marker,
+            outputKey: \HsmClientCertificateMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeHsmClientCertificates,
-            tokenKey: \HsmClientCertificateMessage.marker,
+            inputKey: \DescribeHsmClientCertificatesMessage.marker,
+            outputKey: \HsmClientCertificateMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeHsmConfigurations,
-            tokenKey: \HsmConfigurationMessage.marker,
+            inputKey: \DescribeHsmConfigurationsMessage.marker,
+            outputKey: \HsmConfigurationMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeHsmConfigurations,
-            tokenKey: \HsmConfigurationMessage.marker,
+            inputKey: \DescribeHsmConfigurationsMessage.marker,
+            outputKey: \HsmConfigurationMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeNodeConfigurationOptions,
-            tokenKey: \NodeConfigurationOptionsMessage.marker,
+            inputKey: \DescribeNodeConfigurationOptionsMessage.marker,
+            outputKey: \NodeConfigurationOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeNodeConfigurationOptions,
-            tokenKey: \NodeConfigurationOptionsMessage.marker,
+            inputKey: \DescribeNodeConfigurationOptionsMessage.marker,
+            outputKey: \NodeConfigurationOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeOrderableClusterOptions,
-            tokenKey: \OrderableClusterOptionsMessage.marker,
+            inputKey: \DescribeOrderableClusterOptionsMessage.marker,
+            outputKey: \OrderableClusterOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeOrderableClusterOptions,
-            tokenKey: \OrderableClusterOptionsMessage.marker,
+            inputKey: \DescribeOrderableClusterOptionsMessage.marker,
+            outputKey: \OrderableClusterOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeReservedNodeOfferings,
-            tokenKey: \ReservedNodeOfferingsMessage.marker,
+            inputKey: \DescribeReservedNodeOfferingsMessage.marker,
+            outputKey: \ReservedNodeOfferingsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeReservedNodeOfferings,
-            tokenKey: \ReservedNodeOfferingsMessage.marker,
+            inputKey: \DescribeReservedNodeOfferingsMessage.marker,
+            outputKey: \ReservedNodeOfferingsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeReservedNodes,
-            tokenKey: \ReservedNodesMessage.marker,
+            inputKey: \DescribeReservedNodesMessage.marker,
+            outputKey: \ReservedNodesMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeReservedNodes,
-            tokenKey: \ReservedNodesMessage.marker,
+            inputKey: \DescribeReservedNodesMessage.marker,
+            outputKey: \ReservedNodesMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeScheduledActions,
-            tokenKey: \ScheduledActionsMessage.marker,
+            inputKey: \DescribeScheduledActionsMessage.marker,
+            outputKey: \ScheduledActionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeScheduledActions,
-            tokenKey: \ScheduledActionsMessage.marker,
+            inputKey: \DescribeScheduledActionsMessage.marker,
+            outputKey: \ScheduledActionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1049,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeSnapshotCopyGrants,
-            tokenKey: \SnapshotCopyGrantMessage.marker,
+            inputKey: \DescribeSnapshotCopyGrantsMessage.marker,
+            outputKey: \SnapshotCopyGrantMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1072,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeSnapshotCopyGrants,
-            tokenKey: \SnapshotCopyGrantMessage.marker,
+            inputKey: \DescribeSnapshotCopyGrantsMessage.marker,
+            outputKey: \SnapshotCopyGrantMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1062,7 +1102,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeSnapshotSchedules,
-            tokenKey: \DescribeSnapshotSchedulesOutputMessage.marker,
+            inputKey: \DescribeSnapshotSchedulesMessage.marker,
+            outputKey: \DescribeSnapshotSchedulesOutputMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1084,7 +1125,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeSnapshotSchedules,
-            tokenKey: \DescribeSnapshotSchedulesOutputMessage.marker,
+            inputKey: \DescribeSnapshotSchedulesMessage.marker,
+            outputKey: \DescribeSnapshotSchedulesOutputMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,7 +1155,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeTableRestoreStatus,
-            tokenKey: \TableRestoreStatusMessage.marker,
+            inputKey: \DescribeTableRestoreStatusMessage.marker,
+            outputKey: \TableRestoreStatusMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1135,7 +1178,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeTableRestoreStatus,
-            tokenKey: \TableRestoreStatusMessage.marker,
+            inputKey: \DescribeTableRestoreStatusMessage.marker,
+            outputKey: \TableRestoreStatusMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1164,7 +1208,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeTags,
-            tokenKey: \TaggedResourceListMessage.marker,
+            inputKey: \DescribeTagsMessage.marker,
+            outputKey: \TaggedResourceListMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1186,7 +1231,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeTags,
-            tokenKey: \TaggedResourceListMessage.marker,
+            inputKey: \DescribeTagsMessage.marker,
+            outputKey: \TaggedResourceListMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1215,7 +1261,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: describeUsageLimits,
-            tokenKey: \UsageLimitList.marker,
+            inputKey: \DescribeUsageLimitsMessage.marker,
+            outputKey: \UsageLimitList.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1237,7 +1284,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: describeUsageLimits,
-            tokenKey: \UsageLimitList.marker,
+            inputKey: \DescribeUsageLimitsMessage.marker,
+            outputKey: \UsageLimitList.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1266,7 +1314,8 @@ extension Redshift {
             input: input,
             initialValue: initialValue,
             command: getReservedNodeExchangeOfferings,
-            tokenKey: \GetReservedNodeExchangeOfferingsOutputMessage.marker,
+            inputKey: \GetReservedNodeExchangeOfferingsInputMessage.marker,
+            outputKey: \GetReservedNodeExchangeOfferingsOutputMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1288,7 +1337,8 @@ extension Redshift {
         return client.paginate(
             input: input,
             command: getReservedNodeExchangeOfferings,
-            tokenKey: \GetReservedNodeExchangeOfferingsOutputMessage.marker,
+            inputKey: \GetReservedNodeExchangeOfferingsInputMessage.marker,
+            outputKey: \GetReservedNodeExchangeOfferingsOutputMessage.marker,
             on: eventLoop,
             onPage: onPage
         )

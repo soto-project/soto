@@ -42,7 +42,8 @@ extension Signer {
             input: input,
             initialValue: initialValue,
             command: listSigningJobs,
-            tokenKey: \ListSigningJobsResponse.nextToken,
+            inputKey: \ListSigningJobsRequest.nextToken,
+            outputKey: \ListSigningJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Signer {
         return client.paginate(
             input: input,
             command: listSigningJobs,
-            tokenKey: \ListSigningJobsResponse.nextToken,
+            inputKey: \ListSigningJobsRequest.nextToken,
+            outputKey: \ListSigningJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Signer {
             input: input,
             initialValue: initialValue,
             command: listSigningPlatforms,
-            tokenKey: \ListSigningPlatformsResponse.nextToken,
+            inputKey: \ListSigningPlatformsRequest.nextToken,
+            outputKey: \ListSigningPlatformsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Signer {
         return client.paginate(
             input: input,
             command: listSigningPlatforms,
-            tokenKey: \ListSigningPlatformsResponse.nextToken,
+            inputKey: \ListSigningPlatformsRequest.nextToken,
+            outputKey: \ListSigningPlatformsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Signer {
             input: input,
             initialValue: initialValue,
             command: listSigningProfiles,
-            tokenKey: \ListSigningProfilesResponse.nextToken,
+            inputKey: \ListSigningProfilesRequest.nextToken,
+            outputKey: \ListSigningProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Signer {
         return client.paginate(
             input: input,
             command: listSigningProfiles,
-            tokenKey: \ListSigningProfilesResponse.nextToken,
+            inputKey: \ListSigningProfilesRequest.nextToken,
+            outputKey: \ListSigningProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

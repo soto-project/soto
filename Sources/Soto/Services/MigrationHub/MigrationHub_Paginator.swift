@@ -42,7 +42,8 @@ extension MigrationHub {
             input: input,
             initialValue: initialValue,
             command: listApplicationStates,
-            tokenKey: \ListApplicationStatesResult.nextToken,
+            inputKey: \ListApplicationStatesRequest.nextToken,
+            outputKey: \ListApplicationStatesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MigrationHub {
         return client.paginate(
             input: input,
             command: listApplicationStates,
-            tokenKey: \ListApplicationStatesResult.nextToken,
+            inputKey: \ListApplicationStatesRequest.nextToken,
+            outputKey: \ListApplicationStatesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MigrationHub {
             input: input,
             initialValue: initialValue,
             command: listCreatedArtifacts,
-            tokenKey: \ListCreatedArtifactsResult.nextToken,
+            inputKey: \ListCreatedArtifactsRequest.nextToken,
+            outputKey: \ListCreatedArtifactsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MigrationHub {
         return client.paginate(
             input: input,
             command: listCreatedArtifacts,
-            tokenKey: \ListCreatedArtifactsResult.nextToken,
+            inputKey: \ListCreatedArtifactsRequest.nextToken,
+            outputKey: \ListCreatedArtifactsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension MigrationHub {
             input: input,
             initialValue: initialValue,
             command: listDiscoveredResources,
-            tokenKey: \ListDiscoveredResourcesResult.nextToken,
+            inputKey: \ListDiscoveredResourcesRequest.nextToken,
+            outputKey: \ListDiscoveredResourcesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension MigrationHub {
         return client.paginate(
             input: input,
             command: listDiscoveredResources,
-            tokenKey: \ListDiscoveredResourcesResult.nextToken,
+            inputKey: \ListDiscoveredResourcesRequest.nextToken,
+            outputKey: \ListDiscoveredResourcesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension MigrationHub {
             input: input,
             initialValue: initialValue,
             command: listMigrationTasks,
-            tokenKey: \ListMigrationTasksResult.nextToken,
+            inputKey: \ListMigrationTasksRequest.nextToken,
+            outputKey: \ListMigrationTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension MigrationHub {
         return client.paginate(
             input: input,
             command: listMigrationTasks,
-            tokenKey: \ListMigrationTasksResult.nextToken,
+            inputKey: \ListMigrationTasksRequest.nextToken,
+            outputKey: \ListMigrationTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension MigrationHub {
             input: input,
             initialValue: initialValue,
             command: listProgressUpdateStreams,
-            tokenKey: \ListProgressUpdateStreamsResult.nextToken,
+            inputKey: \ListProgressUpdateStreamsRequest.nextToken,
+            outputKey: \ListProgressUpdateStreamsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension MigrationHub {
         return client.paginate(
             input: input,
             command: listProgressUpdateStreams,
-            tokenKey: \ListProgressUpdateStreamsResult.nextToken,
+            inputKey: \ListProgressUpdateStreamsRequest.nextToken,
+            outputKey: \ListProgressUpdateStreamsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

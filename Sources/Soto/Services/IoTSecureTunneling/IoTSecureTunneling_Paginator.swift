@@ -42,7 +42,8 @@ extension IoTSecureTunneling {
             input: input,
             initialValue: initialValue,
             command: listTunnels,
-            tokenKey: \ListTunnelsResponse.nextToken,
+            inputKey: \ListTunnelsRequest.nextToken,
+            outputKey: \ListTunnelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension IoTSecureTunneling {
         return client.paginate(
             input: input,
             command: listTunnels,
-            tokenKey: \ListTunnelsResponse.nextToken,
+            inputKey: \ListTunnelsRequest.nextToken,
+            outputKey: \ListTunnelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

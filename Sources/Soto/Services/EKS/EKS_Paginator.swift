@@ -42,7 +42,8 @@ extension EKS {
             input: input,
             initialValue: initialValue,
             command: describeAddonVersions,
-            tokenKey: \DescribeAddonVersionsResponse.nextToken,
+            inputKey: \DescribeAddonVersionsRequest.nextToken,
+            outputKey: \DescribeAddonVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension EKS {
         return client.paginate(
             input: input,
             command: describeAddonVersions,
-            tokenKey: \DescribeAddonVersionsResponse.nextToken,
+            inputKey: \DescribeAddonVersionsRequest.nextToken,
+            outputKey: \DescribeAddonVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension EKS {
             input: input,
             initialValue: initialValue,
             command: listAddons,
-            tokenKey: \ListAddonsResponse.nextToken,
+            inputKey: \ListAddonsRequest.nextToken,
+            outputKey: \ListAddonsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension EKS {
         return client.paginate(
             input: input,
             command: listAddons,
-            tokenKey: \ListAddonsResponse.nextToken,
+            inputKey: \ListAddonsRequest.nextToken,
+            outputKey: \ListAddonsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension EKS {
             input: input,
             initialValue: initialValue,
             command: listClusters,
-            tokenKey: \ListClustersResponse.nextToken,
+            inputKey: \ListClustersRequest.nextToken,
+            outputKey: \ListClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension EKS {
         return client.paginate(
             input: input,
             command: listClusters,
-            tokenKey: \ListClustersResponse.nextToken,
+            inputKey: \ListClustersRequest.nextToken,
+            outputKey: \ListClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension EKS {
             input: input,
             initialValue: initialValue,
             command: listFargateProfiles,
-            tokenKey: \ListFargateProfilesResponse.nextToken,
+            inputKey: \ListFargateProfilesRequest.nextToken,
+            outputKey: \ListFargateProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension EKS {
         return client.paginate(
             input: input,
             command: listFargateProfiles,
-            tokenKey: \ListFargateProfilesResponse.nextToken,
+            inputKey: \ListFargateProfilesRequest.nextToken,
+            outputKey: \ListFargateProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension EKS {
             input: input,
             initialValue: initialValue,
             command: listNodegroups,
-            tokenKey: \ListNodegroupsResponse.nextToken,
+            inputKey: \ListNodegroupsRequest.nextToken,
+            outputKey: \ListNodegroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension EKS {
         return client.paginate(
             input: input,
             command: listNodegroups,
-            tokenKey: \ListNodegroupsResponse.nextToken,
+            inputKey: \ListNodegroupsRequest.nextToken,
+            outputKey: \ListNodegroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension EKS {
             input: input,
             initialValue: initialValue,
             command: listUpdates,
-            tokenKey: \ListUpdatesResponse.nextToken,
+            inputKey: \ListUpdatesRequest.nextToken,
+            outputKey: \ListUpdatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension EKS {
         return client.paginate(
             input: input,
             command: listUpdates,
-            tokenKey: \ListUpdatesResponse.nextToken,
+            inputKey: \ListUpdatesRequest.nextToken,
+            outputKey: \ListUpdatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

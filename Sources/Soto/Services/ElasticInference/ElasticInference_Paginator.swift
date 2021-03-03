@@ -42,7 +42,8 @@ extension ElasticInference {
             input: input,
             initialValue: initialValue,
             command: describeAccelerators,
-            tokenKey: \DescribeAcceleratorsResponse.nextToken,
+            inputKey: \DescribeAcceleratorsRequest.nextToken,
+            outputKey: \DescribeAcceleratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ElasticInference {
         return client.paginate(
             input: input,
             command: describeAccelerators,
-            tokenKey: \DescribeAcceleratorsResponse.nextToken,
+            inputKey: \DescribeAcceleratorsRequest.nextToken,
+            outputKey: \DescribeAcceleratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

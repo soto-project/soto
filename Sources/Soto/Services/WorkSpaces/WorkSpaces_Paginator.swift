@@ -42,7 +42,8 @@ extension WorkSpaces {
             input: input,
             initialValue: initialValue,
             command: describeWorkspaceBundles,
-            tokenKey: \DescribeWorkspaceBundlesResult.nextToken,
+            inputKey: \DescribeWorkspaceBundlesRequest.nextToken,
+            outputKey: \DescribeWorkspaceBundlesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension WorkSpaces {
         return client.paginate(
             input: input,
             command: describeWorkspaceBundles,
-            tokenKey: \DescribeWorkspaceBundlesResult.nextToken,
+            inputKey: \DescribeWorkspaceBundlesRequest.nextToken,
+            outputKey: \DescribeWorkspaceBundlesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension WorkSpaces {
             input: input,
             initialValue: initialValue,
             command: describeWorkspaceDirectories,
-            tokenKey: \DescribeWorkspaceDirectoriesResult.nextToken,
+            inputKey: \DescribeWorkspaceDirectoriesRequest.nextToken,
+            outputKey: \DescribeWorkspaceDirectoriesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension WorkSpaces {
         return client.paginate(
             input: input,
             command: describeWorkspaceDirectories,
-            tokenKey: \DescribeWorkspaceDirectoriesResult.nextToken,
+            inputKey: \DescribeWorkspaceDirectoriesRequest.nextToken,
+            outputKey: \DescribeWorkspaceDirectoriesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension WorkSpaces {
             input: input,
             initialValue: initialValue,
             command: describeWorkspaces,
-            tokenKey: \DescribeWorkspacesResult.nextToken,
+            inputKey: \DescribeWorkspacesRequest.nextToken,
+            outputKey: \DescribeWorkspacesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension WorkSpaces {
         return client.paginate(
             input: input,
             command: describeWorkspaces,
-            tokenKey: \DescribeWorkspacesResult.nextToken,
+            inputKey: \DescribeWorkspacesRequest.nextToken,
+            outputKey: \DescribeWorkspacesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

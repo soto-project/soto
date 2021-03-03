@@ -42,7 +42,8 @@ extension TimestreamQuery {
             input: input,
             initialValue: initialValue,
             command: query,
-            tokenKey: \QueryResponse.nextToken,
+            inputKey: \QueryRequest.nextToken,
+            outputKey: \QueryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension TimestreamQuery {
         return client.paginate(
             input: input,
             command: query,
-            tokenKey: \QueryResponse.nextToken,
+            inputKey: \QueryRequest.nextToken,
+            outputKey: \QueryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

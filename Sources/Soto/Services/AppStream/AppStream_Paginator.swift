@@ -42,7 +42,8 @@ extension AppStream {
             input: input,
             initialValue: initialValue,
             command: describeImagePermissions,
-            tokenKey: \DescribeImagePermissionsResult.nextToken,
+            inputKey: \DescribeImagePermissionsRequest.nextToken,
+            outputKey: \DescribeImagePermissionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension AppStream {
         return client.paginate(
             input: input,
             command: describeImagePermissions,
-            tokenKey: \DescribeImagePermissionsResult.nextToken,
+            inputKey: \DescribeImagePermissionsRequest.nextToken,
+            outputKey: \DescribeImagePermissionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension AppStream {
             input: input,
             initialValue: initialValue,
             command: describeImages,
-            tokenKey: \DescribeImagesResult.nextToken,
+            inputKey: \DescribeImagesRequest.nextToken,
+            outputKey: \DescribeImagesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension AppStream {
         return client.paginate(
             input: input,
             command: describeImages,
-            tokenKey: \DescribeImagesResult.nextToken,
+            inputKey: \DescribeImagesRequest.nextToken,
+            outputKey: \DescribeImagesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

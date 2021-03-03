@@ -42,7 +42,8 @@ extension ACM {
             input: input,
             initialValue: initialValue,
             command: listCertificates,
-            tokenKey: \ListCertificatesResponse.nextToken,
+            inputKey: \ListCertificatesRequest.nextToken,
+            outputKey: \ListCertificatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ACM {
         return client.paginate(
             input: input,
             command: listCertificates,
-            tokenKey: \ListCertificatesResponse.nextToken,
+            inputKey: \ListCertificatesRequest.nextToken,
+            outputKey: \ListCertificatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

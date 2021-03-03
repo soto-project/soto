@@ -42,7 +42,8 @@ extension CloudHSMV2 {
             input: input,
             initialValue: initialValue,
             command: describeBackups,
-            tokenKey: \DescribeBackupsResponse.nextToken,
+            inputKey: \DescribeBackupsRequest.nextToken,
+            outputKey: \DescribeBackupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CloudHSMV2 {
         return client.paginate(
             input: input,
             command: describeBackups,
-            tokenKey: \DescribeBackupsResponse.nextToken,
+            inputKey: \DescribeBackupsRequest.nextToken,
+            outputKey: \DescribeBackupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CloudHSMV2 {
             input: input,
             initialValue: initialValue,
             command: describeClusters,
-            tokenKey: \DescribeClustersResponse.nextToken,
+            inputKey: \DescribeClustersRequest.nextToken,
+            outputKey: \DescribeClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CloudHSMV2 {
         return client.paginate(
             input: input,
             command: describeClusters,
-            tokenKey: \DescribeClustersResponse.nextToken,
+            inputKey: \DescribeClustersRequest.nextToken,
+            outputKey: \DescribeClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CloudHSMV2 {
             input: input,
             initialValue: initialValue,
             command: listTags,
-            tokenKey: \ListTagsResponse.nextToken,
+            inputKey: \ListTagsRequest.nextToken,
+            outputKey: \ListTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CloudHSMV2 {
         return client.paginate(
             input: input,
             command: listTags,
-            tokenKey: \ListTagsResponse.nextToken,
+            inputKey: \ListTagsRequest.nextToken,
+            outputKey: \ListTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

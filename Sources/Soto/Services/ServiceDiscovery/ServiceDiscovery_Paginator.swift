@@ -42,7 +42,8 @@ extension ServiceDiscovery {
             input: input,
             initialValue: initialValue,
             command: getInstancesHealthStatus,
-            tokenKey: \GetInstancesHealthStatusResponse.nextToken,
+            inputKey: \GetInstancesHealthStatusRequest.nextToken,
+            outputKey: \GetInstancesHealthStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ServiceDiscovery {
         return client.paginate(
             input: input,
             command: getInstancesHealthStatus,
-            tokenKey: \GetInstancesHealthStatusResponse.nextToken,
+            inputKey: \GetInstancesHealthStatusRequest.nextToken,
+            outputKey: \GetInstancesHealthStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ServiceDiscovery {
             input: input,
             initialValue: initialValue,
             command: listInstances,
-            tokenKey: \ListInstancesResponse.nextToken,
+            inputKey: \ListInstancesRequest.nextToken,
+            outputKey: \ListInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ServiceDiscovery {
         return client.paginate(
             input: input,
             command: listInstances,
-            tokenKey: \ListInstancesResponse.nextToken,
+            inputKey: \ListInstancesRequest.nextToken,
+            outputKey: \ListInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ServiceDiscovery {
             input: input,
             initialValue: initialValue,
             command: listNamespaces,
-            tokenKey: \ListNamespacesResponse.nextToken,
+            inputKey: \ListNamespacesRequest.nextToken,
+            outputKey: \ListNamespacesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ServiceDiscovery {
         return client.paginate(
             input: input,
             command: listNamespaces,
-            tokenKey: \ListNamespacesResponse.nextToken,
+            inputKey: \ListNamespacesRequest.nextToken,
+            outputKey: \ListNamespacesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ServiceDiscovery {
             input: input,
             initialValue: initialValue,
             command: listOperations,
-            tokenKey: \ListOperationsResponse.nextToken,
+            inputKey: \ListOperationsRequest.nextToken,
+            outputKey: \ListOperationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ServiceDiscovery {
         return client.paginate(
             input: input,
             command: listOperations,
-            tokenKey: \ListOperationsResponse.nextToken,
+            inputKey: \ListOperationsRequest.nextToken,
+            outputKey: \ListOperationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ServiceDiscovery {
             input: input,
             initialValue: initialValue,
             command: listServices,
-            tokenKey: \ListServicesResponse.nextToken,
+            inputKey: \ListServicesRequest.nextToken,
+            outputKey: \ListServicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ServiceDiscovery {
         return client.paginate(
             input: input,
             command: listServices,
-            tokenKey: \ListServicesResponse.nextToken,
+            inputKey: \ListServicesRequest.nextToken,
+            outputKey: \ListServicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

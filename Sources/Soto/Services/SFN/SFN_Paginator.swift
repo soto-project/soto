@@ -42,7 +42,8 @@ extension SFN {
             input: input,
             initialValue: initialValue,
             command: getExecutionHistory,
-            tokenKey: \GetExecutionHistoryOutput.nextToken,
+            inputKey: \GetExecutionHistoryInput.nextToken,
+            outputKey: \GetExecutionHistoryOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SFN {
         return client.paginate(
             input: input,
             command: getExecutionHistory,
-            tokenKey: \GetExecutionHistoryOutput.nextToken,
+            inputKey: \GetExecutionHistoryInput.nextToken,
+            outputKey: \GetExecutionHistoryOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SFN {
             input: input,
             initialValue: initialValue,
             command: listActivities,
-            tokenKey: \ListActivitiesOutput.nextToken,
+            inputKey: \ListActivitiesInput.nextToken,
+            outputKey: \ListActivitiesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SFN {
         return client.paginate(
             input: input,
             command: listActivities,
-            tokenKey: \ListActivitiesOutput.nextToken,
+            inputKey: \ListActivitiesInput.nextToken,
+            outputKey: \ListActivitiesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension SFN {
             input: input,
             initialValue: initialValue,
             command: listExecutions,
-            tokenKey: \ListExecutionsOutput.nextToken,
+            inputKey: \ListExecutionsInput.nextToken,
+            outputKey: \ListExecutionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension SFN {
         return client.paginate(
             input: input,
             command: listExecutions,
-            tokenKey: \ListExecutionsOutput.nextToken,
+            inputKey: \ListExecutionsInput.nextToken,
+            outputKey: \ListExecutionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension SFN {
             input: input,
             initialValue: initialValue,
             command: listStateMachines,
-            tokenKey: \ListStateMachinesOutput.nextToken,
+            inputKey: \ListStateMachinesInput.nextToken,
+            outputKey: \ListStateMachinesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension SFN {
         return client.paginate(
             input: input,
             command: listStateMachines,
-            tokenKey: \ListStateMachinesOutput.nextToken,
+            inputKey: \ListStateMachinesInput.nextToken,
+            outputKey: \ListStateMachinesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

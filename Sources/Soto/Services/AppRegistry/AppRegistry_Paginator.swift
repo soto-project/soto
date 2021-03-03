@@ -42,7 +42,8 @@ extension AppRegistry {
             input: input,
             initialValue: initialValue,
             command: listApplications,
-            tokenKey: \ListApplicationsResponse.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension AppRegistry {
         return client.paginate(
             input: input,
             command: listApplications,
-            tokenKey: \ListApplicationsResponse.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension AppRegistry {
             input: input,
             initialValue: initialValue,
             command: listAssociatedAttributeGroups,
-            tokenKey: \ListAssociatedAttributeGroupsResponse.nextToken,
+            inputKey: \ListAssociatedAttributeGroupsRequest.nextToken,
+            outputKey: \ListAssociatedAttributeGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension AppRegistry {
         return client.paginate(
             input: input,
             command: listAssociatedAttributeGroups,
-            tokenKey: \ListAssociatedAttributeGroupsResponse.nextToken,
+            inputKey: \ListAssociatedAttributeGroupsRequest.nextToken,
+            outputKey: \ListAssociatedAttributeGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension AppRegistry {
             input: input,
             initialValue: initialValue,
             command: listAssociatedResources,
-            tokenKey: \ListAssociatedResourcesResponse.nextToken,
+            inputKey: \ListAssociatedResourcesRequest.nextToken,
+            outputKey: \ListAssociatedResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension AppRegistry {
         return client.paginate(
             input: input,
             command: listAssociatedResources,
-            tokenKey: \ListAssociatedResourcesResponse.nextToken,
+            inputKey: \ListAssociatedResourcesRequest.nextToken,
+            outputKey: \ListAssociatedResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension AppRegistry {
             input: input,
             initialValue: initialValue,
             command: listAttributeGroups,
-            tokenKey: \ListAttributeGroupsResponse.nextToken,
+            inputKey: \ListAttributeGroupsRequest.nextToken,
+            outputKey: \ListAttributeGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension AppRegistry {
         return client.paginate(
             input: input,
             command: listAttributeGroups,
-            tokenKey: \ListAttributeGroupsResponse.nextToken,
+            inputKey: \ListAttributeGroupsRequest.nextToken,
+            outputKey: \ListAttributeGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getBotAliases,
-            tokenKey: \GetBotAliasesResponse.nextToken,
+            inputKey: \GetBotAliasesRequest.nextToken,
+            outputKey: \GetBotAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getBotAliases,
-            tokenKey: \GetBotAliasesResponse.nextToken,
+            inputKey: \GetBotAliasesRequest.nextToken,
+            outputKey: \GetBotAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getBotChannelAssociations,
-            tokenKey: \GetBotChannelAssociationsResponse.nextToken,
+            inputKey: \GetBotChannelAssociationsRequest.nextToken,
+            outputKey: \GetBotChannelAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getBotChannelAssociations,
-            tokenKey: \GetBotChannelAssociationsResponse.nextToken,
+            inputKey: \GetBotChannelAssociationsRequest.nextToken,
+            outputKey: \GetBotChannelAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getBotVersions,
-            tokenKey: \GetBotVersionsResponse.nextToken,
+            inputKey: \GetBotVersionsRequest.nextToken,
+            outputKey: \GetBotVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getBotVersions,
-            tokenKey: \GetBotVersionsResponse.nextToken,
+            inputKey: \GetBotVersionsRequest.nextToken,
+            outputKey: \GetBotVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getBots,
-            tokenKey: \GetBotsResponse.nextToken,
+            inputKey: \GetBotsRequest.nextToken,
+            outputKey: \GetBotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getBots,
-            tokenKey: \GetBotsResponse.nextToken,
+            inputKey: \GetBotsRequest.nextToken,
+            outputKey: \GetBotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getBuiltinIntents,
-            tokenKey: \GetBuiltinIntentsResponse.nextToken,
+            inputKey: \GetBuiltinIntentsRequest.nextToken,
+            outputKey: \GetBuiltinIntentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getBuiltinIntents,
-            tokenKey: \GetBuiltinIntentsResponse.nextToken,
+            inputKey: \GetBuiltinIntentsRequest.nextToken,
+            outputKey: \GetBuiltinIntentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getBuiltinSlotTypes,
-            tokenKey: \GetBuiltinSlotTypesResponse.nextToken,
+            inputKey: \GetBuiltinSlotTypesRequest.nextToken,
+            outputKey: \GetBuiltinSlotTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getBuiltinSlotTypes,
-            tokenKey: \GetBuiltinSlotTypesResponse.nextToken,
+            inputKey: \GetBuiltinSlotTypesRequest.nextToken,
+            outputKey: \GetBuiltinSlotTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getIntentVersions,
-            tokenKey: \GetIntentVersionsResponse.nextToken,
+            inputKey: \GetIntentVersionsRequest.nextToken,
+            outputKey: \GetIntentVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getIntentVersions,
-            tokenKey: \GetIntentVersionsResponse.nextToken,
+            inputKey: \GetIntentVersionsRequest.nextToken,
+            outputKey: \GetIntentVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getIntents,
-            tokenKey: \GetIntentsResponse.nextToken,
+            inputKey: \GetIntentsRequest.nextToken,
+            outputKey: \GetIntentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getIntents,
-            tokenKey: \GetIntentsResponse.nextToken,
+            inputKey: \GetIntentsRequest.nextToken,
+            outputKey: \GetIntentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getSlotTypeVersions,
-            tokenKey: \GetSlotTypeVersionsResponse.nextToken,
+            inputKey: \GetSlotTypeVersionsRequest.nextToken,
+            outputKey: \GetSlotTypeVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getSlotTypeVersions,
-            tokenKey: \GetSlotTypeVersionsResponse.nextToken,
+            inputKey: \GetSlotTypeVersionsRequest.nextToken,
+            outputKey: \GetSlotTypeVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension LexModelBuildingService {
             input: input,
             initialValue: initialValue,
             command: getSlotTypes,
-            tokenKey: \GetSlotTypesResponse.nextToken,
+            inputKey: \GetSlotTypesRequest.nextToken,
+            outputKey: \GetSlotTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension LexModelBuildingService {
         return client.paginate(
             input: input,
             command: getSlotTypes,
-            tokenKey: \GetSlotTypesResponse.nextToken,
+            inputKey: \GetSlotTypesRequest.nextToken,
+            outputKey: \GetSlotTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

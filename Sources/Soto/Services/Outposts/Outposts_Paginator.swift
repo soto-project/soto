@@ -42,7 +42,8 @@ extension Outposts {
             input: input,
             initialValue: initialValue,
             command: listOutposts,
-            tokenKey: \ListOutpostsOutput.nextToken,
+            inputKey: \ListOutpostsInput.nextToken,
+            outputKey: \ListOutpostsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Outposts {
         return client.paginate(
             input: input,
             command: listOutposts,
-            tokenKey: \ListOutpostsOutput.nextToken,
+            inputKey: \ListOutpostsInput.nextToken,
+            outputKey: \ListOutpostsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Outposts {
             input: input,
             initialValue: initialValue,
             command: listSites,
-            tokenKey: \ListSitesOutput.nextToken,
+            inputKey: \ListSitesInput.nextToken,
+            outputKey: \ListSitesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Outposts {
         return client.paginate(
             input: input,
             command: listSites,
-            tokenKey: \ListSitesOutput.nextToken,
+            inputKey: \ListSitesInput.nextToken,
+            outputKey: \ListSitesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

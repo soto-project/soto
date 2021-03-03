@@ -42,7 +42,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeApplicableIndividualAssessments,
-            tokenKey: \DescribeApplicableIndividualAssessmentsResponse.marker,
+            inputKey: \DescribeApplicableIndividualAssessmentsMessage.marker,
+            outputKey: \DescribeApplicableIndividualAssessmentsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeApplicableIndividualAssessments,
-            tokenKey: \DescribeApplicableIndividualAssessmentsResponse.marker,
+            inputKey: \DescribeApplicableIndividualAssessmentsMessage.marker,
+            outputKey: \DescribeApplicableIndividualAssessmentsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeCertificates,
-            tokenKey: \DescribeCertificatesResponse.marker,
+            inputKey: \DescribeCertificatesMessage.marker,
+            outputKey: \DescribeCertificatesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeCertificates,
-            tokenKey: \DescribeCertificatesResponse.marker,
+            inputKey: \DescribeCertificatesMessage.marker,
+            outputKey: \DescribeCertificatesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeConnections,
-            tokenKey: \DescribeConnectionsResponse.marker,
+            inputKey: \DescribeConnectionsMessage.marker,
+            outputKey: \DescribeConnectionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeConnections,
-            tokenKey: \DescribeConnectionsResponse.marker,
+            inputKey: \DescribeConnectionsMessage.marker,
+            outputKey: \DescribeConnectionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeEndpointTypes,
-            tokenKey: \DescribeEndpointTypesResponse.marker,
+            inputKey: \DescribeEndpointTypesMessage.marker,
+            outputKey: \DescribeEndpointTypesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeEndpointTypes,
-            tokenKey: \DescribeEndpointTypesResponse.marker,
+            inputKey: \DescribeEndpointTypesMessage.marker,
+            outputKey: \DescribeEndpointTypesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeEndpoints,
-            tokenKey: \DescribeEndpointsResponse.marker,
+            inputKey: \DescribeEndpointsMessage.marker,
+            outputKey: \DescribeEndpointsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeEndpoints,
-            tokenKey: \DescribeEndpointsResponse.marker,
+            inputKey: \DescribeEndpointsMessage.marker,
+            outputKey: \DescribeEndpointsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeEventSubscriptions,
-            tokenKey: \DescribeEventSubscriptionsResponse.marker,
+            inputKey: \DescribeEventSubscriptionsMessage.marker,
+            outputKey: \DescribeEventSubscriptionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeEventSubscriptions,
-            tokenKey: \DescribeEventSubscriptionsResponse.marker,
+            inputKey: \DescribeEventSubscriptionsMessage.marker,
+            outputKey: \DescribeEventSubscriptionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeEvents,
-            tokenKey: \DescribeEventsResponse.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \DescribeEventsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeEvents,
-            tokenKey: \DescribeEventsResponse.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \DescribeEventsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeOrderableReplicationInstances,
-            tokenKey: \DescribeOrderableReplicationInstancesResponse.marker,
+            inputKey: \DescribeOrderableReplicationInstancesMessage.marker,
+            outputKey: \DescribeOrderableReplicationInstancesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeOrderableReplicationInstances,
-            tokenKey: \DescribeOrderableReplicationInstancesResponse.marker,
+            inputKey: \DescribeOrderableReplicationInstancesMessage.marker,
+            outputKey: \DescribeOrderableReplicationInstancesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describePendingMaintenanceActions,
-            tokenKey: \DescribePendingMaintenanceActionsResponse.marker,
+            inputKey: \DescribePendingMaintenanceActionsMessage.marker,
+            outputKey: \DescribePendingMaintenanceActionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describePendingMaintenanceActions,
-            tokenKey: \DescribePendingMaintenanceActionsResponse.marker,
+            inputKey: \DescribePendingMaintenanceActionsMessage.marker,
+            outputKey: \DescribePendingMaintenanceActionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeReplicationInstanceTaskLogs,
-            tokenKey: \DescribeReplicationInstanceTaskLogsResponse.marker,
+            inputKey: \DescribeReplicationInstanceTaskLogsMessage.marker,
+            outputKey: \DescribeReplicationInstanceTaskLogsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeReplicationInstanceTaskLogs,
-            tokenKey: \DescribeReplicationInstanceTaskLogsResponse.marker,
+            inputKey: \DescribeReplicationInstanceTaskLogsMessage.marker,
+            outputKey: \DescribeReplicationInstanceTaskLogsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeReplicationInstances,
-            tokenKey: \DescribeReplicationInstancesResponse.marker,
+            inputKey: \DescribeReplicationInstancesMessage.marker,
+            outputKey: \DescribeReplicationInstancesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeReplicationInstances,
-            tokenKey: \DescribeReplicationInstancesResponse.marker,
+            inputKey: \DescribeReplicationInstancesMessage.marker,
+            outputKey: \DescribeReplicationInstancesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeReplicationSubnetGroups,
-            tokenKey: \DescribeReplicationSubnetGroupsResponse.marker,
+            inputKey: \DescribeReplicationSubnetGroupsMessage.marker,
+            outputKey: \DescribeReplicationSubnetGroupsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeReplicationSubnetGroups,
-            tokenKey: \DescribeReplicationSubnetGroupsResponse.marker,
+            inputKey: \DescribeReplicationSubnetGroupsMessage.marker,
+            outputKey: \DescribeReplicationSubnetGroupsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeReplicationTaskAssessmentResults,
-            tokenKey: \DescribeReplicationTaskAssessmentResultsResponse.marker,
+            inputKey: \DescribeReplicationTaskAssessmentResultsMessage.marker,
+            outputKey: \DescribeReplicationTaskAssessmentResultsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeReplicationTaskAssessmentResults,
-            tokenKey: \DescribeReplicationTaskAssessmentResultsResponse.marker,
+            inputKey: \DescribeReplicationTaskAssessmentResultsMessage.marker,
+            outputKey: \DescribeReplicationTaskAssessmentResultsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeReplicationTaskAssessmentRuns,
-            tokenKey: \DescribeReplicationTaskAssessmentRunsResponse.marker,
+            inputKey: \DescribeReplicationTaskAssessmentRunsMessage.marker,
+            outputKey: \DescribeReplicationTaskAssessmentRunsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeReplicationTaskAssessmentRuns,
-            tokenKey: \DescribeReplicationTaskAssessmentRunsResponse.marker,
+            inputKey: \DescribeReplicationTaskAssessmentRunsMessage.marker,
+            outputKey: \DescribeReplicationTaskAssessmentRunsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeReplicationTaskIndividualAssessments,
-            tokenKey: \DescribeReplicationTaskIndividualAssessmentsResponse.marker,
+            inputKey: \DescribeReplicationTaskIndividualAssessmentsMessage.marker,
+            outputKey: \DescribeReplicationTaskIndividualAssessmentsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeReplicationTaskIndividualAssessments,
-            tokenKey: \DescribeReplicationTaskIndividualAssessmentsResponse.marker,
+            inputKey: \DescribeReplicationTaskIndividualAssessmentsMessage.marker,
+            outputKey: \DescribeReplicationTaskIndividualAssessmentsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeReplicationTasks,
-            tokenKey: \DescribeReplicationTasksResponse.marker,
+            inputKey: \DescribeReplicationTasksMessage.marker,
+            outputKey: \DescribeReplicationTasksResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeReplicationTasks,
-            tokenKey: \DescribeReplicationTasksResponse.marker,
+            inputKey: \DescribeReplicationTasksMessage.marker,
+            outputKey: \DescribeReplicationTasksResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeSchemas,
-            tokenKey: \DescribeSchemasResponse.marker,
+            inputKey: \DescribeSchemasMessage.marker,
+            outputKey: \DescribeSchemasResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeSchemas,
-            tokenKey: \DescribeSchemasResponse.marker,
+            inputKey: \DescribeSchemasMessage.marker,
+            outputKey: \DescribeSchemasResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension DatabaseMigrationService {
             input: input,
             initialValue: initialValue,
             command: describeTableStatistics,
-            tokenKey: \DescribeTableStatisticsResponse.marker,
+            inputKey: \DescribeTableStatisticsMessage.marker,
+            outputKey: \DescribeTableStatisticsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension DatabaseMigrationService {
         return client.paginate(
             input: input,
             command: describeTableStatistics,
-            tokenKey: \DescribeTableStatisticsResponse.marker,
+            inputKey: \DescribeTableStatisticsMessage.marker,
+            outputKey: \DescribeTableStatisticsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )

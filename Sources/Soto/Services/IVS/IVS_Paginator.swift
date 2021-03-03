@@ -42,7 +42,8 @@ extension IVS {
             input: input,
             initialValue: initialValue,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension IVS {
         return client.paginate(
             input: input,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension IVS {
             input: input,
             initialValue: initialValue,
             command: listPlaybackKeyPairs,
-            tokenKey: \ListPlaybackKeyPairsResponse.nextToken,
+            inputKey: \ListPlaybackKeyPairsRequest.nextToken,
+            outputKey: \ListPlaybackKeyPairsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension IVS {
         return client.paginate(
             input: input,
             command: listPlaybackKeyPairs,
-            tokenKey: \ListPlaybackKeyPairsResponse.nextToken,
+            inputKey: \ListPlaybackKeyPairsRequest.nextToken,
+            outputKey: \ListPlaybackKeyPairsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension IVS {
             input: input,
             initialValue: initialValue,
             command: listStreamKeys,
-            tokenKey: \ListStreamKeysResponse.nextToken,
+            inputKey: \ListStreamKeysRequest.nextToken,
+            outputKey: \ListStreamKeysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension IVS {
         return client.paginate(
             input: input,
             command: listStreamKeys,
-            tokenKey: \ListStreamKeysResponse.nextToken,
+            inputKey: \ListStreamKeysRequest.nextToken,
+            outputKey: \ListStreamKeysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension IVS {
             input: input,
             initialValue: initialValue,
             command: listStreams,
-            tokenKey: \ListStreamsResponse.nextToken,
+            inputKey: \ListStreamsRequest.nextToken,
+            outputKey: \ListStreamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension IVS {
         return client.paginate(
             input: input,
             command: listStreams,
-            tokenKey: \ListStreamsResponse.nextToken,
+            inputKey: \ListStreamsRequest.nextToken,
+            outputKey: \ListStreamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension IVS {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension IVS {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

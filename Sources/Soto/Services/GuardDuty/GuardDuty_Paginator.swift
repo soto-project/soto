@@ -42,7 +42,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: getUsageStatistics,
-            tokenKey: \GetUsageStatisticsResponse.nextToken,
+            inputKey: \GetUsageStatisticsRequest.nextToken,
+            outputKey: \GetUsageStatisticsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: getUsageStatistics,
-            tokenKey: \GetUsageStatisticsResponse.nextToken,
+            inputKey: \GetUsageStatisticsRequest.nextToken,
+            outputKey: \GetUsageStatisticsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: listDetectors,
-            tokenKey: \ListDetectorsResponse.nextToken,
+            inputKey: \ListDetectorsRequest.nextToken,
+            outputKey: \ListDetectorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: listDetectors,
-            tokenKey: \ListDetectorsResponse.nextToken,
+            inputKey: \ListDetectorsRequest.nextToken,
+            outputKey: \ListDetectorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: listFilters,
-            tokenKey: \ListFiltersResponse.nextToken,
+            inputKey: \ListFiltersRequest.nextToken,
+            outputKey: \ListFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: listFilters,
-            tokenKey: \ListFiltersResponse.nextToken,
+            inputKey: \ListFiltersRequest.nextToken,
+            outputKey: \ListFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: listFindings,
-            tokenKey: \ListFindingsResponse.nextToken,
+            inputKey: \ListFindingsRequest.nextToken,
+            outputKey: \ListFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: listFindings,
-            tokenKey: \ListFindingsResponse.nextToken,
+            inputKey: \ListFindingsRequest.nextToken,
+            outputKey: \ListFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: listIPSets,
-            tokenKey: \ListIPSetsResponse.nextToken,
+            inputKey: \ListIPSetsRequest.nextToken,
+            outputKey: \ListIPSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: listIPSets,
-            tokenKey: \ListIPSetsResponse.nextToken,
+            inputKey: \ListIPSetsRequest.nextToken,
+            outputKey: \ListIPSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: listInvitations,
-            tokenKey: \ListInvitationsResponse.nextToken,
+            inputKey: \ListInvitationsRequest.nextToken,
+            outputKey: \ListInvitationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: listInvitations,
-            tokenKey: \ListInvitationsResponse.nextToken,
+            inputKey: \ListInvitationsRequest.nextToken,
+            outputKey: \ListInvitationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: listMembers,
-            tokenKey: \ListMembersResponse.nextToken,
+            inputKey: \ListMembersRequest.nextToken,
+            outputKey: \ListMembersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: listMembers,
-            tokenKey: \ListMembersResponse.nextToken,
+            inputKey: \ListMembersRequest.nextToken,
+            outputKey: \ListMembersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: listOrganizationAdminAccounts,
-            tokenKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            inputKey: \ListOrganizationAdminAccountsRequest.nextToken,
+            outputKey: \ListOrganizationAdminAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: listOrganizationAdminAccounts,
-            tokenKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            inputKey: \ListOrganizationAdminAccountsRequest.nextToken,
+            outputKey: \ListOrganizationAdminAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: listPublishingDestinations,
-            tokenKey: \ListPublishingDestinationsResponse.nextToken,
+            inputKey: \ListPublishingDestinationsRequest.nextToken,
+            outputKey: \ListPublishingDestinationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: listPublishingDestinations,
-            tokenKey: \ListPublishingDestinationsResponse.nextToken,
+            inputKey: \ListPublishingDestinationsRequest.nextToken,
+            outputKey: \ListPublishingDestinationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension GuardDuty {
             input: input,
             initialValue: initialValue,
             command: listThreatIntelSets,
-            tokenKey: \ListThreatIntelSetsResponse.nextToken,
+            inputKey: \ListThreatIntelSetsRequest.nextToken,
+            outputKey: \ListThreatIntelSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension GuardDuty {
         return client.paginate(
             input: input,
             command: listThreatIntelSets,
-            tokenKey: \ListThreatIntelSetsResponse.nextToken,
+            inputKey: \ListThreatIntelSetsRequest.nextToken,
+            outputKey: \ListThreatIntelSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

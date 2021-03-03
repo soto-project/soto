@@ -42,7 +42,8 @@ extension MediaPackageVod {
             input: input,
             initialValue: initialValue,
             command: listAssets,
-            tokenKey: \ListAssetsResponse.nextToken,
+            inputKey: \ListAssetsRequest.nextToken,
+            outputKey: \ListAssetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MediaPackageVod {
         return client.paginate(
             input: input,
             command: listAssets,
-            tokenKey: \ListAssetsResponse.nextToken,
+            inputKey: \ListAssetsRequest.nextToken,
+            outputKey: \ListAssetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MediaPackageVod {
             input: input,
             initialValue: initialValue,
             command: listPackagingConfigurations,
-            tokenKey: \ListPackagingConfigurationsResponse.nextToken,
+            inputKey: \ListPackagingConfigurationsRequest.nextToken,
+            outputKey: \ListPackagingConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MediaPackageVod {
         return client.paginate(
             input: input,
             command: listPackagingConfigurations,
-            tokenKey: \ListPackagingConfigurationsResponse.nextToken,
+            inputKey: \ListPackagingConfigurationsRequest.nextToken,
+            outputKey: \ListPackagingConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension MediaPackageVod {
             input: input,
             initialValue: initialValue,
             command: listPackagingGroups,
-            tokenKey: \ListPackagingGroupsResponse.nextToken,
+            inputKey: \ListPackagingGroupsRequest.nextToken,
+            outputKey: \ListPackagingGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension MediaPackageVod {
         return client.paginate(
             input: input,
             command: listPackagingGroups,
-            tokenKey: \ListPackagingGroupsResponse.nextToken,
+            inputKey: \ListPackagingGroupsRequest.nextToken,
+            outputKey: \ListPackagingGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

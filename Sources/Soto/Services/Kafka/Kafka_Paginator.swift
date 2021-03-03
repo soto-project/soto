@@ -42,7 +42,8 @@ extension Kafka {
             input: input,
             initialValue: initialValue,
             command: listClusterOperations,
-            tokenKey: \ListClusterOperationsResponse.nextToken,
+            inputKey: \ListClusterOperationsRequest.nextToken,
+            outputKey: \ListClusterOperationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Kafka {
         return client.paginate(
             input: input,
             command: listClusterOperations,
-            tokenKey: \ListClusterOperationsResponse.nextToken,
+            inputKey: \ListClusterOperationsRequest.nextToken,
+            outputKey: \ListClusterOperationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Kafka {
             input: input,
             initialValue: initialValue,
             command: listClusters,
-            tokenKey: \ListClustersResponse.nextToken,
+            inputKey: \ListClustersRequest.nextToken,
+            outputKey: \ListClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Kafka {
         return client.paginate(
             input: input,
             command: listClusters,
-            tokenKey: \ListClustersResponse.nextToken,
+            inputKey: \ListClustersRequest.nextToken,
+            outputKey: \ListClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Kafka {
             input: input,
             initialValue: initialValue,
             command: listConfigurationRevisions,
-            tokenKey: \ListConfigurationRevisionsResponse.nextToken,
+            inputKey: \ListConfigurationRevisionsRequest.nextToken,
+            outputKey: \ListConfigurationRevisionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Kafka {
         return client.paginate(
             input: input,
             command: listConfigurationRevisions,
-            tokenKey: \ListConfigurationRevisionsResponse.nextToken,
+            inputKey: \ListConfigurationRevisionsRequest.nextToken,
+            outputKey: \ListConfigurationRevisionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Kafka {
             input: input,
             initialValue: initialValue,
             command: listConfigurations,
-            tokenKey: \ListConfigurationsResponse.nextToken,
+            inputKey: \ListConfigurationsRequest.nextToken,
+            outputKey: \ListConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Kafka {
         return client.paginate(
             input: input,
             command: listConfigurations,
-            tokenKey: \ListConfigurationsResponse.nextToken,
+            inputKey: \ListConfigurationsRequest.nextToken,
+            outputKey: \ListConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Kafka {
             input: input,
             initialValue: initialValue,
             command: listKafkaVersions,
-            tokenKey: \ListKafkaVersionsResponse.nextToken,
+            inputKey: \ListKafkaVersionsRequest.nextToken,
+            outputKey: \ListKafkaVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Kafka {
         return client.paginate(
             input: input,
             command: listKafkaVersions,
-            tokenKey: \ListKafkaVersionsResponse.nextToken,
+            inputKey: \ListKafkaVersionsRequest.nextToken,
+            outputKey: \ListKafkaVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Kafka {
             input: input,
             initialValue: initialValue,
             command: listNodes,
-            tokenKey: \ListNodesResponse.nextToken,
+            inputKey: \ListNodesRequest.nextToken,
+            outputKey: \ListNodesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Kafka {
         return client.paginate(
             input: input,
             command: listNodes,
-            tokenKey: \ListNodesResponse.nextToken,
+            inputKey: \ListNodesRequest.nextToken,
+            outputKey: \ListNodesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Kafka {
             input: input,
             initialValue: initialValue,
             command: listScramSecrets,
-            tokenKey: \ListScramSecretsResponse.nextToken,
+            inputKey: \ListScramSecretsRequest.nextToken,
+            outputKey: \ListScramSecretsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Kafka {
         return client.paginate(
             input: input,
             command: listScramSecrets,
-            tokenKey: \ListScramSecretsResponse.nextToken,
+            inputKey: \ListScramSecretsRequest.nextToken,
+            outputKey: \ListScramSecretsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

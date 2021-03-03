@@ -42,7 +42,8 @@ extension Mobile {
             input: input,
             initialValue: initialValue,
             command: listBundles,
-            tokenKey: \ListBundlesResult.nextToken,
+            inputKey: \ListBundlesRequest.nextToken,
+            outputKey: \ListBundlesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Mobile {
         return client.paginate(
             input: input,
             command: listBundles,
-            tokenKey: \ListBundlesResult.nextToken,
+            inputKey: \ListBundlesRequest.nextToken,
+            outputKey: \ListBundlesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Mobile {
             input: input,
             initialValue: initialValue,
             command: listProjects,
-            tokenKey: \ListProjectsResult.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Mobile {
         return client.paginate(
             input: input,
             command: listProjects,
-            tokenKey: \ListProjectsResult.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

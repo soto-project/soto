@@ -42,7 +42,8 @@ extension CodeStarNotifications {
             input: input,
             initialValue: initialValue,
             command: listEventTypes,
-            tokenKey: \ListEventTypesResult.nextToken,
+            inputKey: \ListEventTypesRequest.nextToken,
+            outputKey: \ListEventTypesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CodeStarNotifications {
         return client.paginate(
             input: input,
             command: listEventTypes,
-            tokenKey: \ListEventTypesResult.nextToken,
+            inputKey: \ListEventTypesRequest.nextToken,
+            outputKey: \ListEventTypesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CodeStarNotifications {
             input: input,
             initialValue: initialValue,
             command: listNotificationRules,
-            tokenKey: \ListNotificationRulesResult.nextToken,
+            inputKey: \ListNotificationRulesRequest.nextToken,
+            outputKey: \ListNotificationRulesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CodeStarNotifications {
         return client.paginate(
             input: input,
             command: listNotificationRules,
-            tokenKey: \ListNotificationRulesResult.nextToken,
+            inputKey: \ListNotificationRulesRequest.nextToken,
+            outputKey: \ListNotificationRulesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CodeStarNotifications {
             input: input,
             initialValue: initialValue,
             command: listTargets,
-            tokenKey: \ListTargetsResult.nextToken,
+            inputKey: \ListTargetsRequest.nextToken,
+            outputKey: \ListTargetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CodeStarNotifications {
         return client.paginate(
             input: input,
             command: listTargets,
-            tokenKey: \ListTargetsResult.nextToken,
+            inputKey: \ListTargetsRequest.nextToken,
+            outputKey: \ListTargetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -36,7 +36,8 @@ extension {{name}} {
             command: {{page.operation.funcName}}{%if page.inputKey %},
             inputKey: \{{page.operation.inputShape}}.{{page.inputKey}},
             outputKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%else %},
-            tokenKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%endif %},
+            tokenKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%if page.moreResultsKey %},
+            moreResultsKey: \{{page.operation.outputShape}}.{{page.moreResultsKey}}{%endif %}{%endif %},
             on: eventLoop,
             onPage: onPage
         )
@@ -62,7 +63,8 @@ extension {{name}} {
             command: {{page.operation.funcName}}{%if page.inputKey %},
             inputKey: \{{page.operation.inputShape}}.{{page.inputKey}},
             outputKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%else %},
-            tokenKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%endif %},
+            tokenKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%if page.moreResultsKey %},
+            moreResultsKey: \{{page.operation.outputShape}}.{{page.moreResultsKey}}{%endif %}{%endif %},
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension Snowball {
             input: input,
             initialValue: initialValue,
             command: describeAddresses,
-            tokenKey: \DescribeAddressesResult.nextToken,
+            inputKey: \DescribeAddressesRequest.nextToken,
+            outputKey: \DescribeAddressesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Snowball {
         return client.paginate(
             input: input,
             command: describeAddresses,
-            tokenKey: \DescribeAddressesResult.nextToken,
+            inputKey: \DescribeAddressesRequest.nextToken,
+            outputKey: \DescribeAddressesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Snowball {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsResult.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Snowball {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsResult.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

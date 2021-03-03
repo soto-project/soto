@@ -42,7 +42,8 @@ extension NetworkFirewall {
             input: input,
             initialValue: initialValue,
             command: listFirewallPolicies,
-            tokenKey: \ListFirewallPoliciesResponse.nextToken,
+            inputKey: \ListFirewallPoliciesRequest.nextToken,
+            outputKey: \ListFirewallPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension NetworkFirewall {
         return client.paginate(
             input: input,
             command: listFirewallPolicies,
-            tokenKey: \ListFirewallPoliciesResponse.nextToken,
+            inputKey: \ListFirewallPoliciesRequest.nextToken,
+            outputKey: \ListFirewallPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension NetworkFirewall {
             input: input,
             initialValue: initialValue,
             command: listFirewalls,
-            tokenKey: \ListFirewallsResponse.nextToken,
+            inputKey: \ListFirewallsRequest.nextToken,
+            outputKey: \ListFirewallsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension NetworkFirewall {
         return client.paginate(
             input: input,
             command: listFirewalls,
-            tokenKey: \ListFirewallsResponse.nextToken,
+            inputKey: \ListFirewallsRequest.nextToken,
+            outputKey: \ListFirewallsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension NetworkFirewall {
             input: input,
             initialValue: initialValue,
             command: listRuleGroups,
-            tokenKey: \ListRuleGroupsResponse.nextToken,
+            inputKey: \ListRuleGroupsRequest.nextToken,
+            outputKey: \ListRuleGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension NetworkFirewall {
         return client.paginate(
             input: input,
             command: listRuleGroups,
-            tokenKey: \ListRuleGroupsResponse.nextToken,
+            inputKey: \ListRuleGroupsRequest.nextToken,
+            outputKey: \ListRuleGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension NetworkFirewall {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension NetworkFirewall {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

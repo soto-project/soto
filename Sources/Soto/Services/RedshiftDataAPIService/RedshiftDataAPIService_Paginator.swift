@@ -42,7 +42,8 @@ extension RedshiftDataAPIService {
             input: input,
             initialValue: initialValue,
             command: describeTable,
-            tokenKey: \DescribeTableResponse.nextToken,
+            inputKey: \DescribeTableRequest.nextToken,
+            outputKey: \DescribeTableResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension RedshiftDataAPIService {
         return client.paginate(
             input: input,
             command: describeTable,
-            tokenKey: \DescribeTableResponse.nextToken,
+            inputKey: \DescribeTableRequest.nextToken,
+            outputKey: \DescribeTableResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension RedshiftDataAPIService {
             input: input,
             initialValue: initialValue,
             command: getStatementResult,
-            tokenKey: \GetStatementResultResponse.nextToken,
+            inputKey: \GetStatementResultRequest.nextToken,
+            outputKey: \GetStatementResultResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension RedshiftDataAPIService {
         return client.paginate(
             input: input,
             command: getStatementResult,
-            tokenKey: \GetStatementResultResponse.nextToken,
+            inputKey: \GetStatementResultRequest.nextToken,
+            outputKey: \GetStatementResultResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension RedshiftDataAPIService {
             input: input,
             initialValue: initialValue,
             command: listDatabases,
-            tokenKey: \ListDatabasesResponse.nextToken,
+            inputKey: \ListDatabasesRequest.nextToken,
+            outputKey: \ListDatabasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension RedshiftDataAPIService {
         return client.paginate(
             input: input,
             command: listDatabases,
-            tokenKey: \ListDatabasesResponse.nextToken,
+            inputKey: \ListDatabasesRequest.nextToken,
+            outputKey: \ListDatabasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension RedshiftDataAPIService {
             input: input,
             initialValue: initialValue,
             command: listSchemas,
-            tokenKey: \ListSchemasResponse.nextToken,
+            inputKey: \ListSchemasRequest.nextToken,
+            outputKey: \ListSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension RedshiftDataAPIService {
         return client.paginate(
             input: input,
             command: listSchemas,
-            tokenKey: \ListSchemasResponse.nextToken,
+            inputKey: \ListSchemasRequest.nextToken,
+            outputKey: \ListSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension RedshiftDataAPIService {
             input: input,
             initialValue: initialValue,
             command: listStatements,
-            tokenKey: \ListStatementsResponse.nextToken,
+            inputKey: \ListStatementsRequest.nextToken,
+            outputKey: \ListStatementsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension RedshiftDataAPIService {
         return client.paginate(
             input: input,
             command: listStatements,
-            tokenKey: \ListStatementsResponse.nextToken,
+            inputKey: \ListStatementsRequest.nextToken,
+            outputKey: \ListStatementsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension RedshiftDataAPIService {
             input: input,
             initialValue: initialValue,
             command: listTables,
-            tokenKey: \ListTablesResponse.nextToken,
+            inputKey: \ListTablesRequest.nextToken,
+            outputKey: \ListTablesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension RedshiftDataAPIService {
         return client.paginate(
             input: input,
             command: listTables,
-            tokenKey: \ListTablesResponse.nextToken,
+            inputKey: \ListTablesRequest.nextToken,
+            outputKey: \ListTablesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

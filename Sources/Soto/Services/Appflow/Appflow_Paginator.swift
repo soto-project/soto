@@ -42,7 +42,8 @@ extension Appflow {
             input: input,
             initialValue: initialValue,
             command: describeConnectorProfiles,
-            tokenKey: \DescribeConnectorProfilesResponse.nextToken,
+            inputKey: \DescribeConnectorProfilesRequest.nextToken,
+            outputKey: \DescribeConnectorProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Appflow {
         return client.paginate(
             input: input,
             command: describeConnectorProfiles,
-            tokenKey: \DescribeConnectorProfilesResponse.nextToken,
+            inputKey: \DescribeConnectorProfilesRequest.nextToken,
+            outputKey: \DescribeConnectorProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Appflow {
             input: input,
             initialValue: initialValue,
             command: describeConnectors,
-            tokenKey: \DescribeConnectorsResponse.nextToken,
+            inputKey: \DescribeConnectorsRequest.nextToken,
+            outputKey: \DescribeConnectorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Appflow {
         return client.paginate(
             input: input,
             command: describeConnectors,
-            tokenKey: \DescribeConnectorsResponse.nextToken,
+            inputKey: \DescribeConnectorsRequest.nextToken,
+            outputKey: \DescribeConnectorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Appflow {
             input: input,
             initialValue: initialValue,
             command: describeFlowExecutionRecords,
-            tokenKey: \DescribeFlowExecutionRecordsResponse.nextToken,
+            inputKey: \DescribeFlowExecutionRecordsRequest.nextToken,
+            outputKey: \DescribeFlowExecutionRecordsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Appflow {
         return client.paginate(
             input: input,
             command: describeFlowExecutionRecords,
-            tokenKey: \DescribeFlowExecutionRecordsResponse.nextToken,
+            inputKey: \DescribeFlowExecutionRecordsRequest.nextToken,
+            outputKey: \DescribeFlowExecutionRecordsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Appflow {
             input: input,
             initialValue: initialValue,
             command: listFlows,
-            tokenKey: \ListFlowsResponse.nextToken,
+            inputKey: \ListFlowsRequest.nextToken,
+            outputKey: \ListFlowsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Appflow {
         return client.paginate(
             input: input,
             command: listFlows,
-            tokenKey: \ListFlowsResponse.nextToken,
+            inputKey: \ListFlowsRequest.nextToken,
+            outputKey: \ListFlowsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

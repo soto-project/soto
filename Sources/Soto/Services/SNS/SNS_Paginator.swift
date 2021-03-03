@@ -42,7 +42,8 @@ extension SNS {
             input: input,
             initialValue: initialValue,
             command: listEndpointsByPlatformApplication,
-            tokenKey: \ListEndpointsByPlatformApplicationResponse.nextToken,
+            inputKey: \ListEndpointsByPlatformApplicationInput.nextToken,
+            outputKey: \ListEndpointsByPlatformApplicationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SNS {
         return client.paginate(
             input: input,
             command: listEndpointsByPlatformApplication,
-            tokenKey: \ListEndpointsByPlatformApplicationResponse.nextToken,
+            inputKey: \ListEndpointsByPlatformApplicationInput.nextToken,
+            outputKey: \ListEndpointsByPlatformApplicationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SNS {
             input: input,
             initialValue: initialValue,
             command: listPlatformApplications,
-            tokenKey: \ListPlatformApplicationsResponse.nextToken,
+            inputKey: \ListPlatformApplicationsInput.nextToken,
+            outputKey: \ListPlatformApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SNS {
         return client.paginate(
             input: input,
             command: listPlatformApplications,
-            tokenKey: \ListPlatformApplicationsResponse.nextToken,
+            inputKey: \ListPlatformApplicationsInput.nextToken,
+            outputKey: \ListPlatformApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension SNS {
             input: input,
             initialValue: initialValue,
             command: listSubscriptions,
-            tokenKey: \ListSubscriptionsResponse.nextToken,
+            inputKey: \ListSubscriptionsInput.nextToken,
+            outputKey: \ListSubscriptionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension SNS {
         return client.paginate(
             input: input,
             command: listSubscriptions,
-            tokenKey: \ListSubscriptionsResponse.nextToken,
+            inputKey: \ListSubscriptionsInput.nextToken,
+            outputKey: \ListSubscriptionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension SNS {
             input: input,
             initialValue: initialValue,
             command: listSubscriptionsByTopic,
-            tokenKey: \ListSubscriptionsByTopicResponse.nextToken,
+            inputKey: \ListSubscriptionsByTopicInput.nextToken,
+            outputKey: \ListSubscriptionsByTopicResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension SNS {
         return client.paginate(
             input: input,
             command: listSubscriptionsByTopic,
-            tokenKey: \ListSubscriptionsByTopicResponse.nextToken,
+            inputKey: \ListSubscriptionsByTopicInput.nextToken,
+            outputKey: \ListSubscriptionsByTopicResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension SNS {
             input: input,
             initialValue: initialValue,
             command: listTopics,
-            tokenKey: \ListTopicsResponse.nextToken,
+            inputKey: \ListTopicsInput.nextToken,
+            outputKey: \ListTopicsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension SNS {
         return client.paginate(
             input: input,
             command: listTopics,
-            tokenKey: \ListTopicsResponse.nextToken,
+            inputKey: \ListTopicsInput.nextToken,
+            outputKey: \ListTopicsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

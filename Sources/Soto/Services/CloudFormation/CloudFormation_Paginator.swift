@@ -42,7 +42,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: describeAccountLimits,
-            tokenKey: \DescribeAccountLimitsOutput.nextToken,
+            inputKey: \DescribeAccountLimitsInput.nextToken,
+            outputKey: \DescribeAccountLimitsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: describeAccountLimits,
-            tokenKey: \DescribeAccountLimitsOutput.nextToken,
+            inputKey: \DescribeAccountLimitsInput.nextToken,
+            outputKey: \DescribeAccountLimitsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: describeStackEvents,
-            tokenKey: \DescribeStackEventsOutput.nextToken,
+            inputKey: \DescribeStackEventsInput.nextToken,
+            outputKey: \DescribeStackEventsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: describeStackEvents,
-            tokenKey: \DescribeStackEventsOutput.nextToken,
+            inputKey: \DescribeStackEventsInput.nextToken,
+            outputKey: \DescribeStackEventsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: describeStackResourceDrifts,
-            tokenKey: \DescribeStackResourceDriftsOutput.nextToken,
+            inputKey: \DescribeStackResourceDriftsInput.nextToken,
+            outputKey: \DescribeStackResourceDriftsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: describeStackResourceDrifts,
-            tokenKey: \DescribeStackResourceDriftsOutput.nextToken,
+            inputKey: \DescribeStackResourceDriftsInput.nextToken,
+            outputKey: \DescribeStackResourceDriftsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: describeStacks,
-            tokenKey: \DescribeStacksOutput.nextToken,
+            inputKey: \DescribeStacksInput.nextToken,
+            outputKey: \DescribeStacksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: describeStacks,
-            tokenKey: \DescribeStacksOutput.nextToken,
+            inputKey: \DescribeStacksInput.nextToken,
+            outputKey: \DescribeStacksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listChangeSets,
-            tokenKey: \ListChangeSetsOutput.nextToken,
+            inputKey: \ListChangeSetsInput.nextToken,
+            outputKey: \ListChangeSetsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listChangeSets,
-            tokenKey: \ListChangeSetsOutput.nextToken,
+            inputKey: \ListChangeSetsInput.nextToken,
+            outputKey: \ListChangeSetsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listExports,
-            tokenKey: \ListExportsOutput.nextToken,
+            inputKey: \ListExportsInput.nextToken,
+            outputKey: \ListExportsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listExports,
-            tokenKey: \ListExportsOutput.nextToken,
+            inputKey: \ListExportsInput.nextToken,
+            outputKey: \ListExportsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listImports,
-            tokenKey: \ListImportsOutput.nextToken,
+            inputKey: \ListImportsInput.nextToken,
+            outputKey: \ListImportsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listImports,
-            tokenKey: \ListImportsOutput.nextToken,
+            inputKey: \ListImportsInput.nextToken,
+            outputKey: \ListImportsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listStackInstances,
-            tokenKey: \ListStackInstancesOutput.nextToken,
+            inputKey: \ListStackInstancesInput.nextToken,
+            outputKey: \ListStackInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listStackInstances,
-            tokenKey: \ListStackInstancesOutput.nextToken,
+            inputKey: \ListStackInstancesInput.nextToken,
+            outputKey: \ListStackInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listStackResources,
-            tokenKey: \ListStackResourcesOutput.nextToken,
+            inputKey: \ListStackResourcesInput.nextToken,
+            outputKey: \ListStackResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listStackResources,
-            tokenKey: \ListStackResourcesOutput.nextToken,
+            inputKey: \ListStackResourcesInput.nextToken,
+            outputKey: \ListStackResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listStackSetOperationResults,
-            tokenKey: \ListStackSetOperationResultsOutput.nextToken,
+            inputKey: \ListStackSetOperationResultsInput.nextToken,
+            outputKey: \ListStackSetOperationResultsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listStackSetOperationResults,
-            tokenKey: \ListStackSetOperationResultsOutput.nextToken,
+            inputKey: \ListStackSetOperationResultsInput.nextToken,
+            outputKey: \ListStackSetOperationResultsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listStackSetOperations,
-            tokenKey: \ListStackSetOperationsOutput.nextToken,
+            inputKey: \ListStackSetOperationsInput.nextToken,
+            outputKey: \ListStackSetOperationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listStackSetOperations,
-            tokenKey: \ListStackSetOperationsOutput.nextToken,
+            inputKey: \ListStackSetOperationsInput.nextToken,
+            outputKey: \ListStackSetOperationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listStackSets,
-            tokenKey: \ListStackSetsOutput.nextToken,
+            inputKey: \ListStackSetsInput.nextToken,
+            outputKey: \ListStackSetsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listStackSets,
-            tokenKey: \ListStackSetsOutput.nextToken,
+            inputKey: \ListStackSetsInput.nextToken,
+            outputKey: \ListStackSetsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listStacks,
-            tokenKey: \ListStacksOutput.nextToken,
+            inputKey: \ListStacksInput.nextToken,
+            outputKey: \ListStacksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listStacks,
-            tokenKey: \ListStacksOutput.nextToken,
+            inputKey: \ListStacksInput.nextToken,
+            outputKey: \ListStacksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listTypeRegistrations,
-            tokenKey: \ListTypeRegistrationsOutput.nextToken,
+            inputKey: \ListTypeRegistrationsInput.nextToken,
+            outputKey: \ListTypeRegistrationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listTypeRegistrations,
-            tokenKey: \ListTypeRegistrationsOutput.nextToken,
+            inputKey: \ListTypeRegistrationsInput.nextToken,
+            outputKey: \ListTypeRegistrationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listTypeVersions,
-            tokenKey: \ListTypeVersionsOutput.nextToken,
+            inputKey: \ListTypeVersionsInput.nextToken,
+            outputKey: \ListTypeVersionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listTypeVersions,
-            tokenKey: \ListTypeVersionsOutput.nextToken,
+            inputKey: \ListTypeVersionsInput.nextToken,
+            outputKey: \ListTypeVersionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension CloudFormation {
             input: input,
             initialValue: initialValue,
             command: listTypes,
-            tokenKey: \ListTypesOutput.nextToken,
+            inputKey: \ListTypesInput.nextToken,
+            outputKey: \ListTypesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension CloudFormation {
         return client.paginate(
             input: input,
             command: listTypes,
-            tokenKey: \ListTypesOutput.nextToken,
+            inputKey: \ListTypesInput.nextToken,
+            outputKey: \ListTypesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

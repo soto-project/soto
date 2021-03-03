@@ -42,7 +42,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listAccounts,
-            tokenKey: \ListAccountsResponse.nextToken,
+            inputKey: \ListAccountsRequest.nextToken,
+            outputKey: \ListAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listAccounts,
-            tokenKey: \ListAccountsResponse.nextToken,
+            inputKey: \ListAccountsRequest.nextToken,
+            outputKey: \ListAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listAppInstanceAdmins,
-            tokenKey: \ListAppInstanceAdminsResponse.nextToken,
+            inputKey: \ListAppInstanceAdminsRequest.nextToken,
+            outputKey: \ListAppInstanceAdminsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listAppInstanceAdmins,
-            tokenKey: \ListAppInstanceAdminsResponse.nextToken,
+            inputKey: \ListAppInstanceAdminsRequest.nextToken,
+            outputKey: \ListAppInstanceAdminsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listAppInstanceUsers,
-            tokenKey: \ListAppInstanceUsersResponse.nextToken,
+            inputKey: \ListAppInstanceUsersRequest.nextToken,
+            outputKey: \ListAppInstanceUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listAppInstanceUsers,
-            tokenKey: \ListAppInstanceUsersResponse.nextToken,
+            inputKey: \ListAppInstanceUsersRequest.nextToken,
+            outputKey: \ListAppInstanceUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listAppInstances,
-            tokenKey: \ListAppInstancesResponse.nextToken,
+            inputKey: \ListAppInstancesRequest.nextToken,
+            outputKey: \ListAppInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listAppInstances,
-            tokenKey: \ListAppInstancesResponse.nextToken,
+            inputKey: \ListAppInstancesRequest.nextToken,
+            outputKey: \ListAppInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listAttendees,
-            tokenKey: \ListAttendeesResponse.nextToken,
+            inputKey: \ListAttendeesRequest.nextToken,
+            outputKey: \ListAttendeesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listAttendees,
-            tokenKey: \ListAttendeesResponse.nextToken,
+            inputKey: \ListAttendeesRequest.nextToken,
+            outputKey: \ListAttendeesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listBots,
-            tokenKey: \ListBotsResponse.nextToken,
+            inputKey: \ListBotsRequest.nextToken,
+            outputKey: \ListBotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listBots,
-            tokenKey: \ListBotsResponse.nextToken,
+            inputKey: \ListBotsRequest.nextToken,
+            outputKey: \ListBotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listChannelBans,
-            tokenKey: \ListChannelBansResponse.nextToken,
+            inputKey: \ListChannelBansRequest.nextToken,
+            outputKey: \ListChannelBansResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listChannelBans,
-            tokenKey: \ListChannelBansResponse.nextToken,
+            inputKey: \ListChannelBansRequest.nextToken,
+            outputKey: \ListChannelBansResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listChannelMemberships,
-            tokenKey: \ListChannelMembershipsResponse.nextToken,
+            inputKey: \ListChannelMembershipsRequest.nextToken,
+            outputKey: \ListChannelMembershipsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listChannelMemberships,
-            tokenKey: \ListChannelMembershipsResponse.nextToken,
+            inputKey: \ListChannelMembershipsRequest.nextToken,
+            outputKey: \ListChannelMembershipsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listChannelMembershipsForAppInstanceUser,
-            tokenKey: \ListChannelMembershipsForAppInstanceUserResponse.nextToken,
+            inputKey: \ListChannelMembershipsForAppInstanceUserRequest.nextToken,
+            outputKey: \ListChannelMembershipsForAppInstanceUserResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listChannelMembershipsForAppInstanceUser,
-            tokenKey: \ListChannelMembershipsForAppInstanceUserResponse.nextToken,
+            inputKey: \ListChannelMembershipsForAppInstanceUserRequest.nextToken,
+            outputKey: \ListChannelMembershipsForAppInstanceUserResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listChannelMessages,
-            tokenKey: \ListChannelMessagesResponse.nextToken,
+            inputKey: \ListChannelMessagesRequest.nextToken,
+            outputKey: \ListChannelMessagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listChannelMessages,
-            tokenKey: \ListChannelMessagesResponse.nextToken,
+            inputKey: \ListChannelMessagesRequest.nextToken,
+            outputKey: \ListChannelMessagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listChannelModerators,
-            tokenKey: \ListChannelModeratorsResponse.nextToken,
+            inputKey: \ListChannelModeratorsRequest.nextToken,
+            outputKey: \ListChannelModeratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listChannelModerators,
-            tokenKey: \ListChannelModeratorsResponse.nextToken,
+            inputKey: \ListChannelModeratorsRequest.nextToken,
+            outputKey: \ListChannelModeratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listChannelsModeratedByAppInstanceUser,
-            tokenKey: \ListChannelsModeratedByAppInstanceUserResponse.nextToken,
+            inputKey: \ListChannelsModeratedByAppInstanceUserRequest.nextToken,
+            outputKey: \ListChannelsModeratedByAppInstanceUserResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listChannelsModeratedByAppInstanceUser,
-            tokenKey: \ListChannelsModeratedByAppInstanceUserResponse.nextToken,
+            inputKey: \ListChannelsModeratedByAppInstanceUserRequest.nextToken,
+            outputKey: \ListChannelsModeratedByAppInstanceUserResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listMeetings,
-            tokenKey: \ListMeetingsResponse.nextToken,
+            inputKey: \ListMeetingsRequest.nextToken,
+            outputKey: \ListMeetingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listMeetings,
-            tokenKey: \ListMeetingsResponse.nextToken,
+            inputKey: \ListMeetingsRequest.nextToken,
+            outputKey: \ListMeetingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listPhoneNumberOrders,
-            tokenKey: \ListPhoneNumberOrdersResponse.nextToken,
+            inputKey: \ListPhoneNumberOrdersRequest.nextToken,
+            outputKey: \ListPhoneNumberOrdersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listPhoneNumberOrders,
-            tokenKey: \ListPhoneNumberOrdersResponse.nextToken,
+            inputKey: \ListPhoneNumberOrdersRequest.nextToken,
+            outputKey: \ListPhoneNumberOrdersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listPhoneNumbers,
-            tokenKey: \ListPhoneNumbersResponse.nextToken,
+            inputKey: \ListPhoneNumbersRequest.nextToken,
+            outputKey: \ListPhoneNumbersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listPhoneNumbers,
-            tokenKey: \ListPhoneNumbersResponse.nextToken,
+            inputKey: \ListPhoneNumbersRequest.nextToken,
+            outputKey: \ListPhoneNumbersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listProxySessions,
-            tokenKey: \ListProxySessionsResponse.nextToken,
+            inputKey: \ListProxySessionsRequest.nextToken,
+            outputKey: \ListProxySessionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listProxySessions,
-            tokenKey: \ListProxySessionsResponse.nextToken,
+            inputKey: \ListProxySessionsRequest.nextToken,
+            outputKey: \ListProxySessionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listRoomMemberships,
-            tokenKey: \ListRoomMembershipsResponse.nextToken,
+            inputKey: \ListRoomMembershipsRequest.nextToken,
+            outputKey: \ListRoomMembershipsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listRoomMemberships,
-            tokenKey: \ListRoomMembershipsResponse.nextToken,
+            inputKey: \ListRoomMembershipsRequest.nextToken,
+            outputKey: \ListRoomMembershipsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listRooms,
-            tokenKey: \ListRoomsResponse.nextToken,
+            inputKey: \ListRoomsRequest.nextToken,
+            outputKey: \ListRoomsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listRooms,
-            tokenKey: \ListRoomsResponse.nextToken,
+            inputKey: \ListRoomsRequest.nextToken,
+            outputKey: \ListRoomsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1049,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listSipMediaApplications,
-            tokenKey: \ListSipMediaApplicationsResponse.nextToken,
+            inputKey: \ListSipMediaApplicationsRequest.nextToken,
+            outputKey: \ListSipMediaApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1072,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listSipMediaApplications,
-            tokenKey: \ListSipMediaApplicationsResponse.nextToken,
+            inputKey: \ListSipMediaApplicationsRequest.nextToken,
+            outputKey: \ListSipMediaApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1062,7 +1102,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listSipRules,
-            tokenKey: \ListSipRulesResponse.nextToken,
+            inputKey: \ListSipRulesRequest.nextToken,
+            outputKey: \ListSipRulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1084,7 +1125,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listSipRules,
-            tokenKey: \ListSipRulesResponse.nextToken,
+            inputKey: \ListSipRulesRequest.nextToken,
+            outputKey: \ListSipRulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,7 +1155,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listUsers,
-            tokenKey: \ListUsersResponse.nextToken,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1135,7 +1178,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listUsers,
-            tokenKey: \ListUsersResponse.nextToken,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1164,7 +1208,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listVoiceConnectorGroups,
-            tokenKey: \ListVoiceConnectorGroupsResponse.nextToken,
+            inputKey: \ListVoiceConnectorGroupsRequest.nextToken,
+            outputKey: \ListVoiceConnectorGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1186,7 +1231,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listVoiceConnectorGroups,
-            tokenKey: \ListVoiceConnectorGroupsResponse.nextToken,
+            inputKey: \ListVoiceConnectorGroupsRequest.nextToken,
+            outputKey: \ListVoiceConnectorGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1215,7 +1261,8 @@ extension Chime {
             input: input,
             initialValue: initialValue,
             command: listVoiceConnectors,
-            tokenKey: \ListVoiceConnectorsResponse.nextToken,
+            inputKey: \ListVoiceConnectorsRequest.nextToken,
+            outputKey: \ListVoiceConnectorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1237,7 +1284,8 @@ extension Chime {
         return client.paginate(
             input: input,
             command: listVoiceConnectors,
-            tokenKey: \ListVoiceConnectorsResponse.nextToken,
+            inputKey: \ListVoiceConnectorsRequest.nextToken,
+            outputKey: \ListVoiceConnectorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

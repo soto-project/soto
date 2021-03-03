@@ -42,7 +42,8 @@ extension FSx {
             input: input,
             initialValue: initialValue,
             command: describeBackups,
-            tokenKey: \DescribeBackupsResponse.nextToken,
+            inputKey: \DescribeBackupsRequest.nextToken,
+            outputKey: \DescribeBackupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension FSx {
         return client.paginate(
             input: input,
             command: describeBackups,
-            tokenKey: \DescribeBackupsResponse.nextToken,
+            inputKey: \DescribeBackupsRequest.nextToken,
+            outputKey: \DescribeBackupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension FSx {
             input: input,
             initialValue: initialValue,
             command: describeDataRepositoryTasks,
-            tokenKey: \DescribeDataRepositoryTasksResponse.nextToken,
+            inputKey: \DescribeDataRepositoryTasksRequest.nextToken,
+            outputKey: \DescribeDataRepositoryTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension FSx {
         return client.paginate(
             input: input,
             command: describeDataRepositoryTasks,
-            tokenKey: \DescribeDataRepositoryTasksResponse.nextToken,
+            inputKey: \DescribeDataRepositoryTasksRequest.nextToken,
+            outputKey: \DescribeDataRepositoryTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension FSx {
             input: input,
             initialValue: initialValue,
             command: describeFileSystemAliases,
-            tokenKey: \DescribeFileSystemAliasesResponse.nextToken,
+            inputKey: \DescribeFileSystemAliasesRequest.nextToken,
+            outputKey: \DescribeFileSystemAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension FSx {
         return client.paginate(
             input: input,
             command: describeFileSystemAliases,
-            tokenKey: \DescribeFileSystemAliasesResponse.nextToken,
+            inputKey: \DescribeFileSystemAliasesRequest.nextToken,
+            outputKey: \DescribeFileSystemAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension FSx {
             input: input,
             initialValue: initialValue,
             command: describeFileSystems,
-            tokenKey: \DescribeFileSystemsResponse.nextToken,
+            inputKey: \DescribeFileSystemsRequest.nextToken,
+            outputKey: \DescribeFileSystemsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension FSx {
         return client.paginate(
             input: input,
             command: describeFileSystems,
-            tokenKey: \DescribeFileSystemsResponse.nextToken,
+            inputKey: \DescribeFileSystemsRequest.nextToken,
+            outputKey: \DescribeFileSystemsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

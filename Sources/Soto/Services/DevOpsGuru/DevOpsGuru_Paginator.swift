@@ -42,7 +42,8 @@ extension DevOpsGuru {
             input: input,
             initialValue: initialValue,
             command: describeResourceCollectionHealth,
-            tokenKey: \DescribeResourceCollectionHealthResponse.nextToken,
+            inputKey: \DescribeResourceCollectionHealthRequest.nextToken,
+            outputKey: \DescribeResourceCollectionHealthResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension DevOpsGuru {
         return client.paginate(
             input: input,
             command: describeResourceCollectionHealth,
-            tokenKey: \DescribeResourceCollectionHealthResponse.nextToken,
+            inputKey: \DescribeResourceCollectionHealthRequest.nextToken,
+            outputKey: \DescribeResourceCollectionHealthResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension DevOpsGuru {
             input: input,
             initialValue: initialValue,
             command: getResourceCollection,
-            tokenKey: \GetResourceCollectionResponse.nextToken,
+            inputKey: \GetResourceCollectionRequest.nextToken,
+            outputKey: \GetResourceCollectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension DevOpsGuru {
         return client.paginate(
             input: input,
             command: getResourceCollection,
-            tokenKey: \GetResourceCollectionResponse.nextToken,
+            inputKey: \GetResourceCollectionRequest.nextToken,
+            outputKey: \GetResourceCollectionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension DevOpsGuru {
             input: input,
             initialValue: initialValue,
             command: listAnomaliesForInsight,
-            tokenKey: \ListAnomaliesForInsightResponse.nextToken,
+            inputKey: \ListAnomaliesForInsightRequest.nextToken,
+            outputKey: \ListAnomaliesForInsightResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension DevOpsGuru {
         return client.paginate(
             input: input,
             command: listAnomaliesForInsight,
-            tokenKey: \ListAnomaliesForInsightResponse.nextToken,
+            inputKey: \ListAnomaliesForInsightRequest.nextToken,
+            outputKey: \ListAnomaliesForInsightResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension DevOpsGuru {
             input: input,
             initialValue: initialValue,
             command: listEvents,
-            tokenKey: \ListEventsResponse.nextToken,
+            inputKey: \ListEventsRequest.nextToken,
+            outputKey: \ListEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension DevOpsGuru {
         return client.paginate(
             input: input,
             command: listEvents,
-            tokenKey: \ListEventsResponse.nextToken,
+            inputKey: \ListEventsRequest.nextToken,
+            outputKey: \ListEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension DevOpsGuru {
             input: input,
             initialValue: initialValue,
             command: listInsights,
-            tokenKey: \ListInsightsResponse.nextToken,
+            inputKey: \ListInsightsRequest.nextToken,
+            outputKey: \ListInsightsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension DevOpsGuru {
         return client.paginate(
             input: input,
             command: listInsights,
-            tokenKey: \ListInsightsResponse.nextToken,
+            inputKey: \ListInsightsRequest.nextToken,
+            outputKey: \ListInsightsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension DevOpsGuru {
             input: input,
             initialValue: initialValue,
             command: listNotificationChannels,
-            tokenKey: \ListNotificationChannelsResponse.nextToken,
+            inputKey: \ListNotificationChannelsRequest.nextToken,
+            outputKey: \ListNotificationChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension DevOpsGuru {
         return client.paginate(
             input: input,
             command: listNotificationChannels,
-            tokenKey: \ListNotificationChannelsResponse.nextToken,
+            inputKey: \ListNotificationChannelsRequest.nextToken,
+            outputKey: \ListNotificationChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension DevOpsGuru {
             input: input,
             initialValue: initialValue,
             command: listRecommendations,
-            tokenKey: \ListRecommendationsResponse.nextToken,
+            inputKey: \ListRecommendationsRequest.nextToken,
+            outputKey: \ListRecommendationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension DevOpsGuru {
         return client.paginate(
             input: input,
             command: listRecommendations,
-            tokenKey: \ListRecommendationsResponse.nextToken,
+            inputKey: \ListRecommendationsRequest.nextToken,
+            outputKey: \ListRecommendationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension DevOpsGuru {
             input: input,
             initialValue: initialValue,
             command: searchInsights,
-            tokenKey: \SearchInsightsResponse.nextToken,
+            inputKey: \SearchInsightsRequest.nextToken,
+            outputKey: \SearchInsightsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension DevOpsGuru {
         return client.paginate(
             input: input,
             command: searchInsights,
-            tokenKey: \SearchInsightsResponse.nextToken,
+            inputKey: \SearchInsightsRequest.nextToken,
+            outputKey: \SearchInsightsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

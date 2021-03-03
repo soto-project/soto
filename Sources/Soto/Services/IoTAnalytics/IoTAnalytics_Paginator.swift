@@ -42,7 +42,8 @@ extension IoTAnalytics {
             input: input,
             initialValue: initialValue,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension IoTAnalytics {
         return client.paginate(
             input: input,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension IoTAnalytics {
             input: input,
             initialValue: initialValue,
             command: listDatasetContents,
-            tokenKey: \ListDatasetContentsResponse.nextToken,
+            inputKey: \ListDatasetContentsRequest.nextToken,
+            outputKey: \ListDatasetContentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension IoTAnalytics {
         return client.paginate(
             input: input,
             command: listDatasetContents,
-            tokenKey: \ListDatasetContentsResponse.nextToken,
+            inputKey: \ListDatasetContentsRequest.nextToken,
+            outputKey: \ListDatasetContentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension IoTAnalytics {
             input: input,
             initialValue: initialValue,
             command: listDatasets,
-            tokenKey: \ListDatasetsResponse.nextToken,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension IoTAnalytics {
         return client.paginate(
             input: input,
             command: listDatasets,
-            tokenKey: \ListDatasetsResponse.nextToken,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension IoTAnalytics {
             input: input,
             initialValue: initialValue,
             command: listDatastores,
-            tokenKey: \ListDatastoresResponse.nextToken,
+            inputKey: \ListDatastoresRequest.nextToken,
+            outputKey: \ListDatastoresResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension IoTAnalytics {
         return client.paginate(
             input: input,
             command: listDatastores,
-            tokenKey: \ListDatastoresResponse.nextToken,
+            inputKey: \ListDatastoresRequest.nextToken,
+            outputKey: \ListDatastoresResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension IoTAnalytics {
             input: input,
             initialValue: initialValue,
             command: listPipelines,
-            tokenKey: \ListPipelinesResponse.nextToken,
+            inputKey: \ListPipelinesRequest.nextToken,
+            outputKey: \ListPipelinesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension IoTAnalytics {
         return client.paginate(
             input: input,
             command: listPipelines,
-            tokenKey: \ListPipelinesResponse.nextToken,
+            inputKey: \ListPipelinesRequest.nextToken,
+            outputKey: \ListPipelinesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

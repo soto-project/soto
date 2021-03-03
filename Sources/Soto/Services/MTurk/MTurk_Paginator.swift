@@ -42,7 +42,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listAssignmentsForHIT,
-            tokenKey: \ListAssignmentsForHITResponse.nextToken,
+            inputKey: \ListAssignmentsForHITRequest.nextToken,
+            outputKey: \ListAssignmentsForHITResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listAssignmentsForHIT,
-            tokenKey: \ListAssignmentsForHITResponse.nextToken,
+            inputKey: \ListAssignmentsForHITRequest.nextToken,
+            outputKey: \ListAssignmentsForHITResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listBonusPayments,
-            tokenKey: \ListBonusPaymentsResponse.nextToken,
+            inputKey: \ListBonusPaymentsRequest.nextToken,
+            outputKey: \ListBonusPaymentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listBonusPayments,
-            tokenKey: \ListBonusPaymentsResponse.nextToken,
+            inputKey: \ListBonusPaymentsRequest.nextToken,
+            outputKey: \ListBonusPaymentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listHITs,
-            tokenKey: \ListHITsResponse.nextToken,
+            inputKey: \ListHITsRequest.nextToken,
+            outputKey: \ListHITsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listHITs,
-            tokenKey: \ListHITsResponse.nextToken,
+            inputKey: \ListHITsRequest.nextToken,
+            outputKey: \ListHITsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listHITsForQualificationType,
-            tokenKey: \ListHITsForQualificationTypeResponse.nextToken,
+            inputKey: \ListHITsForQualificationTypeRequest.nextToken,
+            outputKey: \ListHITsForQualificationTypeResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listHITsForQualificationType,
-            tokenKey: \ListHITsForQualificationTypeResponse.nextToken,
+            inputKey: \ListHITsForQualificationTypeRequest.nextToken,
+            outputKey: \ListHITsForQualificationTypeResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listQualificationRequests,
-            tokenKey: \ListQualificationRequestsResponse.nextToken,
+            inputKey: \ListQualificationRequestsRequest.nextToken,
+            outputKey: \ListQualificationRequestsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listQualificationRequests,
-            tokenKey: \ListQualificationRequestsResponse.nextToken,
+            inputKey: \ListQualificationRequestsRequest.nextToken,
+            outputKey: \ListQualificationRequestsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listQualificationTypes,
-            tokenKey: \ListQualificationTypesResponse.nextToken,
+            inputKey: \ListQualificationTypesRequest.nextToken,
+            outputKey: \ListQualificationTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listQualificationTypes,
-            tokenKey: \ListQualificationTypesResponse.nextToken,
+            inputKey: \ListQualificationTypesRequest.nextToken,
+            outputKey: \ListQualificationTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listReviewPolicyResultsForHIT,
-            tokenKey: \ListReviewPolicyResultsForHITResponse.nextToken,
+            inputKey: \ListReviewPolicyResultsForHITRequest.nextToken,
+            outputKey: \ListReviewPolicyResultsForHITResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listReviewPolicyResultsForHIT,
-            tokenKey: \ListReviewPolicyResultsForHITResponse.nextToken,
+            inputKey: \ListReviewPolicyResultsForHITRequest.nextToken,
+            outputKey: \ListReviewPolicyResultsForHITResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listReviewableHITs,
-            tokenKey: \ListReviewableHITsResponse.nextToken,
+            inputKey: \ListReviewableHITsRequest.nextToken,
+            outputKey: \ListReviewableHITsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listReviewableHITs,
-            tokenKey: \ListReviewableHITsResponse.nextToken,
+            inputKey: \ListReviewableHITsRequest.nextToken,
+            outputKey: \ListReviewableHITsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listWorkerBlocks,
-            tokenKey: \ListWorkerBlocksResponse.nextToken,
+            inputKey: \ListWorkerBlocksRequest.nextToken,
+            outputKey: \ListWorkerBlocksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listWorkerBlocks,
-            tokenKey: \ListWorkerBlocksResponse.nextToken,
+            inputKey: \ListWorkerBlocksRequest.nextToken,
+            outputKey: \ListWorkerBlocksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension MTurk {
             input: input,
             initialValue: initialValue,
             command: listWorkersWithQualificationType,
-            tokenKey: \ListWorkersWithQualificationTypeResponse.nextToken,
+            inputKey: \ListWorkersWithQualificationTypeRequest.nextToken,
+            outputKey: \ListWorkersWithQualificationTypeResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension MTurk {
         return client.paginate(
             input: input,
             command: listWorkersWithQualificationType,
-            tokenKey: \ListWorkersWithQualificationTypeResponse.nextToken,
+            inputKey: \ListWorkersWithQualificationTypeRequest.nextToken,
+            outputKey: \ListWorkersWithQualificationTypeResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension HealthLake {
             input: input,
             initialValue: initialValue,
             command: listFHIRDatastores,
-            tokenKey: \ListFHIRDatastoresResponse.nextToken,
+            inputKey: \ListFHIRDatastoresRequest.nextToken,
+            outputKey: \ListFHIRDatastoresResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension HealthLake {
         return client.paginate(
             input: input,
             command: listFHIRDatastores,
-            tokenKey: \ListFHIRDatastoresResponse.nextToken,
+            inputKey: \ListFHIRDatastoresRequest.nextToken,
+            outputKey: \ListFHIRDatastoresResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

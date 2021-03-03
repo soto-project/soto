@@ -42,7 +42,8 @@ extension MediaStore {
             input: input,
             initialValue: initialValue,
             command: listContainers,
-            tokenKey: \ListContainersOutput.nextToken,
+            inputKey: \ListContainersInput.nextToken,
+            outputKey: \ListContainersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MediaStore {
         return client.paginate(
             input: input,
             command: listContainers,
-            tokenKey: \ListContainersOutput.nextToken,
+            inputKey: \ListContainersInput.nextToken,
+            outputKey: \ListContainersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

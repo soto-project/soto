@@ -42,7 +42,8 @@ extension Honeycode {
             input: input,
             initialValue: initialValue,
             command: listTableColumns,
-            tokenKey: \ListTableColumnsResult.nextToken,
+            inputKey: \ListTableColumnsRequest.nextToken,
+            outputKey: \ListTableColumnsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Honeycode {
         return client.paginate(
             input: input,
             command: listTableColumns,
-            tokenKey: \ListTableColumnsResult.nextToken,
+            inputKey: \ListTableColumnsRequest.nextToken,
+            outputKey: \ListTableColumnsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Honeycode {
             input: input,
             initialValue: initialValue,
             command: listTableRows,
-            tokenKey: \ListTableRowsResult.nextToken,
+            inputKey: \ListTableRowsRequest.nextToken,
+            outputKey: \ListTableRowsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Honeycode {
         return client.paginate(
             input: input,
             command: listTableRows,
-            tokenKey: \ListTableRowsResult.nextToken,
+            inputKey: \ListTableRowsRequest.nextToken,
+            outputKey: \ListTableRowsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Honeycode {
             input: input,
             initialValue: initialValue,
             command: listTables,
-            tokenKey: \ListTablesResult.nextToken,
+            inputKey: \ListTablesRequest.nextToken,
+            outputKey: \ListTablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Honeycode {
         return client.paginate(
             input: input,
             command: listTables,
-            tokenKey: \ListTablesResult.nextToken,
+            inputKey: \ListTablesRequest.nextToken,
+            outputKey: \ListTablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Honeycode {
             input: input,
             initialValue: initialValue,
             command: queryTableRows,
-            tokenKey: \QueryTableRowsResult.nextToken,
+            inputKey: \QueryTableRowsRequest.nextToken,
+            outputKey: \QueryTableRowsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Honeycode {
         return client.paginate(
             input: input,
             command: queryTableRows,
-            tokenKey: \QueryTableRowsResult.nextToken,
+            inputKey: \QueryTableRowsRequest.nextToken,
+            outputKey: \QueryTableRowsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

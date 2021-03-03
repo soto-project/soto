@@ -42,7 +42,8 @@ extension Route53Domains {
             input: input,
             initialValue: initialValue,
             command: listDomains,
-            tokenKey: \ListDomainsResponse.nextPageMarker,
+            inputKey: \ListDomainsRequest.marker,
+            outputKey: \ListDomainsResponse.nextPageMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Route53Domains {
         return client.paginate(
             input: input,
             command: listDomains,
-            tokenKey: \ListDomainsResponse.nextPageMarker,
+            inputKey: \ListDomainsRequest.marker,
+            outputKey: \ListDomainsResponse.nextPageMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Route53Domains {
             input: input,
             initialValue: initialValue,
             command: listOperations,
-            tokenKey: \ListOperationsResponse.nextPageMarker,
+            inputKey: \ListOperationsRequest.marker,
+            outputKey: \ListOperationsResponse.nextPageMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Route53Domains {
         return client.paginate(
             input: input,
             command: listOperations,
-            tokenKey: \ListOperationsResponse.nextPageMarker,
+            inputKey: \ListOperationsRequest.marker,
+            outputKey: \ListOperationsResponse.nextPageMarker,
             on: eventLoop,
             onPage: onPage
         )

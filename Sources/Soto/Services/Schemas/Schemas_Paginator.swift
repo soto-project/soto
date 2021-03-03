@@ -42,7 +42,8 @@ extension Schemas {
             input: input,
             initialValue: initialValue,
             command: listDiscoverers,
-            tokenKey: \ListDiscoverersResponse.nextToken,
+            inputKey: \ListDiscoverersRequest.nextToken,
+            outputKey: \ListDiscoverersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Schemas {
         return client.paginate(
             input: input,
             command: listDiscoverers,
-            tokenKey: \ListDiscoverersResponse.nextToken,
+            inputKey: \ListDiscoverersRequest.nextToken,
+            outputKey: \ListDiscoverersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Schemas {
             input: input,
             initialValue: initialValue,
             command: listRegistries,
-            tokenKey: \ListRegistriesResponse.nextToken,
+            inputKey: \ListRegistriesRequest.nextToken,
+            outputKey: \ListRegistriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Schemas {
         return client.paginate(
             input: input,
             command: listRegistries,
-            tokenKey: \ListRegistriesResponse.nextToken,
+            inputKey: \ListRegistriesRequest.nextToken,
+            outputKey: \ListRegistriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Schemas {
             input: input,
             initialValue: initialValue,
             command: listSchemaVersions,
-            tokenKey: \ListSchemaVersionsResponse.nextToken,
+            inputKey: \ListSchemaVersionsRequest.nextToken,
+            outputKey: \ListSchemaVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Schemas {
         return client.paginate(
             input: input,
             command: listSchemaVersions,
-            tokenKey: \ListSchemaVersionsResponse.nextToken,
+            inputKey: \ListSchemaVersionsRequest.nextToken,
+            outputKey: \ListSchemaVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Schemas {
             input: input,
             initialValue: initialValue,
             command: listSchemas,
-            tokenKey: \ListSchemasResponse.nextToken,
+            inputKey: \ListSchemasRequest.nextToken,
+            outputKey: \ListSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Schemas {
         return client.paginate(
             input: input,
             command: listSchemas,
-            tokenKey: \ListSchemasResponse.nextToken,
+            inputKey: \ListSchemasRequest.nextToken,
+            outputKey: \ListSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Schemas {
             input: input,
             initialValue: initialValue,
             command: searchSchemas,
-            tokenKey: \SearchSchemasResponse.nextToken,
+            inputKey: \SearchSchemasRequest.nextToken,
+            outputKey: \SearchSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Schemas {
         return client.paginate(
             input: input,
             command: searchSchemas,
-            tokenKey: \SearchSchemasResponse.nextToken,
+            inputKey: \SearchSchemasRequest.nextToken,
+            outputKey: \SearchSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

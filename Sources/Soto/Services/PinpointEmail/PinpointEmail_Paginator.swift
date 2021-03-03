@@ -42,7 +42,8 @@ extension PinpointEmail {
             input: input,
             initialValue: initialValue,
             command: getDedicatedIps,
-            tokenKey: \GetDedicatedIpsResponse.nextToken,
+            inputKey: \GetDedicatedIpsRequest.nextToken,
+            outputKey: \GetDedicatedIpsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension PinpointEmail {
         return client.paginate(
             input: input,
             command: getDedicatedIps,
-            tokenKey: \GetDedicatedIpsResponse.nextToken,
+            inputKey: \GetDedicatedIpsRequest.nextToken,
+            outputKey: \GetDedicatedIpsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension PinpointEmail {
             input: input,
             initialValue: initialValue,
             command: listConfigurationSets,
-            tokenKey: \ListConfigurationSetsResponse.nextToken,
+            inputKey: \ListConfigurationSetsRequest.nextToken,
+            outputKey: \ListConfigurationSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension PinpointEmail {
         return client.paginate(
             input: input,
             command: listConfigurationSets,
-            tokenKey: \ListConfigurationSetsResponse.nextToken,
+            inputKey: \ListConfigurationSetsRequest.nextToken,
+            outputKey: \ListConfigurationSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension PinpointEmail {
             input: input,
             initialValue: initialValue,
             command: listDedicatedIpPools,
-            tokenKey: \ListDedicatedIpPoolsResponse.nextToken,
+            inputKey: \ListDedicatedIpPoolsRequest.nextToken,
+            outputKey: \ListDedicatedIpPoolsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension PinpointEmail {
         return client.paginate(
             input: input,
             command: listDedicatedIpPools,
-            tokenKey: \ListDedicatedIpPoolsResponse.nextToken,
+            inputKey: \ListDedicatedIpPoolsRequest.nextToken,
+            outputKey: \ListDedicatedIpPoolsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension PinpointEmail {
             input: input,
             initialValue: initialValue,
             command: listDeliverabilityTestReports,
-            tokenKey: \ListDeliverabilityTestReportsResponse.nextToken,
+            inputKey: \ListDeliverabilityTestReportsRequest.nextToken,
+            outputKey: \ListDeliverabilityTestReportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension PinpointEmail {
         return client.paginate(
             input: input,
             command: listDeliverabilityTestReports,
-            tokenKey: \ListDeliverabilityTestReportsResponse.nextToken,
+            inputKey: \ListDeliverabilityTestReportsRequest.nextToken,
+            outputKey: \ListDeliverabilityTestReportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension PinpointEmail {
             input: input,
             initialValue: initialValue,
             command: listDomainDeliverabilityCampaigns,
-            tokenKey: \ListDomainDeliverabilityCampaignsResponse.nextToken,
+            inputKey: \ListDomainDeliverabilityCampaignsRequest.nextToken,
+            outputKey: \ListDomainDeliverabilityCampaignsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension PinpointEmail {
         return client.paginate(
             input: input,
             command: listDomainDeliverabilityCampaigns,
-            tokenKey: \ListDomainDeliverabilityCampaignsResponse.nextToken,
+            inputKey: \ListDomainDeliverabilityCampaignsRequest.nextToken,
+            outputKey: \ListDomainDeliverabilityCampaignsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension PinpointEmail {
             input: input,
             initialValue: initialValue,
             command: listEmailIdentities,
-            tokenKey: \ListEmailIdentitiesResponse.nextToken,
+            inputKey: \ListEmailIdentitiesRequest.nextToken,
+            outputKey: \ListEmailIdentitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension PinpointEmail {
         return client.paginate(
             input: input,
             command: listEmailIdentities,
-            tokenKey: \ListEmailIdentitiesResponse.nextToken,
+            inputKey: \ListEmailIdentitiesRequest.nextToken,
+            outputKey: \ListEmailIdentitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension Translate {
             input: input,
             initialValue: initialValue,
             command: listParallelData,
-            tokenKey: \ListParallelDataResponse.nextToken,
+            inputKey: \ListParallelDataRequest.nextToken,
+            outputKey: \ListParallelDataResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Translate {
         return client.paginate(
             input: input,
             command: listParallelData,
-            tokenKey: \ListParallelDataResponse.nextToken,
+            inputKey: \ListParallelDataRequest.nextToken,
+            outputKey: \ListParallelDataResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Translate {
             input: input,
             initialValue: initialValue,
             command: listTerminologies,
-            tokenKey: \ListTerminologiesResponse.nextToken,
+            inputKey: \ListTerminologiesRequest.nextToken,
+            outputKey: \ListTerminologiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Translate {
         return client.paginate(
             input: input,
             command: listTerminologies,
-            tokenKey: \ListTerminologiesResponse.nextToken,
+            inputKey: \ListTerminologiesRequest.nextToken,
+            outputKey: \ListTerminologiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Translate {
             input: input,
             initialValue: initialValue,
             command: listTextTranslationJobs,
-            tokenKey: \ListTextTranslationJobsResponse.nextToken,
+            inputKey: \ListTextTranslationJobsRequest.nextToken,
+            outputKey: \ListTextTranslationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Translate {
         return client.paginate(
             input: input,
             command: listTextTranslationJobs,
-            tokenKey: \ListTextTranslationJobsResponse.nextToken,
+            inputKey: \ListTextTranslationJobsRequest.nextToken,
+            outputKey: \ListTextTranslationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

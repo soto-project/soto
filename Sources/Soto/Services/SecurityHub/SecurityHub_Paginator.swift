@@ -42,7 +42,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: describeActionTargets,
-            tokenKey: \DescribeActionTargetsResponse.nextToken,
+            inputKey: \DescribeActionTargetsRequest.nextToken,
+            outputKey: \DescribeActionTargetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: describeActionTargets,
-            tokenKey: \DescribeActionTargetsResponse.nextToken,
+            inputKey: \DescribeActionTargetsRequest.nextToken,
+            outputKey: \DescribeActionTargetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: describeProducts,
-            tokenKey: \DescribeProductsResponse.nextToken,
+            inputKey: \DescribeProductsRequest.nextToken,
+            outputKey: \DescribeProductsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: describeProducts,
-            tokenKey: \DescribeProductsResponse.nextToken,
+            inputKey: \DescribeProductsRequest.nextToken,
+            outputKey: \DescribeProductsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: describeStandards,
-            tokenKey: \DescribeStandardsResponse.nextToken,
+            inputKey: \DescribeStandardsRequest.nextToken,
+            outputKey: \DescribeStandardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: describeStandards,
-            tokenKey: \DescribeStandardsResponse.nextToken,
+            inputKey: \DescribeStandardsRequest.nextToken,
+            outputKey: \DescribeStandardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: describeStandardsControls,
-            tokenKey: \DescribeStandardsControlsResponse.nextToken,
+            inputKey: \DescribeStandardsControlsRequest.nextToken,
+            outputKey: \DescribeStandardsControlsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: describeStandardsControls,
-            tokenKey: \DescribeStandardsControlsResponse.nextToken,
+            inputKey: \DescribeStandardsControlsRequest.nextToken,
+            outputKey: \DescribeStandardsControlsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: getEnabledStandards,
-            tokenKey: \GetEnabledStandardsResponse.nextToken,
+            inputKey: \GetEnabledStandardsRequest.nextToken,
+            outputKey: \GetEnabledStandardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: getEnabledStandards,
-            tokenKey: \GetEnabledStandardsResponse.nextToken,
+            inputKey: \GetEnabledStandardsRequest.nextToken,
+            outputKey: \GetEnabledStandardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: getFindings,
-            tokenKey: \GetFindingsResponse.nextToken,
+            inputKey: \GetFindingsRequest.nextToken,
+            outputKey: \GetFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: getFindings,
-            tokenKey: \GetFindingsResponse.nextToken,
+            inputKey: \GetFindingsRequest.nextToken,
+            outputKey: \GetFindingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: getInsights,
-            tokenKey: \GetInsightsResponse.nextToken,
+            inputKey: \GetInsightsRequest.nextToken,
+            outputKey: \GetInsightsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: getInsights,
-            tokenKey: \GetInsightsResponse.nextToken,
+            inputKey: \GetInsightsRequest.nextToken,
+            outputKey: \GetInsightsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: listEnabledProductsForImport,
-            tokenKey: \ListEnabledProductsForImportResponse.nextToken,
+            inputKey: \ListEnabledProductsForImportRequest.nextToken,
+            outputKey: \ListEnabledProductsForImportResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: listEnabledProductsForImport,
-            tokenKey: \ListEnabledProductsForImportResponse.nextToken,
+            inputKey: \ListEnabledProductsForImportRequest.nextToken,
+            outputKey: \ListEnabledProductsForImportResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: listInvitations,
-            tokenKey: \ListInvitationsResponse.nextToken,
+            inputKey: \ListInvitationsRequest.nextToken,
+            outputKey: \ListInvitationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: listInvitations,
-            tokenKey: \ListInvitationsResponse.nextToken,
+            inputKey: \ListInvitationsRequest.nextToken,
+            outputKey: \ListInvitationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: listMembers,
-            tokenKey: \ListMembersResponse.nextToken,
+            inputKey: \ListMembersRequest.nextToken,
+            outputKey: \ListMembersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: listMembers,
-            tokenKey: \ListMembersResponse.nextToken,
+            inputKey: \ListMembersRequest.nextToken,
+            outputKey: \ListMembersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension SecurityHub {
             input: input,
             initialValue: initialValue,
             command: listOrganizationAdminAccounts,
-            tokenKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            inputKey: \ListOrganizationAdminAccountsRequest.nextToken,
+            outputKey: \ListOrganizationAdminAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension SecurityHub {
         return client.paginate(
             input: input,
             command: listOrganizationAdminAccounts,
-            tokenKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            inputKey: \ListOrganizationAdminAccountsRequest.nextToken,
+            outputKey: \ListOrganizationAdminAccountsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

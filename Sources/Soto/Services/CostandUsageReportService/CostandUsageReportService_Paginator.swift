@@ -42,7 +42,8 @@ extension CostandUsageReportService {
             input: input,
             initialValue: initialValue,
             command: describeReportDefinitions,
-            tokenKey: \DescribeReportDefinitionsResponse.nextToken,
+            inputKey: \DescribeReportDefinitionsRequest.nextToken,
+            outputKey: \DescribeReportDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CostandUsageReportService {
         return client.paginate(
             input: input,
             command: describeReportDefinitions,
-            tokenKey: \DescribeReportDefinitionsResponse.nextToken,
+            inputKey: \DescribeReportDefinitionsRequest.nextToken,
+            outputKey: \DescribeReportDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

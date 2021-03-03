@@ -42,7 +42,8 @@ extension RAM {
             input: input,
             initialValue: initialValue,
             command: getResourcePolicies,
-            tokenKey: \GetResourcePoliciesResponse.nextToken,
+            inputKey: \GetResourcePoliciesRequest.nextToken,
+            outputKey: \GetResourcePoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension RAM {
         return client.paginate(
             input: input,
             command: getResourcePolicies,
-            tokenKey: \GetResourcePoliciesResponse.nextToken,
+            inputKey: \GetResourcePoliciesRequest.nextToken,
+            outputKey: \GetResourcePoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension RAM {
             input: input,
             initialValue: initialValue,
             command: getResourceShareAssociations,
-            tokenKey: \GetResourceShareAssociationsResponse.nextToken,
+            inputKey: \GetResourceShareAssociationsRequest.nextToken,
+            outputKey: \GetResourceShareAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension RAM {
         return client.paginate(
             input: input,
             command: getResourceShareAssociations,
-            tokenKey: \GetResourceShareAssociationsResponse.nextToken,
+            inputKey: \GetResourceShareAssociationsRequest.nextToken,
+            outputKey: \GetResourceShareAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension RAM {
             input: input,
             initialValue: initialValue,
             command: getResourceShareInvitations,
-            tokenKey: \GetResourceShareInvitationsResponse.nextToken,
+            inputKey: \GetResourceShareInvitationsRequest.nextToken,
+            outputKey: \GetResourceShareInvitationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension RAM {
         return client.paginate(
             input: input,
             command: getResourceShareInvitations,
-            tokenKey: \GetResourceShareInvitationsResponse.nextToken,
+            inputKey: \GetResourceShareInvitationsRequest.nextToken,
+            outputKey: \GetResourceShareInvitationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension RAM {
             input: input,
             initialValue: initialValue,
             command: getResourceShares,
-            tokenKey: \GetResourceSharesResponse.nextToken,
+            inputKey: \GetResourceSharesRequest.nextToken,
+            outputKey: \GetResourceSharesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension RAM {
         return client.paginate(
             input: input,
             command: getResourceShares,
-            tokenKey: \GetResourceSharesResponse.nextToken,
+            inputKey: \GetResourceSharesRequest.nextToken,
+            outputKey: \GetResourceSharesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension RAM {
             input: input,
             initialValue: initialValue,
             command: listPendingInvitationResources,
-            tokenKey: \ListPendingInvitationResourcesResponse.nextToken,
+            inputKey: \ListPendingInvitationResourcesRequest.nextToken,
+            outputKey: \ListPendingInvitationResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension RAM {
         return client.paginate(
             input: input,
             command: listPendingInvitationResources,
-            tokenKey: \ListPendingInvitationResourcesResponse.nextToken,
+            inputKey: \ListPendingInvitationResourcesRequest.nextToken,
+            outputKey: \ListPendingInvitationResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension RAM {
             input: input,
             initialValue: initialValue,
             command: listPrincipals,
-            tokenKey: \ListPrincipalsResponse.nextToken,
+            inputKey: \ListPrincipalsRequest.nextToken,
+            outputKey: \ListPrincipalsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension RAM {
         return client.paginate(
             input: input,
             command: listPrincipals,
-            tokenKey: \ListPrincipalsResponse.nextToken,
+            inputKey: \ListPrincipalsRequest.nextToken,
+            outputKey: \ListPrincipalsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension RAM {
             input: input,
             initialValue: initialValue,
             command: listResources,
-            tokenKey: \ListResourcesResponse.nextToken,
+            inputKey: \ListResourcesRequest.nextToken,
+            outputKey: \ListResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension RAM {
         return client.paginate(
             input: input,
             command: listResources,
-            tokenKey: \ListResourcesResponse.nextToken,
+            inputKey: \ListResourcesRequest.nextToken,
+            outputKey: \ListResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

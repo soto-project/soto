@@ -42,7 +42,8 @@ extension ServerlessApplicationRepository {
             input: input,
             initialValue: initialValue,
             command: listApplicationDependencies,
-            tokenKey: \ListApplicationDependenciesResponse.nextToken,
+            inputKey: \ListApplicationDependenciesRequest.nextToken,
+            outputKey: \ListApplicationDependenciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ServerlessApplicationRepository {
         return client.paginate(
             input: input,
             command: listApplicationDependencies,
-            tokenKey: \ListApplicationDependenciesResponse.nextToken,
+            inputKey: \ListApplicationDependenciesRequest.nextToken,
+            outputKey: \ListApplicationDependenciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ServerlessApplicationRepository {
             input: input,
             initialValue: initialValue,
             command: listApplicationVersions,
-            tokenKey: \ListApplicationVersionsResponse.nextToken,
+            inputKey: \ListApplicationVersionsRequest.nextToken,
+            outputKey: \ListApplicationVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ServerlessApplicationRepository {
         return client.paginate(
             input: input,
             command: listApplicationVersions,
-            tokenKey: \ListApplicationVersionsResponse.nextToken,
+            inputKey: \ListApplicationVersionsRequest.nextToken,
+            outputKey: \ListApplicationVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ServerlessApplicationRepository {
             input: input,
             initialValue: initialValue,
             command: listApplications,
-            tokenKey: \ListApplicationsResponse.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ServerlessApplicationRepository {
         return client.paginate(
             input: input,
             command: listApplications,
-            tokenKey: \ListApplicationsResponse.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

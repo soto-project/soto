@@ -42,7 +42,8 @@ extension Health {
             input: input,
             initialValue: initialValue,
             command: describeAffectedAccountsForOrganization,
-            tokenKey: \DescribeAffectedAccountsForOrganizationResponse.nextToken,
+            inputKey: \DescribeAffectedAccountsForOrganizationRequest.nextToken,
+            outputKey: \DescribeAffectedAccountsForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Health {
         return client.paginate(
             input: input,
             command: describeAffectedAccountsForOrganization,
-            tokenKey: \DescribeAffectedAccountsForOrganizationResponse.nextToken,
+            inputKey: \DescribeAffectedAccountsForOrganizationRequest.nextToken,
+            outputKey: \DescribeAffectedAccountsForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Health {
             input: input,
             initialValue: initialValue,
             command: describeAffectedEntities,
-            tokenKey: \DescribeAffectedEntitiesResponse.nextToken,
+            inputKey: \DescribeAffectedEntitiesRequest.nextToken,
+            outputKey: \DescribeAffectedEntitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Health {
         return client.paginate(
             input: input,
             command: describeAffectedEntities,
-            tokenKey: \DescribeAffectedEntitiesResponse.nextToken,
+            inputKey: \DescribeAffectedEntitiesRequest.nextToken,
+            outputKey: \DescribeAffectedEntitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Health {
             input: input,
             initialValue: initialValue,
             command: describeAffectedEntitiesForOrganization,
-            tokenKey: \DescribeAffectedEntitiesForOrganizationResponse.nextToken,
+            inputKey: \DescribeAffectedEntitiesForOrganizationRequest.nextToken,
+            outputKey: \DescribeAffectedEntitiesForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Health {
         return client.paginate(
             input: input,
             command: describeAffectedEntitiesForOrganization,
-            tokenKey: \DescribeAffectedEntitiesForOrganizationResponse.nextToken,
+            inputKey: \DescribeAffectedEntitiesForOrganizationRequest.nextToken,
+            outputKey: \DescribeAffectedEntitiesForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Health {
             input: input,
             initialValue: initialValue,
             command: describeEventAggregates,
-            tokenKey: \DescribeEventAggregatesResponse.nextToken,
+            inputKey: \DescribeEventAggregatesRequest.nextToken,
+            outputKey: \DescribeEventAggregatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Health {
         return client.paginate(
             input: input,
             command: describeEventAggregates,
-            tokenKey: \DescribeEventAggregatesResponse.nextToken,
+            inputKey: \DescribeEventAggregatesRequest.nextToken,
+            outputKey: \DescribeEventAggregatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Health {
             input: input,
             initialValue: initialValue,
             command: describeEventTypes,
-            tokenKey: \DescribeEventTypesResponse.nextToken,
+            inputKey: \DescribeEventTypesRequest.nextToken,
+            outputKey: \DescribeEventTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Health {
         return client.paginate(
             input: input,
             command: describeEventTypes,
-            tokenKey: \DescribeEventTypesResponse.nextToken,
+            inputKey: \DescribeEventTypesRequest.nextToken,
+            outputKey: \DescribeEventTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Health {
             input: input,
             initialValue: initialValue,
             command: describeEvents,
-            tokenKey: \DescribeEventsResponse.nextToken,
+            inputKey: \DescribeEventsRequest.nextToken,
+            outputKey: \DescribeEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Health {
         return client.paginate(
             input: input,
             command: describeEvents,
-            tokenKey: \DescribeEventsResponse.nextToken,
+            inputKey: \DescribeEventsRequest.nextToken,
+            outputKey: \DescribeEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Health {
             input: input,
             initialValue: initialValue,
             command: describeEventsForOrganization,
-            tokenKey: \DescribeEventsForOrganizationResponse.nextToken,
+            inputKey: \DescribeEventsForOrganizationRequest.nextToken,
+            outputKey: \DescribeEventsForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Health {
         return client.paginate(
             input: input,
             command: describeEventsForOrganization,
-            tokenKey: \DescribeEventsForOrganizationResponse.nextToken,
+            inputKey: \DescribeEventsForOrganizationRequest.nextToken,
+            outputKey: \DescribeEventsForOrganizationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

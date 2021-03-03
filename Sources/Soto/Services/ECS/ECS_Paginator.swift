@@ -42,7 +42,8 @@ extension ECS {
             input: input,
             initialValue: initialValue,
             command: listAccountSettings,
-            tokenKey: \ListAccountSettingsResponse.nextToken,
+            inputKey: \ListAccountSettingsRequest.nextToken,
+            outputKey: \ListAccountSettingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ECS {
         return client.paginate(
             input: input,
             command: listAccountSettings,
-            tokenKey: \ListAccountSettingsResponse.nextToken,
+            inputKey: \ListAccountSettingsRequest.nextToken,
+            outputKey: \ListAccountSettingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ECS {
             input: input,
             initialValue: initialValue,
             command: listAttributes,
-            tokenKey: \ListAttributesResponse.nextToken,
+            inputKey: \ListAttributesRequest.nextToken,
+            outputKey: \ListAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ECS {
         return client.paginate(
             input: input,
             command: listAttributes,
-            tokenKey: \ListAttributesResponse.nextToken,
+            inputKey: \ListAttributesRequest.nextToken,
+            outputKey: \ListAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ECS {
             input: input,
             initialValue: initialValue,
             command: listClusters,
-            tokenKey: \ListClustersResponse.nextToken,
+            inputKey: \ListClustersRequest.nextToken,
+            outputKey: \ListClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ECS {
         return client.paginate(
             input: input,
             command: listClusters,
-            tokenKey: \ListClustersResponse.nextToken,
+            inputKey: \ListClustersRequest.nextToken,
+            outputKey: \ListClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ECS {
             input: input,
             initialValue: initialValue,
             command: listContainerInstances,
-            tokenKey: \ListContainerInstancesResponse.nextToken,
+            inputKey: \ListContainerInstancesRequest.nextToken,
+            outputKey: \ListContainerInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ECS {
         return client.paginate(
             input: input,
             command: listContainerInstances,
-            tokenKey: \ListContainerInstancesResponse.nextToken,
+            inputKey: \ListContainerInstancesRequest.nextToken,
+            outputKey: \ListContainerInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ECS {
             input: input,
             initialValue: initialValue,
             command: listServices,
-            tokenKey: \ListServicesResponse.nextToken,
+            inputKey: \ListServicesRequest.nextToken,
+            outputKey: \ListServicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ECS {
         return client.paginate(
             input: input,
             command: listServices,
-            tokenKey: \ListServicesResponse.nextToken,
+            inputKey: \ListServicesRequest.nextToken,
+            outputKey: \ListServicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension ECS {
             input: input,
             initialValue: initialValue,
             command: listTaskDefinitionFamilies,
-            tokenKey: \ListTaskDefinitionFamiliesResponse.nextToken,
+            inputKey: \ListTaskDefinitionFamiliesRequest.nextToken,
+            outputKey: \ListTaskDefinitionFamiliesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension ECS {
         return client.paginate(
             input: input,
             command: listTaskDefinitionFamilies,
-            tokenKey: \ListTaskDefinitionFamiliesResponse.nextToken,
+            inputKey: \ListTaskDefinitionFamiliesRequest.nextToken,
+            outputKey: \ListTaskDefinitionFamiliesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension ECS {
             input: input,
             initialValue: initialValue,
             command: listTaskDefinitions,
-            tokenKey: \ListTaskDefinitionsResponse.nextToken,
+            inputKey: \ListTaskDefinitionsRequest.nextToken,
+            outputKey: \ListTaskDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension ECS {
         return client.paginate(
             input: input,
             command: listTaskDefinitions,
-            tokenKey: \ListTaskDefinitionsResponse.nextToken,
+            inputKey: \ListTaskDefinitionsRequest.nextToken,
+            outputKey: \ListTaskDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension ECS {
             input: input,
             initialValue: initialValue,
             command: listTasks,
-            tokenKey: \ListTasksResponse.nextToken,
+            inputKey: \ListTasksRequest.nextToken,
+            outputKey: \ListTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension ECS {
         return client.paginate(
             input: input,
             command: listTasks,
-            tokenKey: \ListTasksResponse.nextToken,
+            inputKey: \ListTasksRequest.nextToken,
+            outputKey: \ListTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

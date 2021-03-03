@@ -42,7 +42,8 @@ extension MigrationHubConfig {
             input: input,
             initialValue: initialValue,
             command: describeHomeRegionControls,
-            tokenKey: \DescribeHomeRegionControlsResult.nextToken,
+            inputKey: \DescribeHomeRegionControlsRequest.nextToken,
+            outputKey: \DescribeHomeRegionControlsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MigrationHubConfig {
         return client.paginate(
             input: input,
             command: describeHomeRegionControls,
-            tokenKey: \DescribeHomeRegionControlsResult.nextToken,
+            inputKey: \DescribeHomeRegionControlsRequest.nextToken,
+            outputKey: \DescribeHomeRegionControlsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

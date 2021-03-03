@@ -42,7 +42,8 @@ extension ForecastService {
             input: input,
             initialValue: initialValue,
             command: listDatasetGroups,
-            tokenKey: \ListDatasetGroupsResponse.nextToken,
+            inputKey: \ListDatasetGroupsRequest.nextToken,
+            outputKey: \ListDatasetGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ForecastService {
         return client.paginate(
             input: input,
             command: listDatasetGroups,
-            tokenKey: \ListDatasetGroupsResponse.nextToken,
+            inputKey: \ListDatasetGroupsRequest.nextToken,
+            outputKey: \ListDatasetGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ForecastService {
             input: input,
             initialValue: initialValue,
             command: listDatasetImportJobs,
-            tokenKey: \ListDatasetImportJobsResponse.nextToken,
+            inputKey: \ListDatasetImportJobsRequest.nextToken,
+            outputKey: \ListDatasetImportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ForecastService {
         return client.paginate(
             input: input,
             command: listDatasetImportJobs,
-            tokenKey: \ListDatasetImportJobsResponse.nextToken,
+            inputKey: \ListDatasetImportJobsRequest.nextToken,
+            outputKey: \ListDatasetImportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ForecastService {
             input: input,
             initialValue: initialValue,
             command: listDatasets,
-            tokenKey: \ListDatasetsResponse.nextToken,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ForecastService {
         return client.paginate(
             input: input,
             command: listDatasets,
-            tokenKey: \ListDatasetsResponse.nextToken,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ForecastService {
             input: input,
             initialValue: initialValue,
             command: listForecastExportJobs,
-            tokenKey: \ListForecastExportJobsResponse.nextToken,
+            inputKey: \ListForecastExportJobsRequest.nextToken,
+            outputKey: \ListForecastExportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ForecastService {
         return client.paginate(
             input: input,
             command: listForecastExportJobs,
-            tokenKey: \ListForecastExportJobsResponse.nextToken,
+            inputKey: \ListForecastExportJobsRequest.nextToken,
+            outputKey: \ListForecastExportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ForecastService {
             input: input,
             initialValue: initialValue,
             command: listForecasts,
-            tokenKey: \ListForecastsResponse.nextToken,
+            inputKey: \ListForecastsRequest.nextToken,
+            outputKey: \ListForecastsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ForecastService {
         return client.paginate(
             input: input,
             command: listForecasts,
-            tokenKey: \ListForecastsResponse.nextToken,
+            inputKey: \ListForecastsRequest.nextToken,
+            outputKey: \ListForecastsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension ForecastService {
             input: input,
             initialValue: initialValue,
             command: listPredictorBacktestExportJobs,
-            tokenKey: \ListPredictorBacktestExportJobsResponse.nextToken,
+            inputKey: \ListPredictorBacktestExportJobsRequest.nextToken,
+            outputKey: \ListPredictorBacktestExportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension ForecastService {
         return client.paginate(
             input: input,
             command: listPredictorBacktestExportJobs,
-            tokenKey: \ListPredictorBacktestExportJobsResponse.nextToken,
+            inputKey: \ListPredictorBacktestExportJobsRequest.nextToken,
+            outputKey: \ListPredictorBacktestExportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension ForecastService {
             input: input,
             initialValue: initialValue,
             command: listPredictors,
-            tokenKey: \ListPredictorsResponse.nextToken,
+            inputKey: \ListPredictorsRequest.nextToken,
+            outputKey: \ListPredictorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension ForecastService {
         return client.paginate(
             input: input,
             command: listPredictors,
-            tokenKey: \ListPredictorsResponse.nextToken,
+            inputKey: \ListPredictorsRequest.nextToken,
+            outputKey: \ListPredictorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

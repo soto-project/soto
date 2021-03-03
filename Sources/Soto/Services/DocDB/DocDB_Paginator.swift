@@ -42,7 +42,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeCertificates,
-            tokenKey: \CertificateMessage.marker,
+            inputKey: \DescribeCertificatesMessage.marker,
+            outputKey: \CertificateMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeCertificates,
-            tokenKey: \CertificateMessage.marker,
+            inputKey: \DescribeCertificatesMessage.marker,
+            outputKey: \CertificateMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeDBClusterParameterGroups,
-            tokenKey: \DBClusterParameterGroupsMessage.marker,
+            inputKey: \DescribeDBClusterParameterGroupsMessage.marker,
+            outputKey: \DBClusterParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeDBClusterParameterGroups,
-            tokenKey: \DBClusterParameterGroupsMessage.marker,
+            inputKey: \DescribeDBClusterParameterGroupsMessage.marker,
+            outputKey: \DBClusterParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeDBClusterParameters,
-            tokenKey: \DBClusterParameterGroupDetails.marker,
+            inputKey: \DescribeDBClusterParametersMessage.marker,
+            outputKey: \DBClusterParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeDBClusterParameters,
-            tokenKey: \DBClusterParameterGroupDetails.marker,
+            inputKey: \DescribeDBClusterParametersMessage.marker,
+            outputKey: \DBClusterParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeDBClusterSnapshots,
-            tokenKey: \DBClusterSnapshotMessage.marker,
+            inputKey: \DescribeDBClusterSnapshotsMessage.marker,
+            outputKey: \DBClusterSnapshotMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeDBClusterSnapshots,
-            tokenKey: \DBClusterSnapshotMessage.marker,
+            inputKey: \DescribeDBClusterSnapshotsMessage.marker,
+            outputKey: \DBClusterSnapshotMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeDBClusters,
-            tokenKey: \DBClusterMessage.marker,
+            inputKey: \DescribeDBClustersMessage.marker,
+            outputKey: \DBClusterMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeDBClusters,
-            tokenKey: \DBClusterMessage.marker,
+            inputKey: \DescribeDBClustersMessage.marker,
+            outputKey: \DBClusterMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeDBEngineVersions,
-            tokenKey: \DBEngineVersionMessage.marker,
+            inputKey: \DescribeDBEngineVersionsMessage.marker,
+            outputKey: \DBEngineVersionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeDBEngineVersions,
-            tokenKey: \DBEngineVersionMessage.marker,
+            inputKey: \DescribeDBEngineVersionsMessage.marker,
+            outputKey: \DBEngineVersionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeDBInstances,
-            tokenKey: \DBInstanceMessage.marker,
+            inputKey: \DescribeDBInstancesMessage.marker,
+            outputKey: \DBInstanceMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeDBInstances,
-            tokenKey: \DBInstanceMessage.marker,
+            inputKey: \DescribeDBInstancesMessage.marker,
+            outputKey: \DBInstanceMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeDBSubnetGroups,
-            tokenKey: \DBSubnetGroupMessage.marker,
+            inputKey: \DescribeDBSubnetGroupsMessage.marker,
+            outputKey: \DBSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeDBSubnetGroups,
-            tokenKey: \DBSubnetGroupMessage.marker,
+            inputKey: \DescribeDBSubnetGroupsMessage.marker,
+            outputKey: \DBSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describeOrderableDBInstanceOptions,
-            tokenKey: \OrderableDBInstanceOptionsMessage.marker,
+            inputKey: \DescribeOrderableDBInstanceOptionsMessage.marker,
+            outputKey: \OrderableDBInstanceOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describeOrderableDBInstanceOptions,
-            tokenKey: \OrderableDBInstanceOptionsMessage.marker,
+            inputKey: \DescribeOrderableDBInstanceOptionsMessage.marker,
+            outputKey: \OrderableDBInstanceOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension DocDB {
             input: input,
             initialValue: initialValue,
             command: describePendingMaintenanceActions,
-            tokenKey: \PendingMaintenanceActionsMessage.marker,
+            inputKey: \DescribePendingMaintenanceActionsMessage.marker,
+            outputKey: \PendingMaintenanceActionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension DocDB {
         return client.paginate(
             input: input,
             command: describePendingMaintenanceActions,
-            tokenKey: \PendingMaintenanceActionsMessage.marker,
+            inputKey: \DescribePendingMaintenanceActionsMessage.marker,
+            outputKey: \PendingMaintenanceActionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )

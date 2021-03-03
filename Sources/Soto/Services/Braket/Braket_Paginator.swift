@@ -42,7 +42,8 @@ extension Braket {
             input: input,
             initialValue: initialValue,
             command: searchDevices,
-            tokenKey: \SearchDevicesResponse.nextToken,
+            inputKey: \SearchDevicesRequest.nextToken,
+            outputKey: \SearchDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Braket {
         return client.paginate(
             input: input,
             command: searchDevices,
-            tokenKey: \SearchDevicesResponse.nextToken,
+            inputKey: \SearchDevicesRequest.nextToken,
+            outputKey: \SearchDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Braket {
             input: input,
             initialValue: initialValue,
             command: searchQuantumTasks,
-            tokenKey: \SearchQuantumTasksResponse.nextToken,
+            inputKey: \SearchQuantumTasksRequest.nextToken,
+            outputKey: \SearchQuantumTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Braket {
         return client.paginate(
             input: input,
             command: searchQuantumTasks,
-            tokenKey: \SearchQuantumTasksResponse.nextToken,
+            inputKey: \SearchQuantumTasksRequest.nextToken,
+            outputKey: \SearchQuantumTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

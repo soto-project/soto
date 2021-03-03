@@ -42,7 +42,8 @@ extension Polly {
             input: input,
             initialValue: initialValue,
             command: listSpeechSynthesisTasks,
-            tokenKey: \ListSpeechSynthesisTasksOutput.nextToken,
+            inputKey: \ListSpeechSynthesisTasksInput.nextToken,
+            outputKey: \ListSpeechSynthesisTasksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Polly {
         return client.paginate(
             input: input,
             command: listSpeechSynthesisTasks,
-            tokenKey: \ListSpeechSynthesisTasksOutput.nextToken,
+            inputKey: \ListSpeechSynthesisTasksInput.nextToken,
+            outputKey: \ListSpeechSynthesisTasksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

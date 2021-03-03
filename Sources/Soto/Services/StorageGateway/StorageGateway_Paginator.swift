@@ -42,7 +42,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: describeTapeArchives,
-            tokenKey: \DescribeTapeArchivesOutput.marker,
+            inputKey: \DescribeTapeArchivesInput.marker,
+            outputKey: \DescribeTapeArchivesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: describeTapeArchives,
-            tokenKey: \DescribeTapeArchivesOutput.marker,
+            inputKey: \DescribeTapeArchivesInput.marker,
+            outputKey: \DescribeTapeArchivesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: describeTapeRecoveryPoints,
-            tokenKey: \DescribeTapeRecoveryPointsOutput.marker,
+            inputKey: \DescribeTapeRecoveryPointsInput.marker,
+            outputKey: \DescribeTapeRecoveryPointsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: describeTapeRecoveryPoints,
-            tokenKey: \DescribeTapeRecoveryPointsOutput.marker,
+            inputKey: \DescribeTapeRecoveryPointsInput.marker,
+            outputKey: \DescribeTapeRecoveryPointsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: describeTapes,
-            tokenKey: \DescribeTapesOutput.marker,
+            inputKey: \DescribeTapesInput.marker,
+            outputKey: \DescribeTapesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: describeTapes,
-            tokenKey: \DescribeTapesOutput.marker,
+            inputKey: \DescribeTapesInput.marker,
+            outputKey: \DescribeTapesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: describeVTLDevices,
-            tokenKey: \DescribeVTLDevicesOutput.marker,
+            inputKey: \DescribeVTLDevicesInput.marker,
+            outputKey: \DescribeVTLDevicesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: describeVTLDevices,
-            tokenKey: \DescribeVTLDevicesOutput.marker,
+            inputKey: \DescribeVTLDevicesInput.marker,
+            outputKey: \DescribeVTLDevicesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: listFileShares,
-            tokenKey: \ListFileSharesOutput.nextMarker,
+            inputKey: \ListFileSharesInput.marker,
+            outputKey: \ListFileSharesOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: listFileShares,
-            tokenKey: \ListFileSharesOutput.nextMarker,
+            inputKey: \ListFileSharesInput.marker,
+            outputKey: \ListFileSharesOutput.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: listGateways,
-            tokenKey: \ListGatewaysOutput.marker,
+            inputKey: \ListGatewaysInput.marker,
+            outputKey: \ListGatewaysOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: listGateways,
-            tokenKey: \ListGatewaysOutput.marker,
+            inputKey: \ListGatewaysInput.marker,
+            outputKey: \ListGatewaysOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceOutput.marker,
+            inputKey: \ListTagsForResourceInput.marker,
+            outputKey: \ListTagsForResourceOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceOutput.marker,
+            inputKey: \ListTagsForResourceInput.marker,
+            outputKey: \ListTagsForResourceOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: listTapePools,
-            tokenKey: \ListTapePoolsOutput.marker,
+            inputKey: \ListTapePoolsInput.marker,
+            outputKey: \ListTapePoolsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: listTapePools,
-            tokenKey: \ListTapePoolsOutput.marker,
+            inputKey: \ListTapePoolsInput.marker,
+            outputKey: \ListTapePoolsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: listTapes,
-            tokenKey: \ListTapesOutput.marker,
+            inputKey: \ListTapesInput.marker,
+            outputKey: \ListTapesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: listTapes,
-            tokenKey: \ListTapesOutput.marker,
+            inputKey: \ListTapesInput.marker,
+            outputKey: \ListTapesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension StorageGateway {
             input: input,
             initialValue: initialValue,
             command: listVolumes,
-            tokenKey: \ListVolumesOutput.marker,
+            inputKey: \ListVolumesInput.marker,
+            outputKey: \ListVolumesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension StorageGateway {
         return client.paginate(
             input: input,
             command: listVolumes,
-            tokenKey: \ListVolumesOutput.marker,
+            inputKey: \ListVolumesInput.marker,
+            outputKey: \ListVolumesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )

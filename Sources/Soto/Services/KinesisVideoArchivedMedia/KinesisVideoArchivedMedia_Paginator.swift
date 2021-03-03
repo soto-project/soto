@@ -42,7 +42,8 @@ extension KinesisVideoArchivedMedia {
             input: input,
             initialValue: initialValue,
             command: listFragments,
-            tokenKey: \ListFragmentsOutput.nextToken,
+            inputKey: \ListFragmentsInput.nextToken,
+            outputKey: \ListFragmentsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension KinesisVideoArchivedMedia {
         return client.paginate(
             input: input,
             command: listFragments,
-            tokenKey: \ListFragmentsOutput.nextToken,
+            inputKey: \ListFragmentsInput.nextToken,
+            outputKey: \ListFragmentsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

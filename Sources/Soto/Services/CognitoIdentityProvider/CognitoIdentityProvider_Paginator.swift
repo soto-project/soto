@@ -42,7 +42,8 @@ extension CognitoIdentityProvider {
             input: input,
             initialValue: initialValue,
             command: adminListGroupsForUser,
-            tokenKey: \AdminListGroupsForUserResponse.nextToken,
+            inputKey: \AdminListGroupsForUserRequest.nextToken,
+            outputKey: \AdminListGroupsForUserResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CognitoIdentityProvider {
         return client.paginate(
             input: input,
             command: adminListGroupsForUser,
-            tokenKey: \AdminListGroupsForUserResponse.nextToken,
+            inputKey: \AdminListGroupsForUserRequest.nextToken,
+            outputKey: \AdminListGroupsForUserResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CognitoIdentityProvider {
             input: input,
             initialValue: initialValue,
             command: adminListUserAuthEvents,
-            tokenKey: \AdminListUserAuthEventsResponse.nextToken,
+            inputKey: \AdminListUserAuthEventsRequest.nextToken,
+            outputKey: \AdminListUserAuthEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CognitoIdentityProvider {
         return client.paginate(
             input: input,
             command: adminListUserAuthEvents,
-            tokenKey: \AdminListUserAuthEventsResponse.nextToken,
+            inputKey: \AdminListUserAuthEventsRequest.nextToken,
+            outputKey: \AdminListUserAuthEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CognitoIdentityProvider {
             input: input,
             initialValue: initialValue,
             command: listGroups,
-            tokenKey: \ListGroupsResponse.nextToken,
+            inputKey: \ListGroupsRequest.nextToken,
+            outputKey: \ListGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CognitoIdentityProvider {
         return client.paginate(
             input: input,
             command: listGroups,
-            tokenKey: \ListGroupsResponse.nextToken,
+            inputKey: \ListGroupsRequest.nextToken,
+            outputKey: \ListGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CognitoIdentityProvider {
             input: input,
             initialValue: initialValue,
             command: listIdentityProviders,
-            tokenKey: \ListIdentityProvidersResponse.nextToken,
+            inputKey: \ListIdentityProvidersRequest.nextToken,
+            outputKey: \ListIdentityProvidersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CognitoIdentityProvider {
         return client.paginate(
             input: input,
             command: listIdentityProviders,
-            tokenKey: \ListIdentityProvidersResponse.nextToken,
+            inputKey: \ListIdentityProvidersRequest.nextToken,
+            outputKey: \ListIdentityProvidersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension CognitoIdentityProvider {
             input: input,
             initialValue: initialValue,
             command: listResourceServers,
-            tokenKey: \ListResourceServersResponse.nextToken,
+            inputKey: \ListResourceServersRequest.nextToken,
+            outputKey: \ListResourceServersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension CognitoIdentityProvider {
         return client.paginate(
             input: input,
             command: listResourceServers,
-            tokenKey: \ListResourceServersResponse.nextToken,
+            inputKey: \ListResourceServersRequest.nextToken,
+            outputKey: \ListResourceServersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension CognitoIdentityProvider {
             input: input,
             initialValue: initialValue,
             command: listUserPoolClients,
-            tokenKey: \ListUserPoolClientsResponse.nextToken,
+            inputKey: \ListUserPoolClientsRequest.nextToken,
+            outputKey: \ListUserPoolClientsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension CognitoIdentityProvider {
         return client.paginate(
             input: input,
             command: listUserPoolClients,
-            tokenKey: \ListUserPoolClientsResponse.nextToken,
+            inputKey: \ListUserPoolClientsRequest.nextToken,
+            outputKey: \ListUserPoolClientsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension CognitoIdentityProvider {
             input: input,
             initialValue: initialValue,
             command: listUserPools,
-            tokenKey: \ListUserPoolsResponse.nextToken,
+            inputKey: \ListUserPoolsRequest.nextToken,
+            outputKey: \ListUserPoolsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension CognitoIdentityProvider {
         return client.paginate(
             input: input,
             command: listUserPools,
-            tokenKey: \ListUserPoolsResponse.nextToken,
+            inputKey: \ListUserPoolsRequest.nextToken,
+            outputKey: \ListUserPoolsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension CognitoIdentityProvider {
             input: input,
             initialValue: initialValue,
             command: listUsers,
-            tokenKey: \ListUsersResponse.paginationToken,
+            inputKey: \ListUsersRequest.paginationToken,
+            outputKey: \ListUsersResponse.paginationToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension CognitoIdentityProvider {
         return client.paginate(
             input: input,
             command: listUsers,
-            tokenKey: \ListUsersResponse.paginationToken,
+            inputKey: \ListUsersRequest.paginationToken,
+            outputKey: \ListUsersResponse.paginationToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension CognitoIdentityProvider {
             input: input,
             initialValue: initialValue,
             command: listUsersInGroup,
-            tokenKey: \ListUsersInGroupResponse.nextToken,
+            inputKey: \ListUsersInGroupRequest.nextToken,
+            outputKey: \ListUsersInGroupResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension CognitoIdentityProvider {
         return client.paginate(
             input: input,
             command: listUsersInGroup,
-            tokenKey: \ListUsersInGroupResponse.nextToken,
+            inputKey: \ListUsersInGroupRequest.nextToken,
+            outputKey: \ListUsersInGroupResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

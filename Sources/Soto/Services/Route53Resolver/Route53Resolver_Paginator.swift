@@ -42,7 +42,8 @@ extension Route53Resolver {
             input: input,
             initialValue: initialValue,
             command: listResolverDnssecConfigs,
-            tokenKey: \ListResolverDnssecConfigsResponse.nextToken,
+            inputKey: \ListResolverDnssecConfigsRequest.nextToken,
+            outputKey: \ListResolverDnssecConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Route53Resolver {
         return client.paginate(
             input: input,
             command: listResolverDnssecConfigs,
-            tokenKey: \ListResolverDnssecConfigsResponse.nextToken,
+            inputKey: \ListResolverDnssecConfigsRequest.nextToken,
+            outputKey: \ListResolverDnssecConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Route53Resolver {
             input: input,
             initialValue: initialValue,
             command: listResolverEndpointIpAddresses,
-            tokenKey: \ListResolverEndpointIpAddressesResponse.nextToken,
+            inputKey: \ListResolverEndpointIpAddressesRequest.nextToken,
+            outputKey: \ListResolverEndpointIpAddressesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Route53Resolver {
         return client.paginate(
             input: input,
             command: listResolverEndpointIpAddresses,
-            tokenKey: \ListResolverEndpointIpAddressesResponse.nextToken,
+            inputKey: \ListResolverEndpointIpAddressesRequest.nextToken,
+            outputKey: \ListResolverEndpointIpAddressesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Route53Resolver {
             input: input,
             initialValue: initialValue,
             command: listResolverEndpoints,
-            tokenKey: \ListResolverEndpointsResponse.nextToken,
+            inputKey: \ListResolverEndpointsRequest.nextToken,
+            outputKey: \ListResolverEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Route53Resolver {
         return client.paginate(
             input: input,
             command: listResolverEndpoints,
-            tokenKey: \ListResolverEndpointsResponse.nextToken,
+            inputKey: \ListResolverEndpointsRequest.nextToken,
+            outputKey: \ListResolverEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Route53Resolver {
             input: input,
             initialValue: initialValue,
             command: listResolverQueryLogConfigAssociations,
-            tokenKey: \ListResolverQueryLogConfigAssociationsResponse.nextToken,
+            inputKey: \ListResolverQueryLogConfigAssociationsRequest.nextToken,
+            outputKey: \ListResolverQueryLogConfigAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Route53Resolver {
         return client.paginate(
             input: input,
             command: listResolverQueryLogConfigAssociations,
-            tokenKey: \ListResolverQueryLogConfigAssociationsResponse.nextToken,
+            inputKey: \ListResolverQueryLogConfigAssociationsRequest.nextToken,
+            outputKey: \ListResolverQueryLogConfigAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Route53Resolver {
             input: input,
             initialValue: initialValue,
             command: listResolverQueryLogConfigs,
-            tokenKey: \ListResolverQueryLogConfigsResponse.nextToken,
+            inputKey: \ListResolverQueryLogConfigsRequest.nextToken,
+            outputKey: \ListResolverQueryLogConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Route53Resolver {
         return client.paginate(
             input: input,
             command: listResolverQueryLogConfigs,
-            tokenKey: \ListResolverQueryLogConfigsResponse.nextToken,
+            inputKey: \ListResolverQueryLogConfigsRequest.nextToken,
+            outputKey: \ListResolverQueryLogConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Route53Resolver {
             input: input,
             initialValue: initialValue,
             command: listResolverRuleAssociations,
-            tokenKey: \ListResolverRuleAssociationsResponse.nextToken,
+            inputKey: \ListResolverRuleAssociationsRequest.nextToken,
+            outputKey: \ListResolverRuleAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Route53Resolver {
         return client.paginate(
             input: input,
             command: listResolverRuleAssociations,
-            tokenKey: \ListResolverRuleAssociationsResponse.nextToken,
+            inputKey: \ListResolverRuleAssociationsRequest.nextToken,
+            outputKey: \ListResolverRuleAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Route53Resolver {
             input: input,
             initialValue: initialValue,
             command: listResolverRules,
-            tokenKey: \ListResolverRulesResponse.nextToken,
+            inputKey: \ListResolverRulesRequest.nextToken,
+            outputKey: \ListResolverRulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Route53Resolver {
         return client.paginate(
             input: input,
             command: listResolverRules,
-            tokenKey: \ListResolverRulesResponse.nextToken,
+            inputKey: \ListResolverRulesRequest.nextToken,
+            outputKey: \ListResolverRulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Route53Resolver {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Route53Resolver {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

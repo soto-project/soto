@@ -42,7 +42,8 @@ extension CognitoIdentity {
             input: input,
             initialValue: initialValue,
             command: listIdentityPools,
-            tokenKey: \ListIdentityPoolsResponse.nextToken,
+            inputKey: \ListIdentityPoolsInput.nextToken,
+            outputKey: \ListIdentityPoolsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CognitoIdentity {
         return client.paginate(
             input: input,
             command: listIdentityPools,
-            tokenKey: \ListIdentityPoolsResponse.nextToken,
+            inputKey: \ListIdentityPoolsInput.nextToken,
+            outputKey: \ListIdentityPoolsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

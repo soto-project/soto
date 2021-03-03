@@ -42,7 +42,8 @@ extension MQ {
             input: input,
             initialValue: initialValue,
             command: listBrokers,
-            tokenKey: \ListBrokersResponse.nextToken,
+            inputKey: \ListBrokersRequest.nextToken,
+            outputKey: \ListBrokersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MQ {
         return client.paginate(
             input: input,
             command: listBrokers,
-            tokenKey: \ListBrokersResponse.nextToken,
+            inputKey: \ListBrokersRequest.nextToken,
+            outputKey: \ListBrokersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

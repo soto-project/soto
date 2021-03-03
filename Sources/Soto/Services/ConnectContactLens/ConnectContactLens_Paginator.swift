@@ -42,7 +42,8 @@ extension ConnectContactLens {
             input: input,
             initialValue: initialValue,
             command: listRealtimeContactAnalysisSegments,
-            tokenKey: \ListRealtimeContactAnalysisSegmentsResponse.nextToken,
+            inputKey: \ListRealtimeContactAnalysisSegmentsRequest.nextToken,
+            outputKey: \ListRealtimeContactAnalysisSegmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ConnectContactLens {
         return client.paginate(
             input: input,
             command: listRealtimeContactAnalysisSegments,
-            tokenKey: \ListRealtimeContactAnalysisSegmentsResponse.nextToken,
+            inputKey: \ListRealtimeContactAnalysisSegmentsRequest.nextToken,
+            outputKey: \ListRealtimeContactAnalysisSegmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

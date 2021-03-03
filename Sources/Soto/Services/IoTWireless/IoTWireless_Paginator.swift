@@ -42,7 +42,8 @@ extension IoTWireless {
             input: input,
             initialValue: initialValue,
             command: listDestinations,
-            tokenKey: \ListDestinationsResponse.nextToken,
+            inputKey: \ListDestinationsRequest.nextToken,
+            outputKey: \ListDestinationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension IoTWireless {
         return client.paginate(
             input: input,
             command: listDestinations,
-            tokenKey: \ListDestinationsResponse.nextToken,
+            inputKey: \ListDestinationsRequest.nextToken,
+            outputKey: \ListDestinationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension IoTWireless {
             input: input,
             initialValue: initialValue,
             command: listDeviceProfiles,
-            tokenKey: \ListDeviceProfilesResponse.nextToken,
+            inputKey: \ListDeviceProfilesRequest.nextToken,
+            outputKey: \ListDeviceProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension IoTWireless {
         return client.paginate(
             input: input,
             command: listDeviceProfiles,
-            tokenKey: \ListDeviceProfilesResponse.nextToken,
+            inputKey: \ListDeviceProfilesRequest.nextToken,
+            outputKey: \ListDeviceProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension IoTWireless {
             input: input,
             initialValue: initialValue,
             command: listServiceProfiles,
-            tokenKey: \ListServiceProfilesResponse.nextToken,
+            inputKey: \ListServiceProfilesRequest.nextToken,
+            outputKey: \ListServiceProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension IoTWireless {
         return client.paginate(
             input: input,
             command: listServiceProfiles,
-            tokenKey: \ListServiceProfilesResponse.nextToken,
+            inputKey: \ListServiceProfilesRequest.nextToken,
+            outputKey: \ListServiceProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension IoTWireless {
             input: input,
             initialValue: initialValue,
             command: listWirelessDevices,
-            tokenKey: \ListWirelessDevicesResponse.nextToken,
+            inputKey: \ListWirelessDevicesRequest.nextToken,
+            outputKey: \ListWirelessDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension IoTWireless {
         return client.paginate(
             input: input,
             command: listWirelessDevices,
-            tokenKey: \ListWirelessDevicesResponse.nextToken,
+            inputKey: \ListWirelessDevicesRequest.nextToken,
+            outputKey: \ListWirelessDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension IoTWireless {
             input: input,
             initialValue: initialValue,
             command: listWirelessGateways,
-            tokenKey: \ListWirelessGatewaysResponse.nextToken,
+            inputKey: \ListWirelessGatewaysRequest.nextToken,
+            outputKey: \ListWirelessGatewaysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension IoTWireless {
         return client.paginate(
             input: input,
             command: listWirelessGateways,
-            tokenKey: \ListWirelessGatewaysResponse.nextToken,
+            inputKey: \ListWirelessGatewaysRequest.nextToken,
+            outputKey: \ListWirelessGatewaysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

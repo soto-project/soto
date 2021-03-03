@@ -42,7 +42,8 @@ extension Detective {
             input: input,
             initialValue: initialValue,
             command: listGraphs,
-            tokenKey: \ListGraphsResponse.nextToken,
+            inputKey: \ListGraphsRequest.nextToken,
+            outputKey: \ListGraphsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Detective {
         return client.paginate(
             input: input,
             command: listGraphs,
-            tokenKey: \ListGraphsResponse.nextToken,
+            inputKey: \ListGraphsRequest.nextToken,
+            outputKey: \ListGraphsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Detective {
             input: input,
             initialValue: initialValue,
             command: listInvitations,
-            tokenKey: \ListInvitationsResponse.nextToken,
+            inputKey: \ListInvitationsRequest.nextToken,
+            outputKey: \ListInvitationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Detective {
         return client.paginate(
             input: input,
             command: listInvitations,
-            tokenKey: \ListInvitationsResponse.nextToken,
+            inputKey: \ListInvitationsRequest.nextToken,
+            outputKey: \ListInvitationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Detective {
             input: input,
             initialValue: initialValue,
             command: listMembers,
-            tokenKey: \ListMembersResponse.nextToken,
+            inputKey: \ListMembersRequest.nextToken,
+            outputKey: \ListMembersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Detective {
         return client.paginate(
             input: input,
             command: listMembers,
-            tokenKey: \ListMembersResponse.nextToken,
+            inputKey: \ListMembersRequest.nextToken,
+            outputKey: \ListMembersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

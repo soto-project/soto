@@ -42,7 +42,8 @@ extension IoTFleetHub {
             input: input,
             initialValue: initialValue,
             command: listApplications,
-            tokenKey: \ListApplicationsResponse.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension IoTFleetHub {
         return client.paginate(
             input: input,
             command: listApplications,
-            tokenKey: \ListApplicationsResponse.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
