@@ -42,7 +42,8 @@ extension EC2 {
             input: input,
             initialValue: initialValue,
             command: describeAddressesAttribute,
-            tokenKey: \DescribeAddressesAttributeResult.nextToken,
+            inputKey: \DescribeAddressesAttributeRequest.nextToken,
+            outputKey: \DescribeAddressesAttributeResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension EC2 {
         return client.paginate(
             input: input,
             command: describeAddressesAttribute,
-            tokenKey: \DescribeAddressesAttributeResult.nextToken,
+            inputKey: \DescribeAddressesAttributeRequest.nextToken,
+            outputKey: \DescribeAddressesAttributeResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -42,7 +42,8 @@ extension ElasticsearchService {
             input: input,
             initialValue: initialValue,
             command: describeDomainAutoTunes,
-            tokenKey: \DescribeDomainAutoTunesResponse.nextToken,
+            inputKey: \DescribeDomainAutoTunesRequest.nextToken,
+            outputKey: \DescribeDomainAutoTunesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ElasticsearchService {
         return client.paginate(
             input: input,
             command: describeDomainAutoTunes,
-            tokenKey: \DescribeDomainAutoTunesResponse.nextToken,
+            inputKey: \DescribeDomainAutoTunesRequest.nextToken,
+            outputKey: \DescribeDomainAutoTunesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

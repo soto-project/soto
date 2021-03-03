@@ -307,7 +307,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listImagePackages,
-            tokenKey: \ListImagePackagesResponse.nextToken,
+            inputKey: \ListImagePackagesRequest.nextToken,
+            outputKey: \ListImagePackagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -329,7 +330,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listImagePackages,
-            tokenKey: \ListImagePackagesResponse.nextToken,
+            inputKey: \ListImagePackagesRequest.nextToken,
+            outputKey: \ListImagePackagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension MediaTailor {
             input: input,
             initialValue: initialValue,
             command: listPlaybackConfigurations,
-            tokenKey: \ListPlaybackConfigurationsResponse.nextToken,
+            inputKey: \ListPlaybackConfigurationsRequest.nextToken,
+            outputKey: \ListPlaybackConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MediaTailor {
         return client.paginate(
             input: input,
             command: listPlaybackConfigurations,
-            tokenKey: \ListPlaybackConfigurationsResponse.nextToken,
+            inputKey: \ListPlaybackConfigurationsRequest.nextToken,
+            outputKey: \ListPlaybackConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

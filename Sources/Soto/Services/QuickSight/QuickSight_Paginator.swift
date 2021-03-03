@@ -572,7 +572,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listThemeVersions,
-            tokenKey: \ListThemeVersionsResponse.nextToken,
+            inputKey: \ListThemeVersionsRequest.nextToken,
+            outputKey: \ListThemeVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -594,7 +595,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listThemeVersions,
-            tokenKey: \ListThemeVersionsResponse.nextToken,
+            inputKey: \ListThemeVersionsRequest.nextToken,
+            outputKey: \ListThemeVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -623,7 +625,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listThemes,
-            tokenKey: \ListThemesResponse.nextToken,
+            inputKey: \ListThemesRequest.nextToken,
+            outputKey: \ListThemesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -645,7 +648,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listThemes,
-            tokenKey: \ListThemesResponse.nextToken,
+            inputKey: \ListThemesRequest.nextToken,
+            outputKey: \ListThemesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

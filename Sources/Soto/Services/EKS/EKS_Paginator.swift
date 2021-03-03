@@ -254,7 +254,8 @@ extension EKS {
             input: input,
             initialValue: initialValue,
             command: listIdentityProviderConfigs,
-            tokenKey: \ListIdentityProviderConfigsResponse.nextToken,
+            inputKey: \ListIdentityProviderConfigsRequest.nextToken,
+            outputKey: \ListIdentityProviderConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -276,7 +277,8 @@ extension EKS {
         return client.paginate(
             input: input,
             command: listIdentityProviderConfigs,
-            tokenKey: \ListIdentityProviderConfigsResponse.nextToken,
+            inputKey: \ListIdentityProviderConfigsRequest.nextToken,
+            outputKey: \ListIdentityProviderConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

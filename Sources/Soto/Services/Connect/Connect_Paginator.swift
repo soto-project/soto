@@ -731,7 +731,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listQueueQuickConnects,
-            tokenKey: \ListQueueQuickConnectsResponse.nextToken,
+            inputKey: \ListQueueQuickConnectsRequest.nextToken,
+            outputKey: \ListQueueQuickConnectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -753,7 +754,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listQueueQuickConnects,
-            tokenKey: \ListQueueQuickConnectsResponse.nextToken,
+            inputKey: \ListQueueQuickConnectsRequest.nextToken,
+            outputKey: \ListQueueQuickConnectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

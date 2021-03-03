@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension LexModelsV2 {
             input: input,
             initialValue: initialValue,
             command: listBotAliases,
-            tokenKey: \ListBotAliasesResponse.nextToken,
+            inputKey: \ListBotAliasesRequest.nextToken,
+            outputKey: \ListBotAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension LexModelsV2 {
         return client.paginate(
             input: input,
             command: listBotAliases,
-            tokenKey: \ListBotAliasesResponse.nextToken,
+            inputKey: \ListBotAliasesRequest.nextToken,
+            outputKey: \ListBotAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension LexModelsV2 {
             input: input,
             initialValue: initialValue,
             command: listBotLocales,
-            tokenKey: \ListBotLocalesResponse.nextToken,
+            inputKey: \ListBotLocalesRequest.nextToken,
+            outputKey: \ListBotLocalesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension LexModelsV2 {
         return client.paginate(
             input: input,
             command: listBotLocales,
-            tokenKey: \ListBotLocalesResponse.nextToken,
+            inputKey: \ListBotLocalesRequest.nextToken,
+            outputKey: \ListBotLocalesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension LexModelsV2 {
             input: input,
             initialValue: initialValue,
             command: listBotVersions,
-            tokenKey: \ListBotVersionsResponse.nextToken,
+            inputKey: \ListBotVersionsRequest.nextToken,
+            outputKey: \ListBotVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension LexModelsV2 {
         return client.paginate(
             input: input,
             command: listBotVersions,
-            tokenKey: \ListBotVersionsResponse.nextToken,
+            inputKey: \ListBotVersionsRequest.nextToken,
+            outputKey: \ListBotVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension LexModelsV2 {
             input: input,
             initialValue: initialValue,
             command: listBots,
-            tokenKey: \ListBotsResponse.nextToken,
+            inputKey: \ListBotsRequest.nextToken,
+            outputKey: \ListBotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension LexModelsV2 {
         return client.paginate(
             input: input,
             command: listBots,
-            tokenKey: \ListBotsResponse.nextToken,
+            inputKey: \ListBotsRequest.nextToken,
+            outputKey: \ListBotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension LexModelsV2 {
             input: input,
             initialValue: initialValue,
             command: listBuiltInIntents,
-            tokenKey: \ListBuiltInIntentsResponse.nextToken,
+            inputKey: \ListBuiltInIntentsRequest.nextToken,
+            outputKey: \ListBuiltInIntentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension LexModelsV2 {
         return client.paginate(
             input: input,
             command: listBuiltInIntents,
-            tokenKey: \ListBuiltInIntentsResponse.nextToken,
+            inputKey: \ListBuiltInIntentsRequest.nextToken,
+            outputKey: \ListBuiltInIntentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension LexModelsV2 {
             input: input,
             initialValue: initialValue,
             command: listBuiltInSlotTypes,
-            tokenKey: \ListBuiltInSlotTypesResponse.nextToken,
+            inputKey: \ListBuiltInSlotTypesRequest.nextToken,
+            outputKey: \ListBuiltInSlotTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension LexModelsV2 {
         return client.paginate(
             input: input,
             command: listBuiltInSlotTypes,
-            tokenKey: \ListBuiltInSlotTypesResponse.nextToken,
+            inputKey: \ListBuiltInSlotTypesRequest.nextToken,
+            outputKey: \ListBuiltInSlotTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension LexModelsV2 {
             input: input,
             initialValue: initialValue,
             command: listIntents,
-            tokenKey: \ListIntentsResponse.nextToken,
+            inputKey: \ListIntentsRequest.nextToken,
+            outputKey: \ListIntentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension LexModelsV2 {
         return client.paginate(
             input: input,
             command: listIntents,
-            tokenKey: \ListIntentsResponse.nextToken,
+            inputKey: \ListIntentsRequest.nextToken,
+            outputKey: \ListIntentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension LexModelsV2 {
             input: input,
             initialValue: initialValue,
             command: listSlotTypes,
-            tokenKey: \ListSlotTypesResponse.nextToken,
+            inputKey: \ListSlotTypesRequest.nextToken,
+            outputKey: \ListSlotTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension LexModelsV2 {
         return client.paginate(
             input: input,
             command: listSlotTypes,
-            tokenKey: \ListSlotTypesResponse.nextToken,
+            inputKey: \ListSlotTypesRequest.nextToken,
+            outputKey: \ListSlotTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension LexModelsV2 {
             input: input,
             initialValue: initialValue,
             command: listSlots,
-            tokenKey: \ListSlotsResponse.nextToken,
+            inputKey: \ListSlotsRequest.nextToken,
+            outputKey: \ListSlotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension LexModelsV2 {
         return client.paginate(
             input: input,
             command: listSlots,
-            tokenKey: \ListSlotsResponse.nextToken,
+            inputKey: \ListSlotsRequest.nextToken,
+            outputKey: \ListSlotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
