@@ -2149,7 +2149,7 @@ extension WorkMail {
                 try validate($0, name: "ipRanges[]", parent: name, min: 1)
                 try validate($0, name: "ipRanges[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[12][0-9]|3[0-2])$")
             }
-            try self.validate(self.ipRanges, name: "ipRanges", parent: name, max: 10)
+            try self.validate(self.ipRanges, name: "ipRanges", parent: name, max: 1024)
             try self.validate(self.ipRanges, name: "ipRanges", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -2166,7 +2166,7 @@ extension WorkMail {
                 try validate($0, name: "notIpRanges[]", parent: name, min: 1)
                 try validate($0, name: "notIpRanges[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[12][0-9]|3[0-2])$")
             }
-            try self.validate(self.notIpRanges, name: "notIpRanges", parent: name, max: 10)
+            try self.validate(self.notIpRanges, name: "notIpRanges", parent: name, max: 1024)
             try self.validate(self.notIpRanges, name: "notIpRanges", parent: name, min: 0)
             try self.notUserIds?.forEach {
                 try validate($0, name: "notUserIds[]", parent: name, max: 256)

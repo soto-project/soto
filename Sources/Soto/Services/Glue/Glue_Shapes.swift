@@ -5382,7 +5382,7 @@ extension Glue {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -6131,6 +6131,7 @@ extension Glue {
         public let catalogId: String?
         /// The name of the catalog database where the partitions reside.
         public let databaseName: String
+        public let excludeColumnSchema: Bool?
         /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.  &lt; &gt;  Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true.  &gt;  Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true.  &lt;  Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true.  &gt;=  Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true.  &lt;=  Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true.  AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an invalid type is encountered, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.   Sample API Call:
         public let expression: String?
         /// The maximum number of partitions to return in a single response.
@@ -6142,9 +6143,10 @@ extension Glue {
         /// The name of the partitions' table.
         public let tableName: String
 
-        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, segment: Segment? = nil, tableName: String) {
+        public init(catalogId: String? = nil, databaseName: String, excludeColumnSchema: Bool? = nil, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, segment: Segment? = nil, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
+            self.excludeColumnSchema = excludeColumnSchema
             self.expression = expression
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6173,6 +6175,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
+            case excludeColumnSchema = "ExcludeColumnSchema"
             case expression = "Expression"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -6827,7 +6830,7 @@ extension Glue {
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
@@ -6890,7 +6893,7 @@ extension Glue {
             try self.validate(self.expression, name: "expression", parent: name, max: 2048)
             try self.validate(self.expression, name: "expression", parent: name, min: 0)
             try self.validate(self.expression, name: "expression", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -7103,7 +7106,7 @@ extension Glue {
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.pattern, name: "pattern", parent: name, max: 255)
             try self.validate(self.pattern, name: "pattern", parent: name, min: 1)

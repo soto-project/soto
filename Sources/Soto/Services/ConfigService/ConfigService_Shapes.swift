@@ -72,6 +72,7 @@ extension ConfigService {
 
     public enum ConformancePackComplianceType: String, CustomStringConvertible, Codable {
         case compliant = "COMPLIANT"
+        case insufficientData = "INSUFFICIENT_DATA"
         case nonCompliant = "NON_COMPLIANT"
         public var description: String { return self.rawValue }
     }
@@ -1077,7 +1078,7 @@ extension ConfigService {
     public struct ConfigurationItem: AWSDecodableShape {
         /// The 12-digit AWS account ID associated with the resource.
         public let accountId: String?
-        /// accoun
+        /// Amazon Resource Name (ARN) associated with the resource.
         public let arn: String?
         /// The Availability Zone associated with the resource.
         public let availabilityZone: String?
@@ -1276,9 +1277,9 @@ extension ConfigService {
         public let conformancePackName: String
         /// AWS service that created the conformance pack.
         public let createdBy: String?
-        /// Conformance pack template that is used to create a pack. The delivery bucket name should start with awsconfigconforms. For example: "Resource": "arn:aws:s3:::your_bucket_name/*".
+        /// Amazon S3 bucket where AWS Config stores conformance pack templates.   This field is optional.
         public let deliveryS3Bucket: String?
-        /// The prefix for the Amazon S3 bucket.
+        /// The prefix for the Amazon S3 bucket.  This field is optional.
         public let deliveryS3KeyPrefix: String?
         /// Last time when conformation pack update was requested.
         public let lastUpdateRequestedTime: Date?
@@ -1831,14 +1832,17 @@ extension ConfigService {
         public let s3BucketName: String?
         /// The prefix for the specified Amazon S3 bucket.
         public let s3KeyPrefix: String?
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) customer managed key (CMK) used to encrypt objects delivered by AWS Config. Must belong to the same Region as the destination S3 bucket.
+        public let s3KmsKeyArn: String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which AWS Config sends notifications about configuration changes. If you choose a topic from another account, the topic must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon SNS Topic in the AWS Config Developer Guide.
         public let snsTopicARN: String?
 
-        public init(configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil) {
+        public init(configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, s3KmsKeyArn: String? = nil, snsTopicARN: String? = nil) {
             self.configSnapshotDeliveryProperties = configSnapshotDeliveryProperties
             self.name = name
             self.s3BucketName = s3BucketName
             self.s3KeyPrefix = s3KeyPrefix
+            self.s3KmsKeyArn = s3KmsKeyArn
             self.snsTopicARN = snsTopicARN
         }
 
@@ -1852,6 +1856,7 @@ extension ConfigService {
             case name
             case s3BucketName
             case s3KeyPrefix
+            case s3KmsKeyArn
             case snsTopicARN
         }
     }
@@ -3114,10 +3119,15 @@ extension ConfigService {
     }
 
     public struct ExternalEvaluation: AWSEncodableShape {
+        /// Supplementary information about the reason of compliance. For example, this task was completed on a specific date.
         public let annotation: String?
+        /// The evaluated compliance resource ID. AWS Config accepts only AWS account ID.
         public let complianceResourceId: String
+        /// The evaluated compliance resource type. AWS Config accepts AWS::::Account resource type.
         public let complianceResourceType: String
+        /// The compliance of the AWS resource. The valid values are COMPLIANT, NON_COMPLIANT,  and NOT_APPLICABLE.
         public let complianceType: ComplianceType
+        /// The time when the compliance was recorded.
         public let orderingTimestamp: Date
 
         public init(annotation: String? = nil, complianceResourceId: String, complianceResourceType: String, complianceType: ComplianceType, orderingTimestamp: Date) {
@@ -3962,7 +3972,7 @@ extension ConfigService {
         public let configurationAggregatorName: String
         /// Filters the results based on the ResourceFilters object.
         public let filters: ResourceFilters?
-        /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
+        /// The maximum number of resource identifiers returned on each page. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -4278,9 +4288,9 @@ extension ConfigService {
     public struct OrganizationConformancePack: AWSDecodableShape {
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
-        /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation results and conformance pack template that is used to create a pack.
+        /// Amazon S3 bucket where AWS Config stores conformance pack templates.   This field is optional.
         public let deliveryS3Bucket: String?
-        /// Any folder structure you want to add to an Amazon S3 bucket.
+        /// Any folder structure you want to add to an Amazon S3 bucket.  This field is optional.
         public let deliveryS3KeyPrefix: String?
         /// A comma-separated list of accounts excluded from organization conformance pack.
         public let excludedAccounts: [String]?
@@ -4688,9 +4698,9 @@ extension ConfigService {
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
         /// Name of the conformance pack you want to create.
         public let conformancePackName: String
-        /// AWS Config stores intermediate files while processing conformance pack template.
+        /// Amazon S3 bucket where AWS Config stores conformance pack templates.  This field is optional.
         public let deliveryS3Bucket: String?
-        /// The prefix for the Amazon S3 bucket.
+        /// The prefix for the Amazon S3 bucket.   This field is optional.
         public let deliveryS3KeyPrefix: String?
         /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can only use a YAML template with one resource type, that is, config rule and a remediation action.
         public let templateBody: String?
@@ -4809,7 +4819,9 @@ extension ConfigService {
     }
 
     public struct PutExternalEvaluationRequest: AWSEncodableShape {
+        /// The name of the AWS Config rule.
         public let configRuleName: String
+        /// An ExternalEvaluation object that provides details about compliance.
         public let externalEvaluation: ExternalEvaluation
 
         public init(configRuleName: String, externalEvaluation: ExternalEvaluation) {
@@ -4888,9 +4900,9 @@ extension ConfigService {
     public struct PutOrganizationConformancePackRequest: AWSEncodableShape {
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
-        /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation results. AWS Config stores intermediate files while processing conformance pack template.  The delivery bucket name should start with awsconfigconforms. For example: "Resource": "arn:aws:s3:::your_bucket_name/*". For more information, see Permissions for cross account bucket access.
+        /// Amazon S3 bucket where AWS Config stores conformance pack templates.  This field is optional.
         public let deliveryS3Bucket: String?
-        /// The prefix for the Amazon S3 bucket.
+        /// The prefix for the Amazon S3 bucket.  This field is optional.
         public let deliveryS3KeyPrefix: String?
         /// A list of AWS accounts to be excluded from an organization conformance pack while deploying a conformance pack.
         public let excludedAccounts: [String]?
@@ -5120,7 +5132,7 @@ extension ConfigService {
     }
 
     public struct PutStoredQueryRequest: AWSEncodableShape {
-        /// A list of StoredQuery objects. The mandatory fields are QueryName and Expression.
+        /// A list of StoredQuery objects. The mandatory fields are QueryName and Expression.  When you are creating a query, you must provide a query name and an expression. When you are updating a query, you must provide a query name but updating the description is optional.
         public let storedQuery: StoredQuery
         /// A list of Tags object.
         public let tags: [Tag]?
@@ -5146,7 +5158,7 @@ extension ConfigService {
     }
 
     public struct PutStoredQueryResponse: AWSDecodableShape {
-        /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-id.
+        /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
         public let queryArn: String?
 
         public init(queryArn: String? = nil) {
@@ -5176,7 +5188,7 @@ extension ConfigService {
         public let allSupported: Bool?
         /// Specifies whether AWS Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when AWS Config adds support for a new type of global resource, it starts recording resources of that type automatically. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing AWS Config in only one region to record global resources.
         public let includeGlobalResourceTypes: Bool?
-        /// A comma-separated list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). Before you can set this option to true, you must set the allSupported option to false. If you set this option to true, when AWS Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in Supported AWS Resource Types.
+        /// A comma-separated list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). To record all configuration changes, you must set the allSupported option to false. If you set this option to true, when AWS Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in Supported AWS Resource Types.
         public let resourceTypes: [ResourceType]?
 
         public init(allSupported: Bool? = nil, includeGlobalResourceTypes: Bool? = nil, resourceTypes: [ResourceType]? = nil) {
@@ -5960,7 +5972,7 @@ extension ConfigService {
         public let description: String?
         /// The expression of the query. For example, SELECT resourceId, resourceType, supplementaryConfiguration.BucketVersioningConfiguration.status WHERE resourceType = 'AWS::S3::Bucket' AND supplementaryConfiguration.BucketVersioningConfiguration.status = 'Off'.
         public let expression: String?
-        /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-id.
+        /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
         public let queryArn: String?
         /// The ID of the query.
         public let queryId: String?
@@ -6005,7 +6017,7 @@ extension ConfigService {
     public struct StoredQueryMetadata: AWSDecodableShape {
         /// A unique description for the query.
         public let description: String?
-        /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-id.
+        /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
         public let queryArn: String
         /// The ID of the query.
         public let queryId: String

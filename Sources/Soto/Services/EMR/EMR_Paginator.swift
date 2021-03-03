@@ -390,7 +390,7 @@ extension EMR {
         )
     }
 
-    ///  Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request of filter by StepStates. You can specify a maximum of ten stepIDs.
+    ///  Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request of filter by StepStates. You can specify a maximum of 10 stepIDs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension EMR {
         )
     }
 
-    ///   The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns a list of all user or group session mappings for the EMR Studio specified by StudioId.
+    ///  Returns a list of all user or group session mappings for the Amazon EMR Studio specified by StudioId.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -496,7 +496,7 @@ extension EMR {
         )
     }
 
-    ///   The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns a list of all Amazon EMR Studios associated with the AWS account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.
+    ///  Returns a list of all Amazon EMR Studios associated with the AWS account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

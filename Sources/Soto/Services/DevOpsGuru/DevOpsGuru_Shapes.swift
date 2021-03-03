@@ -373,6 +373,37 @@ extension DevOpsGuru {
         }
     }
 
+    public struct DescribeFeedbackRequest: AWSEncodableShape {
+        ///  The ID of the insight for which the feedback was provided.
+        public let insightId: String?
+
+        public init(insightId: String? = nil) {
+            self.insightId = insightId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.insightId, name: "insightId", parent: name, max: 100)
+            try self.validate(self.insightId, name: "insightId", parent: name, min: 1)
+            try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^[\\w-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightId = "InsightId"
+        }
+    }
+
+    public struct DescribeFeedbackResponse: AWSDecodableShape {
+        public let insightFeedback: InsightFeedback?
+
+        public init(insightFeedback: InsightFeedback? = nil) {
+            self.insightFeedback = insightFeedback
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insightFeedback = "InsightFeedback"
+        }
+    }
+
     public struct DescribeInsightRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
@@ -606,7 +637,7 @@ extension DevOpsGuru {
         }
     }
 
-    public struct InsightFeedback: AWSEncodableShape {
+    public struct InsightFeedback: AWSEncodableShape & AWSDecodableShape {
         ///  The feedback provided by the customer.
         public let feedback: InsightFeedbackOption?
         ///  The insight feedback ID.

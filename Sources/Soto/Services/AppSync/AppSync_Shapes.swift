@@ -466,8 +466,9 @@ extension AppSync {
         public let requestMappingTemplate: String?
         /// The Function response mapping template.
         public let responseMappingTemplate: String?
+        public let syncConfig: SyncConfig?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil) {
+        public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
             self.description = description
@@ -475,6 +476,7 @@ extension AppSync {
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.syncConfig = syncConfig
         }
 
         public func validate(name: String) throws {
@@ -497,6 +499,7 @@ extension AppSync {
             case name
             case requestMappingTemplate
             case responseMappingTemplate
+            case syncConfig
         }
     }
 
@@ -1030,8 +1033,9 @@ extension AppSync {
         public let requestMappingTemplate: String?
         /// The Function response mapping template.
         public let responseMappingTemplate: String?
+        public let syncConfig: SyncConfig?
 
-        public init(dataSourceName: String? = nil, description: String? = nil, functionArn: String? = nil, functionId: String? = nil, functionVersion: String? = nil, name: String? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil) {
+        public init(dataSourceName: String? = nil, description: String? = nil, functionArn: String? = nil, functionId: String? = nil, functionVersion: String? = nil, name: String? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
             self.dataSourceName = dataSourceName
             self.description = description
             self.functionArn = functionArn
@@ -1040,6 +1044,7 @@ extension AppSync {
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.syncConfig = syncConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1051,6 +1056,7 @@ extension AppSync {
             case name
             case requestMappingTemplate
             case responseMappingTemplate
+            case syncConfig
         }
     }
 
@@ -2307,8 +2313,9 @@ extension AppSync {
         public let requestMappingTemplate: String?
         /// The Function request mapping template.
         public let responseMappingTemplate: String?
+        public let syncConfig: SyncConfig?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil) {
+        public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
             self.description = description
@@ -2317,6 +2324,7 @@ extension AppSync {
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
+            self.syncConfig = syncConfig
         }
 
         public func validate(name: String) throws {
@@ -2342,6 +2350,7 @@ extension AppSync {
             case name
             case requestMappingTemplate
             case responseMappingTemplate
+            case syncConfig
         }
     }
 

@@ -244,6 +244,14 @@ extension GameLift {
         case c59Xlarge = "c5.9xlarge"
         case c5Large = "c5.large"
         case c5Xlarge = "c5.xlarge"
+        case c5a12Xlarge = "c5a.12xlarge"
+        case c5a16Xlarge = "c5a.16xlarge"
+        case c5a24Xlarge = "c5a.24xlarge"
+        case c5a2Xlarge = "c5a.2xlarge"
+        case c5a4Xlarge = "c5a.4xlarge"
+        case c5a8Xlarge = "c5a.8xlarge"
+        case c5aLarge = "c5a.large"
+        case c5aXlarge = "c5a.xlarge"
         case m410Xlarge = "m4.10xlarge"
         case m42Xlarge = "m4.2xlarge"
         case m44Xlarge = "m4.4xlarge"
@@ -257,6 +265,14 @@ extension GameLift {
         case m58Xlarge = "m5.8xlarge"
         case m5Large = "m5.large"
         case m5Xlarge = "m5.xlarge"
+        case m5a12Xlarge = "m5a.12xlarge"
+        case m5a16Xlarge = "m5a.16xlarge"
+        case m5a24Xlarge = "m5a.24xlarge"
+        case m5a2Xlarge = "m5a.2xlarge"
+        case m5a4Xlarge = "m5a.4xlarge"
+        case m5a8Xlarge = "m5a.8xlarge"
+        case m5aLarge = "m5a.large"
+        case m5aXlarge = "m5a.xlarge"
         case r416Xlarge = "r4.16xlarge"
         case r42Xlarge = "r4.2xlarge"
         case r44Xlarge = "r4.4xlarge"
@@ -271,6 +287,14 @@ extension GameLift {
         case r58Xlarge = "r5.8xlarge"
         case r5Large = "r5.large"
         case r5Xlarge = "r5.xlarge"
+        case r5a12Xlarge = "r5a.12xlarge"
+        case r5a16Xlarge = "r5a.16xlarge"
+        case r5a24Xlarge = "r5a.24xlarge"
+        case r5a2Xlarge = "r5a.2xlarge"
+        case r5a4Xlarge = "r5a.4xlarge"
+        case r5a8Xlarge = "r5a.8xlarge"
+        case r5aLarge = "r5a.large"
+        case r5aXlarge = "r5a.xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -1227,7 +1251,7 @@ extension GameLift {
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
-            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*")
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*(.fifo)?")
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, max: 43200)
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
@@ -5949,7 +5973,7 @@ extension GameLift {
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
-            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*")
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*(.fifo)?")
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, max: 43200)
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)

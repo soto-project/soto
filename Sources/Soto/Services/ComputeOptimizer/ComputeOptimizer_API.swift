@@ -113,7 +113,7 @@ public struct ComputeOptimizer: AWSService {
         return self.client.execute(operation: "GetRecommendationSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the enrollment (opt in) status of an account to the AWS Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts within the organization.
+    /// Updates the enrollment (opt in and opt out) status of an account to the AWS Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts within the organization. You must have the appropriate permissions to opt in to Compute Optimizer, to view its recommendations, and to opt out. For more information, see Controlling access with AWS Identity and Access Management in the Compute Optimizer User Guide. When you opt in, Compute Optimizer automatically creates a Service-Linked Role in your account to access its data. For more information, see Using Service-Linked Roles for AWS Compute Optimizer in the Compute Optimizer User Guide.
     public func updateEnrollmentStatus(_ input: UpdateEnrollmentStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnrollmentStatusResponse> {
         return self.client.execute(operation: "UpdateEnrollmentStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

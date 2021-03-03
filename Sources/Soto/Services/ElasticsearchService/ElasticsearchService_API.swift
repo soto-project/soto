@@ -122,6 +122,11 @@ public struct ElasticsearchService: AWSService {
         return self.client.execute(operation: "DeletePackage", path: "/2015-01-01/packages/{PackageID}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
+    public func describeDomainAutoTunes(_ input: DescribeDomainAutoTunesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainAutoTunesResponse> {
+        return self.client.execute(operation: "DescribeDomainAutoTunes", path: "/2015-01-01/es/domain/{DomainName}/autoTunes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
     public func describeElasticsearchDomain(_ input: DescribeElasticsearchDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeElasticsearchDomainResponse> {
         return self.client.execute(operation: "DescribeElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

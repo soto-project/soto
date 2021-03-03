@@ -110,6 +110,7 @@ extension S3Control {
 
     public enum OperationName: String, CustomStringConvertible, Codable {
         case lambdainvoke = "LambdaInvoke"
+        case s3deleteobjecttagging = "S3DeleteObjectTagging"
         case s3initiaterestoreobject = "S3InitiateRestoreObject"
         case s3putobjectacl = "S3PutObjectAcl"
         case s3putobjectcopy = "S3PutObjectCopy"
@@ -822,6 +823,7 @@ extension S3Control {
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "id"))
         ]
 
+        /// The AWS account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the job whose information you want to retrieve.
         public let jobId: String
@@ -1557,7 +1559,7 @@ extension S3Control {
     public struct JobManifestLocation: AWSEncodableShape & AWSDecodableShape {
         /// The ETag for the specified manifest object.
         public let eTag: String
-        /// The Amazon Resource Name (ARN) for a manifest object.
+        /// The Amazon Resource Name (ARN) for a manifest object.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let objectArn: String
         /// The optional version ID to identify a specific version of the manifest object.
         public let objectVersionId: String?
@@ -1606,6 +1608,8 @@ extension S3Control {
     public struct JobOperation: AWSEncodableShape & AWSDecodableShape {
         /// Directs the specified job to invoke an AWS Lambda function on every object in the manifest.
         public let lambdaInvoke: LambdaInvokeOperation?
+        /// Directs the specified job to execute a DELETE Object tagging call on every object in the manifest.
+        public let s3DeleteObjectTagging: S3DeleteObjectTaggingOperation?
         /// Directs the specified job to initiate restore requests for every archived object in the manifest.
         public let s3InitiateRestoreObject: S3InitiateRestoreObjectOperation?
         /// Directs the specified job to run a PUT Object acl call on every object in the manifest.
@@ -1617,8 +1621,9 @@ extension S3Control {
         /// Directs the specified job to run a PUT Object tagging call on every object in the manifest.
         public let s3PutObjectTagging: S3SetObjectTaggingOperation?
 
-        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil) {
+        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3DeleteObjectTagging: S3DeleteObjectTaggingOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil) {
             self.lambdaInvoke = lambdaInvoke
+            self.s3DeleteObjectTagging = s3DeleteObjectTagging
             self.s3InitiateRestoreObject = s3InitiateRestoreObject
             self.s3PutObjectAcl = s3PutObjectAcl
             self.s3PutObjectCopy = s3PutObjectCopy
@@ -1637,6 +1642,7 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case lambdaInvoke = "LambdaInvoke"
+            case s3DeleteObjectTagging = "S3DeleteObjectTagging"
             case s3InitiateRestoreObject = "S3InitiateRestoreObject"
             case s3PutObjectAcl = "S3PutObjectAcl"
             case s3PutObjectCopy = "S3PutObjectCopy"
@@ -1841,7 +1847,7 @@ extension S3Control {
     public struct LifecycleRuleFilter: AWSEncodableShape & AWSDecodableShape {
         /// The container for the AND condition for the lifecycle rule.
         public let and: LifecycleRuleAndOperator?
-        /// Prefix identifying one or more objects to which the rule applies.
+        /// Prefix identifying one or more objects to which the rule applies.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let prefix: String?
         public let tag: S3Tag?
 
@@ -1929,6 +1935,7 @@ extension S3Control {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
+        /// The AWS account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The List Jobs request returns jobs that match the statuses listed in this element.
         public let jobStatuses: [JobStatus]?
@@ -2686,6 +2693,10 @@ extension S3Control {
         }
     }
 
+    public struct S3DeleteObjectTaggingOperation: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct S3Grant: AWSEncodableShape & AWSDecodableShape {
         public let grantee: S3Grantee?
         public let permission: S3Permission?
@@ -3076,7 +3087,7 @@ extension S3Control {
     }
 
     public struct StorageLensDataExport: AWSEncodableShape & AWSDecodableShape {
-        /// A container for the bucket where the S3 Storage Lens metrics export will be located.
+        /// A container for the bucket where the S3 Storage Lens metrics export will be located.  This bucket must be located in the same Region as the storage lens configuration.
         public let s3BucketDestination: S3BucketDestination
 
         public init(s3BucketDestination: S3BucketDestination) {
@@ -3180,6 +3191,7 @@ extension S3Control {
             AWSMemberEncoding(label: "priority", location: .querystring(locationName: "priority"))
         ]
 
+        /// The AWS account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID for the job whose priority you want to update.
         public let jobId: String
@@ -3230,6 +3242,7 @@ extension S3Control {
             AWSMemberEncoding(label: "statusUpdateReason", location: .querystring(locationName: "statusUpdateReason"))
         ]
 
+        /// The AWS account ID associated with the S3 Batch Operations job.
         public let accountId: String
         /// The ID of the job whose status you want to update.
         public let jobId: String

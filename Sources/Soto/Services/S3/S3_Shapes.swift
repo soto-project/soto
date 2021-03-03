@@ -987,7 +987,7 @@ extension S3 {
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
         /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
         public let httpErrorCodeReturnedEquals: String?
-        /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied.
+        /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let keyPrefixEquals: String?
 
         public init(httpErrorCodeReturnedEquals: String? = nil, keyPrefixEquals: String? = nil) {
@@ -1253,9 +1253,9 @@ extension S3 {
     }
 
     public struct CopyObjectResult: AWSDecodableShape {
-        /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata. The source and destination ETag is identical for a successfully copied object.
+        /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata. The source and destination ETag is identical for a successfully copied non-multipart object.
         public let eTag: String?
-        /// Returns the date that the object was last modified.
+        /// Creation date of the object.
         public let lastModified: Date?
 
         public init(eTag: String? = nil, lastModified: Date? = nil) {
@@ -2014,7 +2014,7 @@ extension S3 {
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
-        /// Name of the object key.
+        /// The key that identifies the object in the bucket from which to remove all tags.
         public let key: String
         /// The versionId of the object that the tag-set will be removed from.
         public let versionId: String?
@@ -2244,7 +2244,7 @@ extension S3 {
     }
 
     public struct ErrorDocument: AWSEncodableShape & AWSDecodableShape {
-        /// The object key name to use when a 4XX class error occurs.
+        /// The object key name to use when a 4XX class error occurs.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let key: String
 
         public init(key: String) {
@@ -3259,7 +3259,7 @@ extension S3 {
         /// The date and time at which the object is no longer cacheable.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var expires: Date?
-        /// Last modified date of the object
+        /// Creation date of the object.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var lastModified: Date?
         /// A map of metadata to store with the object in S3.
@@ -3426,9 +3426,9 @@ extension S3 {
         /// Sets the Expires header of the response.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var responseExpires: Date?
-        /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
+        /// Specifies the algorithm to use to when decrypting the object (for example, AES256).
         public let sSECustomerAlgorithm: String?
-        /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
+        /// Specifies the customer-provided encryption key for Amazon S3 used to encrypt the data. This value is used to decrypt the object when recovering it and must match the one used when storing the data. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
         public let sSECustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
@@ -3546,6 +3546,7 @@ extension S3 {
             AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -3555,13 +3556,15 @@ extension S3 {
         public let expectedBucketOwner: String?
         /// Object key for which to get the tagging information.
         public let key: String
+        public let requestPayer: RequestPayer?
         /// The versionId of the object for which to get the tagging information.
         public let versionId: String?
 
-        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, versionId: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
             self.key = key
+            self.requestPayer = requestPayer
             self.versionId = versionId
         }
 
@@ -3805,7 +3808,7 @@ extension S3 {
         /// The date and time at which the object is no longer cacheable.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var expires: Date?
-        /// Last modified date of the object
+        /// Creation date of the object.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var lastModified: Date?
         /// A map of metadata to store with the object in S3.
@@ -3981,7 +3984,7 @@ extension S3 {
     }
 
     public struct IndexDocument: AWSEncodableShape & AWSDecodableShape {
-        /// A suffix that is appended to a request that is for a directory on the website endpoint (for example,if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
+        /// A suffix that is appended to a request that is for a directory on the website endpoint (for example,if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let suffix: String
 
         public init(suffix: String) {
@@ -4092,7 +4095,7 @@ extension S3 {
     public struct IntelligentTieringFilter: AWSEncodableShape & AWSDecodableShape {
         /// A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
         public let and: IntelligentTieringAndOperator?
-        /// An object key name prefix that identifies the subset of objects to which the rule applies.
+        /// An object key name prefix that identifies the subset of objects to which the rule applies.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let prefix: String?
         public let tag: Tag?
 
@@ -4393,7 +4396,7 @@ extension S3 {
 
     public struct LifecycleRuleFilter: AWSEncodableShape & AWSDecodableShape {
         public let and: LifecycleRuleAndOperator?
-        /// Prefix identifying one or more objects to which the rule applies.
+        /// Prefix identifying one or more objects to which the rule applies.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let prefix: String?
         /// This tag must exist in the object's tag set in order for the rule to apply.
         public let tag: Tag?
@@ -4827,7 +4830,7 @@ extension S3 {
     }
 
     public struct ListObjectsOutput: AWSDecodableShape {
-        /// All of the keys rolled up in a common prefix count as a single return when calculating the number of returns.  A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
+        /// All of the keys (up to 1,000) rolled up in a common prefix count as a single return when calculating the number of returns.  A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
         /// Metadata about each object returned.
         public let contents: [Object]?
@@ -4918,7 +4921,7 @@ extension S3 {
     }
 
     public struct ListObjectsV2Output: AWSDecodableShape {
-        /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter.  CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
+        /// All of the keys (up to 1,000) rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter.  CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
         /// Metadata about each object returned.
         public let contents: [Object]?
@@ -4930,7 +4933,7 @@ extension S3 {
         public let encodingType: EncodingType?
         /// Set to false if all of the results were returned. Set to true if more keys are available to return. If the number of results exceeds that specified by MaxKeys, all of the results might not be returned.
         public let isTruncated: Bool?
-        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys
+        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than or equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys
         public let keyCount: Int?
         /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
         public let maxKeys: Int?
@@ -5394,7 +5397,7 @@ extension S3 {
         public let eTag: String?
         /// The name that you assign to an object. You use the object key to retrieve the object.
         public let key: String?
-        /// The date the Object was Last Modified
+        /// Creation date of the object.
         public let lastModified: Date?
         /// The owner of the object
         public let owner: Owner?
@@ -5423,7 +5426,7 @@ extension S3 {
     }
 
     public struct ObjectIdentifier: AWSEncodableShape {
-        /// Key name of the object to delete.
+        /// Key name of the object.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let key: String
         /// VersionId for the specific version of the object to delete.
         public let versionId: String?
@@ -6271,7 +6274,7 @@ extension S3 {
 
         /// The bucket name.
         public let bucket: String
-        /// &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
+        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -6896,6 +6899,7 @@ extension S3 {
             AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")),
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
             AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
             AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging")),
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
@@ -6908,16 +6912,18 @@ extension S3 {
         public let expectedBucketOwner: String?
         /// Name of the object key.
         public let key: String
+        public let requestPayer: RequestPayer?
         /// Container for the TagSet and Tag elements
         public let tagging: Tagging
         /// The versionId of the object that the tag-set will be added to.
         public let versionId: String?
 
-        public init(bucket: String, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, tagging: Tagging, versionId: String? = nil) {
+        public init(bucket: String, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, tagging: Tagging, versionId: String? = nil) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
             self.expectedBucketOwner = expectedBucketOwner
             self.key = key
+            self.requestPayer = requestPayer
             self.tagging = tagging
             self.versionId = versionId
         }
@@ -7026,9 +7032,9 @@ extension S3 {
         public let httpRedirectCode: String?
         /// Protocol to use when redirecting requests. The default is the protocol that is used in the original request.
         public let `protocol`: Protocol?
-        /// The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to documents/, you can set a condition block with KeyPrefixEquals set to docs/ and in the Redirect set ReplaceKeyPrefixWith to /documents. Not required if one of the siblings is present. Can be present only if ReplaceKeyWith is not provided.
+        /// The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to documents/, you can set a condition block with KeyPrefixEquals set to docs/ and in the Redirect set ReplaceKeyPrefixWith to /documents. Not required if one of the siblings is present. Can be present only if ReplaceKeyWith is not provided.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let replaceKeyPrefixWith: String?
-        /// The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the siblings is present. Can be present only if ReplaceKeyPrefixWith is not provided.
+        /// The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the siblings is present. Can be present only if ReplaceKeyPrefixWith is not provided.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let replaceKeyWith: String?
 
         public init(hostName: String? = nil, httpRedirectCode: String? = nil, protocol: Protocol? = nil, replaceKeyPrefixWith: String? = nil, replaceKeyWith: String? = nil) {
@@ -7171,7 +7177,7 @@ extension S3 {
     public struct ReplicationRuleFilter: AWSEncodableShape & AWSDecodableShape {
         /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:    If you specify both a Prefix and a Tag filter, wrap these filters in an And tag.   If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.
         public let and: ReplicationRuleAndOperator?
-        /// An object key name prefix that identifies the subset of objects to which the rule applies.
+        /// An object key name prefix that identifies the subset of objects to which the rule applies.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let prefix: String?
         /// A container for specifying a tag key and value.  The rule applies only to objects that have the tag in their tag set.
         public let tag: Tag?
@@ -7383,7 +7389,7 @@ extension S3 {
         public let id: String?
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
         public let noncurrentVersionTransition: NoncurrentVersionTransition?
-        /// Object key prefix that identifies one or more objects to which this rule applies.
+        /// Object key prefix that identifies one or more objects to which this rule applies.  Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see  XML related object key constraints.
         public let prefix: String
         /// If Enabled, the rule is currently being applied. If Disabled, the rule is not currently being applied.
         public let status: ExpirationStatus

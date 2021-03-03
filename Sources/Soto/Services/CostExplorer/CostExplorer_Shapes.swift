@@ -1637,7 +1637,7 @@ extension CostExplorer {
     public struct GetCostCategoriesRequest: AWSEncodableShape {
         public let costCategoryName: String?
         public let filter: Expression?
-        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter.
+        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter. For GetCostCategories, MaxResults has an upper limit of 1000.
         public let maxResults: Int?
         /// If the number of objects that are still available for retrieval exceeds the limit, AWS returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the NextPageToken from the prior call in your next request.
         public let nextPageToken: String?
@@ -1716,7 +1716,7 @@ extension CostExplorer {
     }
 
     public struct GetCostForecastRequest: AWSEncodableShape {
-        /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
+        /// The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
         public let filter: Expression?
         /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity
@@ -1774,7 +1774,7 @@ extension CostExplorer {
         /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context.
         public let dimension: Dimension
         public let filter: Expression?
-        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter.
+        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter. For GetDimensionValues, MaxResults has an upper limit of 1000.
         public let maxResults: Int?
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -2413,7 +2413,7 @@ extension CostExplorer {
 
     public struct GetTagsRequest: AWSEncodableShape {
         public let filter: Expression?
-        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter.
+        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter. For GetTags, MaxResults has an upper limit of 1000.
         public let maxResults: Int?
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -2491,7 +2491,7 @@ extension CostExplorer {
     }
 
     public struct GetUsageForecastRequest: AWSEncodableShape {
-        /// The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
+        /// The filters that you want to use to filter your forecast. The GetUsageForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
         public let filter: Expression?
         /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity

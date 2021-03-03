@@ -88,7 +88,7 @@ extension Macie {
     }
 
     public struct ClassificationType: AWSEncodableShape & AWSDecodableShape {
-        /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie Classic begins performing continuous classification after a bucket is successfully associated with Amazon Macie Classic.
+        /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie Classic begins performing continuous classification after a bucket is successfully associated with Macie Classic.
         public let continuous: S3ContinuousClassificationType
         /// A one-time classification of all of the existing objects in a specified S3 bucket.
         public let oneTime: S3OneTimeClassificationType
@@ -105,7 +105,7 @@ extension Macie {
     }
 
     public struct ClassificationTypeUpdate: AWSEncodableShape {
-        /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie Classic begins performing continuous classification after a bucket is successfully associated with Amazon Macie Classic.
+        /// A continuous classification of the objects that are added to a specified S3 bucket. Amazon Macie Classic begins performing continuous classification after a bucket is successfully associated with Macie Classic.
         public let continuous: S3ContinuousClassificationType?
         /// A one-time classification of all of the existing objects in a specified S3 bucket.
         public let oneTime: S3OneTimeClassificationType?
@@ -141,7 +141,7 @@ extension Macie {
     public struct DisassociateS3ResourcesRequest: AWSEncodableShape {
         /// The S3 resources (buckets or prefixes) that you want to remove from being monitored and classified by Amazon Macie Classic.
         public let associatedS3Resources: [S3Resource]
-        /// The ID of the Amazon Macie Classic member account whose resources you want to remove from being monitored by Amazon Macie Classic.
+        /// The ID of the Amazon Macie Classic member account whose resources you want to remove from being monitored by Macie Classic.
         public let memberAccountId: String?
 
         public init(associatedS3Resources: [S3Resource], memberAccountId: String? = nil) {
@@ -219,7 +219,7 @@ extension Macie {
     }
 
     public struct ListMemberAccountsResult: AWSDecodableShape {
-        /// A list of the Amazon Macie Classic member accounts returned by the action. The current master account is also included in this list.
+        /// A list of the Amazon Macie Classic member accounts returned by the action. The current Macie Classic administrator account is also included in this list.
         public let memberAccounts: [MemberAccount]?
         /// When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?

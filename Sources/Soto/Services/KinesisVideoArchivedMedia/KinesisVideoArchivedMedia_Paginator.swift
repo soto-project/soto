@@ -79,6 +79,7 @@ extension KinesisVideoArchivedMedia.ListFragmentsInput: AWSPaginateToken {
             fragmentSelector: self.fragmentSelector,
             maxResults: self.maxResults,
             nextToken: token,
+            streamARN: self.streamARN,
             streamName: self.streamName
         )
     }

@@ -20,6 +20,30 @@ import SotoCore
 extension ElasticsearchService {
     // MARK: Enums
 
+    public enum AutoTuneDesiredState: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoTuneState: String, CustomStringConvertible, Codable {
+        case disableInProgress = "DISABLE_IN_PROGRESS"
+        case disabled = "DISABLED"
+        case disabledAndRollbackComplete = "DISABLED_AND_ROLLBACK_COMPLETE"
+        case disabledAndRollbackError = "DISABLED_AND_ROLLBACK_ERROR"
+        case disabledAndRollbackInProgress = "DISABLED_AND_ROLLBACK_IN_PROGRESS"
+        case disabledAndRollbackScheduled = "DISABLED_AND_ROLLBACK_SCHEDULED"
+        case enableInProgress = "ENABLE_IN_PROGRESS"
+        case enabled = "ENABLED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoTuneType: String, CustomStringConvertible, Codable {
+        case scheduledAction = "SCHEDULED_ACTION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentStatus: String, CustomStringConvertible, Codable {
         case completed = "COMPLETED"
         case eligible = "ELIGIBLE"
@@ -174,9 +198,33 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
+    public enum RollbackOnDisable: String, CustomStringConvertible, Codable {
+        case defaultRollback = "DEFAULT_ROLLBACK"
+        case noRollback = "NO_ROLLBACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledAutoTuneActionType: String, CustomStringConvertible, Codable {
+        case jvmHeapSizeTuning = "JVM_HEAP_SIZE_TUNING"
+        case jvmYoungGenTuning = "JVM_YOUNG_GEN_TUNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledAutoTuneSeverityType: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
         case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
         case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimeUnit: String, CustomStringConvertible, Codable {
+        case hours = "HOURS"
         public var description: String { return self.rawValue }
     }
 
@@ -412,6 +460,179 @@ extension ElasticsearchService {
         }
     }
 
+    public struct AutoTune: AWSDecodableShape {
+        /// Specifies details of the Auto-Tune action. See the Developer Guide for more information.
+        public let autoTuneDetails: AutoTuneDetails?
+        /// Specifies Auto-Tune type. Valid value is SCHEDULED_ACTION.
+        public let autoTuneType: AutoTuneType?
+
+        public init(autoTuneDetails: AutoTuneDetails? = nil, autoTuneType: AutoTuneType? = nil) {
+            self.autoTuneDetails = autoTuneDetails
+            self.autoTuneType = autoTuneType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoTuneDetails = "AutoTuneDetails"
+            case autoTuneType = "AutoTuneType"
+        }
+    }
+
+    public struct AutoTuneDetails: AWSDecodableShape {
+        public let scheduledAutoTuneDetails: ScheduledAutoTuneDetails?
+
+        public init(scheduledAutoTuneDetails: ScheduledAutoTuneDetails? = nil) {
+            self.scheduledAutoTuneDetails = scheduledAutoTuneDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAutoTuneDetails = "ScheduledAutoTuneDetails"
+        }
+    }
+
+    public struct AutoTuneMaintenanceSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies cron expression for a recurring maintenance schedule. See the Developer Guide for more information.
+        public let cronExpressionForRecurrence: String?
+        /// Specifies maintenance schedule duration: duration value and duration unit. See the Developer Guide for more information.
+        public let duration: Duration?
+        /// Specifies timestamp at which Auto-Tune maintenance schedule start.
+        public let startAt: Date?
+
+        public init(cronExpressionForRecurrence: String? = nil, duration: Duration? = nil, startAt: Date? = nil) {
+            self.cronExpressionForRecurrence = cronExpressionForRecurrence
+            self.duration = duration
+            self.startAt = startAt
+        }
+
+        public func validate(name: String) throws {
+            try self.duration?.validate(name: "\(name).duration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cronExpressionForRecurrence = "CronExpressionForRecurrence"
+            case duration = "Duration"
+            case startAt = "StartAt"
+        }
+    }
+
+    public struct AutoTuneOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the Auto-Tune desired state. Valid values are ENABLED, DISABLED.
+        public let desiredState: AutoTuneDesiredState?
+        /// Specifies list of maitenance schedules. See the Developer Guide for more information.
+        public let maintenanceSchedules: [AutoTuneMaintenanceSchedule]?
+        /// Specifies the rollback state while disabling Auto-Tune for the domain. Valid values are NO_ROLLBACK, DEFAULT_ROLLBACK.
+        public let rollbackOnDisable: RollbackOnDisable?
+
+        public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil, rollbackOnDisable: RollbackOnDisable? = nil) {
+            self.desiredState = desiredState
+            self.maintenanceSchedules = maintenanceSchedules
+            self.rollbackOnDisable = rollbackOnDisable
+        }
+
+        public func validate(name: String) throws {
+            try self.maintenanceSchedules?.forEach {
+                try $0.validate(name: "\(name).maintenanceSchedules[]")
+            }
+            try self.validate(self.maintenanceSchedules, name: "maintenanceSchedules", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredState = "DesiredState"
+            case maintenanceSchedules = "MaintenanceSchedules"
+            case rollbackOnDisable = "RollbackOnDisable"
+        }
+    }
+
+    public struct AutoTuneOptionsInput: AWSEncodableShape {
+        /// Specifies the Auto-Tune desired state. Valid values are ENABLED, DISABLED.
+        public let desiredState: AutoTuneDesiredState?
+        /// Specifies list of maitenance schedules. See the Developer Guide for more information.
+        public let maintenanceSchedules: [AutoTuneMaintenanceSchedule]?
+
+        public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil) {
+            self.desiredState = desiredState
+            self.maintenanceSchedules = maintenanceSchedules
+        }
+
+        public func validate(name: String) throws {
+            try self.maintenanceSchedules?.forEach {
+                try $0.validate(name: "\(name).maintenanceSchedules[]")
+            }
+            try self.validate(self.maintenanceSchedules, name: "maintenanceSchedules", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredState = "DesiredState"
+            case maintenanceSchedules = "MaintenanceSchedules"
+        }
+    }
+
+    public struct AutoTuneOptionsOutput: AWSDecodableShape {
+        /// Specifies the error message while enabling or disabling the Auto-Tune.
+        public let errorMessage: String?
+        /// Specifies the AutoTuneState for the Elasticsearch domain.
+        public let state: AutoTuneState?
+
+        public init(errorMessage: String? = nil, state: AutoTuneState? = nil) {
+            self.errorMessage = errorMessage
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case state = "State"
+        }
+    }
+
+    public struct AutoTuneOptionsStatus: AWSDecodableShape {
+        ///  Specifies Auto-Tune options for the specified Elasticsearch domain.
+        public let options: AutoTuneOptions?
+        ///  Specifies Status of the Auto-Tune options for the specified Elasticsearch domain.
+        public let status: AutoTuneStatus?
+
+        public init(options: AutoTuneOptions? = nil, status: AutoTuneStatus? = nil) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct AutoTuneStatus: AWSDecodableShape {
+        /// Timestamp which tells Auto-Tune options creation date .
+        public let creationDate: Date
+        /// Specifies the error message while enabling or disabling the Auto-Tune options.
+        public let errorMessage: String?
+        /// Indicates whether the Elasticsearch domain is being deleted.
+        public let pendingDeletion: Bool?
+        /// Specifies the AutoTuneState for the Elasticsearch domain.
+        public let state: AutoTuneState
+        /// Timestamp which tells Auto-Tune options last updated time.
+        public let updateDate: Date
+        /// Specifies the Auto-Tune options latest version.
+        public let updateVersion: Int?
+
+        public init(creationDate: Date, errorMessage: String? = nil, pendingDeletion: Bool? = nil, state: AutoTuneState, updateDate: Date, updateVersion: Int? = nil) {
+            self.creationDate = creationDate
+            self.errorMessage = errorMessage
+            self.pendingDeletion = pendingDeletion
+            self.state = state
+            self.updateDate = updateDate
+            self.updateVersion = updateVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case errorMessage = "ErrorMessage"
+            case pendingDeletion = "PendingDeletion"
+            case state = "State"
+            case updateDate = "UpdateDate"
+            case updateVersion = "UpdateVersion"
+        }
+    }
+
     public struct CancelElasticsearchServiceSoftwareUpdateRequest: AWSEncodableShape {
         /// The name of the domain that you want to stop the latest service software update on.
         public let domainName: String
@@ -520,6 +741,8 @@ extension ElasticsearchService {
         public let advancedOptions: [String: String]?
         /// Specifies advanced security options.
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
+        /// Specifies Auto-Tune options.
+        public let autoTuneOptions: AutoTuneOptionsInput?
         /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptions?
         /// Options to specify configuration that will be applied to the domain endpoint.
@@ -543,10 +766,11 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.autoTuneOptions = autoTuneOptions
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
@@ -562,6 +786,7 @@ extension ElasticsearchService {
 
         public func validate(name: String) throws {
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
+            try self.autoTuneOptions?.validate(name: "\(name).autoTuneOptions")
             try self.cognitoOptions?.validate(name: "\(name).cognitoOptions")
             try self.domainEndpointOptions?.validate(name: "\(name).domainEndpointOptions")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
@@ -574,6 +799,7 @@ extension ElasticsearchService {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case autoTuneOptions = "AutoTuneOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case domainName = "DomainName"
@@ -818,6 +1044,54 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case packageDetails = "PackageDetails"
+        }
+    }
+
+    public struct DescribeDomainAutoTunesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+        ]
+
+        /// Specifies the domain name for which you want Auto-Tune action details.
+        public let domainName: String
+        /// Set this value to limit the number of results returned. If not specified, defaults to 100.
+        public let maxResults: Int?
+        /// NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination.
+        public let nextToken: String?
+
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeDomainAutoTunesResponse: AWSDecodableShape {
+        /// Specifies the list of setting adjustments that Auto-Tune has made to the domain. See the Developer Guide for more information.
+        public let autoTunes: [AutoTune]?
+        /// Specifies an identifier to allow retrieval of paginated results.
+        public let nextToken: String?
+
+        public init(autoTunes: [AutoTune]? = nil, nextToken: String? = nil) {
+            self.autoTunes = autoTunes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoTunes = "AutoTunes"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1384,6 +1658,28 @@ extension ElasticsearchService {
         }
     }
 
+    public struct Duration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the unit of a maintenance schedule duration. Valid value is HOURS. See the Developer Guide for more information.
+        public let unit: TimeUnit?
+        ///  Integer to specify the value of a maintenance schedule duration. See the Developer Guide for more information.
+        public let value: Int64?
+
+        public init(unit: TimeUnit? = nil, value: Int64? = nil) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 24)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "Unit"
+            case value = "Value"
+        }
+    }
+
     public struct EBSOptions: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether EBS-based storage is enabled.
         public let eBSEnabled: Bool?
@@ -1499,6 +1795,8 @@ extension ElasticsearchService {
         public let advancedOptions: AdvancedOptionsStatus?
         /// Specifies AdvancedSecurityOptions for the domain.
         public let advancedSecurityOptions: AdvancedSecurityOptionsStatus?
+        /// Specifies AutoTuneOptions for the domain.
+        public let autoTuneOptions: AutoTuneOptionsStatus?
         /// The CognitoOptions for the specified domain. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptionsStatus?
         /// Specifies the DomainEndpointOptions for the Elasticsearch domain.
@@ -1520,10 +1818,11 @@ extension ElasticsearchService {
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vPCOptions: VPCDerivedInfoStatus?
 
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.autoTuneOptions = autoTuneOptions
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.eBSOptions = eBSOptions
@@ -1540,6 +1839,7 @@ extension ElasticsearchService {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case autoTuneOptions = "AutoTuneOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case eBSOptions = "EBSOptions"
@@ -1562,6 +1862,8 @@ extension ElasticsearchService {
         public let advancedSecurityOptions: AdvancedSecurityOptions?
         /// The Amazon resource name (ARN) of an Elasticsearch domain. See Identifiers for IAM Entities in Using AWS Identity and Access Management for more information.
         public let arn: String
+        /// The current status of the Elasticsearch domain's Auto-Tune options.
+        public let autoTuneOptions: AutoTuneOptionsOutput?
         /// The CognitoOptions for the specified domain. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptions?
         /// The domain creation status. True if the creation of an Elasticsearch domain is complete. False if domain creation is still in progress.
@@ -1600,11 +1902,12 @@ extension ElasticsearchService {
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vPCOptions: VPCDerivedInfo?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vPCOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vPCOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.arn = arn
+            self.autoTuneOptions = autoTuneOptions
             self.cognitoOptions = cognitoOptions
             self.created = created
             self.deleted = deleted
@@ -1631,6 +1934,7 @@ extension ElasticsearchService {
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case arn = "ARN"
+            case autoTuneOptions = "AutoTuneOptions"
             case cognitoOptions = "CognitoOptions"
             case created = "Created"
             case deleted = "Deleted"
@@ -2777,6 +3081,31 @@ extension ElasticsearchService {
         }
     }
 
+    public struct ScheduledAutoTuneDetails: AWSDecodableShape {
+        /// Specifies Auto-Tune action description.
+        public let action: String?
+        /// Specifies Auto-Tune action type. Valid values are JVM_HEAP_SIZE_TUNING and JVM_YOUNG_GEN_TUNING.
+        public let actionType: ScheduledAutoTuneActionType?
+        /// Specifies timestamp for the Auto-Tune action scheduled for the domain.
+        public let date: Date?
+        /// Specifies Auto-Tune action severity. Valid values are LOW, MEDIUM and HIGH.
+        public let severity: ScheduledAutoTuneSeverityType?
+
+        public init(action: String? = nil, actionType: ScheduledAutoTuneActionType? = nil, date: Date? = nil, severity: ScheduledAutoTuneSeverityType? = nil) {
+            self.action = action
+            self.actionType = actionType
+            self.date = date
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case actionType = "ActionType"
+            case date = "Date"
+            case severity = "Severity"
+        }
+    }
+
     public struct ServiceSoftwareOptions: AWSDecodableShape {
         /// Timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
         public let automatedUpdateDate: Date?
@@ -2951,6 +3280,8 @@ extension ElasticsearchService {
         public let advancedOptions: [String: String]?
         /// Specifies advanced security options.
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
+        /// Specifies Auto-Tune options.
+        public let autoTuneOptions: AutoTuneOptions?
         /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptions?
         /// Options to specify configuration that will be applied to the domain endpoint.
@@ -2972,10 +3303,11 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.autoTuneOptions = autoTuneOptions
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
@@ -2990,6 +3322,7 @@ extension ElasticsearchService {
 
         public func validate(name: String) throws {
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
+            try self.autoTuneOptions?.validate(name: "\(name).autoTuneOptions")
             try self.cognitoOptions?.validate(name: "\(name).cognitoOptions")
             try self.domainEndpointOptions?.validate(name: "\(name).domainEndpointOptions")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
@@ -3002,6 +3335,7 @@ extension ElasticsearchService {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case autoTuneOptions = "AutoTuneOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case eBSOptions = "EBSOptions"

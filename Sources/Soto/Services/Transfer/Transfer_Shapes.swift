@@ -1143,7 +1143,7 @@ extension Transfer {
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
-            try self.validate(self.userPassword, name: "userPassword", parent: name, max: 2048)
+            try self.validate(self.userPassword, name: "userPassword", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {

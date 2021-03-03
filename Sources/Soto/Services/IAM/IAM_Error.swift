@@ -68,7 +68,7 @@ public struct IAMErrorType: AWSErrorType {
 
     /// The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
-    /// The request was rejected because the most recent credential report has expired. To generate a new credential report, use GenerateCredentialReport. For more information about credential report expiration, see Getting Credential Reports in the IAM User Guide.
+    /// The request was rejected because the most recent credential report has expired. To generate a new credential report, use GenerateCredentialReport. For more information about credential report expiration, see Getting credential reports in the IAM User Guide.
     public static var credentialReportExpiredException: Self { .init(.credentialReportExpiredException) }
     /// The request was rejected because the credential report does not exist. To generate a credential report, use GenerateCredentialReport.
     public static var credentialReportNotPresentException: Self { .init(.credentialReportNotPresentException) }
@@ -96,7 +96,7 @@ public struct IAMErrorType: AWSErrorType {
     public static var invalidUserTypeException: Self { .init(.invalidUserTypeException) }
     /// The request was rejected because the public key certificate and the private key do not match.
     public static var keyPairMismatchException: Self { .init(.keyPairMismatchException) }
-    /// The request was rejected because it attempted to create resources beyond the current AWS account limitations. The error message describes the limit exceeded.
+    /// The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The request was rejected because the certificate was malformed or expired. The error message describes the specific error.
     public static var malformedCertificateException: Self { .init(.malformedCertificateException) }

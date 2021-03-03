@@ -342,6 +342,7 @@ extension RedshiftDataAPIService.DescribeTableRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RedshiftDataAPIService.DescribeTableRequest {
         return .init(
             clusterIdentifier: self.clusterIdentifier,
+            connectedDatabase: self.connectedDatabase,
             database: self.database,
             dbUser: self.dbUser,
             maxResults: self.maxResults,
@@ -379,6 +380,7 @@ extension RedshiftDataAPIService.ListSchemasRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RedshiftDataAPIService.ListSchemasRequest {
         return .init(
             clusterIdentifier: self.clusterIdentifier,
+            connectedDatabase: self.connectedDatabase,
             database: self.database,
             dbUser: self.dbUser,
             maxResults: self.maxResults,
@@ -394,6 +396,7 @@ extension RedshiftDataAPIService.ListStatementsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
+            roleLevel: self.roleLevel,
             statementName: self.statementName,
             status: self.status
         )
@@ -404,6 +407,7 @@ extension RedshiftDataAPIService.ListTablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RedshiftDataAPIService.ListTablesRequest {
         return .init(
             clusterIdentifier: self.clusterIdentifier,
+            connectedDatabase: self.connectedDatabase,
             database: self.database,
             dbUser: self.dbUser,
             maxResults: self.maxResults,

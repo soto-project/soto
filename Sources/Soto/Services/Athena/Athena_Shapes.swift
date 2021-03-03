@@ -210,11 +210,11 @@ extension Athena {
         public let description: String?
         /// The name of the data catalog to create. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
         public let name: String
-        /// Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.
+        /// Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn
         public let parameters: [String: String]?
         /// A list of comma separated tags to add to the data catalog that is created.
         public let tags: [Tag]?
-        /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
+        /// The type of data catalog to create: LAMBDA for a federated catalog or HIVE for an external hive metastore.  Do not use the GLUE type. This refers to the AwsDataCatalog that already exists in your account, of which you can have only one. Specifying the GLUE type will result in an INVALID_INPUT error.
         public let type: DataCatalogType
 
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil, tags: [Tag]? = nil, type: DataCatalogType) {
@@ -359,9 +359,9 @@ extension Athena {
         public let description: String?
         /// The name of the data catalog. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
         public let name: String
-        /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.
+        /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn
         public let parameters: [String: String]?
-        /// The type of data catalog: LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
+        /// The type of data catalog: LAMBDA for a federated catalog or HIVE for an external hive metastore. GLUE refers to the AwsDataCatalog that already exists in your account, of which you can have only one.
         public let type: DataCatalogType
 
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil, type: DataCatalogType) {
@@ -471,7 +471,7 @@ extension Athena {
     }
 
     public struct DeleteWorkGroupInput: AWSEncodableShape {
-        /// The option to delete the workgroup and its contents even if the workgroup contains any named queries.
+        /// The option to delete the workgroup and its contents even if the workgroup contains any named queries or query executions.
         public let recursiveDeleteOption: Bool?
         /// The unique name of the workgroup to delete.
         public let workGroup: String
@@ -509,6 +509,30 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case encryptionOption = "EncryptionOption"
             case kmsKey = "KmsKey"
+        }
+    }
+
+    public struct EngineVersion: AWSEncodableShape & AWSDecodableShape {
+        /// Read only. The engine version on which the query runs. If the user requests a valid engine version other than Auto, the effective engine version is the same as the engine version that the user requested. If the user requests Auto, the effective engine version is chosen by Athena. When a request to update the engine version is made by a CreateWorkGroup or UpdateWorkGroup operation, the EffectiveEngineVersion field is ignored.
+        public let effectiveEngineVersion: String?
+        /// The engine version requested by the user. Possible values are determined by the output of ListEngineVersions, including Auto. The default is Auto.
+        public let selectedEngineVersion: String?
+
+        public init(effectiveEngineVersion: String? = nil, selectedEngineVersion: String? = nil) {
+            self.effectiveEngineVersion = effectiveEngineVersion
+            self.selectedEngineVersion = selectedEngineVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.effectiveEngineVersion, name: "effectiveEngineVersion", parent: name, max: 128)
+            try self.validate(self.effectiveEngineVersion, name: "effectiveEngineVersion", parent: name, min: 1)
+            try self.validate(self.selectedEngineVersion, name: "selectedEngineVersion", parent: name, max: 128)
+            try self.validate(self.selectedEngineVersion, name: "selectedEngineVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effectiveEngineVersion = "EffectiveEngineVersion"
+            case selectedEngineVersion = "SelectedEngineVersion"
         }
     }
 
@@ -846,6 +870,47 @@ extension Athena {
         }
     }
 
+    public struct ListEngineVersionsInput: AWSEncodableShape {
+        /// The maximum number of engine versions to return in this request.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEngineVersionsOutput: AWSDecodableShape {
+        /// A list of engine versions that are available to choose from.
+        public let engineVersions: [EngineVersion]?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        public init(engineVersions: [EngineVersion]? = nil, nextToken: String? = nil) {
+            self.engineVersions = engineVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineVersions = "EngineVersions"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListNamedQueriesInput: AWSEncodableShape {
         /// The maximum number of queries to return in this request.
         public let maxResults: Int?
@@ -1071,7 +1136,7 @@ extension Athena {
     public struct ListWorkGroupsOutput: AWSDecodableShape {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
-        /// The list of workgroups, including their names, descriptions, creation times, and states.
+        /// A list of WorkGroupSummary objects that include the names, descriptions, creation times, and states for each workgroup.
         public let workGroups: [WorkGroupSummary]?
 
         public init(nextToken: String? = nil, workGroups: [WorkGroupSummary]? = nil) {
@@ -1119,6 +1184,8 @@ extension Athena {
     }
 
     public struct QueryExecution: AWSDecodableShape {
+        /// The engine version that executed the query.
+        public let engineVersion: EngineVersion?
         /// The SQL query statements which the query execution ran.
         public let query: String?
         /// The database in which the query execution occurred.
@@ -1136,7 +1203,8 @@ extension Athena {
         /// The name of the workgroup in which the query ran.
         public let workGroup: String?
 
-        public init(query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, workGroup: String? = nil) {
+        public init(engineVersion: EngineVersion? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, workGroup: String? = nil) {
+            self.engineVersion = engineVersion
             self.query = query
             self.queryExecutionContext = queryExecutionContext
             self.queryExecutionId = queryExecutionId
@@ -1148,6 +1216,7 @@ extension Athena {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case engineVersion = "EngineVersion"
             case query = "Query"
             case queryExecutionContext = "QueryExecutionContext"
             case queryExecutionId = "QueryExecutionId"
@@ -1566,9 +1635,9 @@ extension Athena {
         public let description: String?
         /// The name of the data catalog to update. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
         public let name: String
-        /// Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.
+        /// Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn
         public let parameters: [String: String]?
-        /// Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
+        /// Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog or HIVE for an external hive metastore.  Do not use the GLUE type. This refers to the AwsDataCatalog that already exists in your account, of which you can have only one. Specifying the GLUE type will result in an INVALID_INPUT error.
         public let type: DataCatalogType
 
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil, type: DataCatalogType) {
@@ -1674,6 +1743,8 @@ extension Athena {
         public let bytesScannedCutoffPerQuery: Int64?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
         public let enforceWorkGroupConfiguration: Bool?
+        /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
+        public let engineVersion: EngineVersion?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public let publishCloudWatchMetricsEnabled: Bool?
         /// If set to true, allows members assigned to a workgroup to reference Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see Requester Pays Buckets in the Amazon Simple Storage Service Developer Guide.
@@ -1681,9 +1752,10 @@ extension Athena {
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored and the encryption option, if any, used for query results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using ResultConfiguration$OutputLocation. If none of them is set, Athena issues an error that no output location is provided. For more information, see Query Results.
         public let resultConfiguration: ResultConfiguration?
 
-        public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
+        public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
+            self.engineVersion = engineVersion
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.requesterPaysEnabled = requesterPaysEnabled
             self.resultConfiguration = resultConfiguration
@@ -1691,11 +1763,13 @@ extension Athena {
 
         public func validate(name: String) throws {
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
+            try self.engineVersion?.validate(name: "\(name).engineVersion")
         }
 
         private enum CodingKeys: String, CodingKey {
             case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
             case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
+            case engineVersion = "EngineVersion"
             case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
             case requesterPaysEnabled = "RequesterPaysEnabled"
             case resultConfiguration = "ResultConfiguration"
@@ -1707,6 +1781,8 @@ extension Athena {
         public let bytesScannedCutoffPerQuery: Int64?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false" client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
         public let enforceWorkGroupConfiguration: Bool?
+        /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
+        public let engineVersion: EngineVersion?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public let publishCloudWatchMetricsEnabled: Bool?
         /// Indicates that the data usage control limit per query is removed. WorkGroupConfiguration$BytesScannedCutoffPerQuery
@@ -1716,9 +1792,10 @@ extension Athena {
         /// The result configuration information about the queries in this workgroup that will be updated. Includes the updated results location and an updated option for encrypting query results.
         public let resultConfigurationUpdates: ResultConfigurationUpdates?
 
-        public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
+        public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
+            self.engineVersion = engineVersion
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
             self.requesterPaysEnabled = requesterPaysEnabled
@@ -1727,11 +1804,13 @@ extension Athena {
 
         public func validate(name: String) throws {
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
+            try self.engineVersion?.validate(name: "\(name).engineVersion")
         }
 
         private enum CodingKeys: String, CodingKey {
             case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
             case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
+            case engineVersion = "EngineVersion"
             case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
             case removeBytesScannedCutoffPerQuery = "RemoveBytesScannedCutoffPerQuery"
             case requesterPaysEnabled = "RequesterPaysEnabled"
@@ -1744,14 +1823,17 @@ extension Athena {
         public let creationTime: Date?
         /// The workgroup description.
         public let description: String?
+        /// The engine version setting for all queries on the workgroup. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
+        public let engineVersion: EngineVersion?
         /// The name of the workgroup.
         public let name: String?
         /// The state of the workgroup.
         public let state: WorkGroupState?
 
-        public init(creationTime: Date? = nil, description: String? = nil, name: String? = nil, state: WorkGroupState? = nil) {
+        public init(creationTime: Date? = nil, description: String? = nil, engineVersion: EngineVersion? = nil, name: String? = nil, state: WorkGroupState? = nil) {
             self.creationTime = creationTime
             self.description = description
+            self.engineVersion = engineVersion
             self.name = name
             self.state = state
         }
@@ -1759,6 +1841,7 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case description = "Description"
+            case engineVersion = "EngineVersion"
             case name = "Name"
             case state = "State"
         }

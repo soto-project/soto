@@ -21,6 +21,7 @@ extension IoTWireless {
     // MARK: Enums
 
     public enum ExpressionType: String, CustomStringConvertible, Codable {
+        case mqtttopic = "MqttTopic"
         case rulename = "RuleName"
         public var description: String { return self.rawValue }
     }
@@ -1300,13 +1301,17 @@ extension IoTWireless {
     public struct GetWirelessGatewayCertificateResponse: AWSDecodableShape {
         /// The ID of the certificate associated with the wireless gateway.
         public let iotCertificateId: String?
+        /// The ID of the certificate associated with the wireless gateway and used for LoRaWANNetworkServer endpoint.
+        public let loRaWANNetworkServerCertificateId: String?
 
-        public init(iotCertificateId: String? = nil) {
+        public init(iotCertificateId: String? = nil, loRaWANNetworkServerCertificateId: String? = nil) {
             self.iotCertificateId = iotCertificateId
+            self.loRaWANNetworkServerCertificateId = loRaWANNetworkServerCertificateId
         }
 
         private enum CodingKeys: String, CodingKey {
             case iotCertificateId = "IotCertificateId"
+            case loRaWANNetworkServerCertificateId = "LoRaWANNetworkServerCertificateId"
         }
     }
 
@@ -2423,7 +2428,7 @@ extension IoTWireless {
         public let id: String
         /// The message payload to send.
         public let payloadData: String
-        /// The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode), 1 for AM (acknowledge mode), or 2 for (TM) transparent mode.
+        /// The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
         public let transmitMode: Int
         /// Metadata about the message request.
         public let wirelessMetadata: WirelessMetadata?
@@ -2566,7 +2571,7 @@ extension IoTWireless {
     public struct SidewalkAccountInfoWithFingerprint: AWSDecodableShape {
         /// The Sidewalk Amazon ID.
         public let amazonId: String?
-        /// Fingerprint for Sidewalk application server private key.
+        /// The fingerprint of the Sidewalk application server private key.
         public let fingerprint: String?
 
         public init(amazonId: String? = nil, fingerprint: String? = nil) {

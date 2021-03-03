@@ -178,7 +178,7 @@ extension ConfigService {
         )
     }
 
-    ///  List the stored queries for an AWS account in an AWS Region. The default is 100.
+    ///  Lists the stored queries for a single AWS account and a single AWS Region. The default is 100.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -1613,21 +1613,33 @@ extension Pinpoint {
     public struct CampaignSmsMessage: AWSEncodableShape & AWSDecodableShape {
         /// The body of the SMS message.
         public let body: String?
+        /// The entity ID or Principal Entity (PE) id received from the regulatory body for sending SMS in your country.
+        public let entityId: String?
         /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL (for messsages that aren't critical or time-sensitive, such as marketing messages).
         public let messageType: MessageType?
+        /// The long code to send the SMS message from. This value should be one of the dedicated long codes that's assigned to your AWS account. Although it isn't required, we recommend that you specify the long code using an E.164 format to ensure prompt and accurate delivery of the message. For example, +12065550100.
+        public let originationNumber: String?
         /// The sender ID to display on recipients' devices when they receive the SMS message.
         public let senderId: String?
+        /// The template ID received from the regulatory body for sending SMS in your country.
+        public let templateId: String?
 
-        public init(body: String? = nil, messageType: MessageType? = nil, senderId: String? = nil) {
+        public init(body: String? = nil, entityId: String? = nil, messageType: MessageType? = nil, originationNumber: String? = nil, senderId: String? = nil, templateId: String? = nil) {
             self.body = body
+            self.entityId = entityId
             self.messageType = messageType
+            self.originationNumber = originationNumber
             self.senderId = senderId
+            self.templateId = templateId
         }
 
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
+            case entityId = "EntityId"
             case messageType = "MessageType"
+            case originationNumber = "OriginationNumber"
             case senderId = "SenderId"
+            case templateId = "TemplateId"
         }
     }
 
@@ -6359,19 +6371,31 @@ extension Pinpoint {
     }
 
     public struct JourneySMSMessage: AWSEncodableShape & AWSDecodableShape {
+        /// The entity ID or Principal Entity (PE) id received from the regulatory body for sending SMS in your country.
+        public let entityId: String?
         /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL (for messsages that aren't critical or time-sensitive, such as marketing messages).
         public let messageType: MessageType?
+        /// The long code to send the SMS message from. This value should be one of the dedicated long codes that's assigned to your AWS account. Although it isn't required, we recommend that you specify the long code using an E.164 format to ensure prompt and accurate delivery of the message. For example, +12065550100.
+        public let originationNumber: String?
         /// The sender ID to display as the sender of the message on a recipient's device. Support for sender IDs varies by country or region. For more information, see Supported Countries and Regions in the Amazon Pinpoint User Guide.
         public let senderId: String?
+        /// The template ID received from the regulatory body for sending SMS in your country.
+        public let templateId: String?
 
-        public init(messageType: MessageType? = nil, senderId: String? = nil) {
+        public init(entityId: String? = nil, messageType: MessageType? = nil, originationNumber: String? = nil, senderId: String? = nil, templateId: String? = nil) {
+            self.entityId = entityId
             self.messageType = messageType
+            self.originationNumber = originationNumber
             self.senderId = senderId
+            self.templateId = templateId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
             case messageType = "MessageType"
+            case originationNumber = "OriginationNumber"
             case senderId = "SenderId"
+            case templateId = "TemplateId"
         }
     }
 
@@ -7551,6 +7575,8 @@ extension Pinpoint {
     public struct SMSMessage: AWSEncodableShape {
         /// The body of the SMS message.
         public let body: String?
+        /// The entity ID or Principal Entity (PE) id received from the regulatory body for sending SMS in your country.
+        public let entityId: String?
         /// The SMS program name that you provided to AWS Support when you requested your dedicated number.
         public let keyword: String?
         /// This field is reserved for future use.
@@ -7563,25 +7589,31 @@ extension Pinpoint {
         public let senderId: String?
         /// The message variables to use in the SMS message. You can override the default variables with individual address variables.
         public let substitutions: [String: [String]]?
+        /// The template ID received from the regulatory body for sending SMS in your country.
+        public let templateId: String?
 
-        public init(body: String? = nil, keyword: String? = nil, mediaUrl: String? = nil, messageType: MessageType? = nil, originationNumber: String? = nil, senderId: String? = nil, substitutions: [String: [String]]? = nil) {
+        public init(body: String? = nil, entityId: String? = nil, keyword: String? = nil, mediaUrl: String? = nil, messageType: MessageType? = nil, originationNumber: String? = nil, senderId: String? = nil, substitutions: [String: [String]]? = nil, templateId: String? = nil) {
             self.body = body
+            self.entityId = entityId
             self.keyword = keyword
             self.mediaUrl = mediaUrl
             self.messageType = messageType
             self.originationNumber = originationNumber
             self.senderId = senderId
             self.substitutions = substitutions
+            self.templateId = templateId
         }
 
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
+            case entityId = "EntityId"
             case keyword = "Keyword"
             case mediaUrl = "MediaUrl"
             case messageType = "MessageType"
             case originationNumber = "OriginationNumber"
             case senderId = "SenderId"
             case substitutions = "Substitutions"
+            case templateId = "TemplateId"
         }
     }
 

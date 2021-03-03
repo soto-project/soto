@@ -417,7 +417,7 @@ extension ComputeOptimizer {
     }
 
     public struct ExportAutoScalingGroupRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+        /// The IDs of the AWS accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
         /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
         public let fieldsToExport: [ExportableAutoScalingGroupField]?
@@ -480,7 +480,7 @@ extension ComputeOptimizer {
     }
 
     public struct ExportEC2InstanceRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to export instance recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+        /// The IDs of the AWS accounts for which to export instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
         /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
         public let fieldsToExport: [ExportableInstanceField]?
@@ -547,7 +547,7 @@ extension ComputeOptimizer {
     }
 
     public struct GetAutoScalingGroupRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
+        /// The ID of the AWS account for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.
         public let autoScalingGroupArns: [String]?
@@ -597,7 +597,7 @@ extension ComputeOptimizer {
     }
 
     public struct GetEBSVolumeRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to return volume recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to return volume recommendations. Only one account ID can be specified per request.
+        /// The ID of the AWS account for which to return volume recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return volume recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// An array of objects that describe a filter that returns a more specific list of volume recommendations.
         public let filters: [EBSFilter]?
@@ -647,7 +647,7 @@ extension ComputeOptimizer {
     }
 
     public struct GetEC2InstanceRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to return instance recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to return instance recommendations. Only one account ID can be specified per request.
+        /// The ID of the AWS account for which to return instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return instance recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// An array of objects that describe a filter that returns a more specific list of instance recommendations.
         public let filters: [Filter]?
@@ -764,7 +764,7 @@ extension ComputeOptimizer {
     }
 
     public struct GetLambdaFunctionRecommendationsRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to return function recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to return function recommendations. Only one account ID can be specified per request.
+        /// The ID of the AWS account for which to return function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return function recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// An array of objects that describe a filter that returns a more specific list of function recommendations.
         public let filters: [LambdaFunctionRecommendationFilter]?
@@ -831,7 +831,7 @@ extension ComputeOptimizer {
     }
 
     public struct GetRecommendationSummariesRequest: AWSEncodableShape {
-        /// The IDs of the AWS accounts for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to return recommendation summaries. Only one account ID can be specified per request.
+        /// The ID of the AWS account for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return recommendation summaries. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// The maximum number of recommendation summaries to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
         public let maxResults: Int?
@@ -1008,7 +1008,7 @@ extension ComputeOptimizer {
         public let currentMemorySize: Int?
         /// The finding classification for the function. Findings for functions include:     Optimized  — The function is correctly provisioned to run your workload based on its current configuration and its utilization history. This finding classification does not include finding reason codes.     NotOptimized  — The function is performing at a higher level (over-provisioned) or at a lower level (under-provisioned) than required for your workload because its current configuration is not optimal. Over-provisioned resources might lead to unnecessary infrastructure cost, and under-provisioned resources might lead to poor application performance. This finding classification can include the MemoryUnderprovisioned and MemoryUnderprovisioned finding reason codes.     Unavailable  — Compute Optimizer was unable to generate a recommendation for the function. This could be because the function has not accumulated sufficient metric data, or the function does not qualify for a recommendation. This finding classification can include the InsufficientData and Inconclusive finding reason codes.  Functions with a finding of unavailable are not returned unless you specify the filter parameter with a value of Unavailable in your GetLambdaFunctionRecommendations request.
         public let finding: LambdaFunctionRecommendationFinding?
-        /// The reason for the finding classification of the function.  Functions that have a finding classification of Optimized don't have a finding reason code.  Reason codes include:     MemoryOverprovisioned  — The function is over-provisioned when its memory configuration can be sized down while still meeting the performance requirements of your workload. An over-provisioned function might lead to unnecessary infrastructure cost. This finding reason code is part of the NotOptimized finding classification.     MemoryUnderprovisioned  — The function is under-provisioned when its memory configuration doesn't meet the performance requirements of the workload. An under-provisioned function might lead to poor application performance. This finding reason code is part of the NotOptimized finding classification.     InsufficientData  — The function does not have sufficient metric data for Compute Optimizer to generate a recommendation. For more information, see the Supported resources and requirements in the AWS Compute Optimizer User Guide. This finding reason code is part of the Unavailable finding classification.     Inconclusive  — The function does not qualify for a recommendation, or there was an internal error. This finding reason code is part of the Unavailable finding classification.
+        /// The reason for the finding classification of the function.  Functions that have a finding classification of Optimized don't have a finding reason code.  Reason codes include:     MemoryOverprovisioned  — The function is over-provisioned when its memory configuration can be sized down while still meeting the performance requirements of your workload. An over-provisioned function might lead to unnecessary infrastructure cost. This finding reason code is part of the NotOptimized finding classification.     MemoryUnderprovisioned  — The function is under-provisioned when its memory configuration doesn't meet the performance requirements of the workload. An under-provisioned function might lead to poor application performance. This finding reason code is part of the NotOptimized finding classification.     InsufficientData  — The function does not have sufficient metric data for Compute Optimizer to generate a recommendation. For more information, see the Supported resources and requirements in the AWS Compute Optimizer User Guide. This finding reason code is part of the Unavailable finding classification.     Inconclusive  — The function does not qualify for a recommendation because Compute Optimizer cannot generate a recommendation with a high degree of confidence. This finding reason code is part of the Unavailable finding classification.
         public let findingReasonCodes: [LambdaFunctionRecommendationFindingReasonCode]?
         /// The Amazon Resource Name (ARN) of the current function.
         public let functionArn: String?
@@ -1072,7 +1072,7 @@ extension ComputeOptimizer {
     }
 
     public struct LambdaFunctionUtilizationMetric: AWSDecodableShape {
-        /// The name of the utilization metric.
+        /// The name of the utilization metric. The following utilization metrics are available:    Duration - The amount of time that your function code spends processing an event.    Memory - The amount of memory used per invocation.
         public let name: LambdaFunctionMetricName?
         /// The statistic of the utilization metric.
         public let statistic: LambdaFunctionMetricStatistic?
@@ -1286,9 +1286,9 @@ extension ComputeOptimizer {
     }
 
     public struct UpdateEnrollmentStatusRequest: AWSEncodableShape {
-        /// Indicates whether to enroll member accounts of the organization if the your account is the management account of an organization.
+        /// Indicates whether to enroll member accounts of the organization if the account is the management account of an organization.
         public let includeMemberAccounts: Bool?
-        /// The new enrollment status of the account. Accepted options are Active or Inactive. You will get an error if Pending or Failed are specified.
+        /// The new enrollment status of the account. The following status options are available:    Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utilization metrics of your AWS resources after you opt in. For more information, see Metrics analyzed by AWS Compute Optimizer in the Compute Optimizer User Guide.    Inactive - Opts out your account from the Compute Optimizer service. Your account's recommendations and related metrics data will be deleted from Compute Optimizer after you opt out.    The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account.
         public let status: Status
 
         public init(includeMemberAccounts: Bool? = nil, status: Status) {

@@ -82,6 +82,11 @@ public struct DevOpsGuru: AWSService {
         return self.client.execute(operation: "DescribeAnomaly", path: "/anomalies/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Returns the most recent feedback submitted in the current AWS account and Region.
+    public func describeFeedback(_ input: DescribeFeedbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFeedbackResponse> {
+        return self.client.execute(operation: "DescribeFeedback", path: "/feedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Returns details about an insight that you specify using its ID.
     public func describeInsight(_ input: DescribeInsightRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInsightResponse> {
         return self.client.execute(operation: "DescribeInsight", path: "/insights/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

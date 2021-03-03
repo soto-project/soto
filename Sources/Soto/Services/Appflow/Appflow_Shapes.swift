@@ -39,11 +39,14 @@ extension Appflow {
 
     public enum ConnectorType: String, CustomStringConvertible, Codable {
         case amplitude = "Amplitude"
+        case customerprofiles = "CustomerProfiles"
         case datadog = "Datadog"
         case dynatrace = "Dynatrace"
         case eventbridge = "EventBridge"
         case googleanalytics = "Googleanalytics"
+        case honeycode = "Honeycode"
         case infornexus = "Infornexus"
+        case lookoutmetrics = "LookoutMetrics"
         case marketo = "Marketo"
         case redshift = "Redshift"
         case s3 = "S3"
@@ -605,6 +608,7 @@ extension Appflow {
     public struct ConnectorMetadata: AWSDecodableShape {
         ///  The connector metadata specific to Amplitude.
         public let amplitude: AmplitudeMetadata?
+        public let customerProfiles: CustomerProfilesMetadata?
         ///  The connector metadata specific to Datadog.
         public let datadog: DatadogMetadata?
         ///  The connector metadata specific to Dynatrace.
@@ -613,6 +617,7 @@ extension Appflow {
         public let eventBridge: EventBridgeMetadata?
         ///  The connector metadata specific to Google Analytics.
         public let googleAnalytics: GoogleAnalyticsMetadata?
+        public let honeycode: HoneycodeMetadata?
         ///  The connector metadata specific to Infor Nexus.
         public let inforNexus: InforNexusMetadata?
         ///  The connector metadata specific to Marketo.
@@ -640,12 +645,14 @@ extension Appflow {
         ///  The connector metadata specific to Zendesk.
         public let zendesk: ZendeskMetadata?
 
-        public init(amplitude: AmplitudeMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
+        public init(amplitude: AmplitudeMetadata? = nil, customerProfiles: CustomerProfilesMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, honeycode: HoneycodeMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
             self.amplitude = amplitude
+            self.customerProfiles = customerProfiles
             self.datadog = datadog
             self.dynatrace = dynatrace
             self.eventBridge = eventBridge
             self.googleAnalytics = googleAnalytics
+            self.honeycode = honeycode
             self.inforNexus = inforNexus
             self.marketo = marketo
             self.redshift = redshift
@@ -663,10 +670,12 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case amplitude = "Amplitude"
+            case customerProfiles = "CustomerProfiles"
             case datadog = "Datadog"
             case dynatrace = "Dynatrace"
             case eventBridge = "EventBridge"
             case googleAnalytics = "GoogleAnalytics"
+            case honeycode = "Honeycode"
             case inforNexus = "InforNexus"
             case marketo = "Marketo"
             case redshift = "Redshift"
@@ -844,6 +853,7 @@ extension Appflow {
         public let dynatrace: DynatraceConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Google Analytics.
         public let googleAnalytics: GoogleAnalyticsConnectorProfileCredentials?
+        public let honeycode: HoneycodeConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Infor Nexus.
         public let inforNexus: InforNexusConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Marketo.
@@ -867,11 +877,12 @@ extension Appflow {
         ///  The connector-specific credentials required when using Zendesk.
         public let zendesk: ZendeskConnectorProfileCredentials?
 
-        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
             self.googleAnalytics = googleAnalytics
+            self.honeycode = honeycode
             self.inforNexus = inforNexus
             self.marketo = marketo
             self.redshift = redshift
@@ -890,6 +901,7 @@ extension Appflow {
             try self.datadog?.validate(name: "\(name).datadog")
             try self.dynatrace?.validate(name: "\(name).dynatrace")
             try self.googleAnalytics?.validate(name: "\(name).googleAnalytics")
+            try self.honeycode?.validate(name: "\(name).honeycode")
             try self.inforNexus?.validate(name: "\(name).inforNexus")
             try self.marketo?.validate(name: "\(name).marketo")
             try self.redshift?.validate(name: "\(name).redshift")
@@ -908,6 +920,7 @@ extension Appflow {
             case datadog = "Datadog"
             case dynatrace = "Dynatrace"
             case googleAnalytics = "GoogleAnalytics"
+            case honeycode = "Honeycode"
             case inforNexus = "InforNexus"
             case marketo = "Marketo"
             case redshift = "Redshift"
@@ -931,6 +944,7 @@ extension Appflow {
         public let dynatrace: DynatraceConnectorProfileProperties?
         ///  The connector-specific properties required Google Analytics.
         public let googleAnalytics: GoogleAnalyticsConnectorProfileProperties?
+        public let honeycode: HoneycodeConnectorProfileProperties?
         ///  The connector-specific properties required by Infor Nexus.
         public let inforNexus: InforNexusConnectorProfileProperties?
         ///  The connector-specific properties required by Marketo.
@@ -954,11 +968,12 @@ extension Appflow {
         ///  The connector-specific properties required by Zendesk.
         public let zendesk: ZendeskConnectorProfileProperties?
 
-        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
             self.amplitude = amplitude
             self.datadog = datadog
             self.dynatrace = dynatrace
             self.googleAnalytics = googleAnalytics
+            self.honeycode = honeycode
             self.inforNexus = inforNexus
             self.marketo = marketo
             self.redshift = redshift
@@ -991,6 +1006,7 @@ extension Appflow {
             case datadog = "Datadog"
             case dynatrace = "Dynatrace"
             case googleAnalytics = "GoogleAnalytics"
+            case honeycode = "Honeycode"
             case inforNexus = "InforNexus"
             case marketo = "Marketo"
             case redshift = "Redshift"
@@ -1137,6 +1153,32 @@ extension Appflow {
             case flowArn
             case flowStatus
         }
+    }
+
+    public struct CustomerProfilesDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        public let domainName: String
+        public let objectTypeName: String?
+
+        public init(domainName: String, objectTypeName: String? = nil) {
+            self.domainName = domainName
+            self.objectTypeName = objectTypeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "\\S+")
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName
+            case objectTypeName
+        }
+    }
+
+    public struct CustomerProfilesMetadata: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DatadogConnectorProfileCredentials: AWSEncodableShape {
@@ -1352,7 +1394,7 @@ extension Appflow {
     }
 
     public struct DescribeConnectorsRequest: AWSEncodableShape {
-        ///  The type of connector, such as Salesforce, Amplitude, and so on.
+        ///  The type of connector, such as Salesforce, Amplitude, and so on.    Locke refers to a new destination known as Amazon Connect Customer Profiles. At this time, we recommend that you do not use this destination.
         public let connectorTypes: [ConnectorType]?
         ///  The pagination token for the next page of data.
         public let nextToken: String?
@@ -1531,8 +1573,11 @@ extension Appflow {
     }
 
     public struct DestinationConnectorProperties: AWSEncodableShape & AWSDecodableShape {
+        public let customerProfiles: CustomerProfilesDestinationProperties?
         ///  The properties required to query Amazon EventBridge.
         public let eventBridge: EventBridgeDestinationProperties?
+        public let honeycode: HoneycodeDestinationProperties?
+        public let lookoutMetrics: LookoutMetricsDestinationProperties?
         ///  The properties required to query Amazon Redshift.
         public let redshift: RedshiftDestinationProperties?
         ///  The properties required to query Amazon S3.
@@ -1544,8 +1589,11 @@ extension Appflow {
         ///  The properties required to query Upsolver.
         public let upsolver: UpsolverDestinationProperties?
 
-        public init(eventBridge: EventBridgeDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil, upsolver: UpsolverDestinationProperties? = nil) {
+        public init(customerProfiles: CustomerProfilesDestinationProperties? = nil, eventBridge: EventBridgeDestinationProperties? = nil, honeycode: HoneycodeDestinationProperties? = nil, lookoutMetrics: LookoutMetricsDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil, upsolver: UpsolverDestinationProperties? = nil) {
+            self.customerProfiles = customerProfiles
             self.eventBridge = eventBridge
+            self.honeycode = honeycode
+            self.lookoutMetrics = lookoutMetrics
             self.redshift = redshift
             self.s3 = s3
             self.salesforce = salesforce
@@ -1554,7 +1602,9 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.customerProfiles?.validate(name: "\(name).customerProfiles")
             try self.eventBridge?.validate(name: "\(name).eventBridge")
+            try self.honeycode?.validate(name: "\(name).honeycode")
             try self.redshift?.validate(name: "\(name).redshift")
             try self.s3?.validate(name: "\(name).s3")
             try self.salesforce?.validate(name: "\(name).salesforce")
@@ -1563,7 +1613,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customerProfiles = "CustomerProfiles"
             case eventBridge = "EventBridge"
+            case honeycode = "Honeycode"
+            case lookoutMetrics = "LookoutMetrics"
             case redshift = "Redshift"
             case s3 = "S3"
             case salesforce = "Salesforce"
@@ -1780,6 +1833,10 @@ extension Appflow {
     }
 
     public struct ExecutionRecord: AWSDecodableShape {
+        ///  The timestamp that indicates the last new or updated record to be transferred in the flow run.
+        public let dataPullEndTime: Date?
+        ///  The timestamp that determines the first new or updated record to be transferred in the flow run.
+        public let dataPullStartTime: Date?
         ///  Specifies the identifier of the given flow run.
         public let executionId: String?
         ///  Describes the result of the given flow run.
@@ -1791,7 +1848,9 @@ extension Appflow {
         ///  Specifies the start time of the flow run.
         public let startedAt: Date?
 
-        public init(executionId: String? = nil, executionResult: ExecutionResult? = nil, executionStatus: ExecutionStatus? = nil, lastUpdatedAt: Date? = nil, startedAt: Date? = nil) {
+        public init(dataPullEndTime: Date? = nil, dataPullStartTime: Date? = nil, executionId: String? = nil, executionResult: ExecutionResult? = nil, executionStatus: ExecutionStatus? = nil, lastUpdatedAt: Date? = nil, startedAt: Date? = nil) {
+            self.dataPullEndTime = dataPullEndTime
+            self.dataPullStartTime = dataPullStartTime
             self.executionId = executionId
             self.executionResult = executionResult
             self.executionStatus = executionStatus
@@ -1800,6 +1859,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataPullEndTime
+            case dataPullStartTime
             case executionId
             case executionResult
             case executionStatus
@@ -1988,6 +2049,69 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case object
+        }
+    }
+
+    public struct HoneycodeConnectorProfileCredentials: AWSEncodableShape {
+        public let accessToken: String?
+        public let oAuthRequest: ConnectorOAuthRequest?
+        public let refreshToken: String?
+
+        public init(accessToken: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
+            self.accessToken = accessToken
+            self.oAuthRequest = oAuthRequest
+            self.refreshToken = refreshToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
+            try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 512)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken
+            case oAuthRequest
+            case refreshToken
+        }
+    }
+
+    public struct HoneycodeConnectorProfileProperties: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct HoneycodeDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        public let errorHandlingConfig: ErrorHandlingConfig?
+        public let object: String
+
+        public init(errorHandlingConfig: ErrorHandlingConfig? = nil, object: String) {
+            self.errorHandlingConfig = errorHandlingConfig
+            self.object = object
+        }
+
+        public func validate(name: String) throws {
+            try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.validate(self.object, name: "object", parent: name, max: 512)
+            try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorHandlingConfig
+            case object
+        }
+    }
+
+    public struct HoneycodeMetadata: AWSDecodableShape {
+        public let oAuthScopes: [String]?
+
+        public init(oAuthScopes: [String]? = nil) {
+            self.oAuthScopes = oAuthScopes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oAuthScopes
         }
     }
 
@@ -2198,6 +2322,10 @@ extension Appflow {
         private enum CodingKeys: String, CodingKey {
             case tags
         }
+    }
+
+    public struct LookoutMetricsDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct MarketoConnectorProfileCredentials: AWSEncodableShape {
@@ -2607,19 +2735,24 @@ extension Appflow {
     public struct ScheduledTriggerProperties: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies whether a scheduled flow has an incremental data transfer or a complete data transfer for each flow run.
         public let dataPullMode: DataPullMode?
+        public let firstExecutionFrom: Date?
         ///  Specifies the scheduled end time for a schedule-triggered flow.
         public let scheduleEndTime: Date?
         ///  The scheduling expression that determines the rate at which the schedule will run, for example rate(5minutes).
         public let scheduleExpression: String
+        ///  Specifies the optional offset that is added to the time interval for a schedule-triggered flow.
+        public let scheduleOffset: Int64?
         ///  Specifies the scheduled start time for a schedule-triggered flow.
         public let scheduleStartTime: Date?
-        ///  Specifies the time zone used when referring to the date and time of a scheduled-triggered flow.
+        ///  Specifies the time zone used when referring to the date and time of a scheduled-triggered flow, such as America/New_York.
         public let timezone: String?
 
-        public init(dataPullMode: DataPullMode? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleStartTime: Date? = nil, timezone: String? = nil) {
+        public init(dataPullMode: DataPullMode? = nil, firstExecutionFrom: Date? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleOffset: Int64? = nil, scheduleStartTime: Date? = nil, timezone: String? = nil) {
             self.dataPullMode = dataPullMode
+            self.firstExecutionFrom = firstExecutionFrom
             self.scheduleEndTime = scheduleEndTime
             self.scheduleExpression = scheduleExpression
+            self.scheduleOffset = scheduleOffset
             self.scheduleStartTime = scheduleStartTime
             self.timezone = timezone
         }
@@ -2627,14 +2760,18 @@ extension Appflow {
         public func validate(name: String) throws {
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: ".*")
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 36000)
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 0)
             try self.validate(self.timezone, name: "timezone", parent: name, max: 256)
             try self.validate(self.timezone, name: "timezone", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataPullMode
+            case firstExecutionFrom
             case scheduleEndTime
             case scheduleExpression
+            case scheduleOffset
             case scheduleStartTime
             case timezone
         }

@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS RedshiftDataAPIService service.
 ///
-/// You can use the Amazon Redshift Data API to run queries on Amazon Redshift tables. You can run individual SQL statements, which are committed if the statement succeeds.
+/// You can use the Amazon Redshift Data API to run queries on Amazon Redshift tables. You can run individual SQL statements, which are committed if the statement succeeds.  For more information about the Amazon Redshift Data API, see Using the Amazon Redshift Data API in the Amazon Redshift Cluster Management Guide.
 public struct RedshiftDataAPIService: AWSService {
     // MARK: Member variables
 

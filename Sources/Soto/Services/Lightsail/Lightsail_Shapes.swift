@@ -1698,17 +1698,17 @@ extension Lightsail {
     }
 
     public struct ContainerServiceHealthCheckConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The number of consecutive health checks successes required before moving the container to the Healthy state.
+        /// The number of consecutive health checks successes required before moving the container to the Healthy state. The default value is 2.
         public let healthyThreshold: Int?
-        /// The approximate interval, in seconds, between health checks of an individual container. You may specify between 5 and 300 seconds.
+        /// The approximate interval, in seconds, between health checks of an individual container. You can specify between 5 and 300 seconds. The default value is 5.
         public let intervalSeconds: Int?
-        /// The path on the container on which to perform the health check.
+        /// The path on the container on which to perform the health check. The default value is /.
         public let path: String?
         /// The HTTP codes to use when checking for a successful response from a container. You can specify values between 200 and 499.
         public let successCodes: String?
-        /// The amount of time, in seconds, during which no response means a failed health check. You may specify between 2 and 60 seconds.
+        /// The amount of time, in seconds, during which no response means a failed health check. You can specify between 2 and 60 seconds. The default value is 2.
         public let timeoutSeconds: Int?
-        /// The number of consecutive health check failures required before moving the container to the Unhealthy state.
+        /// The number of consecutive health check failures required before moving the container to the Unhealthy state. The default value is 2.
         public let unhealthyThreshold: Int?
 
         public init(healthyThreshold: Int? = nil, intervalSeconds: Int? = nil, path: String? = nil, successCodes: String? = nil, timeoutSeconds: Int? = nil, unhealthyThreshold: Int? = nil) {
@@ -2830,7 +2830,7 @@ extension Lightsail {
         public let relationalDatabaseBlueprintId: String
         /// The bundle ID for your new database. A bundle describes the performance specifications for your database. You can get a list of database bundle IDs by using the get relational database bundles operation.
         public let relationalDatabaseBundleId: String
-        /// The name to use for your new database. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.
+        /// The name to use for your new Lightsail database resource. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.
         public let relationalDatabaseName: String
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
@@ -3816,7 +3816,7 @@ extension Lightsail {
         public let location: ResourceLocation?
         /// The name of the disk snapshot (e.g., my-disk-snapshot).
         public let name: String?
-        /// The progress of the disk snapshot operation.
+        /// The progress of the snapshot.
         public let progress: String?
         /// The Lightsail resource type (e.g., DiskSnapshot).
         public let resourceType: ResourceType?
@@ -6616,7 +6616,7 @@ extension Lightsail {
         public let location: ResourceLocation?
         /// The name of the snapshot.
         public let name: String?
-        /// The progress of the snapshot.
+        /// The progress of the snapshot.  This is populated only for disk snapshots, and is null for instance snapshots.
         public let progress: String?
         /// The type of resource (usually InstanceSnapshot).
         public let resourceType: ResourceType?

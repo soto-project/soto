@@ -62,7 +62,7 @@ public struct GlueDataBrew: AWSService {
 
     // MARK: API Calls
 
-    /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if:   The recipe does not exist.   There is an invalid version identifier in the list of versions.   The verision list is empty.   The version list size exceeds 50.   The verison list contains duplicate entries.   The request will complete successfully, but with partial failures, if:   A version does not exist.   A version is being used by a job.   You specify LATEST_WORKING, but it's being used by a project.   The version fails to be deleted.   The LATEST_WORKING version will only be deleted if the recipe has no other versions. If you try to delete LATEST_WORKING while other versions exist (or if they can't be deleted), then LATEST_WORKING will be listed as partial failure in the response.
+    /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if:   The recipe does not exist.   There is an invalid version identifier in the list of versions.   The version list is empty.   The version list size exceeds 50.   The version list contains duplicate entries.   The request will complete successfully, but with partial failures, if:   A version does not exist.   A version is being used by a job.   You specify LATEST_WORKING, but it's being used by a project.   The version fails to be deleted.   The LATEST_WORKING version will only be deleted if the recipe has no other versions. If you try to delete LATEST_WORKING while other versions exist (or if they can't be deleted), then LATEST_WORKING will be listed as partial failure in the response.
     public func batchDeleteRecipeVersion(_ input: BatchDeleteRecipeVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteRecipeVersionResponse> {
         return self.client.execute(operation: "BatchDeleteRecipeVersion", path: "/recipes/{name}/batchDeleteRecipeVersion", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -130,6 +130,11 @@ public struct GlueDataBrew: AWSService {
     /// Returns the definition of a specific DataBrew job.
     public func describeJob(_ input: DescribeJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobResponse> {
         return self.client.execute(operation: "DescribeJob", path: "/jobs/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Represents one run of a DataBrew job.
+    public func describeJobRun(_ input: DescribeJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobRunResponse> {
+        return self.client.execute(operation: "DescribeJobRun", path: "/jobs/{name}/jobRun/{runId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the definition of a specific DataBrew project.

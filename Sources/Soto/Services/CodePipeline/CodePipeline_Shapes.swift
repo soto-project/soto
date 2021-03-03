@@ -78,6 +78,12 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExecutorType: String, CustomStringConvertible, Codable {
+        case jobworker = "JobWorker"
+        case lambda = "Lambda"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FailureType: String, CustomStringConvertible, Codable {
         case configurationerror = "ConfigurationError"
         case jobfailed = "JobFailed"
@@ -676,6 +682,119 @@ extension CodePipeline {
         }
     }
 
+    public struct ActionTypeArtifactDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum allowed number of artifacts that can be used with the actiontype. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
+        public let maximumCount: Int
+        /// The minimum allowed number of artifacts that can be used with the action type. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
+        public let minimumCount: Int
+
+        public init(maximumCount: Int, minimumCount: Int) {
+            self.maximumCount = maximumCount
+            self.minimumCount = minimumCount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximumCount, name: "maximumCount", parent: name, max: 10)
+            try self.validate(self.maximumCount, name: "maximumCount", parent: name, min: 0)
+            try self.validate(self.minimumCount, name: "minimumCount", parent: name, max: 10)
+            try self.validate(self.minimumCount, name: "minimumCount", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumCount
+            case minimumCount
+        }
+    }
+
+    public struct ActionTypeDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// The description for the action type to be updated.
+        public let description: String?
+        /// Information about the executor for an action type that was created with any supported integration model.
+        public let executor: ActionTypeExecutor
+        /// The action ID is composed of the action category, owner, provider, and version of the action type to be updated.
+        public let id: ActionTypeIdentifier
+        /// Details for the artifacts, such as application files, to be worked on by the action. For example, the minimum and maximum number of input artifacts allowed.
+        public let inputArtifactDetails: ActionTypeArtifactDetails
+        /// Details for the output artifacts, such as a built application, that are the result of the action. For example, the minimum and maximum number of output artifacts allowed.
+        public let outputArtifactDetails: ActionTypeArtifactDetails
+        /// Details identifying the accounts with permissions to use the action type.
+        public let permissions: ActionTypePermissions?
+        /// The properties of the action type to be updated.
+        public let properties: [ActionTypeProperty]?
+        /// The links associated with the action type to be updated.
+        public let urls: ActionTypeUrls?
+
+        public init(description: String? = nil, executor: ActionTypeExecutor, id: ActionTypeIdentifier, inputArtifactDetails: ActionTypeArtifactDetails, outputArtifactDetails: ActionTypeArtifactDetails, permissions: ActionTypePermissions? = nil, properties: [ActionTypeProperty]? = nil, urls: ActionTypeUrls? = nil) {
+            self.description = description
+            self.executor = executor
+            self.id = id
+            self.inputArtifactDetails = inputArtifactDetails
+            self.outputArtifactDetails = outputArtifactDetails
+            self.permissions = permissions
+            self.properties = properties
+            self.urls = urls
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.executor.validate(name: "\(name).executor")
+            try self.id.validate(name: "\(name).id")
+            try self.inputArtifactDetails.validate(name: "\(name).inputArtifactDetails")
+            try self.outputArtifactDetails.validate(name: "\(name).outputArtifactDetails")
+            try self.permissions?.validate(name: "\(name).permissions")
+            try self.properties?.forEach {
+                try $0.validate(name: "\(name).properties[]")
+            }
+            try self.validate(self.properties, name: "properties", parent: name, max: 10)
+            try self.urls?.validate(name: "\(name).urls")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case executor
+            case id
+            case inputArtifactDetails
+            case outputArtifactDetails
+            case permissions
+            case properties
+            case urls
+        }
+    }
+
+    public struct ActionTypeExecutor: AWSEncodableShape & AWSDecodableShape {
+        /// The action configuration properties for the action type. These properties are specified in the action definition when the action type is created.
+        public let configuration: ExecutorConfiguration
+        /// The timeout in seconds for the job. An action execution can consist of multiple jobs. This is the timeout for a single job, and not for the entire action execution.
+        public let jobTimeout: Int?
+        /// The policy statement that specifies the permissions in the CodePipeline customer’s account that are needed to successfully run an action execution. To grant permission to another account, specify the account ID as the Principal. For AWS services, the Principal is a domain-style identifier defined by the service, like codepipeline.amazonaws.com.  The size of the passed JSON policy document cannot exceed 2048 characters.
+        public let policyStatementsTemplate: String?
+        /// The integration model used to create and update the action type, such as the Lambda integration model. Each integration type has a related action engine, or executor. The available executor types are Lambda and JobWorker.
+        public let type: ExecutorType
+
+        public init(configuration: ExecutorConfiguration, jobTimeout: Int? = nil, policyStatementsTemplate: String? = nil, type: ExecutorType) {
+            self.configuration = configuration
+            self.jobTimeout = jobTimeout
+            self.policyStatementsTemplate = policyStatementsTemplate
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.jobTimeout, name: "jobTimeout", parent: name, max: 43200)
+            try self.validate(self.jobTimeout, name: "jobTimeout", parent: name, min: 60)
+            try self.validate(self.policyStatementsTemplate, name: "policyStatementsTemplate", parent: name, max: 2048)
+            try self.validate(self.policyStatementsTemplate, name: "policyStatementsTemplate", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration
+            case jobTimeout
+            case policyStatementsTemplate
+            case type
+        }
+    }
+
     public struct ActionTypeId: AWSEncodableShape & AWSDecodableShape {
         /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values.    Source   Build   Test   Deploy   Invoke   Approval
         public let category: ActionCategory
@@ -694,7 +813,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.provider, name: "provider", parent: name, max: 25)
+            try self.validate(self.provider, name: "provider", parent: name, max: 35)
             try self.validate(self.provider, name: "provider", parent: name, min: 1)
             try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
             try self.validate(self.version, name: "version", parent: name, max: 9)
@@ -707,6 +826,102 @@ extension CodePipeline {
             case owner
             case provider
             case version
+        }
+    }
+
+    public struct ActionTypeIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// A category defines what kind of action can be taken in the stage. Valid categories are limited to one of the following values:    Source     Build     Test     Deploy     Approval     Invoke
+        public let category: ActionCategory
+        /// The creator of the action type being called. There are two valid values for the owner field: AWS and ThirdParty.
+        public let owner: String
+        /// The provider of the action type being called. The provider name is supplied when the action type is created.
+        public let provider: String
+        /// A string that describes the action type version.
+        public let version: String
+
+        public init(category: ActionCategory, owner: String, provider: String, version: String) {
+            self.category = category
+            self.owner = owner
+            self.provider = provider
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.owner, name: "owner", parent: name, pattern: "AWS|ThirdParty")
+            try self.validate(self.provider, name: "provider", parent: name, max: 35)
+            try self.validate(self.provider, name: "provider", parent: name, min: 1)
+            try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try self.validate(self.version, name: "version", parent: name, max: 9)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: "[0-9A-Za-z_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category
+            case owner
+            case provider
+            case version
+        }
+    }
+
+    public struct ActionTypePermissions: AWSEncodableShape & AWSDecodableShape {
+        /// A list of AWS account IDs with allow access to use the action type in their pipelines.
+        public let allowedAccounts: [String]
+
+        public init(allowedAccounts: [String]) {
+            self.allowedAccounts = allowedAccounts
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedAccounts.forEach {
+                try validate($0, name: "allowedAccounts[]", parent: name, pattern: "[0-9]{12}|\\*")
+            }
+            try self.validate(self.allowedAccounts, name: "allowedAccounts", parent: name, max: 1000)
+            try self.validate(self.allowedAccounts, name: "allowedAccounts", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedAccounts
+        }
+    }
+
+    public struct ActionTypeProperty: AWSEncodableShape & AWSDecodableShape {
+        /// The description of the property that is displayed to users.
+        public let description: String?
+        /// Whether the configuration property is a key.
+        public let key: Bool
+        /// The property name. This represents a field name that is displayed to users.
+        public let name: String
+        /// Determines whether the field value entered by the customer is logged. If noEcho is true, the value is not shown in CloudTrail logs for the action execution.
+        public let noEcho: Bool
+        /// Whether the configuration property is an optional value.
+        public let optional: Bool
+        /// Indicates that the property is used with polling. An action type can have up to one queryable property. If it has one, that property must be both required and not secret.
+        public let queryable: Bool?
+
+        public init(description: String? = nil, key: Bool, name: String, noEcho: Bool, optional: Bool, queryable: Bool? = nil) {
+            self.description = description
+            self.key = key
+            self.name = name
+            self.noEcho = noEcho
+            self.optional = optional
+            self.queryable = queryable
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case key
+            case name
+            case noEcho
+            case optional
+            case queryable
         }
     }
 
@@ -743,6 +958,42 @@ extension CodePipeline {
             case executionUrlTemplate
             case revisionUrlTemplate
             case thirdPartyConfigurationUrl
+        }
+    }
+
+    public struct ActionTypeUrls: AWSEncodableShape & AWSDecodableShape {
+        /// The URL returned to the CodePipeline console that contains a link to the page where customers can configure the external action.
+        public let configurationUrl: String?
+        /// The URL returned to the CodePipeline console that provides a deep link to the resources of the external system, such as a status page. This link is provided as part of the action display in the pipeline.
+        public let entityUrlTemplate: String?
+        /// The link to an execution page for the action type in progress. For example, for a CodeDeploy action, this link is shown on the pipeline view page in the CodePipeline console, and it links to a CodeDeploy status page.
+        public let executionUrlTemplate: String?
+        /// The URL returned to the CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
+        public let revisionUrlTemplate: String?
+
+        public init(configurationUrl: String? = nil, entityUrlTemplate: String? = nil, executionUrlTemplate: String? = nil, revisionUrlTemplate: String? = nil) {
+            self.configurationUrl = configurationUrl
+            self.entityUrlTemplate = entityUrlTemplate
+            self.executionUrlTemplate = executionUrlTemplate
+            self.revisionUrlTemplate = revisionUrlTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationUrl, name: "configurationUrl", parent: name, max: 2048)
+            try self.validate(self.configurationUrl, name: "configurationUrl", parent: name, min: 1)
+            try self.validate(self.entityUrlTemplate, name: "entityUrlTemplate", parent: name, max: 2048)
+            try self.validate(self.entityUrlTemplate, name: "entityUrlTemplate", parent: name, min: 1)
+            try self.validate(self.executionUrlTemplate, name: "executionUrlTemplate", parent: name, max: 2048)
+            try self.validate(self.executionUrlTemplate, name: "executionUrlTemplate", parent: name, min: 1)
+            try self.validate(self.revisionUrlTemplate, name: "revisionUrlTemplate", parent: name, max: 2048)
+            try self.validate(self.revisionUrlTemplate, name: "revisionUrlTemplate", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationUrl
+            case entityUrlTemplate
+            case executionUrlTemplate
+            case revisionUrlTemplate
         }
     }
 
@@ -966,7 +1217,7 @@ extension CodePipeline {
             try self.validate(self.configurationProperties, name: "configurationProperties", parent: name, max: 10)
             try self.inputArtifactDetails.validate(name: "\(name).inputArtifactDetails")
             try self.outputArtifactDetails.validate(name: "\(name).outputArtifactDetails")
-            try self.validate(self.provider, name: "provider", parent: name, max: 25)
+            try self.validate(self.provider, name: "provider", parent: name, max: 35)
             try self.validate(self.provider, name: "provider", parent: name, min: 1)
             try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
             try self.settings?.validate(name: "\(name).settings")
@@ -1097,7 +1348,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.provider, name: "provider", parent: name, max: 25)
+            try self.validate(self.provider, name: "provider", parent: name, max: 35)
             try self.validate(self.provider, name: "provider", parent: name, min: 1)
             try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
             try self.validate(self.version, name: "version", parent: name, max: 9)
@@ -1330,6 +1581,28 @@ extension CodePipeline {
         }
     }
 
+    public struct ExecutorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Details about the JobWorker executor of the action type.
+        public let jobWorkerExecutorConfiguration: JobWorkerExecutorConfiguration?
+        /// Details about the Lambda executor of the action type.
+        public let lambdaExecutorConfiguration: LambdaExecutorConfiguration?
+
+        public init(jobWorkerExecutorConfiguration: JobWorkerExecutorConfiguration? = nil, lambdaExecutorConfiguration: LambdaExecutorConfiguration? = nil) {
+            self.jobWorkerExecutorConfiguration = jobWorkerExecutorConfiguration
+            self.lambdaExecutorConfiguration = lambdaExecutorConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.jobWorkerExecutorConfiguration?.validate(name: "\(name).jobWorkerExecutorConfiguration")
+            try self.lambdaExecutorConfiguration?.validate(name: "\(name).lambdaExecutorConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobWorkerExecutorConfiguration
+            case lambdaExecutorConfiguration
+        }
+    }
+
     public struct FailureDetails: AWSEncodableShape {
         /// The external ID of the run of the action that failed.
         public let externalExecutionId: String?
@@ -1355,6 +1628,54 @@ extension CodePipeline {
             case externalExecutionId
             case message
             case type
+        }
+    }
+
+    public struct GetActionTypeInput: AWSEncodableShape {
+        /// A category defines what kind of action can be taken in the stage. Valid categories are limited to one of the following values:    Source     Build     Test     Deploy     Approval     Invoke
+        public let category: ActionCategory
+        /// The creator of an action type that has been created with any supported integration model. There are two valid values for the owner field in the action type category: AWS and ThirdParty.
+        public let owner: String
+        /// The provider of the action type being called. The provider name is specified when the action type is created.
+        public let provider: String
+        /// A string that describes the action type version.
+        public let version: String
+
+        public init(category: ActionCategory, owner: String, provider: String, version: String) {
+            self.category = category
+            self.owner = owner
+            self.provider = provider
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.owner, name: "owner", parent: name, pattern: "AWS|ThirdParty")
+            try self.validate(self.provider, name: "provider", parent: name, max: 35)
+            try self.validate(self.provider, name: "provider", parent: name, min: 1)
+            try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try self.validate(self.version, name: "version", parent: name, max: 9)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: "[0-9A-Za-z_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category
+            case owner
+            case provider
+            case version
+        }
+    }
+
+    public struct GetActionTypeOutput: AWSDecodableShape {
+        /// The action type information for the requested action type, such as the action type ID.
+        public let actionType: ActionTypeDeclaration?
+
+        public init(actionType: ActionTypeDeclaration? = nil) {
+            self.actionType = actionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType
         }
     }
 
@@ -1657,6 +1978,56 @@ extension CodePipeline {
         }
     }
 
+    public struct JobWorkerExecutorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The accounts in which the job worker is configured and might poll for jobs as part of the action execution.
+        public let pollingAccounts: [String]?
+        /// The service Principals in which the job worker is configured and might poll for jobs as part of the action execution.
+        public let pollingServicePrincipals: [String]?
+
+        public init(pollingAccounts: [String]? = nil, pollingServicePrincipals: [String]? = nil) {
+            self.pollingAccounts = pollingAccounts
+            self.pollingServicePrincipals = pollingServicePrincipals
+        }
+
+        public func validate(name: String) throws {
+            try self.pollingAccounts?.forEach {
+                try validate($0, name: "pollingAccounts[]", parent: name, pattern: "[0-9]{12}")
+            }
+            try self.validate(self.pollingAccounts, name: "pollingAccounts", parent: name, max: 1000)
+            try self.validate(self.pollingAccounts, name: "pollingAccounts", parent: name, min: 1)
+            try self.pollingServicePrincipals?.forEach {
+                try validate($0, name: "pollingServicePrincipals[]", parent: name, max: 128)
+                try validate($0, name: "pollingServicePrincipals[]", parent: name, min: 1)
+            }
+            try self.validate(self.pollingServicePrincipals, name: "pollingServicePrincipals", parent: name, max: 10)
+            try self.validate(self.pollingServicePrincipals, name: "pollingServicePrincipals", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pollingAccounts
+            case pollingServicePrincipals
+        }
+    }
+
+    public struct LambdaExecutorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the Lambda function used by the action engine.
+        public let lambdaFunctionArn: String
+
+        public init(lambdaFunctionArn: String) {
+            self.lambdaFunctionArn = lambdaFunctionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambdaFunctionArn, name: "lambdaFunctionArn", parent: name, max: 140)
+            try self.validate(self.lambdaFunctionArn, name: "lambdaFunctionArn", parent: name, min: 1)
+            try self.validate(self.lambdaFunctionArn, name: "lambdaFunctionArn", parent: name, pattern: "arn:aws(-[\\w]+)*:lambda:.+:[0-9]{12}:function:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaFunctionArn
+        }
+    }
+
     public struct ListActionExecutionsInput: AWSEncodableShape {
         /// Input information used to filter action execution history.
         public let filter: ActionExecutionFilter?
@@ -1715,20 +2086,26 @@ extension CodePipeline {
         public let actionOwnerFilter: ActionOwner?
         /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
         public let nextToken: String?
+        /// The Region to filter on for the list of action types.
+        public let regionFilter: String?
 
-        public init(actionOwnerFilter: ActionOwner? = nil, nextToken: String? = nil) {
+        public init(actionOwnerFilter: ActionOwner? = nil, nextToken: String? = nil, regionFilter: String? = nil) {
             self.actionOwnerFilter = actionOwnerFilter
             self.nextToken = nextToken
+            self.regionFilter = regionFilter
         }
 
         public func validate(name: String) throws {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.regionFilter, name: "regionFilter", parent: name, max: 30)
+            try self.validate(self.regionFilter, name: "regionFilter", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionOwnerFilter
             case nextToken
+            case regionFilter
         }
     }
 
@@ -3033,6 +3410,23 @@ extension CodePipeline {
 
     public struct UntagResourceOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateActionTypeInput: AWSEncodableShape {
+        /// The action type definition for the action type to be updated.
+        public let actionType: ActionTypeDeclaration?
+
+        public init(actionType: ActionTypeDeclaration? = nil) {
+            self.actionType = actionType
+        }
+
+        public func validate(name: String) throws {
+            try self.actionType?.validate(name: "\(name).actionType")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType
+        }
     }
 
     public struct UpdatePipelineInput: AWSEncodableShape {

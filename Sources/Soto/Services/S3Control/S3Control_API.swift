@@ -75,7 +75,7 @@ public struct S3Control: AWSService {
         return self.client.execute(operation: "CreateBucket", path: "/v20180820/bucket/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// S3 Batch Operations performs large-scale Batch Operations on Amazon S3 objects. Batch Operations can run a single operation or action on lists of Amazon S3 objects that you specify. For more information, see S3 Batch Operations in the Amazon Simple Storage Service Developer Guide. This operation creates an S3 Batch Operations job.  Related actions include:    DescribeJob     ListJobs     UpdateJobPriority     UpdateJobStatus
+    /// You can use S3 Batch Operations to perform large-scale batch operations on Amazon S3 objects. Batch Operations can run a single operation on lists of Amazon S3 objects that you specify. For more information, see S3 Batch Operations in the Amazon Simple Storage Service Developer Guide. This operation creates a S3 Batch Operations job.  Related actions include:    DescribeJob     ListJobs     UpdateJobPriority     UpdateJobStatus     JobOperation
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobResult> {
         return self.client.execute(operation: "CreateJob", path: "/v20180820/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -120,12 +120,12 @@ public struct S3Control: AWSService {
         return self.client.execute(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
+    /// Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
     @discardableResult public func deleteStorageLensConfiguration(_ input: DeleteStorageLensConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteStorageLensConfiguration", path: "/v20180820/storagelens/{storagelensid}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
+    /// Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
     public func deleteStorageLensConfigurationTagging(_ input: DeleteStorageLensConfigurationTaggingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStorageLensConfigurationTaggingResult> {
         return self.client.execute(operation: "DeleteStorageLensConfigurationTagging", path: "/v20180820/storagelens/{storagelensid}/tagging", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -180,12 +180,12 @@ public struct S3Control: AWSService {
         return self.client.execute(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the Amazon S3 Storage Lens configuration. For more information, see Working with Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
+    /// Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
     public func getStorageLensConfiguration(_ input: GetStorageLensConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStorageLensConfigurationResult> {
         return self.client.execute(operation: "GetStorageLensConfiguration", path: "/v20180820/storagelens/{storagelensid}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
+    /// Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
     public func getStorageLensConfigurationTagging(_ input: GetStorageLensConfigurationTaggingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStorageLensConfigurationTaggingResult> {
         return self.client.execute(operation: "GetStorageLensConfigurationTagging", path: "/v20180820/storagelens/{storagelensid}/tagging", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -205,7 +205,7 @@ public struct S3Control: AWSService {
         return self.client.execute(operation: "ListRegionalBuckets", path: "/v20180820/bucket", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
+    /// Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
     public func listStorageLensConfigurations(_ input: ListStorageLensConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStorageLensConfigurationsResult> {
         return self.client.execute(operation: "ListStorageLensConfigurations", path: "/v20180820/storagelens", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -245,7 +245,7 @@ public struct S3Control: AWSService {
         return self.client.execute(operation: "PutStorageLensConfiguration", path: "/v20180820/storagelens/{storagelensid}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Working with Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
+    /// Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon Simple Storage Service Developer Guide.  To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
     public func putStorageLensConfigurationTagging(_ input: PutStorageLensConfigurationTaggingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutStorageLensConfigurationTaggingResult> {
         return self.client.execute(operation: "PutStorageLensConfigurationTagging", path: "/v20180820/storagelens/{storagelensid}/tagging", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

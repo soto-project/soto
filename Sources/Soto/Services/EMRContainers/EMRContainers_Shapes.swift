@@ -641,7 +641,8 @@ extension EMRContainers {
         /// The configuration settings that are used to override existing configurations for endpoints.
         public let configurationOverrides: ConfigurationOverrides?
         /// The date and time when the endpoint was created.
-        public let createdAt: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         /// The execution role ARN of the endpoint.
         public let executionRoleArn: String?
         /// The ID of the endpoint.
@@ -727,7 +728,8 @@ extension EMRContainers {
         /// The configuration settings that are used to override default configuration.
         public let configurationOverrides: ConfigurationOverrides?
         /// The date and time when the job run was created.
-        public let createdAt: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         /// The user who created the job run.
         public let createdBy: String?
         /// The execution role ARN of the job run.
@@ -735,7 +737,8 @@ extension EMRContainers {
         /// The reasons why the job run has failed.
         public let failureReason: FailureReason?
         /// The date and time when the job run has finished.
-        public let finishedAt: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var finishedAt: Date?
         /// The ID of the job run.
         public let id: String?
         /// Parameters of job driver for the job run.
@@ -794,8 +797,8 @@ extension EMRContainers {
 
     public struct ListJobRunsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "createdAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "createdBefore", location: .querystring(locationName: "createdBefore")),
+            AWSMemberEncoding(label: "_createdAfter", location: .querystring(locationName: "createdAfter")),
+            AWSMemberEncoding(label: "_createdBefore", location: .querystring(locationName: "createdBefore")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
@@ -804,9 +807,11 @@ extension EMRContainers {
         ]
 
         /// The date and time after which the job runs were submitted.
-        public let createdAfter: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAfter: Date?
         /// The date and time before which the job runs were submitted.
-        public let createdBefore: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdBefore: Date?
         /// The maximum number of job runs that can be listed.
         public let maxResults: Int?
         /// The name of the job run.
@@ -863,8 +868,8 @@ extension EMRContainers {
 
     public struct ListManagedEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "createdAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "createdBefore", location: .querystring(locationName: "createdBefore")),
+            AWSMemberEncoding(label: "_createdAfter", location: .querystring(locationName: "createdAfter")),
+            AWSMemberEncoding(label: "_createdBefore", location: .querystring(locationName: "createdBefore")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "states", location: .querystring(locationName: "states")),
@@ -873,9 +878,11 @@ extension EMRContainers {
         ]
 
         ///  The date and time after which the endpoints are created.
-        public let createdAfter: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAfter: Date?
         /// The date and time before which the endpoints are created.
-        public let createdBefore: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdBefore: Date?
         /// The maximum number of managed endpoints that can be listed.
         public let maxResults: Int?
         ///  The token for the next set of managed endpoints to return.
@@ -971,8 +978,8 @@ extension EMRContainers {
         public static var _encoding = [
             AWSMemberEncoding(label: "containerProviderId", location: .querystring(locationName: "containerProviderId")),
             AWSMemberEncoding(label: "containerProviderType", location: .querystring(locationName: "containerProviderType")),
-            AWSMemberEncoding(label: "createdAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "createdBefore", location: .querystring(locationName: "createdBefore")),
+            AWSMemberEncoding(label: "_createdAfter", location: .querystring(locationName: "createdAfter")),
+            AWSMemberEncoding(label: "_createdBefore", location: .querystring(locationName: "createdBefore")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "states", location: .querystring(locationName: "states"))
@@ -983,9 +990,11 @@ extension EMRContainers {
         /// The container provider type of the virtual cluster. EKS is the only supported type as of now.
         public let containerProviderType: ContainerProviderType?
         /// The date and time after which the virtual clusters are created.
-        public let createdAfter: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAfter: Date?
         /// The date and time before which the virtual clusters are created.
-        public let createdBefore: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdBefore: Date?
         /// The maximum number of virtual clusters that can be listed.
         public let maxResults: Int?
         /// The token for the next set of virtual clusters to return.
@@ -1290,7 +1299,8 @@ extension EMRContainers {
         /// The container provider of the virtual cluster.
         public let containerProvider: ContainerProvider?
         /// The date and time when the virtual cluster is created.
-        public let createdAt: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
         /// The ID of the virtual cluster.
         public let id: String?
         /// The name of the virtual cluster.

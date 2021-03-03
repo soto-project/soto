@@ -173,6 +173,8 @@ extension MediaTailor {
         public let bumper: Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
         public let cdnConfiguration: CdnConfiguration?
+        /// Predefined aliases for dynamic variables.
+        public let configurationAliases: [String: [String: String]]?
         /// The configuration for DASH content.
         public let dashConfiguration: DashConfiguration?
         /// The configuration for HLS content.
@@ -200,11 +202,12 @@ extension MediaTailor {
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
+            self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
             self.livePreRollConfiguration = livePreRollConfiguration
@@ -225,6 +228,7 @@ extension MediaTailor {
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
+            case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
             case livePreRollConfiguration = "LivePreRollConfiguration"
@@ -352,6 +356,8 @@ extension MediaTailor {
     public struct PlaybackConfiguration: AWSDecodableShape {
         public let adDecisionServerUrl: String?
         public let cdnConfiguration: CdnConfiguration?
+        /// Predefined aliases for dynamic variables.
+        public let configurationAliases: [String: [String: String]]?
         public let dashConfiguration: DashConfiguration?
         public let hlsConfiguration: HlsConfiguration?
         public let name: String?
@@ -364,9 +370,10 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.cdnConfiguration = cdnConfiguration
+            self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
             self.name = name
@@ -383,6 +390,7 @@ extension MediaTailor {
         private enum CodingKeys: String, CodingKey {
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case cdnConfiguration = "CdnConfiguration"
+            case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
             case name = "Name"
@@ -406,6 +414,8 @@ extension MediaTailor {
         public let bumper: Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
         public let cdnConfiguration: CdnConfiguration?
+        /// Predefined aliases for dynamic variables.
+        public let configurationAliases: [String: [String: String]]?
         /// The configuration for DASH content.
         public let dashConfiguration: DashConfigurationForPut?
         /// The configuration for pre-roll ad insertion.
@@ -425,11 +435,12 @@ extension MediaTailor {
         /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
+            self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
             self.livePreRollConfiguration = livePreRollConfiguration
             self.manifestProcessingRules = manifestProcessingRules
@@ -450,6 +461,7 @@ extension MediaTailor {
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
+            case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
             case livePreRollConfiguration = "LivePreRollConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"
@@ -467,6 +479,7 @@ extension MediaTailor {
         public let availSuppression: AvailSuppression?
         public let bumper: Bumper?
         public let cdnConfiguration: CdnConfiguration?
+        public let configurationAliases: [String: [String: String]]?
         public let dashConfiguration: DashConfiguration?
         public let hlsConfiguration: HlsConfiguration?
         public let livePreRollConfiguration: LivePreRollConfiguration?
@@ -480,11 +493,12 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
+            self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
             self.livePreRollConfiguration = livePreRollConfiguration
@@ -504,6 +518,7 @@ extension MediaTailor {
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
+            case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
             case livePreRollConfiguration = "LivePreRollConfiguration"

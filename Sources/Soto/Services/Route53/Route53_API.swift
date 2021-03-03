@@ -62,7 +62,7 @@ public struct Route53: AWSService {
 
     // MARK: API Calls
 
-    /// Activates a key signing key (KSK) so that it can be used for signing by DNSSEC. This operation changes the KSK status to ACTIVE.
+    /// Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This operation changes the KSK status to ACTIVE.
     public func activateKeySigningKey(_ input: ActivateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivateKeySigningKeyResponse> {
         return self.client.execute(operation: "ActivateKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -92,7 +92,7 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "CreateHostedZone", path: "/2013-04-01/hostedzone", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new key signing key (KSK) associated with a hosted zone. You can only have two KSKs per hosted zone.
+    /// Creates a new key-signing key (KSK) associated with a hosted zone. You can only have two KSKs per hosted zone.
     public func createKeySigningKey(_ input: CreateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKeySigningKeyResponse> {
         return self.client.execute(operation: "CreateKeySigningKey", path: "/2013-04-01/keysigningkey", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -127,7 +127,7 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "CreateVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{Id}/authorizevpcassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deactivates a key signing key (KSK) so that it will not be used for signing by DNSSEC. This operation changes the KSK status to INACTIVE.
+    /// Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC. This operation changes the KSK status to INACTIVE.
     public func deactivateKeySigningKey(_ input: DeactivateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeactivateKeySigningKeyResponse> {
         return self.client.execute(operation: "DeactivateKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -142,7 +142,7 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "DeleteHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a key signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactived before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing.
+    /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactived before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing.
     public func deleteKeySigningKey(_ input: DeleteKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteKeySigningKeyResponse> {
         return self.client.execute(operation: "DeleteKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -172,7 +172,7 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "DeleteVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{Id}/deauthorizevpcassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any key signing keys (KSKs) that are active in the hosted zone.
+    /// Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any key-signing keys (KSKs) that are active in the hosted zone.
     public func disableHostedZoneDNSSEC(_ input: DisableHostedZoneDNSSECRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableHostedZoneDNSSECResponse> {
         return self.client.execute(operation: "DisableHostedZoneDNSSEC", path: "/2013-04-01/hostedzone/{Id}/disable-dnssec", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -197,17 +197,17 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "GetChange", path: "/2013-04-01/change/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///   GetCheckerIpRanges still works, but we recommend that you download ip-ranges.json, which includes IP address ranges for all AWS services. For more information, see IP Address Ranges of Amazon Route 53 Servers in the Amazon Route 53 Developer Guide.
+    /// Route 53 does not perform authorization for this API because it retrieves information that is already available to the public.   GetCheckerIpRanges still works, but we recommend that you download ip-ranges.json, which includes IP address ranges for all AWS services. For more information, see IP Address Ranges of Amazon Route 53 Servers in the Amazon Route 53 Developer Guide.
     public func getCheckerIpRanges(_ input: GetCheckerIpRangesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCheckerIpRangesResponse> {
         return self.client.execute(operation: "GetCheckerIpRanges", path: "/2013-04-01/checkeripranges", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about DNSSEC for a specific hosted zone, including the key signing keys (KSKs) and zone signing keys (ZSKs) in the hosted zone.
+    /// Returns information about DNSSEC for a specific hosted zone, including the key-signing keys (KSKs) in the hosted zone.
     public func getDNSSEC(_ input: GetDNSSECRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDNSSECResponse> {
         return self.client.execute(operation: "GetDNSSEC", path: "/2013-04-01/hostedzone/{Id}/dnssec", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets. Use the following syntax to determine whether a continent is supported for geolocation:  GET /2013-04-01/geolocation?continentcode=two-letter abbreviation for a continent   Use the following syntax to determine whether a country is supported for geolocation:  GET /2013-04-01/geolocation?countrycode=two-character country code   Use the following syntax to determine whether a subdivision of a country is supported for geolocation:  GET /2013-04-01/geolocation?countrycode=two-character country code&amp;subdivisioncode=subdivision code
+    /// Gets information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. Use the following syntax to determine whether a continent is supported for geolocation:  GET /2013-04-01/geolocation?continentcode=two-letter abbreviation for a continent   Use the following syntax to determine whether a country is supported for geolocation:  GET /2013-04-01/geolocation?countrycode=two-character country code   Use the following syntax to determine whether a subdivision of a country is supported for geolocation:  GET /2013-04-01/geolocation?countrycode=two-character country code&amp;subdivisioncode=subdivision code
     public func getGeoLocation(_ input: GetGeoLocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGeoLocationResponse> {
         return self.client.execute(operation: "GetGeoLocation", path: "/2013-04-01/geolocation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -277,7 +277,7 @@ public struct Route53: AWSService {
         return self.client.execute(operation: "GetTrafficPolicyInstanceCount", path: "/2013-04-01/trafficpolicyinstancecount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabetical order immediately after the corresponding country. For a list of supported geolocation codes, see the GeoLocation data type.
+    /// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabetical order immediately after the corresponding country. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. For a list of supported geolocation codes, see the GeoLocation data type.
     public func listGeoLocations(_ input: ListGeoLocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGeoLocationsResponse> {
         return self.client.execute(operation: "ListGeoLocations", path: "/2013-04-01/geolocations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

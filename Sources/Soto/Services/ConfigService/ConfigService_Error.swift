@@ -32,6 +32,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
         case invalidResultTokenException = "InvalidResultTokenException"
         case invalidRoleException = "InvalidRoleException"
         case invalidS3KeyPrefixException = "InvalidS3KeyPrefixException"
+        case invalidS3KmsKeyArnException = "InvalidS3KmsKeyArnException"
         case invalidSNSTopicARNException = "InvalidSNSTopicARNException"
         case invalidTimeRangeException = "InvalidTimeRangeException"
         case lastDeliveryChannelDeleteFailedException = "LastDeliveryChannelDeleteFailedException"
@@ -117,6 +118,8 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var invalidRoleException: Self { .init(.invalidRoleException) }
     /// The specified Amazon S3 key prefix is not valid.
     public static var invalidS3KeyPrefixException: Self { .init(.invalidS3KeyPrefixException) }
+    /// The specified Amazon KMS Key ARN is not valid.
+    public static var invalidS3KmsKeyArnException: Self { .init(.invalidS3KmsKeyArnException) }
     /// The specified Amazon SNS topic does not exist.
     public static var invalidSNSTopicARNException: Self { .init(.invalidSNSTopicARNException) }
     /// The specified time range is not valid. The earlier time is not chronologically before the later time.
@@ -173,7 +176,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var noSuchRemediationExceptionException: Self { .init(.noSuchRemediationExceptionException) }
     /// You have specified a retention configuration that does not exist.
     public static var noSuchRetentionConfigurationException: Self { .init(.noSuchRetentionConfigurationException) }
-    /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API. For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws an exception if APIs are called from member accounts. All APIs must be called from organization master account.
+    /// For PutConfigurationAggregator API, you can see this exception for the following reasons:   No permission to call EnableAWSServiceAccess API   The configuration aggregator cannot be updated because your AWS Organization management account or the delegated administrator role changed. Delete this aggregator and create a new one with the current AWS Organization.   The configuration aggregator is associated with a previous AWS Organization and AWS Config cannot aggregate data with current AWS Organization. Delete this aggregator and create a new one with the current AWS Organization.   You are not a registered delegated administrator for AWS Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for AWS Config service principle name before the delegated administrator creates an aggregator.   For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws an exception if APIs are called from member accounts. All APIs must be called from organization master account.
     public static var organizationAccessDeniedException: Self { .init(.organizationAccessDeniedException) }
     /// AWS Config resource cannot be created because your organization does not have all features enabled.
     public static var organizationAllFeaturesNotEnabledException: Self { .init(.organizationAllFeaturesNotEnabledException) }
@@ -193,7 +196,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You have reached the limit of the number of tags you can use. You have more than 50 tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// The requested action is not valid.
+    /// The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
     public static var validationException: Self { .init(.validationException) }
 }
 

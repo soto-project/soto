@@ -50,12 +50,16 @@ extension Organizations {
         case accountLimitExceeded = "ACCOUNT_LIMIT_EXCEEDED"
         case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
         case emailAlreadyExists = "EMAIL_ALREADY_EXISTS"
+        case failedBusinessValidation = "FAILED_BUSINESS_VALIDATION"
         case govcloudAccountAlreadyExists = "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
         case internalFailure = "INTERNAL_FAILURE"
         case invalidAddress = "INVALID_ADDRESS"
         case invalidEmail = "INVALID_EMAIL"
+        case invalidIdentityForBusinessValidation = "INVALID_IDENTITY_FOR_BUSINESS_VALIDATION"
         case missingBusinessValidation = "MISSING_BUSINESS_VALIDATION"
         case missingPaymentInstrument = "MISSING_PAYMENT_INSTRUMENT"
+        case pendingBusinessValidation = "PENDING_BUSINESS_VALIDATION"
+        case unknownBusinessValidation = "UNKNOWN_BUSINESS_VALIDATION"
         public var description: String { return self.rawValue }
     }
 
@@ -176,7 +180,7 @@ extension Organizations {
     }
 
     public struct Account: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Service Authorization Reference.
         public let arn: String?
         /// The email address associated with the AWS account. The regex pattern for this parameter is a string of characters that represents a standard internet email address.
         public let email: String?
@@ -347,7 +351,7 @@ extension Organizations {
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
         public let completedTimestamp: Date?
-        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the same information.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.   MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has not received Business Validation.    MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a valid payment method, such as a credit card.
+        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the same information.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   FAILED_BUSINESS_VALIDATION: The AWS account that owns your organization failed to receive business license validation.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   IDENTITY_INVALID_BUSINESS_VALIDATION: The AWS account that owns your organization can't complete business license validation because it doesn't have valid identity data.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.   MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has not received Business Validation.    MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a valid payment method, such as a credit card.   PENDING_BUSINESS_VALIDATION: The AWS account that owns your organization is still in the process of completing business license validation.   UNKNOWN_BUSINESS_VALIDATION: The AWS account that owns your organization has an unknown issue with business license validation.
         public let failureReason: CreateAccountFailureReason?
         /// If the account was created successfully, the unique identifier (ID) of the new account in the AWS GovCloud (US) Region.
         public let govCloudAccountId: String?
@@ -1110,7 +1114,7 @@ extension Organizations {
     public struct Handshake: AWSDecodableShape {
         /// The type of handshake, indicating what action occurs when the recipient accepts the handshake. The following handshake types are supported:    INVITE: This type of handshake represents a request to join an organization. It is always sent from the management account to only non-member accounts.    ENABLE_ALL_FEATURES: This type of handshake represents a request to enable all features in an organization. It is always sent from the management account to only invited member accounts. Created accounts do not receive this because those accounts were created by the organization's management account and approval is inferred.    APPROVE_ALL_FEATURES: This type of handshake is sent from the Organizations service when all member accounts have approved the ENABLE_ALL_FEATURES invitation. It is sent only to the management account and signals the master that it can finalize the process to enable all features.
         public let action: ActionType?
-        /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Service Authorization Reference.
         public let arn: String?
         /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
         public let expirationTimestamp: Date?
@@ -2019,7 +2023,7 @@ extension Organizations {
     }
 
     public struct Organization: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Service Authorization Reference.
         public let arn: String?
         ///  Do not use. This field is deprecated and doesn't provide complete information about the policies in your organization.  To determine the policies that are enabled and available for use in your organization, use the ListRoots operation instead.
         public let availablePolicyTypes: [PolicyTypeSummary]?
@@ -2027,7 +2031,7 @@ extension Organizations {
         public let featureSet: OrganizationFeatureSet?
         /// The unique identifier (ID) of an organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lowercase letters or digits.
         public let id: String?
-        /// The Amazon Resource Name (ARN) of the account that is designated as the management account for the organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of the account that is designated as the management account for the organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Service Authorization Reference.
         public let masterAccountArn: String?
         /// The email address that is associated with the AWS account that is designated as the management account for the organization.
         public let masterAccountEmail: String?
@@ -2056,7 +2060,7 @@ extension Organizations {
     }
 
     public struct OrganizationalUnit: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Service Authorization Reference.
         public let arn: String?
         /// The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let id: String?
@@ -2111,7 +2115,7 @@ extension Organizations {
     }
 
     public struct PolicySummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Service Authorization Reference.
         public let arn: String?
         /// A boolean value that indicates whether the specified policy is an AWS managed policy. If true, then you can attach the policy to roots, OUs, or accounts, but you cannot edit it.
         public let awsManaged: Bool?
@@ -2144,7 +2148,7 @@ extension Organizations {
     }
 
     public struct PolicyTargetSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Service Authorization Reference.
         public let arn: String?
         /// The friendly name of the policy target. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
@@ -2229,7 +2233,7 @@ extension Organizations {
     }
 
     public struct Root: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Service Authorization Reference.
         public let arn: String?
         /// The unique identifier (ID) for the root. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
         public let id: String?

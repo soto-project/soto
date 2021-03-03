@@ -73,6 +73,7 @@ extension DataExchange {
     public enum `Type`: String, CustomStringConvertible, Codable {
         case exportAssetToSignedUrl = "EXPORT_ASSET_TO_SIGNED_URL"
         case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
+        case exportRevisionsToS3 = "EXPORT_REVISIONS_TO_S3"
         case importAssetFromSignedUrl = "IMPORT_ASSET_FROM_SIGNED_URL"
         case importAssetsFromS3 = "IMPORT_ASSETS_FROM_S3"
         public var description: String { return self.rawValue }
@@ -604,6 +605,48 @@ extension DataExchange {
         }
     }
 
+    public struct ExportRevisionsToS3RequestDetails: AWSEncodableShape {
+        /// The unique identifier for the data set associated with this export job.
+        public let dataSetId: String
+        /// Encryption configuration for the export job.
+        public let encryption: ExportServerSideEncryption?
+        /// The destination for the revision.
+        public let revisionDestinations: [RevisionDestinationEntry]
+
+        public init(dataSetId: String, encryption: ExportServerSideEncryption? = nil, revisionDestinations: [RevisionDestinationEntry]) {
+            self.dataSetId = dataSetId
+            self.encryption = encryption
+            self.revisionDestinations = revisionDestinations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetId = "DataSetId"
+            case encryption = "Encryption"
+            case revisionDestinations = "RevisionDestinations"
+        }
+    }
+
+    public struct ExportRevisionsToS3ResponseDetails: AWSDecodableShape {
+        /// The unique identifier for the data set associated with this export job.
+        public let dataSetId: String
+        /// Encryption configuration of the export job.
+        public let encryption: ExportServerSideEncryption?
+        /// The destination in Amazon S3 where the revision is exported.
+        public let revisionDestinations: [RevisionDestinationEntry]
+
+        public init(dataSetId: String, encryption: ExportServerSideEncryption? = nil, revisionDestinations: [RevisionDestinationEntry]) {
+            self.dataSetId = dataSetId
+            self.encryption = encryption
+            self.revisionDestinations = revisionDestinations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetId = "DataSetId"
+            case encryption = "Encryption"
+            case revisionDestinations = "RevisionDestinations"
+        }
+    }
+
     public struct ExportServerSideEncryption: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the the AWS KMS key you want to use to encrypt the Amazon S3 objects. This parameter is required if you choose aws:kms as an encryption type.
         public let kmsKeyArn: String?
@@ -876,7 +919,7 @@ extension DataExchange {
         public func validate(name: String) throws {
             try self.validate(self.md5Hash, name: "md5Hash", parent: name, max: 24)
             try self.validate(self.md5Hash, name: "md5Hash", parent: name, min: 24)
-            try self.validate(self.md5Hash, name: "md5Hash", parent: name, pattern: "/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/")
+            try self.validate(self.md5Hash, name: "md5Hash", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1251,14 +1294,17 @@ extension DataExchange {
         public let exportAssetsToS3: ExportAssetsToS3RequestDetails?
         /// Details about the export to signed URL request.
         public let exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails?
+        /// Details about the export to Amazon S3 request.
+        public let exportRevisionsToS3: ExportRevisionsToS3RequestDetails?
         /// Details about the import from signed URL request.
         public let importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails?
         /// Details about the import from Amazon S3 request.
         public let importAssetsFromS3: ImportAssetsFromS3RequestDetails?
 
-        public init(exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
+        public init(exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3RequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
+            self.exportRevisionsToS3 = exportRevisionsToS3
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
             self.importAssetsFromS3 = importAssetsFromS3
         }
@@ -1270,6 +1316,7 @@ extension DataExchange {
         private enum CodingKeys: String, CodingKey {
             case exportAssetsToS3 = "ExportAssetsToS3"
             case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
+            case exportRevisionsToS3 = "ExportRevisionsToS3"
             case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
             case importAssetsFromS3 = "ImportAssetsFromS3"
         }
@@ -1280,14 +1327,17 @@ extension DataExchange {
         public let exportAssetsToS3: ExportAssetsToS3ResponseDetails?
         /// Details for the export to signed URL response.
         public let exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails?
+        /// Details for the export revisions to Amazon S3 response.
+        public let exportRevisionsToS3: ExportRevisionsToS3ResponseDetails?
         /// Details for the import from signed URL response.
         public let importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails?
         /// Details for the import from Amazon S3 response.
         public let importAssetsFromS3: ImportAssetsFromS3ResponseDetails?
 
-        public init(exportAssetsToS3: ExportAssetsToS3ResponseDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails? = nil, importAssetsFromS3: ImportAssetsFromS3ResponseDetails? = nil) {
+        public init(exportAssetsToS3: ExportAssetsToS3ResponseDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3ResponseDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails? = nil, importAssetsFromS3: ImportAssetsFromS3ResponseDetails? = nil) {
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
+            self.exportRevisionsToS3 = exportRevisionsToS3
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
             self.importAssetsFromS3 = importAssetsFromS3
         }
@@ -1295,8 +1345,30 @@ extension DataExchange {
         private enum CodingKeys: String, CodingKey {
             case exportAssetsToS3 = "ExportAssetsToS3"
             case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
+            case exportRevisionsToS3 = "ExportRevisionsToS3"
             case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
             case importAssetsFromS3 = "ImportAssetsFromS3"
+        }
+    }
+
+    public struct RevisionDestinationEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 bucket that is the destination for the assets in the revision.
+        public let bucket: String
+        /// A string representing the pattern for generated names of the individual assets in the revision. For more information about key patterns, see Key patterns when exporting revisions.
+        public let keyPattern: String?
+        /// The unique identifier for the revision.
+        public let revisionId: String
+
+        public init(bucket: String, keyPattern: String? = nil, revisionId: String) {
+            self.bucket = bucket
+            self.keyPattern = keyPattern
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case keyPattern = "KeyPattern"
+            case revisionId = "RevisionId"
         }
     }
 

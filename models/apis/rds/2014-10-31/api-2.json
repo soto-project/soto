@@ -1401,6 +1401,24 @@
         {"shape":"InvalidDBInstanceStateFault"}
       ]
     },
+    "FailoverGlobalCluster":{
+      "name":"FailoverGlobalCluster",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"FailoverGlobalClusterMessage"},
+      "output":{
+        "shape":"FailoverGlobalClusterResult",
+        "resultWrapper":"FailoverGlobalClusterResult"
+      },
+      "errors":[
+        {"shape":"GlobalClusterNotFoundFault"},
+        {"shape":"InvalidGlobalClusterStateFault"},
+        {"shape":"InvalidDBClusterStateFault"},
+        {"shape":"DBClusterNotFoundFault"}
+      ]
+    },
     "ImportInstallationMedia":{
       "name":"ImportInstallationMedia",
       "http":{
@@ -2530,6 +2548,12 @@
         "locationName":"AvailableProcessorFeature"
       }
     },
+    "AwsBackupRecoveryPointArn":{
+      "type":"string",
+      "max":350,
+      "min":43,
+      "pattern":"^arn:aws[a-z-]*:backup:[-a-z0-9]+:[0-9]{12}:[-a-z]+:([a-z0-9\\-]+:)?[a-z][a-z0-9\\-]{0,255}$"
+    },
     "BacktrackDBClusterMessage":{
       "type":"structure",
       "required":[
@@ -3385,6 +3409,12 @@
       },
       "exception":true
     },
+    "DBClusterIdentifier":{
+      "type":"string",
+      "max":255,
+      "min":1,
+      "pattern":"[A-Za-z][0-9A-Za-z-:._]*"
+    },
     "DBClusterList":{
       "type":"list",
       "member":{
@@ -3556,6 +3586,7 @@
         "DBClusterIdentifier":{"shape":"String"},
         "SnapshotCreateTime":{"shape":"TStamp"},
         "Engine":{"shape":"String"},
+        "EngineMode":{"shape":"String"},
         "AllocatedStorage":{"shape":"Integer"},
         "Status":{"shape":"String"},
         "Port":{"shape":"Integer"},
@@ -3735,7 +3766,8 @@
         "MaxAllocatedStorage":{"shape":"IntegerOptional"},
         "TagList":{"shape":"TagList"},
         "DBInstanceAutomatedBackupsReplications":{"shape":"DBInstanceAutomatedBackupsReplicationList"},
-        "CustomerOwnedIpEnabled":{"shape":"BooleanOptional"}
+        "CustomerOwnedIpEnabled":{"shape":"BooleanOptional"},
+        "AwsBackupRecoveryPointArn":{"shape":"String"}
       },
       "wrapper":true
     },
@@ -5365,6 +5397,40 @@
         "DBCluster":{"shape":"DBCluster"}
       }
     },
+    "FailoverGlobalClusterMessage":{
+      "type":"structure",
+      "required":[
+        "GlobalClusterIdentifier",
+        "TargetDbClusterIdentifier"
+      ],
+      "members":{
+        "GlobalClusterIdentifier":{"shape":"GlobalClusterIdentifier"},
+        "TargetDbClusterIdentifier":{"shape":"DBClusterIdentifier"}
+      }
+    },
+    "FailoverGlobalClusterResult":{
+      "type":"structure",
+      "members":{
+        "GlobalCluster":{"shape":"GlobalCluster"}
+      }
+    },
+    "FailoverState":{
+      "type":"structure",
+      "members":{
+        "Status":{"shape":"FailoverStatus"},
+        "FromDbClusterArn":{"shape":"String"},
+        "ToDbClusterArn":{"shape":"String"}
+      },
+      "wrapper":true
+    },
+    "FailoverStatus":{
+      "type":"string",
+      "enum":[
+        "pending",
+        "failing-over",
+        "cancelling"
+      ]
+    },
     "FeatureNameList":{
       "type":"list",
       "member":{"shape":"String"}
@@ -5406,7 +5472,8 @@
         "DatabaseName":{"shape":"String"},
         "StorageEncrypted":{"shape":"BooleanOptional"},
         "DeletionProtection":{"shape":"BooleanOptional"},
-        "GlobalClusterMembers":{"shape":"GlobalClusterMemberList"}
+        "GlobalClusterMembers":{"shape":"GlobalClusterMemberList"},
+        "FailoverState":{"shape":"FailoverState"}
       },
       "wrapper":true
     },
@@ -5420,6 +5487,12 @@
         "senderFault":true
       },
       "exception":true
+    },
+    "GlobalClusterIdentifier":{
+      "type":"string",
+      "max":255,
+      "min":1,
+      "pattern":"[A-Za-z][0-9A-Za-z-:._]*"
     },
     "GlobalClusterList":{
       "type":"list",
@@ -6093,7 +6166,8 @@
         "MaxAllocatedStorage":{"shape":"IntegerOptional"},
         "CertificateRotationRestart":{"shape":"BooleanOptional"},
         "ReplicaMode":{"shape":"ReplicaMode"},
-        "EnableCustomerOwnedIp":{"shape":"BooleanOptional"}
+        "EnableCustomerOwnedIp":{"shape":"BooleanOptional"},
+        "AwsBackupRecoveryPointArn":{"shape":"AwsBackupRecoveryPointArn"}
       }
     },
     "ModifyDBInstanceResult":{
@@ -7761,7 +7835,10 @@
         "EngineVersion":{"shape":"String"},
         "Description":{"shape":"String"},
         "AutoUpgrade":{"shape":"Boolean"},
-        "IsMajorVersionUpgrade":{"shape":"Boolean"}
+        "IsMajorVersionUpgrade":{"shape":"Boolean"},
+        "SupportedEngineModes":{"shape":"EngineModeList"},
+        "SupportsParallelQuery":{"shape":"BooleanOptional"},
+        "SupportsGlobalDatabases":{"shape":"BooleanOptional"}
       }
     },
     "UserAuthConfig":{

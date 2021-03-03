@@ -117,6 +117,11 @@ public struct MediaLive: AWSService {
         return self.client.execute(operation: "CreateMultiplexProgram", path: "/prod/multiplexes/{multiplexId}/programs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Create a partner input
+    public func createPartnerInput(_ input: CreatePartnerInputRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePartnerInputResponse> {
+        return self.client.execute(operation: "CreatePartnerInput", path: "/prod/inputs/{inputId}/partners", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Create tags for a resource
     @discardableResult public func createTags(_ input: CreateTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "CreateTags", path: "/prod/tags/{resource-arn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -254,6 +254,19 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TimeRange: String, CustomStringConvertible, Codable {
+        case monthToDate = "MONTH_TO_DATE"
+        case past30Days = "PAST_30_DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case aes256 = "AES256"
+        case awsKms = "aws:kms"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Unit: String, CustomStringConvertible, Codable {
         case terabytes = "TERABYTES"
         public var description: String { return self.rawValue }
@@ -305,15 +318,18 @@ extension Macie2 {
     // MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
+        public let administratorAccountId: String?
         public let invitationId: String
-        public let masterAccount: String
+        public let masterAccount: String?
 
-        public init(invitationId: String, masterAccount: String) {
+        public init(administratorAccountId: String? = nil, invitationId: String, masterAccount: String? = nil) {
+            self.administratorAccountId = administratorAccountId
             self.invitationId = invitationId
             self.masterAccount = masterAccount
         }
 
         private enum CodingKeys: String, CodingKey {
+            case administratorAccountId
             case invitationId
             case masterAccount
         }
@@ -654,6 +670,7 @@ extension Macie2 {
         public let publicAccess: BucketPublicAccess?
         public let region: String?
         public let replicationDetails: ReplicationDetails?
+        public let serverSideEncryption: BucketServerSideEncryption?
         public let sharedAccess: SharedAccess?
         public let sizeInBytes: Int64?
         public let sizeInBytesCompressed: Int64?
@@ -662,7 +679,7 @@ extension Macie2 {
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
         public let versioning: Bool?
 
-        public init(accountId: String? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, jobDetails: JobDetails? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
+        public init(accountId: String? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, jobDetails: JobDetails? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, serverSideEncryption: BucketServerSideEncryption? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
             self.accountId = accountId
             self.bucketArn = bucketArn
             self.bucketCreatedAt = bucketCreatedAt
@@ -676,6 +693,7 @@ extension Macie2 {
             self.publicAccess = publicAccess
             self.region = region
             self.replicationDetails = replicationDetails
+            self.serverSideEncryption = serverSideEncryption
             self.sharedAccess = sharedAccess
             self.sizeInBytes = sizeInBytes
             self.sizeInBytesCompressed = sizeInBytesCompressed
@@ -699,6 +717,7 @@ extension Macie2 {
             case publicAccess
             case region
             case replicationDetails
+            case serverSideEncryption
             case sharedAccess
             case sizeInBytes
             case sizeInBytesCompressed
@@ -751,6 +770,21 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case effectivePermission
             case permissionConfiguration
+        }
+    }
+
+    public struct BucketServerSideEncryption: AWSDecodableShape {
+        public let kmsMasterKeyId: String?
+        public let type: `Type`?
+
+        public init(kmsMasterKeyId: String? = nil, type: `Type`? = nil) {
+            self.kmsMasterKeyId = kmsMasterKeyId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsMasterKeyId
+            case type
         }
     }
 
@@ -1457,6 +1491,14 @@ extension Macie2 {
         public init() {}
     }
 
+    public struct DisassociateFromAdministratorAccountRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DisassociateFromAdministratorAccountResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
         public init() {}
     }
@@ -1706,6 +1748,22 @@ extension Macie2 {
             case id
             case name
             case tags
+        }
+    }
+
+    public struct GetAdministratorAccountRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetAdministratorAccountResponse: AWSDecodableShape {
+        public let administrator: Invitation?
+
+        public init(administrator: Invitation? = nil) {
+            self.administrator = administrator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case administrator
         }
     }
 
@@ -2025,6 +2083,7 @@ extension Macie2 {
 
     public struct GetMemberResponse: AWSDecodableShape {
         public let accountId: String?
+        public let administratorAccountId: String?
         public let arn: String?
         public let email: String?
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -2035,8 +2094,9 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
-        public init(accountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(accountId: String? = nil, administratorAccountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
+            self.administratorAccountId = administratorAccountId
             self.arn = arn
             self.email = email
             self.invitedAt = invitedAt
@@ -2048,6 +2108,7 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId
+            case administratorAccountId
             case arn
             case email
             case invitedAt
@@ -2063,12 +2124,14 @@ extension Macie2 {
         public let maxResults: Int?
         public let nextToken: String?
         public let sortBy: UsageStatisticsSortBy?
+        public let timeRange: TimeRange?
 
-        public init(filterBy: [UsageStatisticsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: UsageStatisticsSortBy? = nil) {
+        public init(filterBy: [UsageStatisticsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: UsageStatisticsSortBy? = nil, timeRange: TimeRange? = nil) {
             self.filterBy = filterBy
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
+            self.timeRange = timeRange
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2076,36 +2139,53 @@ extension Macie2 {
             case maxResults
             case nextToken
             case sortBy
+            case timeRange
         }
     }
 
     public struct GetUsageStatisticsResponse: AWSDecodableShape {
         public let nextToken: String?
         public let records: [UsageRecord]?
+        public let timeRange: TimeRange?
 
-        public init(nextToken: String? = nil, records: [UsageRecord]? = nil) {
+        public init(nextToken: String? = nil, records: [UsageRecord]? = nil, timeRange: TimeRange? = nil) {
             self.nextToken = nextToken
             self.records = records
+            self.timeRange = timeRange
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case records
+            case timeRange
         }
     }
 
     public struct GetUsageTotalsRequest: AWSEncodableShape {
-        public init() {}
+        public static var _encoding = [
+            AWSMemberEncoding(label: "timeRange", location: .querystring(locationName: "timeRange"))
+        ]
+
+        public let timeRange: String?
+
+        public init(timeRange: String? = nil) {
+            self.timeRange = timeRange
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetUsageTotalsResponse: AWSDecodableShape {
+        public let timeRange: TimeRange?
         public let usageTotals: [UsageTotal]?
 
-        public init(usageTotals: [UsageTotal]? = nil) {
+        public init(timeRange: TimeRange? = nil, usageTotals: [UsageTotal]? = nil) {
+            self.timeRange = timeRange
             self.usageTotals = usageTotals
         }
 
         private enum CodingKeys: String, CodingKey {
+            case timeRange
             case usageTotals
         }
     }
@@ -2712,6 +2792,7 @@ extension Macie2 {
 
     public struct Member: AWSDecodableShape {
         public let accountId: String?
+        public let administratorAccountId: String?
         public let arn: String?
         public let email: String?
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -2722,8 +2803,9 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
-        public init(accountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(accountId: String? = nil, administratorAccountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
+            self.administratorAccountId = administratorAccountId
             self.arn = arn
             self.email = email
             self.invitedAt = invitedAt
@@ -2735,6 +2817,7 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId
+            case administratorAccountId
             case arn
             case email
             case invitedAt

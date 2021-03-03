@@ -20,6 +20,13 @@ import SotoCore
 extension WAFV2 {
     // MARK: Enums
 
+    public enum BodyParsingFallbackBehavior: String, CustomStringConvertible, Codable {
+        case evaluateAsString = "EVALUATE_AS_STRING"
+        case match = "MATCH"
+        case noMatch = "NO_MATCH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case eq = "EQ"
         case ge = "GE"
@@ -302,6 +309,13 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum JsonMatchScope: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case key = "KEY"
+        case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PositionalConstraint: String, CustomStringConvertible, Codable {
         case contains = "CONTAINS"
         case containsWord = "CONTAINS_WORD"
@@ -341,6 +355,10 @@ extension WAFV2 {
     }
 
     // MARK: Shapes
+
+    public struct All: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
 
     public struct AllQueryArguments: AWSEncodableShape & AWSDecodableShape {
         public init() {}
@@ -483,7 +501,7 @@ extension WAFV2 {
     public struct CreateIPSetRequest: AWSEncodableShape {
         /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
-        /// A description of the IP set that helps with identification. You cannot change the description of an IP set after you create it.
+        /// A description of the IP set that helps with identification.
         public let description: String?
         /// Specify IPV4 or IPV6.
         public let iPAddressVersion: IPAddressVersion
@@ -545,7 +563,7 @@ extension WAFV2 {
     }
 
     public struct CreateRegexPatternSetRequest: AWSEncodableShape {
-        /// A description of the set that helps with identification. You cannot change the description of a set after you create it.
+        /// A description of the set that helps with identification.
         public let description: String?
         /// The name of the set. You cannot change the name after you create the set.
         public let name: String
@@ -605,7 +623,7 @@ extension WAFV2 {
     public struct CreateRuleGroupRequest: AWSEncodableShape {
         /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, AWS WAF enforces this limit. You can check the capacity for a set of rules using CheckCapacity. AWS WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
         public let capacity: Int64
-        /// A description of the rule group that helps with identification. You cannot change the description of a rule group after you create it.
+        /// A description of the rule group that helps with identification.
         public let description: String?
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         public let name: String
@@ -673,7 +691,7 @@ extension WAFV2 {
     public struct CreateWebACLRequest: AWSEncodableShape {
         /// The action to perform if none of the Rules contained in the WebACL match.
         public let defaultAction: DefaultAction
-        /// A description of the Web ACL that helps with identification. You cannot change the description of a Web ACL after you create it.
+        /// A description of the Web ACL that helps with identification.
         public let description: String?
         /// The name of the Web ACL. You cannot change the name of a Web ACL after you create it.
         public let name: String
@@ -1094,8 +1112,10 @@ extension WAFV2 {
     public struct FieldToMatch: AWSEncodableShape & AWSDecodableShape {
         /// Inspect all query arguments.
         public let allQueryArguments: AllQueryArguments?
-        /// Inspect the request body, which immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  Note that only the first 8 KB (8192 bytes) of the request body are forwarded to AWS WAF for inspection by the underlying host service. If you don't need to inspect more than 8 KB, you can guarantee that you don't allow additional bytes in by combining a statement that inspects the body of the web request, such as ByteMatchStatement or RegexPatternSetReferenceStatement, with a SizeConstraintStatement that enforces an 8 KB size limit on the body of the request. AWS WAF doesn't support inspecting the entire contents of web requests whose bodies exceed the 8 KB limit.
+        /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  Note that only the first 8 KB (8192 bytes) of the request body are forwarded to AWS WAF for inspection by the underlying host service. If you don't need to inspect more than 8 KB, you can guarantee that you don't allow additional bytes in by combining a statement that inspects the body of the web request, such as ByteMatchStatement or RegexPatternSetReferenceStatement, with a SizeConstraintStatement that enforces an 8 KB size limit on the body of the request. AWS WAF doesn't support inspecting the entire contents of web requests whose bodies exceed the 8 KB limit.
         public let body: Body?
+        /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  Note that only the first 8 KB (8192 bytes) of the request body are forwarded to AWS WAF for inspection by the underlying host service. If you don't need to inspect more than 8 KB, you can guarantee that you don't allow additional bytes in by combining a statement that inspects the body of the web request, such as ByteMatchStatement or RegexPatternSetReferenceStatement, with a SizeConstraintStatement that enforces an 8 KB size limit on the body of the request. AWS WAF doesn't support inspecting the entire contents of web requests whose bodies exceed the 8 KB limit.
+        public let jsonBody: JsonBody?
         /// Inspect the HTTP method. The method indicates the type of operation that the request is asking the origin to perform.
         public let method: Method?
         /// Inspect the query string. This is the part of a URL that appears after a ? character, if any.
@@ -1107,9 +1127,10 @@ extension WAFV2 {
         /// Inspect the request URI path. This is the part of a web request that identifies a resource, for example, /images/daily-ad.jpg.
         public let uriPath: UriPath?
 
-        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
+        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
             self.allQueryArguments = allQueryArguments
             self.body = body
+            self.jsonBody = jsonBody
             self.method = method
             self.queryString = queryString
             self.singleHeader = singleHeader
@@ -1118,6 +1139,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.jsonBody?.validate(name: "\(name).jsonBody")
             try self.singleHeader?.validate(name: "\(name).singleHeader")
             try self.singleQueryArgument?.validate(name: "\(name).singleQueryArgument")
         }
@@ -1125,6 +1147,7 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case allQueryArguments = "AllQueryArguments"
             case body = "Body"
+            case jsonBody = "JsonBody"
             case method = "Method"
             case queryString = "QueryString"
             case singleHeader = "SingleHeader"
@@ -1176,7 +1199,7 @@ extension WAFV2 {
     }
 
     public struct ForwardedIPConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all.  You can specify the following fallback behaviors:   MATCH - Treat the web request as matching the rule statement. AWS WAF applies the rule action to the request.   NO_MATCH - Treat the web request as not matching the rule statement.
+        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all.  You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. AWS WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let fallbackBehavior: FallbackBehavior
         /// The name of the HTTP header to use for the IP address. For example, to use the X-Forwarded-For (XFF) header, set this to X-Forwarded-For.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all.
         public let headerName: String
@@ -1483,7 +1506,7 @@ extension WAFV2 {
         public let ruleMetricName: String
         /// Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
-        /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours. If you specify a start time that's earlier than three hours ago, AWS WAF sets it to three hours ago.
         public let timeWindow: TimeWindow
         /// The Amazon resource name (ARN) of the WebACL for which you want a sample of requests.
         public let webAclArn: String
@@ -1671,7 +1694,7 @@ extension WAFV2 {
         public let addresses: [String]
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
-        /// A description of the IP set that helps with identification. You cannot change the description of an IP set after you create it.
+        /// A description of the IP set that helps with identification.
         public let description: String?
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -1700,7 +1723,7 @@ extension WAFV2 {
     }
 
     public struct IPSetForwardedIPConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all.  You can specify the following fallback behaviors:   MATCH - Treat the web request as matching the rule statement. AWS WAF applies the rule action to the request.   NO_MATCH - Treat the web request as not matching the rule statement.
+        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all.  You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. AWS WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let fallbackBehavior: FallbackBehavior
         /// The name of the HTTP header to use for the IP address. For example, to use the X-Forwarded-For (XFF) header, set this to X-Forwarded-For.  If the specified header isn't present in the request, AWS WAF doesn't apply the rule to the web request at all.
         public let headerName: String
@@ -1753,7 +1776,7 @@ extension WAFV2 {
     public struct IPSetSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
-        /// A description of the IP set that helps with identification. You cannot change the description of an IP set after you create it.
+        /// A description of the IP set that helps with identification.
         public let description: String?
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String?
@@ -1776,6 +1799,57 @@ extension WAFV2 {
             case id = "Id"
             case lockToken = "LockToken"
             case name = "Name"
+        }
+    }
+
+    public struct JsonBody: AWSEncodableShape & AWSDecodableShape {
+        /// The inspection behavior to fall back to if the JSON in the request body is invalid. For AWS WAF, invalid JSON is any content that isn't complete syntactical JSON, content whose root node isn't an object or an array, and duplicate keys in the content.  You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. AWS WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.    EVALUATE_AS_STRING - Inspect the body as plain text. This option applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.    If you don't provide this setting, when AWS WAF encounters invalid JSON, it parses and inspects what it can, up to the first invalid JSON that it encounters.
+        public let invalidFallbackBehavior: BodyParsingFallbackBehavior?
+        /// The patterns to look for in the JSON body. AWS WAF inspects the results of these pattern matches against the rule inspection criteria.
+        public let matchPattern: JsonMatchPattern
+        /// The parts of the JSON to match against using the MatchPattern. If you specify All, AWS WAF matches against keys and values.
+        public let matchScope: JsonMatchScope
+
+        public init(invalidFallbackBehavior: BodyParsingFallbackBehavior? = nil, matchPattern: JsonMatchPattern, matchScope: JsonMatchScope) {
+            self.invalidFallbackBehavior = invalidFallbackBehavior
+            self.matchPattern = matchPattern
+            self.matchScope = matchScope
+        }
+
+        public func validate(name: String) throws {
+            try self.matchPattern.validate(name: "\(name).matchPattern")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidFallbackBehavior = "InvalidFallbackBehavior"
+            case matchPattern = "MatchPattern"
+            case matchScope = "MatchScope"
+        }
+    }
+
+    public struct JsonMatchPattern: AWSEncodableShape & AWSDecodableShape {
+        /// Match all of the elements. See also MatchScope in JsonBody.  You must specify either this setting or the IncludedPaths setting, but not both.
+        public let all: All?
+        /// Match only the specified include paths. See also MatchScope in JsonBody.  Provide the include paths using JSON Pointer syntax. For example, "IncludedPaths": ["/dogs/0/name", "/dogs/1/name"]. For information about this syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript Object Notation (JSON) Pointer.  You must specify either this setting or the All setting, but not both.  Don't use this option to include all paths. Instead, use the All setting.
+        public let includedPaths: [String]?
+
+        public init(all: All? = nil, includedPaths: [String]? = nil) {
+            self.all = all
+            self.includedPaths = includedPaths
+        }
+
+        public func validate(name: String) throws {
+            try self.includedPaths?.forEach {
+                try validate($0, name: "includedPaths[]", parent: name, max: 512)
+                try validate($0, name: "includedPaths[]", parent: name, min: 1)
+                try validate($0, name: "includedPaths[]", parent: name, pattern: "([/])|([/](([^~])|(~[01]))+)")
+            }
+            try self.validate(self.includedPaths, name: "includedPaths", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case all = "All"
+            case includedPaths = "IncludedPaths"
         }
     }
 
@@ -2424,7 +2498,7 @@ extension WAFV2 {
     public struct RegexPatternSet: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
-        /// A description of the set that helps with identification. You cannot change the description of a set after you create it.
+        /// A description of the set that helps with identification.
         public let description: String?
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String?
@@ -2485,7 +2559,7 @@ extension WAFV2 {
     public struct RegexPatternSetSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
-        /// A description of the set that helps with identification. You cannot change the description of a set after you create it.
+        /// A description of the set that helps with identification.
         public let description: String?
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String?
@@ -2579,7 +2653,7 @@ extension WAFV2 {
         public let arn: String
         /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, AWS WAF enforces this limit. You can check the capacity for a set of rules using CheckCapacity. AWS WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
         public let capacity: Int64
-        /// A description of the rule group that helps with identification. You cannot change the description of a rule group after you create it.
+        /// A description of the rule group that helps with identification.
         public let description: String?
         /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -2640,7 +2714,7 @@ extension WAFV2 {
     public struct RuleGroupSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
-        /// A description of the rule group that helps with identification. You cannot change the description of a rule group after you create it.
+        /// A description of the rule group that helps with identification.
         public let description: String?
         /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String?
@@ -3034,7 +3108,7 @@ extension WAFV2 {
     public struct UpdateIPSetRequest: AWSEncodableShape {
         /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
-        /// A description of the IP set that helps with identification. You cannot change the description of an IP set after you create it.
+        /// A description of the IP set that helps with identification.
         public let description: String?
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -3098,7 +3172,7 @@ extension WAFV2 {
     }
 
     public struct UpdateRegexPatternSetRequest: AWSEncodableShape {
-        /// A description of the set that helps with identification. You cannot change the description of a set after you create it.
+        /// A description of the set that helps with identification.
         public let description: String?
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -3161,7 +3235,7 @@ extension WAFV2 {
     }
 
     public struct UpdateRuleGroupRequest: AWSEncodableShape {
-        /// A description of the rule group that helps with identification. You cannot change the description of a rule group after you create it.
+        /// A description of the rule group that helps with identification.
         public let description: String?
         /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -3232,7 +3306,7 @@ extension WAFV2 {
     public struct UpdateWebACLRequest: AWSEncodableShape {
         /// The action to perform if none of the Rules contained in the WebACL match.
         public let defaultAction: DefaultAction
-        /// A description of the Web ACL that helps with identification. You cannot change the description of a Web ACL after you create it.
+        /// A description of the Web ACL that helps with identification.
         public let description: String?
         /// The unique identifier for the Web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
@@ -3340,7 +3414,7 @@ extension WAFV2 {
         public let capacity: Int64?
         /// The action to perform if none of the Rules contained in the WebACL match.
         public let defaultAction: DefaultAction
-        /// A description of the Web ACL that helps with identification. You cannot change the description of a Web ACL after you create it.
+        /// A description of the Web ACL that helps with identification.
         public let description: String?
         /// A unique identifier for the WebACL. This ID is returned in the responses to create and list commands. You use this ID to do things like get, update, and delete a WebACL.
         public let id: String
@@ -3389,7 +3463,7 @@ extension WAFV2 {
     public struct WebACLSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
-        /// A description of the Web ACL that helps with identification. You cannot change the description of a Web ACL after you create it.
+        /// A description of the Web ACL that helps with identification.
         public let description: String?
         /// The unique identifier for the Web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String?

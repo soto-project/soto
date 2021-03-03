@@ -29,8 +29,10 @@ extension RDSDataService {
     public enum TypeHint: String, CustomStringConvertible, Codable {
         case date = "DATE"
         case decimal = "DECIMAL"
+        case json = "JSON"
         case time = "TIME"
         case timestamp = "TIMESTAMP"
+        case uuid = "UUID"
         public var description: String { return self.rawValue }
     }
 
@@ -355,7 +357,7 @@ extension RDSDataService {
         public let resourceArn: String
         /// Options that control how the result set is returned.
         public let resultSetOptions: ResultSetOptions?
-        /// The name of the database schema.
+        /// The name of the database schema.  Currently, the schema parameter isn't supported.
         public let schema: String?
         /// The name or ARN of the secret that enables access to the DB cluster.
         public let secretArn: String
@@ -574,7 +576,7 @@ extension RDSDataService {
     public struct SqlParameter: AWSEncodableShape {
         /// The name of the parameter.
         public let name: String?
-        /// A hint that specifies the correct object type for data type mapping.  Values:     DECIMAL - The corresponding String parameter value is sent as an object of DECIMAL type to the database.    TIMESTAMP - The corresponding String parameter value is sent as an object of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF].    TIME - The corresponding String parameter value is sent as an object of TIME type to the database. The accepted format is HH:MM:SS[.FFF].    DATE - The corresponding String parameter value is sent as an object of DATE type to the database. The accepted format is YYYY-MM-DD.
+        /// A hint that specifies the correct object type for data type mapping. Possible values are as follows:    DATE - The corresponding String parameter value is sent as an object of DATE type to the database. The accepted format is YYYY-MM-DD.    DECIMAL - The corresponding String parameter value is sent as an object of DECIMAL type to the database.    JSON - The corresponding String parameter value is sent as an object of JSON type to the database.    TIME - The corresponding String parameter value is sent as an object of TIME type to the database. The accepted format is HH:MM:SS[.FFF].    TIMESTAMP - The corresponding String parameter value is sent as an object of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF].    UUID - The corresponding String parameter value is sent as an object of UUID type to the database.
         public let typeHint: TypeHint?
         /// The value of the parameter.
         public let value: Field?

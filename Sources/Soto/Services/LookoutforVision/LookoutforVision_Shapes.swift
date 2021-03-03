@@ -35,10 +35,11 @@ extension LookoutforVision {
     }
 
     public enum ModelHostingStatus: String, CustomStringConvertible, Codable {
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case starting = "STARTING"
-        case stopped = "STOPPED"
+        case hosted = "HOSTED"
+        case hostingFailed = "HOSTING_FAILED"
+        case startingHosting = "STARTING_HOSTING"
+        case stoppingHosting = "STOPPING_HOSTING"
+        case systemUpdating = "SYSTEM_UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -120,27 +121,32 @@ extension LookoutforVision {
         /// ClientToken is an idempotency token that ensures a call to CreateModel completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from CreateModel. In this case, safely retry your call to CreateModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to CreateModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// A description for the version of the model.
-        public let description: ModelDescription?
-        /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for encypting the model. If this parameter is not specified, the model is encrypted by a key that AWS owns and manages.
+        public let description: String?
+        /// The identifier for your AWS Key Management Service (AWS KMS) customer master key (CMK). The key is used to encrypt training and test images copied into the service for model training. Your source images are unaffected. If this parameter is not specified, the copied images are encrypted by a key that AWS owns and manages.
         public let kmsKeyId: String?
         /// The location where Amazon Lookout for Vision saves the training results.
         public let outputConfig: OutputConfig
         /// The name of the project in which you want to create a model version.
         public let projectName: String
+        /// A set of tags (key-value pairs) that you want to attach to the model.
+        public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateModelRequest.idempotencyToken(), description: ModelDescription? = nil, kmsKeyId: String? = nil, outputConfig: OutputConfig, projectName: String) {
+        public init(clientToken: String? = CreateModelRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String? = nil, outputConfig: OutputConfig, projectName: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.kmsKeyId = kmsKeyId
             self.outputConfig = outputConfig
             self.projectName = projectName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.description?.validate(name: "\(name).description")
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
@@ -148,12 +154,18 @@ extension LookoutforVision {
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case kmsKeyId = "KmsKeyId"
             case outputConfig = "OutputConfig"
+            case tags = "Tags"
         }
     }
 
@@ -177,7 +189,7 @@ extension LookoutforVision {
 
         /// ClientToken is an idempotency token that ensures a call to CreateProject completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from CreateProject. In this case, safely retry your call to CreateProject by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to CreateProject. An idempotency token is active for 8 hours.
         public let clientToken: String?
-        /// S nsme for the project.
+        /// The name for the project.
         public let projectName: String
 
         public init(clientToken: String? = CreateProjectRequest.idempotencyToken(), projectName: String) {
@@ -582,7 +594,7 @@ extension LookoutforVision {
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "content-type")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
             AWSMemberEncoding(label: "modelVersion", location: .uri(locationName: "modelVersion")),
             AWSMemberEncoding(label: "projectName", location: .uri(locationName: "projectName"))
         ]
@@ -874,7 +886,40 @@ extension LookoutforVision {
         }
     }
 
-    public struct ModelDescription: AWSEncodableShape & AWSDecodableShape {
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the model for which you want to list tags.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// A map of tag keys and values attached to the specified model.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct ModelDescription: AWSDecodableShape {
         /// The unix timestamp for the date and time that the model was created.
         public let creationTimestamp: Date?
         /// The description for the model.
@@ -915,21 +960,6 @@ extension LookoutforVision {
             self.statusMessage = statusMessage
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 500)
-            try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
-            try self.evaluationManifest?.validate(name: "\(name).evaluationManifest")
-            try self.evaluationResult?.validate(name: "\(name).evaluationResult")
-            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
-            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
-            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
-            try self.validate(self.modelVersion, name: "modelVersion", parent: name, max: 10)
-            try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
-            try self.validate(self.modelVersion, name: "modelVersion", parent: name, pattern: "([1-9][0-9]*|latest)")
-            try self.outputConfig?.validate(name: "\(name).outputConfig")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creationTimestamp = "CreationTimestamp"
             case description = "Description"
@@ -955,7 +985,7 @@ extension LookoutforVision {
         public let modelArn: String?
         /// The version of the model.
         public let modelVersion: String?
-        /// Performance metrics for the model. Created during training.
+        /// Performance metrics for the model. Not available until training has successfully completed.
         public let performance: ModelPerformance?
         /// The status of the model.
         public let status: ModelStatus?
@@ -983,7 +1013,7 @@ extension LookoutforVision {
         }
     }
 
-    public struct ModelPerformance: AWSEncodableShape & AWSDecodableShape {
+    public struct ModelPerformance: AWSDecodableShape {
         /// The overall F1 score metric for the trained model.
         public let f1Score: Float?
         /// The overall precision metric value for the trained model.
@@ -1021,7 +1051,7 @@ extension LookoutforVision {
         }
     }
 
-    public struct OutputS3Object: AWSEncodableShape & AWSDecodableShape {
+    public struct OutputS3Object: AWSDecodableShape {
         /// The bucket that contains the training output.
         public let bucket: String
         /// The location of the training output in the bucket.
@@ -1030,15 +1060,6 @@ extension LookoutforVision {
         public init(bucket: String, key: String) {
             self.bucket = bucket
             self.key = key
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
-            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
-            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
-            try self.validate(self.key, name: "key", parent: name, max: 1024)
-            try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "^([a-zA-Z0-9!_.*'()-][/a-zA-Z0-9!_.*'()-]*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1094,9 +1115,9 @@ extension LookoutforVision {
     }
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
-        /// The S3 bucket that contain the manifest file.
+        /// The S3 bucket that contains the training output.
         public let bucket: String
-        /// The path and name of the manifest file with the S3 bucket.
+        /// The path of the folder, within the S3 bucket, that contains the training output.
         public let prefix: String?
 
         public init(bucket: String, prefix: String? = nil) {
@@ -1218,6 +1239,101 @@ extension LookoutforVision {
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the tag that is attached to the specified model.
+        public let key: String
+        /// The value of the tag that is attached to the specified model.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the model to assign the tags.
+        public let resourceArn: String
+        /// The key-value tags to assign to the model.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the model from which you want to remove tags.
+        public let resourceArn: String
+        /// A list of the keys of the tags that you want to remove.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateDatasetEntriesRequest: AWSEncodableShape {

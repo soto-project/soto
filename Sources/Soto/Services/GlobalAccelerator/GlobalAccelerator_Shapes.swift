@@ -339,7 +339,7 @@ extension GlobalAccelerator {
         public let enabled: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of an accelerator.
         public let idempotencyToken: String
-        /// Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose IP addresses from your own pool to use for the accelerator's static IP addresses when you create an accelerator. You can specify one or two addresses, separated by a comma. Do not include the /32 suffix. Only one IP address from each of your IP address ranges can be used for each accelerator. If you specify only one IP address from your IP address range, Global Accelerator assigns a second static IP address for the accelerator from the AWS IP address pool.  Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new accelerator with the new addresses. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
+        /// Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose IP addresses from your own pool to use for the accelerator's static IP addresses when you create an accelerator. You can specify one or two addresses, separated by a space. Do not include the /32 suffix. Only one IP address from each of your IP address ranges can be used for each accelerator. If you specify only one IP address from your IP address range, Global Accelerator assigns a second static IP address for the accelerator from the AWS IP address pool. Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new accelerator with the new addresses. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
         public let ipAddresses: [String]?
         /// The value for the address type must be IPv4.
         public let ipAddressType: IpAddressType?
@@ -398,6 +398,8 @@ extension GlobalAccelerator {
         public let enabled: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
         public let idempotencyToken: String
+        /// Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose IP addresses from your own pool to use for the accelerator's static IP addresses when you create an accelerator. You can specify one or two addresses, separated by a space. Do not include the /32 suffix. Only one IP address from each of your IP address ranges can be used for each accelerator. If you specify only one IP address from your IP address range, Global Accelerator assigns a second static IP address for the accelerator from the AWS IP address pool. Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new accelerator with the new addresses. For more information, see Bring your own IP addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
+        public let ipAddresses: [String]?
         /// The value for the address type must be IPv4.
         public let ipAddressType: IpAddressType?
         /// The name of a custom routing accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
@@ -405,9 +407,10 @@ extension GlobalAccelerator {
         /// Create tags for an accelerator. For more information, see Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let tags: [Tag]?
 
-        public init(enabled: Bool? = nil, idempotencyToken: String = CreateCustomRoutingAcceleratorRequest.idempotencyToken(), ipAddressType: IpAddressType? = nil, name: String, tags: [Tag]? = nil) {
+        public init(enabled: Bool? = nil, idempotencyToken: String = CreateCustomRoutingAcceleratorRequest.idempotencyToken(), ipAddresses: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.idempotencyToken = idempotencyToken
+            self.ipAddresses = ipAddresses
             self.ipAddressType = ipAddressType
             self.name = name
             self.tags = tags
@@ -415,6 +418,11 @@ extension GlobalAccelerator {
 
         public func validate(name: String) throws {
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
+            try self.ipAddresses?.forEach {
+                try validate($0, name: "ipAddresses[]", parent: name, max: 45)
+            }
+            try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, max: 2)
+            try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -424,6 +432,7 @@ extension GlobalAccelerator {
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case idempotencyToken = "IdempotencyToken"
+            case ipAddresses = "IpAddresses"
             case ipAddressType = "IpAddressType"
             case name = "Name"
             case tags = "Tags"

@@ -39,6 +39,14 @@ extension GlueDataBrew {
         public var description: String { return self.rawValue }
     }
 
+    public enum InputFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case excel = "EXCEL"
+        case json = "JSON"
+        case parquet = "PARQUET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobRunState: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
         case running = "RUNNING"
@@ -70,6 +78,12 @@ extension GlueDataBrew {
         case orc = "ORC"
         case parquet = "PARQUET"
         case xml = "XML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SampleMode: String, CustomStringConvertible, Codable {
+        case customRows = "CUSTOM_ROWS"
+        case fullDataset = "FULL_DATASET"
         public var description: String { return self.rawValue }
     }
 
@@ -181,6 +195,8 @@ extension GlueDataBrew {
     }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
+        /// Specifies the file format of a dataset created from an S3 file or folder.
+        public let format: InputFormat?
         public let formatOptions: FormatOptions?
         public let input: Input
         /// The name of the dataset to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
@@ -188,7 +204,8 @@ extension GlueDataBrew {
         /// Metadata tags to apply to this dataset.
         public let tags: [String: String]?
 
-        public init(formatOptions: FormatOptions? = nil, input: Input, name: String, tags: [String: String]? = nil) {
+        public init(format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, name: String, tags: [String: String]? = nil) {
+            self.format = format
             self.formatOptions = formatOptions
             self.input = input
             self.name = name
@@ -208,6 +225,7 @@ extension GlueDataBrew {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case format = "Format"
             case formatOptions = "FormatOptions"
             case input = "Input"
             case name = "Name"
@@ -233,8 +251,10 @@ extension GlueDataBrew {
         public let datasetName: String
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - para&gt;SSE-KMS - server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
+        /// Sample configuration for profile jobs only. Determines the number of rows on which the profile job will be executed. If a JobSample value is not provided, the default value will be used. The default value is CUSTOM_ROWS for the mode parameter and 20000 for the size parameter.
+        public let jobSample: JobSample?
         /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?
         /// The maximum number of nodes that DataBrew can use when the job processes data.
@@ -251,10 +271,11 @@ extension GlueDataBrew {
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
-        public init(datasetName: String, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
+        public init(datasetName: String, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
+            self.jobSample = jobSample
             self.logSubscription = logSubscription
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
@@ -288,6 +309,7 @@ extension GlueDataBrew {
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
+            case jobSample = "JobSample"
             case logSubscription = "LogSubscription"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
@@ -379,7 +401,7 @@ extension GlueDataBrew {
         public let datasetName: String?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
         /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?
@@ -582,9 +604,12 @@ extension GlueDataBrew {
     public struct CsvOptions: AWSEncodableShape & AWSDecodableShape {
         /// A single character that specifies the delimiter being used in the Csv file.
         public let delimiter: String?
+        /// A variable that specifies whether the first row in the file will be parsed as the header. If false, column names will be auto-generated.
+        public let headerRow: Bool?
 
-        public init(delimiter: String? = nil) {
+        public init(delimiter: String? = nil, headerRow: Bool? = nil) {
             self.delimiter = delimiter
+            self.headerRow = headerRow
         }
 
         public func validate(name: String) throws {
@@ -594,6 +619,7 @@ extension GlueDataBrew {
 
         private enum CodingKeys: String, CodingKey {
             case delimiter = "Delimiter"
+            case headerRow = "HeaderRow"
         }
     }
 
@@ -657,6 +683,8 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The Amazon Resource Name (ARN) of the user who created the dataset.
         public let createdBy: String?
+        /// Specifies the file format of a dataset created from an S3 file or folder.
+        public let format: InputFormat?
         /// Options that define how DataBrew interprets the data in the dataset.
         public let formatOptions: FormatOptions?
         /// Information on how DataBrew can find the dataset, in either the AWS Glue Data Catalog or Amazon S3.
@@ -674,10 +702,11 @@ extension GlueDataBrew {
         /// Metadata tags that have been applied to the dataset.
         public let tags: [String: String]?
 
-        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
+        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
+            self.format = format
             self.formatOptions = formatOptions
             self.input = input
             self.lastModifiedBy = lastModifiedBy
@@ -692,6 +721,7 @@ extension GlueDataBrew {
             case accountId = "AccountId"
             case createDate = "CreateDate"
             case createdBy = "CreatedBy"
+            case format = "Format"
             case formatOptions = "FormatOptions"
             case input = "Input"
             case lastModifiedBy = "LastModifiedBy"
@@ -903,6 +933,8 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The identifier (user name) of the user who created the dataset.
         public let createdBy: String?
+        /// Specifies the file format of a dataset created from an S3 file or folder.
+        public let format: InputFormat?
         public let formatOptions: FormatOptions?
         public let input: Input
         /// The identifier (user name) of the user who last modified the dataset.
@@ -918,9 +950,10 @@ extension GlueDataBrew {
         /// Metadata tags associated with this dataset.
         public let tags: [String: String]?
 
-        public init(createDate: Date? = nil, createdBy: String? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
+        public init(createDate: Date? = nil, createdBy: String? = nil, format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
+            self.format = format
             self.formatOptions = formatOptions
             self.input = input
             self.lastModifiedBy = lastModifiedBy
@@ -934,6 +967,7 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case createDate = "CreateDate"
             case createdBy = "CreatedBy"
+            case format = "Format"
             case formatOptions = "FormatOptions"
             case input = "Input"
             case lastModifiedBy = "LastModifiedBy"
@@ -974,8 +1008,10 @@ extension GlueDataBrew {
         public let datasetName: String?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
+        /// Sample configuration for profile jobs only. Determines the number of rows on which the profile job will be executed.
+        public let jobSample: JobSample?
         /// The identifier (user name) of the user who last modified the job.
         public let lastModifiedBy: String?
         /// The date and time that the job was last modified.
@@ -1004,12 +1040,13 @@ extension GlueDataBrew {
         /// The job type, which must be one of the following:    PROFILE - The job analyzes the dataset to determine its size, data types, data distribution, and more.    RECIPE - The job applies one or more transformations to a dataset.
         public let type: JobType?
 
-        public init(createDate: Date? = nil, createdBy: String? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
+        public init(createDate: Date? = nil, createdBy: String? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
+            self.jobSample = jobSample
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedDate = lastModifiedDate
             self.logSubscription = logSubscription
@@ -1032,6 +1069,7 @@ extension GlueDataBrew {
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
+            case jobSample = "JobSample"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedDate = "LastModifiedDate"
             case logSubscription = "LogSubscription"
@@ -1046,6 +1084,100 @@ extension GlueDataBrew {
             case tags = "Tags"
             case timeout = "Timeout"
             case type = "Type"
+        }
+    }
+
+    public struct DescribeJobRunRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "runId", location: .uri(locationName: "runId"))
+        ]
+
+        /// The name of the job being processed during this run.
+        public let name: String
+        /// The unique identifier of the job run.
+        public let runId: String
+
+        public init(name: String, runId: String) {
+            self.name = name
+            self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 240)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.runId, name: "runId", parent: name, max: 255)
+            try self.validate(self.runId, name: "runId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeJobRunResponse: AWSDecodableShape {
+        /// The number of times that DataBrew has attempted to run the job.
+        public let attempt: Int?
+        /// The date and time when the job completed processing.
+        public let completedOn: Date?
+        /// The name of the dataset for the job to process.
+        public let datasetName: String?
+        /// A message indicating an error (if any) that was encountered when the job ran.
+        public let errorMessage: String?
+        /// The amount of time, in seconds, during which the job run consumed resources.
+        public let executionTime: Int?
+        /// The name of the job being processed during this run.
+        public let jobName: String
+        /// Sample configuration for profile jobs only. Determines the number of rows on which the profile job will be executed. If a JobSample value is not provided, the default value will be used. The default value is CUSTOM_ROWS for the mode parameter and 20000 for the size parameter.
+        public let jobSample: JobSample?
+        /// The name of an Amazon CloudWatch log group, where the job writes diagnostic messages when it runs.
+        public let logGroupName: String?
+        /// The current status of Amazon CloudWatch logging for the job run.
+        public let logSubscription: LogSubscription?
+        /// One or more output artifacts from a job run.
+        public let outputs: [Output]?
+        public let recipeReference: RecipeReference?
+        /// The unique identifier of the job run.
+        public let runId: String?
+        /// The Amazon Resource Name (ARN) of the user who started the job run.
+        public let startedBy: String?
+        /// The date and time when the job run began.
+        public let startedOn: Date?
+        /// The current state of the job run entity itself.
+        public let state: JobRunState?
+
+        public init(attempt: Int? = nil, completedOn: Date? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
+            self.attempt = attempt
+            self.completedOn = completedOn
+            self.datasetName = datasetName
+            self.errorMessage = errorMessage
+            self.executionTime = executionTime
+            self.jobName = jobName
+            self.jobSample = jobSample
+            self.logGroupName = logGroupName
+            self.logSubscription = logSubscription
+            self.outputs = outputs
+            self.recipeReference = recipeReference
+            self.runId = runId
+            self.startedBy = startedBy
+            self.startedOn = startedOn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attempt = "Attempt"
+            case completedOn = "CompletedOn"
+            case datasetName = "DatasetName"
+            case errorMessage = "ErrorMessage"
+            case executionTime = "ExecutionTime"
+            case jobName = "JobName"
+            case jobSample = "JobSample"
+            case logGroupName = "LogGroupName"
+            case logSubscription = "LogSubscription"
+            case outputs = "Outputs"
+            case recipeReference = "RecipeReference"
+            case runId = "RunId"
+            case startedBy = "StartedBy"
+            case startedOn = "StartedOn"
+            case state = "State"
         }
     }
 
@@ -1286,12 +1418,15 @@ extension GlueDataBrew {
     }
 
     public struct ExcelOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A variable that specifies whether the first row in the file will be parsed as the header. If false, column names will be auto-generated.
+        public let headerRow: Bool?
         /// Specifies one or more sheet numbers in the Excel file, which will be included in the dataset.
         public let sheetIndexes: [Int]?
         /// Specifies one or more named sheets in the Excel file, which will be included in the dataset.
         public let sheetNames: [String]?
 
-        public init(sheetIndexes: [Int]? = nil, sheetNames: [String]? = nil) {
+        public init(headerRow: Bool? = nil, sheetIndexes: [Int]? = nil, sheetNames: [String]? = nil) {
+            self.headerRow = headerRow
             self.sheetIndexes = sheetIndexes
             self.sheetNames = sheetNames
         }
@@ -1312,6 +1447,7 @@ extension GlueDataBrew {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case headerRow = "HeaderRow"
             case sheetIndexes = "SheetIndexes"
             case sheetNames = "SheetNames"
         }
@@ -1378,6 +1514,8 @@ extension GlueDataBrew {
         public let encryptionKeyArn: String?
         /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
+        /// Sample configuration for profile jobs only. Determines the number of rows on which the profile job will be executed. If a JobSample value is not provided, the default value will be used. The default value is CUSTOM_ROWS for the mode parameter and 20000 for the size parameter.
+        public let jobSample: JobSample?
         /// The Amazon Resource Name (ARN) of the user who last modified the job.
         public let lastModifiedBy: String?
         /// The modification date and time of the job.
@@ -1407,13 +1545,14 @@ extension GlueDataBrew {
         /// The job type of the job, which must be one of the following:    PROFILE - A job to analyze a dataset, to determine its size, data types, data distribution, and more.    RECIPE - A job to apply one or more transformations to a dataset.
         public let type: JobType?
 
-        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
+        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
+            self.jobSample = jobSample
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedDate = lastModifiedDate
             self.logSubscription = logSubscription
@@ -1437,6 +1576,7 @@ extension GlueDataBrew {
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
+            case jobSample = "JobSample"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedDate = "LastModifiedDate"
             case logSubscription = "LogSubscription"
@@ -1467,6 +1607,8 @@ extension GlueDataBrew {
         public let executionTime: Int?
         /// The name of the job being processed during this run.
         public let jobName: String?
+        /// Sample configuration for profile jobs only. Determines the number of rows on which the profile job will be executed. If a JobSample value is not provided, the default value will be used. The default value is CUSTOM_ROWS for the mode parameter and 20000 for the size parameter.
+        public let jobSample: JobSample?
         /// The name of an Amazon CloudWatch log group, where the job writes diagnostic messages when it runs.
         public let logGroupName: String?
         /// The current status of Amazon CloudWatch logging for the job run.
@@ -1484,13 +1626,14 @@ extension GlueDataBrew {
         /// The current state of the job run entity itself.
         public let state: JobRunState?
 
-        public init(attempt: Int? = nil, completedOn: Date? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
+        public init(attempt: Int? = nil, completedOn: Date? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String? = nil, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
             self.attempt = attempt
             self.completedOn = completedOn
             self.datasetName = datasetName
             self.errorMessage = errorMessage
             self.executionTime = executionTime
             self.jobName = jobName
+            self.jobSample = jobSample
             self.logGroupName = logGroupName
             self.logSubscription = logSubscription
             self.outputs = outputs
@@ -1508,6 +1651,7 @@ extension GlueDataBrew {
             case errorMessage = "ErrorMessage"
             case executionTime = "ExecutionTime"
             case jobName = "JobName"
+            case jobSample = "JobSample"
             case logGroupName = "LogGroupName"
             case logSubscription = "LogSubscription"
             case outputs = "Outputs"
@@ -1516,6 +1660,23 @@ extension GlueDataBrew {
             case startedBy = "StartedBy"
             case startedOn = "StartedOn"
             case state = "State"
+        }
+    }
+
+    public struct JobSample: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the profile job will be executed on the entire dataset or on a specified number of rows. Must be one of the following:   FULL_DATASET: Profile job will be executed on the entire dataset.   CUSTOM_ROWS: Profile job will be executed on the number of rows specified in the Size parameter.
+        public let mode: SampleMode?
+        /// Size parameter is only required when the mode is CUSTOM_ROWS. Profile job will be executed on the the specified number of rows. The maximum value for size is Long.MAX_VALUE. Long.MAX_VALUE = 9223372036854775807
+        public let size: Int64?
+
+        public init(mode: SampleMode? = nil, size: Int64? = nil) {
+            self.mode = mode
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+            case size = "Size"
         }
     }
 
@@ -2146,7 +2307,7 @@ extension GlueDataBrew {
                 try validate($0.key, name: "parameters.key", parent: name, max: 128)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[A-Za-z0-9]+$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 8192)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 12288)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
             }
         }
@@ -2574,12 +2735,15 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
+        /// Specifies the file format of a dataset created from an S3 file or folder.
+        public let format: InputFormat?
         public let formatOptions: FormatOptions?
         public let input: Input
         /// The name of the dataset to be updated.
         public let name: String
 
-        public init(formatOptions: FormatOptions? = nil, input: Input, name: String) {
+        public init(format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, name: String) {
+            self.format = format
             self.formatOptions = formatOptions
             self.input = input
             self.name = name
@@ -2593,6 +2757,7 @@ extension GlueDataBrew {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case format = "Format"
             case formatOptions = "FormatOptions"
             case input = "Input"
         }
@@ -2618,8 +2783,10 @@ extension GlueDataBrew {
 
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
+        /// Sample configuration for Profile Jobs only. Determines the number of rows on which the Profile job will be executed. If a JobSample value is not provided for profile jobs, the default value will be used. The default value is CUSTOM_ROWS for the mode parameter and 20000 for the size parameter.
+        public let jobSample: JobSample?
         /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?
         /// The maximum number of compute nodes that DataBrew can use when the job processes data.
@@ -2634,9 +2801,10 @@ extension GlueDataBrew {
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
-        public init(encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, timeout: Int? = nil) {
+        public init(encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, timeout: Int? = nil) {
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
+            self.jobSample = jobSample
             self.logSubscription = logSubscription
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
@@ -2661,6 +2829,7 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
+            case jobSample = "JobSample"
             case logSubscription = "LogSubscription"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
@@ -2738,7 +2907,7 @@ extension GlueDataBrew {
 
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
         /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?

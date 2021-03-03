@@ -141,8 +141,10 @@ extension EKS {
         case addonversion = "AddonVersion"
         case clusterlogging = "ClusterLogging"
         case desiredsize = "DesiredSize"
+        case encryptionconfig = "EncryptionConfig"
         case endpointprivateaccess = "EndpointPrivateAccess"
         case endpointpublicaccess = "EndpointPublicAccess"
+        case identityproviderconfig = "IdentityProviderConfig"
         case labelstoadd = "LabelsToAdd"
         case labelstoremove = "LabelsToRemove"
         case maxsize = "MaxSize"
@@ -166,10 +168,20 @@ extension EKS {
 
     public enum UpdateType: String, CustomStringConvertible, Codable {
         case addonupdate = "AddonUpdate"
+        case associateencryptionconfig = "AssociateEncryptionConfig"
+        case associateidentityproviderconfig = "AssociateIdentityProviderConfig"
         case configupdate = "ConfigUpdate"
+        case disassociateidentityproviderconfig = "DisassociateIdentityProviderConfig"
         case endpointaccessupdate = "EndpointAccessUpdate"
         case loggingupdate = "LoggingUpdate"
         case versionupdate = "VersionUpdate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -297,6 +309,99 @@ extension EKS {
             case addonVersion
             case architecture
             case compatibilities
+        }
+    }
+
+    public struct AssociateEncryptionConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
+        ]
+
+        /// The client request token you are using with the encryption configuration.
+        public let clientRequestToken: String?
+        /// The name of the cluster that you are associating with encryption configuration.
+        public let clusterName: String
+        /// The configuration you are using for encryption.
+        public let encryptionConfig: [EncryptionConfig]
+
+        public init(clientRequestToken: String? = AssociateEncryptionConfigRequest.idempotencyToken(), clusterName: String, encryptionConfig: [EncryptionConfig]) {
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.encryptionConfig = encryptionConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionConfig, name: "encryptionConfig", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken
+            case encryptionConfig
+        }
+    }
+
+    public struct AssociateEncryptionConfigResponse: AWSDecodableShape {
+        public let update: Update?
+
+        public init(update: Update? = nil) {
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case update
+        }
+    }
+
+    public struct AssociateIdentityProviderConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
+        ]
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the cluster to associate the configuration to.
+        public let clusterName: String
+        /// An object that represents an OpenID Connect (OIDC) identity provider configuration.
+        public let oidc: OidcIdentityProviderConfigRequest
+        /// The metadata to apply to the configuration to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [String: String]?
+
+        public init(clientRequestToken: String? = AssociateIdentityProviderConfigRequest.idempotencyToken(), clusterName: String, oidc: OidcIdentityProviderConfigRequest, tags: [String: String]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.oidc = oidc
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.oidc.validate(name: "\(name).oidc")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken
+            case oidc
+            case tags
+        }
+    }
+
+    public struct AssociateIdentityProviderConfigResponse: AWSDecodableShape {
+        /// The tags for the resource.
+        public let tags: [String: String]?
+        public let update: Update?
+
+        public init(tags: [String: String]? = nil, update: Update? = nil) {
+            self.tags = tags
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+            case update
         }
     }
 
@@ -639,7 +744,7 @@ extension EKS {
         public let launchTemplate: LaunchTemplateSpecification?
         /// The unique name to give your node group.
         public let nodegroupName: String
-        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched. For more information, see Amazon EKS Worker Node IAM Role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify  IamInstanceProfile  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify  IamInstanceProfile  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let nodeRole: String
         /// The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let releaseVersion: String?
@@ -995,6 +1100,39 @@ extension EKS {
         }
     }
 
+    public struct DescribeIdentityProviderConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
+        ]
+
+        /// The cluster name that the identity provider configuration is associated to.
+        public let clusterName: String
+        /// An object that represents an identity provider configuration.
+        public let identityProviderConfig: IdentityProviderConfig
+
+        public init(clusterName: String, identityProviderConfig: IdentityProviderConfig) {
+            self.clusterName = clusterName
+            self.identityProviderConfig = identityProviderConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProviderConfig
+        }
+    }
+
+    public struct DescribeIdentityProviderConfigResponse: AWSDecodableShape {
+        /// The object that represents an OpenID Connect (OIDC) identity provider configuration.
+        public let identityProviderConfig: IdentityProviderConfigResponse?
+
+        public init(identityProviderConfig: IdentityProviderConfigResponse? = nil) {
+            self.identityProviderConfig = identityProviderConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProviderConfig
+        }
+    }
+
     public struct DescribeNodegroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")),
@@ -1056,6 +1194,42 @@ extension EKS {
 
     public struct DescribeUpdateResponse: AWSDecodableShape {
         /// The full description of the specified update.
+        public let update: Update?
+
+        public init(update: Update? = nil) {
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case update
+        }
+    }
+
+    public struct DisassociateIdentityProviderConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
+        ]
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the cluster to disassociate an identity provider from.
+        public let clusterName: String
+        /// An object that represents an identity provider configuration.
+        public let identityProviderConfig: IdentityProviderConfig
+
+        public init(clientRequestToken: String? = DisassociateIdentityProviderConfigRequest.idempotencyToken(), clusterName: String, identityProviderConfig: IdentityProviderConfig) {
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.identityProviderConfig = identityProviderConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken
+            case identityProviderConfig
+        }
+    }
+
+    public struct DisassociateIdentityProviderConfigResponse: AWSDecodableShape {
         public let update: Update?
 
         public init(update: Update? = nil) {
@@ -1168,7 +1342,7 @@ extension EKS {
     }
 
     public struct Identity: AWSDecodableShape {
-        /// The OpenID Connect identity provider information for the cluster.
+        /// An object representing the OpenID Connect identity provider information.
         public let oidc: OIDC?
 
         public init(oidc: OIDC? = nil) {
@@ -1180,8 +1354,38 @@ extension EKS {
         }
     }
 
+    public struct IdentityProviderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the identity provider configuration.
+        public let name: String
+        /// The type of the identity provider configuration.
+        public let type: String
+
+        public init(name: String, type: String) {
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case type
+        }
+    }
+
+    public struct IdentityProviderConfigResponse: AWSDecodableShape {
+        /// An object that represents an OpenID Connect (OIDC) identity provider configuration.
+        public let oidc: OidcIdentityProviderConfig?
+
+        public init(oidc: OidcIdentityProviderConfig? = nil) {
+            self.oidc = oidc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oidc
+        }
+    }
+
     public struct Issue: AWSDecodableShape {
-        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your AWS account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient worker node IAM role permissions or lack of outbound internet access for the nodes.
+        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your AWS account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
         public let code: NodegroupIssueCode?
         /// The error message associated with the issue.
         public let message: String?
@@ -1382,6 +1586,51 @@ extension EKS {
         }
     }
 
+    public struct ListIdentityProviderConfigsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The cluster name that you want to list identity provider configurations for.
+        public let clusterName: String
+        /// The maximum number of identity provider configurations returned by ListIdentityProviderConfigs in paginated output. When you use this parameter, ListIdentityProviderConfigs returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListIdentityProviderConfigs request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListIdentityProviderConfigs returns up to 100 results and a nextToken value, if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated IdentityProviderConfigsRequest where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
+        public let nextToken: String?
+
+        public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterName = clusterName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListIdentityProviderConfigsResponse: AWSDecodableShape {
+        /// The identity provider configurations for the cluster.
+        public let identityProviderConfigs: [IdentityProviderConfig]?
+        /// The nextToken value returned from a previous paginated ListIdentityProviderConfigsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
+        public let nextToken: String?
+
+        public init(identityProviderConfigs: [IdentityProviderConfig]? = nil, nextToken: String? = nil) {
+            self.identityProviderConfigs = identityProviderConfigs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProviderConfigs
+            case nextToken
+        }
+    }
+
     public struct ListNodegroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name")),
@@ -1563,7 +1812,7 @@ extension EKS {
         public let nodegroupArn: String?
         /// The name associated with an Amazon EKS managed node group.
         public let nodegroupName: String?
-        /// The IAM role associated with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies.
+        /// The IAM role associated with your node group. The Amazon EKS node kubelet daemon makes calls to AWS APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies.
         public let nodeRole: String?
         /// If the node group was deployed using a launch template with a custom AMI, then this is the AMI ID that was specified in the launch template. For node groups that weren't deployed using a launch template, this is the version of the Amazon EKS optimized AMI that the node group was deployed with.
         public let releaseVersion: String?
@@ -1647,7 +1896,7 @@ extension EKS {
     public struct NodegroupResources: AWSDecodableShape {
         /// The Auto Scaling groups associated with the node group.
         public let autoScalingGroups: [AutoScalingGroup]?
-        /// The remote access security group associated with the node group. This security group controls SSH access to the worker nodes.
+        /// The remote access security group associated with the node group. This security group controls SSH access to the nodes.
         public let remoteAccessSecurityGroup: String?
 
         public init(autoScalingGroups: [AutoScalingGroup]? = nil, remoteAccessSecurityGroup: String? = nil) {
@@ -1662,11 +1911,11 @@ extension EKS {
     }
 
     public struct NodegroupScalingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The current number of worker nodes that the managed node group should maintain.
+        /// The current number of nodes that the managed node group should maintain.
         public let desiredSize: Int?
-        /// The maximum number of worker nodes that the managed node group can scale out to. Managed node groups can support up to 100 nodes by default.
+        /// The maximum number of nodes that the managed node group can scale out to. For information about the maximum number that you can specify, see Amazon EKS service quotas in the Amazon EKS User Guide.
         public let maxSize: Int?
-        /// The minimum number of worker nodes that the managed node group can scale in to. This number must be greater than zero.
+        /// The minimum number of nodes that the managed node group can scale in to. This number must be greater than zero.
         public let minSize: Int?
 
         public init(desiredSize: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
@@ -1689,7 +1938,7 @@ extension EKS {
     }
 
     public struct OIDC: AWSDecodableShape {
-        /// The issuer URL for the OpenID Connect identity provider.
+        /// The issuer URL for the OIDC identity provider.
         public let issuer: String?
 
         public init(issuer: String? = nil) {
@@ -1698,6 +1947,113 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case issuer
+        }
+    }
+
+    public struct OidcIdentityProviderConfig: AWSDecodableShape {
+        /// This is also known as audience. The ID of the client application that makes authentication requests to the OIDC identity provider.
+        public let clientId: String?
+        /// The cluster that the configuration is associated to.
+        public let clusterName: String?
+        /// The JSON web token (JWT) claim that the provider uses to return your groups.
+        public let groupsClaim: String?
+        /// The prefix that is prepended to group claims to prevent clashes with existing names (such as system: groups). For example, the value oidc: creates group names like oidc:engineering and oidc:infra. The prefix can't contain system:
+        public let groupsPrefix: String?
+        /// The ARN of the configuration.
+        public let identityProviderConfigArn: String?
+        /// The name of the configuration.
+        public let identityProviderConfigName: String?
+        /// The URL of the OIDC identity provider that allows the API server to discover public signing keys for verifying tokens.
+        public let issuerUrl: String?
+        /// The key-value pairs that describe required claims in the identity token. If set, each claim is verified to be present in the token with a matching value.
+        public let requiredClaims: [String: String]?
+        /// The status of the OIDC identity provider.
+        public let status: ConfigStatus?
+        /// The metadata to apply to the provider configuration to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you defined.
+        public let tags: [String: String]?
+        /// The JSON Web token (JWT) claim that is used as the username.
+        public let usernameClaim: String?
+        /// The prefix that is prepended to username claims to prevent clashes with existing names. The prefix can't contain system:
+        public let usernamePrefix: String?
+
+        public init(clientId: String? = nil, clusterName: String? = nil, groupsClaim: String? = nil, groupsPrefix: String? = nil, identityProviderConfigArn: String? = nil, identityProviderConfigName: String? = nil, issuerUrl: String? = nil, requiredClaims: [String: String]? = nil, status: ConfigStatus? = nil, tags: [String: String]? = nil, usernameClaim: String? = nil, usernamePrefix: String? = nil) {
+            self.clientId = clientId
+            self.clusterName = clusterName
+            self.groupsClaim = groupsClaim
+            self.groupsPrefix = groupsPrefix
+            self.identityProviderConfigArn = identityProviderConfigArn
+            self.identityProviderConfigName = identityProviderConfigName
+            self.issuerUrl = issuerUrl
+            self.requiredClaims = requiredClaims
+            self.status = status
+            self.tags = tags
+            self.usernameClaim = usernameClaim
+            self.usernamePrefix = usernamePrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId
+            case clusterName
+            case groupsClaim
+            case groupsPrefix
+            case identityProviderConfigArn
+            case identityProviderConfigName
+            case issuerUrl
+            case requiredClaims
+            case status
+            case tags
+            case usernameClaim
+            case usernamePrefix
+        }
+    }
+
+    public struct OidcIdentityProviderConfigRequest: AWSEncodableShape {
+        /// This is also known as audience. The ID for the client application that makes authentication requests to the OpenID identity provider.
+        public let clientId: String
+        /// The JWT claim that the provider uses to return your groups.
+        public let groupsClaim: String?
+        /// The prefix that is prepended to group claims to prevent clashes with existing names (such as system: groups). For example, the value oidc: will create group names like oidc:engineering and oidc:infra.
+        public let groupsPrefix: String?
+        /// The name of the OIDC provider configuration.
+        public let identityProviderConfigName: String
+        /// The URL of the OpenID identity provider that allows the API server to discover public signing keys for verifying tokens. The URL must begin with https:// and should correspond to the iss claim in the provider's OIDC ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com. This URL should point to the level below .well-known/openid-configuration and must be publicly accessible over the internet.
+        public let issuerUrl: String
+        /// The key value pairs that describe required claims in the identity token. If set, each claim is verified to be present in the token with a matching value. For the maximum number of claims that you can require, see Amazon EKS service quotas in the Amazon EKS User Guide.
+        public let requiredClaims: [String: String]?
+        /// The JSON Web Token (JWT) claim to use as the username. The default is sub, which is expected to be a unique identifier of the end user. You can choose other claims, such as email or name, depending on the OpenID identity provider. Claims other than email are prefixed with the issuer URL to prevent naming clashes with other plug-ins.
+        public let usernameClaim: String?
+        /// The prefix that is prepended to username claims to prevent clashes with existing names. If you do not provide this field, and username is a value other than email, the prefix defaults to issuerurl#. You can use the value - to disable all prefixing.
+        public let usernamePrefix: String?
+
+        public init(clientId: String, groupsClaim: String? = nil, groupsPrefix: String? = nil, identityProviderConfigName: String, issuerUrl: String, requiredClaims: [String: String]? = nil, usernameClaim: String? = nil, usernamePrefix: String? = nil) {
+            self.clientId = clientId
+            self.groupsClaim = groupsClaim
+            self.groupsPrefix = groupsPrefix
+            self.identityProviderConfigName = identityProviderConfigName
+            self.issuerUrl = issuerUrl
+            self.requiredClaims = requiredClaims
+            self.usernameClaim = usernameClaim
+            self.usernamePrefix = usernamePrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.requiredClaims?.forEach {
+                try validate($0.key, name: "requiredClaims.key", parent: name, max: 63)
+                try validate($0.key, name: "requiredClaims.key", parent: name, min: 1)
+                try validate($0.value, name: "requiredClaims[\"\($0.key)\"]", parent: name, max: 253)
+                try validate($0.value, name: "requiredClaims[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId
+            case groupsClaim
+            case groupsPrefix
+            case identityProviderConfigName
+            case issuerUrl
+            case requiredClaims
+            case usernameClaim
+            case usernamePrefix
         }
     }
 
@@ -1715,9 +2071,9 @@ extension EKS {
     }
 
     public struct RemoteAccessConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon EC2 SSH key that provides access for SSH communication with the worker nodes in the managed node group. For more information, see Amazon EC2 Key Pairs in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
+        /// The Amazon EC2 SSH key that provides access for SSH communication with the nodes in the managed node group. For more information, see Amazon EC2 Key Pairs in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
         public let ec2SshKey: String?
-        /// The security groups that are allowed SSH access (port 22) to the worker nodes. If you specify an Amazon EC2 SSH key but do not specify a source security group when you create a managed node group, then port 22 on the worker nodes is opened to the internet (0.0.0.0/0). For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
+        /// The security groups that are allowed SSH access (port 22) to the nodes. If you specify an Amazon EC2 SSH key but do not specify a source security group when you create a managed node group, then port 22 on the nodes is opened to the internet (0.0.0.0/0). For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
         public let sourceSecurityGroups: [String]?
 
         public init(ec2SshKey: String? = nil, sourceSecurityGroups: [String]? = nil) {
@@ -2105,15 +2461,15 @@ extension EKS {
     }
 
     public struct VpcConfigRequest: AWSEncodableShape {
-        /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have worker nodes or AWS Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the worker nodes or Fargate pods. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or AWS Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
         /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let endpointPublicAccess: Bool?
-        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have worker nodes or AWS Fargate pods in the cluster, then ensure that you specify the necessary CIDR blocks. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have nodes or AWS Fargate pods in the cluster, then ensure that you specify the necessary CIDR blocks. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let publicAccessCidrs: [String]?
-        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes:   1.14 Amazon EKS platform version eks.2 and earlier   1.14 Amazon EKS platform version eks.3 and later    For more information, see Amazon EKS security group considerations in the  Amazon EKS User Guide .
+        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes:   1.14 Amazon EKS platform version eks.2 and earlier   1.14 Amazon EKS platform version eks.3 and later    For more information, see Amazon EKS security group considerations in the  Amazon EKS User Guide .
         public let securityGroupIds: [String]?
-        /// Specify subnets for your Amazon EKS worker nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your worker nodes and the Kubernetes control plane.
+        /// Specify subnets for your Amazon EKS nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your nodes and the Kubernetes control plane.
         public let subnetIds: [String]?
 
         public init(endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, publicAccessCidrs: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
@@ -2136,13 +2492,13 @@ extension EKS {
     public struct VpcConfigResponse: AWSDecodableShape {
         /// The cluster security group that was created by Amazon EKS for the cluster. Managed node groups use this security group for control-plane-to-data-plane communication.
         public let clusterSecurityGroupId: String?
-        /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have worker nodes or AWS Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the worker nodes or Fargate pods. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have nodes or AWS Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
         /// This parameter indicates whether the Amazon EKS public API server endpoint is enabled. If the Amazon EKS public API server endpoint is disabled, your cluster's Kubernetes API server can only receive requests that originate from within the cluster VPC.
         public let endpointPublicAccess: Bool?
-        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the listed CIDR blocks is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have worker nodes or AWS Fargate pods in the cluster, then ensure that the necessary CIDR blocks are listed. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the listed CIDR blocks is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have nodes or AWS Fargate pods in the cluster, then ensure that the necessary CIDR blocks are listed. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
         public let publicAccessCidrs: [String]?
-        /// The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your worker nodes and the Kubernetes control plane.
+        /// The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane.
         public let securityGroupIds: [String]?
         /// The subnets associated with your cluster.
         public let subnetIds: [String]?

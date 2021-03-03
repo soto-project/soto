@@ -1020,7 +1020,8 @@
         "badgeEnabled":{"shape":"WrapperBoolean"},
         "logsConfig":{"shape":"LogsConfig"},
         "fileSystemLocations":{"shape":"ProjectFileSystemLocations"},
-        "buildBatchConfig":{"shape":"ProjectBuildBatchConfig"}
+        "buildBatchConfig":{"shape":"ProjectBuildBatchConfig"},
+        "concurrentBuildLimit":{"shape":"WrapperInt"}
       }
     },
     "CreateProjectOutput":{
@@ -1697,7 +1698,8 @@
         "badge":{"shape":"ProjectBadge"},
         "logsConfig":{"shape":"LogsConfig"},
         "fileSystemLocations":{"shape":"ProjectFileSystemLocations"},
-        "buildBatchConfig":{"shape":"ProjectBuildBatchConfig"}
+        "buildBatchConfig":{"shape":"ProjectBuildBatchConfig"},
+        "concurrentBuildLimit":{"shape":"WrapperInt"}
       }
     },
     "ProjectArns":{
@@ -2118,6 +2120,7 @@
       "type":"structure",
       "members":{
         "bucket":{"shape":"NonEmptyString"},
+        "bucketOwner":{"shape":"String"},
         "path":{"shape":"String"},
         "packaging":{"shape":"ReportPackagingType"},
         "encryptionKey":{"shape":"NonEmptyString"},
@@ -2399,7 +2402,8 @@
         "badgeEnabled":{"shape":"WrapperBoolean"},
         "logsConfig":{"shape":"LogsConfig"},
         "fileSystemLocations":{"shape":"ProjectFileSystemLocations"},
-        "buildBatchConfig":{"shape":"ProjectBuildBatchConfig"}
+        "buildBatchConfig":{"shape":"ProjectBuildBatchConfig"},
+        "concurrentBuildLimit":{"shape":"WrapperInt"}
       }
     },
     "UpdateProjectOutput":{

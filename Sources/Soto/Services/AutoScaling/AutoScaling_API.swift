@@ -217,7 +217,7 @@ public struct AutoScaling: AWSService {
         return self.client.execute(operation: "DescribePolicies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more scaling activities for the specified Auto Scaling group.
+    /// Describes one or more scaling activities for the specified Auto Scaling group. To view the scaling activities from the Amazon EC2 Auto Scaling console, choose the Activity tab of the Auto Scaling group. When scaling events occur, you see scaling activity messages in the Activity history. For more information, see Verifying a scaling activity for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
     public func describeScalingActivities(_ input: DescribeScalingActivitiesType, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivitiesType> {
         return self.client.execute(operation: "DescribeScalingActivities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
