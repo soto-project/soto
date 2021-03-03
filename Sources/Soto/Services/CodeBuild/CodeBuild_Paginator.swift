@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: describeCodeCoverages,
-            tokenKey: \DescribeCodeCoveragesOutput.nextToken,
+            inputKey: \DescribeCodeCoveragesInput.nextToken,
+            outputKey: \DescribeCodeCoveragesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: describeCodeCoverages,
-            tokenKey: \DescribeCodeCoveragesOutput.nextToken,
+            inputKey: \DescribeCodeCoveragesInput.nextToken,
+            outputKey: \DescribeCodeCoveragesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: describeTestCases,
-            tokenKey: \DescribeTestCasesOutput.nextToken,
+            inputKey: \DescribeTestCasesInput.nextToken,
+            outputKey: \DescribeTestCasesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: describeTestCases,
-            tokenKey: \DescribeTestCasesOutput.nextToken,
+            inputKey: \DescribeTestCasesInput.nextToken,
+            outputKey: \DescribeTestCasesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listBuildBatches,
-            tokenKey: \ListBuildBatchesOutput.nextToken,
+            inputKey: \ListBuildBatchesInput.nextToken,
+            outputKey: \ListBuildBatchesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listBuildBatches,
-            tokenKey: \ListBuildBatchesOutput.nextToken,
+            inputKey: \ListBuildBatchesInput.nextToken,
+            outputKey: \ListBuildBatchesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listBuildBatchesForProject,
-            tokenKey: \ListBuildBatchesForProjectOutput.nextToken,
+            inputKey: \ListBuildBatchesForProjectInput.nextToken,
+            outputKey: \ListBuildBatchesForProjectOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listBuildBatchesForProject,
-            tokenKey: \ListBuildBatchesForProjectOutput.nextToken,
+            inputKey: \ListBuildBatchesForProjectInput.nextToken,
+            outputKey: \ListBuildBatchesForProjectOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listBuilds,
-            tokenKey: \ListBuildsOutput.nextToken,
+            inputKey: \ListBuildsInput.nextToken,
+            outputKey: \ListBuildsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listBuilds,
-            tokenKey: \ListBuildsOutput.nextToken,
+            inputKey: \ListBuildsInput.nextToken,
+            outputKey: \ListBuildsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listBuildsForProject,
-            tokenKey: \ListBuildsForProjectOutput.nextToken,
+            inputKey: \ListBuildsForProjectInput.nextToken,
+            outputKey: \ListBuildsForProjectOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listBuildsForProject,
-            tokenKey: \ListBuildsForProjectOutput.nextToken,
+            inputKey: \ListBuildsForProjectInput.nextToken,
+            outputKey: \ListBuildsForProjectOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listProjects,
-            tokenKey: \ListProjectsOutput.nextToken,
+            inputKey: \ListProjectsInput.nextToken,
+            outputKey: \ListProjectsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listProjects,
-            tokenKey: \ListProjectsOutput.nextToken,
+            inputKey: \ListProjectsInput.nextToken,
+            outputKey: \ListProjectsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listReportGroups,
-            tokenKey: \ListReportGroupsOutput.nextToken,
+            inputKey: \ListReportGroupsInput.nextToken,
+            outputKey: \ListReportGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listReportGroups,
-            tokenKey: \ListReportGroupsOutput.nextToken,
+            inputKey: \ListReportGroupsInput.nextToken,
+            outputKey: \ListReportGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listReports,
-            tokenKey: \ListReportsOutput.nextToken,
+            inputKey: \ListReportsInput.nextToken,
+            outputKey: \ListReportsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listReports,
-            tokenKey: \ListReportsOutput.nextToken,
+            inputKey: \ListReportsInput.nextToken,
+            outputKey: \ListReportsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listReportsForReportGroup,
-            tokenKey: \ListReportsForReportGroupOutput.nextToken,
+            inputKey: \ListReportsForReportGroupInput.nextToken,
+            outputKey: \ListReportsForReportGroupOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listReportsForReportGroup,
-            tokenKey: \ListReportsForReportGroupOutput.nextToken,
+            inputKey: \ListReportsForReportGroupInput.nextToken,
+            outputKey: \ListReportsForReportGroupOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listSharedProjects,
-            tokenKey: \ListSharedProjectsOutput.nextToken,
+            inputKey: \ListSharedProjectsInput.nextToken,
+            outputKey: \ListSharedProjectsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listSharedProjects,
-            tokenKey: \ListSharedProjectsOutput.nextToken,
+            inputKey: \ListSharedProjectsInput.nextToken,
+            outputKey: \ListSharedProjectsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension CodeBuild {
             input: input,
             initialValue: initialValue,
             command: listSharedReportGroups,
-            tokenKey: \ListSharedReportGroupsOutput.nextToken,
+            inputKey: \ListSharedReportGroupsInput.nextToken,
+            outputKey: \ListSharedReportGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension CodeBuild {
         return client.paginate(
             input: input,
             command: listSharedReportGroups,
-            tokenKey: \ListSharedReportGroupsOutput.nextToken,
+            inputKey: \ListSharedReportGroupsInput.nextToken,
+            outputKey: \ListSharedReportGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listAnalyses,
-            tokenKey: \ListAnalysesResponse.nextToken,
+            inputKey: \ListAnalysesRequest.nextToken,
+            outputKey: \ListAnalysesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listAnalyses,
-            tokenKey: \ListAnalysesResponse.nextToken,
+            inputKey: \ListAnalysesRequest.nextToken,
+            outputKey: \ListAnalysesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listDashboardVersions,
-            tokenKey: \ListDashboardVersionsResponse.nextToken,
+            inputKey: \ListDashboardVersionsRequest.nextToken,
+            outputKey: \ListDashboardVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listDashboardVersions,
-            tokenKey: \ListDashboardVersionsResponse.nextToken,
+            inputKey: \ListDashboardVersionsRequest.nextToken,
+            outputKey: \ListDashboardVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listDashboards,
-            tokenKey: \ListDashboardsResponse.nextToken,
+            inputKey: \ListDashboardsRequest.nextToken,
+            outputKey: \ListDashboardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listDashboards,
-            tokenKey: \ListDashboardsResponse.nextToken,
+            inputKey: \ListDashboardsRequest.nextToken,
+            outputKey: \ListDashboardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listDataSets,
-            tokenKey: \ListDataSetsResponse.nextToken,
+            inputKey: \ListDataSetsRequest.nextToken,
+            outputKey: \ListDataSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listDataSets,
-            tokenKey: \ListDataSetsResponse.nextToken,
+            inputKey: \ListDataSetsRequest.nextToken,
+            outputKey: \ListDataSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listDataSources,
-            tokenKey: \ListDataSourcesResponse.nextToken,
+            inputKey: \ListDataSourcesRequest.nextToken,
+            outputKey: \ListDataSourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listDataSources,
-            tokenKey: \ListDataSourcesResponse.nextToken,
+            inputKey: \ListDataSourcesRequest.nextToken,
+            outputKey: \ListDataSourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listIngestions,
-            tokenKey: \ListIngestionsResponse.nextToken,
+            inputKey: \ListIngestionsRequest.nextToken,
+            outputKey: \ListIngestionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listIngestions,
-            tokenKey: \ListIngestionsResponse.nextToken,
+            inputKey: \ListIngestionsRequest.nextToken,
+            outputKey: \ListIngestionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listNamespaces,
-            tokenKey: \ListNamespacesResponse.nextToken,
+            inputKey: \ListNamespacesRequest.nextToken,
+            outputKey: \ListNamespacesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listNamespaces,
-            tokenKey: \ListNamespacesResponse.nextToken,
+            inputKey: \ListNamespacesRequest.nextToken,
+            outputKey: \ListNamespacesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listTemplateAliases,
-            tokenKey: \ListTemplateAliasesResponse.nextToken,
+            inputKey: \ListTemplateAliasesRequest.nextToken,
+            outputKey: \ListTemplateAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listTemplateAliases,
-            tokenKey: \ListTemplateAliasesResponse.nextToken,
+            inputKey: \ListTemplateAliasesRequest.nextToken,
+            outputKey: \ListTemplateAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listTemplateVersions,
-            tokenKey: \ListTemplateVersionsResponse.nextToken,
+            inputKey: \ListTemplateVersionsRequest.nextToken,
+            outputKey: \ListTemplateVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listTemplateVersions,
-            tokenKey: \ListTemplateVersionsResponse.nextToken,
+            inputKey: \ListTemplateVersionsRequest.nextToken,
+            outputKey: \ListTemplateVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: listTemplates,
-            tokenKey: \ListTemplatesResponse.nextToken,
+            inputKey: \ListTemplatesRequest.nextToken,
+            outputKey: \ListTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: listTemplates,
-            tokenKey: \ListTemplatesResponse.nextToken,
+            inputKey: \ListTemplatesRequest.nextToken,
+            outputKey: \ListTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: searchAnalyses,
-            tokenKey: \SearchAnalysesResponse.nextToken,
+            inputKey: \SearchAnalysesRequest.nextToken,
+            outputKey: \SearchAnalysesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: searchAnalyses,
-            tokenKey: \SearchAnalysesResponse.nextToken,
+            inputKey: \SearchAnalysesRequest.nextToken,
+            outputKey: \SearchAnalysesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension QuickSight {
             input: input,
             initialValue: initialValue,
             command: searchDashboards,
-            tokenKey: \SearchDashboardsResponse.nextToken,
+            inputKey: \SearchDashboardsRequest.nextToken,
+            outputKey: \SearchDashboardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension QuickSight {
         return client.paginate(
             input: input,
             command: searchDashboards,
-            tokenKey: \SearchDashboardsResponse.nextToken,
+            inputKey: \SearchDashboardsRequest.nextToken,
+            outputKey: \SearchDashboardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

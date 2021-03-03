@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listDeploymentJobs,
-            tokenKey: \ListDeploymentJobsResponse.nextToken,
+            inputKey: \ListDeploymentJobsRequest.nextToken,
+            outputKey: \ListDeploymentJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listDeploymentJobs,
-            tokenKey: \ListDeploymentJobsResponse.nextToken,
+            inputKey: \ListDeploymentJobsRequest.nextToken,
+            outputKey: \ListDeploymentJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listFleets,
-            tokenKey: \ListFleetsResponse.nextToken,
+            inputKey: \ListFleetsRequest.nextToken,
+            outputKey: \ListFleetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listFleets,
-            tokenKey: \ListFleetsResponse.nextToken,
+            inputKey: \ListFleetsRequest.nextToken,
+            outputKey: \ListFleetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listRobotApplications,
-            tokenKey: \ListRobotApplicationsResponse.nextToken,
+            inputKey: \ListRobotApplicationsRequest.nextToken,
+            outputKey: \ListRobotApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listRobotApplications,
-            tokenKey: \ListRobotApplicationsResponse.nextToken,
+            inputKey: \ListRobotApplicationsRequest.nextToken,
+            outputKey: \ListRobotApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listRobots,
-            tokenKey: \ListRobotsResponse.nextToken,
+            inputKey: \ListRobotsRequest.nextToken,
+            outputKey: \ListRobotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listRobots,
-            tokenKey: \ListRobotsResponse.nextToken,
+            inputKey: \ListRobotsRequest.nextToken,
+            outputKey: \ListRobotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listSimulationApplications,
-            tokenKey: \ListSimulationApplicationsResponse.nextToken,
+            inputKey: \ListSimulationApplicationsRequest.nextToken,
+            outputKey: \ListSimulationApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listSimulationApplications,
-            tokenKey: \ListSimulationApplicationsResponse.nextToken,
+            inputKey: \ListSimulationApplicationsRequest.nextToken,
+            outputKey: \ListSimulationApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listSimulationJobBatches,
-            tokenKey: \ListSimulationJobBatchesResponse.nextToken,
+            inputKey: \ListSimulationJobBatchesRequest.nextToken,
+            outputKey: \ListSimulationJobBatchesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listSimulationJobBatches,
-            tokenKey: \ListSimulationJobBatchesResponse.nextToken,
+            inputKey: \ListSimulationJobBatchesRequest.nextToken,
+            outputKey: \ListSimulationJobBatchesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listSimulationJobs,
-            tokenKey: \ListSimulationJobsResponse.nextToken,
+            inputKey: \ListSimulationJobsRequest.nextToken,
+            outputKey: \ListSimulationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listSimulationJobs,
-            tokenKey: \ListSimulationJobsResponse.nextToken,
+            inputKey: \ListSimulationJobsRequest.nextToken,
+            outputKey: \ListSimulationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listWorldExportJobs,
-            tokenKey: \ListWorldExportJobsResponse.nextToken,
+            inputKey: \ListWorldExportJobsRequest.nextToken,
+            outputKey: \ListWorldExportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listWorldExportJobs,
-            tokenKey: \ListWorldExportJobsResponse.nextToken,
+            inputKey: \ListWorldExportJobsRequest.nextToken,
+            outputKey: \ListWorldExportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listWorldGenerationJobs,
-            tokenKey: \ListWorldGenerationJobsResponse.nextToken,
+            inputKey: \ListWorldGenerationJobsRequest.nextToken,
+            outputKey: \ListWorldGenerationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listWorldGenerationJobs,
-            tokenKey: \ListWorldGenerationJobsResponse.nextToken,
+            inputKey: \ListWorldGenerationJobsRequest.nextToken,
+            outputKey: \ListWorldGenerationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listWorldTemplates,
-            tokenKey: \ListWorldTemplatesResponse.nextToken,
+            inputKey: \ListWorldTemplatesRequest.nextToken,
+            outputKey: \ListWorldTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listWorldTemplates,
-            tokenKey: \ListWorldTemplatesResponse.nextToken,
+            inputKey: \ListWorldTemplatesRequest.nextToken,
+            outputKey: \ListWorldTemplatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension RoboMaker {
             input: input,
             initialValue: initialValue,
             command: listWorlds,
-            tokenKey: \ListWorldsResponse.nextToken,
+            inputKey: \ListWorldsRequest.nextToken,
+            outputKey: \ListWorldsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension RoboMaker {
         return client.paginate(
             input: input,
             command: listWorlds,
-            tokenKey: \ListWorldsResponse.nextToken,
+            inputKey: \ListWorldsRequest.nextToken,
+            outputKey: \ListWorldsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

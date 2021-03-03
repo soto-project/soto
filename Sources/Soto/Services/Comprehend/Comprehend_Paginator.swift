@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Comprehend {
             input: input,
             initialValue: initialValue,
             command: listDocumentClassificationJobs,
-            tokenKey: \ListDocumentClassificationJobsResponse.nextToken,
+            inputKey: \ListDocumentClassificationJobsRequest.nextToken,
+            outputKey: \ListDocumentClassificationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Comprehend {
         return client.paginate(
             input: input,
             command: listDocumentClassificationJobs,
-            tokenKey: \ListDocumentClassificationJobsResponse.nextToken,
+            inputKey: \ListDocumentClassificationJobsRequest.nextToken,
+            outputKey: \ListDocumentClassificationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Comprehend {
             input: input,
             initialValue: initialValue,
             command: listDocumentClassifiers,
-            tokenKey: \ListDocumentClassifiersResponse.nextToken,
+            inputKey: \ListDocumentClassifiersRequest.nextToken,
+            outputKey: \ListDocumentClassifiersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Comprehend {
         return client.paginate(
             input: input,
             command: listDocumentClassifiers,
-            tokenKey: \ListDocumentClassifiersResponse.nextToken,
+            inputKey: \ListDocumentClassifiersRequest.nextToken,
+            outputKey: \ListDocumentClassifiersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Comprehend {
             input: input,
             initialValue: initialValue,
             command: listDominantLanguageDetectionJobs,
-            tokenKey: \ListDominantLanguageDetectionJobsResponse.nextToken,
+            inputKey: \ListDominantLanguageDetectionJobsRequest.nextToken,
+            outputKey: \ListDominantLanguageDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Comprehend {
         return client.paginate(
             input: input,
             command: listDominantLanguageDetectionJobs,
-            tokenKey: \ListDominantLanguageDetectionJobsResponse.nextToken,
+            inputKey: \ListDominantLanguageDetectionJobsRequest.nextToken,
+            outputKey: \ListDominantLanguageDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Comprehend {
             input: input,
             initialValue: initialValue,
             command: listEntitiesDetectionJobs,
-            tokenKey: \ListEntitiesDetectionJobsResponse.nextToken,
+            inputKey: \ListEntitiesDetectionJobsRequest.nextToken,
+            outputKey: \ListEntitiesDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Comprehend {
         return client.paginate(
             input: input,
             command: listEntitiesDetectionJobs,
-            tokenKey: \ListEntitiesDetectionJobsResponse.nextToken,
+            inputKey: \ListEntitiesDetectionJobsRequest.nextToken,
+            outputKey: \ListEntitiesDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Comprehend {
             input: input,
             initialValue: initialValue,
             command: listEntityRecognizers,
-            tokenKey: \ListEntityRecognizersResponse.nextToken,
+            inputKey: \ListEntityRecognizersRequest.nextToken,
+            outputKey: \ListEntityRecognizersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Comprehend {
         return client.paginate(
             input: input,
             command: listEntityRecognizers,
-            tokenKey: \ListEntityRecognizersResponse.nextToken,
+            inputKey: \ListEntityRecognizersRequest.nextToken,
+            outputKey: \ListEntityRecognizersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Comprehend {
             input: input,
             initialValue: initialValue,
             command: listEventsDetectionJobs,
-            tokenKey: \ListEventsDetectionJobsResponse.nextToken,
+            inputKey: \ListEventsDetectionJobsRequest.nextToken,
+            outputKey: \ListEventsDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Comprehend {
         return client.paginate(
             input: input,
             command: listEventsDetectionJobs,
-            tokenKey: \ListEventsDetectionJobsResponse.nextToken,
+            inputKey: \ListEventsDetectionJobsRequest.nextToken,
+            outputKey: \ListEventsDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Comprehend {
             input: input,
             initialValue: initialValue,
             command: listKeyPhrasesDetectionJobs,
-            tokenKey: \ListKeyPhrasesDetectionJobsResponse.nextToken,
+            inputKey: \ListKeyPhrasesDetectionJobsRequest.nextToken,
+            outputKey: \ListKeyPhrasesDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Comprehend {
         return client.paginate(
             input: input,
             command: listKeyPhrasesDetectionJobs,
-            tokenKey: \ListKeyPhrasesDetectionJobsResponse.nextToken,
+            inputKey: \ListKeyPhrasesDetectionJobsRequest.nextToken,
+            outputKey: \ListKeyPhrasesDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Comprehend {
             input: input,
             initialValue: initialValue,
             command: listSentimentDetectionJobs,
-            tokenKey: \ListSentimentDetectionJobsResponse.nextToken,
+            inputKey: \ListSentimentDetectionJobsRequest.nextToken,
+            outputKey: \ListSentimentDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Comprehend {
         return client.paginate(
             input: input,
             command: listSentimentDetectionJobs,
-            tokenKey: \ListSentimentDetectionJobsResponse.nextToken,
+            inputKey: \ListSentimentDetectionJobsRequest.nextToken,
+            outputKey: \ListSentimentDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Comprehend {
             input: input,
             initialValue: initialValue,
             command: listTopicsDetectionJobs,
-            tokenKey: \ListTopicsDetectionJobsResponse.nextToken,
+            inputKey: \ListTopicsDetectionJobsRequest.nextToken,
+            outputKey: \ListTopicsDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Comprehend {
         return client.paginate(
             input: input,
             command: listTopicsDetectionJobs,
-            tokenKey: \ListTopicsDetectionJobsResponse.nextToken,
+            inputKey: \ListTopicsDetectionJobsRequest.nextToken,
+            outputKey: \ListTopicsDetectionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

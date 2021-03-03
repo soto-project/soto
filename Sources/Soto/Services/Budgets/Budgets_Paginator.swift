@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Budgets {
             input: input,
             initialValue: initialValue,
             command: describeBudgetActionHistories,
-            tokenKey: \DescribeBudgetActionHistoriesResponse.nextToken,
+            inputKey: \DescribeBudgetActionHistoriesRequest.nextToken,
+            outputKey: \DescribeBudgetActionHistoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Budgets {
         return client.paginate(
             input: input,
             command: describeBudgetActionHistories,
-            tokenKey: \DescribeBudgetActionHistoriesResponse.nextToken,
+            inputKey: \DescribeBudgetActionHistoriesRequest.nextToken,
+            outputKey: \DescribeBudgetActionHistoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Budgets {
             input: input,
             initialValue: initialValue,
             command: describeBudgetActionsForAccount,
-            tokenKey: \DescribeBudgetActionsForAccountResponse.nextToken,
+            inputKey: \DescribeBudgetActionsForAccountRequest.nextToken,
+            outputKey: \DescribeBudgetActionsForAccountResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Budgets {
         return client.paginate(
             input: input,
             command: describeBudgetActionsForAccount,
-            tokenKey: \DescribeBudgetActionsForAccountResponse.nextToken,
+            inputKey: \DescribeBudgetActionsForAccountRequest.nextToken,
+            outputKey: \DescribeBudgetActionsForAccountResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Budgets {
             input: input,
             initialValue: initialValue,
             command: describeBudgetActionsForBudget,
-            tokenKey: \DescribeBudgetActionsForBudgetResponse.nextToken,
+            inputKey: \DescribeBudgetActionsForBudgetRequest.nextToken,
+            outputKey: \DescribeBudgetActionsForBudgetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Budgets {
         return client.paginate(
             input: input,
             command: describeBudgetActionsForBudget,
-            tokenKey: \DescribeBudgetActionsForBudgetResponse.nextToken,
+            inputKey: \DescribeBudgetActionsForBudgetRequest.nextToken,
+            outputKey: \DescribeBudgetActionsForBudgetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Budgets {
             input: input,
             initialValue: initialValue,
             command: describeBudgetPerformanceHistory,
-            tokenKey: \DescribeBudgetPerformanceHistoryResponse.nextToken,
+            inputKey: \DescribeBudgetPerformanceHistoryRequest.nextToken,
+            outputKey: \DescribeBudgetPerformanceHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Budgets {
         return client.paginate(
             input: input,
             command: describeBudgetPerformanceHistory,
-            tokenKey: \DescribeBudgetPerformanceHistoryResponse.nextToken,
+            inputKey: \DescribeBudgetPerformanceHistoryRequest.nextToken,
+            outputKey: \DescribeBudgetPerformanceHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Budgets {
             input: input,
             initialValue: initialValue,
             command: describeBudgets,
-            tokenKey: \DescribeBudgetsResponse.nextToken,
+            inputKey: \DescribeBudgetsRequest.nextToken,
+            outputKey: \DescribeBudgetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Budgets {
         return client.paginate(
             input: input,
             command: describeBudgets,
-            tokenKey: \DescribeBudgetsResponse.nextToken,
+            inputKey: \DescribeBudgetsRequest.nextToken,
+            outputKey: \DescribeBudgetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Budgets {
             input: input,
             initialValue: initialValue,
             command: describeNotificationsForBudget,
-            tokenKey: \DescribeNotificationsForBudgetResponse.nextToken,
+            inputKey: \DescribeNotificationsForBudgetRequest.nextToken,
+            outputKey: \DescribeNotificationsForBudgetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Budgets {
         return client.paginate(
             input: input,
             command: describeNotificationsForBudget,
-            tokenKey: \DescribeNotificationsForBudgetResponse.nextToken,
+            inputKey: \DescribeNotificationsForBudgetRequest.nextToken,
+            outputKey: \DescribeNotificationsForBudgetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Budgets {
             input: input,
             initialValue: initialValue,
             command: describeSubscribersForNotification,
-            tokenKey: \DescribeSubscribersForNotificationResponse.nextToken,
+            inputKey: \DescribeSubscribersForNotificationRequest.nextToken,
+            outputKey: \DescribeSubscribersForNotificationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Budgets {
         return client.paginate(
             input: input,
             command: describeSubscribersForNotification,
-            tokenKey: \DescribeSubscribersForNotificationResponse.nextToken,
+            inputKey: \DescribeSubscribersForNotificationRequest.nextToken,
+            outputKey: \DescribeSubscribersForNotificationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

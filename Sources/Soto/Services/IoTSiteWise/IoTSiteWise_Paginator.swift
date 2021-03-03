@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: getAssetPropertyAggregates,
-            tokenKey: \GetAssetPropertyAggregatesResponse.nextToken,
+            inputKey: \GetAssetPropertyAggregatesRequest.nextToken,
+            outputKey: \GetAssetPropertyAggregatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: getAssetPropertyAggregates,
-            tokenKey: \GetAssetPropertyAggregatesResponse.nextToken,
+            inputKey: \GetAssetPropertyAggregatesRequest.nextToken,
+            outputKey: \GetAssetPropertyAggregatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: getAssetPropertyValueHistory,
-            tokenKey: \GetAssetPropertyValueHistoryResponse.nextToken,
+            inputKey: \GetAssetPropertyValueHistoryRequest.nextToken,
+            outputKey: \GetAssetPropertyValueHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: getAssetPropertyValueHistory,
-            tokenKey: \GetAssetPropertyValueHistoryResponse.nextToken,
+            inputKey: \GetAssetPropertyValueHistoryRequest.nextToken,
+            outputKey: \GetAssetPropertyValueHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listAccessPolicies,
-            tokenKey: \ListAccessPoliciesResponse.nextToken,
+            inputKey: \ListAccessPoliciesRequest.nextToken,
+            outputKey: \ListAccessPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listAccessPolicies,
-            tokenKey: \ListAccessPoliciesResponse.nextToken,
+            inputKey: \ListAccessPoliciesRequest.nextToken,
+            outputKey: \ListAccessPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listAssetModels,
-            tokenKey: \ListAssetModelsResponse.nextToken,
+            inputKey: \ListAssetModelsRequest.nextToken,
+            outputKey: \ListAssetModelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listAssetModels,
-            tokenKey: \ListAssetModelsResponse.nextToken,
+            inputKey: \ListAssetModelsRequest.nextToken,
+            outputKey: \ListAssetModelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listAssetRelationships,
-            tokenKey: \ListAssetRelationshipsResponse.nextToken,
+            inputKey: \ListAssetRelationshipsRequest.nextToken,
+            outputKey: \ListAssetRelationshipsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listAssetRelationships,
-            tokenKey: \ListAssetRelationshipsResponse.nextToken,
+            inputKey: \ListAssetRelationshipsRequest.nextToken,
+            outputKey: \ListAssetRelationshipsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listAssets,
-            tokenKey: \ListAssetsResponse.nextToken,
+            inputKey: \ListAssetsRequest.nextToken,
+            outputKey: \ListAssetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listAssets,
-            tokenKey: \ListAssetsResponse.nextToken,
+            inputKey: \ListAssetsRequest.nextToken,
+            outputKey: \ListAssetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listAssociatedAssets,
-            tokenKey: \ListAssociatedAssetsResponse.nextToken,
+            inputKey: \ListAssociatedAssetsRequest.nextToken,
+            outputKey: \ListAssociatedAssetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listAssociatedAssets,
-            tokenKey: \ListAssociatedAssetsResponse.nextToken,
+            inputKey: \ListAssociatedAssetsRequest.nextToken,
+            outputKey: \ListAssociatedAssetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listDashboards,
-            tokenKey: \ListDashboardsResponse.nextToken,
+            inputKey: \ListDashboardsRequest.nextToken,
+            outputKey: \ListDashboardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listDashboards,
-            tokenKey: \ListDashboardsResponse.nextToken,
+            inputKey: \ListDashboardsRequest.nextToken,
+            outputKey: \ListDashboardsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listGateways,
-            tokenKey: \ListGatewaysResponse.nextToken,
+            inputKey: \ListGatewaysRequest.nextToken,
+            outputKey: \ListGatewaysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listGateways,
-            tokenKey: \ListGatewaysResponse.nextToken,
+            inputKey: \ListGatewaysRequest.nextToken,
+            outputKey: \ListGatewaysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listPortals,
-            tokenKey: \ListPortalsResponse.nextToken,
+            inputKey: \ListPortalsRequest.nextToken,
+            outputKey: \ListPortalsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listPortals,
-            tokenKey: \ListPortalsResponse.nextToken,
+            inputKey: \ListPortalsRequest.nextToken,
+            outputKey: \ListPortalsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listProjectAssets,
-            tokenKey: \ListProjectAssetsResponse.nextToken,
+            inputKey: \ListProjectAssetsRequest.nextToken,
+            outputKey: \ListProjectAssetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listProjectAssets,
-            tokenKey: \ListProjectAssetsResponse.nextToken,
+            inputKey: \ListProjectAssetsRequest.nextToken,
+            outputKey: \ListProjectAssetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension IoTSiteWise {
             input: input,
             initialValue: initialValue,
             command: listProjects,
-            tokenKey: \ListProjectsResponse.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension IoTSiteWise {
         return client.paginate(
             input: input,
             command: listProjects,
-            tokenKey: \ListProjectsResponse.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

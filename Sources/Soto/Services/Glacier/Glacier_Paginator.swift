@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Glacier {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsOutput.marker,
+            inputKey: \ListJobsInput.marker,
+            outputKey: \ListJobsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Glacier {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsOutput.marker,
+            inputKey: \ListJobsInput.marker,
+            outputKey: \ListJobsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Glacier {
             input: input,
             initialValue: initialValue,
             command: listMultipartUploads,
-            tokenKey: \ListMultipartUploadsOutput.marker,
+            inputKey: \ListMultipartUploadsInput.marker,
+            outputKey: \ListMultipartUploadsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Glacier {
         return client.paginate(
             input: input,
             command: listMultipartUploads,
-            tokenKey: \ListMultipartUploadsOutput.marker,
+            inputKey: \ListMultipartUploadsInput.marker,
+            outputKey: \ListMultipartUploadsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Glacier {
             input: input,
             initialValue: initialValue,
             command: listParts,
-            tokenKey: \ListPartsOutput.marker,
+            inputKey: \ListPartsInput.marker,
+            outputKey: \ListPartsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Glacier {
         return client.paginate(
             input: input,
             command: listParts,
-            tokenKey: \ListPartsOutput.marker,
+            inputKey: \ListPartsInput.marker,
+            outputKey: \ListPartsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Glacier {
             input: input,
             initialValue: initialValue,
             command: listVaults,
-            tokenKey: \ListVaultsOutput.marker,
+            inputKey: \ListVaultsInput.marker,
+            outputKey: \ListVaultsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Glacier {
         return client.paginate(
             input: input,
             command: listVaults,
-            tokenKey: \ListVaultsOutput.marker,
+            inputKey: \ListVaultsInput.marker,
+            outputKey: \ListVaultsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )

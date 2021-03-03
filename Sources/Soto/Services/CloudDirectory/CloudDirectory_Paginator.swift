@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listAppliedSchemaArns,
-            tokenKey: \ListAppliedSchemaArnsResponse.nextToken,
+            inputKey: \ListAppliedSchemaArnsRequest.nextToken,
+            outputKey: \ListAppliedSchemaArnsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listAppliedSchemaArns,
-            tokenKey: \ListAppliedSchemaArnsResponse.nextToken,
+            inputKey: \ListAppliedSchemaArnsRequest.nextToken,
+            outputKey: \ListAppliedSchemaArnsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listAttachedIndices,
-            tokenKey: \ListAttachedIndicesResponse.nextToken,
+            inputKey: \ListAttachedIndicesRequest.nextToken,
+            outputKey: \ListAttachedIndicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listAttachedIndices,
-            tokenKey: \ListAttachedIndicesResponse.nextToken,
+            inputKey: \ListAttachedIndicesRequest.nextToken,
+            outputKey: \ListAttachedIndicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listDevelopmentSchemaArns,
-            tokenKey: \ListDevelopmentSchemaArnsResponse.nextToken,
+            inputKey: \ListDevelopmentSchemaArnsRequest.nextToken,
+            outputKey: \ListDevelopmentSchemaArnsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listDevelopmentSchemaArns,
-            tokenKey: \ListDevelopmentSchemaArnsResponse.nextToken,
+            inputKey: \ListDevelopmentSchemaArnsRequest.nextToken,
+            outputKey: \ListDevelopmentSchemaArnsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listDirectories,
-            tokenKey: \ListDirectoriesResponse.nextToken,
+            inputKey: \ListDirectoriesRequest.nextToken,
+            outputKey: \ListDirectoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listDirectories,
-            tokenKey: \ListDirectoriesResponse.nextToken,
+            inputKey: \ListDirectoriesRequest.nextToken,
+            outputKey: \ListDirectoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listFacetAttributes,
-            tokenKey: \ListFacetAttributesResponse.nextToken,
+            inputKey: \ListFacetAttributesRequest.nextToken,
+            outputKey: \ListFacetAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listFacetAttributes,
-            tokenKey: \ListFacetAttributesResponse.nextToken,
+            inputKey: \ListFacetAttributesRequest.nextToken,
+            outputKey: \ListFacetAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listFacetNames,
-            tokenKey: \ListFacetNamesResponse.nextToken,
+            inputKey: \ListFacetNamesRequest.nextToken,
+            outputKey: \ListFacetNamesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listFacetNames,
-            tokenKey: \ListFacetNamesResponse.nextToken,
+            inputKey: \ListFacetNamesRequest.nextToken,
+            outputKey: \ListFacetNamesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listIndex,
-            tokenKey: \ListIndexResponse.nextToken,
+            inputKey: \ListIndexRequest.nextToken,
+            outputKey: \ListIndexResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listIndex,
-            tokenKey: \ListIndexResponse.nextToken,
+            inputKey: \ListIndexRequest.nextToken,
+            outputKey: \ListIndexResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listManagedSchemaArns,
-            tokenKey: \ListManagedSchemaArnsResponse.nextToken,
+            inputKey: \ListManagedSchemaArnsRequest.nextToken,
+            outputKey: \ListManagedSchemaArnsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listManagedSchemaArns,
-            tokenKey: \ListManagedSchemaArnsResponse.nextToken,
+            inputKey: \ListManagedSchemaArnsRequest.nextToken,
+            outputKey: \ListManagedSchemaArnsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listObjectAttributes,
-            tokenKey: \ListObjectAttributesResponse.nextToken,
+            inputKey: \ListObjectAttributesRequest.nextToken,
+            outputKey: \ListObjectAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listObjectAttributes,
-            tokenKey: \ListObjectAttributesResponse.nextToken,
+            inputKey: \ListObjectAttributesRequest.nextToken,
+            outputKey: \ListObjectAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listObjectChildren,
-            tokenKey: \ListObjectChildrenResponse.nextToken,
+            inputKey: \ListObjectChildrenRequest.nextToken,
+            outputKey: \ListObjectChildrenResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listObjectChildren,
-            tokenKey: \ListObjectChildrenResponse.nextToken,
+            inputKey: \ListObjectChildrenRequest.nextToken,
+            outputKey: \ListObjectChildrenResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listObjectParentPaths,
-            tokenKey: \ListObjectParentPathsResponse.nextToken,
+            inputKey: \ListObjectParentPathsRequest.nextToken,
+            outputKey: \ListObjectParentPathsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listObjectParentPaths,
-            tokenKey: \ListObjectParentPathsResponse.nextToken,
+            inputKey: \ListObjectParentPathsRequest.nextToken,
+            outputKey: \ListObjectParentPathsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listObjectParents,
-            tokenKey: \ListObjectParentsResponse.nextToken,
+            inputKey: \ListObjectParentsRequest.nextToken,
+            outputKey: \ListObjectParentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listObjectParents,
-            tokenKey: \ListObjectParentsResponse.nextToken,
+            inputKey: \ListObjectParentsRequest.nextToken,
+            outputKey: \ListObjectParentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listObjectPolicies,
-            tokenKey: \ListObjectPoliciesResponse.nextToken,
+            inputKey: \ListObjectPoliciesRequest.nextToken,
+            outputKey: \ListObjectPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listObjectPolicies,
-            tokenKey: \ListObjectPoliciesResponse.nextToken,
+            inputKey: \ListObjectPoliciesRequest.nextToken,
+            outputKey: \ListObjectPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listPolicyAttachments,
-            tokenKey: \ListPolicyAttachmentsResponse.nextToken,
+            inputKey: \ListPolicyAttachmentsRequest.nextToken,
+            outputKey: \ListPolicyAttachmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listPolicyAttachments,
-            tokenKey: \ListPolicyAttachmentsResponse.nextToken,
+            inputKey: \ListPolicyAttachmentsRequest.nextToken,
+            outputKey: \ListPolicyAttachmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listPublishedSchemaArns,
-            tokenKey: \ListPublishedSchemaArnsResponse.nextToken,
+            inputKey: \ListPublishedSchemaArnsRequest.nextToken,
+            outputKey: \ListPublishedSchemaArnsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listPublishedSchemaArns,
-            tokenKey: \ListPublishedSchemaArnsResponse.nextToken,
+            inputKey: \ListPublishedSchemaArnsRequest.nextToken,
+            outputKey: \ListPublishedSchemaArnsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listTypedLinkFacetAttributes,
-            tokenKey: \ListTypedLinkFacetAttributesResponse.nextToken,
+            inputKey: \ListTypedLinkFacetAttributesRequest.nextToken,
+            outputKey: \ListTypedLinkFacetAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listTypedLinkFacetAttributes,
-            tokenKey: \ListTypedLinkFacetAttributesResponse.nextToken,
+            inputKey: \ListTypedLinkFacetAttributesRequest.nextToken,
+            outputKey: \ListTypedLinkFacetAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: listTypedLinkFacetNames,
-            tokenKey: \ListTypedLinkFacetNamesResponse.nextToken,
+            inputKey: \ListTypedLinkFacetNamesRequest.nextToken,
+            outputKey: \ListTypedLinkFacetNamesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: listTypedLinkFacetNames,
-            tokenKey: \ListTypedLinkFacetNamesResponse.nextToken,
+            inputKey: \ListTypedLinkFacetNamesRequest.nextToken,
+            outputKey: \ListTypedLinkFacetNamesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension CloudDirectory {
             input: input,
             initialValue: initialValue,
             command: lookupPolicy,
-            tokenKey: \LookupPolicyResponse.nextToken,
+            inputKey: \LookupPolicyRequest.nextToken,
+            outputKey: \LookupPolicyResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension CloudDirectory {
         return client.paginate(
             input: input,
             command: lookupPolicy,
-            tokenKey: \LookupPolicyResponse.nextToken,
+            inputKey: \LookupPolicyRequest.nextToken,
+            outputKey: \LookupPolicyResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

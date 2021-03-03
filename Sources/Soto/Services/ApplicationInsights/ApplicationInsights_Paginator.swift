@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ApplicationInsights {
             input: input,
             initialValue: initialValue,
             command: listApplications,
-            tokenKey: \ListApplicationsResponse.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ApplicationInsights {
         return client.paginate(
             input: input,
             command: listApplications,
-            tokenKey: \ListApplicationsResponse.nextToken,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ApplicationInsights {
             input: input,
             initialValue: initialValue,
             command: listComponents,
-            tokenKey: \ListComponentsResponse.nextToken,
+            inputKey: \ListComponentsRequest.nextToken,
+            outputKey: \ListComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ApplicationInsights {
         return client.paginate(
             input: input,
             command: listComponents,
-            tokenKey: \ListComponentsResponse.nextToken,
+            inputKey: \ListComponentsRequest.nextToken,
+            outputKey: \ListComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ApplicationInsights {
             input: input,
             initialValue: initialValue,
             command: listConfigurationHistory,
-            tokenKey: \ListConfigurationHistoryResponse.nextToken,
+            inputKey: \ListConfigurationHistoryRequest.nextToken,
+            outputKey: \ListConfigurationHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ApplicationInsights {
         return client.paginate(
             input: input,
             command: listConfigurationHistory,
-            tokenKey: \ListConfigurationHistoryResponse.nextToken,
+            inputKey: \ListConfigurationHistoryRequest.nextToken,
+            outputKey: \ListConfigurationHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ApplicationInsights {
             input: input,
             initialValue: initialValue,
             command: listLogPatternSets,
-            tokenKey: \ListLogPatternSetsResponse.nextToken,
+            inputKey: \ListLogPatternSetsRequest.nextToken,
+            outputKey: \ListLogPatternSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ApplicationInsights {
         return client.paginate(
             input: input,
             command: listLogPatternSets,
-            tokenKey: \ListLogPatternSetsResponse.nextToken,
+            inputKey: \ListLogPatternSetsRequest.nextToken,
+            outputKey: \ListLogPatternSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ApplicationInsights {
             input: input,
             initialValue: initialValue,
             command: listLogPatterns,
-            tokenKey: \ListLogPatternsResponse.nextToken,
+            inputKey: \ListLogPatternsRequest.nextToken,
+            outputKey: \ListLogPatternsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ApplicationInsights {
         return client.paginate(
             input: input,
             command: listLogPatterns,
-            tokenKey: \ListLogPatternsResponse.nextToken,
+            inputKey: \ListLogPatternsRequest.nextToken,
+            outputKey: \ListLogPatternsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension ApplicationInsights {
             input: input,
             initialValue: initialValue,
             command: listProblems,
-            tokenKey: \ListProblemsResponse.nextToken,
+            inputKey: \ListProblemsRequest.nextToken,
+            outputKey: \ListProblemsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension ApplicationInsights {
         return client.paginate(
             input: input,
             command: listProblems,
-            tokenKey: \ListProblemsResponse.nextToken,
+            inputKey: \ListProblemsRequest.nextToken,
+            outputKey: \ListProblemsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

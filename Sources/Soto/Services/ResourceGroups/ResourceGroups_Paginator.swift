@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ResourceGroups {
             input: input,
             initialValue: initialValue,
             command: listGroupResources,
-            tokenKey: \ListGroupResourcesOutput.nextToken,
+            inputKey: \ListGroupResourcesInput.nextToken,
+            outputKey: \ListGroupResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ResourceGroups {
         return client.paginate(
             input: input,
             command: listGroupResources,
-            tokenKey: \ListGroupResourcesOutput.nextToken,
+            inputKey: \ListGroupResourcesInput.nextToken,
+            outputKey: \ListGroupResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ResourceGroups {
             input: input,
             initialValue: initialValue,
             command: listGroups,
-            tokenKey: \ListGroupsOutput.nextToken,
+            inputKey: \ListGroupsInput.nextToken,
+            outputKey: \ListGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ResourceGroups {
         return client.paginate(
             input: input,
             command: listGroups,
-            tokenKey: \ListGroupsOutput.nextToken,
+            inputKey: \ListGroupsInput.nextToken,
+            outputKey: \ListGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ResourceGroups {
             input: input,
             initialValue: initialValue,
             command: searchResources,
-            tokenKey: \SearchResourcesOutput.nextToken,
+            inputKey: \SearchResourcesInput.nextToken,
+            outputKey: \SearchResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ResourceGroups {
         return client.paginate(
             input: input,
             command: searchResources,
-            tokenKey: \SearchResourcesOutput.nextToken,
+            inputKey: \SearchResourcesInput.nextToken,
+            outputKey: \SearchResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

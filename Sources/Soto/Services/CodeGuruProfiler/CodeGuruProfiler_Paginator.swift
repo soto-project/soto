@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension CodeGuruProfiler {
             input: input,
             initialValue: initialValue,
             command: getFindingsReportAccountSummary,
-            tokenKey: \GetFindingsReportAccountSummaryResponse.nextToken,
+            inputKey: \GetFindingsReportAccountSummaryRequest.nextToken,
+            outputKey: \GetFindingsReportAccountSummaryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CodeGuruProfiler {
         return client.paginate(
             input: input,
             command: getFindingsReportAccountSummary,
-            tokenKey: \GetFindingsReportAccountSummaryResponse.nextToken,
+            inputKey: \GetFindingsReportAccountSummaryRequest.nextToken,
+            outputKey: \GetFindingsReportAccountSummaryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CodeGuruProfiler {
             input: input,
             initialValue: initialValue,
             command: listFindingsReports,
-            tokenKey: \ListFindingsReportsResponse.nextToken,
+            inputKey: \ListFindingsReportsRequest.nextToken,
+            outputKey: \ListFindingsReportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CodeGuruProfiler {
         return client.paginate(
             input: input,
             command: listFindingsReports,
-            tokenKey: \ListFindingsReportsResponse.nextToken,
+            inputKey: \ListFindingsReportsRequest.nextToken,
+            outputKey: \ListFindingsReportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CodeGuruProfiler {
             input: input,
             initialValue: initialValue,
             command: listProfileTimes,
-            tokenKey: \ListProfileTimesResponse.nextToken,
+            inputKey: \ListProfileTimesRequest.nextToken,
+            outputKey: \ListProfileTimesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CodeGuruProfiler {
         return client.paginate(
             input: input,
             command: listProfileTimes,
-            tokenKey: \ListProfileTimesResponse.nextToken,
+            inputKey: \ListProfileTimesRequest.nextToken,
+            outputKey: \ListProfileTimesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CodeGuruProfiler {
             input: input,
             initialValue: initialValue,
             command: listProfilingGroups,
-            tokenKey: \ListProfilingGroupsResponse.nextToken,
+            inputKey: \ListProfilingGroupsRequest.nextToken,
+            outputKey: \ListProfilingGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CodeGuruProfiler {
         return client.paginate(
             input: input,
             command: listProfilingGroups,
-            tokenKey: \ListProfilingGroupsResponse.nextToken,
+            inputKey: \ListProfilingGroupsRequest.nextToken,
+            outputKey: \ListProfilingGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

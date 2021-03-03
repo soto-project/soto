@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension CodeDeploy {
             input: input,
             initialValue: initialValue,
             command: listApplicationRevisions,
-            tokenKey: \ListApplicationRevisionsOutput.nextToken,
+            inputKey: \ListApplicationRevisionsInput.nextToken,
+            outputKey: \ListApplicationRevisionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CodeDeploy {
         return client.paginate(
             input: input,
             command: listApplicationRevisions,
-            tokenKey: \ListApplicationRevisionsOutput.nextToken,
+            inputKey: \ListApplicationRevisionsInput.nextToken,
+            outputKey: \ListApplicationRevisionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CodeDeploy {
             input: input,
             initialValue: initialValue,
             command: listApplications,
-            tokenKey: \ListApplicationsOutput.nextToken,
+            inputKey: \ListApplicationsInput.nextToken,
+            outputKey: \ListApplicationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CodeDeploy {
         return client.paginate(
             input: input,
             command: listApplications,
-            tokenKey: \ListApplicationsOutput.nextToken,
+            inputKey: \ListApplicationsInput.nextToken,
+            outputKey: \ListApplicationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CodeDeploy {
             input: input,
             initialValue: initialValue,
             command: listDeploymentConfigs,
-            tokenKey: \ListDeploymentConfigsOutput.nextToken,
+            inputKey: \ListDeploymentConfigsInput.nextToken,
+            outputKey: \ListDeploymentConfigsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CodeDeploy {
         return client.paginate(
             input: input,
             command: listDeploymentConfigs,
-            tokenKey: \ListDeploymentConfigsOutput.nextToken,
+            inputKey: \ListDeploymentConfigsInput.nextToken,
+            outputKey: \ListDeploymentConfigsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CodeDeploy {
             input: input,
             initialValue: initialValue,
             command: listDeploymentGroups,
-            tokenKey: \ListDeploymentGroupsOutput.nextToken,
+            inputKey: \ListDeploymentGroupsInput.nextToken,
+            outputKey: \ListDeploymentGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CodeDeploy {
         return client.paginate(
             input: input,
             command: listDeploymentGroups,
-            tokenKey: \ListDeploymentGroupsOutput.nextToken,
+            inputKey: \ListDeploymentGroupsInput.nextToken,
+            outputKey: \ListDeploymentGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -247,7 +255,8 @@ extension CodeDeploy {
             input: input,
             initialValue: initialValue,
             command: listDeploymentInstances,
-            tokenKey: \ListDeploymentInstancesOutput.nextToken,
+            inputKey: \ListDeploymentInstancesInput.nextToken,
+            outputKey: \ListDeploymentInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -270,7 +279,8 @@ extension CodeDeploy {
         return client.paginate(
             input: input,
             command: listDeploymentInstances,
-            tokenKey: \ListDeploymentInstancesOutput.nextToken,
+            inputKey: \ListDeploymentInstancesInput.nextToken,
+            outputKey: \ListDeploymentInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -299,7 +309,8 @@ extension CodeDeploy {
             input: input,
             initialValue: initialValue,
             command: listDeployments,
-            tokenKey: \ListDeploymentsOutput.nextToken,
+            inputKey: \ListDeploymentsInput.nextToken,
+            outputKey: \ListDeploymentsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -321,7 +332,8 @@ extension CodeDeploy {
         return client.paginate(
             input: input,
             command: listDeployments,
-            tokenKey: \ListDeploymentsOutput.nextToken,
+            inputKey: \ListDeploymentsInput.nextToken,
+            outputKey: \ListDeploymentsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

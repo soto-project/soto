@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Macie {
             input: input,
             initialValue: initialValue,
             command: listMemberAccounts,
-            tokenKey: \ListMemberAccountsResult.nextToken,
+            inputKey: \ListMemberAccountsRequest.nextToken,
+            outputKey: \ListMemberAccountsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Macie {
         return client.paginate(
             input: input,
             command: listMemberAccounts,
-            tokenKey: \ListMemberAccountsResult.nextToken,
+            inputKey: \ListMemberAccountsRequest.nextToken,
+            outputKey: \ListMemberAccountsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Macie {
             input: input,
             initialValue: initialValue,
             command: listS3Resources,
-            tokenKey: \ListS3ResourcesResult.nextToken,
+            inputKey: \ListS3ResourcesRequest.nextToken,
+            outputKey: \ListS3ResourcesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Macie {
         return client.paginate(
             input: input,
             command: listS3Resources,
-            tokenKey: \ListS3ResourcesResult.nextToken,
+            inputKey: \ListS3ResourcesRequest.nextToken,
+            outputKey: \ListS3ResourcesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

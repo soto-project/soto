@@ -141,8 +141,9 @@ extension AWSService {
 
     struct PaginatorContext {
         let operation: OperationContext
-        let output: String
-        let moreResults: String?
+        let inputKey: String?
+        let outputKey: String
+        let moreResultsKey: String?
         let initParams: [String]
         let paginatorProtocol: String
         let tokenType: String
@@ -418,12 +419,28 @@ extension AWSService {
             let paginatorProtocol = "AWSPaginateToken"
             let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(self.api.serviceName)
 
+            // process input tokens
+            var processedInputTokens = inputTokens.map { (token) -> String in
+                return self.toKeyPath(token: token, type: inputStructure)
+            }
+
             // process output tokens
             let processedOutputTokens = outputTokens.map { (token) -> String in
                 return self.toKeyPath(token: token, type: outputStructure)
             }
-            let moreResultsKey = paginator.value.moreResults.map { self.toKeyPath(token: $0, type: outputStructure) }
+            var moreResultsKey = paginator.value.moreResults.map { self.toKeyPath(token: $0, type: outputStructure) }
 
+            // S3 uses moreResultKey, everything else uses inputToken
+            if self.api.serviceName == "S3" {
+                if moreResultsKey != nil {
+                    processedInputTokens = []
+                }
+            } else {
+                moreResultsKey = nil
+            }
+            if self.api.serviceName == "DynamoDB" {
+                processedInputTokens = []
+            }
             var initParams: [String: String] = [:]
             for member in inputStructure.members {
                 initParams[member.key.toSwiftLabelCase()] = "self.\(member.key.toSwiftLabelCase())"
@@ -433,8 +450,9 @@ extension AWSService {
             paginatorContexts.append(
                 PaginatorContext(
                     operation: self.generateOperationContext(operation, name: paginator.key, streaming: false),
-                    output: processedOutputTokens[0],
-                    moreResults: moreResultsKey,
+                    inputKey: processedInputTokens.first,
+                    outputKey: processedOutputTokens[0],
+                    moreResultsKey: moreResultsKey,
                     initParams: initParamsArray,
                     paginatorProtocol: paginatorProtocol,
                     tokenType: tokenType

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension WorkDocs {
             input: input,
             initialValue: initialValue,
             command: describeDocumentVersions,
-            tokenKey: \DescribeDocumentVersionsResponse.marker,
+            inputKey: \DescribeDocumentVersionsRequest.marker,
+            outputKey: \DescribeDocumentVersionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension WorkDocs {
         return client.paginate(
             input: input,
             command: describeDocumentVersions,
-            tokenKey: \DescribeDocumentVersionsResponse.marker,
+            inputKey: \DescribeDocumentVersionsRequest.marker,
+            outputKey: \DescribeDocumentVersionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension WorkDocs {
             input: input,
             initialValue: initialValue,
             command: describeFolderContents,
-            tokenKey: \DescribeFolderContentsResponse.marker,
+            inputKey: \DescribeFolderContentsRequest.marker,
+            outputKey: \DescribeFolderContentsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension WorkDocs {
         return client.paginate(
             input: input,
             command: describeFolderContents,
-            tokenKey: \DescribeFolderContentsResponse.marker,
+            inputKey: \DescribeFolderContentsRequest.marker,
+            outputKey: \DescribeFolderContentsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension WorkDocs {
             input: input,
             initialValue: initialValue,
             command: describeUsers,
-            tokenKey: \DescribeUsersResponse.marker,
+            inputKey: \DescribeUsersRequest.marker,
+            outputKey: \DescribeUsersResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension WorkDocs {
         return client.paginate(
             input: input,
             command: describeUsers,
-            tokenKey: \DescribeUsersResponse.marker,
+            inputKey: \DescribeUsersRequest.marker,
+            outputKey: \DescribeUsersResponse.marker,
             on: eventLoop,
             onPage: onPage
         )

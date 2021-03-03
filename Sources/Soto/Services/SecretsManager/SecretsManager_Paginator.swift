@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension SecretsManager {
             input: input,
             initialValue: initialValue,
             command: listSecretVersionIds,
-            tokenKey: \ListSecretVersionIdsResponse.nextToken,
+            inputKey: \ListSecretVersionIdsRequest.nextToken,
+            outputKey: \ListSecretVersionIdsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SecretsManager {
         return client.paginate(
             input: input,
             command: listSecretVersionIds,
-            tokenKey: \ListSecretVersionIdsResponse.nextToken,
+            inputKey: \ListSecretVersionIdsRequest.nextToken,
+            outputKey: \ListSecretVersionIdsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SecretsManager {
             input: input,
             initialValue: initialValue,
             command: listSecrets,
-            tokenKey: \ListSecretsResponse.nextToken,
+            inputKey: \ListSecretsRequest.nextToken,
+            outputKey: \ListSecretsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SecretsManager {
         return client.paginate(
             input: input,
             command: listSecrets,
-            tokenKey: \ListSecretsResponse.nextToken,
+            inputKey: \ListSecretsRequest.nextToken,
+            outputKey: \ListSecretsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

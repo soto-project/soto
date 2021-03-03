@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeCertificates,
-            tokenKey: \CertificateMessage.marker,
+            inputKey: \DescribeCertificatesMessage.marker,
+            outputKey: \CertificateMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeCertificates,
-            tokenKey: \CertificateMessage.marker,
+            inputKey: \DescribeCertificatesMessage.marker,
+            outputKey: \CertificateMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeCustomAvailabilityZones,
-            tokenKey: \CustomAvailabilityZoneMessage.marker,
+            inputKey: \DescribeCustomAvailabilityZonesMessage.marker,
+            outputKey: \CustomAvailabilityZoneMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeCustomAvailabilityZones,
-            tokenKey: \CustomAvailabilityZoneMessage.marker,
+            inputKey: \DescribeCustomAvailabilityZonesMessage.marker,
+            outputKey: \CustomAvailabilityZoneMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBClusterBacktracks,
-            tokenKey: \DBClusterBacktrackMessage.marker,
+            inputKey: \DescribeDBClusterBacktracksMessage.marker,
+            outputKey: \DBClusterBacktrackMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBClusterBacktracks,
-            tokenKey: \DBClusterBacktrackMessage.marker,
+            inputKey: \DescribeDBClusterBacktracksMessage.marker,
+            outputKey: \DBClusterBacktrackMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBClusterEndpoints,
-            tokenKey: \DBClusterEndpointMessage.marker,
+            inputKey: \DescribeDBClusterEndpointsMessage.marker,
+            outputKey: \DBClusterEndpointMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBClusterEndpoints,
-            tokenKey: \DBClusterEndpointMessage.marker,
+            inputKey: \DescribeDBClusterEndpointsMessage.marker,
+            outputKey: \DBClusterEndpointMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBClusterParameterGroups,
-            tokenKey: \DBClusterParameterGroupsMessage.marker,
+            inputKey: \DescribeDBClusterParameterGroupsMessage.marker,
+            outputKey: \DBClusterParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBClusterParameterGroups,
-            tokenKey: \DBClusterParameterGroupsMessage.marker,
+            inputKey: \DescribeDBClusterParameterGroupsMessage.marker,
+            outputKey: \DBClusterParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBClusterParameters,
-            tokenKey: \DBClusterParameterGroupDetails.marker,
+            inputKey: \DescribeDBClusterParametersMessage.marker,
+            outputKey: \DBClusterParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBClusterParameters,
-            tokenKey: \DBClusterParameterGroupDetails.marker,
+            inputKey: \DescribeDBClusterParametersMessage.marker,
+            outputKey: \DBClusterParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBClusterSnapshots,
-            tokenKey: \DBClusterSnapshotMessage.marker,
+            inputKey: \DescribeDBClusterSnapshotsMessage.marker,
+            outputKey: \DBClusterSnapshotMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBClusterSnapshots,
-            tokenKey: \DBClusterSnapshotMessage.marker,
+            inputKey: \DescribeDBClusterSnapshotsMessage.marker,
+            outputKey: \DBClusterSnapshotMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBClusters,
-            tokenKey: \DBClusterMessage.marker,
+            inputKey: \DescribeDBClustersMessage.marker,
+            outputKey: \DBClusterMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBClusters,
-            tokenKey: \DBClusterMessage.marker,
+            inputKey: \DescribeDBClustersMessage.marker,
+            outputKey: \DBClusterMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBEngineVersions,
-            tokenKey: \DBEngineVersionMessage.marker,
+            inputKey: \DescribeDBEngineVersionsMessage.marker,
+            outputKey: \DBEngineVersionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBEngineVersions,
-            tokenKey: \DBEngineVersionMessage.marker,
+            inputKey: \DescribeDBEngineVersionsMessage.marker,
+            outputKey: \DBEngineVersionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBInstanceAutomatedBackups,
-            tokenKey: \DBInstanceAutomatedBackupMessage.marker,
+            inputKey: \DescribeDBInstanceAutomatedBackupsMessage.marker,
+            outputKey: \DBInstanceAutomatedBackupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBInstanceAutomatedBackups,
-            tokenKey: \DBInstanceAutomatedBackupMessage.marker,
+            inputKey: \DescribeDBInstanceAutomatedBackupsMessage.marker,
+            outputKey: \DBInstanceAutomatedBackupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBInstances,
-            tokenKey: \DBInstanceMessage.marker,
+            inputKey: \DescribeDBInstancesMessage.marker,
+            outputKey: \DBInstanceMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBInstances,
-            tokenKey: \DBInstanceMessage.marker,
+            inputKey: \DescribeDBInstancesMessage.marker,
+            outputKey: \DBInstanceMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBLogFiles,
-            tokenKey: \DescribeDBLogFilesResponse.marker,
+            inputKey: \DescribeDBLogFilesMessage.marker,
+            outputKey: \DescribeDBLogFilesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBLogFiles,
-            tokenKey: \DescribeDBLogFilesResponse.marker,
+            inputKey: \DescribeDBLogFilesMessage.marker,
+            outputKey: \DescribeDBLogFilesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBParameterGroups,
-            tokenKey: \DBParameterGroupsMessage.marker,
+            inputKey: \DescribeDBParameterGroupsMessage.marker,
+            outputKey: \DBParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBParameterGroups,
-            tokenKey: \DBParameterGroupsMessage.marker,
+            inputKey: \DescribeDBParameterGroupsMessage.marker,
+            outputKey: \DBParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBParameters,
-            tokenKey: \DBParameterGroupDetails.marker,
+            inputKey: \DescribeDBParametersMessage.marker,
+            outputKey: \DBParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBParameters,
-            tokenKey: \DBParameterGroupDetails.marker,
+            inputKey: \DescribeDBParametersMessage.marker,
+            outputKey: \DBParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBProxies,
-            tokenKey: \DescribeDBProxiesResponse.marker,
+            inputKey: \DescribeDBProxiesRequest.marker,
+            outputKey: \DescribeDBProxiesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBProxies,
-            tokenKey: \DescribeDBProxiesResponse.marker,
+            inputKey: \DescribeDBProxiesRequest.marker,
+            outputKey: \DescribeDBProxiesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBProxyTargetGroups,
-            tokenKey: \DescribeDBProxyTargetGroupsResponse.marker,
+            inputKey: \DescribeDBProxyTargetGroupsRequest.marker,
+            outputKey: \DescribeDBProxyTargetGroupsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBProxyTargetGroups,
-            tokenKey: \DescribeDBProxyTargetGroupsResponse.marker,
+            inputKey: \DescribeDBProxyTargetGroupsRequest.marker,
+            outputKey: \DescribeDBProxyTargetGroupsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBProxyTargets,
-            tokenKey: \DescribeDBProxyTargetsResponse.marker,
+            inputKey: \DescribeDBProxyTargetsRequest.marker,
+            outputKey: \DescribeDBProxyTargetsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBProxyTargets,
-            tokenKey: \DescribeDBProxyTargetsResponse.marker,
+            inputKey: \DescribeDBProxyTargetsRequest.marker,
+            outputKey: \DescribeDBProxyTargetsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBSecurityGroups,
-            tokenKey: \DBSecurityGroupMessage.marker,
+            inputKey: \DescribeDBSecurityGroupsMessage.marker,
+            outputKey: \DBSecurityGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBSecurityGroups,
-            tokenKey: \DBSecurityGroupMessage.marker,
+            inputKey: \DescribeDBSecurityGroupsMessage.marker,
+            outputKey: \DBSecurityGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBSnapshots,
-            tokenKey: \DBSnapshotMessage.marker,
+            inputKey: \DescribeDBSnapshotsMessage.marker,
+            outputKey: \DBSnapshotMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBSnapshots,
-            tokenKey: \DBSnapshotMessage.marker,
+            inputKey: \DescribeDBSnapshotsMessage.marker,
+            outputKey: \DBSnapshotMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1049,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeDBSubnetGroups,
-            tokenKey: \DBSubnetGroupMessage.marker,
+            inputKey: \DescribeDBSubnetGroupsMessage.marker,
+            outputKey: \DBSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1072,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeDBSubnetGroups,
-            tokenKey: \DBSubnetGroupMessage.marker,
+            inputKey: \DescribeDBSubnetGroupsMessage.marker,
+            outputKey: \DBSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1062,7 +1102,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeEngineDefaultParameters,
-            tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            inputKey: \DescribeEngineDefaultParametersMessage.marker,
+            outputKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1084,7 +1125,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeEngineDefaultParameters,
-            tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            inputKey: \DescribeEngineDefaultParametersMessage.marker,
+            outputKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,7 +1155,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeEventSubscriptions,
-            tokenKey: \EventSubscriptionsMessage.marker,
+            inputKey: \DescribeEventSubscriptionsMessage.marker,
+            outputKey: \EventSubscriptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1135,7 +1178,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeEventSubscriptions,
-            tokenKey: \EventSubscriptionsMessage.marker,
+            inputKey: \DescribeEventSubscriptionsMessage.marker,
+            outputKey: \EventSubscriptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1164,7 +1208,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1186,7 +1231,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1215,7 +1261,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeExportTasks,
-            tokenKey: \ExportTasksMessage.marker,
+            inputKey: \DescribeExportTasksMessage.marker,
+            outputKey: \ExportTasksMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1237,7 +1284,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeExportTasks,
-            tokenKey: \ExportTasksMessage.marker,
+            inputKey: \DescribeExportTasksMessage.marker,
+            outputKey: \ExportTasksMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1266,7 +1314,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeGlobalClusters,
-            tokenKey: \GlobalClustersMessage.marker,
+            inputKey: \DescribeGlobalClustersMessage.marker,
+            outputKey: \GlobalClustersMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1288,7 +1337,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeGlobalClusters,
-            tokenKey: \GlobalClustersMessage.marker,
+            inputKey: \DescribeGlobalClustersMessage.marker,
+            outputKey: \GlobalClustersMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1317,7 +1367,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeInstallationMedia,
-            tokenKey: \InstallationMediaMessage.marker,
+            inputKey: \DescribeInstallationMediaMessage.marker,
+            outputKey: \InstallationMediaMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1339,7 +1390,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeInstallationMedia,
-            tokenKey: \InstallationMediaMessage.marker,
+            inputKey: \DescribeInstallationMediaMessage.marker,
+            outputKey: \InstallationMediaMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1368,7 +1420,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeOptionGroupOptions,
-            tokenKey: \OptionGroupOptionsMessage.marker,
+            inputKey: \DescribeOptionGroupOptionsMessage.marker,
+            outputKey: \OptionGroupOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1390,7 +1443,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeOptionGroupOptions,
-            tokenKey: \OptionGroupOptionsMessage.marker,
+            inputKey: \DescribeOptionGroupOptionsMessage.marker,
+            outputKey: \OptionGroupOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1419,7 +1473,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeOptionGroups,
-            tokenKey: \OptionGroups.marker,
+            inputKey: \DescribeOptionGroupsMessage.marker,
+            outputKey: \OptionGroups.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1441,7 +1496,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeOptionGroups,
-            tokenKey: \OptionGroups.marker,
+            inputKey: \DescribeOptionGroupsMessage.marker,
+            outputKey: \OptionGroups.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1470,7 +1526,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeOrderableDBInstanceOptions,
-            tokenKey: \OrderableDBInstanceOptionsMessage.marker,
+            inputKey: \DescribeOrderableDBInstanceOptionsMessage.marker,
+            outputKey: \OrderableDBInstanceOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1492,7 +1549,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeOrderableDBInstanceOptions,
-            tokenKey: \OrderableDBInstanceOptionsMessage.marker,
+            inputKey: \DescribeOrderableDBInstanceOptionsMessage.marker,
+            outputKey: \OrderableDBInstanceOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1521,7 +1579,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describePendingMaintenanceActions,
-            tokenKey: \PendingMaintenanceActionsMessage.marker,
+            inputKey: \DescribePendingMaintenanceActionsMessage.marker,
+            outputKey: \PendingMaintenanceActionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1543,7 +1602,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describePendingMaintenanceActions,
-            tokenKey: \PendingMaintenanceActionsMessage.marker,
+            inputKey: \DescribePendingMaintenanceActionsMessage.marker,
+            outputKey: \PendingMaintenanceActionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1572,7 +1632,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeReservedDBInstances,
-            tokenKey: \ReservedDBInstanceMessage.marker,
+            inputKey: \DescribeReservedDBInstancesMessage.marker,
+            outputKey: \ReservedDBInstanceMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1594,7 +1655,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeReservedDBInstances,
-            tokenKey: \ReservedDBInstanceMessage.marker,
+            inputKey: \DescribeReservedDBInstancesMessage.marker,
+            outputKey: \ReservedDBInstanceMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1623,7 +1685,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeReservedDBInstancesOfferings,
-            tokenKey: \ReservedDBInstancesOfferingMessage.marker,
+            inputKey: \DescribeReservedDBInstancesOfferingsMessage.marker,
+            outputKey: \ReservedDBInstancesOfferingMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1645,7 +1708,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeReservedDBInstancesOfferings,
-            tokenKey: \ReservedDBInstancesOfferingMessage.marker,
+            inputKey: \DescribeReservedDBInstancesOfferingsMessage.marker,
+            outputKey: \ReservedDBInstancesOfferingMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1674,7 +1738,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: describeSourceRegions,
-            tokenKey: \SourceRegionMessage.marker,
+            inputKey: \DescribeSourceRegionsMessage.marker,
+            outputKey: \SourceRegionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1696,7 +1761,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: describeSourceRegions,
-            tokenKey: \SourceRegionMessage.marker,
+            inputKey: \DescribeSourceRegionsMessage.marker,
+            outputKey: \SourceRegionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1725,8 +1791,8 @@ extension RDS {
             input: input,
             initialValue: initialValue,
             command: downloadDBLogFilePortion,
-            tokenKey: \DownloadDBLogFilePortionDetails.marker,
-            moreResultsKey: \DownloadDBLogFilePortionDetails.additionalDataPending,
+            inputKey: \DownloadDBLogFilePortionMessage.marker,
+            outputKey: \DownloadDBLogFilePortionDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1748,8 +1814,8 @@ extension RDS {
         return client.paginate(
             input: input,
             command: downloadDBLogFilePortion,
-            tokenKey: \DownloadDBLogFilePortionDetails.marker,
-            moreResultsKey: \DownloadDBLogFilePortionDetails.additionalDataPending,
+            inputKey: \DownloadDBLogFilePortionMessage.marker,
+            outputKey: \DownloadDBLogFilePortionDetails.marker,
             on: eventLoop,
             onPage: onPage
         )

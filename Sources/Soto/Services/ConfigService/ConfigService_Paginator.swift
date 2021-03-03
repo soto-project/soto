@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ConfigService {
             input: input,
             initialValue: initialValue,
             command: describeRemediationExceptions,
-            tokenKey: \DescribeRemediationExceptionsResponse.nextToken,
+            inputKey: \DescribeRemediationExceptionsRequest.nextToken,
+            outputKey: \DescribeRemediationExceptionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ConfigService {
         return client.paginate(
             input: input,
             command: describeRemediationExceptions,
-            tokenKey: \DescribeRemediationExceptionsResponse.nextToken,
+            inputKey: \DescribeRemediationExceptionsRequest.nextToken,
+            outputKey: \DescribeRemediationExceptionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ConfigService {
             input: input,
             initialValue: initialValue,
             command: describeRemediationExecutionStatus,
-            tokenKey: \DescribeRemediationExecutionStatusResponse.nextToken,
+            inputKey: \DescribeRemediationExecutionStatusRequest.nextToken,
+            outputKey: \DescribeRemediationExecutionStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ConfigService {
         return client.paginate(
             input: input,
             command: describeRemediationExecutionStatus,
-            tokenKey: \DescribeRemediationExecutionStatusResponse.nextToken,
+            inputKey: \DescribeRemediationExecutionStatusRequest.nextToken,
+            outputKey: \DescribeRemediationExecutionStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ConfigService {
             input: input,
             initialValue: initialValue,
             command: getResourceConfigHistory,
-            tokenKey: \GetResourceConfigHistoryResponse.nextToken,
+            inputKey: \GetResourceConfigHistoryRequest.nextToken,
+            outputKey: \GetResourceConfigHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ConfigService {
         return client.paginate(
             input: input,
             command: getResourceConfigHistory,
-            tokenKey: \GetResourceConfigHistoryResponse.nextToken,
+            inputKey: \GetResourceConfigHistoryRequest.nextToken,
+            outputKey: \GetResourceConfigHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ConfigService {
             input: input,
             initialValue: initialValue,
             command: listStoredQueries,
-            tokenKey: \ListStoredQueriesResponse.nextToken,
+            inputKey: \ListStoredQueriesRequest.nextToken,
+            outputKey: \ListStoredQueriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ConfigService {
         return client.paginate(
             input: input,
             command: listStoredQueries,
-            tokenKey: \ListStoredQueriesResponse.nextToken,
+            inputKey: \ListStoredQueriesRequest.nextToken,
+            outputKey: \ListStoredQueriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ConfigService {
             input: input,
             initialValue: initialValue,
             command: selectAggregateResourceConfig,
-            tokenKey: \SelectAggregateResourceConfigResponse.nextToken,
+            inputKey: \SelectAggregateResourceConfigRequest.nextToken,
+            outputKey: \SelectAggregateResourceConfigResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ConfigService {
         return client.paginate(
             input: input,
             command: selectAggregateResourceConfig,
-            tokenKey: \SelectAggregateResourceConfigResponse.nextToken,
+            inputKey: \SelectAggregateResourceConfigRequest.nextToken,
+            outputKey: \SelectAggregateResourceConfigResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

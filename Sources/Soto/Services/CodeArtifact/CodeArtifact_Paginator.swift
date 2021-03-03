@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension CodeArtifact {
             input: input,
             initialValue: initialValue,
             command: listDomains,
-            tokenKey: \ListDomainsResult.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CodeArtifact {
         return client.paginate(
             input: input,
             command: listDomains,
-            tokenKey: \ListDomainsResult.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CodeArtifact {
             input: input,
             initialValue: initialValue,
             command: listPackageVersionAssets,
-            tokenKey: \ListPackageVersionAssetsResult.nextToken,
+            inputKey: \ListPackageVersionAssetsRequest.nextToken,
+            outputKey: \ListPackageVersionAssetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CodeArtifact {
         return client.paginate(
             input: input,
             command: listPackageVersionAssets,
-            tokenKey: \ListPackageVersionAssetsResult.nextToken,
+            inputKey: \ListPackageVersionAssetsRequest.nextToken,
+            outputKey: \ListPackageVersionAssetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CodeArtifact {
             input: input,
             initialValue: initialValue,
             command: listPackageVersions,
-            tokenKey: \ListPackageVersionsResult.nextToken,
+            inputKey: \ListPackageVersionsRequest.nextToken,
+            outputKey: \ListPackageVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CodeArtifact {
         return client.paginate(
             input: input,
             command: listPackageVersions,
-            tokenKey: \ListPackageVersionsResult.nextToken,
+            inputKey: \ListPackageVersionsRequest.nextToken,
+            outputKey: \ListPackageVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CodeArtifact {
             input: input,
             initialValue: initialValue,
             command: listPackages,
-            tokenKey: \ListPackagesResult.nextToken,
+            inputKey: \ListPackagesRequest.nextToken,
+            outputKey: \ListPackagesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CodeArtifact {
         return client.paginate(
             input: input,
             command: listPackages,
-            tokenKey: \ListPackagesResult.nextToken,
+            inputKey: \ListPackagesRequest.nextToken,
+            outputKey: \ListPackagesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension CodeArtifact {
             input: input,
             initialValue: initialValue,
             command: listRepositories,
-            tokenKey: \ListRepositoriesResult.nextToken,
+            inputKey: \ListRepositoriesRequest.nextToken,
+            outputKey: \ListRepositoriesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension CodeArtifact {
         return client.paginate(
             input: input,
             command: listRepositories,
-            tokenKey: \ListRepositoriesResult.nextToken,
+            inputKey: \ListRepositoriesRequest.nextToken,
+            outputKey: \ListRepositoriesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension CodeArtifact {
             input: input,
             initialValue: initialValue,
             command: listRepositoriesInDomain,
-            tokenKey: \ListRepositoriesInDomainResult.nextToken,
+            inputKey: \ListRepositoriesInDomainRequest.nextToken,
+            outputKey: \ListRepositoriesInDomainResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension CodeArtifact {
         return client.paginate(
             input: input,
             command: listRepositoriesInDomain,
-            tokenKey: \ListRepositoriesInDomainResult.nextToken,
+            inputKey: \ListRepositoriesInDomainRequest.nextToken,
+            outputKey: \ListRepositoriesInDomainResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

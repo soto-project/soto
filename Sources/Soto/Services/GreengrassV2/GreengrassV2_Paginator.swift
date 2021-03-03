@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension GreengrassV2 {
             input: input,
             initialValue: initialValue,
             command: listComponentVersions,
-            tokenKey: \ListComponentVersionsResponse.nextToken,
+            inputKey: \ListComponentVersionsRequest.nextToken,
+            outputKey: \ListComponentVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension GreengrassV2 {
         return client.paginate(
             input: input,
             command: listComponentVersions,
-            tokenKey: \ListComponentVersionsResponse.nextToken,
+            inputKey: \ListComponentVersionsRequest.nextToken,
+            outputKey: \ListComponentVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension GreengrassV2 {
             input: input,
             initialValue: initialValue,
             command: listComponents,
-            tokenKey: \ListComponentsResponse.nextToken,
+            inputKey: \ListComponentsRequest.nextToken,
+            outputKey: \ListComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension GreengrassV2 {
         return client.paginate(
             input: input,
             command: listComponents,
-            tokenKey: \ListComponentsResponse.nextToken,
+            inputKey: \ListComponentsRequest.nextToken,
+            outputKey: \ListComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension GreengrassV2 {
             input: input,
             initialValue: initialValue,
             command: listCoreDevices,
-            tokenKey: \ListCoreDevicesResponse.nextToken,
+            inputKey: \ListCoreDevicesRequest.nextToken,
+            outputKey: \ListCoreDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension GreengrassV2 {
         return client.paginate(
             input: input,
             command: listCoreDevices,
-            tokenKey: \ListCoreDevicesResponse.nextToken,
+            inputKey: \ListCoreDevicesRequest.nextToken,
+            outputKey: \ListCoreDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension GreengrassV2 {
             input: input,
             initialValue: initialValue,
             command: listDeployments,
-            tokenKey: \ListDeploymentsResponse.nextToken,
+            inputKey: \ListDeploymentsRequest.nextToken,
+            outputKey: \ListDeploymentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension GreengrassV2 {
         return client.paginate(
             input: input,
             command: listDeployments,
-            tokenKey: \ListDeploymentsResponse.nextToken,
+            inputKey: \ListDeploymentsRequest.nextToken,
+            outputKey: \ListDeploymentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension GreengrassV2 {
             input: input,
             initialValue: initialValue,
             command: listEffectiveDeployments,
-            tokenKey: \ListEffectiveDeploymentsResponse.nextToken,
+            inputKey: \ListEffectiveDeploymentsRequest.nextToken,
+            outputKey: \ListEffectiveDeploymentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension GreengrassV2 {
         return client.paginate(
             input: input,
             command: listEffectiveDeployments,
-            tokenKey: \ListEffectiveDeploymentsResponse.nextToken,
+            inputKey: \ListEffectiveDeploymentsRequest.nextToken,
+            outputKey: \ListEffectiveDeploymentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension GreengrassV2 {
             input: input,
             initialValue: initialValue,
             command: listInstalledComponents,
-            tokenKey: \ListInstalledComponentsResponse.nextToken,
+            inputKey: \ListInstalledComponentsRequest.nextToken,
+            outputKey: \ListInstalledComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension GreengrassV2 {
         return client.paginate(
             input: input,
             command: listInstalledComponents,
-            tokenKey: \ListInstalledComponentsResponse.nextToken,
+            inputKey: \ListInstalledComponentsRequest.nextToken,
+            outputKey: \ListInstalledComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

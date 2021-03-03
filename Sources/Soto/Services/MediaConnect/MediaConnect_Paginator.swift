@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension MediaConnect {
             input: input,
             initialValue: initialValue,
             command: listEntitlements,
-            tokenKey: \ListEntitlementsResponse.nextToken,
+            inputKey: \ListEntitlementsRequest.nextToken,
+            outputKey: \ListEntitlementsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MediaConnect {
         return client.paginate(
             input: input,
             command: listEntitlements,
-            tokenKey: \ListEntitlementsResponse.nextToken,
+            inputKey: \ListEntitlementsRequest.nextToken,
+            outputKey: \ListEntitlementsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MediaConnect {
             input: input,
             initialValue: initialValue,
             command: listFlows,
-            tokenKey: \ListFlowsResponse.nextToken,
+            inputKey: \ListFlowsRequest.nextToken,
+            outputKey: \ListFlowsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MediaConnect {
         return client.paginate(
             input: input,
             command: listFlows,
-            tokenKey: \ListFlowsResponse.nextToken,
+            inputKey: \ListFlowsRequest.nextToken,
+            outputKey: \ListFlowsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension MediaConnect {
             input: input,
             initialValue: initialValue,
             command: listOfferings,
-            tokenKey: \ListOfferingsResponse.nextToken,
+            inputKey: \ListOfferingsRequest.nextToken,
+            outputKey: \ListOfferingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension MediaConnect {
         return client.paginate(
             input: input,
             command: listOfferings,
-            tokenKey: \ListOfferingsResponse.nextToken,
+            inputKey: \ListOfferingsRequest.nextToken,
+            outputKey: \ListOfferingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension MediaConnect {
             input: input,
             initialValue: initialValue,
             command: listReservations,
-            tokenKey: \ListReservationsResponse.nextToken,
+            inputKey: \ListReservationsRequest.nextToken,
+            outputKey: \ListReservationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension MediaConnect {
         return client.paginate(
             input: input,
             command: listReservations,
-            tokenKey: \ListReservationsResponse.nextToken,
+            inputKey: \ListReservationsRequest.nextToken,
+            outputKey: \ListReservationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

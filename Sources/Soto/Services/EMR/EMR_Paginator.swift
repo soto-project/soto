@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listBootstrapActions,
-            tokenKey: \ListBootstrapActionsOutput.marker,
+            inputKey: \ListBootstrapActionsInput.marker,
+            outputKey: \ListBootstrapActionsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listBootstrapActions,
-            tokenKey: \ListBootstrapActionsOutput.marker,
+            inputKey: \ListBootstrapActionsInput.marker,
+            outputKey: \ListBootstrapActionsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listClusters,
-            tokenKey: \ListClustersOutput.marker,
+            inputKey: \ListClustersInput.marker,
+            outputKey: \ListClustersOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listClusters,
-            tokenKey: \ListClustersOutput.marker,
+            inputKey: \ListClustersInput.marker,
+            outputKey: \ListClustersOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listInstanceFleets,
-            tokenKey: \ListInstanceFleetsOutput.marker,
+            inputKey: \ListInstanceFleetsInput.marker,
+            outputKey: \ListInstanceFleetsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listInstanceFleets,
-            tokenKey: \ListInstanceFleetsOutput.marker,
+            inputKey: \ListInstanceFleetsInput.marker,
+            outputKey: \ListInstanceFleetsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listInstanceGroups,
-            tokenKey: \ListInstanceGroupsOutput.marker,
+            inputKey: \ListInstanceGroupsInput.marker,
+            outputKey: \ListInstanceGroupsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listInstanceGroups,
-            tokenKey: \ListInstanceGroupsOutput.marker,
+            inputKey: \ListInstanceGroupsInput.marker,
+            outputKey: \ListInstanceGroupsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listInstances,
-            tokenKey: \ListInstancesOutput.marker,
+            inputKey: \ListInstancesInput.marker,
+            outputKey: \ListInstancesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listInstances,
-            tokenKey: \ListInstancesOutput.marker,
+            inputKey: \ListInstancesInput.marker,
+            outputKey: \ListInstancesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listNotebookExecutions,
-            tokenKey: \ListNotebookExecutionsOutput.marker,
+            inputKey: \ListNotebookExecutionsInput.marker,
+            outputKey: \ListNotebookExecutionsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listNotebookExecutions,
-            tokenKey: \ListNotebookExecutionsOutput.marker,
+            inputKey: \ListNotebookExecutionsInput.marker,
+            outputKey: \ListNotebookExecutionsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listSecurityConfigurations,
-            tokenKey: \ListSecurityConfigurationsOutput.marker,
+            inputKey: \ListSecurityConfigurationsInput.marker,
+            outputKey: \ListSecurityConfigurationsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listSecurityConfigurations,
-            tokenKey: \ListSecurityConfigurationsOutput.marker,
+            inputKey: \ListSecurityConfigurationsInput.marker,
+            outputKey: \ListSecurityConfigurationsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listSteps,
-            tokenKey: \ListStepsOutput.marker,
+            inputKey: \ListStepsInput.marker,
+            outputKey: \ListStepsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listSteps,
-            tokenKey: \ListStepsOutput.marker,
+            inputKey: \ListStepsInput.marker,
+            outputKey: \ListStepsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listStudioSessionMappings,
-            tokenKey: \ListStudioSessionMappingsOutput.marker,
+            inputKey: \ListStudioSessionMappingsInput.marker,
+            outputKey: \ListStudioSessionMappingsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listStudioSessionMappings,
-            tokenKey: \ListStudioSessionMappingsOutput.marker,
+            inputKey: \ListStudioSessionMappingsInput.marker,
+            outputKey: \ListStudioSessionMappingsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension EMR {
             input: input,
             initialValue: initialValue,
             command: listStudios,
-            tokenKey: \ListStudiosOutput.marker,
+            inputKey: \ListStudiosInput.marker,
+            outputKey: \ListStudiosOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension EMR {
         return client.paginate(
             input: input,
             command: listStudios,
-            tokenKey: \ListStudiosOutput.marker,
+            inputKey: \ListStudiosInput.marker,
+            outputKey: \ListStudiosOutput.marker,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listAccountAssignmentCreationStatus,
-            tokenKey: \ListAccountAssignmentCreationStatusResponse.nextToken,
+            inputKey: \ListAccountAssignmentCreationStatusRequest.nextToken,
+            outputKey: \ListAccountAssignmentCreationStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listAccountAssignmentCreationStatus,
-            tokenKey: \ListAccountAssignmentCreationStatusResponse.nextToken,
+            inputKey: \ListAccountAssignmentCreationStatusRequest.nextToken,
+            outputKey: \ListAccountAssignmentCreationStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listAccountAssignmentDeletionStatus,
-            tokenKey: \ListAccountAssignmentDeletionStatusResponse.nextToken,
+            inputKey: \ListAccountAssignmentDeletionStatusRequest.nextToken,
+            outputKey: \ListAccountAssignmentDeletionStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listAccountAssignmentDeletionStatus,
-            tokenKey: \ListAccountAssignmentDeletionStatusResponse.nextToken,
+            inputKey: \ListAccountAssignmentDeletionStatusRequest.nextToken,
+            outputKey: \ListAccountAssignmentDeletionStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listAccountAssignments,
-            tokenKey: \ListAccountAssignmentsResponse.nextToken,
+            inputKey: \ListAccountAssignmentsRequest.nextToken,
+            outputKey: \ListAccountAssignmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listAccountAssignments,
-            tokenKey: \ListAccountAssignmentsResponse.nextToken,
+            inputKey: \ListAccountAssignmentsRequest.nextToken,
+            outputKey: \ListAccountAssignmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listAccountsForProvisionedPermissionSet,
-            tokenKey: \ListAccountsForProvisionedPermissionSetResponse.nextToken,
+            inputKey: \ListAccountsForProvisionedPermissionSetRequest.nextToken,
+            outputKey: \ListAccountsForProvisionedPermissionSetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listAccountsForProvisionedPermissionSet,
-            tokenKey: \ListAccountsForProvisionedPermissionSetResponse.nextToken,
+            inputKey: \ListAccountsForProvisionedPermissionSetRequest.nextToken,
+            outputKey: \ListAccountsForProvisionedPermissionSetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listInstances,
-            tokenKey: \ListInstancesResponse.nextToken,
+            inputKey: \ListInstancesRequest.nextToken,
+            outputKey: \ListInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listInstances,
-            tokenKey: \ListInstancesResponse.nextToken,
+            inputKey: \ListInstancesRequest.nextToken,
+            outputKey: \ListInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listManagedPoliciesInPermissionSet,
-            tokenKey: \ListManagedPoliciesInPermissionSetResponse.nextToken,
+            inputKey: \ListManagedPoliciesInPermissionSetRequest.nextToken,
+            outputKey: \ListManagedPoliciesInPermissionSetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listManagedPoliciesInPermissionSet,
-            tokenKey: \ListManagedPoliciesInPermissionSetResponse.nextToken,
+            inputKey: \ListManagedPoliciesInPermissionSetRequest.nextToken,
+            outputKey: \ListManagedPoliciesInPermissionSetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listPermissionSetProvisioningStatus,
-            tokenKey: \ListPermissionSetProvisioningStatusResponse.nextToken,
+            inputKey: \ListPermissionSetProvisioningStatusRequest.nextToken,
+            outputKey: \ListPermissionSetProvisioningStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listPermissionSetProvisioningStatus,
-            tokenKey: \ListPermissionSetProvisioningStatusResponse.nextToken,
+            inputKey: \ListPermissionSetProvisioningStatusRequest.nextToken,
+            outputKey: \ListPermissionSetProvisioningStatusResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listPermissionSets,
-            tokenKey: \ListPermissionSetsResponse.nextToken,
+            inputKey: \ListPermissionSetsRequest.nextToken,
+            outputKey: \ListPermissionSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listPermissionSets,
-            tokenKey: \ListPermissionSetsResponse.nextToken,
+            inputKey: \ListPermissionSetsRequest.nextToken,
+            outputKey: \ListPermissionSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listPermissionSetsProvisionedToAccount,
-            tokenKey: \ListPermissionSetsProvisionedToAccountResponse.nextToken,
+            inputKey: \ListPermissionSetsProvisionedToAccountRequest.nextToken,
+            outputKey: \ListPermissionSetsProvisionedToAccountResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listPermissionSetsProvisionedToAccount,
-            tokenKey: \ListPermissionSetsProvisionedToAccountResponse.nextToken,
+            inputKey: \ListPermissionSetsProvisionedToAccountRequest.nextToken,
+            outputKey: \ListPermissionSetsProvisionedToAccountResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension SSOAdmin {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension SSOAdmin {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

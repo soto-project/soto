@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension GlobalAccelerator {
             input: input,
             initialValue: initialValue,
             command: listAccelerators,
-            tokenKey: \ListAcceleratorsResponse.nextToken,
+            inputKey: \ListAcceleratorsRequest.nextToken,
+            outputKey: \ListAcceleratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension GlobalAccelerator {
         return client.paginate(
             input: input,
             command: listAccelerators,
-            tokenKey: \ListAcceleratorsResponse.nextToken,
+            inputKey: \ListAcceleratorsRequest.nextToken,
+            outputKey: \ListAcceleratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension GlobalAccelerator {
             input: input,
             initialValue: initialValue,
             command: listByoipCidrs,
-            tokenKey: \ListByoipCidrsResponse.nextToken,
+            inputKey: \ListByoipCidrsRequest.nextToken,
+            outputKey: \ListByoipCidrsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension GlobalAccelerator {
         return client.paginate(
             input: input,
             command: listByoipCidrs,
-            tokenKey: \ListByoipCidrsResponse.nextToken,
+            inputKey: \ListByoipCidrsRequest.nextToken,
+            outputKey: \ListByoipCidrsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension GlobalAccelerator {
             input: input,
             initialValue: initialValue,
             command: listCustomRoutingAccelerators,
-            tokenKey: \ListCustomRoutingAcceleratorsResponse.nextToken,
+            inputKey: \ListCustomRoutingAcceleratorsRequest.nextToken,
+            outputKey: \ListCustomRoutingAcceleratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension GlobalAccelerator {
         return client.paginate(
             input: input,
             command: listCustomRoutingAccelerators,
-            tokenKey: \ListCustomRoutingAcceleratorsResponse.nextToken,
+            inputKey: \ListCustomRoutingAcceleratorsRequest.nextToken,
+            outputKey: \ListCustomRoutingAcceleratorsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension GlobalAccelerator {
             input: input,
             initialValue: initialValue,
             command: listCustomRoutingEndpointGroups,
-            tokenKey: \ListCustomRoutingEndpointGroupsResponse.nextToken,
+            inputKey: \ListCustomRoutingEndpointGroupsRequest.nextToken,
+            outputKey: \ListCustomRoutingEndpointGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension GlobalAccelerator {
         return client.paginate(
             input: input,
             command: listCustomRoutingEndpointGroups,
-            tokenKey: \ListCustomRoutingEndpointGroupsResponse.nextToken,
+            inputKey: \ListCustomRoutingEndpointGroupsRequest.nextToken,
+            outputKey: \ListCustomRoutingEndpointGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension GlobalAccelerator {
             input: input,
             initialValue: initialValue,
             command: listCustomRoutingListeners,
-            tokenKey: \ListCustomRoutingListenersResponse.nextToken,
+            inputKey: \ListCustomRoutingListenersRequest.nextToken,
+            outputKey: \ListCustomRoutingListenersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension GlobalAccelerator {
         return client.paginate(
             input: input,
             command: listCustomRoutingListeners,
-            tokenKey: \ListCustomRoutingListenersResponse.nextToken,
+            inputKey: \ListCustomRoutingListenersRequest.nextToken,
+            outputKey: \ListCustomRoutingListenersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension GlobalAccelerator {
             input: input,
             initialValue: initialValue,
             command: listCustomRoutingPortMappings,
-            tokenKey: \ListCustomRoutingPortMappingsResponse.nextToken,
+            inputKey: \ListCustomRoutingPortMappingsRequest.nextToken,
+            outputKey: \ListCustomRoutingPortMappingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension GlobalAccelerator {
         return client.paginate(
             input: input,
             command: listCustomRoutingPortMappings,
-            tokenKey: \ListCustomRoutingPortMappingsResponse.nextToken,
+            inputKey: \ListCustomRoutingPortMappingsRequest.nextToken,
+            outputKey: \ListCustomRoutingPortMappingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension GlobalAccelerator {
             input: input,
             initialValue: initialValue,
             command: listCustomRoutingPortMappingsByDestination,
-            tokenKey: \ListCustomRoutingPortMappingsByDestinationResponse.nextToken,
+            inputKey: \ListCustomRoutingPortMappingsByDestinationRequest.nextToken,
+            outputKey: \ListCustomRoutingPortMappingsByDestinationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension GlobalAccelerator {
         return client.paginate(
             input: input,
             command: listCustomRoutingPortMappingsByDestination,
-            tokenKey: \ListCustomRoutingPortMappingsByDestinationResponse.nextToken,
+            inputKey: \ListCustomRoutingPortMappingsByDestinationRequest.nextToken,
+            outputKey: \ListCustomRoutingPortMappingsByDestinationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension GlobalAccelerator {
             input: input,
             initialValue: initialValue,
             command: listEndpointGroups,
-            tokenKey: \ListEndpointGroupsResponse.nextToken,
+            inputKey: \ListEndpointGroupsRequest.nextToken,
+            outputKey: \ListEndpointGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension GlobalAccelerator {
         return client.paginate(
             input: input,
             command: listEndpointGroups,
-            tokenKey: \ListEndpointGroupsResponse.nextToken,
+            inputKey: \ListEndpointGroupsRequest.nextToken,
+            outputKey: \ListEndpointGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension GlobalAccelerator {
             input: input,
             initialValue: initialValue,
             command: listListeners,
-            tokenKey: \ListListenersResponse.nextToken,
+            inputKey: \ListListenersRequest.nextToken,
+            outputKey: \ListListenersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension GlobalAccelerator {
         return client.paginate(
             input: input,
             command: listListeners,
-            tokenKey: \ListListenersResponse.nextToken,
+            inputKey: \ListListenersRequest.nextToken,
+            outputKey: \ListListenersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

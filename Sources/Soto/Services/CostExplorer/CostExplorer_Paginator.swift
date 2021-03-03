@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension CostExplorer {
             input: input,
             initialValue: initialValue,
             command: getSavingsPlansCoverage,
-            tokenKey: \GetSavingsPlansCoverageResponse.nextToken,
+            inputKey: \GetSavingsPlansCoverageRequest.nextToken,
+            outputKey: \GetSavingsPlansCoverageResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CostExplorer {
         return client.paginate(
             input: input,
             command: getSavingsPlansCoverage,
-            tokenKey: \GetSavingsPlansCoverageResponse.nextToken,
+            inputKey: \GetSavingsPlansCoverageRequest.nextToken,
+            outputKey: \GetSavingsPlansCoverageResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CostExplorer {
             input: input,
             initialValue: initialValue,
             command: getSavingsPlansUtilizationDetails,
-            tokenKey: \GetSavingsPlansUtilizationDetailsResponse.nextToken,
+            inputKey: \GetSavingsPlansUtilizationDetailsRequest.nextToken,
+            outputKey: \GetSavingsPlansUtilizationDetailsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CostExplorer {
         return client.paginate(
             input: input,
             command: getSavingsPlansUtilizationDetails,
-            tokenKey: \GetSavingsPlansUtilizationDetailsResponse.nextToken,
+            inputKey: \GetSavingsPlansUtilizationDetailsRequest.nextToken,
+            outputKey: \GetSavingsPlansUtilizationDetailsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CostExplorer {
             input: input,
             initialValue: initialValue,
             command: listCostCategoryDefinitions,
-            tokenKey: \ListCostCategoryDefinitionsResponse.nextToken,
+            inputKey: \ListCostCategoryDefinitionsRequest.nextToken,
+            outputKey: \ListCostCategoryDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CostExplorer {
         return client.paginate(
             input: input,
             command: listCostCategoryDefinitions,
-            tokenKey: \ListCostCategoryDefinitionsResponse.nextToken,
+            inputKey: \ListCostCategoryDefinitionsRequest.nextToken,
+            outputKey: \ListCostCategoryDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

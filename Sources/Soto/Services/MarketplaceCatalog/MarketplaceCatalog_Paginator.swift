@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension MarketplaceCatalog {
             input: input,
             initialValue: initialValue,
             command: listChangeSets,
-            tokenKey: \ListChangeSetsResponse.nextToken,
+            inputKey: \ListChangeSetsRequest.nextToken,
+            outputKey: \ListChangeSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MarketplaceCatalog {
         return client.paginate(
             input: input,
             command: listChangeSets,
-            tokenKey: \ListChangeSetsResponse.nextToken,
+            inputKey: \ListChangeSetsRequest.nextToken,
+            outputKey: \ListChangeSetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MarketplaceCatalog {
             input: input,
             initialValue: initialValue,
             command: listEntities,
-            tokenKey: \ListEntitiesResponse.nextToken,
+            inputKey: \ListEntitiesRequest.nextToken,
+            outputKey: \ListEntitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MarketplaceCatalog {
         return client.paginate(
             input: input,
             command: listEntities,
-            tokenKey: \ListEntitiesResponse.nextToken,
+            inputKey: \ListEntitiesRequest.nextToken,
+            outputKey: \ListEntitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension SWF {
             input: input,
             initialValue: initialValue,
             command: getWorkflowExecutionHistory,
-            tokenKey: \History.nextPageToken,
+            inputKey: \GetWorkflowExecutionHistoryInput.nextPageToken,
+            outputKey: \History.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SWF {
         return client.paginate(
             input: input,
             command: getWorkflowExecutionHistory,
-            tokenKey: \History.nextPageToken,
+            inputKey: \GetWorkflowExecutionHistoryInput.nextPageToken,
+            outputKey: \History.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SWF {
             input: input,
             initialValue: initialValue,
             command: listActivityTypes,
-            tokenKey: \ActivityTypeInfos.nextPageToken,
+            inputKey: \ListActivityTypesInput.nextPageToken,
+            outputKey: \ActivityTypeInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SWF {
         return client.paginate(
             input: input,
             command: listActivityTypes,
-            tokenKey: \ActivityTypeInfos.nextPageToken,
+            inputKey: \ListActivityTypesInput.nextPageToken,
+            outputKey: \ActivityTypeInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension SWF {
             input: input,
             initialValue: initialValue,
             command: listClosedWorkflowExecutions,
-            tokenKey: \WorkflowExecutionInfos.nextPageToken,
+            inputKey: \ListClosedWorkflowExecutionsInput.nextPageToken,
+            outputKey: \WorkflowExecutionInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension SWF {
         return client.paginate(
             input: input,
             command: listClosedWorkflowExecutions,
-            tokenKey: \WorkflowExecutionInfos.nextPageToken,
+            inputKey: \ListClosedWorkflowExecutionsInput.nextPageToken,
+            outputKey: \WorkflowExecutionInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension SWF {
             input: input,
             initialValue: initialValue,
             command: listDomains,
-            tokenKey: \DomainInfos.nextPageToken,
+            inputKey: \ListDomainsInput.nextPageToken,
+            outputKey: \DomainInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension SWF {
         return client.paginate(
             input: input,
             command: listDomains,
-            tokenKey: \DomainInfos.nextPageToken,
+            inputKey: \ListDomainsInput.nextPageToken,
+            outputKey: \DomainInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension SWF {
             input: input,
             initialValue: initialValue,
             command: listOpenWorkflowExecutions,
-            tokenKey: \WorkflowExecutionInfos.nextPageToken,
+            inputKey: \ListOpenWorkflowExecutionsInput.nextPageToken,
+            outputKey: \WorkflowExecutionInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension SWF {
         return client.paginate(
             input: input,
             command: listOpenWorkflowExecutions,
-            tokenKey: \WorkflowExecutionInfos.nextPageToken,
+            inputKey: \ListOpenWorkflowExecutionsInput.nextPageToken,
+            outputKey: \WorkflowExecutionInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension SWF {
             input: input,
             initialValue: initialValue,
             command: listWorkflowTypes,
-            tokenKey: \WorkflowTypeInfos.nextPageToken,
+            inputKey: \ListWorkflowTypesInput.nextPageToken,
+            outputKey: \WorkflowTypeInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension SWF {
         return client.paginate(
             input: input,
             command: listWorkflowTypes,
-            tokenKey: \WorkflowTypeInfos.nextPageToken,
+            inputKey: \ListWorkflowTypesInput.nextPageToken,
+            outputKey: \WorkflowTypeInfos.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension SWF {
             input: input,
             initialValue: initialValue,
             command: pollForDecisionTask,
-            tokenKey: \DecisionTask.nextPageToken,
+            inputKey: \PollForDecisionTaskInput.nextPageToken,
+            outputKey: \DecisionTask.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension SWF {
         return client.paginate(
             input: input,
             command: pollForDecisionTask,
-            tokenKey: \DecisionTask.nextPageToken,
+            inputKey: \PollForDecisionTaskInput.nextPageToken,
+            outputKey: \DecisionTask.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )

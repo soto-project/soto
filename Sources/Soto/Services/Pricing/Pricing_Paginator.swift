@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Pricing {
             input: input,
             initialValue: initialValue,
             command: describeServices,
-            tokenKey: \DescribeServicesResponse.nextToken,
+            inputKey: \DescribeServicesRequest.nextToken,
+            outputKey: \DescribeServicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Pricing {
         return client.paginate(
             input: input,
             command: describeServices,
-            tokenKey: \DescribeServicesResponse.nextToken,
+            inputKey: \DescribeServicesRequest.nextToken,
+            outputKey: \DescribeServicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Pricing {
             input: input,
             initialValue: initialValue,
             command: getAttributeValues,
-            tokenKey: \GetAttributeValuesResponse.nextToken,
+            inputKey: \GetAttributeValuesRequest.nextToken,
+            outputKey: \GetAttributeValuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Pricing {
         return client.paginate(
             input: input,
             command: getAttributeValues,
-            tokenKey: \GetAttributeValuesResponse.nextToken,
+            inputKey: \GetAttributeValuesRequest.nextToken,
+            outputKey: \GetAttributeValuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Pricing {
             input: input,
             initialValue: initialValue,
             command: getProducts,
-            tokenKey: \GetProductsResponse.nextToken,
+            inputKey: \GetProductsRequest.nextToken,
+            outputKey: \GetProductsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Pricing {
         return client.paginate(
             input: input,
             command: getProducts,
-            tokenKey: \GetProductsResponse.nextToken,
+            inputKey: \GetProductsRequest.nextToken,
+            outputKey: \GetProductsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

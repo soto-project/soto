@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: getCurrentMetricData,
-            tokenKey: \GetCurrentMetricDataResponse.nextToken,
+            inputKey: \GetCurrentMetricDataRequest.nextToken,
+            outputKey: \GetCurrentMetricDataResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: getCurrentMetricData,
-            tokenKey: \GetCurrentMetricDataResponse.nextToken,
+            inputKey: \GetCurrentMetricDataRequest.nextToken,
+            outputKey: \GetCurrentMetricDataResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: getMetricData,
-            tokenKey: \GetMetricDataResponse.nextToken,
+            inputKey: \GetMetricDataRequest.nextToken,
+            outputKey: \GetMetricDataResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: getMetricData,
-            tokenKey: \GetMetricDataResponse.nextToken,
+            inputKey: \GetMetricDataRequest.nextToken,
+            outputKey: \GetMetricDataResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listApprovedOrigins,
-            tokenKey: \ListApprovedOriginsResponse.nextToken,
+            inputKey: \ListApprovedOriginsRequest.nextToken,
+            outputKey: \ListApprovedOriginsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listApprovedOrigins,
-            tokenKey: \ListApprovedOriginsResponse.nextToken,
+            inputKey: \ListApprovedOriginsRequest.nextToken,
+            outputKey: \ListApprovedOriginsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listContactFlows,
-            tokenKey: \ListContactFlowsResponse.nextToken,
+            inputKey: \ListContactFlowsRequest.nextToken,
+            outputKey: \ListContactFlowsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listContactFlows,
-            tokenKey: \ListContactFlowsResponse.nextToken,
+            inputKey: \ListContactFlowsRequest.nextToken,
+            outputKey: \ListContactFlowsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listHoursOfOperations,
-            tokenKey: \ListHoursOfOperationsResponse.nextToken,
+            inputKey: \ListHoursOfOperationsRequest.nextToken,
+            outputKey: \ListHoursOfOperationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listHoursOfOperations,
-            tokenKey: \ListHoursOfOperationsResponse.nextToken,
+            inputKey: \ListHoursOfOperationsRequest.nextToken,
+            outputKey: \ListHoursOfOperationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listInstanceAttributes,
-            tokenKey: \ListInstanceAttributesResponse.nextToken,
+            inputKey: \ListInstanceAttributesRequest.nextToken,
+            outputKey: \ListInstanceAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listInstanceAttributes,
-            tokenKey: \ListInstanceAttributesResponse.nextToken,
+            inputKey: \ListInstanceAttributesRequest.nextToken,
+            outputKey: \ListInstanceAttributesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listInstanceStorageConfigs,
-            tokenKey: \ListInstanceStorageConfigsResponse.nextToken,
+            inputKey: \ListInstanceStorageConfigsRequest.nextToken,
+            outputKey: \ListInstanceStorageConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listInstanceStorageConfigs,
-            tokenKey: \ListInstanceStorageConfigsResponse.nextToken,
+            inputKey: \ListInstanceStorageConfigsRequest.nextToken,
+            outputKey: \ListInstanceStorageConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listInstances,
-            tokenKey: \ListInstancesResponse.nextToken,
+            inputKey: \ListInstancesRequest.nextToken,
+            outputKey: \ListInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listInstances,
-            tokenKey: \ListInstancesResponse.nextToken,
+            inputKey: \ListInstancesRequest.nextToken,
+            outputKey: \ListInstancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listIntegrationAssociations,
-            tokenKey: \ListIntegrationAssociationsResponse.nextToken,
+            inputKey: \ListIntegrationAssociationsRequest.nextToken,
+            outputKey: \ListIntegrationAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listIntegrationAssociations,
-            tokenKey: \ListIntegrationAssociationsResponse.nextToken,
+            inputKey: \ListIntegrationAssociationsRequest.nextToken,
+            outputKey: \ListIntegrationAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listLambdaFunctions,
-            tokenKey: \ListLambdaFunctionsResponse.nextToken,
+            inputKey: \ListLambdaFunctionsRequest.nextToken,
+            outputKey: \ListLambdaFunctionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listLambdaFunctions,
-            tokenKey: \ListLambdaFunctionsResponse.nextToken,
+            inputKey: \ListLambdaFunctionsRequest.nextToken,
+            outputKey: \ListLambdaFunctionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listLexBots,
-            tokenKey: \ListLexBotsResponse.nextToken,
+            inputKey: \ListLexBotsRequest.nextToken,
+            outputKey: \ListLexBotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listLexBots,
-            tokenKey: \ListLexBotsResponse.nextToken,
+            inputKey: \ListLexBotsRequest.nextToken,
+            outputKey: \ListLexBotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listPhoneNumbers,
-            tokenKey: \ListPhoneNumbersResponse.nextToken,
+            inputKey: \ListPhoneNumbersRequest.nextToken,
+            outputKey: \ListPhoneNumbersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listPhoneNumbers,
-            tokenKey: \ListPhoneNumbersResponse.nextToken,
+            inputKey: \ListPhoneNumbersRequest.nextToken,
+            outputKey: \ListPhoneNumbersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listPrompts,
-            tokenKey: \ListPromptsResponse.nextToken,
+            inputKey: \ListPromptsRequest.nextToken,
+            outputKey: \ListPromptsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listPrompts,
-            tokenKey: \ListPromptsResponse.nextToken,
+            inputKey: \ListPromptsRequest.nextToken,
+            outputKey: \ListPromptsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +782,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listQueues,
-            tokenKey: \ListQueuesResponse.nextToken,
+            inputKey: \ListQueuesRequest.nextToken,
+            outputKey: \ListQueuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +805,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listQueues,
-            tokenKey: \ListQueuesResponse.nextToken,
+            inputKey: \ListQueuesRequest.nextToken,
+            outputKey: \ListQueuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +835,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listQuickConnects,
-            tokenKey: \ListQuickConnectsResponse.nextToken,
+            inputKey: \ListQuickConnectsRequest.nextToken,
+            outputKey: \ListQuickConnectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +858,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listQuickConnects,
-            tokenKey: \ListQuickConnectsResponse.nextToken,
+            inputKey: \ListQuickConnectsRequest.nextToken,
+            outputKey: \ListQuickConnectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +888,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listRoutingProfileQueues,
-            tokenKey: \ListRoutingProfileQueuesResponse.nextToken,
+            inputKey: \ListRoutingProfileQueuesRequest.nextToken,
+            outputKey: \ListRoutingProfileQueuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +911,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listRoutingProfileQueues,
-            tokenKey: \ListRoutingProfileQueuesResponse.nextToken,
+            inputKey: \ListRoutingProfileQueuesRequest.nextToken,
+            outputKey: \ListRoutingProfileQueuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +941,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listRoutingProfiles,
-            tokenKey: \ListRoutingProfilesResponse.nextToken,
+            inputKey: \ListRoutingProfilesRequest.nextToken,
+            outputKey: \ListRoutingProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +964,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listRoutingProfiles,
-            tokenKey: \ListRoutingProfilesResponse.nextToken,
+            inputKey: \ListRoutingProfilesRequest.nextToken,
+            outputKey: \ListRoutingProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +994,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listSecurityKeys,
-            tokenKey: \ListSecurityKeysResponse.nextToken,
+            inputKey: \ListSecurityKeysRequest.nextToken,
+            outputKey: \ListSecurityKeysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1017,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listSecurityKeys,
-            tokenKey: \ListSecurityKeysResponse.nextToken,
+            inputKey: \ListSecurityKeysRequest.nextToken,
+            outputKey: \ListSecurityKeysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1047,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listSecurityProfiles,
-            tokenKey: \ListSecurityProfilesResponse.nextToken,
+            inputKey: \ListSecurityProfilesRequest.nextToken,
+            outputKey: \ListSecurityProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1070,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listSecurityProfiles,
-            tokenKey: \ListSecurityProfilesResponse.nextToken,
+            inputKey: \ListSecurityProfilesRequest.nextToken,
+            outputKey: \ListSecurityProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1062,7 +1100,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listUseCases,
-            tokenKey: \ListUseCasesResponse.nextToken,
+            inputKey: \ListUseCasesRequest.nextToken,
+            outputKey: \ListUseCasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1084,7 +1123,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listUseCases,
-            tokenKey: \ListUseCasesResponse.nextToken,
+            inputKey: \ListUseCasesRequest.nextToken,
+            outputKey: \ListUseCasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,7 +1153,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listUserHierarchyGroups,
-            tokenKey: \ListUserHierarchyGroupsResponse.nextToken,
+            inputKey: \ListUserHierarchyGroupsRequest.nextToken,
+            outputKey: \ListUserHierarchyGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1135,7 +1176,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listUserHierarchyGroups,
-            tokenKey: \ListUserHierarchyGroupsResponse.nextToken,
+            inputKey: \ListUserHierarchyGroupsRequest.nextToken,
+            outputKey: \ListUserHierarchyGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1164,7 +1206,8 @@ extension Connect {
             input: input,
             initialValue: initialValue,
             command: listUsers,
-            tokenKey: \ListUsersResponse.nextToken,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1186,7 +1229,8 @@ extension Connect {
         return client.paginate(
             input: input,
             command: listUsers,
-            tokenKey: \ListUsersResponse.nextToken,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension CodeGuruReviewer {
             input: input,
             initialValue: initialValue,
             command: listCodeReviews,
-            tokenKey: \ListCodeReviewsResponse.nextToken,
+            inputKey: \ListCodeReviewsRequest.nextToken,
+            outputKey: \ListCodeReviewsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension CodeGuruReviewer {
         return client.paginate(
             input: input,
             command: listCodeReviews,
-            tokenKey: \ListCodeReviewsResponse.nextToken,
+            inputKey: \ListCodeReviewsRequest.nextToken,
+            outputKey: \ListCodeReviewsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension CodeGuruReviewer {
             input: input,
             initialValue: initialValue,
             command: listRecommendationFeedback,
-            tokenKey: \ListRecommendationFeedbackResponse.nextToken,
+            inputKey: \ListRecommendationFeedbackRequest.nextToken,
+            outputKey: \ListRecommendationFeedbackResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension CodeGuruReviewer {
         return client.paginate(
             input: input,
             command: listRecommendationFeedback,
-            tokenKey: \ListRecommendationFeedbackResponse.nextToken,
+            inputKey: \ListRecommendationFeedbackRequest.nextToken,
+            outputKey: \ListRecommendationFeedbackResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension CodeGuruReviewer {
             input: input,
             initialValue: initialValue,
             command: listRecommendations,
-            tokenKey: \ListRecommendationsResponse.nextToken,
+            inputKey: \ListRecommendationsRequest.nextToken,
+            outputKey: \ListRecommendationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension CodeGuruReviewer {
         return client.paginate(
             input: input,
             command: listRecommendations,
-            tokenKey: \ListRecommendationsResponse.nextToken,
+            inputKey: \ListRecommendationsRequest.nextToken,
+            outputKey: \ListRecommendationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension CodeGuruReviewer {
             input: input,
             initialValue: initialValue,
             command: listRepositoryAssociations,
-            tokenKey: \ListRepositoryAssociationsResponse.nextToken,
+            inputKey: \ListRepositoryAssociationsRequest.nextToken,
+            outputKey: \ListRepositoryAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension CodeGuruReviewer {
         return client.paginate(
             input: input,
             command: listRepositoryAssociations,
-            tokenKey: \ListRepositoryAssociationsResponse.nextToken,
+            inputKey: \ListRepositoryAssociationsRequest.nextToken,
+            outputKey: \ListRepositoryAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: describeModelVersions,
-            tokenKey: \DescribeModelVersionsResult.nextToken,
+            inputKey: \DescribeModelVersionsRequest.nextToken,
+            outputKey: \DescribeModelVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: describeModelVersions,
-            tokenKey: \DescribeModelVersionsResult.nextToken,
+            inputKey: \DescribeModelVersionsRequest.nextToken,
+            outputKey: \DescribeModelVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: getDetectors,
-            tokenKey: \GetDetectorsResult.nextToken,
+            inputKey: \GetDetectorsRequest.nextToken,
+            outputKey: \GetDetectorsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: getDetectors,
-            tokenKey: \GetDetectorsResult.nextToken,
+            inputKey: \GetDetectorsRequest.nextToken,
+            outputKey: \GetDetectorsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: getEntityTypes,
-            tokenKey: \GetEntityTypesResult.nextToken,
+            inputKey: \GetEntityTypesRequest.nextToken,
+            outputKey: \GetEntityTypesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: getEntityTypes,
-            tokenKey: \GetEntityTypesResult.nextToken,
+            inputKey: \GetEntityTypesRequest.nextToken,
+            outputKey: \GetEntityTypesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: getEventTypes,
-            tokenKey: \GetEventTypesResult.nextToken,
+            inputKey: \GetEventTypesRequest.nextToken,
+            outputKey: \GetEventTypesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: getEventTypes,
-            tokenKey: \GetEventTypesResult.nextToken,
+            inputKey: \GetEventTypesRequest.nextToken,
+            outputKey: \GetEventTypesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: getExternalModels,
-            tokenKey: \GetExternalModelsResult.nextToken,
+            inputKey: \GetExternalModelsRequest.nextToken,
+            outputKey: \GetExternalModelsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: getExternalModels,
-            tokenKey: \GetExternalModelsResult.nextToken,
+            inputKey: \GetExternalModelsRequest.nextToken,
+            outputKey: \GetExternalModelsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: getLabels,
-            tokenKey: \GetLabelsResult.nextToken,
+            inputKey: \GetLabelsRequest.nextToken,
+            outputKey: \GetLabelsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: getLabels,
-            tokenKey: \GetLabelsResult.nextToken,
+            inputKey: \GetLabelsRequest.nextToken,
+            outputKey: \GetLabelsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: getModels,
-            tokenKey: \GetModelsResult.nextToken,
+            inputKey: \GetModelsRequest.nextToken,
+            outputKey: \GetModelsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: getModels,
-            tokenKey: \GetModelsResult.nextToken,
+            inputKey: \GetModelsRequest.nextToken,
+            outputKey: \GetModelsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: getOutcomes,
-            tokenKey: \GetOutcomesResult.nextToken,
+            inputKey: \GetOutcomesRequest.nextToken,
+            outputKey: \GetOutcomesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: getOutcomes,
-            tokenKey: \GetOutcomesResult.nextToken,
+            inputKey: \GetOutcomesRequest.nextToken,
+            outputKey: \GetOutcomesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: getRules,
-            tokenKey: \GetRulesResult.nextToken,
+            inputKey: \GetRulesRequest.nextToken,
+            outputKey: \GetRulesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: getRules,
-            tokenKey: \GetRulesResult.nextToken,
+            inputKey: \GetRulesRequest.nextToken,
+            outputKey: \GetRulesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: getVariables,
-            tokenKey: \GetVariablesResult.nextToken,
+            inputKey: \GetVariablesRequest.nextToken,
+            outputKey: \GetVariablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: getVariables,
-            tokenKey: \GetVariablesResult.nextToken,
+            inputKey: \GetVariablesRequest.nextToken,
+            outputKey: \GetVariablesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension FraudDetector {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResult.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension FraudDetector {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResult.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension EMRContainers {
             input: input,
             initialValue: initialValue,
             command: listJobRuns,
-            tokenKey: \ListJobRunsResponse.nextToken,
+            inputKey: \ListJobRunsRequest.nextToken,
+            outputKey: \ListJobRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension EMRContainers {
         return client.paginate(
             input: input,
             command: listJobRuns,
-            tokenKey: \ListJobRunsResponse.nextToken,
+            inputKey: \ListJobRunsRequest.nextToken,
+            outputKey: \ListJobRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension EMRContainers {
             input: input,
             initialValue: initialValue,
             command: listManagedEndpoints,
-            tokenKey: \ListManagedEndpointsResponse.nextToken,
+            inputKey: \ListManagedEndpointsRequest.nextToken,
+            outputKey: \ListManagedEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension EMRContainers {
         return client.paginate(
             input: input,
             command: listManagedEndpoints,
-            tokenKey: \ListManagedEndpointsResponse.nextToken,
+            inputKey: \ListManagedEndpointsRequest.nextToken,
+            outputKey: \ListManagedEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension EMRContainers {
             input: input,
             initialValue: initialValue,
             command: listVirtualClusters,
-            tokenKey: \ListVirtualClustersResponse.nextToken,
+            inputKey: \ListVirtualClustersRequest.nextToken,
+            outputKey: \ListVirtualClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension EMRContainers {
         return client.paginate(
             input: input,
             command: listVirtualClusters,
-            tokenKey: \ListVirtualClustersResponse.nextToken,
+            inputKey: \ListVirtualClustersRequest.nextToken,
+            outputKey: \ListVirtualClustersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

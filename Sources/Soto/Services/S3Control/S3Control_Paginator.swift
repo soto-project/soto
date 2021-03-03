@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension S3Control {
             input: input,
             initialValue: initialValue,
             command: listAccessPoints,
-            tokenKey: \ListAccessPointsResult.nextToken,
+            inputKey: \ListAccessPointsRequest.nextToken,
+            outputKey: \ListAccessPointsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension S3Control {
         return client.paginate(
             input: input,
             command: listAccessPoints,
-            tokenKey: \ListAccessPointsResult.nextToken,
+            inputKey: \ListAccessPointsRequest.nextToken,
+            outputKey: \ListAccessPointsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension S3Control {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsResult.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension S3Control {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsResult.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension S3Control {
             input: input,
             initialValue: initialValue,
             command: listRegionalBuckets,
-            tokenKey: \ListRegionalBucketsResult.nextToken,
+            inputKey: \ListRegionalBucketsRequest.nextToken,
+            outputKey: \ListRegionalBucketsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension S3Control {
         return client.paginate(
             input: input,
             command: listRegionalBuckets,
-            tokenKey: \ListRegionalBucketsResult.nextToken,
+            inputKey: \ListRegionalBucketsRequest.nextToken,
+            outputKey: \ListRegionalBucketsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

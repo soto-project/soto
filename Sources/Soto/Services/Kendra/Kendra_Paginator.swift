@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Kendra {
             input: input,
             initialValue: initialValue,
             command: listDataSourceSyncJobs,
-            tokenKey: \ListDataSourceSyncJobsResponse.nextToken,
+            inputKey: \ListDataSourceSyncJobsRequest.nextToken,
+            outputKey: \ListDataSourceSyncJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Kendra {
         return client.paginate(
             input: input,
             command: listDataSourceSyncJobs,
-            tokenKey: \ListDataSourceSyncJobsResponse.nextToken,
+            inputKey: \ListDataSourceSyncJobsRequest.nextToken,
+            outputKey: \ListDataSourceSyncJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Kendra {
             input: input,
             initialValue: initialValue,
             command: listDataSources,
-            tokenKey: \ListDataSourcesResponse.nextToken,
+            inputKey: \ListDataSourcesRequest.nextToken,
+            outputKey: \ListDataSourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Kendra {
         return client.paginate(
             input: input,
             command: listDataSources,
-            tokenKey: \ListDataSourcesResponse.nextToken,
+            inputKey: \ListDataSourcesRequest.nextToken,
+            outputKey: \ListDataSourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Kendra {
             input: input,
             initialValue: initialValue,
             command: listIndices,
-            tokenKey: \ListIndicesResponse.nextToken,
+            inputKey: \ListIndicesRequest.nextToken,
+            outputKey: \ListIndicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Kendra {
         return client.paginate(
             input: input,
             command: listIndices,
-            tokenKey: \ListIndicesResponse.nextToken,
+            inputKey: \ListIndicesRequest.nextToken,
+            outputKey: \ListIndicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

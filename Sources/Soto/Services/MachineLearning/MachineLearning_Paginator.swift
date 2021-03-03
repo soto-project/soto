@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension MachineLearning {
             input: input,
             initialValue: initialValue,
             command: describeBatchPredictions,
-            tokenKey: \DescribeBatchPredictionsOutput.nextToken,
+            inputKey: \DescribeBatchPredictionsInput.nextToken,
+            outputKey: \DescribeBatchPredictionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MachineLearning {
         return client.paginate(
             input: input,
             command: describeBatchPredictions,
-            tokenKey: \DescribeBatchPredictionsOutput.nextToken,
+            inputKey: \DescribeBatchPredictionsInput.nextToken,
+            outputKey: \DescribeBatchPredictionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MachineLearning {
             input: input,
             initialValue: initialValue,
             command: describeDataSources,
-            tokenKey: \DescribeDataSourcesOutput.nextToken,
+            inputKey: \DescribeDataSourcesInput.nextToken,
+            outputKey: \DescribeDataSourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MachineLearning {
         return client.paginate(
             input: input,
             command: describeDataSources,
-            tokenKey: \DescribeDataSourcesOutput.nextToken,
+            inputKey: \DescribeDataSourcesInput.nextToken,
+            outputKey: \DescribeDataSourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension MachineLearning {
             input: input,
             initialValue: initialValue,
             command: describeEvaluations,
-            tokenKey: \DescribeEvaluationsOutput.nextToken,
+            inputKey: \DescribeEvaluationsInput.nextToken,
+            outputKey: \DescribeEvaluationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension MachineLearning {
         return client.paginate(
             input: input,
             command: describeEvaluations,
-            tokenKey: \DescribeEvaluationsOutput.nextToken,
+            inputKey: \DescribeEvaluationsInput.nextToken,
+            outputKey: \DescribeEvaluationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension MachineLearning {
             input: input,
             initialValue: initialValue,
             command: describeMLModels,
-            tokenKey: \DescribeMLModelsOutput.nextToken,
+            inputKey: \DescribeMLModelsInput.nextToken,
+            outputKey: \DescribeMLModelsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension MachineLearning {
         return client.paginate(
             input: input,
             command: describeMLModels,
-            tokenKey: \DescribeMLModelsOutput.nextToken,
+            inputKey: \DescribeMLModelsInput.nextToken,
+            outputKey: \DescribeMLModelsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ACMPCA {
             input: input,
             initialValue: initialValue,
             command: listCertificateAuthorities,
-            tokenKey: \ListCertificateAuthoritiesResponse.nextToken,
+            inputKey: \ListCertificateAuthoritiesRequest.nextToken,
+            outputKey: \ListCertificateAuthoritiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ACMPCA {
         return client.paginate(
             input: input,
             command: listCertificateAuthorities,
-            tokenKey: \ListCertificateAuthoritiesResponse.nextToken,
+            inputKey: \ListCertificateAuthoritiesRequest.nextToken,
+            outputKey: \ListCertificateAuthoritiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ACMPCA {
             input: input,
             initialValue: initialValue,
             command: listPermissions,
-            tokenKey: \ListPermissionsResponse.nextToken,
+            inputKey: \ListPermissionsRequest.nextToken,
+            outputKey: \ListPermissionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ACMPCA {
         return client.paginate(
             input: input,
             command: listPermissions,
-            tokenKey: \ListPermissionsResponse.nextToken,
+            inputKey: \ListPermissionsRequest.nextToken,
+            outputKey: \ListPermissionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ACMPCA {
             input: input,
             initialValue: initialValue,
             command: listTags,
-            tokenKey: \ListTagsResponse.nextToken,
+            inputKey: \ListTagsRequest.nextToken,
+            outputKey: \ListTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ACMPCA {
         return client.paginate(
             input: input,
             command: listTags,
-            tokenKey: \ListTagsResponse.nextToken,
+            inputKey: \ListTagsRequest.nextToken,
+            outputKey: \ListTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

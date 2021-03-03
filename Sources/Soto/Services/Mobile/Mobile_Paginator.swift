@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Mobile {
             input: input,
             initialValue: initialValue,
             command: listBundles,
-            tokenKey: \ListBundlesResult.nextToken,
+            inputKey: \ListBundlesRequest.nextToken,
+            outputKey: \ListBundlesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Mobile {
         return client.paginate(
             input: input,
             command: listBundles,
-            tokenKey: \ListBundlesResult.nextToken,
+            inputKey: \ListBundlesRequest.nextToken,
+            outputKey: \ListBundlesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Mobile {
             input: input,
             initialValue: initialValue,
             command: listProjects,
-            tokenKey: \ListProjectsResult.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Mobile {
         return client.paginate(
             input: input,
             command: listProjects,
-            tokenKey: \ListProjectsResult.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

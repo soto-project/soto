@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getApiKeys,
-            tokenKey: \ApiKeys.position,
+            inputKey: \GetApiKeysRequest.position,
+            outputKey: \ApiKeys.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getApiKeys,
-            tokenKey: \ApiKeys.position,
+            inputKey: \GetApiKeysRequest.position,
+            outputKey: \ApiKeys.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getBasePathMappings,
-            tokenKey: \BasePathMappings.position,
+            inputKey: \GetBasePathMappingsRequest.position,
+            outputKey: \BasePathMappings.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getBasePathMappings,
-            tokenKey: \BasePathMappings.position,
+            inputKey: \GetBasePathMappingsRequest.position,
+            outputKey: \BasePathMappings.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getClientCertificates,
-            tokenKey: \ClientCertificates.position,
+            inputKey: \GetClientCertificatesRequest.position,
+            outputKey: \ClientCertificates.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getClientCertificates,
-            tokenKey: \ClientCertificates.position,
+            inputKey: \GetClientCertificatesRequest.position,
+            outputKey: \ClientCertificates.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getDeployments,
-            tokenKey: \Deployments.position,
+            inputKey: \GetDeploymentsRequest.position,
+            outputKey: \Deployments.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getDeployments,
-            tokenKey: \Deployments.position,
+            inputKey: \GetDeploymentsRequest.position,
+            outputKey: \Deployments.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getDomainNames,
-            tokenKey: \DomainNames.position,
+            inputKey: \GetDomainNamesRequest.position,
+            outputKey: \DomainNames.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getDomainNames,
-            tokenKey: \DomainNames.position,
+            inputKey: \GetDomainNamesRequest.position,
+            outputKey: \DomainNames.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getModels,
-            tokenKey: \Models.position,
+            inputKey: \GetModelsRequest.position,
+            outputKey: \Models.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getModels,
-            tokenKey: \Models.position,
+            inputKey: \GetModelsRequest.position,
+            outputKey: \Models.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getResources,
-            tokenKey: \Resources.position,
+            inputKey: \GetResourcesRequest.position,
+            outputKey: \Resources.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getResources,
-            tokenKey: \Resources.position,
+            inputKey: \GetResourcesRequest.position,
+            outputKey: \Resources.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getRestApis,
-            tokenKey: \RestApis.position,
+            inputKey: \GetRestApisRequest.position,
+            outputKey: \RestApis.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getRestApis,
-            tokenKey: \RestApis.position,
+            inputKey: \GetRestApisRequest.position,
+            outputKey: \RestApis.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getUsage,
-            tokenKey: \Usage.position,
+            inputKey: \GetUsageRequest.position,
+            outputKey: \Usage.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getUsage,
-            tokenKey: \Usage.position,
+            inputKey: \GetUsageRequest.position,
+            outputKey: \Usage.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getUsagePlanKeys,
-            tokenKey: \UsagePlanKeys.position,
+            inputKey: \GetUsagePlanKeysRequest.position,
+            outputKey: \UsagePlanKeys.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getUsagePlanKeys,
-            tokenKey: \UsagePlanKeys.position,
+            inputKey: \GetUsagePlanKeysRequest.position,
+            outputKey: \UsagePlanKeys.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getUsagePlans,
-            tokenKey: \UsagePlans.position,
+            inputKey: \GetUsagePlansRequest.position,
+            outputKey: \UsagePlans.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getUsagePlans,
-            tokenKey: \UsagePlans.position,
+            inputKey: \GetUsagePlansRequest.position,
+            outputKey: \UsagePlans.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension APIGateway {
             input: input,
             initialValue: initialValue,
             command: getVpcLinks,
-            tokenKey: \VpcLinks.position,
+            inputKey: \GetVpcLinksRequest.position,
+            outputKey: \VpcLinks.position,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension APIGateway {
         return client.paginate(
             input: input,
             command: getVpcLinks,
-            tokenKey: \VpcLinks.position,
+            inputKey: \GetVpcLinksRequest.position,
+            outputKey: \VpcLinks.position,
             on: eventLoop,
             onPage: onPage
         )

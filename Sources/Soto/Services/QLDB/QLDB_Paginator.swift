@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension QLDB {
             input: input,
             initialValue: initialValue,
             command: listJournalKinesisStreamsForLedger,
-            tokenKey: \ListJournalKinesisStreamsForLedgerResponse.nextToken,
+            inputKey: \ListJournalKinesisStreamsForLedgerRequest.nextToken,
+            outputKey: \ListJournalKinesisStreamsForLedgerResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension QLDB {
         return client.paginate(
             input: input,
             command: listJournalKinesisStreamsForLedger,
-            tokenKey: \ListJournalKinesisStreamsForLedgerResponse.nextToken,
+            inputKey: \ListJournalKinesisStreamsForLedgerRequest.nextToken,
+            outputKey: \ListJournalKinesisStreamsForLedgerResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension QLDB {
             input: input,
             initialValue: initialValue,
             command: listJournalS3Exports,
-            tokenKey: \ListJournalS3ExportsResponse.nextToken,
+            inputKey: \ListJournalS3ExportsRequest.nextToken,
+            outputKey: \ListJournalS3ExportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension QLDB {
         return client.paginate(
             input: input,
             command: listJournalS3Exports,
-            tokenKey: \ListJournalS3ExportsResponse.nextToken,
+            inputKey: \ListJournalS3ExportsRequest.nextToken,
+            outputKey: \ListJournalS3ExportsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension QLDB {
             input: input,
             initialValue: initialValue,
             command: listJournalS3ExportsForLedger,
-            tokenKey: \ListJournalS3ExportsForLedgerResponse.nextToken,
+            inputKey: \ListJournalS3ExportsForLedgerRequest.nextToken,
+            outputKey: \ListJournalS3ExportsForLedgerResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension QLDB {
         return client.paginate(
             input: input,
             command: listJournalS3ExportsForLedger,
-            tokenKey: \ListJournalS3ExportsForLedgerResponse.nextToken,
+            inputKey: \ListJournalS3ExportsForLedgerRequest.nextToken,
+            outputKey: \ListJournalS3ExportsForLedgerResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension QLDB {
             input: input,
             initialValue: initialValue,
             command: listLedgers,
-            tokenKey: \ListLedgersResponse.nextToken,
+            inputKey: \ListLedgersRequest.nextToken,
+            outputKey: \ListLedgersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension QLDB {
         return client.paginate(
             input: input,
             command: listLedgers,
-            tokenKey: \ListLedgersResponse.nextToken,
+            inputKey: \ListLedgersRequest.nextToken,
+            outputKey: \ListLedgersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

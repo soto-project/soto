@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ECRPublic {
             input: input,
             initialValue: initialValue,
             command: describeImageTags,
-            tokenKey: \DescribeImageTagsResponse.nextToken,
+            inputKey: \DescribeImageTagsRequest.nextToken,
+            outputKey: \DescribeImageTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ECRPublic {
         return client.paginate(
             input: input,
             command: describeImageTags,
-            tokenKey: \DescribeImageTagsResponse.nextToken,
+            inputKey: \DescribeImageTagsRequest.nextToken,
+            outputKey: \DescribeImageTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ECRPublic {
             input: input,
             initialValue: initialValue,
             command: describeImages,
-            tokenKey: \DescribeImagesResponse.nextToken,
+            inputKey: \DescribeImagesRequest.nextToken,
+            outputKey: \DescribeImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ECRPublic {
         return client.paginate(
             input: input,
             command: describeImages,
-            tokenKey: \DescribeImagesResponse.nextToken,
+            inputKey: \DescribeImagesRequest.nextToken,
+            outputKey: \DescribeImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ECRPublic {
             input: input,
             initialValue: initialValue,
             command: describeRegistries,
-            tokenKey: \DescribeRegistriesResponse.nextToken,
+            inputKey: \DescribeRegistriesRequest.nextToken,
+            outputKey: \DescribeRegistriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ECRPublic {
         return client.paginate(
             input: input,
             command: describeRegistries,
-            tokenKey: \DescribeRegistriesResponse.nextToken,
+            inputKey: \DescribeRegistriesRequest.nextToken,
+            outputKey: \DescribeRegistriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ECRPublic {
             input: input,
             initialValue: initialValue,
             command: describeRepositories,
-            tokenKey: \DescribeRepositoriesResponse.nextToken,
+            inputKey: \DescribeRepositoriesRequest.nextToken,
+            outputKey: \DescribeRepositoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ECRPublic {
         return client.paginate(
             input: input,
             command: describeRepositories,
-            tokenKey: \DescribeRepositoriesResponse.nextToken,
+            inputKey: \DescribeRepositoriesRequest.nextToken,
+            outputKey: \DescribeRepositoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

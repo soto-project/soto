@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeCacheClusters,
-            tokenKey: \CacheClusterMessage.marker,
+            inputKey: \DescribeCacheClustersMessage.marker,
+            outputKey: \CacheClusterMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeCacheClusters,
-            tokenKey: \CacheClusterMessage.marker,
+            inputKey: \DescribeCacheClustersMessage.marker,
+            outputKey: \CacheClusterMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeCacheEngineVersions,
-            tokenKey: \CacheEngineVersionMessage.marker,
+            inputKey: \DescribeCacheEngineVersionsMessage.marker,
+            outputKey: \CacheEngineVersionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeCacheEngineVersions,
-            tokenKey: \CacheEngineVersionMessage.marker,
+            inputKey: \DescribeCacheEngineVersionsMessage.marker,
+            outputKey: \CacheEngineVersionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeCacheParameterGroups,
-            tokenKey: \CacheParameterGroupsMessage.marker,
+            inputKey: \DescribeCacheParameterGroupsMessage.marker,
+            outputKey: \CacheParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeCacheParameterGroups,
-            tokenKey: \CacheParameterGroupsMessage.marker,
+            inputKey: \DescribeCacheParameterGroupsMessage.marker,
+            outputKey: \CacheParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeCacheParameters,
-            tokenKey: \CacheParameterGroupDetails.marker,
+            inputKey: \DescribeCacheParametersMessage.marker,
+            outputKey: \CacheParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeCacheParameters,
-            tokenKey: \CacheParameterGroupDetails.marker,
+            inputKey: \DescribeCacheParametersMessage.marker,
+            outputKey: \CacheParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeCacheSecurityGroups,
-            tokenKey: \CacheSecurityGroupMessage.marker,
+            inputKey: \DescribeCacheSecurityGroupsMessage.marker,
+            outputKey: \CacheSecurityGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeCacheSecurityGroups,
-            tokenKey: \CacheSecurityGroupMessage.marker,
+            inputKey: \DescribeCacheSecurityGroupsMessage.marker,
+            outputKey: \CacheSecurityGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeCacheSubnetGroups,
-            tokenKey: \CacheSubnetGroupMessage.marker,
+            inputKey: \DescribeCacheSubnetGroupsMessage.marker,
+            outputKey: \CacheSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeCacheSubnetGroups,
-            tokenKey: \CacheSubnetGroupMessage.marker,
+            inputKey: \DescribeCacheSubnetGroupsMessage.marker,
+            outputKey: \CacheSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeEngineDefaultParameters,
-            tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            inputKey: \DescribeEngineDefaultParametersMessage.marker,
+            outputKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeEngineDefaultParameters,
-            tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            inputKey: \DescribeEngineDefaultParametersMessage.marker,
+            outputKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeGlobalReplicationGroups,
-            tokenKey: \DescribeGlobalReplicationGroupsResult.marker,
+            inputKey: \DescribeGlobalReplicationGroupsMessage.marker,
+            outputKey: \DescribeGlobalReplicationGroupsResult.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeGlobalReplicationGroups,
-            tokenKey: \DescribeGlobalReplicationGroupsResult.marker,
+            inputKey: \DescribeGlobalReplicationGroupsMessage.marker,
+            outputKey: \DescribeGlobalReplicationGroupsResult.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeReplicationGroups,
-            tokenKey: \ReplicationGroupMessage.marker,
+            inputKey: \DescribeReplicationGroupsMessage.marker,
+            outputKey: \ReplicationGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeReplicationGroups,
-            tokenKey: \ReplicationGroupMessage.marker,
+            inputKey: \DescribeReplicationGroupsMessage.marker,
+            outputKey: \ReplicationGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeReservedCacheNodes,
-            tokenKey: \ReservedCacheNodeMessage.marker,
+            inputKey: \DescribeReservedCacheNodesMessage.marker,
+            outputKey: \ReservedCacheNodeMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeReservedCacheNodes,
-            tokenKey: \ReservedCacheNodeMessage.marker,
+            inputKey: \DescribeReservedCacheNodesMessage.marker,
+            outputKey: \ReservedCacheNodeMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeReservedCacheNodesOfferings,
-            tokenKey: \ReservedCacheNodesOfferingMessage.marker,
+            inputKey: \DescribeReservedCacheNodesOfferingsMessage.marker,
+            outputKey: \ReservedCacheNodesOfferingMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeReservedCacheNodesOfferings,
-            tokenKey: \ReservedCacheNodesOfferingMessage.marker,
+            inputKey: \DescribeReservedCacheNodesOfferingsMessage.marker,
+            outputKey: \ReservedCacheNodesOfferingMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeServiceUpdates,
-            tokenKey: \ServiceUpdatesMessage.marker,
+            inputKey: \DescribeServiceUpdatesMessage.marker,
+            outputKey: \ServiceUpdatesMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeServiceUpdates,
-            tokenKey: \ServiceUpdatesMessage.marker,
+            inputKey: \DescribeServiceUpdatesMessage.marker,
+            outputKey: \ServiceUpdatesMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeSnapshots,
-            tokenKey: \DescribeSnapshotsListMessage.marker,
+            inputKey: \DescribeSnapshotsMessage.marker,
+            outputKey: \DescribeSnapshotsListMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeSnapshots,
-            tokenKey: \DescribeSnapshotsListMessage.marker,
+            inputKey: \DescribeSnapshotsMessage.marker,
+            outputKey: \DescribeSnapshotsListMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeUpdateActions,
-            tokenKey: \UpdateActionsMessage.marker,
+            inputKey: \DescribeUpdateActionsMessage.marker,
+            outputKey: \UpdateActionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeUpdateActions,
-            tokenKey: \UpdateActionsMessage.marker,
+            inputKey: \DescribeUpdateActionsMessage.marker,
+            outputKey: \UpdateActionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeUserGroups,
-            tokenKey: \DescribeUserGroupsResult.marker,
+            inputKey: \DescribeUserGroupsMessage.marker,
+            outputKey: \DescribeUserGroupsResult.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeUserGroups,
-            tokenKey: \DescribeUserGroupsResult.marker,
+            inputKey: \DescribeUserGroupsMessage.marker,
+            outputKey: \DescribeUserGroupsResult.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension ElastiCache {
             input: input,
             initialValue: initialValue,
             command: describeUsers,
-            tokenKey: \DescribeUsersResult.marker,
+            inputKey: \DescribeUsersMessage.marker,
+            outputKey: \DescribeUsersResult.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension ElastiCache {
         return client.paginate(
             input: input,
             command: describeUsers,
-            tokenKey: \DescribeUsersResult.marker,
+            inputKey: \DescribeUsersMessage.marker,
+            outputKey: \DescribeUsersResult.marker,
             on: eventLoop,
             onPage: onPage
         )

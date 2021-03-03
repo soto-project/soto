@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeDBClusterEndpoints,
-            tokenKey: \DBClusterEndpointMessage.marker,
+            inputKey: \DescribeDBClusterEndpointsMessage.marker,
+            outputKey: \DBClusterEndpointMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeDBClusterEndpoints,
-            tokenKey: \DBClusterEndpointMessage.marker,
+            inputKey: \DescribeDBClusterEndpointsMessage.marker,
+            outputKey: \DBClusterEndpointMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeDBEngineVersions,
-            tokenKey: \DBEngineVersionMessage.marker,
+            inputKey: \DescribeDBEngineVersionsMessage.marker,
+            outputKey: \DBEngineVersionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeDBEngineVersions,
-            tokenKey: \DBEngineVersionMessage.marker,
+            inputKey: \DescribeDBEngineVersionsMessage.marker,
+            outputKey: \DBEngineVersionMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeDBInstances,
-            tokenKey: \DBInstanceMessage.marker,
+            inputKey: \DescribeDBInstancesMessage.marker,
+            outputKey: \DBInstanceMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeDBInstances,
-            tokenKey: \DBInstanceMessage.marker,
+            inputKey: \DescribeDBInstancesMessage.marker,
+            outputKey: \DBInstanceMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeDBParameterGroups,
-            tokenKey: \DBParameterGroupsMessage.marker,
+            inputKey: \DescribeDBParameterGroupsMessage.marker,
+            outputKey: \DBParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeDBParameterGroups,
-            tokenKey: \DBParameterGroupsMessage.marker,
+            inputKey: \DescribeDBParameterGroupsMessage.marker,
+            outputKey: \DBParameterGroupsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeDBParameters,
-            tokenKey: \DBParameterGroupDetails.marker,
+            inputKey: \DescribeDBParametersMessage.marker,
+            outputKey: \DBParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeDBParameters,
-            tokenKey: \DBParameterGroupDetails.marker,
+            inputKey: \DescribeDBParametersMessage.marker,
+            outputKey: \DBParameterGroupDetails.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeDBSubnetGroups,
-            tokenKey: \DBSubnetGroupMessage.marker,
+            inputKey: \DescribeDBSubnetGroupsMessage.marker,
+            outputKey: \DBSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeDBSubnetGroups,
-            tokenKey: \DBSubnetGroupMessage.marker,
+            inputKey: \DescribeDBSubnetGroupsMessage.marker,
+            outputKey: \DBSubnetGroupMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeEngineDefaultParameters,
-            tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            inputKey: \DescribeEngineDefaultParametersMessage.marker,
+            outputKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeEngineDefaultParameters,
-            tokenKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            inputKey: \DescribeEngineDefaultParametersMessage.marker,
+            outputKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeEventSubscriptions,
-            tokenKey: \EventSubscriptionsMessage.marker,
+            inputKey: \DescribeEventSubscriptionsMessage.marker,
+            outputKey: \EventSubscriptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeEventSubscriptions,
-            tokenKey: \EventSubscriptionsMessage.marker,
+            inputKey: \DescribeEventSubscriptionsMessage.marker,
+            outputKey: \EventSubscriptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeEvents,
-            tokenKey: \EventsMessage.marker,
+            inputKey: \DescribeEventsMessage.marker,
+            outputKey: \EventsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Neptune {
             input: input,
             initialValue: initialValue,
             command: describeOrderableDBInstanceOptions,
-            tokenKey: \OrderableDBInstanceOptionsMessage.marker,
+            inputKey: \DescribeOrderableDBInstanceOptionsMessage.marker,
+            outputKey: \OrderableDBInstanceOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Neptune {
         return client.paginate(
             input: input,
             command: describeOrderableDBInstanceOptions,
-            tokenKey: \OrderableDBInstanceOptionsMessage.marker,
+            inputKey: \DescribeOrderableDBInstanceOptionsMessage.marker,
+            outputKey: \OrderableDBInstanceOptionsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )

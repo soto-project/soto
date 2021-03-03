@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listBusinessReportSchedules,
-            tokenKey: \ListBusinessReportSchedulesResponse.nextToken,
+            inputKey: \ListBusinessReportSchedulesRequest.nextToken,
+            outputKey: \ListBusinessReportSchedulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listBusinessReportSchedules,
-            tokenKey: \ListBusinessReportSchedulesResponse.nextToken,
+            inputKey: \ListBusinessReportSchedulesRequest.nextToken,
+            outputKey: \ListBusinessReportSchedulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listConferenceProviders,
-            tokenKey: \ListConferenceProvidersResponse.nextToken,
+            inputKey: \ListConferenceProvidersRequest.nextToken,
+            outputKey: \ListConferenceProvidersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listConferenceProviders,
-            tokenKey: \ListConferenceProvidersResponse.nextToken,
+            inputKey: \ListConferenceProvidersRequest.nextToken,
+            outputKey: \ListConferenceProvidersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listDeviceEvents,
-            tokenKey: \ListDeviceEventsResponse.nextToken,
+            inputKey: \ListDeviceEventsRequest.nextToken,
+            outputKey: \ListDeviceEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listDeviceEvents,
-            tokenKey: \ListDeviceEventsResponse.nextToken,
+            inputKey: \ListDeviceEventsRequest.nextToken,
+            outputKey: \ListDeviceEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listGatewayGroups,
-            tokenKey: \ListGatewayGroupsResponse.nextToken,
+            inputKey: \ListGatewayGroupsRequest.nextToken,
+            outputKey: \ListGatewayGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listGatewayGroups,
-            tokenKey: \ListGatewayGroupsResponse.nextToken,
+            inputKey: \ListGatewayGroupsRequest.nextToken,
+            outputKey: \ListGatewayGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listGateways,
-            tokenKey: \ListGatewaysResponse.nextToken,
+            inputKey: \ListGatewaysRequest.nextToken,
+            outputKey: \ListGatewaysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listGateways,
-            tokenKey: \ListGatewaysResponse.nextToken,
+            inputKey: \ListGatewaysRequest.nextToken,
+            outputKey: \ListGatewaysResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listSkills,
-            tokenKey: \ListSkillsResponse.nextToken,
+            inputKey: \ListSkillsRequest.nextToken,
+            outputKey: \ListSkillsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listSkills,
-            tokenKey: \ListSkillsResponse.nextToken,
+            inputKey: \ListSkillsRequest.nextToken,
+            outputKey: \ListSkillsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listSkillsStoreCategories,
-            tokenKey: \ListSkillsStoreCategoriesResponse.nextToken,
+            inputKey: \ListSkillsStoreCategoriesRequest.nextToken,
+            outputKey: \ListSkillsStoreCategoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listSkillsStoreCategories,
-            tokenKey: \ListSkillsStoreCategoriesResponse.nextToken,
+            inputKey: \ListSkillsStoreCategoriesRequest.nextToken,
+            outputKey: \ListSkillsStoreCategoriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listSkillsStoreSkillsByCategory,
-            tokenKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken,
+            inputKey: \ListSkillsStoreSkillsByCategoryRequest.nextToken,
+            outputKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listSkillsStoreSkillsByCategory,
-            tokenKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken,
+            inputKey: \ListSkillsStoreSkillsByCategoryRequest.nextToken,
+            outputKey: \ListSkillsStoreSkillsByCategoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listSmartHomeAppliances,
-            tokenKey: \ListSmartHomeAppliancesResponse.nextToken,
+            inputKey: \ListSmartHomeAppliancesRequest.nextToken,
+            outputKey: \ListSmartHomeAppliancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listSmartHomeAppliances,
-            tokenKey: \ListSmartHomeAppliancesResponse.nextToken,
+            inputKey: \ListSmartHomeAppliancesRequest.nextToken,
+            outputKey: \ListSmartHomeAppliancesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: listTags,
-            tokenKey: \ListTagsResponse.nextToken,
+            inputKey: \ListTagsRequest.nextToken,
+            outputKey: \ListTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: listTags,
-            tokenKey: \ListTagsResponse.nextToken,
+            inputKey: \ListTagsRequest.nextToken,
+            outputKey: \ListTagsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: searchAddressBooks,
-            tokenKey: \SearchAddressBooksResponse.nextToken,
+            inputKey: \SearchAddressBooksRequest.nextToken,
+            outputKey: \SearchAddressBooksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: searchAddressBooks,
-            tokenKey: \SearchAddressBooksResponse.nextToken,
+            inputKey: \SearchAddressBooksRequest.nextToken,
+            outputKey: \SearchAddressBooksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: searchContacts,
-            tokenKey: \SearchContactsResponse.nextToken,
+            inputKey: \SearchContactsRequest.nextToken,
+            outputKey: \SearchContactsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: searchContacts,
-            tokenKey: \SearchContactsResponse.nextToken,
+            inputKey: \SearchContactsRequest.nextToken,
+            outputKey: \SearchContactsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: searchDevices,
-            tokenKey: \SearchDevicesResponse.nextToken,
+            inputKey: \SearchDevicesRequest.nextToken,
+            outputKey: \SearchDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: searchDevices,
-            tokenKey: \SearchDevicesResponse.nextToken,
+            inputKey: \SearchDevicesRequest.nextToken,
+            outputKey: \SearchDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: searchNetworkProfiles,
-            tokenKey: \SearchNetworkProfilesResponse.nextToken,
+            inputKey: \SearchNetworkProfilesRequest.nextToken,
+            outputKey: \SearchNetworkProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: searchNetworkProfiles,
-            tokenKey: \SearchNetworkProfilesResponse.nextToken,
+            inputKey: \SearchNetworkProfilesRequest.nextToken,
+            outputKey: \SearchNetworkProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: searchProfiles,
-            tokenKey: \SearchProfilesResponse.nextToken,
+            inputKey: \SearchProfilesRequest.nextToken,
+            outputKey: \SearchProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: searchProfiles,
-            tokenKey: \SearchProfilesResponse.nextToken,
+            inputKey: \SearchProfilesRequest.nextToken,
+            outputKey: \SearchProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: searchRooms,
-            tokenKey: \SearchRoomsResponse.nextToken,
+            inputKey: \SearchRoomsRequest.nextToken,
+            outputKey: \SearchRoomsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: searchRooms,
-            tokenKey: \SearchRoomsResponse.nextToken,
+            inputKey: \SearchRoomsRequest.nextToken,
+            outputKey: \SearchRoomsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: searchSkillGroups,
-            tokenKey: \SearchSkillGroupsResponse.nextToken,
+            inputKey: \SearchSkillGroupsRequest.nextToken,
+            outputKey: \SearchSkillGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: searchSkillGroups,
-            tokenKey: \SearchSkillGroupsResponse.nextToken,
+            inputKey: \SearchSkillGroupsRequest.nextToken,
+            outputKey: \SearchSkillGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension AlexaForBusiness {
             input: input,
             initialValue: initialValue,
             command: searchUsers,
-            tokenKey: \SearchUsersResponse.nextToken,
+            inputKey: \SearchUsersRequest.nextToken,
+            outputKey: \SearchUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension AlexaForBusiness {
         return client.paginate(
             input: input,
             command: searchUsers,
-            tokenKey: \SearchUsersResponse.nextToken,
+            inputKey: \SearchUsersRequest.nextToken,
+            outputKey: \SearchUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

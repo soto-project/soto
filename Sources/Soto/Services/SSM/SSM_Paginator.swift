@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeActivations,
-            tokenKey: \DescribeActivationsResult.nextToken,
+            inputKey: \DescribeActivationsRequest.nextToken,
+            outputKey: \DescribeActivationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeActivations,
-            tokenKey: \DescribeActivationsResult.nextToken,
+            inputKey: \DescribeActivationsRequest.nextToken,
+            outputKey: \DescribeActivationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeAssociationExecutionTargets,
-            tokenKey: \DescribeAssociationExecutionTargetsResult.nextToken,
+            inputKey: \DescribeAssociationExecutionTargetsRequest.nextToken,
+            outputKey: \DescribeAssociationExecutionTargetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeAssociationExecutionTargets,
-            tokenKey: \DescribeAssociationExecutionTargetsResult.nextToken,
+            inputKey: \DescribeAssociationExecutionTargetsRequest.nextToken,
+            outputKey: \DescribeAssociationExecutionTargetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeAssociationExecutions,
-            tokenKey: \DescribeAssociationExecutionsResult.nextToken,
+            inputKey: \DescribeAssociationExecutionsRequest.nextToken,
+            outputKey: \DescribeAssociationExecutionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeAssociationExecutions,
-            tokenKey: \DescribeAssociationExecutionsResult.nextToken,
+            inputKey: \DescribeAssociationExecutionsRequest.nextToken,
+            outputKey: \DescribeAssociationExecutionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeAutomationExecutions,
-            tokenKey: \DescribeAutomationExecutionsResult.nextToken,
+            inputKey: \DescribeAutomationExecutionsRequest.nextToken,
+            outputKey: \DescribeAutomationExecutionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeAutomationExecutions,
-            tokenKey: \DescribeAutomationExecutionsResult.nextToken,
+            inputKey: \DescribeAutomationExecutionsRequest.nextToken,
+            outputKey: \DescribeAutomationExecutionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeAutomationStepExecutions,
-            tokenKey: \DescribeAutomationStepExecutionsResult.nextToken,
+            inputKey: \DescribeAutomationStepExecutionsRequest.nextToken,
+            outputKey: \DescribeAutomationStepExecutionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeAutomationStepExecutions,
-            tokenKey: \DescribeAutomationStepExecutionsResult.nextToken,
+            inputKey: \DescribeAutomationStepExecutionsRequest.nextToken,
+            outputKey: \DescribeAutomationStepExecutionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeAvailablePatches,
-            tokenKey: \DescribeAvailablePatchesResult.nextToken,
+            inputKey: \DescribeAvailablePatchesRequest.nextToken,
+            outputKey: \DescribeAvailablePatchesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeAvailablePatches,
-            tokenKey: \DescribeAvailablePatchesResult.nextToken,
+            inputKey: \DescribeAvailablePatchesRequest.nextToken,
+            outputKey: \DescribeAvailablePatchesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeEffectiveInstanceAssociations,
-            tokenKey: \DescribeEffectiveInstanceAssociationsResult.nextToken,
+            inputKey: \DescribeEffectiveInstanceAssociationsRequest.nextToken,
+            outputKey: \DescribeEffectiveInstanceAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeEffectiveInstanceAssociations,
-            tokenKey: \DescribeEffectiveInstanceAssociationsResult.nextToken,
+            inputKey: \DescribeEffectiveInstanceAssociationsRequest.nextToken,
+            outputKey: \DescribeEffectiveInstanceAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeEffectivePatchesForPatchBaseline,
-            tokenKey: \DescribeEffectivePatchesForPatchBaselineResult.nextToken,
+            inputKey: \DescribeEffectivePatchesForPatchBaselineRequest.nextToken,
+            outputKey: \DescribeEffectivePatchesForPatchBaselineResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeEffectivePatchesForPatchBaseline,
-            tokenKey: \DescribeEffectivePatchesForPatchBaselineResult.nextToken,
+            inputKey: \DescribeEffectivePatchesForPatchBaselineRequest.nextToken,
+            outputKey: \DescribeEffectivePatchesForPatchBaselineResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeInstanceAssociationsStatus,
-            tokenKey: \DescribeInstanceAssociationsStatusResult.nextToken,
+            inputKey: \DescribeInstanceAssociationsStatusRequest.nextToken,
+            outputKey: \DescribeInstanceAssociationsStatusResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeInstanceAssociationsStatus,
-            tokenKey: \DescribeInstanceAssociationsStatusResult.nextToken,
+            inputKey: \DescribeInstanceAssociationsStatusRequest.nextToken,
+            outputKey: \DescribeInstanceAssociationsStatusResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeInstanceInformation,
-            tokenKey: \DescribeInstanceInformationResult.nextToken,
+            inputKey: \DescribeInstanceInformationRequest.nextToken,
+            outputKey: \DescribeInstanceInformationResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeInstanceInformation,
-            tokenKey: \DescribeInstanceInformationResult.nextToken,
+            inputKey: \DescribeInstanceInformationRequest.nextToken,
+            outputKey: \DescribeInstanceInformationResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeInstancePatchStates,
-            tokenKey: \DescribeInstancePatchStatesResult.nextToken,
+            inputKey: \DescribeInstancePatchStatesRequest.nextToken,
+            outputKey: \DescribeInstancePatchStatesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeInstancePatchStates,
-            tokenKey: \DescribeInstancePatchStatesResult.nextToken,
+            inputKey: \DescribeInstancePatchStatesRequest.nextToken,
+            outputKey: \DescribeInstancePatchStatesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeInstancePatchStatesForPatchGroup,
-            tokenKey: \DescribeInstancePatchStatesForPatchGroupResult.nextToken,
+            inputKey: \DescribeInstancePatchStatesForPatchGroupRequest.nextToken,
+            outputKey: \DescribeInstancePatchStatesForPatchGroupResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeInstancePatchStatesForPatchGroup,
-            tokenKey: \DescribeInstancePatchStatesForPatchGroupResult.nextToken,
+            inputKey: \DescribeInstancePatchStatesForPatchGroupRequest.nextToken,
+            outputKey: \DescribeInstancePatchStatesForPatchGroupResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeInstancePatches,
-            tokenKey: \DescribeInstancePatchesResult.nextToken,
+            inputKey: \DescribeInstancePatchesRequest.nextToken,
+            outputKey: \DescribeInstancePatchesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeInstancePatches,
-            tokenKey: \DescribeInstancePatchesResult.nextToken,
+            inputKey: \DescribeInstancePatchesRequest.nextToken,
+            outputKey: \DescribeInstancePatchesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeInventoryDeletions,
-            tokenKey: \DescribeInventoryDeletionsResult.nextToken,
+            inputKey: \DescribeInventoryDeletionsRequest.nextToken,
+            outputKey: \DescribeInventoryDeletionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeInventoryDeletions,
-            tokenKey: \DescribeInventoryDeletionsResult.nextToken,
+            inputKey: \DescribeInventoryDeletionsRequest.nextToken,
+            outputKey: \DescribeInventoryDeletionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeMaintenanceWindowExecutionTaskInvocations,
-            tokenKey: \DescribeMaintenanceWindowExecutionTaskInvocationsResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeMaintenanceWindowExecutionTaskInvocations,
-            tokenKey: \DescribeMaintenanceWindowExecutionTaskInvocationsResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeMaintenanceWindowExecutionTasks,
-            tokenKey: \DescribeMaintenanceWindowExecutionTasksResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowExecutionTasksRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowExecutionTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeMaintenanceWindowExecutionTasks,
-            tokenKey: \DescribeMaintenanceWindowExecutionTasksResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowExecutionTasksRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowExecutionTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeMaintenanceWindowExecutions,
-            tokenKey: \DescribeMaintenanceWindowExecutionsResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowExecutionsRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowExecutionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeMaintenanceWindowExecutions,
-            tokenKey: \DescribeMaintenanceWindowExecutionsResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowExecutionsRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowExecutionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeMaintenanceWindowSchedule,
-            tokenKey: \DescribeMaintenanceWindowScheduleResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowScheduleRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowScheduleResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeMaintenanceWindowSchedule,
-            tokenKey: \DescribeMaintenanceWindowScheduleResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowScheduleRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowScheduleResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeMaintenanceWindowTargets,
-            tokenKey: \DescribeMaintenanceWindowTargetsResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowTargetsRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowTargetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeMaintenanceWindowTargets,
-            tokenKey: \DescribeMaintenanceWindowTargetsResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowTargetsRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowTargetsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1049,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeMaintenanceWindowTasks,
-            tokenKey: \DescribeMaintenanceWindowTasksResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowTasksRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1072,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeMaintenanceWindowTasks,
-            tokenKey: \DescribeMaintenanceWindowTasksResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowTasksRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1062,7 +1102,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeMaintenanceWindows,
-            tokenKey: \DescribeMaintenanceWindowsResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowsRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1084,7 +1125,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeMaintenanceWindows,
-            tokenKey: \DescribeMaintenanceWindowsResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowsRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,7 +1155,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeMaintenanceWindowsForTarget,
-            tokenKey: \DescribeMaintenanceWindowsForTargetResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowsForTargetRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowsForTargetResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1135,7 +1178,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeMaintenanceWindowsForTarget,
-            tokenKey: \DescribeMaintenanceWindowsForTargetResult.nextToken,
+            inputKey: \DescribeMaintenanceWindowsForTargetRequest.nextToken,
+            outputKey: \DescribeMaintenanceWindowsForTargetResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1164,7 +1208,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeOpsItems,
-            tokenKey: \DescribeOpsItemsResponse.nextToken,
+            inputKey: \DescribeOpsItemsRequest.nextToken,
+            outputKey: \DescribeOpsItemsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1186,7 +1231,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeOpsItems,
-            tokenKey: \DescribeOpsItemsResponse.nextToken,
+            inputKey: \DescribeOpsItemsRequest.nextToken,
+            outputKey: \DescribeOpsItemsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1215,7 +1261,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeParameters,
-            tokenKey: \DescribeParametersResult.nextToken,
+            inputKey: \DescribeParametersRequest.nextToken,
+            outputKey: \DescribeParametersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1237,7 +1284,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeParameters,
-            tokenKey: \DescribeParametersResult.nextToken,
+            inputKey: \DescribeParametersRequest.nextToken,
+            outputKey: \DescribeParametersResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1266,7 +1314,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describePatchBaselines,
-            tokenKey: \DescribePatchBaselinesResult.nextToken,
+            inputKey: \DescribePatchBaselinesRequest.nextToken,
+            outputKey: \DescribePatchBaselinesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1288,7 +1337,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describePatchBaselines,
-            tokenKey: \DescribePatchBaselinesResult.nextToken,
+            inputKey: \DescribePatchBaselinesRequest.nextToken,
+            outputKey: \DescribePatchBaselinesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1317,7 +1367,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describePatchGroups,
-            tokenKey: \DescribePatchGroupsResult.nextToken,
+            inputKey: \DescribePatchGroupsRequest.nextToken,
+            outputKey: \DescribePatchGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1339,7 +1390,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describePatchGroups,
-            tokenKey: \DescribePatchGroupsResult.nextToken,
+            inputKey: \DescribePatchGroupsRequest.nextToken,
+            outputKey: \DescribePatchGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1368,7 +1420,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describePatchProperties,
-            tokenKey: \DescribePatchPropertiesResult.nextToken,
+            inputKey: \DescribePatchPropertiesRequest.nextToken,
+            outputKey: \DescribePatchPropertiesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1390,7 +1443,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describePatchProperties,
-            tokenKey: \DescribePatchPropertiesResult.nextToken,
+            inputKey: \DescribePatchPropertiesRequest.nextToken,
+            outputKey: \DescribePatchPropertiesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1419,7 +1473,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: describeSessions,
-            tokenKey: \DescribeSessionsResponse.nextToken,
+            inputKey: \DescribeSessionsRequest.nextToken,
+            outputKey: \DescribeSessionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1441,7 +1496,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: describeSessions,
-            tokenKey: \DescribeSessionsResponse.nextToken,
+            inputKey: \DescribeSessionsRequest.nextToken,
+            outputKey: \DescribeSessionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1470,7 +1526,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: getInventory,
-            tokenKey: \GetInventoryResult.nextToken,
+            inputKey: \GetInventoryRequest.nextToken,
+            outputKey: \GetInventoryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1492,7 +1549,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: getInventory,
-            tokenKey: \GetInventoryResult.nextToken,
+            inputKey: \GetInventoryRequest.nextToken,
+            outputKey: \GetInventoryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1521,7 +1579,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: getInventorySchema,
-            tokenKey: \GetInventorySchemaResult.nextToken,
+            inputKey: \GetInventorySchemaRequest.nextToken,
+            outputKey: \GetInventorySchemaResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1543,7 +1602,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: getInventorySchema,
-            tokenKey: \GetInventorySchemaResult.nextToken,
+            inputKey: \GetInventorySchemaRequest.nextToken,
+            outputKey: \GetInventorySchemaResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1572,7 +1632,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: getOpsSummary,
-            tokenKey: \GetOpsSummaryResult.nextToken,
+            inputKey: \GetOpsSummaryRequest.nextToken,
+            outputKey: \GetOpsSummaryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1594,7 +1655,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: getOpsSummary,
-            tokenKey: \GetOpsSummaryResult.nextToken,
+            inputKey: \GetOpsSummaryRequest.nextToken,
+            outputKey: \GetOpsSummaryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1623,7 +1685,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: getParameterHistory,
-            tokenKey: \GetParameterHistoryResult.nextToken,
+            inputKey: \GetParameterHistoryRequest.nextToken,
+            outputKey: \GetParameterHistoryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1645,7 +1708,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: getParameterHistory,
-            tokenKey: \GetParameterHistoryResult.nextToken,
+            inputKey: \GetParameterHistoryRequest.nextToken,
+            outputKey: \GetParameterHistoryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1674,7 +1738,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: getParametersByPath,
-            tokenKey: \GetParametersByPathResult.nextToken,
+            inputKey: \GetParametersByPathRequest.nextToken,
+            outputKey: \GetParametersByPathResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1696,7 +1761,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: getParametersByPath,
-            tokenKey: \GetParametersByPathResult.nextToken,
+            inputKey: \GetParametersByPathRequest.nextToken,
+            outputKey: \GetParametersByPathResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1725,7 +1791,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listAssociationVersions,
-            tokenKey: \ListAssociationVersionsResult.nextToken,
+            inputKey: \ListAssociationVersionsRequest.nextToken,
+            outputKey: \ListAssociationVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1747,7 +1814,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listAssociationVersions,
-            tokenKey: \ListAssociationVersionsResult.nextToken,
+            inputKey: \ListAssociationVersionsRequest.nextToken,
+            outputKey: \ListAssociationVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1776,7 +1844,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listAssociations,
-            tokenKey: \ListAssociationsResult.nextToken,
+            inputKey: \ListAssociationsRequest.nextToken,
+            outputKey: \ListAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1798,7 +1867,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listAssociations,
-            tokenKey: \ListAssociationsResult.nextToken,
+            inputKey: \ListAssociationsRequest.nextToken,
+            outputKey: \ListAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1827,7 +1897,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listCommandInvocations,
-            tokenKey: \ListCommandInvocationsResult.nextToken,
+            inputKey: \ListCommandInvocationsRequest.nextToken,
+            outputKey: \ListCommandInvocationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1849,7 +1920,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listCommandInvocations,
-            tokenKey: \ListCommandInvocationsResult.nextToken,
+            inputKey: \ListCommandInvocationsRequest.nextToken,
+            outputKey: \ListCommandInvocationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1878,7 +1950,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listCommands,
-            tokenKey: \ListCommandsResult.nextToken,
+            inputKey: \ListCommandsRequest.nextToken,
+            outputKey: \ListCommandsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1900,7 +1973,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listCommands,
-            tokenKey: \ListCommandsResult.nextToken,
+            inputKey: \ListCommandsRequest.nextToken,
+            outputKey: \ListCommandsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1929,7 +2003,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listComplianceItems,
-            tokenKey: \ListComplianceItemsResult.nextToken,
+            inputKey: \ListComplianceItemsRequest.nextToken,
+            outputKey: \ListComplianceItemsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1951,7 +2026,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listComplianceItems,
-            tokenKey: \ListComplianceItemsResult.nextToken,
+            inputKey: \ListComplianceItemsRequest.nextToken,
+            outputKey: \ListComplianceItemsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1980,7 +2056,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listComplianceSummaries,
-            tokenKey: \ListComplianceSummariesResult.nextToken,
+            inputKey: \ListComplianceSummariesRequest.nextToken,
+            outputKey: \ListComplianceSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2002,7 +2079,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listComplianceSummaries,
-            tokenKey: \ListComplianceSummariesResult.nextToken,
+            inputKey: \ListComplianceSummariesRequest.nextToken,
+            outputKey: \ListComplianceSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2031,7 +2109,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listDocumentVersions,
-            tokenKey: \ListDocumentVersionsResult.nextToken,
+            inputKey: \ListDocumentVersionsRequest.nextToken,
+            outputKey: \ListDocumentVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2053,7 +2132,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listDocumentVersions,
-            tokenKey: \ListDocumentVersionsResult.nextToken,
+            inputKey: \ListDocumentVersionsRequest.nextToken,
+            outputKey: \ListDocumentVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2082,7 +2162,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listDocuments,
-            tokenKey: \ListDocumentsResult.nextToken,
+            inputKey: \ListDocumentsRequest.nextToken,
+            outputKey: \ListDocumentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2104,7 +2185,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listDocuments,
-            tokenKey: \ListDocumentsResult.nextToken,
+            inputKey: \ListDocumentsRequest.nextToken,
+            outputKey: \ListDocumentsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2133,7 +2215,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listOpsItemEvents,
-            tokenKey: \ListOpsItemEventsResponse.nextToken,
+            inputKey: \ListOpsItemEventsRequest.nextToken,
+            outputKey: \ListOpsItemEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2155,7 +2238,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listOpsItemEvents,
-            tokenKey: \ListOpsItemEventsResponse.nextToken,
+            inputKey: \ListOpsItemEventsRequest.nextToken,
+            outputKey: \ListOpsItemEventsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2184,7 +2268,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listOpsMetadata,
-            tokenKey: \ListOpsMetadataResult.nextToken,
+            inputKey: \ListOpsMetadataRequest.nextToken,
+            outputKey: \ListOpsMetadataResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2206,7 +2291,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listOpsMetadata,
-            tokenKey: \ListOpsMetadataResult.nextToken,
+            inputKey: \ListOpsMetadataRequest.nextToken,
+            outputKey: \ListOpsMetadataResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2235,7 +2321,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listResourceComplianceSummaries,
-            tokenKey: \ListResourceComplianceSummariesResult.nextToken,
+            inputKey: \ListResourceComplianceSummariesRequest.nextToken,
+            outputKey: \ListResourceComplianceSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2257,7 +2344,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listResourceComplianceSummaries,
-            tokenKey: \ListResourceComplianceSummariesResult.nextToken,
+            inputKey: \ListResourceComplianceSummariesRequest.nextToken,
+            outputKey: \ListResourceComplianceSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2286,7 +2374,8 @@ extension SSM {
             input: input,
             initialValue: initialValue,
             command: listResourceDataSync,
-            tokenKey: \ListResourceDataSyncResult.nextToken,
+            inputKey: \ListResourceDataSyncRequest.nextToken,
+            outputKey: \ListResourceDataSyncResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2308,7 +2397,8 @@ extension SSM {
         return client.paginate(
             input: input,
             command: listResourceDataSync,
-            tokenKey: \ListResourceDataSyncResult.nextToken,
+            inputKey: \ListResourceDataSyncRequest.nextToken,
+            outputKey: \ListResourceDataSyncResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

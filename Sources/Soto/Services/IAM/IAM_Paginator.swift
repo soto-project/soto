@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,8 +42,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: getAccountAuthorizationDetails,
-            tokenKey: \GetAccountAuthorizationDetailsResponse.marker,
-            moreResultsKey: \GetAccountAuthorizationDetailsResponse.isTruncated,
+            inputKey: \GetAccountAuthorizationDetailsRequest.marker,
+            outputKey: \GetAccountAuthorizationDetailsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -65,8 +65,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: getAccountAuthorizationDetails,
-            tokenKey: \GetAccountAuthorizationDetailsResponse.marker,
-            moreResultsKey: \GetAccountAuthorizationDetailsResponse.isTruncated,
+            inputKey: \GetAccountAuthorizationDetailsRequest.marker,
+            outputKey: \GetAccountAuthorizationDetailsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -95,8 +95,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: getGroup,
-            tokenKey: \GetGroupResponse.marker,
-            moreResultsKey: \GetGroupResponse.isTruncated,
+            inputKey: \GetGroupRequest.marker,
+            outputKey: \GetGroupResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -118,8 +118,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: getGroup,
-            tokenKey: \GetGroupResponse.marker,
-            moreResultsKey: \GetGroupResponse.isTruncated,
+            inputKey: \GetGroupRequest.marker,
+            outputKey: \GetGroupResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -148,8 +148,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listAccessKeys,
-            tokenKey: \ListAccessKeysResponse.marker,
-            moreResultsKey: \ListAccessKeysResponse.isTruncated,
+            inputKey: \ListAccessKeysRequest.marker,
+            outputKey: \ListAccessKeysResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -171,8 +171,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listAccessKeys,
-            tokenKey: \ListAccessKeysResponse.marker,
-            moreResultsKey: \ListAccessKeysResponse.isTruncated,
+            inputKey: \ListAccessKeysRequest.marker,
+            outputKey: \ListAccessKeysResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -201,8 +201,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listAccountAliases,
-            tokenKey: \ListAccountAliasesResponse.marker,
-            moreResultsKey: \ListAccountAliasesResponse.isTruncated,
+            inputKey: \ListAccountAliasesRequest.marker,
+            outputKey: \ListAccountAliasesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -224,8 +224,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listAccountAliases,
-            tokenKey: \ListAccountAliasesResponse.marker,
-            moreResultsKey: \ListAccountAliasesResponse.isTruncated,
+            inputKey: \ListAccountAliasesRequest.marker,
+            outputKey: \ListAccountAliasesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -254,8 +254,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listAttachedGroupPolicies,
-            tokenKey: \ListAttachedGroupPoliciesResponse.marker,
-            moreResultsKey: \ListAttachedGroupPoliciesResponse.isTruncated,
+            inputKey: \ListAttachedGroupPoliciesRequest.marker,
+            outputKey: \ListAttachedGroupPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -277,8 +277,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listAttachedGroupPolicies,
-            tokenKey: \ListAttachedGroupPoliciesResponse.marker,
-            moreResultsKey: \ListAttachedGroupPoliciesResponse.isTruncated,
+            inputKey: \ListAttachedGroupPoliciesRequest.marker,
+            outputKey: \ListAttachedGroupPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -307,8 +307,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listAttachedRolePolicies,
-            tokenKey: \ListAttachedRolePoliciesResponse.marker,
-            moreResultsKey: \ListAttachedRolePoliciesResponse.isTruncated,
+            inputKey: \ListAttachedRolePoliciesRequest.marker,
+            outputKey: \ListAttachedRolePoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -330,8 +330,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listAttachedRolePolicies,
-            tokenKey: \ListAttachedRolePoliciesResponse.marker,
-            moreResultsKey: \ListAttachedRolePoliciesResponse.isTruncated,
+            inputKey: \ListAttachedRolePoliciesRequest.marker,
+            outputKey: \ListAttachedRolePoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -360,8 +360,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listAttachedUserPolicies,
-            tokenKey: \ListAttachedUserPoliciesResponse.marker,
-            moreResultsKey: \ListAttachedUserPoliciesResponse.isTruncated,
+            inputKey: \ListAttachedUserPoliciesRequest.marker,
+            outputKey: \ListAttachedUserPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -383,8 +383,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listAttachedUserPolicies,
-            tokenKey: \ListAttachedUserPoliciesResponse.marker,
-            moreResultsKey: \ListAttachedUserPoliciesResponse.isTruncated,
+            inputKey: \ListAttachedUserPoliciesRequest.marker,
+            outputKey: \ListAttachedUserPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -413,8 +413,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listEntitiesForPolicy,
-            tokenKey: \ListEntitiesForPolicyResponse.marker,
-            moreResultsKey: \ListEntitiesForPolicyResponse.isTruncated,
+            inputKey: \ListEntitiesForPolicyRequest.marker,
+            outputKey: \ListEntitiesForPolicyResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -436,8 +436,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listEntitiesForPolicy,
-            tokenKey: \ListEntitiesForPolicyResponse.marker,
-            moreResultsKey: \ListEntitiesForPolicyResponse.isTruncated,
+            inputKey: \ListEntitiesForPolicyRequest.marker,
+            outputKey: \ListEntitiesForPolicyResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -466,8 +466,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listGroupPolicies,
-            tokenKey: \ListGroupPoliciesResponse.marker,
-            moreResultsKey: \ListGroupPoliciesResponse.isTruncated,
+            inputKey: \ListGroupPoliciesRequest.marker,
+            outputKey: \ListGroupPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -489,8 +489,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listGroupPolicies,
-            tokenKey: \ListGroupPoliciesResponse.marker,
-            moreResultsKey: \ListGroupPoliciesResponse.isTruncated,
+            inputKey: \ListGroupPoliciesRequest.marker,
+            outputKey: \ListGroupPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -519,8 +519,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listGroups,
-            tokenKey: \ListGroupsResponse.marker,
-            moreResultsKey: \ListGroupsResponse.isTruncated,
+            inputKey: \ListGroupsRequest.marker,
+            outputKey: \ListGroupsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -542,8 +542,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listGroups,
-            tokenKey: \ListGroupsResponse.marker,
-            moreResultsKey: \ListGroupsResponse.isTruncated,
+            inputKey: \ListGroupsRequest.marker,
+            outputKey: \ListGroupsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -572,8 +572,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listGroupsForUser,
-            tokenKey: \ListGroupsForUserResponse.marker,
-            moreResultsKey: \ListGroupsForUserResponse.isTruncated,
+            inputKey: \ListGroupsForUserRequest.marker,
+            outputKey: \ListGroupsForUserResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -595,8 +595,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listGroupsForUser,
-            tokenKey: \ListGroupsForUserResponse.marker,
-            moreResultsKey: \ListGroupsForUserResponse.isTruncated,
+            inputKey: \ListGroupsForUserRequest.marker,
+            outputKey: \ListGroupsForUserResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,8 +625,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listInstanceProfiles,
-            tokenKey: \ListInstanceProfilesResponse.marker,
-            moreResultsKey: \ListInstanceProfilesResponse.isTruncated,
+            inputKey: \ListInstanceProfilesRequest.marker,
+            outputKey: \ListInstanceProfilesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -648,8 +648,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listInstanceProfiles,
-            tokenKey: \ListInstanceProfilesResponse.marker,
-            moreResultsKey: \ListInstanceProfilesResponse.isTruncated,
+            inputKey: \ListInstanceProfilesRequest.marker,
+            outputKey: \ListInstanceProfilesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -678,8 +678,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listInstanceProfilesForRole,
-            tokenKey: \ListInstanceProfilesForRoleResponse.marker,
-            moreResultsKey: \ListInstanceProfilesForRoleResponse.isTruncated,
+            inputKey: \ListInstanceProfilesForRoleRequest.marker,
+            outputKey: \ListInstanceProfilesForRoleResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -701,8 +701,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listInstanceProfilesForRole,
-            tokenKey: \ListInstanceProfilesForRoleResponse.marker,
-            moreResultsKey: \ListInstanceProfilesForRoleResponse.isTruncated,
+            inputKey: \ListInstanceProfilesForRoleRequest.marker,
+            outputKey: \ListInstanceProfilesForRoleResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -731,8 +731,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listMFADevices,
-            tokenKey: \ListMFADevicesResponse.marker,
-            moreResultsKey: \ListMFADevicesResponse.isTruncated,
+            inputKey: \ListMFADevicesRequest.marker,
+            outputKey: \ListMFADevicesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -754,8 +754,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listMFADevices,
-            tokenKey: \ListMFADevicesResponse.marker,
-            moreResultsKey: \ListMFADevicesResponse.isTruncated,
+            inputKey: \ListMFADevicesRequest.marker,
+            outputKey: \ListMFADevicesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -784,8 +784,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listPolicies,
-            tokenKey: \ListPoliciesResponse.marker,
-            moreResultsKey: \ListPoliciesResponse.isTruncated,
+            inputKey: \ListPoliciesRequest.marker,
+            outputKey: \ListPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,8 +807,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listPolicies,
-            tokenKey: \ListPoliciesResponse.marker,
-            moreResultsKey: \ListPoliciesResponse.isTruncated,
+            inputKey: \ListPoliciesRequest.marker,
+            outputKey: \ListPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -837,8 +837,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listPolicyVersions,
-            tokenKey: \ListPolicyVersionsResponse.marker,
-            moreResultsKey: \ListPolicyVersionsResponse.isTruncated,
+            inputKey: \ListPolicyVersionsRequest.marker,
+            outputKey: \ListPolicyVersionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -860,8 +860,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listPolicyVersions,
-            tokenKey: \ListPolicyVersionsResponse.marker,
-            moreResultsKey: \ListPolicyVersionsResponse.isTruncated,
+            inputKey: \ListPolicyVersionsRequest.marker,
+            outputKey: \ListPolicyVersionsResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -890,8 +890,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listRolePolicies,
-            tokenKey: \ListRolePoliciesResponse.marker,
-            moreResultsKey: \ListRolePoliciesResponse.isTruncated,
+            inputKey: \ListRolePoliciesRequest.marker,
+            outputKey: \ListRolePoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -913,8 +913,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listRolePolicies,
-            tokenKey: \ListRolePoliciesResponse.marker,
-            moreResultsKey: \ListRolePoliciesResponse.isTruncated,
+            inputKey: \ListRolePoliciesRequest.marker,
+            outputKey: \ListRolePoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -943,8 +943,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listRoles,
-            tokenKey: \ListRolesResponse.marker,
-            moreResultsKey: \ListRolesResponse.isTruncated,
+            inputKey: \ListRolesRequest.marker,
+            outputKey: \ListRolesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -966,8 +966,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listRoles,
-            tokenKey: \ListRolesResponse.marker,
-            moreResultsKey: \ListRolesResponse.isTruncated,
+            inputKey: \ListRolesRequest.marker,
+            outputKey: \ListRolesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -996,8 +996,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listSSHPublicKeys,
-            tokenKey: \ListSSHPublicKeysResponse.marker,
-            moreResultsKey: \ListSSHPublicKeysResponse.isTruncated,
+            inputKey: \ListSSHPublicKeysRequest.marker,
+            outputKey: \ListSSHPublicKeysResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1019,8 +1019,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listSSHPublicKeys,
-            tokenKey: \ListSSHPublicKeysResponse.marker,
-            moreResultsKey: \ListSSHPublicKeysResponse.isTruncated,
+            inputKey: \ListSSHPublicKeysRequest.marker,
+            outputKey: \ListSSHPublicKeysResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1049,8 +1049,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listServerCertificates,
-            tokenKey: \ListServerCertificatesResponse.marker,
-            moreResultsKey: \ListServerCertificatesResponse.isTruncated,
+            inputKey: \ListServerCertificatesRequest.marker,
+            outputKey: \ListServerCertificatesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1072,8 +1072,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listServerCertificates,
-            tokenKey: \ListServerCertificatesResponse.marker,
-            moreResultsKey: \ListServerCertificatesResponse.isTruncated,
+            inputKey: \ListServerCertificatesRequest.marker,
+            outputKey: \ListServerCertificatesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1102,8 +1102,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listSigningCertificates,
-            tokenKey: \ListSigningCertificatesResponse.marker,
-            moreResultsKey: \ListSigningCertificatesResponse.isTruncated,
+            inputKey: \ListSigningCertificatesRequest.marker,
+            outputKey: \ListSigningCertificatesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1125,8 +1125,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listSigningCertificates,
-            tokenKey: \ListSigningCertificatesResponse.marker,
-            moreResultsKey: \ListSigningCertificatesResponse.isTruncated,
+            inputKey: \ListSigningCertificatesRequest.marker,
+            outputKey: \ListSigningCertificatesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1155,8 +1155,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listUserPolicies,
-            tokenKey: \ListUserPoliciesResponse.marker,
-            moreResultsKey: \ListUserPoliciesResponse.isTruncated,
+            inputKey: \ListUserPoliciesRequest.marker,
+            outputKey: \ListUserPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1178,8 +1178,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listUserPolicies,
-            tokenKey: \ListUserPoliciesResponse.marker,
-            moreResultsKey: \ListUserPoliciesResponse.isTruncated,
+            inputKey: \ListUserPoliciesRequest.marker,
+            outputKey: \ListUserPoliciesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1208,8 +1208,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listUsers,
-            tokenKey: \ListUsersResponse.marker,
-            moreResultsKey: \ListUsersResponse.isTruncated,
+            inputKey: \ListUsersRequest.marker,
+            outputKey: \ListUsersResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1231,8 +1231,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listUsers,
-            tokenKey: \ListUsersResponse.marker,
-            moreResultsKey: \ListUsersResponse.isTruncated,
+            inputKey: \ListUsersRequest.marker,
+            outputKey: \ListUsersResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1261,8 +1261,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: listVirtualMFADevices,
-            tokenKey: \ListVirtualMFADevicesResponse.marker,
-            moreResultsKey: \ListVirtualMFADevicesResponse.isTruncated,
+            inputKey: \ListVirtualMFADevicesRequest.marker,
+            outputKey: \ListVirtualMFADevicesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1284,8 +1284,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: listVirtualMFADevices,
-            tokenKey: \ListVirtualMFADevicesResponse.marker,
-            moreResultsKey: \ListVirtualMFADevicesResponse.isTruncated,
+            inputKey: \ListVirtualMFADevicesRequest.marker,
+            outputKey: \ListVirtualMFADevicesResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1314,8 +1314,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: simulateCustomPolicy,
-            tokenKey: \SimulatePolicyResponse.marker,
-            moreResultsKey: \SimulatePolicyResponse.isTruncated,
+            inputKey: \SimulateCustomPolicyRequest.marker,
+            outputKey: \SimulatePolicyResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1337,8 +1337,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: simulateCustomPolicy,
-            tokenKey: \SimulatePolicyResponse.marker,
-            moreResultsKey: \SimulatePolicyResponse.isTruncated,
+            inputKey: \SimulateCustomPolicyRequest.marker,
+            outputKey: \SimulatePolicyResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1367,8 +1367,8 @@ extension IAM {
             input: input,
             initialValue: initialValue,
             command: simulatePrincipalPolicy,
-            tokenKey: \SimulatePolicyResponse.marker,
-            moreResultsKey: \SimulatePolicyResponse.isTruncated,
+            inputKey: \SimulatePrincipalPolicyRequest.marker,
+            outputKey: \SimulatePolicyResponse.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1390,8 +1390,8 @@ extension IAM {
         return client.paginate(
             input: input,
             command: simulatePrincipalPolicy,
-            tokenKey: \SimulatePolicyResponse.marker,
-            moreResultsKey: \SimulatePolicyResponse.isTruncated,
+            inputKey: \SimulatePrincipalPolicyRequest.marker,
+            outputKey: \SimulatePolicyResponse.marker,
             on: eventLoop,
             onPage: onPage
         )

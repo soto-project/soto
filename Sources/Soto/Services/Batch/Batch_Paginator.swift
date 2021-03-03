@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Batch {
             input: input,
             initialValue: initialValue,
             command: describeComputeEnvironments,
-            tokenKey: \DescribeComputeEnvironmentsResponse.nextToken,
+            inputKey: \DescribeComputeEnvironmentsRequest.nextToken,
+            outputKey: \DescribeComputeEnvironmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Batch {
         return client.paginate(
             input: input,
             command: describeComputeEnvironments,
-            tokenKey: \DescribeComputeEnvironmentsResponse.nextToken,
+            inputKey: \DescribeComputeEnvironmentsRequest.nextToken,
+            outputKey: \DescribeComputeEnvironmentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Batch {
             input: input,
             initialValue: initialValue,
             command: describeJobDefinitions,
-            tokenKey: \DescribeJobDefinitionsResponse.nextToken,
+            inputKey: \DescribeJobDefinitionsRequest.nextToken,
+            outputKey: \DescribeJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Batch {
         return client.paginate(
             input: input,
             command: describeJobDefinitions,
-            tokenKey: \DescribeJobDefinitionsResponse.nextToken,
+            inputKey: \DescribeJobDefinitionsRequest.nextToken,
+            outputKey: \DescribeJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Batch {
             input: input,
             initialValue: initialValue,
             command: describeJobQueues,
-            tokenKey: \DescribeJobQueuesResponse.nextToken,
+            inputKey: \DescribeJobQueuesRequest.nextToken,
+            outputKey: \DescribeJobQueuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Batch {
         return client.paginate(
             input: input,
             command: describeJobQueues,
-            tokenKey: \DescribeJobQueuesResponse.nextToken,
+            inputKey: \DescribeJobQueuesRequest.nextToken,
+            outputKey: \DescribeJobQueuesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Batch {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Batch {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

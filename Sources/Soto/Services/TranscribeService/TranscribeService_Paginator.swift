@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension TranscribeService {
             input: input,
             initialValue: initialValue,
             command: listLanguageModels,
-            tokenKey: \ListLanguageModelsResponse.nextToken,
+            inputKey: \ListLanguageModelsRequest.nextToken,
+            outputKey: \ListLanguageModelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension TranscribeService {
         return client.paginate(
             input: input,
             command: listLanguageModels,
-            tokenKey: \ListLanguageModelsResponse.nextToken,
+            inputKey: \ListLanguageModelsRequest.nextToken,
+            outputKey: \ListLanguageModelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension TranscribeService {
             input: input,
             initialValue: initialValue,
             command: listMedicalTranscriptionJobs,
-            tokenKey: \ListMedicalTranscriptionJobsResponse.nextToken,
+            inputKey: \ListMedicalTranscriptionJobsRequest.nextToken,
+            outputKey: \ListMedicalTranscriptionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension TranscribeService {
         return client.paginate(
             input: input,
             command: listMedicalTranscriptionJobs,
-            tokenKey: \ListMedicalTranscriptionJobsResponse.nextToken,
+            inputKey: \ListMedicalTranscriptionJobsRequest.nextToken,
+            outputKey: \ListMedicalTranscriptionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension TranscribeService {
             input: input,
             initialValue: initialValue,
             command: listMedicalVocabularies,
-            tokenKey: \ListMedicalVocabulariesResponse.nextToken,
+            inputKey: \ListMedicalVocabulariesRequest.nextToken,
+            outputKey: \ListMedicalVocabulariesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension TranscribeService {
         return client.paginate(
             input: input,
             command: listMedicalVocabularies,
-            tokenKey: \ListMedicalVocabulariesResponse.nextToken,
+            inputKey: \ListMedicalVocabulariesRequest.nextToken,
+            outputKey: \ListMedicalVocabulariesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension TranscribeService {
             input: input,
             initialValue: initialValue,
             command: listTranscriptionJobs,
-            tokenKey: \ListTranscriptionJobsResponse.nextToken,
+            inputKey: \ListTranscriptionJobsRequest.nextToken,
+            outputKey: \ListTranscriptionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension TranscribeService {
         return client.paginate(
             input: input,
             command: listTranscriptionJobs,
-            tokenKey: \ListTranscriptionJobsResponse.nextToken,
+            inputKey: \ListTranscriptionJobsRequest.nextToken,
+            outputKey: \ListTranscriptionJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension TranscribeService {
             input: input,
             initialValue: initialValue,
             command: listVocabularies,
-            tokenKey: \ListVocabulariesResponse.nextToken,
+            inputKey: \ListVocabulariesRequest.nextToken,
+            outputKey: \ListVocabulariesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension TranscribeService {
         return client.paginate(
             input: input,
             command: listVocabularies,
-            tokenKey: \ListVocabulariesResponse.nextToken,
+            inputKey: \ListVocabulariesRequest.nextToken,
+            outputKey: \ListVocabulariesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension TranscribeService {
             input: input,
             initialValue: initialValue,
             command: listVocabularyFilters,
-            tokenKey: \ListVocabularyFiltersResponse.nextToken,
+            inputKey: \ListVocabularyFiltersRequest.nextToken,
+            outputKey: \ListVocabularyFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension TranscribeService {
         return client.paginate(
             input: input,
             command: listVocabularyFilters,
-            tokenKey: \ListVocabularyFiltersResponse.nextToken,
+            inputKey: \ListVocabularyFiltersRequest.nextToken,
+            outputKey: \ListVocabularyFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

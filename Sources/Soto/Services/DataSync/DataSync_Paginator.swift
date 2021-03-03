@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension DataSync {
             input: input,
             initialValue: initialValue,
             command: listAgents,
-            tokenKey: \ListAgentsResponse.nextToken,
+            inputKey: \ListAgentsRequest.nextToken,
+            outputKey: \ListAgentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension DataSync {
         return client.paginate(
             input: input,
             command: listAgents,
-            tokenKey: \ListAgentsResponse.nextToken,
+            inputKey: \ListAgentsRequest.nextToken,
+            outputKey: \ListAgentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension DataSync {
             input: input,
             initialValue: initialValue,
             command: listLocations,
-            tokenKey: \ListLocationsResponse.nextToken,
+            inputKey: \ListLocationsRequest.nextToken,
+            outputKey: \ListLocationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension DataSync {
         return client.paginate(
             input: input,
             command: listLocations,
-            tokenKey: \ListLocationsResponse.nextToken,
+            inputKey: \ListLocationsRequest.nextToken,
+            outputKey: \ListLocationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension DataSync {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension DataSync {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension DataSync {
             input: input,
             initialValue: initialValue,
             command: listTaskExecutions,
-            tokenKey: \ListTaskExecutionsResponse.nextToken,
+            inputKey: \ListTaskExecutionsRequest.nextToken,
+            outputKey: \ListTaskExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension DataSync {
         return client.paginate(
             input: input,
             command: listTaskExecutions,
-            tokenKey: \ListTaskExecutionsResponse.nextToken,
+            inputKey: \ListTaskExecutionsRequest.nextToken,
+            outputKey: \ListTaskExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension DataSync {
             input: input,
             initialValue: initialValue,
             command: listTasks,
-            tokenKey: \ListTasksResponse.nextToken,
+            inputKey: \ListTasksRequest.nextToken,
+            outputKey: \ListTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension DataSync {
         return client.paginate(
             input: input,
             command: listTasks,
-            tokenKey: \ListTasksResponse.nextToken,
+            inputKey: \ListTasksRequest.nextToken,
+            outputKey: \ListTasksResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

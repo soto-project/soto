@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension EFS {
             input: input,
             initialValue: initialValue,
             command: describeAccessPoints,
-            tokenKey: \DescribeAccessPointsResponse.nextToken,
+            inputKey: \DescribeAccessPointsRequest.nextToken,
+            outputKey: \DescribeAccessPointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension EFS {
         return client.paginate(
             input: input,
             command: describeAccessPoints,
-            tokenKey: \DescribeAccessPointsResponse.nextToken,
+            inputKey: \DescribeAccessPointsRequest.nextToken,
+            outputKey: \DescribeAccessPointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension EFS {
             input: input,
             initialValue: initialValue,
             command: describeFileSystems,
-            tokenKey: \DescribeFileSystemsResponse.nextMarker,
+            inputKey: \DescribeFileSystemsRequest.marker,
+            outputKey: \DescribeFileSystemsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension EFS {
         return client.paginate(
             input: input,
             command: describeFileSystems,
-            tokenKey: \DescribeFileSystemsResponse.nextMarker,
+            inputKey: \DescribeFileSystemsRequest.marker,
+            outputKey: \DescribeFileSystemsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -145,7 +149,8 @@ extension EFS {
             input: input,
             initialValue: initialValue,
             command: describeTags,
-            tokenKey: \DescribeTagsResponse.nextMarker,
+            inputKey: \DescribeTagsRequest.marker,
+            outputKey: \DescribeTagsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -168,7 +173,8 @@ extension EFS {
         return client.paginate(
             input: input,
             command: describeTags,
-            tokenKey: \DescribeTagsResponse.nextMarker,
+            inputKey: \DescribeTagsRequest.marker,
+            outputKey: \DescribeTagsResponse.nextMarker,
             on: eventLoop,
             onPage: onPage
         )
@@ -197,7 +203,8 @@ extension EFS {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -219,7 +226,8 @@ extension EFS {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

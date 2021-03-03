@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getClassifiers,
-            tokenKey: \GetClassifiersResponse.nextToken,
+            inputKey: \GetClassifiersRequest.nextToken,
+            outputKey: \GetClassifiersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getClassifiers,
-            tokenKey: \GetClassifiersResponse.nextToken,
+            inputKey: \GetClassifiersRequest.nextToken,
+            outputKey: \GetClassifiersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getConnections,
-            tokenKey: \GetConnectionsResponse.nextToken,
+            inputKey: \GetConnectionsRequest.nextToken,
+            outputKey: \GetConnectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getConnections,
-            tokenKey: \GetConnectionsResponse.nextToken,
+            inputKey: \GetConnectionsRequest.nextToken,
+            outputKey: \GetConnectionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getCrawlerMetrics,
-            tokenKey: \GetCrawlerMetricsResponse.nextToken,
+            inputKey: \GetCrawlerMetricsRequest.nextToken,
+            outputKey: \GetCrawlerMetricsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getCrawlerMetrics,
-            tokenKey: \GetCrawlerMetricsResponse.nextToken,
+            inputKey: \GetCrawlerMetricsRequest.nextToken,
+            outputKey: \GetCrawlerMetricsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getCrawlers,
-            tokenKey: \GetCrawlersResponse.nextToken,
+            inputKey: \GetCrawlersRequest.nextToken,
+            outputKey: \GetCrawlersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getCrawlers,
-            tokenKey: \GetCrawlersResponse.nextToken,
+            inputKey: \GetCrawlersRequest.nextToken,
+            outputKey: \GetCrawlersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getDatabases,
-            tokenKey: \GetDatabasesResponse.nextToken,
+            inputKey: \GetDatabasesRequest.nextToken,
+            outputKey: \GetDatabasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getDatabases,
-            tokenKey: \GetDatabasesResponse.nextToken,
+            inputKey: \GetDatabasesRequest.nextToken,
+            outputKey: \GetDatabasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getDevEndpoints,
-            tokenKey: \GetDevEndpointsResponse.nextToken,
+            inputKey: \GetDevEndpointsRequest.nextToken,
+            outputKey: \GetDevEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getDevEndpoints,
-            tokenKey: \GetDevEndpointsResponse.nextToken,
+            inputKey: \GetDevEndpointsRequest.nextToken,
+            outputKey: \GetDevEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getJobRuns,
-            tokenKey: \GetJobRunsResponse.nextToken,
+            inputKey: \GetJobRunsRequest.nextToken,
+            outputKey: \GetJobRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getJobRuns,
-            tokenKey: \GetJobRunsResponse.nextToken,
+            inputKey: \GetJobRunsRequest.nextToken,
+            outputKey: \GetJobRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getJobs,
-            tokenKey: \GetJobsResponse.nextToken,
+            inputKey: \GetJobsRequest.nextToken,
+            outputKey: \GetJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getJobs,
-            tokenKey: \GetJobsResponse.nextToken,
+            inputKey: \GetJobsRequest.nextToken,
+            outputKey: \GetJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getMLTaskRuns,
-            tokenKey: \GetMLTaskRunsResponse.nextToken,
+            inputKey: \GetMLTaskRunsRequest.nextToken,
+            outputKey: \GetMLTaskRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getMLTaskRuns,
-            tokenKey: \GetMLTaskRunsResponse.nextToken,
+            inputKey: \GetMLTaskRunsRequest.nextToken,
+            outputKey: \GetMLTaskRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getMLTransforms,
-            tokenKey: \GetMLTransformsResponse.nextToken,
+            inputKey: \GetMLTransformsRequest.nextToken,
+            outputKey: \GetMLTransformsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getMLTransforms,
-            tokenKey: \GetMLTransformsResponse.nextToken,
+            inputKey: \GetMLTransformsRequest.nextToken,
+            outputKey: \GetMLTransformsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getPartitionIndexes,
-            tokenKey: \GetPartitionIndexesResponse.nextToken,
+            inputKey: \GetPartitionIndexesRequest.nextToken,
+            outputKey: \GetPartitionIndexesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getPartitionIndexes,
-            tokenKey: \GetPartitionIndexesResponse.nextToken,
+            inputKey: \GetPartitionIndexesRequest.nextToken,
+            outputKey: \GetPartitionIndexesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getPartitions,
-            tokenKey: \GetPartitionsResponse.nextToken,
+            inputKey: \GetPartitionsRequest.nextToken,
+            outputKey: \GetPartitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getPartitions,
-            tokenKey: \GetPartitionsResponse.nextToken,
+            inputKey: \GetPartitionsRequest.nextToken,
+            outputKey: \GetPartitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getResourcePolicies,
-            tokenKey: \GetResourcePoliciesResponse.nextToken,
+            inputKey: \GetResourcePoliciesRequest.nextToken,
+            outputKey: \GetResourcePoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getResourcePolicies,
-            tokenKey: \GetResourcePoliciesResponse.nextToken,
+            inputKey: \GetResourcePoliciesRequest.nextToken,
+            outputKey: \GetResourcePoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getSecurityConfigurations,
-            tokenKey: \GetSecurityConfigurationsResponse.nextToken,
+            inputKey: \GetSecurityConfigurationsRequest.nextToken,
+            outputKey: \GetSecurityConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getSecurityConfigurations,
-            tokenKey: \GetSecurityConfigurationsResponse.nextToken,
+            inputKey: \GetSecurityConfigurationsRequest.nextToken,
+            outputKey: \GetSecurityConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getTableVersions,
-            tokenKey: \GetTableVersionsResponse.nextToken,
+            inputKey: \GetTableVersionsRequest.nextToken,
+            outputKey: \GetTableVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getTableVersions,
-            tokenKey: \GetTableVersionsResponse.nextToken,
+            inputKey: \GetTableVersionsRequest.nextToken,
+            outputKey: \GetTableVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getTables,
-            tokenKey: \GetTablesResponse.nextToken,
+            inputKey: \GetTablesRequest.nextToken,
+            outputKey: \GetTablesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getTables,
-            tokenKey: \GetTablesResponse.nextToken,
+            inputKey: \GetTablesRequest.nextToken,
+            outputKey: \GetTablesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getTriggers,
-            tokenKey: \GetTriggersResponse.nextToken,
+            inputKey: \GetTriggersRequest.nextToken,
+            outputKey: \GetTriggersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getTriggers,
-            tokenKey: \GetTriggersResponse.nextToken,
+            inputKey: \GetTriggersRequest.nextToken,
+            outputKey: \GetTriggersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getUserDefinedFunctions,
-            tokenKey: \GetUserDefinedFunctionsResponse.nextToken,
+            inputKey: \GetUserDefinedFunctionsRequest.nextToken,
+            outputKey: \GetUserDefinedFunctionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getUserDefinedFunctions,
-            tokenKey: \GetUserDefinedFunctionsResponse.nextToken,
+            inputKey: \GetUserDefinedFunctionsRequest.nextToken,
+            outputKey: \GetUserDefinedFunctionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: getWorkflowRuns,
-            tokenKey: \GetWorkflowRunsResponse.nextToken,
+            inputKey: \GetWorkflowRunsRequest.nextToken,
+            outputKey: \GetWorkflowRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: getWorkflowRuns,
-            tokenKey: \GetWorkflowRunsResponse.nextToken,
+            inputKey: \GetWorkflowRunsRequest.nextToken,
+            outputKey: \GetWorkflowRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1049,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: listCrawlers,
-            tokenKey: \ListCrawlersResponse.nextToken,
+            inputKey: \ListCrawlersRequest.nextToken,
+            outputKey: \ListCrawlersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1072,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: listCrawlers,
-            tokenKey: \ListCrawlersResponse.nextToken,
+            inputKey: \ListCrawlersRequest.nextToken,
+            outputKey: \ListCrawlersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1062,7 +1102,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: listDevEndpoints,
-            tokenKey: \ListDevEndpointsResponse.nextToken,
+            inputKey: \ListDevEndpointsRequest.nextToken,
+            outputKey: \ListDevEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1084,7 +1125,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: listDevEndpoints,
-            tokenKey: \ListDevEndpointsResponse.nextToken,
+            inputKey: \ListDevEndpointsRequest.nextToken,
+            outputKey: \ListDevEndpointsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,7 +1155,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1135,7 +1178,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsResponse.nextToken,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1164,7 +1208,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: listMLTransforms,
-            tokenKey: \ListMLTransformsResponse.nextToken,
+            inputKey: \ListMLTransformsRequest.nextToken,
+            outputKey: \ListMLTransformsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1186,7 +1231,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: listMLTransforms,
-            tokenKey: \ListMLTransformsResponse.nextToken,
+            inputKey: \ListMLTransformsRequest.nextToken,
+            outputKey: \ListMLTransformsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1215,7 +1261,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: listRegistries,
-            tokenKey: \ListRegistriesResponse.nextToken,
+            inputKey: \ListRegistriesInput.nextToken,
+            outputKey: \ListRegistriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1237,7 +1284,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: listRegistries,
-            tokenKey: \ListRegistriesResponse.nextToken,
+            inputKey: \ListRegistriesInput.nextToken,
+            outputKey: \ListRegistriesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1266,7 +1314,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: listSchemaVersions,
-            tokenKey: \ListSchemaVersionsResponse.nextToken,
+            inputKey: \ListSchemaVersionsInput.nextToken,
+            outputKey: \ListSchemaVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1288,7 +1337,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: listSchemaVersions,
-            tokenKey: \ListSchemaVersionsResponse.nextToken,
+            inputKey: \ListSchemaVersionsInput.nextToken,
+            outputKey: \ListSchemaVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1317,7 +1367,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: listSchemas,
-            tokenKey: \ListSchemasResponse.nextToken,
+            inputKey: \ListSchemasInput.nextToken,
+            outputKey: \ListSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1339,7 +1390,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: listSchemas,
-            tokenKey: \ListSchemasResponse.nextToken,
+            inputKey: \ListSchemasInput.nextToken,
+            outputKey: \ListSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1368,7 +1420,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: listTriggers,
-            tokenKey: \ListTriggersResponse.nextToken,
+            inputKey: \ListTriggersRequest.nextToken,
+            outputKey: \ListTriggersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1390,7 +1443,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: listTriggers,
-            tokenKey: \ListTriggersResponse.nextToken,
+            inputKey: \ListTriggersRequest.nextToken,
+            outputKey: \ListTriggersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1419,7 +1473,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: listWorkflows,
-            tokenKey: \ListWorkflowsResponse.nextToken,
+            inputKey: \ListWorkflowsRequest.nextToken,
+            outputKey: \ListWorkflowsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1441,7 +1496,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: listWorkflows,
-            tokenKey: \ListWorkflowsResponse.nextToken,
+            inputKey: \ListWorkflowsRequest.nextToken,
+            outputKey: \ListWorkflowsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1470,7 +1526,8 @@ extension Glue {
             input: input,
             initialValue: initialValue,
             command: searchTables,
-            tokenKey: \SearchTablesResponse.nextToken,
+            inputKey: \SearchTablesRequest.nextToken,
+            outputKey: \SearchTablesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1492,7 +1549,8 @@ extension Glue {
         return client.paginate(
             input: input,
             command: searchTables,
-            tokenKey: \SearchTablesResponse.nextToken,
+            inputKey: \SearchTablesRequest.nextToken,
+            outputKey: \SearchTablesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

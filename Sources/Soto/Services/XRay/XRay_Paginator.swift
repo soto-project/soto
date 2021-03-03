@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: batchGetTraces,
-            tokenKey: \BatchGetTracesResult.nextToken,
+            inputKey: \BatchGetTracesRequest.nextToken,
+            outputKey: \BatchGetTracesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: batchGetTraces,
-            tokenKey: \BatchGetTracesResult.nextToken,
+            inputKey: \BatchGetTracesRequest.nextToken,
+            outputKey: \BatchGetTracesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: getGroups,
-            tokenKey: \GetGroupsResult.nextToken,
+            inputKey: \GetGroupsRequest.nextToken,
+            outputKey: \GetGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: getGroups,
-            tokenKey: \GetGroupsResult.nextToken,
+            inputKey: \GetGroupsRequest.nextToken,
+            outputKey: \GetGroupsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: getInsightEvents,
-            tokenKey: \GetInsightEventsResult.nextToken,
+            inputKey: \GetInsightEventsRequest.nextToken,
+            outputKey: \GetInsightEventsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: getInsightEvents,
-            tokenKey: \GetInsightEventsResult.nextToken,
+            inputKey: \GetInsightEventsRequest.nextToken,
+            outputKey: \GetInsightEventsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: getInsightSummaries,
-            tokenKey: \GetInsightSummariesResult.nextToken,
+            inputKey: \GetInsightSummariesRequest.nextToken,
+            outputKey: \GetInsightSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: getInsightSummaries,
-            tokenKey: \GetInsightSummariesResult.nextToken,
+            inputKey: \GetInsightSummariesRequest.nextToken,
+            outputKey: \GetInsightSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: getSamplingRules,
-            tokenKey: \GetSamplingRulesResult.nextToken,
+            inputKey: \GetSamplingRulesRequest.nextToken,
+            outputKey: \GetSamplingRulesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: getSamplingRules,
-            tokenKey: \GetSamplingRulesResult.nextToken,
+            inputKey: \GetSamplingRulesRequest.nextToken,
+            outputKey: \GetSamplingRulesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: getSamplingStatisticSummaries,
-            tokenKey: \GetSamplingStatisticSummariesResult.nextToken,
+            inputKey: \GetSamplingStatisticSummariesRequest.nextToken,
+            outputKey: \GetSamplingStatisticSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: getSamplingStatisticSummaries,
-            tokenKey: \GetSamplingStatisticSummariesResult.nextToken,
+            inputKey: \GetSamplingStatisticSummariesRequest.nextToken,
+            outputKey: \GetSamplingStatisticSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: getServiceGraph,
-            tokenKey: \GetServiceGraphResult.nextToken,
+            inputKey: \GetServiceGraphRequest.nextToken,
+            outputKey: \GetServiceGraphResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: getServiceGraph,
-            tokenKey: \GetServiceGraphResult.nextToken,
+            inputKey: \GetServiceGraphRequest.nextToken,
+            outputKey: \GetServiceGraphResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: getTimeSeriesServiceStatistics,
-            tokenKey: \GetTimeSeriesServiceStatisticsResult.nextToken,
+            inputKey: \GetTimeSeriesServiceStatisticsRequest.nextToken,
+            outputKey: \GetTimeSeriesServiceStatisticsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: getTimeSeriesServiceStatistics,
-            tokenKey: \GetTimeSeriesServiceStatisticsResult.nextToken,
+            inputKey: \GetTimeSeriesServiceStatisticsRequest.nextToken,
+            outputKey: \GetTimeSeriesServiceStatisticsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: getTraceGraph,
-            tokenKey: \GetTraceGraphResult.nextToken,
+            inputKey: \GetTraceGraphRequest.nextToken,
+            outputKey: \GetTraceGraphResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: getTraceGraph,
-            tokenKey: \GetTraceGraphResult.nextToken,
+            inputKey: \GetTraceGraphRequest.nextToken,
+            outputKey: \GetTraceGraphResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension XRay {
             input: input,
             initialValue: initialValue,
             command: getTraceSummaries,
-            tokenKey: \GetTraceSummariesResult.nextToken,
+            inputKey: \GetTraceSummariesRequest.nextToken,
+            outputKey: \GetTraceSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension XRay {
         return client.paginate(
             input: input,
             command: getTraceSummaries,
-            tokenKey: \GetTraceSummariesResult.nextToken,
+            inputKey: \GetTraceSummariesRequest.nextToken,
+            outputKey: \GetTraceSummariesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

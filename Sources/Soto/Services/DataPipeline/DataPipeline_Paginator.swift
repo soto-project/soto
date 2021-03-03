@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,8 +42,8 @@ extension DataPipeline {
             input: input,
             initialValue: initialValue,
             command: describeObjects,
-            tokenKey: \DescribeObjectsOutput.marker,
-            moreResultsKey: \DescribeObjectsOutput.hasMoreResults,
+            inputKey: \DescribeObjectsInput.marker,
+            outputKey: \DescribeObjectsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -65,8 +65,8 @@ extension DataPipeline {
         return client.paginate(
             input: input,
             command: describeObjects,
-            tokenKey: \DescribeObjectsOutput.marker,
-            moreResultsKey: \DescribeObjectsOutput.hasMoreResults,
+            inputKey: \DescribeObjectsInput.marker,
+            outputKey: \DescribeObjectsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -95,8 +95,8 @@ extension DataPipeline {
             input: input,
             initialValue: initialValue,
             command: listPipelines,
-            tokenKey: \ListPipelinesOutput.marker,
-            moreResultsKey: \ListPipelinesOutput.hasMoreResults,
+            inputKey: \ListPipelinesInput.marker,
+            outputKey: \ListPipelinesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -118,8 +118,8 @@ extension DataPipeline {
         return client.paginate(
             input: input,
             command: listPipelines,
-            tokenKey: \ListPipelinesOutput.marker,
-            moreResultsKey: \ListPipelinesOutput.hasMoreResults,
+            inputKey: \ListPipelinesInput.marker,
+            outputKey: \ListPipelinesOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -148,8 +148,8 @@ extension DataPipeline {
             input: input,
             initialValue: initialValue,
             command: queryObjects,
-            tokenKey: \QueryObjectsOutput.marker,
-            moreResultsKey: \QueryObjectsOutput.hasMoreResults,
+            inputKey: \QueryObjectsInput.marker,
+            outputKey: \QueryObjectsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -171,8 +171,8 @@ extension DataPipeline {
         return client.paginate(
             input: input,
             command: queryObjects,
-            tokenKey: \QueryObjectsOutput.marker,
-            moreResultsKey: \QueryObjectsOutput.hasMoreResults,
+            inputKey: \QueryObjectsInput.marker,
+            outputKey: \QueryObjectsOutput.marker,
             on: eventLoop,
             onPage: onPage
         )

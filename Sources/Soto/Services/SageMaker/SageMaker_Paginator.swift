@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listActions,
-            tokenKey: \ListActionsResponse.nextToken,
+            inputKey: \ListActionsRequest.nextToken,
+            outputKey: \ListActionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listActions,
-            tokenKey: \ListActionsResponse.nextToken,
+            inputKey: \ListActionsRequest.nextToken,
+            outputKey: \ListActionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listAlgorithms,
-            tokenKey: \ListAlgorithmsOutput.nextToken,
+            inputKey: \ListAlgorithmsInput.nextToken,
+            outputKey: \ListAlgorithmsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listAlgorithms,
-            tokenKey: \ListAlgorithmsOutput.nextToken,
+            inputKey: \ListAlgorithmsInput.nextToken,
+            outputKey: \ListAlgorithmsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listAppImageConfigs,
-            tokenKey: \ListAppImageConfigsResponse.nextToken,
+            inputKey: \ListAppImageConfigsRequest.nextToken,
+            outputKey: \ListAppImageConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listAppImageConfigs,
-            tokenKey: \ListAppImageConfigsResponse.nextToken,
+            inputKey: \ListAppImageConfigsRequest.nextToken,
+            outputKey: \ListAppImageConfigsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listApps,
-            tokenKey: \ListAppsResponse.nextToken,
+            inputKey: \ListAppsRequest.nextToken,
+            outputKey: \ListAppsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listApps,
-            tokenKey: \ListAppsResponse.nextToken,
+            inputKey: \ListAppsRequest.nextToken,
+            outputKey: \ListAppsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listArtifacts,
-            tokenKey: \ListArtifactsResponse.nextToken,
+            inputKey: \ListArtifactsRequest.nextToken,
+            outputKey: \ListArtifactsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listArtifacts,
-            tokenKey: \ListArtifactsResponse.nextToken,
+            inputKey: \ListArtifactsRequest.nextToken,
+            outputKey: \ListArtifactsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listAssociations,
-            tokenKey: \ListAssociationsResponse.nextToken,
+            inputKey: \ListAssociationsRequest.nextToken,
+            outputKey: \ListAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listAssociations,
-            tokenKey: \ListAssociationsResponse.nextToken,
+            inputKey: \ListAssociationsRequest.nextToken,
+            outputKey: \ListAssociationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listAutoMLJobs,
-            tokenKey: \ListAutoMLJobsResponse.nextToken,
+            inputKey: \ListAutoMLJobsRequest.nextToken,
+            outputKey: \ListAutoMLJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listAutoMLJobs,
-            tokenKey: \ListAutoMLJobsResponse.nextToken,
+            inputKey: \ListAutoMLJobsRequest.nextToken,
+            outputKey: \ListAutoMLJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listCandidatesForAutoMLJob,
-            tokenKey: \ListCandidatesForAutoMLJobResponse.nextToken,
+            inputKey: \ListCandidatesForAutoMLJobRequest.nextToken,
+            outputKey: \ListCandidatesForAutoMLJobResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listCandidatesForAutoMLJob,
-            tokenKey: \ListCandidatesForAutoMLJobResponse.nextToken,
+            inputKey: \ListCandidatesForAutoMLJobRequest.nextToken,
+            outputKey: \ListCandidatesForAutoMLJobResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listCodeRepositories,
-            tokenKey: \ListCodeRepositoriesOutput.nextToken,
+            inputKey: \ListCodeRepositoriesInput.nextToken,
+            outputKey: \ListCodeRepositoriesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listCodeRepositories,
-            tokenKey: \ListCodeRepositoriesOutput.nextToken,
+            inputKey: \ListCodeRepositoriesInput.nextToken,
+            outputKey: \ListCodeRepositoriesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listCompilationJobs,
-            tokenKey: \ListCompilationJobsResponse.nextToken,
+            inputKey: \ListCompilationJobsRequest.nextToken,
+            outputKey: \ListCompilationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listCompilationJobs,
-            tokenKey: \ListCompilationJobsResponse.nextToken,
+            inputKey: \ListCompilationJobsRequest.nextToken,
+            outputKey: \ListCompilationJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listContexts,
-            tokenKey: \ListContextsResponse.nextToken,
+            inputKey: \ListContextsRequest.nextToken,
+            outputKey: \ListContextsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listContexts,
-            tokenKey: \ListContextsResponse.nextToken,
+            inputKey: \ListContextsRequest.nextToken,
+            outputKey: \ListContextsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listDataQualityJobDefinitions,
-            tokenKey: \ListDataQualityJobDefinitionsResponse.nextToken,
+            inputKey: \ListDataQualityJobDefinitionsRequest.nextToken,
+            outputKey: \ListDataQualityJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listDataQualityJobDefinitions,
-            tokenKey: \ListDataQualityJobDefinitionsResponse.nextToken,
+            inputKey: \ListDataQualityJobDefinitionsRequest.nextToken,
+            outputKey: \ListDataQualityJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listDeviceFleets,
-            tokenKey: \ListDeviceFleetsResponse.nextToken,
+            inputKey: \ListDeviceFleetsRequest.nextToken,
+            outputKey: \ListDeviceFleetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listDeviceFleets,
-            tokenKey: \ListDeviceFleetsResponse.nextToken,
+            inputKey: \ListDeviceFleetsRequest.nextToken,
+            outputKey: \ListDeviceFleetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listDevices,
-            tokenKey: \ListDevicesResponse.nextToken,
+            inputKey: \ListDevicesRequest.nextToken,
+            outputKey: \ListDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listDevices,
-            tokenKey: \ListDevicesResponse.nextToken,
+            inputKey: \ListDevicesRequest.nextToken,
+            outputKey: \ListDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listDomains,
-            tokenKey: \ListDomainsResponse.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listDomains,
-            tokenKey: \ListDomainsResponse.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listEdgePackagingJobs,
-            tokenKey: \ListEdgePackagingJobsResponse.nextToken,
+            inputKey: \ListEdgePackagingJobsRequest.nextToken,
+            outputKey: \ListEdgePackagingJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listEdgePackagingJobs,
-            tokenKey: \ListEdgePackagingJobsResponse.nextToken,
+            inputKey: \ListEdgePackagingJobsRequest.nextToken,
+            outputKey: \ListEdgePackagingJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listEndpointConfigs,
-            tokenKey: \ListEndpointConfigsOutput.nextToken,
+            inputKey: \ListEndpointConfigsInput.nextToken,
+            outputKey: \ListEndpointConfigsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listEndpointConfigs,
-            tokenKey: \ListEndpointConfigsOutput.nextToken,
+            inputKey: \ListEndpointConfigsInput.nextToken,
+            outputKey: \ListEndpointConfigsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listEndpoints,
-            tokenKey: \ListEndpointsOutput.nextToken,
+            inputKey: \ListEndpointsInput.nextToken,
+            outputKey: \ListEndpointsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listEndpoints,
-            tokenKey: \ListEndpointsOutput.nextToken,
+            inputKey: \ListEndpointsInput.nextToken,
+            outputKey: \ListEndpointsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listExperiments,
-            tokenKey: \ListExperimentsResponse.nextToken,
+            inputKey: \ListExperimentsRequest.nextToken,
+            outputKey: \ListExperimentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listExperiments,
-            tokenKey: \ListExperimentsResponse.nextToken,
+            inputKey: \ListExperimentsRequest.nextToken,
+            outputKey: \ListExperimentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1011,7 +1049,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listFeatureGroups,
-            tokenKey: \ListFeatureGroupsResponse.nextToken,
+            inputKey: \ListFeatureGroupsRequest.nextToken,
+            outputKey: \ListFeatureGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1033,7 +1072,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listFeatureGroups,
-            tokenKey: \ListFeatureGroupsResponse.nextToken,
+            inputKey: \ListFeatureGroupsRequest.nextToken,
+            outputKey: \ListFeatureGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1062,7 +1102,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listFlowDefinitions,
-            tokenKey: \ListFlowDefinitionsResponse.nextToken,
+            inputKey: \ListFlowDefinitionsRequest.nextToken,
+            outputKey: \ListFlowDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1084,7 +1125,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listFlowDefinitions,
-            tokenKey: \ListFlowDefinitionsResponse.nextToken,
+            inputKey: \ListFlowDefinitionsRequest.nextToken,
+            outputKey: \ListFlowDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,7 +1155,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listHumanTaskUis,
-            tokenKey: \ListHumanTaskUisResponse.nextToken,
+            inputKey: \ListHumanTaskUisRequest.nextToken,
+            outputKey: \ListHumanTaskUisResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1135,7 +1178,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listHumanTaskUis,
-            tokenKey: \ListHumanTaskUisResponse.nextToken,
+            inputKey: \ListHumanTaskUisRequest.nextToken,
+            outputKey: \ListHumanTaskUisResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1164,7 +1208,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listHyperParameterTuningJobs,
-            tokenKey: \ListHyperParameterTuningJobsResponse.nextToken,
+            inputKey: \ListHyperParameterTuningJobsRequest.nextToken,
+            outputKey: \ListHyperParameterTuningJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1186,7 +1231,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listHyperParameterTuningJobs,
-            tokenKey: \ListHyperParameterTuningJobsResponse.nextToken,
+            inputKey: \ListHyperParameterTuningJobsRequest.nextToken,
+            outputKey: \ListHyperParameterTuningJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1215,7 +1261,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listImageVersions,
-            tokenKey: \ListImageVersionsResponse.nextToken,
+            inputKey: \ListImageVersionsRequest.nextToken,
+            outputKey: \ListImageVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1237,7 +1284,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listImageVersions,
-            tokenKey: \ListImageVersionsResponse.nextToken,
+            inputKey: \ListImageVersionsRequest.nextToken,
+            outputKey: \ListImageVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1266,7 +1314,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listImages,
-            tokenKey: \ListImagesResponse.nextToken,
+            inputKey: \ListImagesRequest.nextToken,
+            outputKey: \ListImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1288,7 +1337,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listImages,
-            tokenKey: \ListImagesResponse.nextToken,
+            inputKey: \ListImagesRequest.nextToken,
+            outputKey: \ListImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1317,7 +1367,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listLabelingJobs,
-            tokenKey: \ListLabelingJobsResponse.nextToken,
+            inputKey: \ListLabelingJobsRequest.nextToken,
+            outputKey: \ListLabelingJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1339,7 +1390,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listLabelingJobs,
-            tokenKey: \ListLabelingJobsResponse.nextToken,
+            inputKey: \ListLabelingJobsRequest.nextToken,
+            outputKey: \ListLabelingJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1368,7 +1420,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listLabelingJobsForWorkteam,
-            tokenKey: \ListLabelingJobsForWorkteamResponse.nextToken,
+            inputKey: \ListLabelingJobsForWorkteamRequest.nextToken,
+            outputKey: \ListLabelingJobsForWorkteamResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1390,7 +1443,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listLabelingJobsForWorkteam,
-            tokenKey: \ListLabelingJobsForWorkteamResponse.nextToken,
+            inputKey: \ListLabelingJobsForWorkteamRequest.nextToken,
+            outputKey: \ListLabelingJobsForWorkteamResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1419,7 +1473,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listModelBiasJobDefinitions,
-            tokenKey: \ListModelBiasJobDefinitionsResponse.nextToken,
+            inputKey: \ListModelBiasJobDefinitionsRequest.nextToken,
+            outputKey: \ListModelBiasJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1441,7 +1496,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listModelBiasJobDefinitions,
-            tokenKey: \ListModelBiasJobDefinitionsResponse.nextToken,
+            inputKey: \ListModelBiasJobDefinitionsRequest.nextToken,
+            outputKey: \ListModelBiasJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1470,7 +1526,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listModelExplainabilityJobDefinitions,
-            tokenKey: \ListModelExplainabilityJobDefinitionsResponse.nextToken,
+            inputKey: \ListModelExplainabilityJobDefinitionsRequest.nextToken,
+            outputKey: \ListModelExplainabilityJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1492,7 +1549,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listModelExplainabilityJobDefinitions,
-            tokenKey: \ListModelExplainabilityJobDefinitionsResponse.nextToken,
+            inputKey: \ListModelExplainabilityJobDefinitionsRequest.nextToken,
+            outputKey: \ListModelExplainabilityJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1521,7 +1579,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listModelPackageGroups,
-            tokenKey: \ListModelPackageGroupsOutput.nextToken,
+            inputKey: \ListModelPackageGroupsInput.nextToken,
+            outputKey: \ListModelPackageGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1543,7 +1602,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listModelPackageGroups,
-            tokenKey: \ListModelPackageGroupsOutput.nextToken,
+            inputKey: \ListModelPackageGroupsInput.nextToken,
+            outputKey: \ListModelPackageGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1572,7 +1632,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listModelPackages,
-            tokenKey: \ListModelPackagesOutput.nextToken,
+            inputKey: \ListModelPackagesInput.nextToken,
+            outputKey: \ListModelPackagesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1594,7 +1655,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listModelPackages,
-            tokenKey: \ListModelPackagesOutput.nextToken,
+            inputKey: \ListModelPackagesInput.nextToken,
+            outputKey: \ListModelPackagesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1623,7 +1685,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listModelQualityJobDefinitions,
-            tokenKey: \ListModelQualityJobDefinitionsResponse.nextToken,
+            inputKey: \ListModelQualityJobDefinitionsRequest.nextToken,
+            outputKey: \ListModelQualityJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1645,7 +1708,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listModelQualityJobDefinitions,
-            tokenKey: \ListModelQualityJobDefinitionsResponse.nextToken,
+            inputKey: \ListModelQualityJobDefinitionsRequest.nextToken,
+            outputKey: \ListModelQualityJobDefinitionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1674,7 +1738,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listModels,
-            tokenKey: \ListModelsOutput.nextToken,
+            inputKey: \ListModelsInput.nextToken,
+            outputKey: \ListModelsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1696,7 +1761,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listModels,
-            tokenKey: \ListModelsOutput.nextToken,
+            inputKey: \ListModelsInput.nextToken,
+            outputKey: \ListModelsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1725,7 +1791,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listMonitoringExecutions,
-            tokenKey: \ListMonitoringExecutionsResponse.nextToken,
+            inputKey: \ListMonitoringExecutionsRequest.nextToken,
+            outputKey: \ListMonitoringExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1747,7 +1814,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listMonitoringExecutions,
-            tokenKey: \ListMonitoringExecutionsResponse.nextToken,
+            inputKey: \ListMonitoringExecutionsRequest.nextToken,
+            outputKey: \ListMonitoringExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1776,7 +1844,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listMonitoringSchedules,
-            tokenKey: \ListMonitoringSchedulesResponse.nextToken,
+            inputKey: \ListMonitoringSchedulesRequest.nextToken,
+            outputKey: \ListMonitoringSchedulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1798,7 +1867,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listMonitoringSchedules,
-            tokenKey: \ListMonitoringSchedulesResponse.nextToken,
+            inputKey: \ListMonitoringSchedulesRequest.nextToken,
+            outputKey: \ListMonitoringSchedulesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1827,7 +1897,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listNotebookInstanceLifecycleConfigs,
-            tokenKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken,
+            inputKey: \ListNotebookInstanceLifecycleConfigsInput.nextToken,
+            outputKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1849,7 +1920,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listNotebookInstanceLifecycleConfigs,
-            tokenKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken,
+            inputKey: \ListNotebookInstanceLifecycleConfigsInput.nextToken,
+            outputKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1878,7 +1950,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listNotebookInstances,
-            tokenKey: \ListNotebookInstancesOutput.nextToken,
+            inputKey: \ListNotebookInstancesInput.nextToken,
+            outputKey: \ListNotebookInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1900,7 +1973,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listNotebookInstances,
-            tokenKey: \ListNotebookInstancesOutput.nextToken,
+            inputKey: \ListNotebookInstancesInput.nextToken,
+            outputKey: \ListNotebookInstancesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1929,7 +2003,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listPipelineExecutionSteps,
-            tokenKey: \ListPipelineExecutionStepsResponse.nextToken,
+            inputKey: \ListPipelineExecutionStepsRequest.nextToken,
+            outputKey: \ListPipelineExecutionStepsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1951,7 +2026,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listPipelineExecutionSteps,
-            tokenKey: \ListPipelineExecutionStepsResponse.nextToken,
+            inputKey: \ListPipelineExecutionStepsRequest.nextToken,
+            outputKey: \ListPipelineExecutionStepsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1980,7 +2056,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listPipelineExecutions,
-            tokenKey: \ListPipelineExecutionsResponse.nextToken,
+            inputKey: \ListPipelineExecutionsRequest.nextToken,
+            outputKey: \ListPipelineExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2002,7 +2079,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listPipelineExecutions,
-            tokenKey: \ListPipelineExecutionsResponse.nextToken,
+            inputKey: \ListPipelineExecutionsRequest.nextToken,
+            outputKey: \ListPipelineExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2031,7 +2109,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listPipelineParametersForExecution,
-            tokenKey: \ListPipelineParametersForExecutionResponse.nextToken,
+            inputKey: \ListPipelineParametersForExecutionRequest.nextToken,
+            outputKey: \ListPipelineParametersForExecutionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2053,7 +2132,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listPipelineParametersForExecution,
-            tokenKey: \ListPipelineParametersForExecutionResponse.nextToken,
+            inputKey: \ListPipelineParametersForExecutionRequest.nextToken,
+            outputKey: \ListPipelineParametersForExecutionResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2082,7 +2162,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listPipelines,
-            tokenKey: \ListPipelinesResponse.nextToken,
+            inputKey: \ListPipelinesRequest.nextToken,
+            outputKey: \ListPipelinesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2104,7 +2185,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listPipelines,
-            tokenKey: \ListPipelinesResponse.nextToken,
+            inputKey: \ListPipelinesRequest.nextToken,
+            outputKey: \ListPipelinesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2133,7 +2215,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listProcessingJobs,
-            tokenKey: \ListProcessingJobsResponse.nextToken,
+            inputKey: \ListProcessingJobsRequest.nextToken,
+            outputKey: \ListProcessingJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2155,7 +2238,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listProcessingJobs,
-            tokenKey: \ListProcessingJobsResponse.nextToken,
+            inputKey: \ListProcessingJobsRequest.nextToken,
+            outputKey: \ListProcessingJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2184,7 +2268,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listProjects,
-            tokenKey: \ListProjectsOutput.nextToken,
+            inputKey: \ListProjectsInput.nextToken,
+            outputKey: \ListProjectsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2206,7 +2291,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listProjects,
-            tokenKey: \ListProjectsOutput.nextToken,
+            inputKey: \ListProjectsInput.nextToken,
+            outputKey: \ListProjectsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2235,7 +2321,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listSubscribedWorkteams,
-            tokenKey: \ListSubscribedWorkteamsResponse.nextToken,
+            inputKey: \ListSubscribedWorkteamsRequest.nextToken,
+            outputKey: \ListSubscribedWorkteamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2257,7 +2344,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listSubscribedWorkteams,
-            tokenKey: \ListSubscribedWorkteamsResponse.nextToken,
+            inputKey: \ListSubscribedWorkteamsRequest.nextToken,
+            outputKey: \ListSubscribedWorkteamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2286,7 +2374,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listTags,
-            tokenKey: \ListTagsOutput.nextToken,
+            inputKey: \ListTagsInput.nextToken,
+            outputKey: \ListTagsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2308,7 +2397,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listTags,
-            tokenKey: \ListTagsOutput.nextToken,
+            inputKey: \ListTagsInput.nextToken,
+            outputKey: \ListTagsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2337,7 +2427,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listTrainingJobs,
-            tokenKey: \ListTrainingJobsResponse.nextToken,
+            inputKey: \ListTrainingJobsRequest.nextToken,
+            outputKey: \ListTrainingJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2359,7 +2450,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listTrainingJobs,
-            tokenKey: \ListTrainingJobsResponse.nextToken,
+            inputKey: \ListTrainingJobsRequest.nextToken,
+            outputKey: \ListTrainingJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2388,7 +2480,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listTrainingJobsForHyperParameterTuningJob,
-            tokenKey: \ListTrainingJobsForHyperParameterTuningJobResponse.nextToken,
+            inputKey: \ListTrainingJobsForHyperParameterTuningJobRequest.nextToken,
+            outputKey: \ListTrainingJobsForHyperParameterTuningJobResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2410,7 +2503,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listTrainingJobsForHyperParameterTuningJob,
-            tokenKey: \ListTrainingJobsForHyperParameterTuningJobResponse.nextToken,
+            inputKey: \ListTrainingJobsForHyperParameterTuningJobRequest.nextToken,
+            outputKey: \ListTrainingJobsForHyperParameterTuningJobResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2439,7 +2533,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listTransformJobs,
-            tokenKey: \ListTransformJobsResponse.nextToken,
+            inputKey: \ListTransformJobsRequest.nextToken,
+            outputKey: \ListTransformJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2461,7 +2556,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listTransformJobs,
-            tokenKey: \ListTransformJobsResponse.nextToken,
+            inputKey: \ListTransformJobsRequest.nextToken,
+            outputKey: \ListTransformJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2490,7 +2586,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listTrialComponents,
-            tokenKey: \ListTrialComponentsResponse.nextToken,
+            inputKey: \ListTrialComponentsRequest.nextToken,
+            outputKey: \ListTrialComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2512,7 +2609,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listTrialComponents,
-            tokenKey: \ListTrialComponentsResponse.nextToken,
+            inputKey: \ListTrialComponentsRequest.nextToken,
+            outputKey: \ListTrialComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2541,7 +2639,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listTrials,
-            tokenKey: \ListTrialsResponse.nextToken,
+            inputKey: \ListTrialsRequest.nextToken,
+            outputKey: \ListTrialsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2563,7 +2662,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listTrials,
-            tokenKey: \ListTrialsResponse.nextToken,
+            inputKey: \ListTrialsRequest.nextToken,
+            outputKey: \ListTrialsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2592,7 +2692,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listUserProfiles,
-            tokenKey: \ListUserProfilesResponse.nextToken,
+            inputKey: \ListUserProfilesRequest.nextToken,
+            outputKey: \ListUserProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2614,7 +2715,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listUserProfiles,
-            tokenKey: \ListUserProfilesResponse.nextToken,
+            inputKey: \ListUserProfilesRequest.nextToken,
+            outputKey: \ListUserProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2643,7 +2745,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listWorkforces,
-            tokenKey: \ListWorkforcesResponse.nextToken,
+            inputKey: \ListWorkforcesRequest.nextToken,
+            outputKey: \ListWorkforcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2665,7 +2768,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listWorkforces,
-            tokenKey: \ListWorkforcesResponse.nextToken,
+            inputKey: \ListWorkforcesRequest.nextToken,
+            outputKey: \ListWorkforcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2694,7 +2798,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: listWorkteams,
-            tokenKey: \ListWorkteamsResponse.nextToken,
+            inputKey: \ListWorkteamsRequest.nextToken,
+            outputKey: \ListWorkteamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2716,7 +2821,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: listWorkteams,
-            tokenKey: \ListWorkteamsResponse.nextToken,
+            inputKey: \ListWorkteamsRequest.nextToken,
+            outputKey: \ListWorkteamsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2745,7 +2851,8 @@ extension SageMaker {
             input: input,
             initialValue: initialValue,
             command: search,
-            tokenKey: \SearchResponse.nextToken,
+            inputKey: \SearchRequest.nextToken,
+            outputKey: \SearchResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2767,7 +2874,8 @@ extension SageMaker {
         return client.paginate(
             input: input,
             command: search,
-            tokenKey: \SearchResponse.nextToken,
+            inputKey: \SearchRequest.nextToken,
+            outputKey: \SearchResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

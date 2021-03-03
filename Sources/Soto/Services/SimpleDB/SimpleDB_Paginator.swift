@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension SimpleDB {
             input: input,
             initialValue: initialValue,
             command: listDomains,
-            tokenKey: \ListDomainsResult.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension SimpleDB {
         return client.paginate(
             input: input,
             command: listDomains,
-            tokenKey: \ListDomainsResult.nextToken,
+            inputKey: \ListDomainsRequest.nextToken,
+            outputKey: \ListDomainsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension SimpleDB {
             input: input,
             initialValue: initialValue,
             command: select,
-            tokenKey: \SelectResult.nextToken,
+            inputKey: \SelectRequest.nextToken,
+            outputKey: \SelectResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension SimpleDB {
         return client.paginate(
             input: input,
             command: select,
-            tokenKey: \SelectResult.nextToken,
+            inputKey: \SelectRequest.nextToken,
+            outputKey: \SelectResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )

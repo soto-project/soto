@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ApplicationAutoScaling {
             input: input,
             initialValue: initialValue,
             command: describeScalableTargets,
-            tokenKey: \DescribeScalableTargetsResponse.nextToken,
+            inputKey: \DescribeScalableTargetsRequest.nextToken,
+            outputKey: \DescribeScalableTargetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ApplicationAutoScaling {
         return client.paginate(
             input: input,
             command: describeScalableTargets,
-            tokenKey: \DescribeScalableTargetsResponse.nextToken,
+            inputKey: \DescribeScalableTargetsRequest.nextToken,
+            outputKey: \DescribeScalableTargetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ApplicationAutoScaling {
             input: input,
             initialValue: initialValue,
             command: describeScalingActivities,
-            tokenKey: \DescribeScalingActivitiesResponse.nextToken,
+            inputKey: \DescribeScalingActivitiesRequest.nextToken,
+            outputKey: \DescribeScalingActivitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ApplicationAutoScaling {
         return client.paginate(
             input: input,
             command: describeScalingActivities,
-            tokenKey: \DescribeScalingActivitiesResponse.nextToken,
+            inputKey: \DescribeScalingActivitiesRequest.nextToken,
+            outputKey: \DescribeScalingActivitiesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ApplicationAutoScaling {
             input: input,
             initialValue: initialValue,
             command: describeScalingPolicies,
-            tokenKey: \DescribeScalingPoliciesResponse.nextToken,
+            inputKey: \DescribeScalingPoliciesRequest.nextToken,
+            outputKey: \DescribeScalingPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ApplicationAutoScaling {
         return client.paginate(
             input: input,
             command: describeScalingPolicies,
-            tokenKey: \DescribeScalingPoliciesResponse.nextToken,
+            inputKey: \DescribeScalingPoliciesRequest.nextToken,
+            outputKey: \DescribeScalingPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ApplicationAutoScaling {
             input: input,
             initialValue: initialValue,
             command: describeScheduledActions,
-            tokenKey: \DescribeScheduledActionsResponse.nextToken,
+            inputKey: \DescribeScheduledActionsRequest.nextToken,
+            outputKey: \DescribeScheduledActionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ApplicationAutoScaling {
         return client.paginate(
             input: input,
             command: describeScheduledActions,
-            tokenKey: \DescribeScheduledActionsResponse.nextToken,
+            inputKey: \DescribeScheduledActionsRequest.nextToken,
+            outputKey: \DescribeScheduledActionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

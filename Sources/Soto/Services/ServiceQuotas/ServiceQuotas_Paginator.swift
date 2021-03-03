@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ServiceQuotas {
             input: input,
             initialValue: initialValue,
             command: listAWSDefaultServiceQuotas,
-            tokenKey: \ListAWSDefaultServiceQuotasResponse.nextToken,
+            inputKey: \ListAWSDefaultServiceQuotasRequest.nextToken,
+            outputKey: \ListAWSDefaultServiceQuotasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ServiceQuotas {
         return client.paginate(
             input: input,
             command: listAWSDefaultServiceQuotas,
-            tokenKey: \ListAWSDefaultServiceQuotasResponse.nextToken,
+            inputKey: \ListAWSDefaultServiceQuotasRequest.nextToken,
+            outputKey: \ListAWSDefaultServiceQuotasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ServiceQuotas {
             input: input,
             initialValue: initialValue,
             command: listRequestedServiceQuotaChangeHistory,
-            tokenKey: \ListRequestedServiceQuotaChangeHistoryResponse.nextToken,
+            inputKey: \ListRequestedServiceQuotaChangeHistoryRequest.nextToken,
+            outputKey: \ListRequestedServiceQuotaChangeHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ServiceQuotas {
         return client.paginate(
             input: input,
             command: listRequestedServiceQuotaChangeHistory,
-            tokenKey: \ListRequestedServiceQuotaChangeHistoryResponse.nextToken,
+            inputKey: \ListRequestedServiceQuotaChangeHistoryRequest.nextToken,
+            outputKey: \ListRequestedServiceQuotaChangeHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ServiceQuotas {
             input: input,
             initialValue: initialValue,
             command: listRequestedServiceQuotaChangeHistoryByQuota,
-            tokenKey: \ListRequestedServiceQuotaChangeHistoryByQuotaResponse.nextToken,
+            inputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaRequest.nextToken,
+            outputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ServiceQuotas {
         return client.paginate(
             input: input,
             command: listRequestedServiceQuotaChangeHistoryByQuota,
-            tokenKey: \ListRequestedServiceQuotaChangeHistoryByQuotaResponse.nextToken,
+            inputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaRequest.nextToken,
+            outputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ServiceQuotas {
             input: input,
             initialValue: initialValue,
             command: listServiceQuotaIncreaseRequestsInTemplate,
-            tokenKey: \ListServiceQuotaIncreaseRequestsInTemplateResponse.nextToken,
+            inputKey: \ListServiceQuotaIncreaseRequestsInTemplateRequest.nextToken,
+            outputKey: \ListServiceQuotaIncreaseRequestsInTemplateResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ServiceQuotas {
         return client.paginate(
             input: input,
             command: listServiceQuotaIncreaseRequestsInTemplate,
-            tokenKey: \ListServiceQuotaIncreaseRequestsInTemplateResponse.nextToken,
+            inputKey: \ListServiceQuotaIncreaseRequestsInTemplateRequest.nextToken,
+            outputKey: \ListServiceQuotaIncreaseRequestsInTemplateResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ServiceQuotas {
             input: input,
             initialValue: initialValue,
             command: listServiceQuotas,
-            tokenKey: \ListServiceQuotasResponse.nextToken,
+            inputKey: \ListServiceQuotasRequest.nextToken,
+            outputKey: \ListServiceQuotasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ServiceQuotas {
         return client.paginate(
             input: input,
             command: listServiceQuotas,
-            tokenKey: \ListServiceQuotasResponse.nextToken,
+            inputKey: \ListServiceQuotasRequest.nextToken,
+            outputKey: \ListServiceQuotasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension ServiceQuotas {
             input: input,
             initialValue: initialValue,
             command: listServices,
-            tokenKey: \ListServicesResponse.nextToken,
+            inputKey: \ListServicesRequest.nextToken,
+            outputKey: \ListServicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension ServiceQuotas {
         return client.paginate(
             input: input,
             command: listServices,
-            tokenKey: \ListServicesResponse.nextToken,
+            inputKey: \ListServicesRequest.nextToken,
+            outputKey: \ListServicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

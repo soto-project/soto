@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: describeSchedule,
-            tokenKey: \DescribeScheduleResponse.nextToken,
+            inputKey: \DescribeScheduleRequest.nextToken,
+            outputKey: \DescribeScheduleResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: describeSchedule,
-            tokenKey: \DescribeScheduleResponse.nextToken,
+            inputKey: \DescribeScheduleRequest.nextToken,
+            outputKey: \DescribeScheduleResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: listChannels,
-            tokenKey: \ListChannelsResponse.nextToken,
+            inputKey: \ListChannelsRequest.nextToken,
+            outputKey: \ListChannelsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: listInputDeviceTransfers,
-            tokenKey: \ListInputDeviceTransfersResponse.nextToken,
+            inputKey: \ListInputDeviceTransfersRequest.nextToken,
+            outputKey: \ListInputDeviceTransfersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: listInputDeviceTransfers,
-            tokenKey: \ListInputDeviceTransfersResponse.nextToken,
+            inputKey: \ListInputDeviceTransfersRequest.nextToken,
+            outputKey: \ListInputDeviceTransfersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: listInputDevices,
-            tokenKey: \ListInputDevicesResponse.nextToken,
+            inputKey: \ListInputDevicesRequest.nextToken,
+            outputKey: \ListInputDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: listInputDevices,
-            tokenKey: \ListInputDevicesResponse.nextToken,
+            inputKey: \ListInputDevicesRequest.nextToken,
+            outputKey: \ListInputDevicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: listInputSecurityGroups,
-            tokenKey: \ListInputSecurityGroupsResponse.nextToken,
+            inputKey: \ListInputSecurityGroupsRequest.nextToken,
+            outputKey: \ListInputSecurityGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: listInputSecurityGroups,
-            tokenKey: \ListInputSecurityGroupsResponse.nextToken,
+            inputKey: \ListInputSecurityGroupsRequest.nextToken,
+            outputKey: \ListInputSecurityGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: listInputs,
-            tokenKey: \ListInputsResponse.nextToken,
+            inputKey: \ListInputsRequest.nextToken,
+            outputKey: \ListInputsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: listInputs,
-            tokenKey: \ListInputsResponse.nextToken,
+            inputKey: \ListInputsRequest.nextToken,
+            outputKey: \ListInputsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: listMultiplexPrograms,
-            tokenKey: \ListMultiplexProgramsResponse.nextToken,
+            inputKey: \ListMultiplexProgramsRequest.nextToken,
+            outputKey: \ListMultiplexProgramsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: listMultiplexPrograms,
-            tokenKey: \ListMultiplexProgramsResponse.nextToken,
+            inputKey: \ListMultiplexProgramsRequest.nextToken,
+            outputKey: \ListMultiplexProgramsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: listMultiplexes,
-            tokenKey: \ListMultiplexesResponse.nextToken,
+            inputKey: \ListMultiplexesRequest.nextToken,
+            outputKey: \ListMultiplexesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: listMultiplexes,
-            tokenKey: \ListMultiplexesResponse.nextToken,
+            inputKey: \ListMultiplexesRequest.nextToken,
+            outputKey: \ListMultiplexesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: listOfferings,
-            tokenKey: \ListOfferingsResponse.nextToken,
+            inputKey: \ListOfferingsRequest.nextToken,
+            outputKey: \ListOfferingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: listOfferings,
-            tokenKey: \ListOfferingsResponse.nextToken,
+            inputKey: \ListOfferingsRequest.nextToken,
+            outputKey: \ListOfferingsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension MediaLive {
             input: input,
             initialValue: initialValue,
             command: listReservations,
-            tokenKey: \ListReservationsResponse.nextToken,
+            inputKey: \ListReservationsRequest.nextToken,
+            outputKey: \ListReservationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension MediaLive {
         return client.paginate(
             input: input,
             command: listReservations,
-            tokenKey: \ListReservationsResponse.nextToken,
+            inputKey: \ListReservationsRequest.nextToken,
+            outputKey: \ListReservationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

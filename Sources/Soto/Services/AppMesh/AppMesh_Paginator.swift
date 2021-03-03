@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension AppMesh {
             input: input,
             initialValue: initialValue,
             command: listGatewayRoutes,
-            tokenKey: \ListGatewayRoutesOutput.nextToken,
+            inputKey: \ListGatewayRoutesInput.nextToken,
+            outputKey: \ListGatewayRoutesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension AppMesh {
         return client.paginate(
             input: input,
             command: listGatewayRoutes,
-            tokenKey: \ListGatewayRoutesOutput.nextToken,
+            inputKey: \ListGatewayRoutesInput.nextToken,
+            outputKey: \ListGatewayRoutesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension AppMesh {
             input: input,
             initialValue: initialValue,
             command: listMeshes,
-            tokenKey: \ListMeshesOutput.nextToken,
+            inputKey: \ListMeshesInput.nextToken,
+            outputKey: \ListMeshesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension AppMesh {
         return client.paginate(
             input: input,
             command: listMeshes,
-            tokenKey: \ListMeshesOutput.nextToken,
+            inputKey: \ListMeshesInput.nextToken,
+            outputKey: \ListMeshesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension AppMesh {
             input: input,
             initialValue: initialValue,
             command: listRoutes,
-            tokenKey: \ListRoutesOutput.nextToken,
+            inputKey: \ListRoutesInput.nextToken,
+            outputKey: \ListRoutesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension AppMesh {
         return client.paginate(
             input: input,
             command: listRoutes,
-            tokenKey: \ListRoutesOutput.nextToken,
+            inputKey: \ListRoutesInput.nextToken,
+            outputKey: \ListRoutesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension AppMesh {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceOutput.nextToken,
+            inputKey: \ListTagsForResourceInput.nextToken,
+            outputKey: \ListTagsForResourceOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension AppMesh {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceOutput.nextToken,
+            inputKey: \ListTagsForResourceInput.nextToken,
+            outputKey: \ListTagsForResourceOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension AppMesh {
             input: input,
             initialValue: initialValue,
             command: listVirtualGateways,
-            tokenKey: \ListVirtualGatewaysOutput.nextToken,
+            inputKey: \ListVirtualGatewaysInput.nextToken,
+            outputKey: \ListVirtualGatewaysOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension AppMesh {
         return client.paginate(
             input: input,
             command: listVirtualGateways,
-            tokenKey: \ListVirtualGatewaysOutput.nextToken,
+            inputKey: \ListVirtualGatewaysInput.nextToken,
+            outputKey: \ListVirtualGatewaysOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension AppMesh {
             input: input,
             initialValue: initialValue,
             command: listVirtualNodes,
-            tokenKey: \ListVirtualNodesOutput.nextToken,
+            inputKey: \ListVirtualNodesInput.nextToken,
+            outputKey: \ListVirtualNodesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension AppMesh {
         return client.paginate(
             input: input,
             command: listVirtualNodes,
-            tokenKey: \ListVirtualNodesOutput.nextToken,
+            inputKey: \ListVirtualNodesInput.nextToken,
+            outputKey: \ListVirtualNodesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension AppMesh {
             input: input,
             initialValue: initialValue,
             command: listVirtualRouters,
-            tokenKey: \ListVirtualRoutersOutput.nextToken,
+            inputKey: \ListVirtualRoutersInput.nextToken,
+            outputKey: \ListVirtualRoutersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension AppMesh {
         return client.paginate(
             input: input,
             command: listVirtualRouters,
-            tokenKey: \ListVirtualRoutersOutput.nextToken,
+            inputKey: \ListVirtualRoutersInput.nextToken,
+            outputKey: \ListVirtualRoutersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension AppMesh {
             input: input,
             initialValue: initialValue,
             command: listVirtualServices,
-            tokenKey: \ListVirtualServicesOutput.nextToken,
+            inputKey: \ListVirtualServicesInput.nextToken,
+            outputKey: \ListVirtualServicesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension AppMesh {
         return client.paginate(
             input: input,
             command: listVirtualServices,
-            tokenKey: \ListVirtualServicesOutput.nextToken,
+            inputKey: \ListVirtualServicesInput.nextToken,
+            outputKey: \ListVirtualServicesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,8 +42,8 @@ extension ImportExport {
             input: input,
             initialValue: initialValue,
             command: listJobs,
-            tokenKey: \ListJobsOutput.jobs?.last?.jobId,
-            moreResultsKey: \ListJobsOutput.isTruncated,
+            inputKey: \ListJobsInput.marker,
+            outputKey: \ListJobsOutput.jobs?.last?.jobId,
             on: eventLoop,
             onPage: onPage
         )
@@ -65,8 +65,8 @@ extension ImportExport {
         return client.paginate(
             input: input,
             command: listJobs,
-            tokenKey: \ListJobsOutput.jobs?.last?.jobId,
-            moreResultsKey: \ListJobsOutput.isTruncated,
+            inputKey: \ListJobsInput.marker,
+            outputKey: \ListJobsOutput.jobs?.last?.jobId,
             on: eventLoop,
             onPage: onPage
         )

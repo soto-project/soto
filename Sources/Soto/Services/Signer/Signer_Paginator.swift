@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Signer {
             input: input,
             initialValue: initialValue,
             command: listSigningJobs,
-            tokenKey: \ListSigningJobsResponse.nextToken,
+            inputKey: \ListSigningJobsRequest.nextToken,
+            outputKey: \ListSigningJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Signer {
         return client.paginate(
             input: input,
             command: listSigningJobs,
-            tokenKey: \ListSigningJobsResponse.nextToken,
+            inputKey: \ListSigningJobsRequest.nextToken,
+            outputKey: \ListSigningJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Signer {
             input: input,
             initialValue: initialValue,
             command: listSigningPlatforms,
-            tokenKey: \ListSigningPlatformsResponse.nextToken,
+            inputKey: \ListSigningPlatformsRequest.nextToken,
+            outputKey: \ListSigningPlatformsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Signer {
         return client.paginate(
             input: input,
             command: listSigningPlatforms,
-            tokenKey: \ListSigningPlatformsResponse.nextToken,
+            inputKey: \ListSigningPlatformsRequest.nextToken,
+            outputKey: \ListSigningPlatformsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Signer {
             input: input,
             initialValue: initialValue,
             command: listSigningProfiles,
-            tokenKey: \ListSigningProfilesResponse.nextToken,
+            inputKey: \ListSigningProfilesRequest.nextToken,
+            outputKey: \ListSigningProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Signer {
         return client.paginate(
             input: input,
             command: listSigningProfiles,
-            tokenKey: \ListSigningProfilesResponse.nextToken,
+            inputKey: \ListSigningProfilesRequest.nextToken,
+            outputKey: \ListSigningProfilesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

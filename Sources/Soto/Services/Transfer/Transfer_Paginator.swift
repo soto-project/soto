@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Transfer {
             input: input,
             initialValue: initialValue,
             command: listSecurityPolicies,
-            tokenKey: \ListSecurityPoliciesResponse.nextToken,
+            inputKey: \ListSecurityPoliciesRequest.nextToken,
+            outputKey: \ListSecurityPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Transfer {
         return client.paginate(
             input: input,
             command: listSecurityPolicies,
-            tokenKey: \ListSecurityPoliciesResponse.nextToken,
+            inputKey: \ListSecurityPoliciesRequest.nextToken,
+            outputKey: \ListSecurityPoliciesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Transfer {
             input: input,
             initialValue: initialValue,
             command: listServers,
-            tokenKey: \ListServersResponse.nextToken,
+            inputKey: \ListServersRequest.nextToken,
+            outputKey: \ListServersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Transfer {
         return client.paginate(
             input: input,
             command: listServers,
-            tokenKey: \ListServersResponse.nextToken,
+            inputKey: \ListServersRequest.nextToken,
+            outputKey: \ListServersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Transfer {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Transfer {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceResponse.nextToken,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Transfer {
             input: input,
             initialValue: initialValue,
             command: listUsers,
-            tokenKey: \ListUsersResponse.nextToken,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Transfer {
         return client.paginate(
             input: input,
             command: listUsers,
-            tokenKey: \ListUsersResponse.nextToken,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

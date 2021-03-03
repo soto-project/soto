@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension IoT1ClickProjects {
             input: input,
             initialValue: initialValue,
             command: listPlacements,
-            tokenKey: \ListPlacementsResponse.nextToken,
+            inputKey: \ListPlacementsRequest.nextToken,
+            outputKey: \ListPlacementsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension IoT1ClickProjects {
         return client.paginate(
             input: input,
             command: listPlacements,
-            tokenKey: \ListPlacementsResponse.nextToken,
+            inputKey: \ListPlacementsRequest.nextToken,
+            outputKey: \ListPlacementsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension IoT1ClickProjects {
             input: input,
             initialValue: initialValue,
             command: listProjects,
-            tokenKey: \ListProjectsResponse.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension IoT1ClickProjects {
         return client.paginate(
             input: input,
             command: listProjects,
-            tokenKey: \ListProjectsResponse.nextToken,
+            inputKey: \ListProjectsRequest.nextToken,
+            outputKey: \ListProjectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

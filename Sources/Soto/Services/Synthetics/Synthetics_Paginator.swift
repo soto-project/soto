@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Synthetics {
             input: input,
             initialValue: initialValue,
             command: describeCanaries,
-            tokenKey: \DescribeCanariesResponse.nextToken,
+            inputKey: \DescribeCanariesRequest.nextToken,
+            outputKey: \DescribeCanariesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Synthetics {
         return client.paginate(
             input: input,
             command: describeCanaries,
-            tokenKey: \DescribeCanariesResponse.nextToken,
+            inputKey: \DescribeCanariesRequest.nextToken,
+            outputKey: \DescribeCanariesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Synthetics {
             input: input,
             initialValue: initialValue,
             command: describeCanariesLastRun,
-            tokenKey: \DescribeCanariesLastRunResponse.nextToken,
+            inputKey: \DescribeCanariesLastRunRequest.nextToken,
+            outputKey: \DescribeCanariesLastRunResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Synthetics {
         return client.paginate(
             input: input,
             command: describeCanariesLastRun,
-            tokenKey: \DescribeCanariesLastRunResponse.nextToken,
+            inputKey: \DescribeCanariesLastRunRequest.nextToken,
+            outputKey: \DescribeCanariesLastRunResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Synthetics {
             input: input,
             initialValue: initialValue,
             command: describeRuntimeVersions,
-            tokenKey: \DescribeRuntimeVersionsResponse.nextToken,
+            inputKey: \DescribeRuntimeVersionsRequest.nextToken,
+            outputKey: \DescribeRuntimeVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Synthetics {
         return client.paginate(
             input: input,
             command: describeRuntimeVersions,
-            tokenKey: \DescribeRuntimeVersionsResponse.nextToken,
+            inputKey: \DescribeRuntimeVersionsRequest.nextToken,
+            outputKey: \DescribeRuntimeVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Synthetics {
             input: input,
             initialValue: initialValue,
             command: getCanaryRuns,
-            tokenKey: \GetCanaryRunsResponse.nextToken,
+            inputKey: \GetCanaryRunsRequest.nextToken,
+            outputKey: \GetCanaryRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Synthetics {
         return client.paginate(
             input: input,
             command: getCanaryRuns,
-            tokenKey: \GetCanaryRunsResponse.nextToken,
+            inputKey: \GetCanaryRunsRequest.nextToken,
+            outputKey: \GetCanaryRunsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

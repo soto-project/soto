@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension WorkMail {
             input: input,
             initialValue: initialValue,
             command: listAliases,
-            tokenKey: \ListAliasesResponse.nextToken,
+            inputKey: \ListAliasesRequest.nextToken,
+            outputKey: \ListAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension WorkMail {
         return client.paginate(
             input: input,
             command: listAliases,
-            tokenKey: \ListAliasesResponse.nextToken,
+            inputKey: \ListAliasesRequest.nextToken,
+            outputKey: \ListAliasesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension WorkMail {
             input: input,
             initialValue: initialValue,
             command: listGroupMembers,
-            tokenKey: \ListGroupMembersResponse.nextToken,
+            inputKey: \ListGroupMembersRequest.nextToken,
+            outputKey: \ListGroupMembersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension WorkMail {
         return client.paginate(
             input: input,
             command: listGroupMembers,
-            tokenKey: \ListGroupMembersResponse.nextToken,
+            inputKey: \ListGroupMembersRequest.nextToken,
+            outputKey: \ListGroupMembersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension WorkMail {
             input: input,
             initialValue: initialValue,
             command: listGroups,
-            tokenKey: \ListGroupsResponse.nextToken,
+            inputKey: \ListGroupsRequest.nextToken,
+            outputKey: \ListGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension WorkMail {
         return client.paginate(
             input: input,
             command: listGroups,
-            tokenKey: \ListGroupsResponse.nextToken,
+            inputKey: \ListGroupsRequest.nextToken,
+            outputKey: \ListGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension WorkMail {
             input: input,
             initialValue: initialValue,
             command: listMailboxExportJobs,
-            tokenKey: \ListMailboxExportJobsResponse.nextToken,
+            inputKey: \ListMailboxExportJobsRequest.nextToken,
+            outputKey: \ListMailboxExportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension WorkMail {
         return client.paginate(
             input: input,
             command: listMailboxExportJobs,
-            tokenKey: \ListMailboxExportJobsResponse.nextToken,
+            inputKey: \ListMailboxExportJobsRequest.nextToken,
+            outputKey: \ListMailboxExportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension WorkMail {
             input: input,
             initialValue: initialValue,
             command: listMailboxPermissions,
-            tokenKey: \ListMailboxPermissionsResponse.nextToken,
+            inputKey: \ListMailboxPermissionsRequest.nextToken,
+            outputKey: \ListMailboxPermissionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension WorkMail {
         return client.paginate(
             input: input,
             command: listMailboxPermissions,
-            tokenKey: \ListMailboxPermissionsResponse.nextToken,
+            inputKey: \ListMailboxPermissionsRequest.nextToken,
+            outputKey: \ListMailboxPermissionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension WorkMail {
             input: input,
             initialValue: initialValue,
             command: listOrganizations,
-            tokenKey: \ListOrganizationsResponse.nextToken,
+            inputKey: \ListOrganizationsRequest.nextToken,
+            outputKey: \ListOrganizationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension WorkMail {
         return client.paginate(
             input: input,
             command: listOrganizations,
-            tokenKey: \ListOrganizationsResponse.nextToken,
+            inputKey: \ListOrganizationsRequest.nextToken,
+            outputKey: \ListOrganizationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension WorkMail {
             input: input,
             initialValue: initialValue,
             command: listResourceDelegates,
-            tokenKey: \ListResourceDelegatesResponse.nextToken,
+            inputKey: \ListResourceDelegatesRequest.nextToken,
+            outputKey: \ListResourceDelegatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension WorkMail {
         return client.paginate(
             input: input,
             command: listResourceDelegates,
-            tokenKey: \ListResourceDelegatesResponse.nextToken,
+            inputKey: \ListResourceDelegatesRequest.nextToken,
+            outputKey: \ListResourceDelegatesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension WorkMail {
             input: input,
             initialValue: initialValue,
             command: listResources,
-            tokenKey: \ListResourcesResponse.nextToken,
+            inputKey: \ListResourcesRequest.nextToken,
+            outputKey: \ListResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension WorkMail {
         return client.paginate(
             input: input,
             command: listResources,
-            tokenKey: \ListResourcesResponse.nextToken,
+            inputKey: \ListResourcesRequest.nextToken,
+            outputKey: \ListResourcesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension WorkMail {
             input: input,
             initialValue: initialValue,
             command: listUsers,
-            tokenKey: \ListUsersResponse.nextToken,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension WorkMail {
         return client.paginate(
             input: input,
             command: listUsers,
-            tokenKey: \ListUsersResponse.nextToken,
+            inputKey: \ListUsersRequest.nextToken,
+            outputKey: \ListUsersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

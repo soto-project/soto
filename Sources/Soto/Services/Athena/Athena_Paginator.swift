@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Athena {
             input: input,
             initialValue: initialValue,
             command: getQueryResults,
-            tokenKey: \GetQueryResultsOutput.nextToken,
+            inputKey: \GetQueryResultsInput.nextToken,
+            outputKey: \GetQueryResultsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Athena {
         return client.paginate(
             input: input,
             command: getQueryResults,
-            tokenKey: \GetQueryResultsOutput.nextToken,
+            inputKey: \GetQueryResultsInput.nextToken,
+            outputKey: \GetQueryResultsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Athena {
             input: input,
             initialValue: initialValue,
             command: listDataCatalogs,
-            tokenKey: \ListDataCatalogsOutput.nextToken,
+            inputKey: \ListDataCatalogsInput.nextToken,
+            outputKey: \ListDataCatalogsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Athena {
         return client.paginate(
             input: input,
             command: listDataCatalogs,
-            tokenKey: \ListDataCatalogsOutput.nextToken,
+            inputKey: \ListDataCatalogsInput.nextToken,
+            outputKey: \ListDataCatalogsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Athena {
             input: input,
             initialValue: initialValue,
             command: listDatabases,
-            tokenKey: \ListDatabasesOutput.nextToken,
+            inputKey: \ListDatabasesInput.nextToken,
+            outputKey: \ListDatabasesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Athena {
         return client.paginate(
             input: input,
             command: listDatabases,
-            tokenKey: \ListDatabasesOutput.nextToken,
+            inputKey: \ListDatabasesInput.nextToken,
+            outputKey: \ListDatabasesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Athena {
             input: input,
             initialValue: initialValue,
             command: listNamedQueries,
-            tokenKey: \ListNamedQueriesOutput.nextToken,
+            inputKey: \ListNamedQueriesInput.nextToken,
+            outputKey: \ListNamedQueriesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Athena {
         return client.paginate(
             input: input,
             command: listNamedQueries,
-            tokenKey: \ListNamedQueriesOutput.nextToken,
+            inputKey: \ListNamedQueriesInput.nextToken,
+            outputKey: \ListNamedQueriesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Athena {
             input: input,
             initialValue: initialValue,
             command: listQueryExecutions,
-            tokenKey: \ListQueryExecutionsOutput.nextToken,
+            inputKey: \ListQueryExecutionsInput.nextToken,
+            outputKey: \ListQueryExecutionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Athena {
         return client.paginate(
             input: input,
             command: listQueryExecutions,
-            tokenKey: \ListQueryExecutionsOutput.nextToken,
+            inputKey: \ListQueryExecutionsInput.nextToken,
+            outputKey: \ListQueryExecutionsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Athena {
             input: input,
             initialValue: initialValue,
             command: listTableMetadata,
-            tokenKey: \ListTableMetadataOutput.nextToken,
+            inputKey: \ListTableMetadataInput.nextToken,
+            outputKey: \ListTableMetadataOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Athena {
         return client.paginate(
             input: input,
             command: listTableMetadata,
-            tokenKey: \ListTableMetadataOutput.nextToken,
+            inputKey: \ListTableMetadataInput.nextToken,
+            outputKey: \ListTableMetadataOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Athena {
             input: input,
             initialValue: initialValue,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceOutput.nextToken,
+            inputKey: \ListTagsForResourceInput.nextToken,
+            outputKey: \ListTagsForResourceOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Athena {
         return client.paginate(
             input: input,
             command: listTagsForResource,
-            tokenKey: \ListTagsForResourceOutput.nextToken,
+            inputKey: \ListTagsForResourceInput.nextToken,
+            outputKey: \ListTagsForResourceOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Athena {
             input: input,
             initialValue: initialValue,
             command: listWorkGroups,
-            tokenKey: \ListWorkGroupsOutput.nextToken,
+            inputKey: \ListWorkGroupsInput.nextToken,
+            outputKey: \ListWorkGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Athena {
         return client.paginate(
             input: input,
             command: listWorkGroups,
-            tokenKey: \ListWorkGroupsOutput.nextToken,
+            inputKey: \ListWorkGroupsInput.nextToken,
+            outputKey: \ListWorkGroupsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

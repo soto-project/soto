@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: describePortfolioShares,
-            tokenKey: \DescribePortfolioSharesOutput.nextPageToken,
+            inputKey: \DescribePortfolioSharesInput.pageToken,
+            outputKey: \DescribePortfolioSharesOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: describePortfolioShares,
-            tokenKey: \DescribePortfolioSharesOutput.nextPageToken,
+            inputKey: \DescribePortfolioSharesInput.pageToken,
+            outputKey: \DescribePortfolioSharesOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: getProvisionedProductOutputs,
-            tokenKey: \GetProvisionedProductOutputsOutput.nextPageToken,
+            inputKey: \GetProvisionedProductOutputsInput.pageToken,
+            outputKey: \GetProvisionedProductOutputsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: getProvisionedProductOutputs,
-            tokenKey: \GetProvisionedProductOutputsOutput.nextPageToken,
+            inputKey: \GetProvisionedProductOutputsInput.pageToken,
+            outputKey: \GetProvisionedProductOutputsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listAcceptedPortfolioShares,
-            tokenKey: \ListAcceptedPortfolioSharesOutput.nextPageToken,
+            inputKey: \ListAcceptedPortfolioSharesInput.pageToken,
+            outputKey: \ListAcceptedPortfolioSharesOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listAcceptedPortfolioShares,
-            tokenKey: \ListAcceptedPortfolioSharesOutput.nextPageToken,
+            inputKey: \ListAcceptedPortfolioSharesInput.pageToken,
+            outputKey: \ListAcceptedPortfolioSharesOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listBudgetsForResource,
-            tokenKey: \ListBudgetsForResourceOutput.nextPageToken,
+            inputKey: \ListBudgetsForResourceInput.pageToken,
+            outputKey: \ListBudgetsForResourceOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listBudgetsForResource,
-            tokenKey: \ListBudgetsForResourceOutput.nextPageToken,
+            inputKey: \ListBudgetsForResourceInput.pageToken,
+            outputKey: \ListBudgetsForResourceOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listConstraintsForPortfolio,
-            tokenKey: \ListConstraintsForPortfolioOutput.nextPageToken,
+            inputKey: \ListConstraintsForPortfolioInput.pageToken,
+            outputKey: \ListConstraintsForPortfolioOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listConstraintsForPortfolio,
-            tokenKey: \ListConstraintsForPortfolioOutput.nextPageToken,
+            inputKey: \ListConstraintsForPortfolioInput.pageToken,
+            outputKey: \ListConstraintsForPortfolioOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listLaunchPaths,
-            tokenKey: \ListLaunchPathsOutput.nextPageToken,
+            inputKey: \ListLaunchPathsInput.pageToken,
+            outputKey: \ListLaunchPathsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listLaunchPaths,
-            tokenKey: \ListLaunchPathsOutput.nextPageToken,
+            inputKey: \ListLaunchPathsInput.pageToken,
+            outputKey: \ListLaunchPathsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listOrganizationPortfolioAccess,
-            tokenKey: \ListOrganizationPortfolioAccessOutput.nextPageToken,
+            inputKey: \ListOrganizationPortfolioAccessInput.pageToken,
+            outputKey: \ListOrganizationPortfolioAccessOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listOrganizationPortfolioAccess,
-            tokenKey: \ListOrganizationPortfolioAccessOutput.nextPageToken,
+            inputKey: \ListOrganizationPortfolioAccessInput.pageToken,
+            outputKey: \ListOrganizationPortfolioAccessOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listPortfolioAccess,
-            tokenKey: \ListPortfolioAccessOutput.nextPageToken,
+            inputKey: \ListPortfolioAccessInput.pageToken,
+            outputKey: \ListPortfolioAccessOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listPortfolioAccess,
-            tokenKey: \ListPortfolioAccessOutput.nextPageToken,
+            inputKey: \ListPortfolioAccessInput.pageToken,
+            outputKey: \ListPortfolioAccessOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listPortfolios,
-            tokenKey: \ListPortfoliosOutput.nextPageToken,
+            inputKey: \ListPortfoliosInput.pageToken,
+            outputKey: \ListPortfoliosOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listPortfolios,
-            tokenKey: \ListPortfoliosOutput.nextPageToken,
+            inputKey: \ListPortfoliosInput.pageToken,
+            outputKey: \ListPortfoliosOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listPortfoliosForProduct,
-            tokenKey: \ListPortfoliosForProductOutput.nextPageToken,
+            inputKey: \ListPortfoliosForProductInput.pageToken,
+            outputKey: \ListPortfoliosForProductOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listPortfoliosForProduct,
-            tokenKey: \ListPortfoliosForProductOutput.nextPageToken,
+            inputKey: \ListPortfoliosForProductInput.pageToken,
+            outputKey: \ListPortfoliosForProductOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -552,7 +572,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listPrincipalsForPortfolio,
-            tokenKey: \ListPrincipalsForPortfolioOutput.nextPageToken,
+            inputKey: \ListPrincipalsForPortfolioInput.pageToken,
+            outputKey: \ListPrincipalsForPortfolioOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,7 +595,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listPrincipalsForPortfolio,
-            tokenKey: \ListPrincipalsForPortfolioOutput.nextPageToken,
+            inputKey: \ListPrincipalsForPortfolioInput.pageToken,
+            outputKey: \ListPrincipalsForPortfolioOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -603,7 +625,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listProvisioningArtifactsForServiceAction,
-            tokenKey: \ListProvisioningArtifactsForServiceActionOutput.nextPageToken,
+            inputKey: \ListProvisioningArtifactsForServiceActionInput.pageToken,
+            outputKey: \ListProvisioningArtifactsForServiceActionOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -625,7 +648,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listProvisioningArtifactsForServiceAction,
-            tokenKey: \ListProvisioningArtifactsForServiceActionOutput.nextPageToken,
+            inputKey: \ListProvisioningArtifactsForServiceActionInput.pageToken,
+            outputKey: \ListProvisioningArtifactsForServiceActionOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -654,7 +678,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listResourcesForTagOption,
-            tokenKey: \ListResourcesForTagOptionOutput.pageToken,
+            inputKey: \ListResourcesForTagOptionInput.pageToken,
+            outputKey: \ListResourcesForTagOptionOutput.pageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -676,7 +701,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listResourcesForTagOption,
-            tokenKey: \ListResourcesForTagOptionOutput.pageToken,
+            inputKey: \ListResourcesForTagOptionInput.pageToken,
+            outputKey: \ListResourcesForTagOptionOutput.pageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -705,7 +731,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listServiceActions,
-            tokenKey: \ListServiceActionsOutput.nextPageToken,
+            inputKey: \ListServiceActionsInput.pageToken,
+            outputKey: \ListServiceActionsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -727,7 +754,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listServiceActions,
-            tokenKey: \ListServiceActionsOutput.nextPageToken,
+            inputKey: \ListServiceActionsInput.pageToken,
+            outputKey: \ListServiceActionsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -756,7 +784,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listServiceActionsForProvisioningArtifact,
-            tokenKey: \ListServiceActionsForProvisioningArtifactOutput.nextPageToken,
+            inputKey: \ListServiceActionsForProvisioningArtifactInput.pageToken,
+            outputKey: \ListServiceActionsForProvisioningArtifactOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -778,7 +807,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listServiceActionsForProvisioningArtifact,
-            tokenKey: \ListServiceActionsForProvisioningArtifactOutput.nextPageToken,
+            inputKey: \ListServiceActionsForProvisioningArtifactInput.pageToken,
+            outputKey: \ListServiceActionsForProvisioningArtifactOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -807,7 +837,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: listTagOptions,
-            tokenKey: \ListTagOptionsOutput.pageToken,
+            inputKey: \ListTagOptionsInput.pageToken,
+            outputKey: \ListTagOptionsOutput.pageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -829,7 +860,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: listTagOptions,
-            tokenKey: \ListTagOptionsOutput.pageToken,
+            inputKey: \ListTagOptionsInput.pageToken,
+            outputKey: \ListTagOptionsOutput.pageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -858,7 +890,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: searchProducts,
-            tokenKey: \SearchProductsOutput.nextPageToken,
+            inputKey: \SearchProductsInput.pageToken,
+            outputKey: \SearchProductsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -880,7 +913,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: searchProducts,
-            tokenKey: \SearchProductsOutput.nextPageToken,
+            inputKey: \SearchProductsInput.pageToken,
+            outputKey: \SearchProductsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -909,7 +943,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: searchProductsAsAdmin,
-            tokenKey: \SearchProductsAsAdminOutput.nextPageToken,
+            inputKey: \SearchProductsAsAdminInput.pageToken,
+            outputKey: \SearchProductsAsAdminOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -931,7 +966,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: searchProductsAsAdmin,
-            tokenKey: \SearchProductsAsAdminOutput.nextPageToken,
+            inputKey: \SearchProductsAsAdminInput.pageToken,
+            outputKey: \SearchProductsAsAdminOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -960,7 +996,8 @@ extension ServiceCatalog {
             input: input,
             initialValue: initialValue,
             command: searchProvisionedProducts,
-            tokenKey: \SearchProvisionedProductsOutput.nextPageToken,
+            inputKey: \SearchProvisionedProductsInput.pageToken,
+            outputKey: \SearchProvisionedProductsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -982,7 +1019,8 @@ extension ServiceCatalog {
         return client.paginate(
             input: input,
             command: searchProvisionedProducts,
-            tokenKey: \SearchProvisionedProductsOutput.nextPageToken,
+            inputKey: \SearchProvisionedProductsInput.pageToken,
+            outputKey: \SearchProvisionedProductsOutput.nextPageToken,
             on: eventLoop,
             onPage: onPage
         )

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listBatchInferenceJobs,
-            tokenKey: \ListBatchInferenceJobsResponse.nextToken,
+            inputKey: \ListBatchInferenceJobsRequest.nextToken,
+            outputKey: \ListBatchInferenceJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listBatchInferenceJobs,
-            tokenKey: \ListBatchInferenceJobsResponse.nextToken,
+            inputKey: \ListBatchInferenceJobsRequest.nextToken,
+            outputKey: \ListBatchInferenceJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listCampaigns,
-            tokenKey: \ListCampaignsResponse.nextToken,
+            inputKey: \ListCampaignsRequest.nextToken,
+            outputKey: \ListCampaignsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listCampaigns,
-            tokenKey: \ListCampaignsResponse.nextToken,
+            inputKey: \ListCampaignsRequest.nextToken,
+            outputKey: \ListCampaignsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listDatasetGroups,
-            tokenKey: \ListDatasetGroupsResponse.nextToken,
+            inputKey: \ListDatasetGroupsRequest.nextToken,
+            outputKey: \ListDatasetGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listDatasetGroups,
-            tokenKey: \ListDatasetGroupsResponse.nextToken,
+            inputKey: \ListDatasetGroupsRequest.nextToken,
+            outputKey: \ListDatasetGroupsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listDatasetImportJobs,
-            tokenKey: \ListDatasetImportJobsResponse.nextToken,
+            inputKey: \ListDatasetImportJobsRequest.nextToken,
+            outputKey: \ListDatasetImportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listDatasetImportJobs,
-            tokenKey: \ListDatasetImportJobsResponse.nextToken,
+            inputKey: \ListDatasetImportJobsRequest.nextToken,
+            outputKey: \ListDatasetImportJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listDatasets,
-            tokenKey: \ListDatasetsResponse.nextToken,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listDatasets,
-            tokenKey: \ListDatasetsResponse.nextToken,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listEventTrackers,
-            tokenKey: \ListEventTrackersResponse.nextToken,
+            inputKey: \ListEventTrackersRequest.nextToken,
+            outputKey: \ListEventTrackersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listEventTrackers,
-            tokenKey: \ListEventTrackersResponse.nextToken,
+            inputKey: \ListEventTrackersRequest.nextToken,
+            outputKey: \ListEventTrackersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listRecipes,
-            tokenKey: \ListRecipesResponse.nextToken,
+            inputKey: \ListRecipesRequest.nextToken,
+            outputKey: \ListRecipesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listRecipes,
-            tokenKey: \ListRecipesResponse.nextToken,
+            inputKey: \ListRecipesRequest.nextToken,
+            outputKey: \ListRecipesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listSchemas,
-            tokenKey: \ListSchemasResponse.nextToken,
+            inputKey: \ListSchemasRequest.nextToken,
+            outputKey: \ListSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listSchemas,
-            tokenKey: \ListSchemasResponse.nextToken,
+            inputKey: \ListSchemasRequest.nextToken,
+            outputKey: \ListSchemasResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listSolutionVersions,
-            tokenKey: \ListSolutionVersionsResponse.nextToken,
+            inputKey: \ListSolutionVersionsRequest.nextToken,
+            outputKey: \ListSolutionVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listSolutionVersions,
-            tokenKey: \ListSolutionVersionsResponse.nextToken,
+            inputKey: \ListSolutionVersionsRequest.nextToken,
+            outputKey: \ListSolutionVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Personalize {
             input: input,
             initialValue: initialValue,
             command: listSolutions,
-            tokenKey: \ListSolutionsResponse.nextToken,
+            inputKey: \ListSolutionsRequest.nextToken,
+            outputKey: \ListSolutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Personalize {
         return client.paginate(
             input: input,
             command: listSolutions,
-            tokenKey: \ListSolutionsResponse.nextToken,
+            inputKey: \ListSolutionsRequest.nextToken,
+            outputKey: \ListSolutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

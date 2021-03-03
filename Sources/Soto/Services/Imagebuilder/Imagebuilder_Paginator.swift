@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listComponentBuildVersions,
-            tokenKey: \ListComponentBuildVersionsResponse.nextToken,
+            inputKey: \ListComponentBuildVersionsRequest.nextToken,
+            outputKey: \ListComponentBuildVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listComponentBuildVersions,
-            tokenKey: \ListComponentBuildVersionsResponse.nextToken,
+            inputKey: \ListComponentBuildVersionsRequest.nextToken,
+            outputKey: \ListComponentBuildVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listComponents,
-            tokenKey: \ListComponentsResponse.nextToken,
+            inputKey: \ListComponentsRequest.nextToken,
+            outputKey: \ListComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listComponents,
-            tokenKey: \ListComponentsResponse.nextToken,
+            inputKey: \ListComponentsRequest.nextToken,
+            outputKey: \ListComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listContainerRecipes,
-            tokenKey: \ListContainerRecipesResponse.nextToken,
+            inputKey: \ListContainerRecipesRequest.nextToken,
+            outputKey: \ListContainerRecipesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listContainerRecipes,
-            tokenKey: \ListContainerRecipesResponse.nextToken,
+            inputKey: \ListContainerRecipesRequest.nextToken,
+            outputKey: \ListContainerRecipesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listDistributionConfigurations,
-            tokenKey: \ListDistributionConfigurationsResponse.nextToken,
+            inputKey: \ListDistributionConfigurationsRequest.nextToken,
+            outputKey: \ListDistributionConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listDistributionConfigurations,
-            tokenKey: \ListDistributionConfigurationsResponse.nextToken,
+            inputKey: \ListDistributionConfigurationsRequest.nextToken,
+            outputKey: \ListDistributionConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listImageBuildVersions,
-            tokenKey: \ListImageBuildVersionsResponse.nextToken,
+            inputKey: \ListImageBuildVersionsRequest.nextToken,
+            outputKey: \ListImageBuildVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listImageBuildVersions,
-            tokenKey: \ListImageBuildVersionsResponse.nextToken,
+            inputKey: \ListImageBuildVersionsRequest.nextToken,
+            outputKey: \ListImageBuildVersionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listImagePipelineImages,
-            tokenKey: \ListImagePipelineImagesResponse.nextToken,
+            inputKey: \ListImagePipelineImagesRequest.nextToken,
+            outputKey: \ListImagePipelineImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listImagePipelineImages,
-            tokenKey: \ListImagePipelineImagesResponse.nextToken,
+            inputKey: \ListImagePipelineImagesRequest.nextToken,
+            outputKey: \ListImagePipelineImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -348,7 +360,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listImagePipelines,
-            tokenKey: \ListImagePipelinesResponse.nextToken,
+            inputKey: \ListImagePipelinesRequest.nextToken,
+            outputKey: \ListImagePipelinesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -370,7 +383,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listImagePipelines,
-            tokenKey: \ListImagePipelinesResponse.nextToken,
+            inputKey: \ListImagePipelinesRequest.nextToken,
+            outputKey: \ListImagePipelinesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -399,7 +413,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listImageRecipes,
-            tokenKey: \ListImageRecipesResponse.nextToken,
+            inputKey: \ListImageRecipesRequest.nextToken,
+            outputKey: \ListImageRecipesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -421,7 +436,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listImageRecipes,
-            tokenKey: \ListImageRecipesResponse.nextToken,
+            inputKey: \ListImageRecipesRequest.nextToken,
+            outputKey: \ListImageRecipesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -450,7 +466,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listImages,
-            tokenKey: \ListImagesResponse.nextToken,
+            inputKey: \ListImagesRequest.nextToken,
+            outputKey: \ListImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -472,7 +489,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listImages,
-            tokenKey: \ListImagesResponse.nextToken,
+            inputKey: \ListImagesRequest.nextToken,
+            outputKey: \ListImagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -501,7 +519,8 @@ extension Imagebuilder {
             input: input,
             initialValue: initialValue,
             command: listInfrastructureConfigurations,
-            tokenKey: \ListInfrastructureConfigurationsResponse.nextToken,
+            inputKey: \ListInfrastructureConfigurationsRequest.nextToken,
+            outputKey: \ListInfrastructureConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -523,7 +542,8 @@ extension Imagebuilder {
         return client.paginate(
             input: input,
             command: listInfrastructureConfigurations,
-            tokenKey: \ListInfrastructureConfigurationsResponse.nextToken,
+            inputKey: \ListInfrastructureConfigurationsRequest.nextToken,
+            outputKey: \ListInfrastructureConfigurationsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )

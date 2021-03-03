@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ManagedBlockchain {
             input: input,
             initialValue: initialValue,
             command: listInvitations,
-            tokenKey: \ListInvitationsOutput.nextToken,
+            inputKey: \ListInvitationsInput.nextToken,
+            outputKey: \ListInvitationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ManagedBlockchain {
         return client.paginate(
             input: input,
             command: listInvitations,
-            tokenKey: \ListInvitationsOutput.nextToken,
+            inputKey: \ListInvitationsInput.nextToken,
+            outputKey: \ListInvitationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ManagedBlockchain {
             input: input,
             initialValue: initialValue,
             command: listMembers,
-            tokenKey: \ListMembersOutput.nextToken,
+            inputKey: \ListMembersInput.nextToken,
+            outputKey: \ListMembersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ManagedBlockchain {
         return client.paginate(
             input: input,
             command: listMembers,
-            tokenKey: \ListMembersOutput.nextToken,
+            inputKey: \ListMembersInput.nextToken,
+            outputKey: \ListMembersOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ManagedBlockchain {
             input: input,
             initialValue: initialValue,
             command: listNetworks,
-            tokenKey: \ListNetworksOutput.nextToken,
+            inputKey: \ListNetworksInput.nextToken,
+            outputKey: \ListNetworksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ManagedBlockchain {
         return client.paginate(
             input: input,
             command: listNetworks,
-            tokenKey: \ListNetworksOutput.nextToken,
+            inputKey: \ListNetworksInput.nextToken,
+            outputKey: \ListNetworksOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ManagedBlockchain {
             input: input,
             initialValue: initialValue,
             command: listNodes,
-            tokenKey: \ListNodesOutput.nextToken,
+            inputKey: \ListNodesInput.nextToken,
+            outputKey: \ListNodesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ManagedBlockchain {
         return client.paginate(
             input: input,
             command: listNodes,
-            tokenKey: \ListNodesOutput.nextToken,
+            inputKey: \ListNodesInput.nextToken,
+            outputKey: \ListNodesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -246,7 +254,8 @@ extension ManagedBlockchain {
             input: input,
             initialValue: initialValue,
             command: listProposalVotes,
-            tokenKey: \ListProposalVotesOutput.nextToken,
+            inputKey: \ListProposalVotesInput.nextToken,
+            outputKey: \ListProposalVotesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -268,7 +277,8 @@ extension ManagedBlockchain {
         return client.paginate(
             input: input,
             command: listProposalVotes,
-            tokenKey: \ListProposalVotesOutput.nextToken,
+            inputKey: \ListProposalVotesInput.nextToken,
+            outputKey: \ListProposalVotesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -297,7 +307,8 @@ extension ManagedBlockchain {
             input: input,
             initialValue: initialValue,
             command: listProposals,
-            tokenKey: \ListProposalsOutput.nextToken,
+            inputKey: \ListProposalsInput.nextToken,
+            outputKey: \ListProposalsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -319,7 +330,8 @@ extension ManagedBlockchain {
         return client.paginate(
             input: input,
             command: listProposals,
-            tokenKey: \ListProposalsOutput.nextToken,
+            inputKey: \ListProposalsInput.nextToken,
+            outputKey: \ListProposalsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )

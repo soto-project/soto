@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,7 +42,8 @@ extension ElasticBeanstalk {
             input: input,
             initialValue: initialValue,
             command: describeEnvironmentManagedActionHistory,
-            tokenKey: \DescribeEnvironmentManagedActionHistoryResult.nextToken,
+            inputKey: \DescribeEnvironmentManagedActionHistoryRequest.nextToken,
+            outputKey: \DescribeEnvironmentManagedActionHistoryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -64,7 +65,8 @@ extension ElasticBeanstalk {
         return client.paginate(
             input: input,
             command: describeEnvironmentManagedActionHistory,
-            tokenKey: \DescribeEnvironmentManagedActionHistoryResult.nextToken,
+            inputKey: \DescribeEnvironmentManagedActionHistoryRequest.nextToken,
+            outputKey: \DescribeEnvironmentManagedActionHistoryResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -93,7 +95,8 @@ extension ElasticBeanstalk {
             input: input,
             initialValue: initialValue,
             command: describeEvents,
-            tokenKey: \EventDescriptionsMessage.nextToken,
+            inputKey: \DescribeEventsMessage.nextToken,
+            outputKey: \EventDescriptionsMessage.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -115,7 +118,8 @@ extension ElasticBeanstalk {
         return client.paginate(
             input: input,
             command: describeEvents,
-            tokenKey: \EventDescriptionsMessage.nextToken,
+            inputKey: \DescribeEventsMessage.nextToken,
+            outputKey: \EventDescriptionsMessage.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -144,7 +148,8 @@ extension ElasticBeanstalk {
             input: input,
             initialValue: initialValue,
             command: listPlatformBranches,
-            tokenKey: \ListPlatformBranchesResult.nextToken,
+            inputKey: \ListPlatformBranchesRequest.nextToken,
+            outputKey: \ListPlatformBranchesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -166,7 +171,8 @@ extension ElasticBeanstalk {
         return client.paginate(
             input: input,
             command: listPlatformBranches,
-            tokenKey: \ListPlatformBranchesResult.nextToken,
+            inputKey: \ListPlatformBranchesRequest.nextToken,
+            outputKey: \ListPlatformBranchesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -195,7 +201,8 @@ extension ElasticBeanstalk {
             input: input,
             initialValue: initialValue,
             command: listPlatformVersions,
-            tokenKey: \ListPlatformVersionsResult.nextToken,
+            inputKey: \ListPlatformVersionsRequest.nextToken,
+            outputKey: \ListPlatformVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -217,7 +224,8 @@ extension ElasticBeanstalk {
         return client.paginate(
             input: input,
             command: listPlatformVersions,
-            tokenKey: \ListPlatformVersionsResult.nextToken,
+            inputKey: \ListPlatformVersionsRequest.nextToken,
+            outputKey: \ListPlatformVersionsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
