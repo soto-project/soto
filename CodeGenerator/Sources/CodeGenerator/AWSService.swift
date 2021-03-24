@@ -221,7 +221,7 @@ extension AWSService {
         func transform(_ name: String) -> Any? {
             switch name {
             case "withDictionaryContexts":
-                if (keyValidation != nil || valueValidation != nil) {
+                if self.keyValidation != nil || self.valueValidation != nil {
                     return self
                 }
             default:
