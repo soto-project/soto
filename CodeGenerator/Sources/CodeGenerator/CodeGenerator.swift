@@ -14,9 +14,7 @@
 
 import Dispatch
 import Foundation
-import PathKit
 import HummingbirdMustache
-import Stencil
 import SwiftFormat
 
 struct CodeGenerator {
@@ -34,14 +32,10 @@ struct CodeGenerator {
         noSpaceOperators: ["...", "..<"]
     )
 
-    let fsLoader: FileSystemLoader
-    let environment: Environment
     let command: CodeGeneratorCommand
     let library: HBMustacheLibrary
 
     init(command: CodeGeneratorCommand) throws {
-        self.fsLoader = FileSystemLoader(paths: [Path("\(CodeGeneratorCommand.rootPath)/CodeGenerator/Templates/")])
-        self.environment = Environment(loader: self.fsLoader)
         self.command = command
         self.library = try .init(directory: CodeGeneratorCommand.rootPath + "/CodeGenerator/mustache/")
     }

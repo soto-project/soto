@@ -21,12 +21,11 @@ let package = Package(
         .executable(name: "soto-codegenerator", targets: ["CodeGenerator"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMinor(from: "0.3.0")),
-        .package(url: "https://github.com/soto-project/Stencil.git", .upToNextMajor(from: "0.13.2")),
-        .package(url: "https://github.com/hummingbird-project/hummingbird-mustache.git", .branch("main")),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "0.3.0"),
+        .package(url: "https://github.com/hummingbird-project/hummingbird-mustache.git", from: "0.5.1"),
         .package(url: "https://github.com/nicklockwood/SwiftFormat.git", .upToNextMinor(from: "0.47.4")),
     ],
     targets: [
-        .target(name: "CodeGenerator", dependencies: ["ArgumentParser", "HummingbirdMustache", "Stencil", "SwiftFormat"]),
+        .target(name: "CodeGenerator", dependencies: ["ArgumentParser", "HummingbirdMustache", "SwiftFormat"]),
     ]
 )
