@@ -13,6 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
+import HummingbirdMustache
 
 struct AWSService {
     var api: API
@@ -190,14 +191,14 @@ extension AWSService {
         let locationName: String?
     }
 
-    class ValidationContext {
+    class ValidationContext: HBMustacheTransformable {
         let name: String
         let shape: Bool
         let required: Bool
         let reqs: [String: Any]
         let member: ValidationContext?
-        let key: ValidationContext?
-        let value: ValidationContext?
+        let keyValidation: ValidationContext?
+        let valueValidation: ValidationContext?
 
         init(
             name: String,
@@ -213,8 +214,20 @@ extension AWSService {
             self.required = required
             self.reqs = reqs
             self.member = member
-            self.key = key
-            self.value = value
+            self.keyValidation = key
+            self.valueValidation = value
+        }
+
+        func transform(_ name: String) -> Any? {
+            switch name {
+            case "withDictionaryContexts":
+                if (keyValidation != nil || valueValidation != nil) {
+                    return self
+                }
+            default:
+                break
+            }
+            return nil
         }
     }
 
