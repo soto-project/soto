@@ -15,6 +15,7 @@
 import Dispatch
 import Foundation
 import PathKit
+import HummingbirdMustache
 import Stencil
 import SwiftFormat
 
@@ -36,11 +37,13 @@ struct CodeGenerator {
     let fsLoader: FileSystemLoader
     let environment: Environment
     let command: CodeGeneratorCommand
+    let library: HBMustacheLibrary
 
-    init(command: CodeGeneratorCommand) {
+    init(command: CodeGeneratorCommand) throws {
         self.fsLoader = FileSystemLoader(paths: [Path("\(CodeGeneratorCommand.rootPath)/CodeGenerator/Templates/")])
         self.environment = Environment(loader: self.fsLoader)
         self.command = command
+        self.library = try .init(directory: CodeGeneratorCommand.rootPath + "/CodeGenerator/mustache/")
     }
 
     func getModelDirectories() -> [String] {
@@ -95,7 +98,8 @@ struct CodeGenerator {
         try FileManager.default.createDirectory(atPath: basePath, withIntermediateDirectories: true)
 
         let apiContext = service.generateServiceContext()
-        let api = try self.environment.renderTemplate(name: "api.stencil", context: apiContext)
+        let api = library.render(apiContext, withTemplate: "api")!
+        //let api = try self.environment.renderTemplate(name: "api.stencil", context: apiContext)
         if self.command.output, try self.format(api).writeIfChanged(
             toFile: "\(basePath)/\(service.api.serviceName)_API.swift"
         ) {
@@ -103,7 +107,8 @@ struct CodeGenerator {
         }
 
         let shapesContext = service.generateShapesContext()
-        let shapes = try self.environment.renderTemplate(name: "shapes.stencil", context: shapesContext)
+        //let shapes = try self.environment.renderTemplate(name: "shapes.stencil", context: shapesContext)
+        let shapes = library.render(shapesContext, withTemplate: "shapes")!
         if self.command.output, try self.format(shapes).writeIfChanged(
             toFile: "\(basePath)/\(service.api.serviceName)_Shapes.swift"
         ) {
@@ -112,7 +117,8 @@ struct CodeGenerator {
 
         let errorContext = service.generateErrorContext()
         if errorContext["errors"] != nil {
-            let errors = try self.environment.renderTemplate(name: "error.stencil", context: errorContext)
+            let errors = library.render(errorContext, withTemplate: "error")!
+//            let errors = try self.environment.renderTemplate(name: "error.stencil", context: errorContext)
             if self.command.output, try self.format(errors).writeIfChanged(
                 toFile: "\(basePath)/\(service.api.serviceName)_Error.swift"
             ) {
@@ -122,7 +128,8 @@ struct CodeGenerator {
 
         let paginatorContext = try service.generatePaginatorContext()
         if paginatorContext["paginators"] != nil {
-            let paginators = try self.environment.renderTemplate(name: "paginator.stencil", context: paginatorContext)
+            let paginators = library.render(paginatorContext, withTemplate: "paginator")!
+            //let paginators = try self.environment.renderTemplate(name: "paginator.stencil", context: paginatorContext)
             if self.command.output, try self.format(paginators).writeIfChanged(
                 toFile: "\(basePath)/\(service.api.serviceName)_Paginator.swift"
             ) {

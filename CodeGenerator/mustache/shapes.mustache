@@ -1,0 +1,29 @@
+{{%CONTENT_TYPE:TEXT}}
+{{>header}}
+
+import Foundation
+import SotoCore
+
+extension {{name}} {
+    // MARK: Enums
+{{#shapes}}
+{{#enum}}
+
+{{>enum}}
+{{/enum}}
+{{/shapes}}
+{{#shapes}}
+{{#enumWithValues}}
+
+{{>enumWithValues}}
+{{/enumWithValues}}
+{{/shapes}}
+
+    // MARK: Shapes
+{{#shapes}}
+{{#struct}}
+
+{{>struct}}
+{{/struct}}
+{{/shapes}}
+}

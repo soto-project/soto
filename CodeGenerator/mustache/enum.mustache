@@ -1,0 +1,28 @@
+{{%CONTENT_TYPE:TEXT}}
+{{#isExtensible}}
+    public struct {{name}}: RawRepresentable, Equatable, Codable {
+        public var rawValue: String
+
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+{{#values}}
+{{#documentation}}
+        /// {{.}}
+{{/documentation}}
+        public static var {{case}}: Self { .init(rawValue: "{{string}}")}
+{{/values}}
+    }
+
+{{/isExtensible}}
+{{^isExtensible}}
+    public enum {{name}}: String, CustomStringConvertible, Codable {
+{{#values}}
+{{#documentation}}
+        /// {{documentation}}
+{{/documentation}}
+        case {{case}} = "{{string}}"
+{{/values}}
+        public var description: String { return self.rawValue }
+    }
+{{/isExtensible}}

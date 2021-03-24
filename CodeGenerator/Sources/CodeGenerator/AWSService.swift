@@ -238,6 +238,7 @@ extension AWSService {
         let awsShapeMembers: [AWSShapeMemberContext]
         let codingKeys: [CodingKeysContext]
         let validation: [ValidationContext]
+        let requiresDefaultValidation: Bool
     }
 
     struct ResultContext {
@@ -289,9 +290,7 @@ extension AWSService {
         let endpoints = self.serviceEndpoints
             .sorted { $0.key < $1.key }
             .map { "\"\($0.key)\": \"\($0.value)\"" }
-        if endpoints.count > 0 {
-            context["serviceEndpoints"] = endpoints
-        }
+        context["serviceEndpoints"] = endpoints
 
         let isRegionalized: Bool? = self.endpoints.partitions.reduce(nil) {
             guard let regionalized = $1.services[api.metadata.endpointPrefix]?.isRegionalized else { return $0 }
@@ -725,7 +724,7 @@ extension AWSService {
                 if let memberValidationContext = generateValidationContext(
                     name: name,
                     shape: list.member.shape,
-                    required: true,
+                    required: required,
                     container: true,
                     alreadyProcessed: alreadyProcessed
                 ) {
@@ -743,14 +742,14 @@ extension AWSService {
                 let keyValidationContext = self.generateValidationContext(
                     name: name,
                     shape: map.key.shape,
-                    required: true,
+                    required: required,
                     container: true,
                     alreadyProcessed: alreadyProcessed
                 )
                 let valueValiationContext = self.generateValidationContext(
                     name: name,
                     shape: map.value.shape,
-                    required: true,
+                    required: required,
                     container: true,
                     alreadyProcessed: alreadyProcessed
                 )
@@ -788,7 +787,7 @@ extension AWSService {
             break
         }
         if requirements.count > 0 {
-            return ValidationContext(name: name.toSwiftVariableCase(), reqs: requirements)
+            return ValidationContext(name: name.toSwiftVariableCase(), required: required, reqs: requirements)
         }
         return nil
     }
