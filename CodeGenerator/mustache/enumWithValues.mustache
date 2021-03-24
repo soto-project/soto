@@ -73,21 +73,30 @@
 {{/sorted(reqs)}}
                 }
 {{/.member}}
-{{! validate dictionary members }}
+{{! validate dictionary keys and possibly values }}
 {{#.key}}
                 try value.forEach {
-{{! validate dictionary keys }}
 {{#shape}}
                     try $0.validate(name: "\(name).{{name}}.key")
 {{/shape}}
 {{#sorted(reqs)}}
                     try validate($0.key, name: "{{name}}.key", parent: name, {{key}}: {{value}})
 {{/sorted(reqs)}}
+{{! validate dictionary values }}
+{{#value}}
+{{#shape}}
+                    try $0.value.validate(name: "\(name).{{name}}[\"\($0.key)\"]")
+{{/shape}}
+{{#sorted(reqs)}}
+                    try validate($0.value, name: "{{name}}[\"\($0.key)\"]", parent: name, {{key}}: {{value}})
+{{/sorted(reqs)}}
+{{/value}}
                 }
 {{/.key}}
+{{! validate dictionary values only }}
+{{^.key}}
 {{#.value}}
                 try value.forEach {
-{{! validate dictionary values }}
 {{#shape}}
                     try $0.value.validate(name: "\(name).{{name}}[\"\($0.key)\"]")
 {{/shape}}
@@ -96,13 +105,16 @@
 {{/sorted(reqs)}}
                 }
 {{/.value}}
+{{/.key}}
 {{! validate min,max,pattern }}
 {{#sorted(reqs)}}
                 try validate(value, name: "{{name}}", parent: name, {{key}}: {{value}})
 {{/sorted(reqs)}}
 {{/validation}}
+{{#requiresDefaultValidation}}
             default:
                 break
+{{/requiresDefaultValidation}}
             }
         }
 

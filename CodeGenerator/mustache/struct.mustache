@@ -68,7 +68,6 @@
 {{! validate dictionary members }}
 {{#.key}}
             try self.{{name}}{{^required}}?{{/required}}.forEach {
-{{! validate dictionary keys }}
 {{#shape}}
                 try $0.key.validate(name: "\(name).{{name}}.key")
 {{/shape}}
@@ -86,10 +85,10 @@
 {{/value}}
             }
 {{/.key}}
+{{! validate dictionary values only }}
 {{^.key}}
 {{#.value}}
             try self.{{name}}{{^required}}?{{/required}}.forEach {
-{{! validate dictionary values }}
 {{#shape}}
                 try $0.value.validate(name: "\(name).{{name}}[\"\($0.key)\"]")
 {{/shape}}

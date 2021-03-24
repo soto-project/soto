@@ -882,7 +882,8 @@ extension AWSService {
             members: memberContexts,
             awsShapeMembers: awsShapeMemberContexts,
             codingKeys: codingKeyContexts,
-            validation: validationContexts
+            validation: validationContexts,
+            requiresDefaultValidation: validationContexts.count != memberContexts.count
         )
     }
 
