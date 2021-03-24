@@ -252,15 +252,16 @@ extension AWSService {
         let region: String
     }
 
-    func stripHTMLTags(_ string: String?) -> String? {
-        guard self.stripHTMLTagsFromComments == true else { return string }
+    func stripHTMLTags<S: StringProtocol>(_ string: S?) -> Substring? {
+        guard self.stripHTMLTagsFromComments == true else { return string.map { Substring($0) } }
         return string?.tagStriped()
     }
 
     /// generate operations context
     func generateOperationContext(_ operation: Operation, name: String, streaming: Bool) -> OperationContext {
+        let comment = self.stripHTMLTags(self.docs.operations[name])?.split(separator: "\n")
         return OperationContext(
-            comment: self.stripHTMLTags(self.docs.operations[name])?.split(separator: "\n") ?? [],
+            comment: comment ?? [],
             funcName: name.toSwiftVariableCase(),
             inputShape: operation.input?.shapeName,
             outputShape: operation.output?.shapeName,
@@ -630,7 +631,8 @@ extension AWSService {
         } else {
             defaultValue = nil
         }
-        let memberDocs = self.stripHTMLTags(self.docs.shapes[shape.name]?.refs[name])?.split(separator: "\n")
+        let memberDocs = self.stripHTMLTags(self.docs.shapes[shape.name]?.refs[name])?
+            .split(separator: "\n")
         let propertyWrapper = self.generatePropertyWrapper(member, name: name)
 
         return MemberContext(

@@ -28,7 +28,6 @@
         public struct {{name}}: ArrayCoderProperties { static public let member = "{{member}}" }
 {{/key}}
 {{/encoding}}
-
 {{! Member variables }}
 {{#members}}
 {{#comment}}
@@ -46,9 +45,9 @@
             self.{{variable}} = {{variable}}
 {{/members}}
         }
-
 {{! validate() function }}
 {{#first(validation)}}
+
         public func validate(name: String) throws {
 {{#validation}}
 {{#shape}}
@@ -100,7 +99,7 @@
 {{/.key}}
 {{! validate min,max,pattern }}
 {{#sorted(reqs)}}
-            try validate(self.{{name}}, name: "{{name}}", parent: name, {{key}}: {{value}})
+            try self.validate(self.{{name}}, name: "{{name}}", parent: name, {{key}}: {{value}})
 {{/sorted(reqs)}}
 {{/validation}}
         }

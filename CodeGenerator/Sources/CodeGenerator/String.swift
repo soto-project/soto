@@ -118,10 +118,6 @@ extension String {
         return true
     }
 
-    public func tagStriped() -> String {
-        return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-    }
-
     func allLetterIsNumeric() -> Bool {
         for character in self {
             if let ascii = character.unicodeScalars.first?.value, (0x30..<0x39).contains(ascii) {
@@ -189,5 +185,20 @@ extension String {
 
     mutating func trimCharacters(in characterset: CharacterSet) {
         self = self.trimmingCharacters(in: characterset)
+    }
+}
+
+extension StringProtocol {
+    public func tagStriped() -> Substring {
+        return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+            .droppingEndWhitespace()
+    }
+
+    func droppingEndWhitespace() -> Self.SubSequence {
+        var result = self[...]
+        while result.last?.isWhitespace == true {
+            result = result.dropLast()
+        }
+        return result
     }
 }

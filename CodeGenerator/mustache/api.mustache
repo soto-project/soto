@@ -7,7 +7,6 @@
 import {{ . }}
 
 {{/middlewareFramework}}
-
 /// Service object for interacting with AWS {{name}} service.
 {{#first(description)}}
 ///
@@ -16,7 +15,6 @@ import {{ . }}
 {{/description}}
 {{/first(description)}}
 public struct {{ name }}: AWSService {
-
     // MARK: Member variables
 
     /// Client used for communication with AWS
@@ -83,7 +81,7 @@ public struct {{ name }}: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 {{#operations}}
 

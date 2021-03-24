@@ -10,7 +10,7 @@ public struct {{errorName}}: AWSErrorType {
         case {{enum}} = "{{string}}"
 {{/errors}}
     }
-    
+
     private let error: Code
     public let context: AWSErrorContext?
 
@@ -27,11 +27,11 @@ public struct {{errorName}}: AWSErrorType {
     }
 
     /// return error code string
-    public var errorCode: String { error.rawValue }
+    public var errorCode: String { self.error.rawValue }
 
 {{#errors}}
 {{#comment}}
-        /// {{.}}
+    /// {{.}}
 {{/comment}}
     public static var {{enum}}: Self { .init(.{{enum}}) }
 {{/errors}}
