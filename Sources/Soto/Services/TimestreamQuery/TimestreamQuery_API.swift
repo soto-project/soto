@@ -17,8 +17,6 @@
 @_exported import SotoCore
 
 /// Service object for interacting with AWS TimestreamQuery service.
-///
-///
 public struct TimestreamQuery: AWSService {
     // MARK: Member variables
 

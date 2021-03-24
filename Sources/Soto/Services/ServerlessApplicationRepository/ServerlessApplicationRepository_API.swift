@@ -36,8 +36,6 @@
 ///  source code and readme files. Also install, configure, and deploy applications of your choosing.
 ///  Publishing Applications – Configure and upload applications to make them available to other
 ///  developers, and publish new versions of applications.
-///
-///
 public struct ServerlessApplicationRepository: AWSService {
     // MARK: Member variables
 
