@@ -77,7 +77,6 @@
 {{/sorted(reqs)}}
 {{/.keyValidation}}
 {{! validate dictionary values }}
-{{*}}
 {{#.valueValidation}}
 {{#shape}}
                 try $0.value.validate(name: "\(name).{{name}}[\"\($0.key)\"]")
