@@ -1,15 +1,16 @@
-{%include "header.stencil" %}
+{{%CONTENT_TYPE:TEXT}}
+{{>header}}
 
 import SotoCore
 
 /// Error enum for {{name}}
 public struct {{errorName}}: AWSErrorType {
     enum Code: String {
-{%for error in errors %}
-        case {{error.enum}} = "{{error.string}}"
-{% endfor %}
+{{#errors}}
+        case {{enum}} = "{{string}}"
+{{/errors}}
     }
-    
+
     private let error: Code
     public let context: AWSErrorContext?
 
@@ -26,14 +27,14 @@ public struct {{errorName}}: AWSErrorType {
     }
 
     /// return error code string
-    public var errorCode: String { error.rawValue }
+    public var errorCode: String { self.error.rawValue }
 
-{%for error in errors %}
-{%for comment in error.comment %}
-        /// {{comment}}
-{%endfor %}
-    public static var {{error.enum}}: Self { .init(.{{error.enum}}) }
-{% endfor %}
+{{#errors}}
+{{#comment}}
+    /// {{.}}
+{{/comment}}
+    public static var {{enum}}: Self { .init(.{{enum}}) }
+{{/errors}}
 }
 
 extension {{errorName}}: Equatable {

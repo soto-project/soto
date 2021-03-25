@@ -13,6 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
+import HummingbirdMustache
 
 struct AWSService {
     var api: API
@@ -190,14 +191,14 @@ extension AWSService {
         let locationName: String?
     }
 
-    class ValidationContext {
+    class ValidationContext: HBMustacheTransformable {
         let name: String
         let shape: Bool
         let required: Bool
         let reqs: [String: Any]
         let member: ValidationContext?
-        let key: ValidationContext?
-        let value: ValidationContext?
+        let keyValidation: ValidationContext?
+        let valueValidation: ValidationContext?
 
         init(
             name: String,
@@ -213,8 +214,20 @@ extension AWSService {
             self.required = required
             self.reqs = reqs
             self.member = member
-            self.key = key
-            self.value = value
+            self.keyValidation = key
+            self.valueValidation = value
+        }
+
+        func transform(_ name: String) -> Any? {
+            switch name {
+            case "withDictionaryContexts":
+                if self.keyValidation != nil || self.valueValidation != nil {
+                    return self
+                }
+            default:
+                break
+            }
+            return nil
         }
     }
 
@@ -238,6 +251,7 @@ extension AWSService {
         let awsShapeMembers: [AWSShapeMemberContext]
         let codingKeys: [CodingKeysContext]
         let validation: [ValidationContext]
+        let requiresDefaultValidation: Bool
     }
 
     struct ResultContext {
@@ -251,15 +265,16 @@ extension AWSService {
         let region: String
     }
 
-    func stripHTMLTags(_ string: String?) -> String? {
-        guard self.stripHTMLTagsFromComments == true else { return string }
+    func stripHTMLTags<S: StringProtocol>(_ string: S?) -> Substring? {
+        guard self.stripHTMLTagsFromComments == true else { return string.map { Substring($0) } }
         return string?.tagStriped()
     }
 
     /// generate operations context
     func generateOperationContext(_ operation: Operation, name: String, streaming: Bool) -> OperationContext {
+        let comment = self.stripHTMLTags(self.docs.operations[name])?.split(separator: "\n")
         return OperationContext(
-            comment: self.stripHTMLTags(self.docs.operations[name])?.split(separator: "\n") ?? [],
+            comment: comment ?? [],
             funcName: name.toSwiftVariableCase(),
             inputShape: operation.input?.shapeName,
             outputShape: operation.output?.shapeName,
@@ -289,9 +304,7 @@ extension AWSService {
         let endpoints = self.serviceEndpoints
             .sorted { $0.key < $1.key }
             .map { "\"\($0.key)\": \"\($0.value)\"" }
-        if endpoints.count > 0 {
-            context["serviceEndpoints"] = endpoints
-        }
+        context["serviceEndpoints"] = endpoints
 
         let isRegionalized: Bool? = self.endpoints.partitions.reduce(nil) {
             guard let regionalized = $1.services[api.metadata.endpointPrefix]?.isRegionalized else { return $0 }
@@ -631,7 +644,8 @@ extension AWSService {
         } else {
             defaultValue = nil
         }
-        let memberDocs = self.stripHTMLTags(self.docs.shapes[shape.name]?.refs[name])?.split(separator: "\n")
+        let memberDocs = self.stripHTMLTags(self.docs.shapes[shape.name]?.refs[name])?
+            .split(separator: "\n")
         let propertyWrapper = self.generatePropertyWrapper(member, name: name)
 
         return MemberContext(
@@ -725,7 +739,7 @@ extension AWSService {
                 if let memberValidationContext = generateValidationContext(
                     name: name,
                     shape: list.member.shape,
-                    required: true,
+                    required: required,
                     container: true,
                     alreadyProcessed: alreadyProcessed
                 ) {
@@ -743,14 +757,14 @@ extension AWSService {
                 let keyValidationContext = self.generateValidationContext(
                     name: name,
                     shape: map.key.shape,
-                    required: true,
+                    required: required,
                     container: true,
                     alreadyProcessed: alreadyProcessed
                 )
                 let valueValiationContext = self.generateValidationContext(
                     name: name,
                     shape: map.value.shape,
-                    required: true,
+                    required: required,
                     container: true,
                     alreadyProcessed: alreadyProcessed
                 )
@@ -788,7 +802,7 @@ extension AWSService {
             break
         }
         if requirements.count > 0 {
-            return ValidationContext(name: name.toSwiftVariableCase(), reqs: requirements)
+            return ValidationContext(name: name.toSwiftVariableCase(), required: required, reqs: requirements)
         }
         return nil
     }
@@ -883,7 +897,8 @@ extension AWSService {
             members: memberContexts,
             awsShapeMembers: awsShapeMemberContexts,
             codingKeys: codingKeyContexts,
-            validation: validationContexts
+            validation: validationContexts,
+            requiresDefaultValidation: validationContexts.count != memberContexts.count
         )
     }
 

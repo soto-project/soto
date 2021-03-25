@@ -148,7 +148,6 @@ extension Kafka {
         /// The ID of the broker to update.
         public let kafkaBrokerNodeId: String
         ///             Size of the EBS volume to update.
-        ///
         public let volumeSizeGB: Int
 
         public init(kafkaBrokerNodeId: String, volumeSizeGB: Int) {
@@ -330,7 +329,6 @@ extension Kafka {
         /// You can configure your MSK cluster to send broker logs to different destination types. This is a container for the configuration details related to broker logs.
         public let loggingInfo: LoggingInfo?
         ///             The number of broker nodes in the cluster.
-        ///
         public let numberOfBrokerNodes: Int?
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?
@@ -1464,7 +1462,6 @@ extension Kafka {
         /// LoggingInfo details.
         public let loggingInfo: LoggingInfo?
         ///             The number of broker nodes in the cluster.
-        ///
         public let numberOfBrokerNodes: Int?
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?

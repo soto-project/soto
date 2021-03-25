@@ -693,7 +693,6 @@ extension ServerlessApplicationRepository {
         ///  By adding a constraint description, such as "must contain only uppercase and lowercase letters and numbers," you can display
         ///  the following customized error message:
         ///  Malformed input-Parameter MyParameter must contain only uppercase and lowercase letters and numbers.
-        ///
         public let constraintDescription: String?
         /// A value of the appropriate type for the template to use if no value is specified when a stack is created.
         ///  If you define constraints for the parameter, you must specify a value that adheres to those constraints.
@@ -1001,7 +1000,6 @@ extension ServerlessApplicationRepository {
         public let resourcesSupported: Bool
         /// The semantic version of the application:
         ///  https://semver.org/
-        ///
         public let semanticVersion: String
         /// A link to the S3 object that contains the ZIP archive of the source code for this version of your application.Maximum size 50 MB
         public let sourceCodeArchiveUrl: String?
@@ -1042,7 +1040,6 @@ extension ServerlessApplicationRepository {
         public let creationTime: String
         /// The semantic version of the application:
         ///  https://semver.org/
-        ///
         public let semanticVersion: String
         /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
         public let sourceCodeUrl: String?

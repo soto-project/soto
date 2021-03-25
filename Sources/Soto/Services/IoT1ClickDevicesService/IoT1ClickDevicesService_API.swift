@@ -81,7 +81,6 @@ public struct IoT1ClickDevicesService: AWSService {
     ///  Claiming a device consists of initiating a claim, then publishing a device event,
     ///  and finalizing the claim. For a device of type button, a device event can
     ///  be published by simply clicking the device.
-    ///
     public func finalizeDeviceClaim(_ input: FinalizeDeviceClaimRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FinalizeDeviceClaimResponse> {
         return self.client.execute(operation: "FinalizeDeviceClaim", path: "/devices/{deviceId}/finalize-claim", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -95,7 +94,6 @@ public struct IoT1ClickDevicesService: AWSService {
     ///  Claiming a device consists of initiating a claim, then publishing a device event,
     ///  and finalizing the claim. For a device of type button, a device event can
     ///  be published by simply clicking the device.
-    ///
     public func initiateDeviceClaim(_ input: InitiateDeviceClaimRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InitiateDeviceClaimResponse> {
         return self.client.execute(operation: "InitiateDeviceClaim", path: "/devices/{deviceId}/initiate-claim", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
